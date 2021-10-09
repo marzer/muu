@@ -12,6 +12,7 @@
     <name>all.h</name>
     <filename>all_8h.html</filename>
     <includes id="accumulator_8h" name="accumulator.h" local="yes" imported="no">accumulator.h</includes>
+    <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
     <includes id="blob_8h" name="blob.h" local="yes" imported="no">blob.h</includes>
     <includes id="bounding__box_8h" name="bounding_box.h" local="yes" imported="no">bounding_box.h</includes>
     <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
@@ -38,6 +39,123 @@
     <includes id="type__name_8h" name="type_name.h" local="yes" imported="no">type_name.h</includes>
     <includes id="uuid_8h" name="uuid.h" local="yes" imported="no">uuid.h</includes>
     <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
+  </compound>
+  <compound kind="file">
+    <name>bit.h</name>
+    <filename>bit_8h.html</filename>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countl_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countl_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_ceil</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>bit_pack</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga952a65241777f79e5561239f57ec9295</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>popcount</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>has_single_bit</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga309ac880015add971ee06b148191060f</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_floor</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_width</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1a764507fe486799f60eac32c622e63e</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_right</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_left</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr uint8_t</type>
+      <name>byte_select</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gae644160cd7d978d95922af233afc5ddd</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr uint8_t</type>
+      <name>byte_select</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga18d1da41b1d53329c0d0605596494010</anchor>
+      <arglist>(T val, size_t index) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>byte_reverse</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>swizzle</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1aaa24bb10d08ad78c86695baabc1857</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>blob.h</name>
@@ -337,6 +455,7 @@
     <name>math.h</name>
     <filename>math_8h.html</filename>
     <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
+    <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
     <namespace>muu</namespace>
     <namespace>muu::build</namespace>
     <member kind="function">
@@ -1245,6 +1364,7 @@
   </compound>
   <compound kind="file">
     <name>matrix.h</name>
+    <path>/root/project/include/muu/</path>
     <filename>matrix_8h.html</filename>
     <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
     <includes id="quaternion_8h" name="quaternion.h" local="yes" imported="no">quaternion.h</includes>
@@ -2154,6 +2274,7 @@
     <name>strings.h</name>
     <path>/root/project/include/muu/</path>
     <filename>strings_8h.html</filename>
+    <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
     <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
     <namespace>muu</namespace>
@@ -2269,19 +2390,13 @@
       <anchor>ga08c5dabffb22594f3b2589551b5875e4</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>void</type>
-      <name>set_thread_name</name>
-      <anchorfile>group__strings.html</anchorfile>
-      <anchor>ga208801d95047a6cff7dd75291d55601b</anchor>
-      <arglist>(string_param name) noexcept</arglist>
-    </member>
   </compound>
   <compound kind="file">
     <name>tagged_ptr.h</name>
     <path>/root/project/include/muu/</path>
     <filename>tagged__ptr_8h.html</filename>
     <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
+    <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
     <class kind="class">muu::tagged_ptr</class>
     <namespace>muu</namespace>
   </compound>
@@ -3570,6 +3685,10 @@
   <compound kind="struct">
     <name>muu::constants&lt; char32_t &gt;</name>
     <filename>structmuu_1_1constants_3_01char32__t_01_4.html</filename>
+  </compound>
+  <compound kind="struct">
+    <name>muu::constants&lt; char8_t &gt;</name>
+    <filename>structmuu_1_1constants_3_01char8__t_01_4.html</filename>
   </compound>
   <compound kind="struct">
     <name>muu::constants&lt; double &gt;</name>
@@ -7656,153 +7775,6 @@
       <type></type>
       <name>string_param</name>
       <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a45ee522d53e9174b8303a0e236a90c2c</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a947dc0d89465ce9595f743fcb7a3df49</anchor>
-      <arglist>(std::string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>aca3ec2d295a103c431553e8a12e61967</anchor>
-      <arglist>(const std::string &amp;str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a51bc9be1d2969af9a94b3742403fc40b</anchor>
-      <arglist>(const char *str, size_t len) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a73994f27626d50f0ceb314ed5d2aa5f8</anchor>
-      <arglist>(const char *str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a0b36597518c46b18f672354b0c2d8491</anchor>
-      <arglist>(std::string &amp;&amp;str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a47263d191c8ac4f82bf000e2ff604b2c</anchor>
-      <arglist>(std::wstring_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a9ec651bea653d82f95c3da94d0043f05</anchor>
-      <arglist>(const std::wstring &amp;str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a5f723ec13eee392885b4ebd28cc13e14</anchor>
-      <arglist>(const wchar_t *str, size_t len) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a996af6661267f0ce4a308782158fbe41</anchor>
-      <arglist>(const wchar_t *str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a43789e7cb827de7eed36ef94629c97b4</anchor>
-      <arglist>(std::wstring &amp;&amp;str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>abaed4a4d61c2a284c13a1dfd43c9d1e6</anchor>
-      <arglist>(std::u16string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>ad5972133ebb58d22b17d8278803baaa4</anchor>
-      <arglist>(const std::u16string &amp;str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>acb12ea03827c108fa04f4da0c0086df6</anchor>
-      <arglist>(const char16_t *str, size_t len) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a5df3051ce641008a1dce77a690816477</anchor>
-      <arglist>(const char16_t *str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a33e302b2384c90faac80721602e39a20</anchor>
-      <arglist>(std::u16string &amp;&amp;str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>adaeae8143fd27adb3fe39d9aa8c579fc</anchor>
-      <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>af5b86f00342794ee9017b0feb6185399</anchor>
-      <arglist>(const std::u32string &amp;str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>ad8479d9fac040ff5fdbc50d838f716ec</anchor>
-      <arglist>(const char32_t *str, size_t len) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a8dadcc88532a11b7a940692e24c33890</anchor>
-      <arglist>(const char32_t *str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a41b0a3b4021b83d92fa4f6449f64d145</anchor>
-      <arglist>(std::u32string &amp;&amp;str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>string_param</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
       <anchor>ab4689943a50e5709f1a20415c3b13713</anchor>
       <arglist>(T &amp;&amp;string_viewable) noexcept</arglist>
     </member>
@@ -7864,30 +7836,51 @@
     </member>
     <member kind="function">
       <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a45ee522d53e9174b8303a0e236a90c2c</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a947dc0d89465ce9595f743fcb7a3df49</anchor>
+      <arglist>(std::string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>aca3ec2d295a103c431553e8a12e61967</anchor>
+      <arglist>(const std::string &amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a51bc9be1d2969af9a94b3742403fc40b</anchor>
+      <arglist>(const char *str, size_t len) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a73994f27626d50f0ceb314ed5d2aa5f8</anchor>
+      <arglist>(const char *str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a0b36597518c46b18f672354b0c2d8491</anchor>
+      <arglist>(std::string &amp;&amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
       <name>operator std::string_view</name>
       <anchorfile>classmuu_1_1string__param.html</anchorfile>
       <anchor>ab8a3b240052b1376d842749e0f0fa834</anchor>
-      <arglist>() const &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator std::wstring_view</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a707324fb5b730b2e097ce4a57a24e17a</anchor>
-      <arglist>() const &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator std::u16string_view</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a5698df2f1d67d91102debf0072154564</anchor>
-      <arglist>() const &amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator std::u32string_view</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a5b95213f410f5e332e86d48a127563b2</anchor>
       <arglist>() const &amp;noexcept</arglist>
     </member>
     <member kind="function">
@@ -7899,31 +7892,59 @@
     </member>
     <member kind="function">
       <type></type>
-      <name>operator std::wstring_view</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a0af7002d6ec02771b164893f13c15e95</anchor>
-      <arglist>() const &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator std::u16string_view</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>a062784eca5cf871a64db8b2bf9fc3db7</anchor>
-      <arglist>() const &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>operator std::u32string_view</name>
-      <anchorfile>classmuu_1_1string__param.html</anchorfile>
-      <anchor>af8935a227ec8b1b5c312a453d6e31b82</anchor>
-      <arglist>() const &amp;&amp;noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
       <name>operator std::string</name>
       <anchorfile>classmuu_1_1string__param.html</anchorfile>
       <anchor>a7491415027cbf9e1bd4c57770b7bef30</anchor>
       <arglist>() &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a47263d191c8ac4f82bf000e2ff604b2c</anchor>
+      <arglist>(std::wstring_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a9ec651bea653d82f95c3da94d0043f05</anchor>
+      <arglist>(const std::wstring &amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a5f723ec13eee392885b4ebd28cc13e14</anchor>
+      <arglist>(const wchar_t *str, size_t len) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a996af6661267f0ce4a308782158fbe41</anchor>
+      <arglist>(const wchar_t *str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a43789e7cb827de7eed36ef94629c97b4</anchor>
+      <arglist>(std::wstring &amp;&amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::wstring_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a707324fb5b730b2e097ce4a57a24e17a</anchor>
+      <arglist>() const &amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::wstring_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a0af7002d6ec02771b164893f13c15e95</anchor>
+      <arglist>() const &amp;&amp;noexcept</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -7934,10 +7955,108 @@
     </member>
     <member kind="function">
       <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>abaed4a4d61c2a284c13a1dfd43c9d1e6</anchor>
+      <arglist>(std::u16string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>ad5972133ebb58d22b17d8278803baaa4</anchor>
+      <arglist>(const std::u16string &amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>acb12ea03827c108fa04f4da0c0086df6</anchor>
+      <arglist>(const char16_t *str, size_t len) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a5df3051ce641008a1dce77a690816477</anchor>
+      <arglist>(const char16_t *str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a33e302b2384c90faac80721602e39a20</anchor>
+      <arglist>(std::u16string &amp;&amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u16string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a5698df2f1d67d91102debf0072154564</anchor>
+      <arglist>() const &amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u16string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a062784eca5cf871a64db8b2bf9fc3db7</anchor>
+      <arglist>() const &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
       <name>operator std::u16string</name>
       <anchorfile>classmuu_1_1string__param.html</anchorfile>
       <anchor>a8e707e861f0ecf68210dfb480c1bdcc6</anchor>
       <arglist>() &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>adaeae8143fd27adb3fe39d9aa8c579fc</anchor>
+      <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>af5b86f00342794ee9017b0feb6185399</anchor>
+      <arglist>(const std::u32string &amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>ad8479d9fac040ff5fdbc50d838f716ec</anchor>
+      <arglist>(const char32_t *str, size_t len) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a8dadcc88532a11b7a940692e24c33890</anchor>
+      <arglist>(const char32_t *str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a41b0a3b4021b83d92fa4f6449f64d145</anchor>
+      <arglist>(std::u32string &amp;&amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u32string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a5b95213f410f5e332e86d48a127563b2</anchor>
+      <arglist>() const &amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u32string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>af8935a227ec8b1b5c312a453d6e31b82</anchor>
+      <arglist>() const &amp;&amp;noexcept</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -7952,6 +8071,237 @@
       <anchorfile>classmuu_1_1string__param.html</anchorfile>
       <anchor>ab2a0ced7bf560eb039e5c504b25e6183</anchor>
       <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;lhs, const string_param &amp;rhs)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a45ee522d53e9174b8303a0e236a90c2c</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a947dc0d89465ce9595f743fcb7a3df49</anchor>
+      <arglist>(std::string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>aca3ec2d295a103c431553e8a12e61967</anchor>
+      <arglist>(const std::string &amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a51bc9be1d2969af9a94b3742403fc40b</anchor>
+      <arglist>(const char *str, size_t len) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a73994f27626d50f0ceb314ed5d2aa5f8</anchor>
+      <arglist>(const char *str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a0b36597518c46b18f672354b0c2d8491</anchor>
+      <arglist>(std::string &amp;&amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>ab8a3b240052b1376d842749e0f0fa834</anchor>
+      <arglist>() const &amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a4f71d4a8656f788c1db358741f355d8d</anchor>
+      <arglist>() const &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::string</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a7491415027cbf9e1bd4c57770b7bef30</anchor>
+      <arglist>() &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a47263d191c8ac4f82bf000e2ff604b2c</anchor>
+      <arglist>(std::wstring_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a9ec651bea653d82f95c3da94d0043f05</anchor>
+      <arglist>(const std::wstring &amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a5f723ec13eee392885b4ebd28cc13e14</anchor>
+      <arglist>(const wchar_t *str, size_t len) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a996af6661267f0ce4a308782158fbe41</anchor>
+      <arglist>(const wchar_t *str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a43789e7cb827de7eed36ef94629c97b4</anchor>
+      <arglist>(std::wstring &amp;&amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::wstring_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a707324fb5b730b2e097ce4a57a24e17a</anchor>
+      <arglist>() const &amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::wstring_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a0af7002d6ec02771b164893f13c15e95</anchor>
+      <arglist>() const &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::wstring</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a3b0a8b559b388b7639421d8d1c6f9e7c</anchor>
+      <arglist>() &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>abaed4a4d61c2a284c13a1dfd43c9d1e6</anchor>
+      <arglist>(std::u16string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>ad5972133ebb58d22b17d8278803baaa4</anchor>
+      <arglist>(const std::u16string &amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>acb12ea03827c108fa04f4da0c0086df6</anchor>
+      <arglist>(const char16_t *str, size_t len) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a5df3051ce641008a1dce77a690816477</anchor>
+      <arglist>(const char16_t *str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a33e302b2384c90faac80721602e39a20</anchor>
+      <arglist>(std::u16string &amp;&amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u16string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a5698df2f1d67d91102debf0072154564</anchor>
+      <arglist>() const &amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u16string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a062784eca5cf871a64db8b2bf9fc3db7</anchor>
+      <arglist>() const &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u16string</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a8e707e861f0ecf68210dfb480c1bdcc6</anchor>
+      <arglist>() &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>adaeae8143fd27adb3fe39d9aa8c579fc</anchor>
+      <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>af5b86f00342794ee9017b0feb6185399</anchor>
+      <arglist>(const std::u32string &amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>ad8479d9fac040ff5fdbc50d838f716ec</anchor>
+      <arglist>(const char32_t *str, size_t len) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a8dadcc88532a11b7a940692e24c33890</anchor>
+      <arglist>(const char32_t *str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a41b0a3b4021b83d92fa4f6449f64d145</anchor>
+      <arglist>(std::u32string &amp;&amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u32string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a5b95213f410f5e332e86d48a127563b2</anchor>
+      <arglist>() const &amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u32string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>af8935a227ec8b1b5c312a453d6e31b82</anchor>
+      <arglist>() const &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u32string</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a6180bfdf8684cde23ef746ea578d4f0b</anchor>
+      <arglist>() &amp;&amp;noexcept</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -8247,15 +8597,15 @@
       <type></type>
       <name>thread_pool</name>
       <anchorfile>classmuu_1_1thread__pool.html</anchorfile>
-      <anchor>a1b2079c6c9bef00f732d650bcabe7805</anchor>
-      <arglist>(thread_pool &amp;&amp;) noexcept</arglist>
+      <anchor>a55c8d3fccd135b97ae4d20a8504d20a1</anchor>
+      <arglist>(thread_pool &amp;&amp;other) noexcept</arglist>
     </member>
     <member kind="function">
       <type>thread_pool &amp;</type>
       <name>operator=</name>
       <anchorfile>classmuu_1_1thread__pool.html</anchorfile>
-      <anchor>a109ed89f995244703bb7e9a4c9005439</anchor>
-      <arglist>(thread_pool &amp;&amp;) noexcept</arglist>
+      <anchor>ae8ccb244ff4bc2db327711c4dcbc9174</anchor>
+      <arglist>(thread_pool &amp;&amp;rhs) noexcept</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -9875,6 +10225,7 @@
     <class kind="struct">muu::constants&lt; float128_t &gt;</class>
     <class kind="struct">muu::constants&lt; char &gt;</class>
     <class kind="struct">muu::constants&lt; wchar_t &gt;</class>
+    <class kind="struct">muu::constants&lt; char8_t &gt;</class>
     <class kind="struct">muu::constants&lt; char16_t &gt;</class>
     <class kind="struct">muu::constants&lt; char32_t &gt;</class>
     <class kind="struct">muu::constants&lt; signed char &gt;</class>
@@ -10258,6 +10609,118 @@
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1">xz</enumvalue>
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95">yz</enumvalue>
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countl_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countl_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_ceil</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>bit_pack</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga952a65241777f79e5561239f57ec9295</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>popcount</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>has_single_bit</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga309ac880015add971ee06b148191060f</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_floor</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_width</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1a764507fe486799f60eac32c622e63e</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_right</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_left</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr uint8_t</type>
+      <name>byte_select</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gae644160cd7d978d95922af233afc5ddd</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr uint8_t</type>
+      <name>byte_select</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga18d1da41b1d53329c0d0605596494010</anchor>
+      <arglist>(T val, size_t index) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>byte_reverse</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>swizzle</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1aaa24bb10d08ad78c86695baabc1857</anchor>
+      <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -11583,13 +12046,6 @@
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
-      <name>set_thread_name</name>
-      <anchorfile>group__strings.html</anchorfile>
-      <anchor>ga208801d95047a6cff7dd75291d55601b</anchor>
-      <arglist>(string_param name) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
@@ -11744,123 +12200,11 @@
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr int</type>
-      <name>countl_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countl_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_ceil</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>pack</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gafd5ebb4cf00dd4b93188521f0a2196e2</anchor>
-      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr To</type>
       <name>bit_cast</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
       <arglist>(const From &amp;from) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>popcount</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>has_single_bit</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga309ac880015add971ee06b148191060f</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_floor</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_width</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga1a764507fe486799f60eac32c622e63e</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_right</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
-      <arglist>(size_t count) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_left</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
-      <arglist>(size_t count) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uint8_t</type>
-      <name>byte_select</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gae644160cd7d978d95922af233afc5ddd</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr uint8_t</type>
-      <name>byte_select</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga18d1da41b1d53329c0d0605596494010</anchor>
-      <arglist>(T val, size_t index) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>byte_reverse</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>swizzle</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga1aaa24bb10d08ad78c86695baabc1857</anchor>
-      <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr std::underlying_type_t&lt; T &gt;</type>
@@ -11987,6 +12331,13 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga7afe47820cb2e0951bf755832ce108be</anchor>
       <arglist>(T *ptr, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_thread_name</name>
+      <anchorfile>group__strings.html</anchorfile>
+      <anchor>ga208801d95047a6cff7dd75291d55601b</anchor>
+      <arglist>(string_param name) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -14534,6 +14885,7 @@
     <class kind="struct">muu::constants&lt; float128_t &gt;</class>
     <class kind="struct">muu::constants&lt; char &gt;</class>
     <class kind="struct">muu::constants&lt; wchar_t &gt;</class>
+    <class kind="struct">muu::constants&lt; char8_t &gt;</class>
     <class kind="struct">muu::constants&lt; char16_t &gt;</class>
     <class kind="struct">muu::constants&lt; char32_t &gt;</class>
     <class kind="struct">muu::constants&lt; signed char &gt;</class>
@@ -14620,17 +14972,10 @@
     </member>
     <member kind="function">
       <type>constexpr auto</type>
-      <name>pack</name>
+      <name>bit_pack</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gafd5ebb4cf00dd4b93188521f0a2196e2</anchor>
+      <anchor>ga952a65241777f79e5561239f57ec9295</anchor>
       <arglist>(T val1, U val2, V... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr To</type>
-      <name>bit_cast</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
-      <arglist>(const From &amp;from) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr int</type>
@@ -14701,6 +15046,13 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga1aaa24bb10d08ad78c86695baabc1857</anchor>
       <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr To</type>
+      <name>bit_cast</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
+      <arglist>(const From &amp;from) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr std::underlying_type_t&lt; T &gt;</type>

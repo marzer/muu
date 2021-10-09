@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.0" name="generator"/>
+  <meta content="Poxy v0.5.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.0.css" rel="stylesheet"/>
-  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.0.js"></script>
+  <link href="poxy-0.5.1.css" rel="stylesheet"/>
+  <link href="poxy-0.5.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -240,7 +240,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga3c123483a9bd8a9d00279f0b65eace83">MUU_HAS_CHAR8</a></span>
             </dt>
-            <dd><code>1</code> when the target environment has the 8-bit character type .</dd>
+            <dd><code>1</code> when the target environment has the 8-bit character type <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga9ec0bf0abed9f6d63e8ff1d061fd7fa8">MUU_HAS_EXCEPTIONS</a></span>
             </dt>
@@ -252,11 +252,11 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga27290363c4626a953e97d39dd042af66">MUU_HAS_FLOAT16</a></span>
             </dt>
-            <dd><code>1</code> when the target environment has the 16-bit floating point type .</dd>
+            <dd><code>1</code> when the target environment has the 16-bit floating point type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gab2a752151f65377391481d1597297eca">MUU_HAS_FP16</a></span>
             </dt>
-            <dd><code>1</code> when the target environment has the 16-bit floating point 'interchange' type .</dd>
+            <dd><code>1</code> when the target environment has the 16-bit floating point 'interchange' type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaa46769772ecacae384f202d2288b5ef9">MUU_HAS_INCLUDE</a>(</span><span class="m-doc-wrap">header)</span>
             </dt>
@@ -348,7 +348,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga208185e62d9dd3604e348e153ffc976b">MUU_NOOP</a></span>
             </dt>
-            <dd>Expands to a no-op expression, e.g. <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></code>.</dd>
+            <dd>Expands to a no-op expression, e.g. <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga7152606bb8ad70ab6f0197461e7a24b2">MUU_NO_DEFAULT_CASE</a></span>
             </dt>
@@ -827,7 +827,7 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga3c123483a9bd8a9d00279f0b65eace83">MUU_HAS_CHAR8</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment has the 8-bit character type .</p>
+            <p><code>1</code> when the target environment has the 8-bit character type <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a>.</p>
           </div></section>
           <section class="m-doc-details" id="ga9ec0bf0abed9f6d63e8ff1d061fd7fa8"><div>
             <h3>
@@ -849,7 +849,7 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga27290363c4626a953e97d39dd042af66">MUU_HAS_FLOAT16</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment has the 16-bit floating point type .</p>
+            <p><code>1</code> when the target environment has the 16-bit floating point type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is completely unrelated to the class <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>, which is always available.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gab2a752151f65377391481d1597297eca"><div>
@@ -857,7 +857,7 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gab2a752151f65377391481d1597297eca">MUU_HAS_FP16</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment has the 16-bit floating point 'interchange' type .</p>
+            <p><code>1</code> when the target environment has the 16-bit floating point 'interchange' type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is completely unrelated to the class <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>, which is always available.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa46769772ecacae384f202d2288b5ef9"><div>
@@ -1079,7 +1079,7 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga208185e62d9dd3604e348e153ffc976b">MUU_NOOP</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to a no-op expression, e.g. <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></code>.</p>
+            <p>Expands to a no-op expression, e.g. <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga7152606bb8ad70ab6f0197461e7a24b2"><div>
             <h3>

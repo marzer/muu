@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.0" name="generator"/>
+  <meta content="Poxy v0.5.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.0.css" rel="stylesheet"/>
-  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.0.js"></script>
+  <link href="poxy-0.5.1.css" rel="stylesheet"/>
+  <link href="poxy-0.5.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -104,7 +104,7 @@
             </dt>
             <dd>Const reference to the array's value type.</dd>
             <dt id="a9ac4fed1fcc40c229cbf68458e63b75b">
-              using <a class="m-doc-self" href="#a9ac4fed1fcc40c229cbf68458e63b75b">difference_type</a> = 
+              using <a class="m-doc-self" href="#a9ac4fed1fcc40c229cbf68458e63b75b">difference_type</a> = <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/ptrdiff_t" target="_blank">ptrdiff_t</a>
             </dt>
             <dd>Signed index type.</dd>
             <dt id="aca6916f99eacaa2a8b591acb4b544422">
@@ -120,7 +120,7 @@
             </dt>
             <dd>Reference to the array's value type.</dd>
             <dt id="ac144fe3dd510e085cf9278975de6105a">
-              using <a class="m-doc-self" href="#ac144fe3dd510e085cf9278975de6105a">size_type</a> = 
+              using <a class="m-doc-self" href="#ac144fe3dd510e085cf9278975de6105a">size_type</a> = <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>
             </dt>
             <dd>Unsigned index type.</dd>
             <dt id="ad26986eca2259c34f131c684f28c4e60">
@@ -133,7 +133,8 @@
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ada6dae88c98550ebc959dcaebed5eaf3">emplacement_array</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-flat m-info">explicit</span> </span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ada6dae88c98550ebc959dcaebed5eaf3">emplacement_array</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> capacity = 0,
+              <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-flat m-info">explicit</span> </span>
             </dt>
             <dd>Constructor.</dd>
             <dt id="ae53f07a891606b8a59b48dfaa03084d1">
@@ -200,11 +201,11 @@
             </dt>
             <dd>Move-assignment operator.</dd>
             <dt id="a3c2a46dac0211be5fe7db8bdccc4fb8e">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3c2a46dac0211be5fe7db8bdccc4fb8e">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="classmuu_1_1emplacement__array.html#a5172ce849cf83ddefad23d51b55ae387">reference</a> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3c2a46dac0211be5fe7db8bdccc4fb8e">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> index) -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a5172ce849cf83ddefad23d51b55ae387">reference</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a reference to the element at the selected index.</dd>
             <dt id="a61ac7c179c71892cad8f3c7a210ecbeb">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a61ac7c179c71892cad8f3c7a210ecbeb">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="classmuu_1_1emplacement__array.html#a83c8cd8617f43364a7bbc8df3303defb">const_<wbr/>reference</a> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a61ac7c179c71892cad8f3c7a210ecbeb">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> index) const -&gt; <a class="m-doc" href="classmuu_1_1emplacement__array.html#a83c8cd8617f43364a7bbc8df3303defb">const_<wbr/>reference</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a const reference to the element at the selected index.</dd>
             <dt id="a53648a57dc8b2b5464d9c9e92c61a29a">
@@ -278,7 +279,8 @@
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>emplacement_array&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ada6dae88c98550ebc959dcaebed5eaf3">emplacement_array</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-info">explicit</span> </span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>emplacement_array&lt;T&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ada6dae88c98550ebc959dcaebed5eaf3">emplacement_array</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> capacity = 0,
+              <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-info">explicit</span> </span></span>
             </h3>
             <p>Constructor.</p>
             <table class="m-table m-fullwidth m-flat">

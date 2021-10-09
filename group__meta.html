@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.0" name="generator"/>
+  <meta content="Poxy v0.5.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.0.css" rel="stylesheet"/>
-  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.0.js"></script>
+  <link href="poxy-0.5.1.css" rel="stylesheet"/>
+  <link href="poxy-0.5.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -106,7 +106,7 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="#gae07552fde8149d1a8a6c93971edbbd86">clamp_to_standard_float</a> = demote_if_large_float&lt;promote_if_small_float&lt;T&gt;&gt;
             </dt>
-            <dd>Clamps extended arithmetic floating-point types (e.g. , ) to <code>float</code> or <code>long double</code>.</dd>
+            <dd>Clamps extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>) to <code>float</code> or <code>long double</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, bool AddConst&gt;</div>
               using <a class="m-doc" href="#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddConst, add_const&lt;T&gt;, T&gt;
@@ -151,15 +151,15 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="#ga588efdcdebc69e38cb6353d8462d59ff">demote_if_large_float</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;impl::is_large_float_&lt;T&gt;, typename impl::rebase_ref_&lt;T, copy_cv&lt;long double, T&gt;&gt;::type, T&gt;
             </dt>
-            <dd>Demotes 'large' extended arithmetic floating-point types (e.g. ) to <code>long double</code>.</dd>
+            <dd>Demotes 'large' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>) to <code>long double</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               using <a class="m-doc" href="#ga25162e97f327cfee39320e501bdb2697">epsilon_type</a> = impl::std_math_common_type&lt;remove_cvref&lt;T&gt;...&gt;
             </dt>
             <dd>A common epsilon type when comparing floating-point types named by T.</dd>
             <dt>
-              <div class="m-doc-template">template&lt; N&gt;</div>
-              using <a class="m-doc" href="#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;, N&gt;
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              using <a class="m-doc" href="#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>, N&gt;
             </dt>
             <dd>A tag type for encoding/parameterizing a single index.</dd>
             <dt>
@@ -191,7 +191,7 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="#ga0a3f15c5886ad6189103d5705db8e37c">promote_if_small_float</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;impl::is_small_float_&lt;T&gt;, typename impl::rebase_ref_&lt;T, copy_cv&lt;float, T&gt;&gt;::type, T&gt;
             </dt>
-            <dd>Promotes 'small' extended arithmetic floating-point types (e.g. , etc.) to <code>float</code>.</dd>
+            <dd>Promotes 'small' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, etc.) to <code>float</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Ptr, typename NewBase&gt;</div>
               using <a class="m-doc" href="#ga29769609b73728e3b7814d36a7e0c335">rebase_pointer</a> = typename impl::rebase_pointer_&lt;Ptr, NewBase&gt;::type
@@ -268,7 +268,7 @@
             </dt>
             <dd>Sets the volatility of a type or reference according to a boolean.</dd>
             <dt>
-              <div class="m-doc-template">template&lt; Bits&gt;</div>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
               using <a class="m-doc" href="#ga4f67907a17de3414f8f0340716e987d4">signed_integer</a> = typename impl::signed_integer_&lt;Bits&gt;::type
             </dt>
             <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
@@ -288,7 +288,7 @@
             </dt>
             <dd>A tag type for encoding/parameterizing a single type.</dd>
             <dt>
-              <div class="m-doc-template">template&lt; Bits&gt;</div>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
               using <a class="m-doc" href="#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
@@ -298,7 +298,7 @@
           <h2><a href="#var-members">Variables</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="#ga693c421331c5f268eb2e2fdd318368fd">alignment_of</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ga693c421331c5f268eb2e2fdd318368fd">alignment_of</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The default alignment of a type.</dd>
             <dt>
@@ -617,7 +617,7 @@
             </dt>
             <dd>True if a type has a member function <code>size()</code> returning an arithmetic integral type.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename U = &gt;</div>
+              <div class="m-doc-template">template&lt;typename T, typename U = <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;</div>
               bool <a class="m-doc" href="#ga99d503cf409b10ba5314452688d7abb7">has_subscript_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if a pair of types has a subscript operator (<code>T[U]</code>).</dd>
@@ -637,7 +637,7 @@
             </dt>
             <dd>True if a type has a unary plus operator (<code>+T</code>).</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="#ga27d95776f3cf0c19b01db50c4373fb63">index_of_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ga27d95776f3cf0c19b01db50c4373fb63">index_of_type</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Returns the index of the first appearance of the type T in the type list U.</dd>
             <dt>
@@ -834,7 +834,7 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#ga07b1449019c885977279ee3afedb3b4f">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>True if the type implements  and .</dd>
+            <dd>True if the type implements <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> and <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#gab42aeb290d61ad20287ed2e8df10462b">is_unbounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -851,17 +851,17 @@
             </dt>
             <dd>Is a type volatile or reference-to-volatile?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="#gae9cd96c20c0f16e1e1eac99e798724ce">pointer_rank</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#gae9cd96c20c0f16e1e1eac99e798724ce">pointer_rank</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The rank of a pointer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename... T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The sum of <code>sizeof()</code> for all of the types named by T.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Equivalent to , but safe to use in SFINAE contexts.</dd>
+            <dd>Equivalent to <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               auto <a class="m-doc" href="#gaf8f9ff89791f3aa70312cef66f4894f4">type_name</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -914,7 +914,7 @@
               </div>
               using <a class="m-doc-self" href="#gae07552fde8149d1a8a6c93971edbbd86">clamp_to_standard_float</a> = demote_if_large_float&lt;promote_if_small_float&lt;T&gt;&gt;
             </h3>
-            <p>Clamps extended arithmetic floating-point types (e.g. , ) to <code>float</code> or <code>long double</code>.</p>
+            <p>Clamps extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>) to <code>float</code> or <code>long double</code>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>CV qualifiers and reference categories are preserved.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga23ee95c345637ff50a6cc88c4fb0d031"><div>
@@ -1005,7 +1005,7 @@
               </div>
               using <a class="m-doc-self" href="#ga588efdcdebc69e38cb6353d8462d59ff">demote_if_large_float</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;impl::is_large_float_&lt;T&gt;, typename impl::rebase_ref_&lt;T, copy_cv&lt;long double, T&gt;&gt;::type, T&gt;
             </h3>
-            <p>Demotes 'large' extended arithmetic floating-point types (e.g. ) to <code>long double</code>.</p>
+            <p>Demotes 'large' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>) to <code>long double</code>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>CV qualifiers and reference categories are preserved.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga25162e97f327cfee39320e501bdb2697"><div>
@@ -1021,9 +1021,9 @@
           <section class="m-doc-details" id="ga6ca7fed60fe86574dd8bedf3b3332431"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt; N&gt;
+              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
               </div>
-              using <a class="m-doc-self" href="#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;, N&gt;
+              using <a class="m-doc-self" href="#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>, N&gt;
             </h3>
             <p>A tag type for encoding/parameterizing a single index.</p>
           </div></section>
@@ -1089,7 +1089,7 @@
               </div>
               using <a class="m-doc-self" href="#ga0a3f15c5886ad6189103d5705db8e37c">promote_if_small_float</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;impl::is_small_float_&lt;T&gt;, typename impl::rebase_ref_&lt;T, copy_cv&lt;float, T&gt;&gt;::type, T&gt;
             </h3>
-            <p>Promotes 'small' extended arithmetic floating-point types (e.g. , etc.) to <code>float</code>.</p>
+            <p>Promotes 'small' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, etc.) to <code>float</code>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>CV qualifiers and reference categories are preserved.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga29769609b73728e3b7814d36a7e0c335"><div>
@@ -1247,7 +1247,7 @@
           <section class="m-doc-details" id="ga4f67907a17de3414f8f0340716e987d4"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt; Bits&gt;
+              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
               </div>
               using <a class="m-doc-self" href="#ga4f67907a17de3414f8f0340716e987d4">signed_integer</a> = typename impl::signed_integer_&lt;Bits&gt;::type
             </h3>
@@ -1277,7 +1277,7 @@
           <section class="m-doc-details" id="ga47a90ed3608cf7b0bf562f4ad208cd21"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt; Bits&gt;
+              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
               </div>
               using <a class="m-doc-self" href="#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
             </h3>
@@ -1291,7 +1291,7 @@
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
-              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc-self" href="#ga693c421331c5f268eb2e2fdd318368fd">alignment_of</a> <span class="m-label m-primary">constexpr</span>
+              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ga693c421331c5f268eb2e2fdd318368fd">alignment_of</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The default alignment of a type.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Treats <code>void</code> and functions as having an alignment of <code>1</code>.</p></aside>
@@ -1305,7 +1305,7 @@
               bool <a class="m-doc-self" href="#gaccb79366bc73cbc96f8a6317fead16f1">all_arithmetic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types arithmetic or reference-to-arithmetic?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>,  and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga10598e51bcfe8c2a8261c6617990eaea"><div>
             <h3>
@@ -1406,7 +1406,7 @@
               bool <a class="m-doc-self" href="#gad2165666bd79caf59277b9c4488a1bde">all_floating_point</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types floating-point or reference-to-floating-point?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for  and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga02add24d1eebc3839d917c0691cd6e0d"><div>
             <h3>
@@ -1469,7 +1469,7 @@
               bool <a class="m-doc-self" href="#ga9c2b21ea2cf57533a5dcf264d0e906e8">all_same</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>True if all the types named by T and U are exactly the same.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(&lt;T, U1&gt; &amp;&amp; &lt;T, U2&gt; &amp;&amp; ...)</code>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa7a73625bc705a9021924a54729c192e"><div>
             <h3>
@@ -1537,9 +1537,9 @@
                 </tr>
               </tbody>
             </table>
-<pre class="m-code"><span class="cp">#include</span> <span class="cpf">&lt;muu/vector.h&gt;</span>
+<pre class="m-code"><span class="cp">#include</span> <span class="cpf">&lt;muu/<a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.h&gt;</span>
 
-<span class="k">using</span> <span class="ut">vec3i</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">vector</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="ut">vec3i</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut"><a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a></span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">3</span><span class="o">&gt;</span><span class="p">;</span>
 
 <span class="k">struct</span> <span class="nc">Foo</span>
 <span class="p">{</span>
@@ -1577,7 +1577,7 @@
               bool <a class="m-doc-self" href="#gad067ec94bd319f3cd1b8406d5d208701">any_arithmetic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types arithmetic or reference-to-arithmetic?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>,  and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa6e6a09626366fea9202ecaa1f42f414"><div>
             <h3>
@@ -1648,7 +1648,7 @@
               bool <a class="m-doc-self" href="#gadcd85258054ff54b7d0dd7f875185bf0">any_floating_point</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types floating-point or reference-to-floating-point?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for  and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga3660079b9cf5bd6f01ef9f5322c235f7"><div>
             <h3>
@@ -1681,7 +1681,7 @@
               bool <a class="m-doc-self" href="#gaed6f4fa9f355d5e882000e65dc7cd0b2">any_same</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>True if T is exactly the same as one or more of the types named by U.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(&lt;T, U1&gt; || &lt;T, U2&gt; || ...)</code>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; || <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; || ...)</code>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga68d2257a9ace0f37200d05117931baed"><div>
             <h3>
@@ -1978,7 +1978,7 @@
           <section class="m-doc-details" id="ga99d503cf409b10ba5314452688d7abb7"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename T, typename U = &gt;
+              <div class="m-doc-template"> template&lt;typename T, typename U = <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;
               </div>
               bool <a class="m-doc-self" href="#ga99d503cf409b10ba5314452688d7abb7">has_subscript_operator</a> <span class="m-label m-primary">constexpr</span>
             </h3>
@@ -2019,7 +2019,7 @@
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T, typename... U&gt;
-              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc-self" href="#ga27d95776f3cf0c19b01db50c4373fb63">index_of_type</a> <span class="m-label m-primary">constexpr</span>
+              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ga27d95776f3cf0c19b01db50c4373fb63">index_of_type</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Returns the index of the first appearance of the type T in the type list U.</p>
           </div></section>
@@ -2043,7 +2043,7 @@
               bool <a class="m-doc-self" href="#ga62cd2e27697815af581b5a8584fd1f76">is_arithmetic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type arithmetic or reference-to-arithmetic?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, ,  and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga7a9d2c42a55dd3a859e8cd1381dfc845"><div>
             <h3>
@@ -2237,7 +2237,7 @@
               bool <a class="m-doc-self" href="#ga92c7057e770b054e9d54bb28d60badea">is_extended_arithmetic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type a nonstandard 'extended' arithmetic type, or a reference to one?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, ,  and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="gae74155e0cf085141e1923124718915a4"><div>
             <h3>
@@ -2248,7 +2248,7 @@
               bool <a class="m-doc-self" href="#gae74155e0cf085141e1923124718915a4">is_floating_point</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type a floating-point or reference-to-floating-point?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for ,  and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga05ccb72a3320555db5a5115cd85d6691"><div>
             <h3>
@@ -2401,7 +2401,7 @@
               bool <a class="m-doc-self" href="#ga8692cd4c2e3c8e2b0167a5a586f1f6e1">is_signed</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type signed or reference-to-signed?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>True for enums backed by signed integers.</p><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, ,  and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>True for enums backed by signed integers.</p><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga31dc0c880276019ff4dc15c27db38541"><div>
             <h3>
@@ -2421,7 +2421,7 @@
               </div>
               bool <a class="m-doc-self" href="#ga07b1449019c885977279ee3afedb3b4f">is_tuple_like</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>True if the type implements  and .</p>
+            <p>True if the type implements <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> and <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a>.</p>
           </div></section>
           <section class="m-doc-details" id="gab42aeb290d61ad20287ed2e8df10462b"><div>
             <h3>
@@ -2460,7 +2460,7 @@
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
-              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc-self" href="#gae9cd96c20c0f16e1e1eac99e798724ce">pointer_rank</a> <span class="m-label m-primary">constexpr</span>
+              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#gae9cd96c20c0f16e1e1eac99e798724ce">pointer_rank</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The rank of a pointer.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Answers "how many stars does it have?".</p></aside>
@@ -2470,7 +2470,7 @@
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename... T&gt;
-              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc-self" href="#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-primary">constexpr</span>
+              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ga3b7e16d2f90358811bc6231eb993ff33">total_size</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The sum of <code>sizeof()</code> for all of the types named by T.</p>
           </div></section>
@@ -2479,10 +2479,10 @@
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
-              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc-self" href="#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-primary">constexpr</span>
+              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>Equivalent to , but safe to use in SFINAE contexts.</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>Returns 0 for types that do not implement .</p></aside>
+            <p>Equivalent to <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>Returns 0 for types that do not implement <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaf8f9ff89791f3aa70312cef66f4894f4"><div>
             <h3>

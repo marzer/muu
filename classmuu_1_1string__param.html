@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.0" name="generator"/>
+  <meta content="Poxy v0.5.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.0.css" rel="stylesheet"/>
-  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.0.js"></script>
+  <link href="poxy-0.5.1.css" rel="stylesheet"/>
+  <link href="poxy-0.5.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -69,6 +69,10 @@
               <ul>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#ttchar16_ttt"><tt>char16_t</tt></a></li>
+                <li><a href="#ttchar32_ttt"><tt>char32_t</tt></a></li>
+                <li><a href="#ttchartt"><tt>char</tt></a></li>
+                <li><a href="#ttwchar_ttt"><tt>wchar_t</tt></a></li>
                 <li><a href="#friends">Friends</a></li>
               </ul>
             </li>
@@ -81,142 +85,6 @@
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a372e9c79d3d58c1dce0d0d9aa3d6cd59">operator bool</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> contains a value of non-zero length.</dd>
-            <dt id="a7491415027cbf9e1bd4c57770b7bef30">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7491415027cbf9e1bd4c57770b7bef30">operator std::string</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>string</a>.</dd>
-            <dt id="ab8a3b240052b1376d842749e0f0fa834">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab8a3b240052b1376d842749e0f0fa834">operator std::string_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
-            <dt id="a4f71d4a8656f788c1db358741f355d8d">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4f71d4a8656f788c1db358741f355d8d">operator std::string_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
-            <dt id="a8e707e861f0ecf68210dfb480c1bdcc6">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8e707e861f0ecf68210dfb480c1bdcc6">operator std::u16string</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u16string</a>.</dd>
-            <dt id="a5698df2f1d67d91102debf0072154564">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5698df2f1d67d91102debf0072154564">operator std::u16string_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u16string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
-            <dt id="a062784eca5cf871a64db8b2bf9fc3db7">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a062784eca5cf871a64db8b2bf9fc3db7">operator std::u16string_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u16string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
-            <dt id="a6180bfdf8684cde23ef746ea578d4f0b">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6180bfdf8684cde23ef746ea578d4f0b">operator std::u32string</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u32string</a>.</dd>
-            <dt id="a5b95213f410f5e332e86d48a127563b2">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5b95213f410f5e332e86d48a127563b2">operator std::u32string_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
-            <dt id="af8935a227ec8b1b5c312a453d6e31b82">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af8935a227ec8b1b5c312a453d6e31b82">operator std::u32string_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
-            <dt id="a3b0a8b559b388b7639421d8d1c6f9e7c">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3b0a8b559b388b7639421d8d1c6f9e7c">operator std::wstring</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>wstring</a>.</dd>
-            <dt id="a707324fb5b730b2e097ce4a57a24e17a">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a707324fb5b730b2e097ce4a57a24e17a">operator std::wstring_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
-            <dt id="a0af7002d6ec02771b164893f13c15e95">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0af7002d6ec02771b164893f13c15e95">operator std::wstring_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
-            <dt id="a45ee522d53e9174b8303a0e236a90c2c">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a45ee522d53e9174b8303a0e236a90c2c">string_param</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs an empty <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>.</dd>
-            <dt id="a947dc0d89465ce9595f743fcb7a3df49">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a947dc0d89465ce9595f743fcb7a3df49">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-8 string view.</dd>
-            <dt id="aca3ec2d295a103c431553e8a12e61967">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aca3ec2d295a103c431553e8a12e61967">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>string</a>&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-8 string.</dd>
-            <dt id="a51bc9be1d2969af9a94b3742403fc40b">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a51bc9be1d2969af9a94b3742403fc40b">string_param</a>(</span><span class="m-doc-wrap">const char* str,
-               len) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-8 string and a length.</dd>
-            <dt id="a73994f27626d50f0ceb314ed5d2aa5f8">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a73994f27626d50f0ceb314ed5d2aa5f8">string_param</a>(</span><span class="m-doc-wrap">const char* str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-8 string.</dd>
-            <dt id="a0b36597518c46b18f672354b0c2d8491">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0b36597518c46b18f672354b0c2d8491">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>string</a>&amp;&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs an owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-8 string.</dd>
-            <dt id="a47263d191c8ac4f82bf000e2ff604b2c">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a47263d191c8ac4f82bf000e2ff604b2c">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF wide string view.</dd>
-            <dt id="a9ec651bea653d82f95c3da94d0043f05">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9ec651bea653d82f95c3da94d0043f05">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>wstring</a>&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF wide string.</dd>
-            <dt id="a5f723ec13eee392885b4ebd28cc13e14">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5f723ec13eee392885b4ebd28cc13e14">string_param</a>(</span><span class="m-doc-wrap">const * str,
-               len) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF wide string and a length.</dd>
-            <dt id="a996af6661267f0ce4a308782158fbe41">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a996af6661267f0ce4a308782158fbe41">string_param</a>(</span><span class="m-doc-wrap">const * str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF wide string.</dd>
-            <dt id="a43789e7cb827de7eed36ef94629c97b4">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a43789e7cb827de7eed36ef94629c97b4">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>wstring</a>&amp;&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs an owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF wide string.</dd>
-            <dt id="abaed4a4d61c2a284c13a1dfd43c9d1e6">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abaed4a4d61c2a284c13a1dfd43c9d1e6">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u16string_view</a> str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-16 string view.</dd>
-            <dt id="ad5972133ebb58d22b17d8278803baaa4">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad5972133ebb58d22b17d8278803baaa4">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u16string</a>&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-16 string.</dd>
-            <dt id="acb12ea03827c108fa04f4da0c0086df6">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#acb12ea03827c108fa04f4da0c0086df6">string_param</a>(</span><span class="m-doc-wrap">const * str,
-               len) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-16 string and a length.</dd>
-            <dt id="a5df3051ce641008a1dce77a690816477">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5df3051ce641008a1dce77a690816477">string_param</a>(</span><span class="m-doc-wrap">const * str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-16 string.</dd>
-            <dt id="a33e302b2384c90faac80721602e39a20">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a33e302b2384c90faac80721602e39a20">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u16string</a>&amp;&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs an owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-16 string.</dd>
-            <dt id="adaeae8143fd27adb3fe39d9aa8c579fc">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#adaeae8143fd27adb3fe39d9aa8c579fc">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-32 string view.</dd>
-            <dt id="af5b86f00342794ee9017b0feb6185399">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af5b86f00342794ee9017b0feb6185399">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u32string</a>&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-32 string.</dd>
-            <dt id="ad8479d9fac040ff5fdbc50d838f716ec">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad8479d9fac040ff5fdbc50d838f716ec">string_param</a>(</span><span class="m-doc-wrap">const * str,
-               len) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-32 string and a length.</dd>
-            <dt id="a8dadcc88532a11b7a940692e24c33890">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8dadcc88532a11b7a940692e24c33890">string_param</a>(</span><span class="m-doc-wrap">const * str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-32 string.</dd>
-            <dt id="a41b0a3b4021b83d92fa4f6449f64d145">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a41b0a3b4021b83d92fa4f6449f64d145">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u32string</a>&amp;&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Constructs an owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-32 string.</dd>
             <dt id="ab4689943a50e5709f1a20415c3b13713">
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab4689943a50e5709f1a20415c3b13713">string_param</a>(</span><span class="m-doc-wrap">T&amp;&amp; string_viewable) <span class="m-label m-flat m-success">noexcept</span></span>
@@ -255,6 +123,162 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aad37b10944128ca724522cac418d2e14">trim</a>(</span><span class="m-doc-wrap">) &amp;&amp; -&gt; <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>&amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Trims leading and trailing whitespace from the payload string (rvalue overload).</dd>
+          </dl>
+        </section>
+        <section id="ttchar16_ttt">
+          <h2><a href="#ttchar16_ttt"><tt>char16_t</tt></a></h2>
+          <dl class="m-doc">
+            <dt id="a8e707e861f0ecf68210dfb480c1bdcc6">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8e707e861f0ecf68210dfb480c1bdcc6">operator std::u16string</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u16string</a>.</dd>
+            <dt id="a5698df2f1d67d91102debf0072154564">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5698df2f1d67d91102debf0072154564">operator std::u16string_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u16string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
+            <dt id="a062784eca5cf871a64db8b2bf9fc3db7">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a062784eca5cf871a64db8b2bf9fc3db7">operator std::u16string_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u16string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
+            <dt id="abaed4a4d61c2a284c13a1dfd43c9d1e6">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abaed4a4d61c2a284c13a1dfd43c9d1e6">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u16string_view</a> str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-16 string view.</dd>
+            <dt id="ad5972133ebb58d22b17d8278803baaa4">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad5972133ebb58d22b17d8278803baaa4">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u16string</a>&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-16 string.</dd>
+            <dt id="acb12ea03827c108fa04f4da0c0086df6">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#acb12ea03827c108fa04f4da0c0086df6">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a>* str,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-16 string and a length.</dd>
+            <dt id="a5df3051ce641008a1dce77a690816477">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5df3051ce641008a1dce77a690816477">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a>* str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-16 string.</dd>
+            <dt id="a33e302b2384c90faac80721602e39a20">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a33e302b2384c90faac80721602e39a20">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u16string</a>&amp;&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs an owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-16 string.</dd>
+          </dl>
+        </section>
+        <section id="ttchar32_ttt">
+          <h2><a href="#ttchar32_ttt"><tt>char32_t</tt></a></h2>
+          <dl class="m-doc">
+            <dt id="a6180bfdf8684cde23ef746ea578d4f0b">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6180bfdf8684cde23ef746ea578d4f0b">operator std::u32string</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u32string</a>.</dd>
+            <dt id="a5b95213f410f5e332e86d48a127563b2">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5b95213f410f5e332e86d48a127563b2">operator std::u32string_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
+            <dt id="af8935a227ec8b1b5c312a453d6e31b82">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af8935a227ec8b1b5c312a453d6e31b82">operator std::u32string_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
+            <dt id="adaeae8143fd27adb3fe39d9aa8c579fc">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#adaeae8143fd27adb3fe39d9aa8c579fc">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-32 string view.</dd>
+            <dt id="af5b86f00342794ee9017b0feb6185399">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af5b86f00342794ee9017b0feb6185399">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u32string</a>&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-32 string.</dd>
+            <dt id="ad8479d9fac040ff5fdbc50d838f716ec">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad8479d9fac040ff5fdbc50d838f716ec">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a>* str,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-32 string and a length.</dd>
+            <dt id="a8dadcc88532a11b7a940692e24c33890">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8dadcc88532a11b7a940692e24c33890">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a>* str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-32 string.</dd>
+            <dt id="a41b0a3b4021b83d92fa4f6449f64d145">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a41b0a3b4021b83d92fa4f6449f64d145">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u32string</a>&amp;&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs an owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-32 string.</dd>
+          </dl>
+        </section>
+        <section id="ttchartt">
+          <h2><a href="#ttchartt"><tt>char</tt></a></h2>
+          <dl class="m-doc">
+            <dt id="a7491415027cbf9e1bd4c57770b7bef30">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7491415027cbf9e1bd4c57770b7bef30">operator std::string</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>string</a>.</dd>
+            <dt id="ab8a3b240052b1376d842749e0f0fa834">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab8a3b240052b1376d842749e0f0fa834">operator std::string_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
+            <dt id="a4f71d4a8656f788c1db358741f355d8d">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4f71d4a8656f788c1db358741f355d8d">operator std::string_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
+            <dt id="a45ee522d53e9174b8303a0e236a90c2c">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a45ee522d53e9174b8303a0e236a90c2c">string_param</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs an empty <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>.</dd>
+            <dt id="a947dc0d89465ce9595f743fcb7a3df49">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a947dc0d89465ce9595f743fcb7a3df49">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-8 string view.</dd>
+            <dt id="aca3ec2d295a103c431553e8a12e61967">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aca3ec2d295a103c431553e8a12e61967">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>string</a>&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-8 string.</dd>
+            <dt id="a51bc9be1d2969af9a94b3742403fc40b">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a51bc9be1d2969af9a94b3742403fc40b">string_param</a>(</span><span class="m-doc-wrap">const char* str,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-8 string and a length.</dd>
+            <dt id="a73994f27626d50f0ceb314ed5d2aa5f8">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a73994f27626d50f0ceb314ed5d2aa5f8">string_param</a>(</span><span class="m-doc-wrap">const char* str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-8 string.</dd>
+            <dt id="a0b36597518c46b18f672354b0c2d8491">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0b36597518c46b18f672354b0c2d8491">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>string</a>&amp;&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs an owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-8 string.</dd>
+          </dl>
+        </section>
+        <section id="ttwchar_ttt">
+          <h2><a href="#ttwchar_ttt"><tt>wchar_t</tt></a></h2>
+          <dl class="m-doc">
+            <dt id="a3b0a8b559b388b7639421d8d1c6f9e7c">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3b0a8b559b388b7639421d8d1c6f9e7c">operator std::wstring</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>wstring</a>.</dd>
+            <dt id="a707324fb5b730b2e097ce4a57a24e17a">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a707324fb5b730b2e097ce4a57a24e17a">operator std::wstring_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
+            <dt id="a0af7002d6ec02771b164893f13c15e95">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0af7002d6ec02771b164893f13c15e95">operator std::wstring_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
+            <dt id="a47263d191c8ac4f82bf000e2ff604b2c">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a47263d191c8ac4f82bf000e2ff604b2c">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF wide string view.</dd>
+            <dt id="a9ec651bea653d82f95c3da94d0043f05">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9ec651bea653d82f95c3da94d0043f05">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>wstring</a>&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF wide string.</dd>
+            <dt id="a5f723ec13eee392885b4ebd28cc13e14">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5f723ec13eee392885b4ebd28cc13e14">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a>* str,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF wide string and a length.</dd>
+            <dt id="a996af6661267f0ce4a308782158fbe41">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a996af6661267f0ce4a308782158fbe41">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">wchar_t</a>* str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF wide string.</dd>
+            <dt id="a43789e7cb827de7eed36ef94629c97b4">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a43789e7cb827de7eed36ef94629c97b4">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>wstring</a>&amp;&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs an owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF wide string.</dd>
           </dl>
         </section>
         <section id="friends">

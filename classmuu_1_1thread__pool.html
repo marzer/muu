@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.0" name="generator"/>
+  <meta content="Poxy v0.5.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.0.css" rel="stylesheet"/>
-  <link href="poxy-0.5.0-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.0.js"></script>
+  <link href="poxy-0.5.1.css" rel="stylesheet"/>
+  <link href="poxy-0.5.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -77,7 +77,9 @@
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a816fa41cb2488dfe46f29799b32d76b6">thread_pool</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> name = {},
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a816fa41cb2488dfe46f29799b32d76b6">thread_pool</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> worker_count = 0,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> task_queue_size = 0,
+              <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> name = {},
               <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-flat m-info">explicit</span> </span>
             </dt>
             <dd>Constructs a thread pool.</dd>
@@ -86,8 +88,8 @@
               <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-flat m-info">explicit</span> </span>
             </dt>
             <dd>Constructs a thread pool.</dd>
-            <dt id="a1b2079c6c9bef00f732d650bcabe7805">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1b2079c6c9bef00f732d650bcabe7805">thread_pool</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp;&amp;) <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a55c8d3fccd135b97ae4d20a8504d20a1">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a55c8d3fccd135b97ae4d20a8504d20a1">thread_pool</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp;&amp; other) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Move constructor.</dd>
             <dt>
@@ -100,7 +102,7 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt id="a9ea03b02643976fa8a65dddcfdd09295">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9ea03b02643976fa8a65dddcfdd09295">capacity</a>(</span><span class="m-doc-wrap">) const -&gt;  <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9ea03b02643976fa8a65dddcfdd09295">capacity</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>The maximum tasks that may be enqueued without blocking.</dd>
             <dt>
@@ -128,8 +130,8 @@
               Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Enqueues a task to execute once for every value in a range.</dd>
-            <dt id="a109ed89f995244703bb7e9a4c9005439">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a109ed89f995244703bb7e9a4c9005439">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp;&amp;) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ae8ccb244ff4bc2db327711c4dcbc9174">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae8ccb244ff4bc2db327711c4dcbc9174">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp;&amp; rhs) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Move-assignment operator.</dd>
             <dt>
@@ -137,7 +139,7 @@
             </dt>
             <dd>Waits for the thread pool to finish all of its current work.</dd>
             <dt id="adf3e1d1f730ff1f86f61a9c645a949fd">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adf3e1d1f730ff1f86f61a9c645a949fd">workers</a>(</span><span class="m-doc-wrap">) const -&gt;  <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adf3e1d1f730ff1f86f61a9c645a949fd">workers</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>The number of worker threads in the thread pool.</dd>
           </dl>
@@ -146,7 +148,9 @@
           <h2>Function documentation</h2>
           <section class="m-doc-details" id="a816fa41cb2488dfe46f29799b32d76b6"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a816fa41cb2488dfe46f29799b32d76b6">thread_pool</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a><a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> name = {},
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a816fa41cb2488dfe46f29799b32d76b6">thread_pool</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> worker_count = 0,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> task_queue_size = 0,
+              <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> name = {},
               <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-info">explicit</span> </span></span>
             </h3>
             <p>Constructs a thread pool.</p>
