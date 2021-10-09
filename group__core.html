@@ -94,6 +94,16 @@
             <dd>A 16-bit "half-precision" floating point type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1integer__range.html">muu::integer_range</a>
+            </dt>
+            <dd>A half-open integer range.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1integer__range__iterator.html">muu::integer_range_iterator</a>
+            </dt>
+            <dd>A read-only <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/named_req/ForwardIterator" target="_blank">LegacyForwardIterator</a> used for iteration through <a class="m-doc" href="structmuu_1_1integer__range.html">muu::<wbr/>integer_range</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               class <a class="m-doc" href="classmuu_1_1scope__fail.html">muu::scope_fail</a>
             </dt>
             <dd>Performs actions when going out of scope due to an exception being thrown.</dd>
@@ -130,14 +140,26 @@
               using <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a> = <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>
             </dt>
             <dd>A 128-bit quad-precision float.</dd>
+            <dt id="gad6daee286a5a7777b0c500e93c4a69be">
+              using <a class="m-doc-self" href="#gad6daee286a5a7777b0c500e93c4a69be">index_range</a> = integer_range&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;
+            </dt>
+            <dd>Convenience alias for <code><a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;</code>.</dd>
             <dt>
               using <a class="m-doc poxy-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_t</a> = __int128_t
             </dt>
             <dd>A 128-bit signed integer.</dd>
+            <dt id="gaad46bb6f921dfdd035dac41370bc5a38">
+              using <a class="m-doc-self" href="#gaad46bb6f921dfdd035dac41370bc5a38">intptr_range</a> = integer_range&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a>&gt;
+            </dt>
+            <dd>Convenience alias for <code><a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a>&gt;</code>.</dd>
             <dt>
               using <a class="m-doc poxy-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_t</a> = __uint128_t
             </dt>
             <dd>A 128-bit unsigned integer.</dd>
+            <dt id="gad56e54580ed5000385ebbf2cdef6d99b">
+              using <a class="m-doc-self" href="#gad56e54580ed5000385ebbf2cdef6d99b">uintptr_range</a> = integer_range&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uintptr_t</a>&gt;
+            </dt>
+            <dd>Convenience alias for <code><a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uintptr_t</a>&gt;</code>.</dd>
           </dl>
         </section>
         <section id="func-members">

@@ -4639,6 +4639,233 @@
     <templarg>size_t Bits</templarg>
   </compound>
   <compound kind="struct">
+    <name>muu::integer_range</name>
+    <filename>structmuu_1_1integer__range.html</filename>
+    <templarg>typename T</templarg>
+    <member kind="typedef">
+      <type>T</type>
+      <name>value_type</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>abf2c4e015550e033bf6b0bbca9638e90</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::largest&lt; size_t, muu::make_unsigned&lt; T &gt; &gt;</type>
+      <name>size_type</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a81522912bd850afc4f36134273938636</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>integer_range_iterator&lt; value_type &gt;</type>
+      <name>iterator</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a9258c7cb23768ed6ab8b180ec67d01d6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>integer_range</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>aa7aca82e88c08236c271156752a7f31a</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>integer_range</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a2f3308df01bb620569f0ce812929546e</anchor>
+      <arglist>(value_type end_) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>integer_range</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>af8528f1660059b9d49816ff37228cf1e</anchor>
+      <arglist>(value_type start_, value_type end_) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>operator bool</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>adce8a50633dfe3051425561b625b4c77</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>empty</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>ad246939d05b1d8878fb1f03b210257f8</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr size_type</type>
+      <name>size</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>acbb488ee509790a911cbad59ef180990</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr value_type</type>
+      <name>first</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a7813e3562381e0c47462995ee27adcdb</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr value_type</type>
+      <name>last</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>abf2bef1863ab4f01c26fb21a5d733211</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a57a9ee2273e7f791c8abcde0020b5d9a</anchor>
+      <arglist>(value_type val) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a6f454817266709d54d2f8ba289c78b88</anchor>
+      <arglist>(const integer_range &amp;other) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>adjacent</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a9c2ffe3e376a50542220d90c160a7790</anchor>
+      <arglist>(const integer_range &amp;other) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>ab8f30a0dcb32281c1abe3221deab0623</anchor>
+      <arglist>(const integer_range &amp;other) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects_or_adjacent</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>ac73ca86cfc5b807805e9d1486de22790</anchor>
+      <arglist>(const integer_range &amp;other) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr integer_range</type>
+      <name>union_with</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a860695f33d5529a850611461b89d7468</anchor>
+      <arglist>(const integer_range &amp;other) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a4d8be4a058cca60b792b9ac9ae7044d4</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a339745f686ed50700ea841f983aeb1c5</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="variable">
+      <type>value_type</type>
+      <name>s</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a93ccc26587e3d02506ecf0a361f893fe</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>value_type</type>
+      <name>e</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a0331f0012352265aaabec434fe60d528</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a7201e16e150f251045888d1b61142d92</anchor>
+      <arglist>(const integer_range &amp;lhs, const integer_range &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>aa9d70b879cfc5fe3ab16d7c9a1daabb2</anchor>
+      <arglist>(const integer_range &amp;lhs, const integer_range &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>aa48edbf1eeeeeccd2248bc1823c7fef7</anchor>
+      <arglist>(const integer_range &amp;range) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>adcbe271add3d3d69f107ac124811a1a7</anchor>
+      <arglist>(const integer_range &amp;range) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a4d8be4a058cca60b792b9ac9ae7044d4</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a339745f686ed50700ea841f983aeb1c5</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>a7201e16e150f251045888d1b61142d92</anchor>
+      <arglist>(const integer_range &amp;lhs, const integer_range &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>aa9d70b879cfc5fe3ab16d7c9a1daabb2</anchor>
+      <arglist>(const integer_range &amp;lhs, const integer_range &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>aa48edbf1eeeeeccd2248bc1823c7fef7</anchor>
+      <arglist>(const integer_range &amp;range) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
+      <anchor>adcbe271add3d3d69f107ac124811a1a7</anchor>
+      <arglist>(const integer_range &amp;range) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>muu::integer_range_iterator</name>
+    <filename>structmuu_1_1integer__range__iterator.html</filename>
+    <templarg>typename T</templarg>
+  </compound>
+  <compound kind="struct">
     <name>muu::matrix</name>
     <filename>structmuu_1_1matrix.html</filename>
     <templarg>typename Scalar</templarg>
@@ -10195,6 +10422,8 @@
     <class kind="class">muu::hash_combiner</class>
     <class kind="class">muu::fnv1a</class>
     <class kind="class">muu::sha1</class>
+    <class kind="struct">muu::integer_range_iterator</class>
+    <class kind="struct">muu::integer_range</class>
     <class kind="struct">muu::matrix</class>
     <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
     <class kind="struct">muu::oriented_bounding_box</class>
@@ -10259,6 +10488,27 @@
       <name>float128_t</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga74a70ec9e3331f37ebbc3e875e183861</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>integer_range&lt; size_t &gt;</type>
+      <name>index_range</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gad6daee286a5a7777b0c500e93c4a69be</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>integer_range&lt; uintptr_t &gt;</type>
+      <name>uintptr_range</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gad56e54580ed5000385ebbf2cdef6d99b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>integer_range&lt; intptr_t &gt;</type>
+      <name>intptr_range</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaad46bb6f921dfdd035dac41370bc5a38</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -14908,6 +15158,8 @@
     <subgroup>meta</subgroup>
     <class kind="class">muu::compressed_pair</class>
     <class kind="struct">muu::half</class>
+    <class kind="struct">muu::integer_range_iterator</class>
+    <class kind="struct">muu::integer_range</class>
     <class kind="class">muu::scope_guard</class>
     <class kind="class">muu::scope_fail</class>
     <class kind="class">muu::scope_success</class>
@@ -14933,6 +15185,27 @@
       <name>float128_t</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga74a70ec9e3331f37ebbc3e875e183861</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>integer_range&lt; size_t &gt;</type>
+      <name>index_range</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gad6daee286a5a7777b0c500e93c4a69be</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>integer_range&lt; uintptr_t &gt;</type>
+      <name>uintptr_range</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gad56e54580ed5000385ebbf2cdef6d99b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>integer_range&lt; intptr_t &gt;</type>
+      <name>intptr_range</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaad46bb6f921dfdd035dac41370bc5a38</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
