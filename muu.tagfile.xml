@@ -4657,10 +4657,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>integer_range_iterator&lt; value_type &gt;</type>
+      <type>impl::integer_range_iterator&lt; value_type &gt;</type>
       <name>iterator</name>
       <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a9258c7cb23768ed6ab8b180ec67d01d6</anchor>
+      <anchor>ae006bafe7698420938fe3d19883124b8</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
@@ -4859,11 +4859,6 @@
       <anchor>adcbe271add3d3d69f107ac124811a1a7</anchor>
       <arglist>(const integer_range &amp;range) noexcept</arglist>
     </member>
-  </compound>
-  <compound kind="struct">
-    <name>muu::integer_range_iterator</name>
-    <filename>structmuu_1_1integer__range__iterator.html</filename>
-    <templarg>typename T</templarg>
   </compound>
   <compound kind="struct">
     <name>muu::matrix</name>
@@ -8993,6 +8988,13 @@
       <anchor>a525094f21f1941eb9910b8aaa24c9365</anchor>
       <arglist></arglist>
     </member>
+    <member kind="typedef">
+      <type>POXY_IMPLEMENTATION_DETAIL_IMPL</type>
+      <name>flatten</name>
+      <anchorfile>structmuu_1_1type__list.html</anchorfile>
+      <anchor>a781df73d70a5cecbc215db625c454786</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="variable" static="yes">
       <type>static constexpr size_t</type>
       <name>length</name>
@@ -10422,7 +10424,6 @@
     <class kind="class">muu::hash_combiner</class>
     <class kind="class">muu::fnv1a</class>
     <class kind="class">muu::sha1</class>
-    <class kind="struct">muu::integer_range_iterator</class>
     <class kind="struct">muu::integer_range</class>
     <class kind="struct">muu::matrix</class>
     <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
@@ -15158,7 +15159,6 @@
     <subgroup>meta</subgroup>
     <class kind="class">muu::compressed_pair</class>
     <class kind="struct">muu::half</class>
-    <class kind="struct">muu::integer_range_iterator</class>
     <class kind="struct">muu::integer_range</class>
     <class kind="class">muu::scope_guard</class>
     <class kind="class">muu::scope_fail</class>

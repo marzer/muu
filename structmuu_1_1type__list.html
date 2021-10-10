@@ -84,7 +84,7 @@
             </li>
           </ul>
         </div>
-<p class="m-note m-success"> This type is <em>not</em> simply <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/tuple.html" target="_blank">std::<wbr/>tuple</a> without the container functionality! The underlying template machinery is highly optimized to reduce instantiation burden for even very massive type lists. Very compiler-friendly.</p>
+<p class="m-note m-success"> This type is <em>not</em> simply <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/tuple.html" target="_blank">std::<wbr/>tuple</a> without the container functionality! The underlying template machinery is highly optimized to reduce instantiation burden for even very massive type lists.</p>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
@@ -92,6 +92,10 @@
               using <a class="m-doc" href="#a0b1d54c39538ac038e178c915e80cd67">first</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </dt>
             <dd>The first type in the list.</dd>
+            <dt>
+              using <a class="m-doc" href="#a781df73d70a5cecbc215db625c454786">flatten</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
+            </dt>
+            <dd>A flattened version of the list with any nested type_lists hoisted up into itself.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;</div>
               using <a class="m-doc" href="#a4e383a46f2f141dac3a5ff14e44d8f54">select</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
@@ -139,6 +143,19 @@
 <span class="go">is float: false</span>
 <span class="go">is char:  false</span>
 <span class="go">is void:  false</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="a781df73d70a5cecbc215db625c454786"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a781df73d70a5cecbc215db625c454786">flatten</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
+            </h3>
+            <p>A flattened version of the list with any nested type_lists hoisted up into itself.</p>
+<pre class="m-code"><span class="k">using</span> <span class="ut">list</span> <span class="o">=</span> <span class="n">type_list</span><span class="o">&lt;</span><span class="n">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">type_list</span><span class="o">&lt;</span><span class="k">float</span><span class="p">,</span> <span class="n">type_list</span><span class="o">&lt;</span><span class="k">double</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="ut">flattened_list</span> <span class="o">=</span> <span class="n">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">double</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="k">static_assert</span><span class="p">(</span><span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">list</span><span class="o">::</span><span class="n">flatten</span><span class="p">,</span> <span class="n">flattened_list</span><span class="o">&gt;</span><span class="p">);</span></pre>
           </div></section>
           <section class="m-doc-details" id="a4e383a46f2f141dac3a5ff14e44d8f54"><div>
             <h3>
