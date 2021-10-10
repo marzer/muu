@@ -49,6 +49,7 @@ test_sources += [
 	'strings.cpp',
 	'tagged_ptr.cpp',
 	'thread_pool.cpp',
+	'type_list.cpp',
 	'type_name.cpp',
 	'unicode_char.cpp',
 	'unicode_char16_t.cpp',

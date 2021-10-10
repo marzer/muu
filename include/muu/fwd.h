@@ -31,7 +31,8 @@ namespace std
 #if MUU_WINDOWS
 
 	#ifndef _MINWINDEF_
-extern "C" {
+extern "C" //
+{
 	using ULONG	  = unsigned long;
 	using PULONG  = ULONG*;
 	using USHORT  = unsigned short;
@@ -63,9 +64,7 @@ extern "C" {
 }
 	#endif // !_MINWINDEF_
 
-	#ifndef __unknwnbase_h__
 struct IUnknown;
-	#endif
 
 #endif // MUU_WINDOWS
 
@@ -322,14 +321,15 @@ namespace muu
 
 	template <typename>
 	struct integer_range;
-	template <typename>
-	struct integer_range_iterator;
 	using index_range	= integer_range<size_t>;
 	using uintptr_range = integer_range<uintptr_t>;
 	using intptr_range	= integer_range<intptr_t>;
 
 	namespace impl
 	{
+		template <typename>
+		struct integer_range_iterator;
+
 		template <typename>
 		struct basic_accumulator;
 		template <typename>

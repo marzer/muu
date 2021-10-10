@@ -18,6 +18,10 @@
 	#undef MUU_TYPE_LIST_PAGE_SIZE
 	#define MUU_TYPE_LIST_PAGE_SIZE 64
 #endif
+#if !(MUU_TYPE_LIST_PAGE_SIZE == 8 || MUU_TYPE_LIST_PAGE_SIZE == 16 || MUU_TYPE_LIST_PAGE_SIZE == 32                   \
+	  || MUU_TYPE_LIST_PAGE_SIZE == 48 || MUU_TYPE_LIST_PAGE_SIZE == 64)
+	#error MUU_TYPE_LIST_PAGE_SIZE must be 8, 16, 32, 48 or 64.
+#endif
 
 #ifndef MUU_HAS_JUMBO_PAGES
 	#define MUU_HAS_JUMBO_PAGES 1
@@ -155,7 +159,7 @@ namespace muu
 		MAKE_SELECTOR(5, 0, 1, 2, 3, 4, 5);
 		MAKE_SELECTOR(6, 0, 1, 2, 3, 4, 5, 6);
 		MAKE_SELECTOR(7, MUU_0_TO_7);
-		#if MUU_TYPE_LIST_PAGE_SIZE > 8
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 16
 		MAKE_SELECTOR(8, MUU_0_TO_7, 8);
 		MAKE_SELECTOR(9, MUU_0_TO_7, 8, 9);
 		MAKE_SELECTOR(10, MUU_0_TO_7, 8, 9, 10);
@@ -165,7 +169,7 @@ namespace muu
 		MAKE_SELECTOR(14, MUU_0_TO_7, 8, 9, 10, 11, 12, 13, 14);
 		MAKE_SELECTOR(15, MUU_0_TO_15);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 16
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 32
 		MAKE_SELECTOR(16, MUU_0_TO_15, 16);
 		MAKE_SELECTOR(17, MUU_0_TO_15, 16, 17);
 		MAKE_SELECTOR(18, MUU_0_TO_15, 16, 17, 18);
@@ -183,7 +187,7 @@ namespace muu
 		MAKE_SELECTOR(30, MUU_0_TO_15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30);
 		MAKE_SELECTOR(31, MUU_0_TO_31);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 32
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 48
 		MAKE_SELECTOR(32, MUU_0_TO_31, 32);
 		MAKE_SELECTOR(33, MUU_0_TO_31, 32, 33);
 		MAKE_SELECTOR(34, MUU_0_TO_31, 32, 33, 34);
@@ -201,7 +205,7 @@ namespace muu
 		MAKE_SELECTOR(46, MUU_0_TO_31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46);
 		MAKE_SELECTOR(47, MUU_0_TO_47);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 48
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 64
 		MAKE_SELECTOR(48, MUU_0_TO_47, 48);
 		MAKE_SELECTOR(49, MUU_0_TO_47, 48, 49);
 		MAKE_SELECTOR(50, MUU_0_TO_47, 48, 49, 50);
@@ -245,11 +249,11 @@ namespace muu
 		// slicer
 		template <typename List, size_t Start, size_t Length, type_list_slicer_spec Specialization = (
 			!List::length || !Length || Start >= List::length ? type_list_slicer_spec::empty : (
-			Length == 1 && MUU_HAS_TYPE_PACK_ELEMENT           ? type_list_slicer_spec::single_compiler_builtin : (
+			Length == 1 && MUU_HAS_TYPE_PACK_ELEMENT          ? type_list_slicer_spec::single_compiler_builtin : (
 			Start == 0 && Length == 1                         ? type_list_slicer_spec::first : (
 			Start == 0 && List::length == Length              ? type_list_slicer_spec::all : (
 			Start >= type_list_jumbo_page_size                ? type_list_slicer_spec::skip_jumbo_pages : (
-			MUU_HAS_TYPE_PACK_ELEMENT                          ? type_list_slicer_spec::arbitrary_range : (
+			MUU_HAS_TYPE_PACK_ELEMENT                         ? type_list_slicer_spec::arbitrary_range : (
 			Start >= type_list_page_size                      ? type_list_slicer_spec::skip_pages : (
 			Length == 1                                       ? type_list_slicer_spec::single_low_index : (
 			Start == 0 && Length <= type_list_page_size       ? type_list_slicer_spec::prefix : (
@@ -392,7 +396,7 @@ namespace muu
 		MAKE_SINGLE_ELEMENT_SLICER(5, 0, 1, 2, 3, 4, 5);
 		MAKE_SINGLE_ELEMENT_SLICER(6, 0, 1, 2, 3, 4, 5, 6);
 		MAKE_SINGLE_ELEMENT_SLICER(7, MUU_0_TO_7);
-		#if MUU_TYPE_LIST_PAGE_SIZE > 8
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 16
 		MAKE_SINGLE_ELEMENT_SLICER(8, MUU_0_TO_7, 8);
 		MAKE_SINGLE_ELEMENT_SLICER(9, MUU_0_TO_7, 8, 9);
 		MAKE_SINGLE_ELEMENT_SLICER(10, MUU_0_TO_7, 8, 9, 10);
@@ -402,7 +406,7 @@ namespace muu
 		MAKE_SINGLE_ELEMENT_SLICER(14, MUU_0_TO_7, 8, 9, 10, 11, 12, 13, 14);
 		MAKE_SINGLE_ELEMENT_SLICER(15, MUU_0_TO_15);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 16
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 32
 		MAKE_SINGLE_ELEMENT_SLICER(16, MUU_0_TO_15, 16);
 		MAKE_SINGLE_ELEMENT_SLICER(17, MUU_0_TO_15, 16, 17);
 		MAKE_SINGLE_ELEMENT_SLICER(18, MUU_0_TO_15, 16, 17, 18);
@@ -420,7 +424,7 @@ namespace muu
 		MAKE_SINGLE_ELEMENT_SLICER(30, MUU_0_TO_15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30);
 		MAKE_SINGLE_ELEMENT_SLICER(31, MUU_0_TO_31);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 32
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 48
 		MAKE_SINGLE_ELEMENT_SLICER(32, MUU_0_TO_31, 32);
 		MAKE_SINGLE_ELEMENT_SLICER(33, MUU_0_TO_31, 32, 33);
 		MAKE_SINGLE_ELEMENT_SLICER(34, MUU_0_TO_31, 32, 33, 34);
@@ -438,7 +442,7 @@ namespace muu
 		MAKE_SINGLE_ELEMENT_SLICER(46, MUU_0_TO_31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46);
 		MAKE_SINGLE_ELEMENT_SLICER(47, MUU_0_TO_47);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 48
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 64
 		MAKE_SINGLE_ELEMENT_SLICER(48, MUU_0_TO_47, 48);
 		MAKE_SINGLE_ELEMENT_SLICER(49, MUU_0_TO_47, 48, 49);
 		MAKE_SINGLE_ELEMENT_SLICER(50, MUU_0_TO_47, 48, 49, 50);
@@ -486,7 +490,7 @@ namespace muu
 		MAKE_PREFIX_SLICER(0, 1, 2, 3, 4, 5);
 		MAKE_PREFIX_SLICER(0, 1, 2, 3, 4, 5, 6);
 		MAKE_PREFIX_SLICER(MUU_0_TO_7);
-		#if MUU_TYPE_LIST_PAGE_SIZE > 8
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 16
 		MAKE_PREFIX_SLICER(MUU_0_TO_7, 8);
 		MAKE_PREFIX_SLICER(MUU_0_TO_7, 8, 9);
 		MAKE_PREFIX_SLICER(MUU_0_TO_7, 8, 9, 10);
@@ -496,7 +500,7 @@ namespace muu
 		MAKE_PREFIX_SLICER(MUU_0_TO_7, 8, 9, 10, 11, 12, 13, 14);
 		MAKE_PREFIX_SLICER(MUU_0_TO_15);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 16
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 32
 		MAKE_PREFIX_SLICER(MUU_0_TO_15, 16);
 		MAKE_PREFIX_SLICER(MUU_0_TO_15, 16, 17);
 		MAKE_PREFIX_SLICER(MUU_0_TO_15, 16, 17, 18);
@@ -514,7 +518,7 @@ namespace muu
 		MAKE_PREFIX_SLICER(MUU_0_TO_15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30);
 		MAKE_PREFIX_SLICER(MUU_0_TO_31);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 32
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 48
 		MAKE_PREFIX_SLICER(MUU_0_TO_31, 32);
 		MAKE_PREFIX_SLICER(MUU_0_TO_31, 32, 33);
 		MAKE_PREFIX_SLICER(MUU_0_TO_31, 32, 33, 34);
@@ -532,7 +536,7 @@ namespace muu
 		MAKE_PREFIX_SLICER(MUU_0_TO_31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46);
 		MAKE_PREFIX_SLICER(MUU_0_TO_47);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 48
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 64
 		MAKE_PREFIX_SLICER(MUU_0_TO_47, 48);
 		MAKE_PREFIX_SLICER(MUU_0_TO_47, 48, 49);
 		MAKE_PREFIX_SLICER(MUU_0_TO_47, 48, 49, 50);
@@ -589,7 +593,7 @@ namespace muu
 		MAKE_SKIP_N_SLICER(6, 0, 1, 2, 3, 4, 5, 6);
 		MAKE_SKIP_N_SLICER(7, MUU_0_TO_7);
 		MAKE_SKIP_N_SLICER(8, MUU_0_TO_7, 8);
-		#if MUU_TYPE_LIST_PAGE_SIZE > 8
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 16
 		MAKE_SKIP_N_SLICER(9, MUU_0_TO_7, 8, 9);
 		MAKE_SKIP_N_SLICER(10, MUU_0_TO_7, 8, 9, 10);
 		MAKE_SKIP_N_SLICER(11, MUU_0_TO_7, 8, 9, 10, 11);
@@ -599,7 +603,7 @@ namespace muu
 		MAKE_SKIP_N_SLICER(15, MUU_0_TO_15);
 		MAKE_SKIP_N_SLICER(16, MUU_0_TO_15, 16);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 16
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 32
 		MAKE_SKIP_N_SLICER(17, MUU_0_TO_15, 16, 17);
 		MAKE_SKIP_N_SLICER(18, MUU_0_TO_15, 16, 17, 18);
 		MAKE_SKIP_N_SLICER(19, MUU_0_TO_15, 16, 17, 18, 19);
@@ -617,7 +621,7 @@ namespace muu
 		MAKE_SKIP_N_SLICER(31, MUU_0_TO_31);
 		MAKE_SKIP_N_SLICER(32, MUU_0_TO_31, 32);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 32
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 48
 		MAKE_SKIP_N_SLICER(33, MUU_0_TO_31, 32, 33);
 		MAKE_SKIP_N_SLICER(34, MUU_0_TO_31, 32, 33, 34);
 		MAKE_SKIP_N_SLICER(35, MUU_0_TO_31, 32, 33, 34, 35);
@@ -635,7 +639,7 @@ namespace muu
 		MAKE_SKIP_N_SLICER(47, MUU_0_TO_47);
 		MAKE_SKIP_N_SLICER(48, MUU_0_TO_47, 48);
 		#endif
-		#if MUU_TYPE_LIST_PAGE_SIZE > 48
+		#if MUU_TYPE_LIST_PAGE_SIZE >= 64
 		MAKE_SKIP_N_SLICER(49, MUU_0_TO_47, 48, 49);
 		MAKE_SKIP_N_SLICER(50, MUU_0_TO_47, 48, 49, 50);
 		MAKE_SKIP_N_SLICER(51, MUU_0_TO_47, 48, 49, 50, 51);
@@ -661,7 +665,56 @@ namespace muu
 #endif // !MUU_HAS_TYPE_PACK_ELEMENT
 
 		// clang-format on
-	}
+
+		template <typename...>
+		struct type_list_concatenate_;
+
+		template <>
+		struct type_list_concatenate_<>
+		{
+			using types = type_list<>;
+		};
+
+		template <typename... T>
+		struct type_list_concatenate_<type_list<T...>>
+		{
+			using types = type_list<T...>;
+		};
+
+		template <typename... T, typename... U>
+		struct type_list_concatenate_<type_list<T...>, type_list<U...>>
+		{
+			using types = type_list<T..., U...>;
+		};
+
+		template <typename... T, typename... U, typename... V>
+		struct type_list_concatenate_<type_list<T...>, type_list<U...>, V...>
+		{
+			using types = typename type_list_concatenate_<type_list<T..., U...>, V...>::types;
+		};
+
+		template <typename T>
+		struct type_list_flatten_impl_
+		{
+			using types = type_list<T>;
+		};
+
+		template <>
+		struct type_list_flatten_impl_<type_list<>>
+		{
+			using types = type_list<>;
+		};
+
+		template <typename... T>
+		struct type_list_flatten_impl_<type_list<T...>>
+		{
+			using types = typename type_list_concatenate_<typename type_list_flatten_impl_<T>::types...>::types;
+		};
+
+		template <typename... T>
+		using type_list_flatten = typename type_list_concatenate_<typename type_list_flatten_impl_<T>::types...>::types;
+
+	} // ::impl
 
 	template <>
 	struct type_list<>
@@ -675,6 +728,7 @@ namespace muu
 		using slice = type_list<>;
 		template <typename U>
 		static constexpr size_t index_of = index_of_type<U>;
+		using flatten					 = type_list<>;
 	};
 
 	template <typename T>
@@ -698,6 +752,8 @@ namespace muu
 
 		template <typename U>
 		static constexpr size_t index_of = index_of_type<U, T>;
+
+		using flatten = impl::type_list_flatten<T>;
 	};
 
 	template <typename T0, typename... T>
@@ -720,6 +776,8 @@ namespace muu
 
 		template <typename U>
 		static constexpr size_t index_of = index_of_type<U, T0, T...>;
+
+		using flatten = impl::type_list_flatten<T0, T...>;
 	};
 
 	/// \endcond
@@ -730,7 +788,7 @@ namespace muu
 	///
 	/// \detail	[set_class m-note m-success] This type is _not_ simply std::tuple without the container functionality!
 	///			The underlying template machinery is highly optimized to reduce instantiation burden for even very
-	///			massive type lists. Very compiler-friendly.
+	///			massive type lists.
 	///
 	/// \tparam T	The list of types represented by the list.
 	template <typename... T>
@@ -802,6 +860,16 @@ namespace muu
 		/// \brief Returns the index of the first appearance of a given type in the list.
 		template <typename U>
 		static constexpr size_t index_of = index_of_type<U, T...>;
+
+		/// \brief A flattened version of the list with any nested type_lists hoisted up into itself.
+		///
+		/// \detail \cpp
+		/// using list = type_list<type_list<int>, type_list<float, type_list<double, char>>>;
+		/// using flattened_list = type_list<int, float, double, char>;
+		///
+		/// static_assert(std::is_same_v<list::flatten, flattened_list>);
+		/// \ecpp
+		using flatten = POXY_IMPLEMENTATION_DETAIL(...);
 	};
 
 #endif

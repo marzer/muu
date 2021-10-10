@@ -153,6 +153,7 @@
     <ClCompile Include="..\type_name.cpp" />
     <ClCompile Include="..\bit.cpp" />
     <ClCompile Include="..\integer_range.cpp" />
+    <ClCompile Include="..\type_list.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />

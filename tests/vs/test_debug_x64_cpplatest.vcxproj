@@ -158,6 +158,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\thread_pool.cpp" />
+    <ClCompile Include="..\type_list.cpp" />
     <ClCompile Include="..\type_name.cpp" />
     <ClCompile Include="..\unicode_char.cpp" />
     <ClCompile Include="..\unicode_char16_t.cpp" />

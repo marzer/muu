@@ -11,91 +11,96 @@
 
 namespace muu
 {
-	/// \brief A read-only LegacyForwardIterator used for iteration through #muu::integer_range.
-	/// \ingroup core
-	template <typename T>
-	struct MUU_TRIVIAL_ABI integer_range_iterator
+	/// \cond
+	namespace impl
 	{
-		using value_type		= T;
-		using size_type			= muu::largest<size_t, muu::make_unsigned<T>>;
-		using difference_type	= muu::largest<ptrdiff_t, muu::make_signed<T>>;
-		using iterator_category = std::input_iterator_tag;
-		using reference			= value_type;
-		// using pointer = ? ;
-
-		value_type value;
-
-		constexpr integer_range_iterator& operator++() noexcept // pre
+		template <typename T>
+		struct MUU_TRIVIAL_ABI integer_range_iterator
 		{
-			value++;
-			return *this;
-		}
+			using value_type		= T;
+			using size_type			= muu::largest<size_t, muu::make_unsigned<T>>;
+			using difference_type	= muu::largest<ptrdiff_t, muu::make_signed<T>>;
+			using iterator_category = std::input_iterator_tag;
+			using reference			= value_type;
+			// using pointer = ? ;
 
-		constexpr integer_range_iterator operator++(int) noexcept // post
-		{
-			return integer_range_iterator{ value++ };
-		}
+			value_type value;
 
-		constexpr integer_range_iterator& operator--() noexcept // pre
-		{
-			value--;
-			return *this;
-		}
+			constexpr integer_range_iterator& operator++() noexcept // pre
+			{
+				value++;
+				return *this;
+			}
 
-		constexpr integer_range_iterator operator--(int) noexcept // post
-		{
-			return integer_range_iterator{ value-- };
-		}
+			constexpr integer_range_iterator operator++(int) noexcept // post
+			{
+				return integer_range_iterator{ value++ };
+			}
 
-		constexpr integer_range_iterator& operator+=(size_type offset) noexcept
-		{
-			value = static_cast<value_type>(static_cast<size_type>(value) + offset);
-			return *this;
-		}
+			constexpr integer_range_iterator& operator--() noexcept // pre
+			{
+				value--;
+				return *this;
+			}
 
-		constexpr integer_range_iterator& operator-=(size_type offset) noexcept
-		{
-			value = static_cast<value_type>(static_cast<size_type>(value) - offset);
-			return *this;
-		}
+			constexpr integer_range_iterator operator--(int) noexcept // post
+			{
+				return integer_range_iterator{ value-- };
+			}
 
-		constexpr integer_range_iterator& operator+=(difference_type offset) noexcept
-		{
-			value = static_cast<value_type>(static_cast<difference_type>(value) + offset);
-			return *this;
-		}
+			constexpr integer_range_iterator& operator+=(size_type offset) noexcept
+			{
+				value = static_cast<value_type>(static_cast<size_type>(value) + offset);
+				return *this;
+			}
 
-		constexpr integer_range_iterator& operator-=(difference_type offset) noexcept
-		{
-			value = static_cast<value_type>(static_cast<difference_type>(value) - offset);
-			return *this;
-		}
+			constexpr integer_range_iterator& operator-=(size_type offset) noexcept
+			{
+				value = static_cast<value_type>(static_cast<size_type>(value) - offset);
+				return *this;
+			}
 
-		MUU_PURE_INLINE_GETTER
-		constexpr value_type operator*() const noexcept
-		{
-			return value;
-		}
+			constexpr integer_range_iterator& operator+=(difference_type offset) noexcept
+			{
+				value = static_cast<value_type>(static_cast<difference_type>(value) + offset);
+				return *this;
+			}
 
-		MUU_PURE_INLINE_GETTER
-		friend constexpr bool operator==(const integer_range_iterator& lhs, const integer_range_iterator& rhs) noexcept
-		{
-			return lhs.value == rhs.value;
-		}
+			constexpr integer_range_iterator& operator-=(difference_type offset) noexcept
+			{
+				value = static_cast<value_type>(static_cast<difference_type>(value) - offset);
+				return *this;
+			}
 
-		MUU_PURE_INLINE_GETTER
-		friend constexpr bool operator!=(const integer_range_iterator& lhs, const integer_range_iterator& rhs) noexcept
-		{
-			return !(lhs == rhs);
-		}
+			MUU_PURE_INLINE_GETTER
+			constexpr value_type operator*() const noexcept
+			{
+				return value;
+			}
 
-		MUU_PURE_INLINE_GETTER
-		friend constexpr difference_type operator-(const integer_range_iterator& lhs,
-												   const integer_range_iterator& rhs) noexcept
-		{
-			return static_cast<difference_type>(lhs.value) - static_cast<difference_type>(rhs.value);
-		}
-	};
+			MUU_PURE_INLINE_GETTER
+			friend constexpr bool operator==(const integer_range_iterator& lhs,
+											 const integer_range_iterator& rhs) noexcept
+			{
+				return lhs.value == rhs.value;
+			}
+
+			MUU_PURE_INLINE_GETTER
+			friend constexpr bool operator!=(const integer_range_iterator& lhs,
+											 const integer_range_iterator& rhs) noexcept
+			{
+				return !(lhs == rhs);
+			}
+
+			MUU_PURE_INLINE_GETTER
+			friend constexpr difference_type operator-(const integer_range_iterator& lhs,
+													   const integer_range_iterator& rhs) noexcept
+			{
+				return static_cast<difference_type>(lhs.value) - static_cast<difference_type>(rhs.value);
+			}
+		};
+	}
+	/// \endcond
 
 	/// \brief A half-open integer range.
 	/// \ingroup core
@@ -119,7 +124,7 @@ namespace muu
 		value_type e;
 
 		/// \brief A read-only LegacyForwardIterator for iterating over the range.
-		using iterator = integer_range_iterator<value_type>;
+		using iterator = impl::integer_range_iterator<value_type>;
 
 		/// \brief Default constructor. Does not initialize the range.
 		MUU_NODISCARD_CTOR
