@@ -89,13 +89,23 @@
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
             <dt>
+              <div class="m-doc-template">template&lt;typename... U&gt;</div>
+              using <a class="m-doc" href="#ab3d0e88d24a6b4b32c03f9aea336e0a5">append</a> = <a class="m-doc" href="structmuu_1_1type__list.html">muu::<wbr/>type_list</a>&lt;T..., U...&gt;
+            </dt>
+            <dd>Creates a new type list by appending types to this one.</dd>
+            <dt>
               using <a class="m-doc" href="#a0b1d54c39538ac038e178c915e80cd67">first</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </dt>
             <dd>The first type in the list.</dd>
             <dt>
               using <a class="m-doc" href="#a781df73d70a5cecbc215db625c454786">flatten</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </dt>
-            <dd>A flattened version of the list with any nested type_lists hoisted up into itself.</dd>
+            <dd>A flattened version of the list with any nested type_lists recursively hoisted up into itself.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename U&gt;</div>
+              using <a class="m-doc" href="#ab9ebb4442446fd37362bc5a3dea3f618">remove</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
+            </dt>
+            <dd>A version of the list with all ocurrences of the named type removed.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;</div>
               using <a class="m-doc" href="#a4e383a46f2f141dac3a5ff14e44d8f54">select</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
@@ -126,6 +136,20 @@
         </section>
         <section>
           <h2>Typedef documentation</h2>
+          <section class="m-doc-details" id="ab3d0e88d24a6b4b32c03f9aea336e0a5"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;<br/>
+template&lt;typename... U&gt;
+              </div>
+              using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#ab3d0e88d24a6b4b32c03f9aea336e0a5">append</a> = <a class="m-doc" href="structmuu_1_1type__list.html">muu::<wbr/>type_list</a>&lt;T..., U...&gt;
+            </h3>
+            <p>Creates a new type list by appending types to this one.</p>
+<pre class="m-code"><span class="k">static_assert</span><span class="p">(</span><span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span>
+    <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;::</span><span class="n">append</span><span class="o">&lt;</span><span class="k">double</span><span class="p">,</span> <span class="k">void</span><span class="p">,</span> <span class="k">bool</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="p">,</span> <span class="k">double</span><span class="p">,</span> <span class="k">void</span><span class="p">,</span> <span class="k">bool</span><span class="o">&gt;</span>
+<span class="o">&gt;</span><span class="p">);</span></pre>
+          </div></section>
           <section class="m-doc-details" id="a0b1d54c39538ac038e178c915e80cd67"><div>
             <h3>
               <div class="m-doc-template">
@@ -151,11 +175,25 @@
               </div>
               using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a781df73d70a5cecbc215db625c454786">flatten</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </h3>
-            <p>A flattened version of the list with any nested type_lists hoisted up into itself.</p>
-<pre class="m-code"><span class="k">using</span> <span class="ut">list</span> <span class="o">=</span> <span class="n">type_list</span><span class="o">&lt;</span><span class="n">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">type_list</span><span class="o">&lt;</span><span class="k">float</span><span class="p">,</span> <span class="n">type_list</span><span class="o">&lt;</span><span class="k">double</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
-<span class="k">using</span> <span class="ut">flattened_list</span> <span class="o">=</span> <span class="n">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">double</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;</span><span class="p">;</span>
-
-<span class="k">static_assert</span><span class="p">(</span><span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span><span class="n">list</span><span class="o">::</span><span class="n">flatten</span><span class="p">,</span> <span class="n">flattened_list</span><span class="o">&gt;</span><span class="p">);</span></pre>
+            <p>A flattened version of the list with any nested type_lists recursively hoisted up into itself.</p>
+<pre class="m-code"><span class="k">static_assert</span><span class="p">(</span><span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span>
+    <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">double</span><span class="o">&gt;&gt;&gt;::</span><span class="n">flatten</span><span class="p">,</span>
+    <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">double</span><span class="o">&gt;</span>
+<span class="o">&gt;</span><span class="p">);</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="ab9ebb4442446fd37362bc5a3dea3f618"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;<br/>
+template&lt;typename U&gt;
+              </div>
+              using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#ab9ebb4442446fd37362bc5a3dea3f618">remove</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
+            </h3>
+            <p>A version of the list with all ocurrences of the named type removed.</p>
+<pre class="m-code"><span class="k">static_assert</span><span class="p">(</span><span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span>
+    <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="p">,</span> <span class="k">void</span><span class="p">,</span> <span class="k">double</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;::</span><span class="n">remove</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="p">,</span> <span class="k">double</span><span class="o">&gt;</span>
+<span class="o">&gt;</span><span class="p">);</span></pre>
           </div></section>
           <section class="m-doc-details" id="a4e383a46f2f141dac3a5ff14e44d8f54"><div>
             <h3>
@@ -183,10 +221,8 @@
               using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a525094f21f1941eb9910b8aaa24c9365">slice</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </h3>
             <p>Selects a slice of types from the list.</p>
-<pre class="m-code"><span class="k">using</span> <span class="ut">types</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;</span><span class="p">;</span>
-
-<span class="k">static_assert</span><span class="p">(</span><span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span>
-    <span class="n">types</span><span class="o">::</span><span class="n">slice</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span><span class="p">,</span>
+<pre class="m-code"><span class="k">static_assert</span><span class="p">(</span><span class="ns">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span>
+    <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;::</span><span class="n">slice</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span><span class="p">,</span>
     <span class="ns">muu</span><span class="o">::</span><span class="ut">type_list</span><span class="o">&lt;</span><span class="k">char</span><span class="p">,</span> <span class="k">void</span><span class="o">&gt;</span>
 <span class="o">&gt;</span><span class="p">);</span></pre>
           </div></section>
