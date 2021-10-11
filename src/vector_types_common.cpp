@@ -45,207 +45,207 @@ namespace
 
 namespace muu::impl
 {
-	void print_vector(std::ostream& os, const half* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const half* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const float* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const float* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const double* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const double* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const long double* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const long double* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const signed char* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const signed char* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const signed short* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const signed short* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const signed int* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const signed int* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const signed long* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const signed long* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const signed long long* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const signed long long* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const unsigned char* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const unsigned char* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const unsigned short* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const unsigned short* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const unsigned int* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const unsigned int* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const unsigned long* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const unsigned long* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const unsigned long long* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const unsigned long long* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
 #if MUU_HAS_FLOAT16
-	void print_vector(std::ostream& os, const _Float16* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const _Float16* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 #endif
 
 #if MUU_HAS_FP16
-	void print_vector(std::ostream& os, const __fp16* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const __fp16* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 #endif
 
 #if MUU_HAS_FLOAT128
-	void print_vector(std::ostream& os, const float128_t* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const float128_t* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 #endif
 
 #if MUU_HAS_INT128
-	void print_vector(std::ostream& os, const int128_t* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const int128_t* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::ostream& os, const uint128_t* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::ostream& os, const uint128_t* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 #endif
 
-	void print_vector(std::wostream& os, const half* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const half* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const float* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const float* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const double* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const double* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const long double* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const long double* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const signed char* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const signed char* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const signed short* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const signed short* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const signed int* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const signed int* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const signed long* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const signed long* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const signed long long* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const signed long long* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const unsigned char* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const unsigned char* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const unsigned short* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const unsigned short* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const unsigned int* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const unsigned int* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const unsigned long* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const unsigned long* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const unsigned long long* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const unsigned long long* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
 #if MUU_HAS_FLOAT16
-	void print_vector(std::wostream& os, const _Float16* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const _Float16* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 #endif
 
 #if MUU_HAS_FP16
-	void print_vector(std::wostream& os, const __fp16* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const __fp16* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 #endif
 
 #if MUU_HAS_FLOAT128
-	void print_vector(std::wostream& os, const float128_t* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const float128_t* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 #endif
 
 #if MUU_HAS_INT128
-	void print_vector(std::wostream& os, const int128_t* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const int128_t* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
 
-	void print_vector(std::wostream& os, const uint128_t* x, size_t dims)
+	void MUU_CALLCONV print_vector(std::wostream& os, const uint128_t* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
@@ -310,207 +310,207 @@ namespace
 
 namespace muu::impl
 {
-	void print_matrix(std::ostream& os, const half* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const half* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const float* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const float* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const double* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const double* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const long double* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const long double* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const signed char* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const signed char* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const signed short* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const signed short* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const signed int* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const signed int* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const signed long* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const signed long* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const signed long long* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const signed long long* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const unsigned char* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const unsigned char* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const unsigned short* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const unsigned short* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const unsigned int* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const unsigned int* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const unsigned long* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const unsigned long* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const unsigned long long* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const unsigned long long* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
 #if MUU_HAS_FLOAT16
-	void print_matrix(std::ostream& os, const _Float16* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const _Float16* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 #endif
 
 #if MUU_HAS_FP16
-	void print_matrix(std::ostream& os, const __fp16* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const __fp16* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 #endif
 
 #if MUU_HAS_FLOAT128
-	void print_matrix(std::ostream& os, const float128_t* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const float128_t* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 #endif
 
 #if MUU_HAS_INT128
-	void print_matrix(std::ostream& os, const int128_t* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const int128_t* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::ostream& os, const uint128_t* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::ostream& os, const uint128_t* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 #endif
 
-	void print_matrix(std::wostream& os, const half* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const half* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const float* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const float* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const double* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const double* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const long double* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const long double* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const signed char* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const signed char* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const signed short* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const signed short* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const signed int* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const signed int* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const signed long* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const signed long* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const signed long long* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const signed long long* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const unsigned char* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const unsigned char* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const unsigned short* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const unsigned short* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const unsigned int* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const unsigned int* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const unsigned long* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const unsigned long* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const unsigned long long* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const unsigned long long* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
 #if MUU_HAS_FLOAT16
-	void print_matrix(std::wostream& os, const _Float16* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const _Float16* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 #endif
 
 #if MUU_HAS_FP16
-	void print_matrix(std::wostream& os, const __fp16* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const __fp16* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 #endif
 
 #if MUU_HAS_FLOAT128
-	void print_matrix(std::wostream& os, const float128_t* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const float128_t* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 #endif
 
 #if MUU_HAS_INT128
-	void print_matrix(std::wostream& os, const int128_t* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const int128_t* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
 
-	void print_matrix(std::wostream& os, const uint128_t* m, size_t rows, size_t cols)
+	void MUU_CALLCONV print_matrix(std::wostream& os, const uint128_t* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
@@ -570,9 +570,10 @@ namespace
 		printer(object_close);
 	}
 }
+
 namespace muu::impl
 {
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const half* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -583,7 +584,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const float* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -594,7 +595,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const double* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -605,7 +606,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const long double* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -616,7 +617,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const signed char* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -627,7 +628,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const signed short* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -638,7 +639,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const signed int* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -649,7 +650,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const signed long* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -660,7 +661,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const signed long long* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -671,7 +672,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const unsigned char* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -682,7 +683,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const unsigned short* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -693,7 +694,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const unsigned int* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -704,7 +705,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const unsigned long* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -715,7 +716,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const unsigned long long* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -727,7 +728,7 @@ namespace muu::impl
 	}
 
 #if MUU_HAS_FLOAT16
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const _Float16* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -740,7 +741,7 @@ namespace muu::impl
 #endif
 
 #if MUU_HAS_FP16
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const __fp16* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -753,7 +754,7 @@ namespace muu::impl
 #endif
 
 #if MUU_HAS_FLOAT128
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const float128_t* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -766,7 +767,7 @@ namespace muu::impl
 #endif
 
 #if MUU_HAS_INT128
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const int128_t* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -777,7 +778,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::ostream& os,
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
 							   const uint128_t* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -789,7 +790,7 @@ namespace muu::impl
 	}
 #endif
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const half* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -800,7 +801,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const float* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -811,7 +812,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const double* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -822,7 +823,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const long double* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -833,7 +834,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const signed char* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -844,7 +845,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const signed short* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -855,7 +856,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const signed int* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -866,7 +867,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const signed long* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -877,7 +878,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const signed long long* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -888,7 +889,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const unsigned char* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -899,7 +900,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const unsigned short* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -910,7 +911,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const unsigned int* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -921,7 +922,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const unsigned long* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -932,7 +933,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const unsigned long long* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -944,7 +945,7 @@ namespace muu::impl
 	}
 
 #if MUU_HAS_FLOAT16
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const _Float16* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -957,7 +958,7 @@ namespace muu::impl
 #endif
 
 #if MUU_HAS_FP16
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const __fp16* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -970,7 +971,7 @@ namespace muu::impl
 #endif
 
 #if MUU_HAS_FLOAT128
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const float128_t* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -983,7 +984,7 @@ namespace muu::impl
 #endif
 
 #if MUU_HAS_INT128
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const int128_t* vals1,
 							   size_t num1,
 							   bool is_vec1,
@@ -994,7 +995,7 @@ namespace muu::impl
 		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
 	}
 
-	void print_compound_vector(std::wostream& os,
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
 							   const uint128_t* vals1,
 							   size_t num1,
 							   bool is_vec1,
