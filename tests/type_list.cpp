@@ -83,14 +83,39 @@ static_assert(test_type_list::index_of<index_tag<60>> == 60);
 static_assert(test_type_list::index_of<index_tag<70>> == 70);
 static_assert(test_type_list::index_of<index_tag<99>> == 99);
 
-static_assert(std::is_same_v<type_list<>::flatten, type_list<>>);
-static_assert(std::is_same_v<type_list<type_list<>>::flatten, type_list<>>);
-static_assert(std::is_same_v<type_list<type_list<type_list<>>>::flatten, type_list<>>);
-
-static_assert(std::is_same_v<type_list<float>::flatten, type_list<float>>);
-static_assert(std::is_same_v<type_list<type_list<float>>::flatten, type_list<float>>);
-static_assert(std::is_same_v<type_list<float, int>::flatten, type_list<float, int>>);
-static_assert(std::is_same_v<type_list<type_list<float>, int>::flatten, type_list<float, int>>);
-
+static_assert(std::is_same_v<type_list<>::flatten, //
+							 type_list<>>);
+static_assert(std::is_same_v<type_list<type_list<>>::flatten, //
+							 type_list<>>);
+static_assert(std::is_same_v<type_list<type_list<type_list<>>>::flatten, //
+							 type_list<>>);
+static_assert(std::is_same_v<type_list<float>::flatten, //
+							 type_list<float>>);
+static_assert(std::is_same_v<type_list<type_list<float>>::flatten, //
+							 type_list<float>>);
+static_assert(std::is_same_v<type_list<float, int>::flatten, //
+							 type_list<float, int>>);
+static_assert(std::is_same_v<type_list<type_list<float>, int>::flatten, //
+							 type_list<float, int>>);
 static_assert(std::is_same_v<type_list<type_list<int>, type_list<float, type_list<double, char>>>::flatten,
 							 type_list<int, float, double, char>>);
+
+static_assert(std::is_same_v<type_list<>::remove<void>, //
+							 type_list<>>);
+static_assert(std::is_same_v<type_list<void>::remove<void>, //
+							 type_list<>>);
+static_assert(std::is_same_v<type_list<void, void>::remove<void>, //
+							 type_list<>>);
+static_assert(std::is_same_v<type_list<int, void, float, void, void, void, double, void>::remove<void>, //
+							 type_list<int, float, double>>);
+static_assert(std::is_same_v<type_list<int, type_list<void>, float, void, void, void, double, void>::remove<void>, //
+							 type_list<int, type_list<void>, float, double>>);
+
+static_assert(std::is_same_v<type_list<>::append<void>, //
+							 type_list<void>>);
+static_assert(std::is_same_v<type_list<int>::append<void>, //
+							 type_list<int, void>>);
+static_assert(std::is_same_v<type_list<int, char>::append<void>, //
+							 type_list<int, char, void>>);
+static_assert(std::is_same_v<type_list<int, float, double>::append<bool, char, void>, //
+							 type_list<int, float, double, bool, char, void>>);

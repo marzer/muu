@@ -666,6 +666,8 @@ namespace muu
 
 		// clang-format on
 
+		// concatenate
+
 		template <typename...>
 		struct type_list_concatenate_;
 
@@ -693,26 +695,45 @@ namespace muu
 			using types = typename type_list_concatenate_<type_list<T..., U...>, V...>::types;
 		};
 
+		// flatten
+
 		template <typename T>
-		struct type_list_flatten_impl_
+		struct type_list_flatten_
 		{
 			using types = type_list<T>;
 		};
 
 		template <>
-		struct type_list_flatten_impl_<type_list<>>
+		struct type_list_flatten_<type_list<>>
 		{
 			using types = type_list<>;
 		};
 
 		template <typename... T>
-		struct type_list_flatten_impl_<type_list<T...>>
+		struct type_list_flatten_<type_list<T...>>
 		{
-			using types = typename type_list_concatenate_<typename type_list_flatten_impl_<T>::types...>::types;
+			using types = typename type_list_concatenate_<typename type_list_flatten_<T>::types...>::types;
 		};
 
 		template <typename... T>
-		using type_list_flatten = typename type_list_concatenate_<typename type_list_flatten_impl_<T>::types...>::types;
+		using type_list_flatten = typename type_list_concatenate_<typename type_list_flatten_<T>::types...>::types;
+
+		// remove
+
+		template <typename R, typename T>
+		struct type_list_remove_
+		{
+			using types = type_list<T>;
+		};
+
+		template <typename R>
+		struct type_list_remove_<R, R>
+		{
+			using types = type_list<>;
+		};
+
+		template <typename R, typename... T>
+		using type_list_remove = typename type_list_concatenate_<typename type_list_remove_<R, T>::types...>::types;
 
 	} // ::impl
 
@@ -722,13 +743,23 @@ namespace muu
 		static constexpr size_t length = 0;
 
 		// these are clearly nonsense but needed for templates to not cause substitution failure
+
 		template <size_t Index>
 		using select = typename impl::type_list_selector_<type_list<>, Index>::type;
+
 		template <size_t Start, size_t Length = (length - Start)>
 		using slice = type_list<>;
+
 		template <typename U>
 		static constexpr size_t index_of = index_of_type<U>;
-		using flatten					 = type_list<>;
+
+		using flatten = type_list<>;
+
+		template <typename U>
+		using remove = type_list<>;
+
+		template <typename... U>
+		using append = type_list<U...>;
 	};
 
 	template <typename T>
@@ -754,6 +785,12 @@ namespace muu
 		static constexpr size_t index_of = index_of_type<U, T>;
 
 		using flatten = impl::type_list_flatten<T>;
+
+		template <typename U>
+		using remove = impl::type_list_remove<U, T>;
+
+		template <typename... U>
+		using append = type_list<T, U...>;
 	};
 
 	template <typename T0, typename... T>
@@ -778,6 +815,12 @@ namespace muu
 		static constexpr size_t index_of = index_of_type<U, T0, T...>;
 
 		using flatten = impl::type_list_flatten<T0, T...>;
+
+		template <typename U>
+		using remove = impl::type_list_remove<U, T0, T...>;
+
+		template <typename... U>
+		using append = type_list<T0, T..., U...>;
 	};
 
 	/// \endcond
@@ -847,10 +890,8 @@ namespace muu
 
 		/// \brief Selects a slice of types from the list.
 		/// \detail \cpp
-		/// using types = muu::type_list<int, float, char, void>;
-		///
 		/// static_assert(std::is_same_v<
-		///		types::slice<2, 2>,
+		///		muu::type_list<int, float, char, void>::slice<2, 2>,
 		///		muu::type_list<char, void>
 		/// >);
 		/// \ecpp
@@ -861,15 +902,37 @@ namespace muu
 		template <typename U>
 		static constexpr size_t index_of = index_of_type<U, T...>;
 
-		/// \brief A flattened version of the list with any nested type_lists hoisted up into itself.
+		/// \brief A flattened version of the list with any nested type_lists recursively hoisted up into itself.
 		///
 		/// \detail \cpp
-		/// using list = type_list<type_list<int>, type_list<float, type_list<double, char>>>;
-		/// using flattened_list = type_list<int, float, double, char>;
-		///
-		/// static_assert(std::is_same_v<list::flatten, flattened_list>);
+		/// static_assert(std::is_same_v<
+		/// 	muu::type_list<int, float, muu::type_list<muu::type_list<double>>>::flatten,
+		/// 	muu::type_list<int, float, double>
+		/// >);
 		/// \ecpp
 		using flatten = POXY_IMPLEMENTATION_DETAIL(...);
+
+		/// \brief A version of the list with all ocurrences of the named type removed.
+		///
+		/// \detail \cpp
+		/// static_assert(std::is_same_v<
+		/// 	muu::type_list<int, float, char, void, double, void>::remove<void>,
+		/// 	muu::type_list<int, float, char, double>
+		/// >);
+		/// \ecpp
+		template <typename U>
+		using remove = POXY_IMPLEMENTATION_DETAIL(...);
+
+		/// \brief Creates a new type list by appending types to this one.
+		///
+		/// \detail \cpp
+		/// static_assert(std::is_same_v<
+		///		muu::type_list<int, float, char>::append<double, void, bool>,
+		///		muu::type_list<int, float, char, double, void, bool>
+		/// >);
+		/// \ecpp
+		template <typename... U>
+		using append = muu::type_list<T..., U...>;
 	};
 
 #endif

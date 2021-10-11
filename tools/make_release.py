@@ -300,7 +300,7 @@ def main():
 	)
 	args.add_argument(
 		'--iset',
-		choices=['sse', 'sse2', 'avx', 'avx2', 'avx512'],
+		choices=['sse2', 'avx', 'avx2', 'avx512'],
 		default='avx',
 		help='Sets the min instruction set to target. (default: %(default)s)'
 	)
