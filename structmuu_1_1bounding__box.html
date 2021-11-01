@@ -80,6 +80,7 @@
               Reference
               <ul>
                 <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
@@ -110,6 +111,20 @@
               using <a class="m-doc-self" href="#ac196b04da4951ebbe84dfb42228bd6c8">vector_type</a> = <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>, 3&gt;
             </dt>
             <dd>The three-dimensional <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a> with the same <a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a> as the bounding box.</dd>
+          </dl>
+        </section>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a2094b559aef1b8f3096b2618ad7520ef">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a2094b559aef1b8f3096b2618ad7520ef">from_obb</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; obb) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box completely containing an oriented bounding-box.</dd>
+            <dt id="a666740f4ae71bc658b8372d12a3f8f41">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a666740f4ae71bc658b8372d12a3f8f41">from_points</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>* begin,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>* end) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box fitting a range of points.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -174,6 +189,35 @@
               <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a bounding box from an implicitly bit-castable type.</dd>
+            <dt id="a5e66bbc9c55b12b00f97b8e1e628a47e">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5e66bbc9c55b12b00f97b8e1e628a47e">bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>* begin,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>* end) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box fitting a range of points.</dd>
+            <dt id="ab5f31a2695193e61deca6b6c9cdbb9f2">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab5f31a2695193e61deca6b6c9cdbb9f2">bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>* points,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box fitting a range of points.</dd>
+            <dt id="afcd45f294e268fc18e76e0060b66a2d2">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afcd45f294e268fc18e76e0060b66a2d2">bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>(&amp;points)[N]) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box fitting an array of points.</dd>
+            <dt id="a11d342ee79ddd94d41fd5739df0d7335">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a11d342ee79ddd94d41fd5739df0d7335">bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>, N&gt;&amp; vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box fitting an array of points.</dd>
+            <dt id="a09c968a4f2373344370a9ddacf40688c">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a09c968a4f2373344370a9ddacf40688c">bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="group__memory.html#ga842ca2a75ebbf9f8c1a2ce90afa8f3bd">const_<wbr/>span</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>, N&gt;&amp; vals) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box fitting an array of points.</dd>
+            <dt id="a40a2b4c2dc2fc7c39bf2749602fd2ce9">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a40a2b4c2dc2fc7c39bf2749602fd2ce9">bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; obb) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box completely containing an oriented bounding-box.</dd>
           </dl>
         </section>
         <section id="pub-methods">
