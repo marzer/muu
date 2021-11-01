@@ -381,15 +381,16 @@
         <section id="enum-members">
           <h2><a href="#enum-members">Enums</a></h2>
           <dl class="m-doc">
-            <dt id="a9b089a732f47312c972be2f1041a9777047efcbb6994483f0f82f0edfafb7c2">
-              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="group__math.html#ga149b29e987e85245995f74a9efec7a9c">box_corners</a>: <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#a9b089a732f47312c972be2f1041a9777047efcbb6994483f0f82f0edfafb7c2">min</a> = 0,
-              <a class="m-doc-self" href="#a9b089a732f47312c972be2f1041a9777047efcbb6994483f0f82f0edfafb7c2">x</a> = 1,
-              <a class="m-doc-self" href="#a9b089a732f47312c972be2f1041a9777047efcbb6994483f0f82f0edfafb7c2">y</a> = 2,
-              <a class="m-doc-self" href="#a9b089a732f47312c972be2f1041a9777047efcbb6994483f0f82f0edfafb7c2">xy</a> = x | y,
-              <a class="m-doc-self" href="#a9b089a732f47312c972be2f1041a9777047efcbb6994483f0f82f0edfafb7c2">z</a> = 4,
-              <a class="m-doc-self" href="#a9b089a732f47312c972be2f1041a9777047efcbb6994483f0f82f0edfafb7c2">xz</a> = x | z,
-              <a class="m-doc-self" href="#a9b089a732f47312c972be2f1041a9777047efcbb6994483f0f82f0edfafb7c2">yz</a> = y | z,
-              <a class="m-doc-self" href="#a9b089a732f47312c972be2f1041a9777047efcbb6994483f0f82f0edfafb7c2">max</a> = x | y | z }</span>
+            <dt id="13b244ccc5ce7fb5b1507e46cc9378a96493ac48086bc94141901ca6fa8ae3b7">
+              <span class="m-doc-wrap-bumper">enum class <a class="m-doc" href="group__math.html#ga149b29e987e85245995f74a9efec7a9c">box_corners</a>: <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> { </span><span class="m-doc-wrap"><a class="m-doc-self" href="#13b244ccc5ce7fb5b1507e46cc9378a96493ac48086bc94141901ca6fa8ae3b7">min</a> = 0,
+              <a class="m-doc-self" href="#13b244ccc5ce7fb5b1507e46cc9378a96493ac48086bc94141901ca6fa8ae3b7">x</a> = 1,
+              <a class="m-doc-self" href="#13b244ccc5ce7fb5b1507e46cc9378a96493ac48086bc94141901ca6fa8ae3b7">y</a> = 2,
+              <a class="m-doc-self" href="#13b244ccc5ce7fb5b1507e46cc9378a96493ac48086bc94141901ca6fa8ae3b7">xy</a> = x | y,
+              <a class="m-doc-self" href="#13b244ccc5ce7fb5b1507e46cc9378a96493ac48086bc94141901ca6fa8ae3b7">z</a> = 4,
+              <a class="m-doc-self" href="#13b244ccc5ce7fb5b1507e46cc9378a96493ac48086bc94141901ca6fa8ae3b7">xz</a> = x | z,
+              <a class="m-doc-self" href="#13b244ccc5ce7fb5b1507e46cc9378a96493ac48086bc94141901ca6fa8ae3b7">yz</a> = y | z,
+              <a class="m-doc-self" href="#13b244ccc5ce7fb5b1507e46cc9378a96493ac48086bc94141901ca6fa8ae3b7">xyz</a> = x | y | z,
+              <a class="m-doc-self" href="#13b244ccc5ce7fb5b1507e46cc9378a96493ac48086bc94141901ca6fa8ae3b7">max</a> = xyz }</span>
             </dt>
             <dd>Corner masks/indices for three-dimensional bounding-boxes.</dd>
             <dt>
@@ -459,10 +460,10 @@
             </dt>
             <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;</code>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__memory.html#ga9e0fc89cb7b1f651110f32365aba1790">const_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const T&gt;
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = dynamic_extent&gt;</div>
+              using <a class="m-doc" href="group__memory.html#ga842ca2a75ebbf9f8c1a2ce90afa8f3bd">const_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const T, Extent&gt;
             </dt>
-            <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const T&gt;</code>.</dd>
+            <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const T, Extent&gt;</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga3e944d0a62580bb16190d18a7a50e854">copy_const</a> = <a class="m-doc" href="group__meta.html#ga70ea61c88a2156d5ca0576b338692597">set_<wbr/>const</a>&lt;T, <a class="m-doc" href="group__meta.html#ga79cf1d440a2967847a6d0a08dc22fa19">is_<wbr/>const</a>&lt;CopyFrom&gt;&gt;
@@ -2312,11 +2313,12 @@
             </dt>
             <dd>Performs a linear interpolation between two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a28964d765fdb622739bd2ac68ce50329">max</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6e1d12ec3b75c4b972128a0ca872da58">max</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2,
+              const T&amp;... vecs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the componentwise maximum of two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
+            <dd>Returns the componentwise maximum of two or more <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga290899e08db4ce22c8e9f48a02bedaa3">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
@@ -2325,11 +2327,12 @@
             </dt>
             <dd>Returns the maximum of two or more values.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a0677f3cf9e12c0c6cf4ee3844dd802c1">min</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a7a74c1b4efea2acad86192f3fd9039c0">min</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2,
+              const T&amp;... vecs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the componentwise minimum of two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
+            <dd>Returns the componentwise minimum of two or more <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga3e6bbeba20969ce0e3ca5aca843a9e71">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
@@ -2673,11 +2676,6 @@
             </dt>
             <dd>Transcodes a UTF-32 string into another UTF encoding.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Char&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__transcode.html#gac657a849373a2eff5f7b5cac4ff16ff6">transcode</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> str) -&gt; MUU_CONSTEXPR_STD_STRING <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>basic_string</a>&lt;Char&gt; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Transcodes a UTF-8 string into another UTF encoding.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4d11bad2718bdbb090fb73ab6c5def00">transpose</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, C, R&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -2699,10 +2697,6 @@
             </dt>
             <dd>Trims whitespace from both ends of a UTF-32 string.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__trim.html#gabc24677b997440512aefe4e685b0d2a7">trim</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> str) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from both ends of a UTF-8 string.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__trim__left.html#ga3aea46929051176b4afb4e23b551ffc5">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> str) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Trims whitespace from the left end of a UTF-8 string.</dd>
@@ -2719,10 +2713,6 @@
             </dt>
             <dd>Trims whitespace from the left end of a UTF-32 string.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__trim__left.html#gad2bab2c91264a3b5241a8d182c922ebd">trim_left</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> str) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the left end of a UTF-8 string.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__trim__right.html#ga3f499b7f36518026e86dd95624740111">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> str) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Trims whitespace from the right end of a UTF-8 string.</dd>
@@ -2738,10 +2728,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__trim__right.html#ga5c65eceb22233e5c09096e48cadeb195">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> str) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Trims whitespace from the right end of a UTF-32 string.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__trim__right.html#gacd9946ff120c34af5e6634c247a50ba5">trim_right</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> str) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Trims whitespace from the right end of a UTF-8 string.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga81642f54291cc4a1287ef141b3f4d34f">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -3637,25 +3623,27 @@
             </h3>
             <p>Returns the squared length of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</p>
           </div></section>
-          <section class="m-doc-details" id="a28964d765fdb622739bd2ac68ce50329"><div>
+          <section class="m-doc-details" id="a6e1d12ec3b75c4b972128a0ca872da58"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
+              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename... T&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a28964d765fdb622739bd2ac68ce50329">max</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6e1d12ec3b75c4b972128a0ca872da58">max</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2,
+              const T&amp;... vecs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns the componentwise maximum of two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</p>
+            <p>Returns the componentwise maximum of two or more <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</p>
           </div></section>
-          <section class="m-doc-details" id="a0677f3cf9e12c0c6cf4ee3844dd802c1"><div>
+          <section class="m-doc-details" id="a7a74c1b4efea2acad86192f3fd9039c0"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
+              <div class="m-doc-template"> template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename... T&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0677f3cf9e12c0c6cf4ee3844dd802c1">min</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7a74c1b4efea2acad86192f3fd9039c0">min</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2,
+              const T&amp;... vecs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Returns the componentwise minimum of two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</p>
+            <p>Returns the componentwise minimum of two or more <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</p>
           </div></section>
           <section class="m-doc-details" id="aa80b85fea6664e3d955f129f9eff4a41"><div>
             <h3>

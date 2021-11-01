@@ -2205,10 +2205,10 @@
     <class kind="class">muu::span</class>
     <namespace>muu</namespace>
     <member kind="typedef">
-      <type>span&lt; const T &gt;</type>
+      <type>span&lt; const T, Extent &gt;</type>
       <name>const_span</name>
       <anchorfile>group__memory.html</anchorfile>
-      <anchor>ga9e0fc89cb7b1f651110f32365aba1790</anchor>
+      <anchor>ga842ca2a75ebbf9f8c1a2ce90afa8f3bd</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -2307,13 +2307,6 @@
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr std::u8string_view</type>
-      <name>trim</name>
-      <anchorfile>group__trim.html</anchorfile>
-      <anchor>gabc24677b997440512aefe4e685b0d2a7</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr std::string_view</type>
       <name>trim_left</name>
       <anchorfile>group__trim__left.html</anchorfile>
@@ -2340,13 +2333,6 @@
       <anchorfile>group__trim__left.html</anchorfile>
       <anchor>gae32d321796864fd5adeaaec227134e53</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::u8string_view</type>
-      <name>trim_left</name>
-      <anchorfile>group__trim__left.html</anchorfile>
-      <anchor>gad2bab2c91264a3b5241a8d182c922ebd</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr std::string_view</type>
@@ -2377,13 +2363,6 @@
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr std::u8string_view</type>
-      <name>trim_right</name>
-      <anchorfile>group__trim__right.html</anchorfile>
-      <anchor>gacd9946ff120c34af5e6634c247a50ba5</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
@@ -2410,13 +2389,6 @@
       <anchorfile>group__transcode.html</anchorfile>
       <anchor>gac78370b750780a4e30154361eefab901</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
-      <name>transcode</name>
-      <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac657a849373a2eff5f7b5cac4ff16ff6</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
   </compound>
   <compound kind="file">
@@ -2623,15 +2595,15 @@
       <type>constexpr vector&lt; S, D &gt;</type>
       <name>min</name>
       <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a0677f3cf9e12c0c6cf4ee3844dd802c1</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
+      <anchor>a7a74c1b4efea2acad86192f3fd9039c0</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2, const T &amp;... vecs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector&lt; S, D &gt;</type>
       <name>max</name>
       <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a28964d765fdb622739bd2ac68ce50329</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
+      <anchor>a6e1d12ec3b75c4b972128a0ca872da58</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2, const T &amp;... vecs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector&lt; S, D &gt;</type>
@@ -3318,20 +3290,6 @@
       <anchor>a5d0a02735010b277966b8ba2646f43c5</anchor>
       <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
     </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator==</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>acbfecef565d1d2899692dccb4c1a8eb0</anchor>
-      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator!=</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>aed7dc7fd597a6824f90000873ad87e28</anchor>
-      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
-    </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>zero</name>
@@ -3373,6 +3331,20 @@
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>ad685f7bed0f4cb45b261ad352df1fd50</anchor>
       <arglist>(const bounding_box &amp;bb, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>acbfecef565d1d2899692dccb4c1a8eb0</anchor>
+      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>aed7dc7fd597a6824f90000873ad87e28</anchor>
+      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector_type</type>
@@ -4411,13 +4383,6 @@
       <anchorfile>classmuu_1_1fnv1a.html</anchorfile>
       <anchor>ad6ac7397af4a23e1197bf29288956e04</anchor>
       <arglist>(std::u16string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr fnv1a &amp;</type>
-      <name>operator()</name>
-      <anchorfile>classmuu_1_1fnv1a.html</anchorfile>
-      <anchor>a1174392926af3454f7fe0ff847f837df</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr hash_type</type>
@@ -6768,13 +6733,6 @@
     </member>
     <member kind="function">
       <type>sha1 &amp;</type>
-      <name>operator()</name>
-      <anchorfile>classmuu_1_1sha1.html</anchorfile>
-      <anchor>a0c0fa278c442a6e169d8ca9007e4e3d3</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>sha1 &amp;</type>
       <name>finish</name>
       <anchorfile>classmuu_1_1sha1.html</anchorfile>
       <anchor>a78d696ccc194131132ffdc5792571415</anchor>
@@ -8329,6 +8287,62 @@
       <anchor>a6180bfdf8684cde23ef746ea578d4f0b</anchor>
       <arglist>() &amp;&amp;noexcept</arglist>
     </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a6cb3008bf7e63624d0b5a97df08542bf</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a6f8325b4dcab95cf5952a2f0c26e421d</anchor>
+      <arglist>(const std::u8string &amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>ac42a74136f7ba33fa3c193cfc335de53</anchor>
+      <arglist>(const char8_t *str, size_t len) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>aa11a737fef1aa5863ccd6c44c356a8e3</anchor>
+      <arglist>(const char8_t *str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>ac2ffb5484cad4beaee18d7bc61b64139</anchor>
+      <arglist>(std::u8string &amp;&amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u8string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a7a87b1017b075114b85c52901bb5c765</anchor>
+      <arglist>() const &amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u8string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a219e28a7cba0d8a0fb304629e5e2c1db</anchor>
+      <arglist>() const &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u8string</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a0a9a8f1540df8298002d6b539a16df03</anchor>
+      <arglist>() &amp;&amp;noexcept</arglist>
+    </member>
     <member kind="friend">
       <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
       <name>operator&lt;&lt;</name>
@@ -8565,6 +8579,62 @@
       <name>operator std::u32string</name>
       <anchorfile>classmuu_1_1string__param.html</anchorfile>
       <anchor>a6180bfdf8684cde23ef746ea578d4f0b</anchor>
+      <arglist>() &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a6cb3008bf7e63624d0b5a97df08542bf</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a6f8325b4dcab95cf5952a2f0c26e421d</anchor>
+      <arglist>(const std::u8string &amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>ac42a74136f7ba33fa3c193cfc335de53</anchor>
+      <arglist>(const char8_t *str, size_t len) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>aa11a737fef1aa5863ccd6c44c356a8e3</anchor>
+      <arglist>(const char8_t *str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>string_param</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>ac2ffb5484cad4beaee18d7bc61b64139</anchor>
+      <arglist>(std::u8string &amp;&amp;str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u8string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a7a87b1017b075114b85c52901bb5c765</anchor>
+      <arglist>() const &amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u8string_view</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a219e28a7cba0d8a0fb304629e5e2c1db</anchor>
+      <arglist>() const &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>operator std::u8string</name>
+      <anchorfile>classmuu_1_1string__param.html</anchorfile>
+      <anchor>a0a9a8f1540df8298002d6b539a16df03</anchor>
       <arglist>() &amp;&amp;noexcept</arglist>
     </member>
   </compound>
@@ -9126,13 +9196,6 @@
       <arglist>(const uuid &amp;name_space, std::string_view name) noexcept</arglist>
     </member>
     <member kind="function">
-      <type></type>
-      <name>uuid</name>
-      <anchorfile>structmuu_1_1uuid.html</anchorfile>
-      <anchor>a8ca2e68bb49a0579a53bf607e6be67ee</anchor>
-      <arglist>(const uuid &amp;name_space, std::u8string_view name) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr uuid_variant</type>
       <name>variant</name>
       <anchorfile>structmuu_1_1uuid.html</anchorfile>
@@ -9222,13 +9285,6 @@
       <anchorfile>structmuu_1_1uuid.html</anchorfile>
       <anchor>ad6beda74aec99774e4b10d615aacacd5</anchor>
       <arglist>(std::string_view str) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr std::optional&lt; uuid &gt;</type>
-      <name>parse</name>
-      <anchorfile>structmuu_1_1uuid.html</anchorfile>
-      <anchor>af01a611af40c4882a7f603850c5bb412</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr std::optional&lt; uuid &gt;</type>
@@ -9947,15 +10003,43 @@
       <type>static constexpr vector</type>
       <name>min</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a2541045a2459ae9a8d5a17439b587ba0</anchor>
-      <arglist>(const vector &amp;v1, const vector &amp;v2) noexcept</arglist>
+      <anchor>a4bb33131bd23272ee19eed00bef4597c</anchor>
+      <arglist>(const vector &amp;v1, const vector &amp;v2, const T &amp;... vecs) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector</type>
+      <name>min</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>aeb0d80727c397ecb966bcc292d1955fa</anchor>
+      <arglist>(const vector *begin_, const vector *end_) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector</type>
+      <name>min</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ace3bd74134233f4a3eb2c99932973e38</anchor>
+      <arglist>(std::initializer_list&lt; vector &gt; vecs) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr vector</type>
       <name>max</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a685c402ee7f8a2eb71cdb598618b4eec</anchor>
-      <arglist>(const vector &amp;v1, const vector &amp;v2) noexcept</arglist>
+      <anchor>ac61b1c60062a21a78620903734002cd2</anchor>
+      <arglist>(const vector &amp;v1, const vector &amp;v2, const T &amp;... vecs) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector</type>
+      <name>max</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>afc4df6eab98a1e18def56967ee6abfee</anchor>
+      <arglist>(const vector *begin_, const vector *end_) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector</type>
+      <name>max</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a3cef6d7f42ba7300ee8ca320b94b747f</anchor>
+      <arglist>(std::initializer_list&lt; vector &gt; vecs) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr vector</type>
@@ -10283,15 +10367,15 @@
       <type>constexpr vector&lt; S, D &gt;</type>
       <name>min</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0677f3cf9e12c0c6cf4ee3844dd802c1</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
+      <anchor>a7a74c1b4efea2acad86192f3fd9039c0</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2, const T &amp;... vecs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector&lt; S, D &gt;</type>
       <name>max</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a28964d765fdb622739bd2ac68ce50329</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
+      <anchor>a6e1d12ec3b75c4b972128a0ca872da58</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2, const T &amp;... vecs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector&lt; S, D &gt;</type>
@@ -10334,48 +10418,6 @@
       <anchorfile>group__floor.html</anchorfile>
       <anchor>gaa9989749869046cff6731ead1b56f0df</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend iterator</type>
-      <name>begin</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a072ba2759b288b15963887d74fecd277</anchor>
-      <arglist>(vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend iterator</type>
-      <name>end</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ab837a1246db560433337a3c1c24affee</anchor>
-      <arglist>(vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_iterator</type>
-      <name>begin</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ae423119e0bdfbbee72988f546a58d9fd</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_iterator</type>
-      <name>end</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a10bc39751925224817204975587a5641</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_iterator</type>
-      <name>cbegin</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ab76b38d7c2d6406c434f8bb589c073ea</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_iterator</type>
-      <name>cend</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a29fa2209bbaa1542881ab8293e680646</anchor>
-      <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr iterator</type>
@@ -10473,6 +10515,48 @@
       <name>swizzle</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
       <anchor>aad56aced14ee8bab3932f5bb71e5a629</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a072ba2759b288b15963887d74fecd277</anchor>
+      <arglist>(vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ab837a1246db560433337a3c1c24affee</anchor>
+      <arglist>(vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ae423119e0bdfbbee72988f546a58d9fd</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a10bc39751925224817204975587a5641</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>ab76b38d7c2d6406c434f8bb589c073ea</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a29fa2209bbaa1542881ab8293e680646</anchor>
       <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
   </compound>
@@ -10583,10 +10667,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>span&lt; const T &gt;</type>
+      <type>span&lt; const T, Extent &gt;</type>
       <name>const_span</name>
       <anchorfile>group__memory.html</anchorfile>
-      <anchor>ga9e0fc89cb7b1f651110f32365aba1790</anchor>
+      <anchor>ga842ca2a75ebbf9f8c1a2ce90afa8f3bd</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -10929,6 +11013,7 @@
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cafbade9e36a3f36d3d676c1b808451dd7">z</enumvalue>
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1">xz</enumvalue>
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95">yz</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cad16fb36f0911f878998c136191af705e">xyz</enumvalue>
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
     </member>
     <member kind="function">
@@ -12283,13 +12368,6 @@
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr std::u8string_view</type>
-      <name>trim</name>
-      <anchorfile>group__trim.html</anchorfile>
-      <anchor>gabc24677b997440512aefe4e685b0d2a7</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr std::string_view</type>
       <name>trim_left</name>
       <anchorfile>group__trim__left.html</anchorfile>
@@ -12316,13 +12394,6 @@
       <anchorfile>group__trim__left.html</anchorfile>
       <anchor>gae32d321796864fd5adeaaec227134e53</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::u8string_view</type>
-      <name>trim_left</name>
-      <anchorfile>group__trim__left.html</anchorfile>
-      <anchor>gad2bab2c91264a3b5241a8d182c922ebd</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr std::string_view</type>
@@ -12353,13 +12424,6 @@
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr std::u8string_view</type>
-      <name>trim_right</name>
-      <anchorfile>group__trim__right.html</anchorfile>
-      <anchor>gacd9946ff120c34af5e6634c247a50ba5</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
@@ -12386,13 +12450,6 @@
       <anchorfile>group__transcode.html</anchorfile>
       <anchor>gac78370b750780a4e30154361eefab901</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
-      <name>transcode</name>
-      <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac657a849373a2eff5f7b5cac4ff16ff6</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -12496,15 +12553,15 @@
       <type>constexpr vector&lt; S, D &gt;</type>
       <name>min</name>
       <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a0677f3cf9e12c0c6cf4ee3844dd802c1</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
+      <anchor>a7a74c1b4efea2acad86192f3fd9039c0</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2, const T &amp;... vecs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector&lt; S, D &gt;</type>
       <name>max</name>
       <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a28964d765fdb622739bd2ac68ce50329</anchor>
-      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2) noexcept</arglist>
+      <anchor>a6e1d12ec3b75c4b972128a0ca872da58</anchor>
+      <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; S, D &gt; &amp;v2, const T &amp;... vecs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector&lt; S, D &gt;</type>
@@ -15630,6 +15687,7 @@
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cafbade9e36a3f36d3d676c1b808451dd7">z</enumvalue>
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1">xz</enumvalue>
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95">yz</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cad16fb36f0911f878998c136191af705e">xyz</enumvalue>
       <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
     </member>
     <member kind="function">
@@ -15654,10 +15712,10 @@
     <class kind="class">muu::blob</class>
     <class kind="struct">muu::generic_allocator</class>
     <member kind="typedef">
-      <type>span&lt; const T &gt;</type>
+      <type>span&lt; const T, Extent &gt;</type>
       <name>const_span</name>
       <anchorfile>group__memory.html</anchorfile>
-      <anchor>ga9e0fc89cb7b1f651110f32365aba1790</anchor>
+      <anchor>ga842ca2a75ebbf9f8c1a2ce90afa8f3bd</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -20558,13 +20616,6 @@
       <anchor>gac78370b750780a4e30154361eefab901</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
-      <name>transcode</name>
-      <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac657a849373a2eff5f7b5cac4ff16ff6</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
-    </member>
   </compound>
   <compound kind="group">
     <name>trim</name>
@@ -20597,13 +20648,6 @@
       <anchorfile>group__trim.html</anchorfile>
       <anchor>ga74cfd907d595f68a757aa50640f9d210</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::u8string_view</type>
-      <name>trim</name>
-      <anchorfile>group__trim.html</anchorfile>
-      <anchor>gabc24677b997440512aefe4e685b0d2a7</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -20638,13 +20682,6 @@
       <anchor>gae32d321796864fd5adeaaec227134e53</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr std::u8string_view</type>
-      <name>trim_left</name>
-      <anchorfile>group__trim__left.html</anchorfile>
-      <anchor>gad2bab2c91264a3b5241a8d182c922ebd</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
-    </member>
   </compound>
   <compound kind="group">
     <name>trim_right</name>
@@ -20677,13 +20714,6 @@
       <anchorfile>group__trim__right.html</anchorfile>
       <anchor>ga5c65eceb22233e5c09096e48cadeb195</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr std::u8string_view</type>
-      <name>trim_right</name>
-      <anchorfile>group__trim__right.html</anchorfile>
-      <anchor>gacd9946ff120c34af5e6634c247a50ba5</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
   </compound>
   <compound kind="page">

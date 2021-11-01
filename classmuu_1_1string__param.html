@@ -71,6 +71,7 @@
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#ttchar16_ttt"><tt>char16_t</tt></a></li>
                 <li><a href="#ttchar32_ttt"><tt>char32_t</tt></a></li>
+                <li><a href="#ttchar8_ttt"><tt>char8_t</tt></a></li>
                 <li><a href="#ttchartt"><tt>char</tt></a></li>
                 <li><a href="#ttwchar_ttt"><tt>wchar_t</tt></a></li>
                 <li><a href="#friends">Friends</a></li>
@@ -199,6 +200,44 @@
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a41b0a3b4021b83d92fa4f6449f64d145">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u32string</a>&amp;&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs an owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-32 string.</dd>
+          </dl>
+        </section>
+        <section id="ttchar8_ttt">
+          <h2><a href="#ttchar8_ttt"><tt>char8_t</tt></a></h2>
+          <dl class="m-doc">
+            <dt id="a0a9a8f1540df8298002d6b539a16df03">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0a9a8f1540df8298002d6b539a16df03">operator std::u8string</a>(</span><span class="m-doc-wrap">) &amp;&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Moves the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload into a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u8string</a>.</dd>
+            <dt id="a7a87b1017b075114b85c52901bb5c765">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7a87b1017b075114b85c52901bb5c765">operator std::u8string_view</a>(</span><span class="m-doc-wrap">) const &amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload.</dd>
+            <dt id="a219e28a7cba0d8a0fb304629e5e2c1db">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a219e28a7cba0d8a0fb304629e5e2c1db">operator std::u8string_view</a>(</span><span class="m-doc-wrap">) const &amp;&amp; <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> of the <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a>'s payload (rvalue overload).</dd>
+            <dt id="a6cb3008bf7e63624d0b5a97df08542bf">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6cb3008bf7e63624d0b5a97df08542bf">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-8 string view.</dd>
+            <dt id="a6f8325b4dcab95cf5952a2f0c26e421d">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6f8325b4dcab95cf5952a2f0c26e421d">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u8string</a>&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-8 string.</dd>
+            <dt id="ac42a74136f7ba33fa3c193cfc335de53">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac42a74136f7ba33fa3c193cfc335de53">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a>* str,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> len) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-8 string and a length.</dd>
+            <dt id="aa11a737fef1aa5863ccd6c44c356a8e3">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa11a737fef1aa5863ccd6c44c356a8e3">string_param</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a>* str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a non-owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a pointer to a UTF-8 string.</dd>
+            <dt id="ac2ffb5484cad4beaee18d7bc61b64139">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac2ffb5484cad4beaee18d7bc61b64139">string_param</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string.html" target="_blank">std::<wbr/>u8string</a>&amp;&amp; str) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs an owning <a class="m-doc" href="classmuu_1_1string__param.html">string_<wbr/>param</a> from a UTF-8 string.</dd>
           </dl>
         </section>
         <section id="ttchartt">

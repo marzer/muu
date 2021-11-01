@@ -226,16 +226,38 @@
               <a class="m-doc" href="structmuu_1_1vector.html#a2bcea42816c322f5b9c319d54d132a96">delta_<wbr/>type</a> alpha) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Performs a linear interpolation between two vectors.</dd>
-            <dt id="a685c402ee7f8a2eb71cdb598618b4eec">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a685c402ee7f8a2eb71cdb598618b4eec">max</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v1,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ac61b1c60062a21a78620903734002cd2">
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ac61b1c60062a21a78620903734002cd2">max</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v1,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v2,
+              const T&amp;... vecs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the componentwise maximum of two vectors.</dd>
-            <dt id="a2541045a2459ae9a8d5a17439b587ba0">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a2541045a2459ae9a8d5a17439b587ba0">min</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v1,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dd>Returns the componentwise maximum of two or more vectors.</dd>
+            <dt id="afc4df6eab98a1e18def56967ee6abfee">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#afc4df6eab98a1e18def56967ee6abfee">max</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>* begin_,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>* end_) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the componentwise minimum of two vectors.</dd>
+            <dd>Returns the componentwise maximum of a range of vectors.</dd>
+            <dt id="a3cef6d7f42ba7300ee8ca320b94b747f">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a3cef6d7f42ba7300ee8ca320b94b747f">max</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/initializer_list.html" target="_blank">std::<wbr/>initializer_list</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html">vector</a>&gt; vecs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the componentwise maximum of a list of vectors.</dd>
+            <dt id="a4bb33131bd23272ee19eed00bef4597c">
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4bb33131bd23272ee19eed00bef4597c">min</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v1,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v2,
+              const T&amp;... vecs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the componentwise minimum of two or more vectors.</dd>
+            <dt id="aeb0d80727c397ecb966bcc292d1955fa">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aeb0d80727c397ecb966bcc292d1955fa">min</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>* begin_,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>* end_) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the componentwise minimum of a range of vectors.</dd>
+            <dt id="ace3bd74134233f4a3eb2c99932973e38">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ace3bd74134233f4a3eb2c99932973e38">min</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/initializer_list.html" target="_blank">std::<wbr/>initializer_list</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html">vector</a>&gt; vecs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the componentwise minimum of a list of vectors.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a8fb6d941b2d70ce2729640b658b08faa">normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v,
               <a class="m-doc" href="structmuu_1_1vector.html#a2bcea42816c322f5b9c319d54d132a96">delta_<wbr/>type</a>&amp; length_out) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -846,18 +868,20 @@
               <a class="m-doc" href="structmuu_1_1vector.html#a2bcea42816c322f5b9c319d54d132a96">delta_<wbr/>type</a> alpha) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Performs a linear interpolation between two vectors.</dd>
-            <dt id="a28964d765fdb622739bd2ac68ce50329">
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a28964d765fdb622739bd2ac68ce50329">max</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a6e1d12ec3b75c4b972128a0ca872da58">
+              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6e1d12ec3b75c4b972128a0ca872da58">max</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2,
+              const T&amp;... vecs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the componentwise maximum of two vectors.</dd>
-            <dt id="a0677f3cf9e12c0c6cf4ee3844dd802c1">
-              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0677f3cf9e12c0c6cf4ee3844dd802c1">min</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
-              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dd>Returns the componentwise maximum of two or more vectors.</dd>
+            <dt id="a7a74c1b4efea2acad86192f3fd9039c0">
+              <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D, typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7a74c1b4efea2acad86192f3fd9039c0">min</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2,
+              const T&amp;... vecs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns the componentwise minimum of two vectors.</dd>
+            <dd>Returns the componentwise minimum of two or more vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aaed6aa88dd289829bd7f1b15182d2577">normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v,
