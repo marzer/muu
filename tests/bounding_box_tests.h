@@ -186,7 +186,7 @@ BATCHED_TEST_CASE("bounding_box constructors", bounding_boxes<ALL_FLOATS>)
 BATCHED_TEST_CASE("bounding_box equality", bounding_boxes<ALL_FLOATS>)
 {
 	using aabb = TestType;
-	using T = typename aabb::scalar_type;
+	using T	   = typename aabb::scalar_type;
 	TEST_INFO("bounding_box<"sv << nameof<T> << ">"sv);
 
 	aabb bb;
@@ -241,7 +241,7 @@ BATCHED_TEST_CASE("bounding_box equality", bounding_boxes<ALL_FLOATS>)
 BATCHED_TEST_CASE("bounding_box zero", bounding_boxes<ALL_FLOATS>)
 {
 	using aabb = TestType;
-	using T = typename aabb::scalar_type;
+	using T	   = typename aabb::scalar_type;
 	TEST_INFO("bounding_box<"sv << nameof<T> << ">"sv);
 
 	BATCHED_SECTION("all zeroes")
@@ -288,7 +288,7 @@ BATCHED_TEST_CASE("bounding_box zero", bounding_boxes<ALL_FLOATS>)
 BATCHED_TEST_CASE("bounding_box infinity_or_nan", bounding_boxes<ALL_FLOATS>)
 {
 	using aabb = TestType;
-	using T = typename aabb::scalar_type;
+	using T	   = typename aabb::scalar_type;
 	TEST_INFO("bounding_box<"sv << nameof<T> << ">"sv);
 
 	BATCHED_SECTION("all finite")
@@ -338,12 +338,10 @@ BATCHED_TEST_CASE("bounding_box infinity_or_nan", bounding_boxes<ALL_FLOATS>)
 	}
 }
 
-//// clang-format off
-
 BATCHED_TEST_CASE("bounding_box intersections", bounding_boxes<ALL_FLOATS>)
 {
 	using aabb = TestType;
-	using T = typename aabb::scalar_type;
+	using T	   = typename aabb::scalar_type;
 	using vec3 = vector<T, 3>;
 	TEST_INFO("bounding_box<"sv << nameof<T> << ">"sv);
 
@@ -358,45 +356,45 @@ BATCHED_TEST_CASE("bounding_box intersections", bounding_boxes<ALL_FLOATS>)
 	// box x box
 	BATCHED_SECTION("aabb x aabb")
 	{
-#define CHECK_INTERBATCHED_SECTION(expected, x, y, z, w, h, d)                                                                 \
+#define CHECK_INTERSECTION(expected, x, y, z, w, h, d)                                                                 \
 	CHECK(expected                                                                                                     \
 		  == unit_box.intersects(aabb(vec3{ static_cast<T>(x), static_cast<T>(y), static_cast<T>(z) },                 \
 									  vec3{ static_cast<T>(w), static_cast<T>(h), static_cast<T>(d) } / T{ 2 })))
 
-		CHECK_INTERBATCHED_SECTION(true, 0, 0, 0, 1, 1, 1);
-		CHECK_INTERBATCHED_SECTION(true, 0, 0, 0, 0.5, 0.5, 0.5);
-		CHECK_INTERBATCHED_SECTION(true, 0.34, 0.236, 0.224, 0.5, 0.5, 0.5);
+		CHECK_INTERSECTION(true, 0, 0, 0, 1, 1, 1);
+		CHECK_INTERSECTION(true, 0, 0, 0, 0.5, 0.5, 0.5);
+		CHECK_INTERSECTION(true, 0.34, 0.236, 0.224, 0.5, 0.5, 0.5);
 
-		CHECK_INTERBATCHED_SECTION(false, 1, 0, 0, 0.5, 0.5, 0.5);
-		CHECK_INTERBATCHED_SECTION(false, 1, 0.6, 0.7, 0.5, 0.5, 0.5);
-		CHECK_INTERBATCHED_SECTION(false, 0, 1, 0, 10, 0.5, 10);
+		CHECK_INTERSECTION(false, 1, 0, 0, 0.5, 0.5, 0.5);
+		CHECK_INTERSECTION(false, 1, 0.6, 0.7, 0.5, 0.5, 0.5);
+		CHECK_INTERSECTION(false, 0, 1, 0, 10, 0.5, 10);
 
-#undef CHECK_INTERBATCHED_SECTION
+#undef CHECK_INTERSECTION
 	}
 
 	// box x tri
-	BATCHED_SECTION("aabb x aabb")
+	BATCHED_SECTION("aabb x tri")
 	{
-#define CHECK_INTERBATCHED_SECTION(box, expected, x0, y0, z0, x1, y1, z1, x2, y2, z2)                                          \
+#define CHECK_INTERSECTION(box, expected, x0, y0, z0, x1, y1, z1, x2, y2, z2)                                          \
 	CHECK(expected                                                                                                     \
 		  == box.intersects_triangle(vec3{ static_cast<T>(x0), static_cast<T>(y0), static_cast<T>(z0) },               \
 									 vec3{ static_cast<T>(x1), static_cast<T>(y1), static_cast<T>(z1) },               \
 									 vec3{ static_cast<T>(x2), static_cast<T>(y2), static_cast<T>(z2) }))
 
-		CHECK_INTERBATCHED_SECTION(unit_box, true, -2, 0, 2, 2, 0, 2, -2, 0, -2);
-		CHECK_INTERBATCHED_SECTION(unit_box, true, -3, -1, 1, 0, -1, 3, 0, 1, 0);
-		CHECK_INTERBATCHED_SECTION(unit_box, true, 0.3, 0.4, 0.8, 0.8, 0.4, 0.3, 0.3, 0.6, 0.3);
-		CHECK_INTERBATCHED_SECTION(unit_box, true, 0, 0, 0.4, 0.4, 0, 0, 0, 0, 0);
-		CHECK_INTERBATCHED_SECTION(unit_box, true, 0, 7, -0.403, 3, -2.5, -0.538, -3, -2.5, -0.538);
+		CHECK_INTERSECTION(unit_box, true, -2, 0, 2, 2, 0, 2, -2, 0, -2);
+		CHECK_INTERSECTION(unit_box, true, -3, -1, 1, 0, -1, 3, 0, 1, 0);
+		CHECK_INTERSECTION(unit_box, true, 0.3, 0.4, 0.8, 0.8, 0.4, 0.3, 0.3, 0.6, 0.3);
+		CHECK_INTERSECTION(unit_box, true, 0, 0, 0.4, 0.4, 0, 0, 0, 0, 0);
+		CHECK_INTERSECTION(unit_box, true, 0, 7, -0.403, 3, -2.5, -0.538, -3, -2.5, -0.538);
 
-		CHECK_INTERBATCHED_SECTION(unit_box, false, 0, 7, -0.403, 3, -2.5, -0.547, -3, -2.5, -0.547);
-		CHECK_INTERBATCHED_SECTION(unit_box, false, -3, -1, 1, 0, -1, 3, 0, 1.162, 0);
-		CHECK_INTERBATCHED_SECTION(unit_box, false, -1, 0, 1, 1, 0, 1, -1, 2.5, -1);
-		CHECK_INTERBATCHED_SECTION(unit_box, false, -2, 2, 2, 2, 2, 2, -2, 2, -2);
+		CHECK_INTERSECTION(unit_box, false, 0, 7, -0.403, 3, -2.5, -0.547, -3, -2.5, -0.547);
+		CHECK_INTERSECTION(unit_box, false, -3, -1, 1, 0, -1, 3, 0, 1.162, 0);
+		CHECK_INTERSECTION(unit_box, false, -1, 0, 1, 1, 0, 1, -1, 2.5, -1);
+		CHECK_INTERSECTION(unit_box, false, -2, 2, 2, 2, 2, 2, -2, 2, -2);
 
 		if constexpr (!std::is_same_v<T, half>)
 		{
-			CHECK_INTERBATCHED_SECTION(unit_box,
+			CHECK_INTERSECTION(unit_box,
 							   true,
 							   0.24255,
 							   6.58204,
@@ -407,7 +405,7 @@ BATCHED_TEST_CASE("bounding_box intersections", bounding_boxes<ALL_FLOATS>)
 							   -3.00000,
 							   -2.50000,
 							   -0.37540);
-			CHECK_INTERBATCHED_SECTION(unit_box,
+			CHECK_INTERSECTION(unit_box,
 							   true,
 							   0.24255,
 							   6.58204,
@@ -419,7 +417,7 @@ BATCHED_TEST_CASE("bounding_box intersections", bounding_boxes<ALL_FLOATS>)
 							   -2.50000,
 							   -0.37540);
 
-			CHECK_INTERBATCHED_SECTION(unit_box,
+			CHECK_INTERSECTION(unit_box,
 							   false,
 							   0.24255,
 							   6.58204,
@@ -431,11 +429,86 @@ BATCHED_TEST_CASE("bounding_box intersections", bounding_boxes<ALL_FLOATS>)
 							   -2.50000,
 							   -0.37540);
 
-			CHECK_INTERBATCHED_SECTION(tall_box, true, 0, 7, 70, 2, -2, -60, -2, -2, -60);
+			CHECK_INTERSECTION(tall_box, true, 0, 7, 70, 2, -2, -60, -2, -2, -60);
 		}
 
-#undef CHECK_INTERBATCHED_SECTION
+#undef CHECK_INTERSECTION
 	}
 }
 
-// clang-format on
+BATCHED_TEST_CASE("bounding_box corners", bounding_boxes<ALL_FLOATS>)
+{
+	using aabb = TestType;
+	using T	   = typename aabb::scalar_type;
+	using vec3 = vector<T, 3>;
+	TEST_INFO("bounding_box<"sv << nameof<T> << ">"sv);
+
+	constexpr auto pos = constants<T>::one_over_two;
+	constexpr auto neg = -constants<T>::one_over_two;
+
+	const auto box = aabb{ vec3{}, vec3{ pos } };
+
+	BATCHED_SECTION("aabb::corner<>()")
+	{
+		CHECK(aabb::template corner<box_corners::min>(box) == vec3{ neg });
+		CHECK(aabb::template corner<box_corners::x>(box) == vec3{ pos, neg, neg });
+		CHECK(aabb::template corner<box_corners::y>(box) == vec3{ neg, pos, neg });
+		CHECK(aabb::template corner<box_corners::z>(box) == vec3{ neg, neg, pos });
+		CHECK(aabb::template corner<box_corners::xy>(box) == vec3{ pos, pos, neg });
+		CHECK(aabb::template corner<box_corners::xz>(box) == vec3{ pos, neg, pos });
+		CHECK(aabb::template corner<box_corners::yz>(box) == vec3{ neg, pos, pos });
+		CHECK(aabb::template corner<box_corners::xyz>(box) == vec3{ pos });
+		CHECK(aabb::template corner<box_corners::max>(box) == vec3{ pos });
+	}
+
+	BATCHED_SECTION("aabb.corner<>()")
+	{
+		CHECK(box.template corner<box_corners::min>() == vec3{ neg });
+		CHECK(box.template corner<box_corners::x>() == vec3{ pos, neg, neg });
+		CHECK(box.template corner<box_corners::y>() == vec3{ neg, pos, neg });
+		CHECK(box.template corner<box_corners::z>() == vec3{ neg, neg, pos });
+		CHECK(box.template corner<box_corners::xy>() == vec3{ pos, pos, neg });
+		CHECK(box.template corner<box_corners::xz>() == vec3{ pos, neg, pos });
+		CHECK(box.template corner<box_corners::yz>() == vec3{ neg, pos, pos });
+		CHECK(box.template corner<box_corners::xyz>() == vec3{ pos });
+		CHECK(box.template corner<box_corners::max>() == vec3{ pos });
+	}
+
+	BATCHED_SECTION("aabb::corner()")
+	{
+		CHECK(aabb::corner(box, box_corners::min) == vec3{ neg });
+		CHECK(aabb::corner(box, box_corners::x) == vec3{ pos, neg, neg });
+		CHECK(aabb::corner(box, box_corners::y) == vec3{ neg, pos, neg });
+		CHECK(aabb::corner(box, box_corners::z) == vec3{ neg, neg, pos });
+		CHECK(aabb::corner(box, box_corners::xy) == vec3{ pos, pos, neg });
+		CHECK(aabb::corner(box, box_corners::xz) == vec3{ pos, neg, pos });
+		CHECK(aabb::corner(box, box_corners::yz) == vec3{ neg, pos, pos });
+		CHECK(aabb::corner(box, box_corners::xyz) == vec3{ pos });
+		CHECK(aabb::corner(box, box_corners::max) == vec3{ pos });
+	}
+
+	BATCHED_SECTION("aabb.corner()")
+	{
+		CHECK(box.corner(box_corners::min) == vec3{ neg });
+		CHECK(box.corner(box_corners::x) == vec3{ pos, neg, neg });
+		CHECK(box.corner(box_corners::y) == vec3{ neg, pos, neg });
+		CHECK(box.corner(box_corners::z) == vec3{ neg, neg, pos });
+		CHECK(box.corner(box_corners::xy) == vec3{ pos, pos, neg });
+		CHECK(box.corner(box_corners::xz) == vec3{ pos, neg, pos });
+		CHECK(box.corner(box_corners::yz) == vec3{ neg, pos, pos });
+		CHECK(box.corner(box_corners::xyz) == vec3{ pos });
+		CHECK(box.corner(box_corners::max) == vec3{ pos });
+	}
+
+	BATCHED_SECTION("min_corner()")
+	{
+		CHECK(aabb::min_corner(box) == vec3{ neg });
+		CHECK(box.min_corner() == vec3{ neg });
+	}
+
+	BATCHED_SECTION("max_corner()")
+	{
+		CHECK(aabb::max_corner(box) == vec3{ pos });
+		CHECK(box.max_corner() == vec3{ pos });
+	}
+}

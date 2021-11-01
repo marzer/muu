@@ -31,8 +31,7 @@ namespace muu::impl
 		using tag_type = unsigned_integer<muu::clamp(bit_ceil(tag_bits), 8_sz, build::bitness)>;
 		static_assert(sizeof(tag_type) <= sizeof(uintptr_t));
 
-		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(const)
+		MUU_CONST_GETTER
 		static constexpr uintptr_t pack_ptr(void* ptr) noexcept
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT((!ptr || bit_floor(reinterpret_cast<uintptr_t>(ptr)) >= MinAlign)
@@ -45,8 +44,7 @@ namespace muu::impl
 		}
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_PURE_GETTER
 		static constexpr uintptr_t pack_both(void* ptr, const T& tag) noexcept
 		{
 			static_assert(std::is_trivially_copyable_v<T>, "The tag type must be trivially copyable");
@@ -76,8 +74,7 @@ namespace muu::impl
 			}
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(const)
+		MUU_CONST_GETTER
 		static constexpr uintptr_t set_ptr(uintptr_t bits, void* ptr) noexcept
 		{
 			return pack_ptr(ptr) | (bits & tag_mask);
@@ -97,8 +94,7 @@ namespace muu::impl
 		}
 
 		MUU_CONSTRAINED_TEMPLATE(!is_unsigned<T>, typename T)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static uintptr_t set_tag(uintptr_t bits, const T& tag) noexcept
 		{
 			static_assert(std::is_trivially_copyable_v<T>, "The tag type must be trivially copyable");
@@ -117,16 +113,14 @@ namespace muu::impl
 			return bits & tag_mask;
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(const)
+		MUU_CONST_GETTER
 		static constexpr bool get_tag_bit(uintptr_t bits, size_t index) noexcept
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
 			return bits & (uintptr_t{ 1 } << index);
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(const)
+		MUU_CONST_GETTER
 		static constexpr uintptr_t set_tag_bit(uintptr_t bits, size_t index, bool state) noexcept
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
@@ -206,8 +200,7 @@ namespace muu::impl
 		using base::base;
 
 	  public:
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr T* ptr() const noexcept
 		{
 			using tptr = impl::tptr<MinAlign>;
@@ -215,15 +208,13 @@ namespace muu::impl
 			return reinterpret_cast<T*>(tptr::get_ptr(bits_));
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr T* get() const noexcept
 		{
 			return ptr();
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		explicit constexpr operator T*() const noexcept
 		{
 			return ptr();
@@ -247,8 +238,7 @@ namespace muu::impl
 		using base::base;
 
 	  public:
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		MUU_ATTR(assume_aligned(MinAlign))
 		constexpr T* ptr() const noexcept
 		{
@@ -257,16 +247,14 @@ namespace muu::impl
 			return muu::assume_aligned<MinAlign>(reinterpret_cast<T*>(tptr::get_ptr(bits_)));
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		MUU_ATTR(assume_aligned(MinAlign))
 		constexpr T* get() const noexcept
 		{
 			return ptr();
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		MUU_ATTR(assume_aligned(MinAlign))
 		explicit constexpr operator T*() const noexcept
 		{
@@ -287,15 +275,13 @@ namespace muu::impl
 	  public:
 		using base::ptr;
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr T& operator*() const noexcept
 		{
 			return *ptr();
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr T* operator->() const noexcept
 		{
 			return ptr();
@@ -541,8 +527,7 @@ namespace muu
 
 		/// \brief	Returns the tag bits as an unsigned integer or trivially-copyable type.
 		template <typename U = tag_type>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr U tag() const noexcept
 		{
 			static_assert(!std::is_reference_v<U>, "Reference types are not allowed");
@@ -586,8 +571,7 @@ namespace muu
 		}
 
 		/// \brief	Returns the value of one of the tag bits.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool tag_bit(size_t tag_bit_index) const noexcept
 		{
 			return tptr::get_tag_bit(bits_, tag_bit_index);
@@ -619,8 +603,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if the target pointer value is not nullptr.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		explicit constexpr operator bool() const noexcept
 		{
 			return bits_ & tptr::ptr_mask;
@@ -706,8 +689,7 @@ namespace muu
 			template <typename U>
 			using rebind = TaggedPointer<U, MinAlign>;
 
-			MUU_NODISCARD
-			MUU_ATTR(pure)
+			MUU_PURE_GETTER
 			constexpr static element_type* to_address(const pointer& p) noexcept
 			{
 				return p.ptr();

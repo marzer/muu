@@ -8,6 +8,7 @@
 /// \brief  Contains the definition of muu::quaternion.
 
 #include "vector.h"
+#include "impl/std_initializer_list.h"
 #include "impl/std_iosfwd.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
@@ -347,9 +348,7 @@ namespace muu
 
 	  private:
 		template <size_t Index, typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		static constexpr auto& do_get(T& quat) noexcept
 		{
 			static_assert(Index < 2, "Element index out of range");
@@ -367,9 +366,7 @@ namespace muu
 		///
 		/// \return  A reference to the selected value.
 		template <size_t Index>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr const auto& get() const noexcept
 		{
@@ -382,9 +379,7 @@ namespace muu
 		///
 		/// \return  A reference to the selected value.
 		template <size_t Index>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr auto& get() noexcept
 		{
@@ -392,9 +387,7 @@ namespace muu
 		}
 
 		/// \brief Returns a pointer to the first scalar component in the quaternion.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr const scalar_type* data() const noexcept
 		{
@@ -402,9 +395,7 @@ namespace muu
 		}
 
 		/// \brief Returns a pointer to the first scalar component in the quaternion.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr scalar_type* data() noexcept
 		{
@@ -421,8 +412,7 @@ namespace muu
 		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL || impl::pass_vectorcall_by_reference<quaternion, quaternion<T>>),
 								 typename T)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator==(const quaternion& lhs, const quaternion<T>& rhs) noexcept
 		{
 			if constexpr (std::is_same_v<scalar_type, T>)
@@ -468,8 +458,7 @@ namespace muu
 		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL || impl::pass_vectorcall_by_reference<quaternion, quaternion<T>>),
 								 typename T)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator!=(const quaternion& lhs, const quaternion<T>& rhs) noexcept
 		{
 			return !(lhs == rhs);
@@ -491,8 +480,7 @@ namespace muu
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(quaternion) q) noexcept
 		{
 			return q.s == scalar_constants::zero && vector_type::zero(q.v);
@@ -502,24 +490,21 @@ namespace muu
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool zero() const noexcept
 		{
 			return zero(*this);
 		}
 
 		/// \brief	Returns true if any of the scalar components of a quaternion are infinity or NaN.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VC_PARAM(quaternion) q) noexcept
 		{
 			return muu::infinity_or_nan(q.s) || vector_type::infinity_or_nan(q.v);
 		}
 
 		/// \brief	Returns true if any of the scalar components of the quaternion are infinity or NaN.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool infinity_or_nan() const noexcept
 		{
 			return infinity_or_nan(*this);
@@ -532,8 +517,7 @@ namespace muu
 		/// \brief	Returns true if two quaternions are approximately equal.
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL || impl::pass_vectorcall_by_reference<quaternion, quaternion<T>>),
 								 typename T)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			const quaternion& q1,
 			const quaternion<T>& q2,
@@ -579,8 +563,7 @@ namespace muu
 
 		/// \brief	Returns true if the quaternion is approximately equal to another.
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL || impl::pass_vectorcall_by_reference<quaternion<T>>), typename T)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL approx_equal(
 			const quaternion<T>& q,
 			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
@@ -591,8 +574,7 @@ namespace muu
 		#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE(impl::pass_vectorcall_by_value<quaternion<T>>, typename T)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL approx_equal(
 			quaternion<T> q,
 			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
@@ -603,8 +585,7 @@ namespace muu
 		#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if all the scalar components in a quaternion are approximately equal to zero.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(quaternion) q,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
@@ -612,8 +593,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if all the scalar components in the quaternion are approximately equal to zero.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
 			return approx_zero(*this, epsilon);
@@ -625,8 +605,7 @@ namespace muu
 
 	  private:
 		template <typename T = intermediate_float>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr T MUU_VECTORCALL raw_dot(MUU_VC_PARAM(quaternion) q1, MUU_VC_PARAM(quaternion) q2) noexcept
 		{
 			MUU_FMA_BLOCK;
@@ -638,8 +617,7 @@ namespace muu
 
 	  public:
 		/// \brief	Returns the dot product of two quaternions.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL dot(MUU_VC_PARAM(quaternion) q1,
 														MUU_VC_PARAM(quaternion) q2) noexcept
 		{
@@ -647,8 +625,7 @@ namespace muu
 		}
 
 		/// \brief	Returns the dot product of this and another quaternion.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr scalar_type MUU_VECTORCALL dot(MUU_VC_PARAM(quaternion) q) const noexcept
 		{
 			return dot(*this, q);
@@ -663,8 +640,7 @@ namespace muu
 		/// \param q	The quaternion to normalize.
 		///
 		/// \return		A normalized copy of the input quaternion.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr quaternion MUU_VECTORCALL normalize(MUU_VC_PARAM(quaternion) q) noexcept
 		{
 			const intermediate_float inv_length = intermediate_float{ 1 } / muu::sqrt(raw_dot(q, q));
@@ -681,8 +657,7 @@ namespace muu
 		}
 
 		/// \brief Returns true if a quaternion is normalized (i.e. has a length of 1).
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL normalized(MUU_VC_PARAM(quaternion) q) noexcept
 		{
 			constexpr auto epsilon = intermediate_float{ 1 }
@@ -693,22 +668,19 @@ namespace muu
 		}
 
 		/// \brief Returns true if the quaternion is normalized (i.e. has a length of 1).
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool normalized() const noexcept
 		{
 			return normalized(*this);
 		}
 
-		[[deprecated]] MUU_NODISCARD
-		MUU_ATTR(pure)
+		[[deprecated]] MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL unit_length(MUU_VC_PARAM(quaternion) q) noexcept
 		{
 			return normalized(q);
 		}
 
-		[[deprecated]] MUU_NODISCARD
-		MUU_ATTR(pure)
+		[[deprecated]] MUU_PURE_GETTER
 		constexpr bool unit_length() const noexcept
 		{
 			return normalized(*this);
@@ -719,16 +691,14 @@ namespace muu
 	#if 1 // conjugate ------------------------------------------------------------------------------------------------
 
 		/// \brief		Returns the conjugate of a quaternion.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr quaternion MUU_VECTORCALL conjugate(MUU_VC_PARAM(quaternion) q) noexcept
 		{
 			return { q.s, -q.v };
 		}
 
 		/// \brief		Returns the conjugate of the quaternion.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr quaternion conjugate() const noexcept
 		{
 			return { base::s, -base::v };
@@ -744,8 +714,7 @@ namespace muu
 		/// \param angle	Angle to rotate by (in radians).
 		///
 		/// \return A quaternion encoding the given axis-angle rotation.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr quaternion MUU_VECTORCALL from_axis_angle(MUU_VC_PARAM(vector_type) axis,
 																   scalar_type angle) noexcept
 		{
@@ -769,8 +738,7 @@ namespace muu
 		}
 
 		/// \brief Creates a quaternion from an axis-angle rotation.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr quaternion MUU_VECTORCALL from_axis_angle(MUU_VC_PARAM(axis_angle_type) aa) noexcept
 		{
 			return from_axis_angle(aa.axis, aa.angle);
@@ -778,8 +746,7 @@ namespace muu
 
 	  private:
 		template <typename T = intermediate_float>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr axis_angle_rotation<T> MUU_VECTORCALL raw_to_axis_angle(MUU_VC_PARAM(quaternion) q,
 																				 bool shortest_path = true) noexcept
 		{
@@ -817,8 +784,7 @@ namespace muu
 		/// 						to the original quaternion if used with #from_axis_angle().
 		///
 		/// \returns	An axis-angle rotation representing the rotation stored in the given quaternion.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr axis_angle_type MUU_VECTORCALL to_axis_angle(MUU_VC_PARAM(quaternion) quat,
 																	  bool shortest_path = true) noexcept
 		{
@@ -832,8 +798,7 @@ namespace muu
 		/// 						to the original quaternion if used with #from_axis_angle().
 		///
 		/// \returns	An axis-angle rotation representing the rotation stored in the quaternion.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr axis_angle_type to_axis_angle(bool shortest_path = true) const noexcept
 		{
 			return raw_to_axis_angle<scalar_type>(*this, shortest_path);
@@ -884,8 +849,7 @@ namespace muu
 		}
 
 		/// \brief Creates a quaternion from an axis-angle rotation.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr quaternion MUU_VECTORCALL from_euler(MUU_VC_PARAM(euler_type) euler) noexcept
 		{
 			return from_euler(euler.yaw, euler.pitch, euler.roll);
@@ -896,8 +860,7 @@ namespace muu
 		/// \param	q	The quaternion to convert.
 		///
 		/// \returns	A set of euler angles representing the rotation stored in the given quaternion.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr euler_type MUU_VECTORCALL to_euler(MUU_VC_PARAM(quaternion) q) noexcept
 		{
 			MUU_FMA_BLOCK;
@@ -949,8 +912,7 @@ namespace muu
 		}
 
 		/// \brief	Extracts a set of euler angles from this quaternion.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr euler_type to_euler() const noexcept
 		{
 			return to_euler(*this);
@@ -961,8 +923,7 @@ namespace muu
 	#if 1 // multiplication -------------------------------------------------------------------------------------------
 
 	  private:
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr quaternion MUU_VECTORCALL multiply(MUU_VC_PARAM(quaternion) lhs,
 															MUU_VC_PARAM(quaternion) rhs) noexcept
 		{
@@ -986,8 +947,7 @@ namespace muu
 			}
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr vector_type MUU_VECTORCALL rotate_vector(MUU_VC_PARAM(quaternion) lhs,
 																  MUU_VC_PARAM(vector_type) rhs) noexcept
 		{
@@ -1004,8 +964,7 @@ namespace muu
 
 	  public:
 		/// \brief Multiplies two quaternions.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr quaternion MUU_VECTORCALL operator*(MUU_VC_PARAM(quaternion) lhs,
 															 MUU_VC_PARAM(quaternion) rhs) noexcept
 		{
@@ -1035,8 +994,7 @@ namespace muu
 		}
 
 		/// \brief Scales the shortest-path rotation equivalent of a quaternion by a scalar.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr quaternion MUU_VECTORCALL operator*(MUU_VC_PARAM(quaternion) lhs, scalar_type rhs) noexcept
 		{
 			MUU_FMA_BLOCK;
@@ -1083,8 +1041,7 @@ namespace muu
 		/// `finish`.
 		///
 		/// \see [Slerp](https://en.wikipedia.org/wiki/Slerp)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr quaternion MUU_VECTORCALL slerp(MUU_VC_PARAM(quaternion) start,
 														 MUU_VC_PARAM(quaternion) finish,
 														 scalar_type alpha) noexcept
@@ -1221,8 +1178,7 @@ namespace muu
 	///
 	/// \brief	Returns true if any of the scalar components of a quaternion are infinity or NaN.
 	template <typename S>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool infinity_or_nan(const quaternion<S>& q) noexcept
 	{
 		return quaternion<S>::infinity_or_nan(q);
@@ -1233,8 +1189,7 @@ namespace muu
 	///
 	/// \brief		Returns true if two quaternions are approximately equal.
 	template <typename S, typename T>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(const quaternion<S>& q1,
 											   const quaternion<T>& q2,
 											   epsilon_type<S, T> epsilon = default_epsilon<S, T>) noexcept
@@ -1247,8 +1202,7 @@ namespace muu
 	///
 	/// \brief		Returns true if all the scalar components of a quaternion are approximately equal to zero.
 	template <typename S>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(const quaternion<S>& q, S epsilon = default_epsilon<S>) noexcept
 	{
 		return quaternion<S>::approx_zero(q, epsilon);
@@ -1259,16 +1213,14 @@ namespace muu
 	///
 	/// \brief Returns true if a quaternion is normalized (i.e. has a length of 1).
 	template <typename S>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool normalized(const quaternion<S>& q) noexcept
 	{
 		return quaternion<S>::normalized(q);
 	}
 
 	template <typename S>
-	MUU_NODISCARD
-	[[deprecated]] MUU_ATTR(pure)
+	[[deprecated]] MUU_PURE_GETTER
 	constexpr bool unit_length(const quaternion<S>& q) noexcept
 	{
 		return quaternion<S>::normalized(q);
@@ -1278,8 +1230,7 @@ namespace muu
 	///
 	/// \brief	Returns the dot product of two quaternions.
 	template <typename S>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr S dot(const quaternion<S>& q1, const quaternion<S>& q2) noexcept
 	{
 		return quaternion<S>::dot(q1, q2);
@@ -1293,8 +1244,7 @@ namespace muu
 	///
 	/// \return		A normalized copy of the input quaternion.
 	template <typename S>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr quaternion<S> normalize(const quaternion<S>& q) noexcept
 	{
 		return quaternion<S>::normalize(q);
@@ -1304,8 +1254,7 @@ namespace muu
 	///
 	/// \brief	Performs a spherical-linear interpolation between two quaternions.
 	template <typename S>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr quaternion<S> MUU_VECTORCALL slerp(const quaternion<S>& start,
 												 const quaternion<S>& finish,
 												 S alpha) noexcept

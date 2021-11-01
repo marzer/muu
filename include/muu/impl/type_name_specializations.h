@@ -5,13 +5,13 @@
 
 /// \cond
 // clang-format off
-#ifdef MUU_TYPE_NAME_INCLUDED
+#ifdef MUU_TYPE_NAME_H
 
 namespace muu
 {
 	// <string>
 	#if !defined(MUU_TYPENAME_SPECIALIZED_STD_STRING)                                                                  \
-		&& (defined(MUU_STD_STRING_INCLUDED) || (defined(_MSC_VER) && defined(_STRING_)) || defined(_GLIBCXX_STRING))
+		&& (defined(MUU_STD_STRING_H) || (defined(_MSC_VER) && defined(_STRING_)) || defined(_GLIBCXX_STRING))
 
 		MUU_SPECIALIZE_TYPENAME_ALIAS(std::string);
 		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wstring);
@@ -36,7 +36,7 @@ namespace muu
 
 	// <vector>
 	#if !defined(MUU_TYPENAME_SPECIALIZED_STD_VECTOR)                                                                  \
-		&& (defined(MUU_STD_VECTOR_INCLUDED) || (defined(_MSC_VER) && defined(_VECTOR_)) || defined(_GLIBCXX_VECTOR))
+		&& (defined(MUU_STD_VECTOR_H) || (defined(_MSC_VER) && defined(_VECTOR_)) || defined(_GLIBCXX_VECTOR))
 
 		MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(std::vector);
 
@@ -49,7 +49,7 @@ namespace muu
 
 	// <exception>
 	#if !defined(MUU_TYPENAME_SPECIALIZED_STD_EXCEPTION)                                                               \
-		&& (defined(MUU_STD_EXCEPTION_INCLUDED) || (defined(_MSC_VER) && defined(_EXCEPTION_))                         \
+		&& (defined(MUU_STD_EXCEPTION_H) || (defined(_MSC_VER) && defined(_EXCEPTION_))                         \
 			|| defined(_GLIBCXX_STDEXCEPT) || defined(__EXCEPTION__))
 
 		MUU_SPECIALIZE_TYPENAME_ALIAS(std::exception);
@@ -62,7 +62,7 @@ namespace muu
 
 	// <memory>
 	#if !defined(MUU_TYPENAME_SPECIALIZED_STD_MEMORY)                                                                  \
-		&& (defined(MUU_STD_MEMORY_INCLUDED) || (defined(_MSC_VER) && defined(_MEMORY_)) || defined(_GLIBCXX_MEMORY))
+		&& (defined(MUU_STD_MEMORY_H) || (defined(_MSC_VER) && defined(_MEMORY_)) || defined(_GLIBCXX_MEMORY))
 
 		MUU_SPECIALIZE_TYPENAME_ALIAS(std::bad_weak_ptr);
 
@@ -82,6 +82,6 @@ namespace muu
 	#endif // <memory>
 }
 
-#endif // MUU_TYPE_NAME_INCLUDED
+#endif // MUU_TYPE_NAME_H
 /// \endcond
 // clang-format on

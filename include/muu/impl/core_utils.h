@@ -23,9 +23,7 @@ namespace muu
 	/// 			 <br>
 	/// 			\conditional_return{Everything else} `T&&` (a no-op).
 	MUU_CONSTRAINED_TEMPLATE(is_enum<T>, typename T)
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr std::underlying_type_t<T> MUU_VECTORCALL unwrap(T val) noexcept
 	{
 		return static_cast<std::underlying_type_t<T>>(val);
@@ -34,9 +32,7 @@ namespace muu
 	/// \cond
 
 	MUU_CONSTRAINED_TEMPLATE(!is_enum<T>, typename T)
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr T&& unwrap(T&& val) noexcept
 	{
 		return static_cast<T&&>(val);
@@ -151,9 +147,7 @@ namespace muu
 	///
 	/// \availability On older compilers lacking support for std::is_constant_evaluated this will always return `false`.
 	/// 		   Check for support by examining build::supports_is_constant_evaluated.
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr bool is_constant_evaluated() noexcept
 	{
@@ -490,9 +484,7 @@ namespace muu
 	/// 		 returned by apply_offset the onus is on you to ensure that the offset made sense
 	/// 		 before doing so!
 	MUU_CONSTRAINED_TEMPLATE((is_integral<Offset> && is_arithmetic<Offset>), typename T, typename Offset)
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr T* apply_offset(T* ptr, Offset offset) noexcept
 	{
 		using char_ptr = rebase_pointer<T*, unsigned char>;
@@ -804,8 +796,7 @@ namespace muu
 	/// \param 	val			The unsigned value being aligned.
 	/// \param 	alignment	The alignment to round up to. Must be a power of two.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR_NDEBUG(const)
+	MUU_CONST_GETTER
 	MUU_ATTR_NDEBUG(flatten)
 	constexpr T apply_alignment(T val, size_t alignment) noexcept
 	{

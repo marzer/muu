@@ -159,9 +159,7 @@ namespace muu
 		half() noexcept = default;
 
 		/// \brief	Creates a half-precision float from its raw bit equivalent.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		static constexpr half from_bits(uint16_t val) noexcept
 		{
 			return half{ impl::half_from_bits_tag{}, val };
@@ -239,9 +237,7 @@ namespace muu
 		// CONVERSIONS
 		//====================================================
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
-		MUU_ALWAYS_INLINE
+		MUU_PURE_INLINE_GETTER
 		explicit constexpr operator bool() const noexcept
 		{
 #if MUU_HALF_EMULATED
@@ -252,9 +248,7 @@ namespace muu
 		}
 
 #if MUU_HAS_FP16
-		MUU_NODISCARD
-		MUU_ATTR(pure)
-		MUU_ALWAYS_INLINE
+		MUU_PURE_INLINE_GETTER
 		explicit constexpr operator __fp16() const noexcept
 		{
 			return static_cast<__fp16>(impl_);
@@ -262,18 +256,14 @@ namespace muu
 #endif
 
 #if MUU_HAS_FLOAT16
-		MUU_NODISCARD
-		MUU_ATTR(pure)
-		MUU_ALWAYS_INLINE
+		MUU_PURE_INLINE_GETTER
 		constexpr operator _Float16() const noexcept
 		{
 			return static_cast<_Float16>(impl_);
 		}
 #endif
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
-		MUU_ALWAYS_INLINE
+		MUU_PURE_INLINE_GETTER
 		constexpr operator float() const noexcept
 		{
 #if MUU_HALF_EMULATED
@@ -702,15 +692,13 @@ namespace muu
 		// MISC
 		//====================================================
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr half operator+() const noexcept
 		{
 			return *this;
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr half operator-() const noexcept
 		{
 #if MUU_HALF_EMULATED
@@ -1045,9 +1033,7 @@ namespace muu
 	///
 	/// \ingroup	approx_zero
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ALWAYS_INLINE
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(half x, half epsilon = constants<half>::default_epsilon) noexcept
 	{
 		return muu::approx_equal(static_cast<float>(x), 0.0f, static_cast<float>(epsilon));
@@ -1313,9 +1299,7 @@ namespace muu::impl
 
 	#if MUU_HALF_USE_INTRINSICS
 
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	uint16_t MUU_VECTORCALL f32_to_f16_intrinsic(float val) noexcept
 	{
 		//_mm_load_ss			load a single float into a m128 (sse)
@@ -1326,9 +1310,7 @@ namespace muu::impl
 			_mm_cvtsi128_si32(_mm_cvtps_ph(_mm_load_ss(&val), _MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC)));
 	}
 
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	float MUU_VECTORCALL f16_to_f32_intrinsic(uint16_t val) noexcept
 	{
 		//_mm_cvtsi32_si128		store a single int in an m128i (sse2)

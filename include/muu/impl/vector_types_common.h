@@ -20,9 +20,7 @@ namespace muu::impl
 	>;
 
 	template <typename T>
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr auto MUU_VECTORCALL raw_modulo(T lhs, T rhs) noexcept // todo: constexpr fmod
 	{
 		if constexpr (is_floating_point<T>)
@@ -49,8 +47,7 @@ namespace muu::impl
 		typename T,
 		typename U
 	)
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	inline constexpr Return raw_cross(const T& lhs, const U& rhs) noexcept
 	{
 		MUU_FMA_BLOCK;
@@ -106,8 +103,7 @@ namespace muu::impl
 	#endif // MUU_HAS_VECTORCALL
 
 	template <typename T, size_t AssumeAlignment = 1_sz>
-	MUU_NODISCARD
-	MUU_ATTR_NDEBUG(pure)
+	MUU_PURE_GETTER
 	MUU_ATTR(nonnull)
 	inline T initialize_trivial_by_memcpy(const void* ptr) noexcept
 	{

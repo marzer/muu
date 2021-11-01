@@ -139,8 +139,7 @@ namespace muu
 		/// \remarks	This is an exact check;
 		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator==(MUU_VC_PARAM(plane) lhs, const plane<T>& rhs) noexcept
 		{
 			return lhs.n == rhs.n && lhs.d == rhs.d;
@@ -151,8 +150,7 @@ namespace muu
 		/// \remarks	This is an exact check;
 		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator!=(MUU_VC_PARAM(plane) lhs, const plane<T>& rhs) noexcept
 		{
 			return !(lhs == rhs);
@@ -162,8 +160,7 @@ namespace muu
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(plane) p) noexcept
 		{
 			return vector_type::zero(p.n) && p.d == scalar_constants::zero;
@@ -173,24 +170,21 @@ namespace muu
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool zero() const noexcept
 		{
 			return zero(*this);
 		}
 
 		/// \brief	Returns true if any of the scalar components of a plane are infinity or NaN.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VC_PARAM(plane) p) noexcept
 		{
 			return vector_type::infinity_or_nan(p.n) || muu::infinity_or_nan(p.d);
 		}
 
 		/// \brief	Returns true if any of the scalar components of the plane are infinity or NaN.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool infinity_or_nan() const noexcept
 		{
 			return infinity_or_nan(*this);
@@ -202,8 +196,7 @@ namespace muu
 
 		/// \brief	Returns true if two planes are approximately equal.
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			MUU_VC_PARAM(plane) p1,
 			const plane<T>& p2,
@@ -214,8 +207,7 @@ namespace muu
 
 		/// \brief	Returns true if the plane is approximately equal to another.
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL approx_equal(
 			const plane<T>& p,
 			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
@@ -224,8 +216,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if all the scalar components in a plane are approximately equal to zero.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(plane) p,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
@@ -233,16 +224,14 @@ namespace muu
 		}
 
 		/// \brief	Returns true if all the scalar components in the plane are approximately equal to zero.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
 			return approx_zero(*this, epsilon);
 		}
 
 		/// \brief	Returns true if a plane has approximately zero volume.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_empty(MUU_VC_PARAM(plane) p,
 														  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
@@ -250,8 +239,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if the plane has approximately zero volume.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL approx_empty(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
 			return vector_type::approx_zero(base::extents, epsilon);
@@ -269,8 +257,7 @@ namespace muu
 		/// \param p	The plane to normalize.
 		///
 		/// \return		A normalized copy of the input plane.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr plane MUU_VECTORCALL normalize(MUU_VC_PARAM(plane) p) noexcept
 		{
 			const intermediate_float inv_length = intermediate_float{ 1 } / vector_type::raw_length(p.n);
@@ -287,16 +274,14 @@ namespace muu
 		}
 
 		/// \brief Returns true if a plane is normalized.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL normalized(MUU_VC_PARAM(plane) p) noexcept
 		{
 			return vector_type::normalized(p.n);
 		}
 
 		/// \brief Returns true if the plane is normalized.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool normalized() const noexcept
 		{
 			return vector_type::normalized(base::n);
@@ -310,8 +295,7 @@ namespace muu
 		/// @{
 
 		/// \brief	Returns the signed distance of a point from a plane.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL signed_distance(MUU_VC_PARAM(plane) p,
 																	MUU_VC_PARAM(vector_type) point) noexcept
 		{
@@ -319,16 +303,14 @@ namespace muu
 		}
 
 		/// \brief	Returns the signed distance of a point from the plane.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr scalar_type MUU_VECTORCALL signed_distance(MUU_VC_PARAM(vector_type) point) const noexcept
 		{
 			return planes::signed_distance(base::n, base::d, point);
 		}
 
 		/// \brief	Returns the unsigned distance of a point from a plane.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(plane) p,
 															 MUU_VC_PARAM(vector_type) point) noexcept
 		{
@@ -336,16 +318,14 @@ namespace muu
 		}
 
 		/// \brief	Returns the unsigned distance of a point from the plane.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector_type) point) const noexcept
 		{
 			return planes::unsigned_distance(base::n, base::d, point);
 		}
 
 		/// \brief	Returns the projection of a point onto a plane.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr vector_type MUU_VECTORCALL project(MUU_VC_PARAM(plane) p,
 															MUU_VC_PARAM(vector_type) point) noexcept
 		{
@@ -353,8 +333,7 @@ namespace muu
 		}
 
 		/// \brief	Returns the projection of a point onto the plane.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr vector_type MUU_VECTORCALL project(MUU_VC_PARAM(vector_type) point) const noexcept
 		{
 			return planes::project(base::n, base::d, point);
@@ -368,32 +347,28 @@ namespace muu
 		/// @{
 
 		/// \brief	Returns true if a plane contains a point.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(plane) p, MUU_VC_PARAM(vector_type) point) noexcept
 		{
 			return collision::plane_contains_point(p.n, p.d, point);
 		}
 
 		/// \brief	Returns true if the plane contains a point.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(vector_type) point) const noexcept
 		{
 			return collision::plane_contains_point(base::n, base::d, point);
 		}
 
 		/// \brief	Returns true if a plane intersects a bounding box.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(plane) p, MUU_GEOM_PARAM(bounding_box) bb) noexcept
 		{
 			return collision::aabb_intersects_plane(bb.center, bb.extents, p.n, p.d);
 		}
 
 		/// \brief	Returns true if the plane intersects a bounding box.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_GEOM_PARAM(bounding_box) bb) const noexcept
 		{
 			return collision::aabb_intersects_plane(bb.center, bb.extents, base::n, base::d);
@@ -499,8 +474,7 @@ namespace muu
 	///
 	/// \brief	Returns true if any of the scalar components of a plane are infinity or NaN.
 	template <typename S>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool infinity_or_nan(const plane<S>& p) noexcept
 	{
 		return plane<S>::infinity_or_nan(p);
@@ -511,8 +485,7 @@ namespace muu
 	///
 	/// \brief		Returns true if two planes are approximately equal.
 	template <typename S, typename T>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(const plane<S>& p1,
 											   const plane<T>& p2,
 											   epsilon_type<S, T> epsilon = default_epsilon<S, T>) noexcept
@@ -525,8 +498,7 @@ namespace muu
 	///
 	/// \brief		Returns true if all the scalar components of a plane are approximately equal to zero.
 	template <typename S>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(const plane<S>& p, S epsilon = default_epsilon<S>) noexcept
 	{
 		return plane<S>::approx_zero(p, epsilon);
@@ -537,8 +509,7 @@ namespace muu
 	///
 	/// \brief Returns true if a plane is normalized.
 	template <typename S>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool normalized(const plane<S>& p) noexcept
 	{
 		return plane<S>::normalized(p);

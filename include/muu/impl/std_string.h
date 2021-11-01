@@ -2,10 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-// clang-format off
-#pragma once
-#ifndef MUU_STD_STRING_INCLUDED
-#define MUU_STD_STRING_INCLUDED
+#ifndef MUU_STD_STRING_H
+#define MUU_STD_STRING_H
 
 #include "../preprocessor.h"
 
@@ -14,7 +12,7 @@ MUU_DISABLE_WARNINGS;
 MUU_ENABLE_WARNINGS;
 
 #if !defined(MUU_HAS_CHAR8_STRINGS)
-	#if defined(__cpp_lib_char8_t) && __cpp_lib_char8_t >= 201907
+	#if defined(DOXYGEN) || (defined(__cpp_lib_char8_t) && __cpp_lib_char8_t >= 201907)
 		#define MUU_HAS_CHAR8_STRINGS 1
 	#else
 		#define MUU_HAS_CHAR8_STRINGS 0
@@ -29,5 +27,4 @@ MUU_ENABLE_WARNINGS;
 
 #include "type_name_specializations.h"
 
-#endif // MUU_STD_STRING_INCLUDED
-// clang-format on
+#endif // MUU_STD_STRING_H

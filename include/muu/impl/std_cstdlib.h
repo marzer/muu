@@ -2,10 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-// clang-format off
-#pragma once
-#ifndef MUU_STD_CSTDLIB_INCLUDED
-#define MUU_STD_CSTDLIB_INCLUDED
+#ifndef MUU_STD_CSTDLIB_H
+#define MUU_STD_CSTDLIB_H
 
 #include "../preprocessor.h"
 
@@ -13,5 +11,4 @@ MUU_DISABLE_WARNINGS;
 #include <cstdlib>
 MUU_ENABLE_WARNINGS;
 
-#endif // MUU_STD_CSTDLIB_INCLUDED
-// clang-format on
+#endif // MUU_STD_CSTDLIB_H

@@ -2,8 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-#ifndef MUU_TYPE_NAME_INCLUDED
-#define MUU_TYPE_NAME_INCLUDED
+#ifndef MUU_TYPE_NAME_H
+#define MUU_TYPE_NAME_H
 
 /// \file
 /// \brief  Contains the definition of muu::type_name.
@@ -341,8 +341,7 @@ namespace muu
 		}
 
 		template <auto N>
-		inline constexpr auto type_name_int_to_str = []() noexcept
-		{
+		inline constexpr auto type_name_int_to_str = []() noexcept {
 			using T = decltype(N);
 			static_string<char, type_name_int_to_str_length(N)> str{};
 
@@ -871,4 +870,4 @@ namespace muu
 
 #include "impl/type_name_specializations.h"
 
-#endif // MUU_TYPE_NAME_INCLUDED
+#endif // MUU_TYPE_NAME_H

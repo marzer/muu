@@ -19,9 +19,7 @@ static_assert(std::is_trivially_destructible_v<uuid>);
 
 namespace
 {
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	static MUU_CONSTEVAL std::byte operator"" _byte(unsigned long long n) noexcept
 	{
 		return static_cast<std::byte>(n);

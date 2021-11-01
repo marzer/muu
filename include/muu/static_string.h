@@ -533,8 +533,7 @@ namespace muu
 
 		/// \brief Concatenates two static strings.
 		template <size_t Len>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr static_string<value_type, Length + Len> operator+(
 			const static_string& lhs,
 			const static_string<value_type, Len>& rhs) noexcept
@@ -555,8 +554,7 @@ namespace muu
 		}
 
 		/// \brief Concatenates a static string and a single character.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr static_string<value_type, Length + 1> operator+(const static_string& lhs,
 																		 value_type rhs) noexcept
 		{
@@ -566,8 +564,7 @@ namespace muu
 		}
 
 		/// \brief Concatenates a static string and a single character.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr static_string<value_type, Length + 1> operator+(value_type lhs,
 																		 const static_string& rhs) noexcept
 		{
@@ -611,8 +608,7 @@ namespace muu
 		/// \cond
 	  private:
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		MUU_CONSTEVAL
 		static size_t clamp_index(T idx) noexcept
 		{
@@ -642,8 +638,7 @@ namespace muu
 		// A: A clang bug caused the auto NTTP arguments to never be deduced properly in constexpr
 
 		template <size_t Start, size_t Len>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr auto substr_impl() const noexcept
 		{
 			if constexpr (!Length || !Len || Start >= Length)
@@ -662,8 +657,7 @@ namespace muu
 		}
 
 		template <size_t Start, size_t End>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr auto slice_impl() const noexcept
 		{
 			if constexpr (End <= Start)
@@ -684,8 +678,7 @@ namespace muu
 		/// 		If the source string literal was empty, the range was empty, or
 		/// 		they do not intersect, an zero-length string literal is returned.
 		template <auto Start, size_t Len = static_cast<size_t>(-1)>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr auto substr() const noexcept
 		{
 			using start_type = decltype(Start);
@@ -703,8 +696,7 @@ namespace muu
 		/// 		If the source string literal was empty, the range was empty, or
 		/// 		they do not intersect, an zero-length string is returned.
 		template <auto Start, auto End = static_cast<size_t>(-1)>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr auto slice() const noexcept
 		{
 			using start_type = decltype(Start);
@@ -725,8 +717,7 @@ namespace muu
 
 		/// \brief	Returns true if two strings contain the same character sequence.
 		template <size_t Len>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator==(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
 		{
 			if constexpr (Length == Len && Length > 0_sz)
@@ -751,8 +742,7 @@ namespace muu
 
 		/// \brief	Returns true if two strings do not contain the same character sequence.
 		template <size_t Len>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator!=(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
 		{
 			return !(lhs == rhs);
@@ -760,8 +750,7 @@ namespace muu
 
 		/// \brief	Returns the lexicographical ordering of two strings.
 		template <size_t Len>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr int compare(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
 		{
 			// neither empty
@@ -806,8 +795,7 @@ namespace muu
 
 		/// \brief	Returns the lexicographical ordering of this string with respect to another.
 		template <size_t Len>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr int compare(const static_string<value_type, Len>& rhs) noexcept
 		{
 			return compare(*this, rhs);
@@ -815,8 +803,7 @@ namespace muu
 
 		/// \brief	Returns true if the LHS is lexicographically ordered before the RHS.
 		template <size_t Len>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator<(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
 		{
 			return compare(lhs, rhs) < 0;
@@ -824,8 +811,7 @@ namespace muu
 
 		/// \brief	Returns true if the LHS is lexicographically ordered before or equal to the RHS.
 		template <size_t Len>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator<=(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
 		{
 			return compare(lhs, rhs) <= 0;
@@ -833,8 +819,7 @@ namespace muu
 
 		/// \brief	Returns true if the LHS is lexicographically ordered after than the RHS.
 		template <size_t Len>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator>(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
 		{
 			return compare(lhs, rhs) > 0;
@@ -842,8 +827,7 @@ namespace muu
 
 		/// \brief	Returns true if the LHS is lexicographically ordered after or equal to the RHS.
 		template <size_t Len>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator>=(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
 		{
 			return compare(lhs, rhs) >= 0;

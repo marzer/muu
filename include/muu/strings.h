@@ -435,15 +435,13 @@ namespace muu
 			size_t index;
 			size_t length;
 
-			MUU_NODISCARD
-			MUU_ATTR(pure)
+			MUU_PURE_GETTER
 			explicit constexpr operator bool() const noexcept
 			{
 				return index != constants<size_t>::highest;
 			}
 
-			MUU_NODISCARD
-			MUU_ATTR(pure)
+			MUU_PURE_GETTER
 			constexpr size_t end() const noexcept
 			{
 				return index + length;
@@ -603,9 +601,7 @@ namespace muu
 		}
 
 		template <typename Char = char>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr Char dec_to_hex(unsigned val, Char a = constants<Char>::letter_a) noexcept
 		{
 			return static_cast<Char>(val >= 10u ? static_cast<unsigned>(a) + (val - 10u)
@@ -678,32 +674,28 @@ namespace muu
 	/// \endcond
 
 	/// \brief		Trims whitespace from both ends of a UTF-8 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::string_view trim(std::string_view str) noexcept
 	{
 		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from both ends of a UTF wide string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::wstring_view trim(std::wstring_view str) noexcept
 	{
 		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from both ends of a UTF-16 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::u16string_view trim(std::u16string_view str) noexcept
 	{
 		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from both ends of a UTF-32 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::u32string_view trim(std::u32string_view str) noexcept
 	{
 		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
@@ -712,8 +704,7 @@ namespace muu
 	#if MUU_HAS_CHAR8_STRINGS
 
 	/// \brief		Trims whitespace from both ends of a UTF-8 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::u8string_view trim(std::u8string_view str) noexcept
 	{
 		return impl::predicated_trim(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
@@ -752,32 +743,28 @@ namespace muu
 	/// \endcond
 
 	/// \brief		Trims whitespace from the left end of a UTF-8 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::string_view trim_left(std::string_view str) noexcept
 	{
 		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the left end of a UTF wide string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::wstring_view trim_left(std::wstring_view str) noexcept
 	{
 		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the left end of a UTF-16 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::u16string_view trim_left(std::u16string_view str) noexcept
 	{
 		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the left end of a UTF-32 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::u32string_view trim_left(std::u32string_view str) noexcept
 	{
 		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
@@ -786,8 +773,7 @@ namespace muu
 	#if MUU_HAS_CHAR8_STRINGS
 
 	/// \brief		Trims whitespace from the left end of a UTF-8 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::u8string_view trim_left(std::u8string_view str) noexcept
 	{
 		return impl::predicated_trim_left(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
@@ -826,32 +812,28 @@ namespace muu
 	/// \endcond
 
 	/// \brief		Trims whitespace from the right end of a UTF-8 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::string_view trim_right(std::string_view str) noexcept
 	{
 		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the right end of a UTF wide string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::wstring_view trim_right(std::wstring_view str) noexcept
 	{
 		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the right end of a UTF-16 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::u16string_view trim_right(std::u16string_view str) noexcept
 	{
 		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
 	}
 
 	/// \brief		Trims whitespace from the right end of a UTF-32 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::u32string_view trim_right(std::u32string_view str) noexcept
 	{
 		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));
@@ -860,8 +842,7 @@ namespace muu
 	#if MUU_HAS_CHAR8_STRINGS
 
 	/// \brief		Trims whitespace from the right end of a UTF-8 string.
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::u8string_view trim_right(std::u8string_view str) noexcept
 	{
 		return impl::predicated_trim_right(str, static_cast<bool (*)(char32_t) noexcept>(is_not_whitespace));

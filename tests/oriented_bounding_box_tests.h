@@ -56,8 +56,8 @@ namespace muu
 
 BATCHED_TEST_CASE("oriented_bounding_box constructors", oriented_bounding_boxes<ALL_FLOATS>)
 {
-	using obb = TestType;
-	using T = typename obb::scalar_type;
+	using obb  = TestType;
+	using T	   = typename obb::scalar_type;
 	using vec3 = vector<T, 3>;
 	using mat3 = matrix<T, 3, 3>;
 	TEST_INFO("oriented_bounding_box<"sv << nameof<T> << ">"sv);
@@ -199,7 +199,7 @@ BATCHED_TEST_CASE("oriented_bounding_box constructors", oriented_bounding_boxes<
 BATCHED_TEST_CASE("oriented_bounding_box equality", oriented_bounding_boxes<ALL_FLOATS>)
 {
 	using obb = TestType;
-	using T = typename obb::scalar_type;
+	using T	  = typename obb::scalar_type;
 	TEST_INFO("oriented_bounding_box<"sv << nameof<T> << ">"sv);
 
 	obb bb;
@@ -252,7 +252,7 @@ BATCHED_TEST_CASE("oriented_bounding_box equality", oriented_bounding_boxes<ALL_
 BATCHED_TEST_CASE("oriented_bounding_box zero", oriented_bounding_boxes<ALL_FLOATS>)
 {
 	using obb = TestType;
-	using T = typename obb::scalar_type;
+	using T	  = typename obb::scalar_type;
 	TEST_INFO("oriented_bounding_box<"sv << nameof<T> << ">"sv);
 
 	BATCHED_SECTION("all zeroes")
@@ -299,7 +299,7 @@ BATCHED_TEST_CASE("oriented_bounding_box zero", oriented_bounding_boxes<ALL_FLOA
 BATCHED_TEST_CASE("oriented_bounding_box infinity_or_nan", oriented_bounding_boxes<ALL_FLOATS>)
 {
 	using obb = TestType;
-	using T = typename obb::scalar_type;
+	using T	  = typename obb::scalar_type;
 	TEST_INFO("oriented_bounding_box<"sv << nameof<T> << ">"sv);
 
 	BATCHED_SECTION("all finite")
@@ -346,5 +346,83 @@ BATCHED_TEST_CASE("oriented_bounding_box infinity_or_nan", oriented_bounding_box
 				CHECK(muu::infinity_or_nan(bb));
 			}
 		}
+	}
+}
+
+BATCHED_TEST_CASE("oriented_bounding_box corners", oriented_bounding_boxes<ALL_FLOATS>)
+{
+	using obb  = TestType;
+	using T	   = typename obb::scalar_type;
+	using vec3 = vector<T, 3>;
+	using mat3 = matrix<T, 3, 3>;
+	TEST_INFO("oriented_bounding_box<"sv << nameof<T> << ">"sv);
+
+	constexpr auto pos = constants<T>::one_over_two;
+	constexpr auto neg = -constants<T>::one_over_two;
+
+	const auto box = obb{ vec3{}, vec3{ pos }, mat3::constants::identity };
+
+	BATCHED_SECTION("obb::corner<>()")
+	{
+		CHECK(obb::template corner<box_corners::min>(box) == vec3{ neg });
+		CHECK(obb::template corner<box_corners::x>(box) == vec3{ pos, neg, neg });
+		CHECK(obb::template corner<box_corners::y>(box) == vec3{ neg, pos, neg });
+		CHECK(obb::template corner<box_corners::z>(box) == vec3{ neg, neg, pos });
+		CHECK(obb::template corner<box_corners::xy>(box) == vec3{ pos, pos, neg });
+		CHECK(obb::template corner<box_corners::xz>(box) == vec3{ pos, neg, pos });
+		CHECK(obb::template corner<box_corners::yz>(box) == vec3{ neg, pos, pos });
+		CHECK(obb::template corner<box_corners::xyz>(box) == vec3{ pos });
+		CHECK(obb::template corner<box_corners::max>(box) == vec3{ pos });
+	}
+
+	BATCHED_SECTION("obb.corner<>()")
+	{
+		CHECK(box.template corner<box_corners::min>() == vec3{ neg });
+		CHECK(box.template corner<box_corners::x>() == vec3{ pos, neg, neg });
+		CHECK(box.template corner<box_corners::y>() == vec3{ neg, pos, neg });
+		CHECK(box.template corner<box_corners::z>() == vec3{ neg, neg, pos });
+		CHECK(box.template corner<box_corners::xy>() == vec3{ pos, pos, neg });
+		CHECK(box.template corner<box_corners::xz>() == vec3{ pos, neg, pos });
+		CHECK(box.template corner<box_corners::yz>() == vec3{ neg, pos, pos });
+		CHECK(box.template corner<box_corners::xyz>() == vec3{ pos });
+		CHECK(box.template corner<box_corners::max>() == vec3{ pos });
+	}
+
+	BATCHED_SECTION("obb::corner()")
+	{
+		CHECK(obb::corner(box, box_corners::min) == vec3{ neg });
+		CHECK(obb::corner(box, box_corners::x) == vec3{ pos, neg, neg });
+		CHECK(obb::corner(box, box_corners::y) == vec3{ neg, pos, neg });
+		CHECK(obb::corner(box, box_corners::z) == vec3{ neg, neg, pos });
+		CHECK(obb::corner(box, box_corners::xy) == vec3{ pos, pos, neg });
+		CHECK(obb::corner(box, box_corners::xz) == vec3{ pos, neg, pos });
+		CHECK(obb::corner(box, box_corners::yz) == vec3{ neg, pos, pos });
+		CHECK(obb::corner(box, box_corners::xyz) == vec3{ pos });
+		CHECK(obb::corner(box, box_corners::max) == vec3{ pos });
+	}
+
+	BATCHED_SECTION("obb.corner()")
+	{
+		CHECK(box.corner(box_corners::min) == vec3{ neg });
+		CHECK(box.corner(box_corners::x) == vec3{ pos, neg, neg });
+		CHECK(box.corner(box_corners::y) == vec3{ neg, pos, neg });
+		CHECK(box.corner(box_corners::z) == vec3{ neg, neg, pos });
+		CHECK(box.corner(box_corners::xy) == vec3{ pos, pos, neg });
+		CHECK(box.corner(box_corners::xz) == vec3{ pos, neg, pos });
+		CHECK(box.corner(box_corners::yz) == vec3{ neg, pos, pos });
+		CHECK(box.corner(box_corners::xyz) == vec3{ pos });
+		CHECK(box.corner(box_corners::max) == vec3{ pos });
+	}
+
+	BATCHED_SECTION("min_corner()")
+	{
+		CHECK(obb::min_corner(box) == vec3{ neg });
+		CHECK(box.min_corner() == vec3{ neg });
+	}
+
+	BATCHED_SECTION("max_corner()")
+	{
+		CHECK(obb::max_corner(box) == vec3{ pos });
+		CHECK(box.max_corner() == vec3{ pos });
 	}
 }

@@ -16,9 +16,7 @@ namespace muu
 		/// \detail \cpp
 		/// const size_t val = 42_sz;
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		size_t operator"" _sz(unsigned long long n) noexcept
 		{
@@ -29,9 +27,7 @@ namespace muu
 		/// \detail \cpp
 		/// const size_t val = 42_b; // 42
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		size_t operator"" _b(unsigned long long b) noexcept
 		{
@@ -42,9 +38,7 @@ namespace muu
 		/// \detail \cpp
 		/// const size_t val = 42_kb; // 42 * 1024
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		size_t operator"" _kb(unsigned long long kb) noexcept
 		{
@@ -55,9 +49,7 @@ namespace muu
 		/// \detail \cpp
 		/// const size_t val = 42_mb; // 42 * 1024 * 1024
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		size_t operator"" _mb(unsigned long long mb) noexcept
 		{
@@ -68,9 +60,7 @@ namespace muu
 		/// \detail \cpp
 		/// const size_t val = 42_gb; // 42 * 1024 * 1024 * 1024
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		size_t operator"" _gb(unsigned long long gb) noexcept
 		{
@@ -81,9 +71,7 @@ namespace muu
 		/// \detail \cpp
 		/// const uint8_t val = 42_u8;
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		uint8_t operator"" _u8(unsigned long long n) noexcept
 		{
@@ -94,9 +82,7 @@ namespace muu
 		/// \detail \cpp
 		/// const uint16_t val = 42_u16;
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		uint16_t operator"" _u16(unsigned long long n) noexcept
 		{
@@ -107,9 +93,7 @@ namespace muu
 		/// \detail \cpp
 		/// const uint32_t val = 42_u32;
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		uint32_t operator"" _u32(unsigned long long n) noexcept
 		{
@@ -120,9 +104,7 @@ namespace muu
 		/// \detail \cpp
 		/// const uint64_t val = 42_u64;
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		uint64_t operator"" _u64(unsigned long long n) noexcept
 		{
@@ -133,9 +115,7 @@ namespace muu
 		/// \detail \cpp
 		/// const int8_t val = 42_i8;
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		int8_t operator"" _i8(unsigned long long n) noexcept
 		{
@@ -146,9 +126,7 @@ namespace muu
 		/// \detail \cpp
 		/// const int16_t val = 42_i16;
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		int16_t operator"" _i16(unsigned long long n) noexcept
 		{
@@ -159,9 +137,7 @@ namespace muu
 		/// \detail \cpp
 		/// const int32_t val = 42_i32;
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		int32_t operator"" _i32(unsigned long long n) noexcept
 		{
@@ -172,9 +148,7 @@ namespace muu
 		/// \detail \cpp
 		/// const int64_t val = 42_i64;
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		int64_t operator"" _i64(unsigned long long n) noexcept
 		{
@@ -187,9 +161,7 @@ namespace muu
 		/// \detail \cpp
 		/// const int128_t val = 42_i128;
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		int128_t operator"" _i128(unsigned long long n) noexcept
 		{
@@ -200,9 +172,7 @@ namespace muu
 		/// \detail \cpp
 		/// const uint128_t val = 42_u128;
 		/// \ecpp
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_CONSTEVAL
 		uint128_t operator"" _u128(unsigned long long n) noexcept
 		{

@@ -437,8 +437,7 @@ namespace muu
 
 		/// \brief Returns a subspan representing the first N elements of this span.
 		template <size_t Count>
-		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_PURE_GETTER
 		constexpr span<element_type, Count> first() const noexcept
 		{
 			static_assert(Count <= Extent, "span::first() count cannot exceed the size of the source span");
@@ -447,8 +446,7 @@ namespace muu
 		}
 
 		/// \brief Returns a subspan representing the first N elements of this span.
-		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_PURE_GETTER
 		constexpr span<element_type> first(size_t count) const noexcept
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(count <= size());
@@ -457,8 +455,7 @@ namespace muu
 
 		/// \brief Returns a subspan representing the last N elements of this span.
 		template <size_t Count>
-		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_PURE_GETTER
 		constexpr span<element_type, Count> last() const noexcept
 		{
 			static_assert(Count <= Extent, "span::last() count cannot exceed the size of the source span");
@@ -467,8 +464,7 @@ namespace muu
 		}
 
 		/// \brief Returns a subspan representing the last N elements of this span.
-		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_PURE_GETTER
 		constexpr span<element_type> last(size_t count) const noexcept
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(count <= size());
@@ -477,8 +473,7 @@ namespace muu
 
 		/// \brief Returns an arbitrary subspan.
 		template <size_t Offset, size_t Count = dynamic_extent>
-		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_PURE_GETTER
 		constexpr auto subspan() const noexcept
 		{
 			static_assert(Offset < Extent, "span::subspan() Offset cannot exceed the size of the source span");
@@ -499,8 +494,7 @@ namespace muu
 		}
 
 		/// \brief Returns an arbitrary subspan.
-		MUU_NODISCARD
-		MUU_ATTR_NDEBUG(pure)
+		MUU_PURE_GETTER
 		constexpr span<element_type> subspan(size_t offset, size_t count = dynamic_extent) const noexcept
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(offset < size());
@@ -542,10 +536,10 @@ namespace muu
 
 	/// \endcond
 
-	/// \brief	Convenience alias for `span<const T>`.
+	/// \brief	Convenience alias for `span<const T, Extent>`.
 	/// \ingroup	memory
-	template <typename T>
-	using const_span = span<const T>;
+	template <typename T, size_t Extent MUU_DOXYGEN_ONLY(= dynamic_extent)>
+	using const_span = span<const T, Extent>;
 
 	/// \brief	Convenience alias for `span<std::byte>`.
 	/// \ingroup	memory

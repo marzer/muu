@@ -9,7 +9,6 @@ project(
 		'buildtype=release',
 		'warning_level=3',
 		'werror=true',
-		'layout=flat',
 
 		# base options
 		'b_lto=true',
@@ -25,10 +24,10 @@ project(
 #######################################################################################################################
 
 compiler = meson.get_compiler('cpp')
-message(['target cpu_family', host_machine.cpu_family()])
-message(['target cpu', host_machine.cpu()])
-message(['target system', host_machine.system()])
-message(['target endian', host_machine.endian()])
+message('target cpu_family: @0@'.format(host_machine.cpu_family()))
+message('target cpu: @0@'.format(host_machine.cpu()))
+message('target system: @0@'.format(host_machine.system()))
+message('target endian: @0@'.format(host_machine.endian()))
 
 is_gcc = compiler.get_id() == 'gcc'
 is_clang = compiler.get_id() == 'clang'
@@ -47,10 +46,10 @@ include_dirs = include_directories('include', 'external')
 overrides = []
 additional_arguments = []
 
-message(['is_release', is_release])
-message(['is_windows', is_windows])
-message(['is_x64', is_x64])
-message(['has_exceptions', has_exceptions])
+message('is_release: @0@'.format(is_release))
+message('is_windows: @0@'.format(is_windows))
+message('is_x64: @0@'.format(is_x64))
+message('has_exceptions: @0@'.format(has_exceptions))
 
 # compiler argument references:
 # msvc: https://docs.microsoft.com/en-us/cpp/build/reference/compiler-options-listed-alphabetically?view=vs-2019
@@ -122,14 +121,14 @@ if is_gcc
 			'-Wvariadic-macros',
 			'-Wwrite-strings',
 			'-Wmissing-noreturn',
-			'-Wsuggest-attribute=const',
-			'-Wsuggest-attribute=pure',
 			language : 'cpp'
 		)
 	endif
 	if is_release
 		add_project_arguments(
 			'-fmerge-constants',
+			'-Wsuggest-attribute=const',
+			'-Wsuggest-attribute=pure',
 			language : 'cpp'
 		)
 	endif
@@ -258,6 +257,16 @@ compiler_supports_cpp20_test_program = '''
 	#include <version>
 	#include <string>
 	#include <iostream>
+	#include <cstdint>
+	#include <cstddef>
+	#include <cstring>
+	#include <cfloat>
+	#include <climits>
+	#include <cmath>
+	#include <limits>
+	#include <memory>
+	#include <iosfwd>
+	#include <type_traits>
 
 	int main()
 	{

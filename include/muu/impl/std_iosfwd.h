@@ -2,10 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-// clang-format off
-#pragma once
-#ifndef MUU_STD_IOSFWD_INCLUDED
-#define MUU_STD_IOSFWD_INCLUDED
+#ifndef MUU_STD_IOSFWD_H
+#define MUU_STD_IOSFWD_H
 
 #include "../preprocessor.h"
 
@@ -25,5 +23,4 @@ MUU_ENABLE_WARNINGS;
 	#define MUU_HAS_SPANSTREAMS 0
 #endif
 
-#endif // MUU_STD_IOSFWD_INCLUDED
-// clang-format on
+#endif // MUU_STD_IOSFWD_H

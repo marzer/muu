@@ -205,8 +205,7 @@ BATCHED_TEST_CASE("vector constructors", vectors<ALL_ARITHMETIC>)
 	static_assert(vector_t::dimensions < 5 || std::is_nothrow_constructible_v<vector_t, T, T, T, T, T>);
 
 #if MUU_HAS_VECTORCALL
-	static_assert(
-		impl::is_hva<vector_t> == (vector_t::dimensions <= 4 && any_same<T, float, double, long double>));
+	static_assert(impl::is_hva<vector_t> == (vector_t::dimensions <= 4 && any_same<T, float, double, long double>));
 #endif
 
 	BATCHED_SECTION("zero-initialization")
@@ -261,8 +260,8 @@ BATCHED_TEST_CASE("vector constructors", vectors<ALL_ARITHMETIC>)
 
 	BATCHED_SECTION("coercing constructor")
 	{
-		using other_type = std::
-			conditional_t<any_same<T, signed int, unsigned int>, float, set_signed<signed int, is_signed<T>>>;
+		using other_type =
+			std::conditional_t<any_same<T, signed int, unsigned int>, float, set_signed<signed int, is_signed<T>>>;
 
 		vector<other_type, vector_t::dimensions> other;
 		for (size_t i = 0; i < vector_t::dimensions; i++)
@@ -1118,6 +1117,7 @@ BATCHED_TEST_CASE("vector min/max", vectors<ALL_ARITHMETIC>)
 	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
 
 	const vector_t zeroes{ T{} };				   // {  0,  0,  0, ...}
+	const vector_t ones{ T{} };					   // {  1,  1,  1, ...}
 	vector_t sequential;						   // {  1,  2,  3, ...}
 	[[maybe_unused]] vector_t sequential_negative; // { -1, -2, -3, ...} (signed only)
 	vector_t interleaved1{ zeroes };			   // {  1,  0,  3, ...}
@@ -1187,6 +1187,35 @@ BATCHED_TEST_CASE("vector min/max", vectors<ALL_ARITHMETIC>)
 	{
 		CHECK(vector_t::min(interleaved2, interleaved2) == interleaved2);
 		CHECK(vector_t::max(interleaved2, interleaved2) == interleaved2);
+	}
+
+	BATCHED_SECTION("variadic")
+	{
+		CHECK(vector_t::min(zeroes, zeroes, zeroes, zeroes) == zeroes);
+		CHECK(vector_t::max(zeroes, zeroes, zeroes, zeroes) == zeroes);
+		CHECK(vector_t::min(zeroes, ones, zeroes, zeroes) == zeroes);
+		CHECK(vector_t::max(zeroes, ones, zeroes, zeroes) == ones);
+		CHECK(vector_t::min(zeroes, interleaved1, interleaved2, zeroes) == zeroes);
+		CHECK(vector_t::max(zeroes, interleaved1, interleaved2, zeroes) == sequential);
+	}
+
+	BATCHED_SECTION("initializer_list") // note this also tests the (ptr, ptr) version
+	{
+		CHECK(vector_t::min({ zeroes, zeroes }) == zeroes);
+		CHECK(vector_t::max({ zeroes, zeroes }) == zeroes);
+		CHECK(vector_t::min({ zeroes, sequential }) == zeroes);
+		CHECK(vector_t::max({ zeroes, sequential }) == sequential);
+		CHECK(vector_t::min({ zeroes, interleaved1 }) == zeroes);
+		CHECK(vector_t::max({ zeroes, interleaved1 }) == interleaved1);
+		CHECK(vector_t::min({ zeroes, interleaved2 }) == zeroes);
+		CHECK(vector_t::max({ zeroes, interleaved2 }) == interleaved2);
+
+		CHECK(vector_t::min({ zeroes, zeroes, zeroes, zeroes }) == zeroes);
+		CHECK(vector_t::max({ zeroes, zeroes, zeroes, zeroes }) == zeroes);
+		CHECK(vector_t::min({ zeroes, ones, zeroes, zeroes }) == zeroes);
+		CHECK(vector_t::max({ zeroes, ones, zeroes, zeroes }) == ones);
+		CHECK(vector_t::min({ zeroes, interleaved1, interleaved2, zeroes }) == zeroes);
+		CHECK(vector_t::max({ zeroes, interleaved1, interleaved2, zeroes }) == sequential);
 	}
 }
 

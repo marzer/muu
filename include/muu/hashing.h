@@ -381,8 +381,7 @@ namespace muu
 		/// \brief	Returns the calculated hash value.
 		///
 		/// \warning Calling this before finish() has been called is undefined behaviour.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		const hash_type& value() const noexcept
 		{
 			return state.hash;

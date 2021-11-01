@@ -473,6 +473,7 @@ namespace muu::impl
 
 extern "C" //
 {
+	MUU_NODISCARD
 	MUU_API
 	MUU_ATTR(returns_nonnull)
 	void* MUU_CALLCONV muu_impl_thread_pool_create(size_t, size_t, muu::string_param*, muu::generic_allocator*);
@@ -481,10 +482,12 @@ extern "C" //
 	MUU_ATTR(nonnull)
 	void MUU_CALLCONV muu_impl_thread_pool_destroy(void*) noexcept;
 
+	MUU_NODISCARD
 	MUU_API
 	MUU_ATTR(nonnull)
 	size_t MUU_CALLCONV muu_impl_thread_pool_lock(void*) noexcept;
 
+	MUU_NODISCARD
 	MUU_API
 	MUU_ATTR(nonnull)
 	MUU_ATTR(returns_nonnull)
@@ -499,10 +502,12 @@ extern "C" //
 	MUU_ATTR(nonnull)
 	void MUU_CALLCONV muu_impl_thread_pool_wait(void*) noexcept;
 
+	MUU_NODISCARD
 	MUU_API
 	MUU_ATTR(pure)
 	size_t MUU_CALLCONV muu_impl_thread_pool_workers(void*) noexcept;
 
+	MUU_NODISCARD
 	MUU_API
 	MUU_ATTR(pure)
 	size_t MUU_CALLCONV muu_impl_thread_pool_capacity(void*) noexcept;

@@ -48,9 +48,7 @@ namespace muu::impl
 	#if MUU_MSVC
 
 		template <size_t Index>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		static constexpr vector<Scalar, Rows> fill_column_initializer_msvc(Scalar fill) noexcept
 		{
 			return vector<Scalar, Rows>{ fill };
@@ -98,9 +96,7 @@ namespace muu::impl
 
 	  private:
 		template <size_t Index, typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		static constexpr decltype(auto) get_tuple_value_or_zero(const T& tpl) noexcept
 		{
 			if constexpr (Index < tuple_size<T>)
@@ -115,8 +111,7 @@ namespace muu::impl
 		}
 
 		template <size_t Column, typename T, size_t... RowIndices>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		MUU_ATTR(flatten)
 		static constexpr vector<Scalar, Rows> column_from_row_major_tuple(const T& tpl,
 																		  std::index_sequence<RowIndices...>) noexcept
@@ -233,8 +228,7 @@ namespace muu::impl
 	#define MAT_GET(r, c) static_cast<type>(m.m[c].template get<r>())
 
 	template <size_t Row0 = 0, size_t Row1 = 1, size_t Col0 = 0, size_t Col1 = 1, typename T>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	static constexpr promote_if_small_float<typename T::determinant_type> raw_determinant_2x2(const T& m) noexcept
 	{
 		MUU_FMA_BLOCK;
@@ -250,8 +244,7 @@ namespace muu::impl
 			  size_t Col1 = 1,
 			  size_t Col2 = 2,
 			  typename T>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	static constexpr promote_if_small_float<typename T::determinant_type> raw_determinant_3x3(const T& m) noexcept
 	{
 		MUU_FMA_BLOCK;
@@ -271,8 +264,7 @@ namespace muu::impl
 			  size_t Col2 = 2,
 			  size_t Col3 = 3,
 			  typename T>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	static constexpr promote_if_small_float<typename T::determinant_type> raw_determinant_4x4(const T& m) noexcept
 	{
 		MUU_FMA_BLOCK;
@@ -594,9 +586,7 @@ namespace muu
 
 	  private:
 		template <size_t R, size_t C, typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		static constexpr auto& do_get(T& mat) noexcept
 		{
@@ -607,8 +597,7 @@ namespace muu
 		}
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr auto& do_lookup_operator(T& mat, size_t r, size_t c) noexcept
 		{
 			MUU_ASSUME(r < Rows);
@@ -625,9 +614,7 @@ namespace muu
 		///
 		/// \return  A reference to the selected scalar component.
 		template <size_t R, size_t C>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr const scalar_type& get() const noexcept
 		{
@@ -641,9 +628,7 @@ namespace muu
 		///
 		/// \return  A reference to the selected scalar component.
 		template <size_t R, size_t C>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr scalar_type& get() noexcept
 		{
@@ -656,8 +641,7 @@ namespace muu
 		/// \param c	The column of the scalar component to retrieve.
 		///
 		/// \return  A reference to the selected scalar component.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr const scalar_type& operator()(size_t r, size_t c) const noexcept
 		{
 			return do_lookup_operator(*this, r, c);
@@ -669,17 +653,14 @@ namespace muu
 		/// \param c	The column of the scalar component to retrieve.
 		///
 		/// \return  A reference to the selected scalar component.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr scalar_type& operator()(size_t r, size_t c) noexcept
 		{
 			return do_lookup_operator(*this, r, c);
 		}
 
 		/// \brief Returns a pointer to the first scalar component in the matrix.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr const scalar_type* data() const noexcept
 		{
@@ -687,9 +668,7 @@ namespace muu
 		}
 
 		/// \brief Returns a pointer to the first scalar component in the matrix.
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(pure)
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr scalar_type* data() noexcept
 		{
@@ -707,8 +686,7 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL
 								  || impl::pass_vectorcall_by_reference<matrix, matrix<T, Rows, Columns>>),
 								 typename T)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator==(const matrix& lhs, const matrix<T, rows, columns>& rhs) noexcept
 		{
 			for (size_t i = 0; i < columns; i++)
@@ -739,8 +717,7 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL
 								  || impl::pass_vectorcall_by_reference<matrix, matrix<T, Rows, Columns>>),
 								 typename T)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator!=(const matrix& lhs, const matrix<T, rows, columns>& rhs) noexcept
 		{
 			return !(lhs == rhs);
@@ -762,8 +739,7 @@ namespace muu
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(matrix) m) noexcept
 		{
 			for (size_t i = 0; i < columns; i++)
@@ -776,16 +752,14 @@ namespace muu
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool zero() const noexcept
 		{
 			return zero(*this);
 		}
 
 		/// \brief	Returns true if any of the scalar components of a matrix are infinity or NaN.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VC_PARAM(matrix) m) noexcept
 		{
 			if constexpr (is_floating_point<scalar_type>)
@@ -803,8 +777,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if any of the scalar components of the matrix are infinity or NaN.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool infinity_or_nan() const noexcept
 		{
 			if constexpr (is_floating_point<scalar_type>)
@@ -825,8 +798,7 @@ namespace muu
 								  && (!MUU_HAS_VECTORCALL
 									  || impl::pass_vectorcall_by_reference<matrix, matrix<T, Rows, Columns>>)),
 								 typename T)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			const matrix& m1,
 			const matrix<T, rows, columns>& m2,
@@ -866,8 +838,7 @@ namespace muu
 								  && (!MUU_HAS_VECTORCALL
 									  || impl::pass_vectorcall_by_reference<matrix<T, Rows, Columns>>)),
 								 typename T)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL approx_equal(
 			const matrix<T, rows, columns>& m,
 			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
@@ -895,8 +866,7 @@ namespace muu
 		///
 		/// \availability	This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(matrix) m,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
@@ -910,8 +880,7 @@ namespace muu
 		///
 		/// \availability	This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
 			return approx_zero(*this, epsilon);
@@ -922,8 +891,7 @@ namespace muu
 	#if 1 // addition -------------------------------------------------------------------------------------------------
 
 		/// \brief Returns the componentwise addition of two matrices.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr matrix MUU_VECTORCALL operator+(MUU_VC_PARAM(matrix) lhs, MUU_VC_PARAM(matrix) rhs) noexcept
 		{
 			matrix out{ lhs };
@@ -941,8 +909,7 @@ namespace muu
 		}
 
 		/// \brief Returns a componentwise copy of a matrix.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr matrix operator+() const noexcept
 		{
 			return *this;
@@ -954,8 +921,7 @@ namespace muu
 		  // -------------------------------------------------------------------------------------------------
 
 		/// \brief Returns the componentwise subtraction of two matrices.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr matrix MUU_VECTORCALL operator-(MUU_VC_PARAM(matrix) lhs, MUU_VC_PARAM(matrix) rhs) noexcept
 		{
 			matrix out{ lhs };
@@ -974,8 +940,7 @@ namespace muu
 
 		/// \brief Returns a componentwise negation of a matrix.
 		MUU_LEGACY_REQUIRES(is_signed<T>, typename T = Scalar)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr matrix operator-() const noexcept
 		{
 			matrix out{ *this };
@@ -996,8 +961,7 @@ namespace muu
 		///
 		/// \return  The result of `lhs * rhs`.
 		template <size_t C>
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr matrix<scalar_type, rows, C> MUU_VECTORCALL operator*(
 			MUU_VC_PARAM(matrix) lhs,
 			const matrix<scalar_type, columns, C>& rhs) noexcept
@@ -1114,8 +1078,7 @@ namespace muu
 		/// \param rhs  The RHS column vector.
 		///
 		/// \return  The result of `lhs * rhs`.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr column_type MUU_VECTORCALL operator*(MUU_VC_PARAM(matrix) lhs,
 															  MUU_VC_PARAM(vector<scalar_type, columns>) rhs) noexcept
 		{
@@ -1181,8 +1144,7 @@ namespace muu
 		/// \param rhs  The RHS matrix.
 		///
 		/// \return  The result of `lhs * rhs`.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr row_type MUU_VECTORCALL operator*(MUU_VC_PARAM(vector<scalar_type, rows>) lhs,
 														   MUU_VC_PARAM(matrix) rhs) noexcept
 		{
@@ -1242,8 +1204,7 @@ namespace muu
 		}
 
 		/// \brief Returns the componentwise multiplication of a matrix and a scalar.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr matrix MUU_VECTORCALL operator*(MUU_VC_PARAM(matrix) lhs, scalar_type rhs) noexcept
 		{
 			matrix out{ lhs };
@@ -1252,8 +1213,7 @@ namespace muu
 		}
 
 		/// \brief Returns the componentwise multiplication of a matrix and a scalar.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr matrix MUU_VECTORCALL operator*(scalar_type lhs, MUU_VC_PARAM(matrix) rhs) noexcept
 		{
 			return rhs * lhs;
@@ -1286,8 +1246,7 @@ namespace muu
 	#if 1 // division -------------------------------------------------------------------------------------------------
 
 		/// \brief Returns the componentwise multiplication of a matrix by a scalar.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr matrix MUU_VECTORCALL operator/(MUU_VC_PARAM(matrix) lhs, scalar_type rhs) noexcept
 		{
 			matrix out{ lhs };
@@ -1327,8 +1286,7 @@ namespace muu
 	#if 1 // transposition --------------------------------------------------------------------------------------------
 
 		/// \brief	Returns a transposed copy of a matrix.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr matrix<scalar_type, columns, rows> MUU_VECTORCALL transpose(MUU_VC_PARAM(matrix) m) noexcept
 		{
 			using result_type	= matrix<scalar_type, columns, rows>;
@@ -1397,8 +1355,7 @@ namespace muu
 		/// \availability	This function is only available when the matrix is square
 		///					and has at most 4 rows and columns.
 		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr determinant_type MUU_VECTORCALL determinant(MUU_VC_PARAM(matrix) m) noexcept
 		{
 			if constexpr (Columns == 1)
@@ -1416,8 +1373,7 @@ namespace muu
 		/// \availability	This function is only available when the matrix is square
 		///					and has at most 4 rows and columns.
 		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr determinant_type determinant() noexcept
 		{
 			return determinant(*this);
@@ -1428,8 +1384,7 @@ namespace muu
 		/// \availability	This function is only available when the matrix is square
 		///					and has at most 4 rows and columns.
 		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr inverse_type MUU_VECTORCALL invert(MUU_VC_PARAM(matrix) m) noexcept
 		{
 		#define MAT_GET(r, c) static_cast<intermediate_float>(m.m[c].template get<r>())
@@ -2075,8 +2030,7 @@ namespace muu
 	///
 	/// \brief	Returns true if any of the scalar components of a matrix are infinity or NaN.
 	template <typename S, size_t R, size_t C>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool infinity_or_nan(const matrix<S, R, C>& m) noexcept
 	{
 		if constexpr (is_floating_point<S>)
@@ -2095,8 +2049,7 @@ namespace muu
 	///
 	/// \availability	This function is only available when at least one of `S` and `T` is a floating-point type.
 	MUU_CONSTRAINED_TEMPLATE((any_floating_point<S, T>), typename S, typename T, size_t R, size_t C)
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(const matrix<S, R, C>& m1,
 											   const matrix<T, R, C>& m2,
 											   epsilon_type<S, T> epsilon = default_epsilon<S, T>) noexcept
@@ -2111,8 +2064,7 @@ namespace muu
 	///
 	/// \availability	This function is only available when `S` is a floating-point type.
 	MUU_CONSTRAINED_TEMPLATE(is_floating_point<S>, typename S, size_t R, size_t C)
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(const matrix<S, R, C>& m, S epsilon = default_epsilon<S>) noexcept
 	{
 		return matrix<S, R, C>::approx_zero(m, epsilon);
@@ -2122,8 +2074,7 @@ namespace muu
 	///
 	/// \relatesalso	muu::matrix
 	template <typename S, size_t R, size_t C>
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr matrix<S, C, R> transpose(const matrix<S, R, C>& m) noexcept
 	{
 		return matrix<S, R, C>::transpose(m);
@@ -2140,8 +2091,7 @@ namespace muu
 		size_t R,
 		size_t C //
 			MUU_HIDDEN_PARAM(typename determinant_type = typename matrix<S, R, C>::determinant_type))
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr determinant_type determinant(const matrix<S, R, C>& m) noexcept
 	{
 		return matrix<S, R, C>::determinant(m);
@@ -2157,8 +2107,7 @@ namespace muu
 							 size_t R,
 							 size_t C //
 								 MUU_HIDDEN_PARAM(typename inverse_type = typename matrix<S, R, C>::inverse_type))
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr inverse_type invert(const matrix<S, R, C>& m) noexcept
 	{
 		return matrix<S, R, C>::invert(m);
@@ -2173,8 +2122,7 @@ namespace muu
 	///
 	/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
 	MUU_CONSTRAINED_TEMPLATE(is_floating_point<S>, typename S, size_t R, size_t C)
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr matrix<S, R, C> orthonormalize(const matrix<S, R, C>& m) noexcept
 	{
 		return matrix<S, R, C>::orthonormalize(m);

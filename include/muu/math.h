@@ -85,9 +85,7 @@ namespace muu
 			};
 			static constexpr mask_type mask = { 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
 
-			MUU_NODISCARD
-			MUU_ATTR(pure)
-			MUU_ALWAYS_INLINE
+			MUU_PURE_INLINE_GETTER
 			static constexpr bool MUU_VECTORCALL check(const mask_type& mask_) noexcept
 			{
 				return (mask_.value[3] & mask.value[3]) == mask.value[3]
@@ -107,9 +105,7 @@ namespace muu
 			};
 			static constexpr mask_type mask = { 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
 
-			MUU_NODISCARD
-			MUU_ATTR(pure)
-			MUU_ALWAYS_INLINE
+			MUU_PURE_INLINE_GETTER
 			static constexpr bool MUU_VECTORCALL check(const mask_type& mask_) noexcept
 			{
 				return (mask_.value[0] & mask.value[0]) == mask.value[0]
@@ -131,9 +127,7 @@ namespace muu
 			};
 			static constexpr mask_type mask = { 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
 
-			MUU_NODISCARD
-			MUU_ATTR(pure)
-			MUU_ALWAYS_INLINE
+			MUU_PURE_INLINE_GETTER
 			static constexpr bool MUU_VECTORCALL check(const mask_type& mask_) noexcept
 			{
 				return (mask_.value[1] & mask.value[1]) == mask.value[1];
@@ -288,8 +282,7 @@ namespace muu
 	///
 	/// \returns	The result `T::infinity_or_nan(obj)` or `obj.infinity_or_nan()` (coerced to bool).
 	MUU_CONSTRAINED_TEMPLATE(impl::has_specialized_infinity_or_nan<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr bool infinity_or_nan(const T& obj) noexcept
 	{
 		if constexpr (is_detected<impl::has_static_infinity_or_nan_, T>)
@@ -325,9 +318,7 @@ namespace muu
 		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL consteval_abs(T x) noexcept
 		{
 			static_assert(is_signed<T>);
@@ -343,9 +334,7 @@ namespace muu
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr T MUU_VECTORCALL abs_(T x) noexcept
 		{
@@ -579,9 +568,7 @@ namespace muu
 	/// \brief	Returns true if two scalar values are approximately equal.
 	/// \remark This reduces to `a == b` for non-float types.
 	MUU_CONSTRAINED_TEMPLATE((std::is_scalar_v<T> && std::is_scalar_v<U>), typename T, typename U)
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ALWAYS_INLINE
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(T a, U b) noexcept
 	{
 		if constexpr (is_scoped_enum<T> || is_scoped_enum<U>)
@@ -604,27 +591,21 @@ namespace muu
 	/// @{
 
 	/// \brief	Returns true if a float is approximately equal to zero.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ALWAYS_INLINE
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(float x, float epsilon = default_epsilon<float>) noexcept
 	{
 		return approx_equal(x, 0.0f, epsilon);
 	}
 
 	/// \brief	Returns true if a double is approximately equal to zero.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ALWAYS_INLINE
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(double x, double epsilon = default_epsilon<double>) noexcept
 	{
 		return approx_equal(x, 0.0, epsilon);
 	}
 
 	/// \brief	Returns true if a long double is approximately equal to zero.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ALWAYS_INLINE
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(long double x,
 											  long double epsilon = default_epsilon<long double>) noexcept
 	{
@@ -634,9 +615,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns true if a float128_t is approximately equal to zero.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ALWAYS_INLINE
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(float128_t x, float128_t epsilon = default_epsilon<float128_t>) noexcept
 	{
 		return approx_equal(x, float128_t{}, epsilon);
@@ -647,9 +626,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns true if a _Float16 is approximately equal to zero.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ALWAYS_INLINE
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(_Float16 x, _Float16 epsilon = default_epsilon<_Float16>) noexcept
 	{
 		return approx_equal(x, _Float16{}, epsilon);
@@ -660,9 +637,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns true if a __fp16 is approximately equal to zero.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ALWAYS_INLINE
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(__fp16 x, __fp16 epsilon = default_epsilon<__fp16>) noexcept
 	{
 		return approx_equal(x, __fp16{}, epsilon);
@@ -673,9 +648,7 @@ namespace muu
 	/// \brief	Returns true if a scalar value is approximately equal to zero.
 	/// \remark This reduces to `a == 0` for non-float types.
 	MUU_CONSTRAINED_TEMPLATE(std::is_scalar_v<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ALWAYS_INLINE
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(T x) noexcept
 	{
 		static_assert(!is_floating_point<T>); // should have selected a specific overload
@@ -700,9 +673,7 @@ namespace muu
 		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL consteval_floor(T x) noexcept
 		{
 			static_assert(is_floating_point<T>);
@@ -716,9 +687,7 @@ namespace muu
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr T MUU_VECTORCALL floor_(T x) noexcept
 		{
@@ -848,9 +817,7 @@ namespace muu
 		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL consteval_ceil(T x) noexcept
 		{
 			static_assert(is_floating_point<T>);
@@ -864,9 +831,7 @@ namespace muu
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr T MUU_VECTORCALL ceil_(T x) noexcept
 		{

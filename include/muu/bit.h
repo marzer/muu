@@ -48,9 +48,7 @@ namespace muu
 		#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_ATTR(flatten)
 		int MUU_VECTORCALL countl_zero_intrinsic(T val) noexcept
 		{
@@ -187,9 +185,7 @@ namespace muu
 		#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		MUU_ATTR(flatten)
 		int MUU_VECTORCALL countr_zero_intrinsic(T val) noexcept
 		{
@@ -501,9 +497,7 @@ namespace muu
 		#define MUU_HAS_INTRINSIC_POPCOUNT 1
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		auto MUU_VECTORCALL popcount_intrinsic(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
@@ -778,9 +772,7 @@ namespace muu
 	///
 	/// \returns	The value of the selected byte.
 	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, size_t Index, typename T)
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr uint8_t MUU_VECTORCALL byte_select(T val) noexcept
 	{
@@ -836,9 +828,7 @@ namespace muu
 	///
 	/// \returns	The value of the selected byte, or 0 if the index was out-of-range.
 	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr uint8_t MUU_VECTORCALL byte_select(T val, size_t index) noexcept
 	{
@@ -863,9 +853,7 @@ namespace muu
 		#define MUU_HAS_INTRINSIC_BYTE_REVERSE 1
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		T MUU_VECTORCALL byte_reverse_intrinsic(T val) noexcept
 		{
 		#if MUU_GCC || MUU_CLANG
@@ -964,9 +952,7 @@ namespace muu
 	///
 	/// \returns	A copy of the input value with the byte order reversed.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr T MUU_VECTORCALL byte_reverse(T val) noexcept
 	{

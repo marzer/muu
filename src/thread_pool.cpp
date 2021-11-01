@@ -383,9 +383,7 @@ namespace
 		std::atomic<size_t> next_queue = 0_sz;
 		mutable thread_pool_monitor monitor;
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
-		MUU_ATTR(nonnull)
+		MUU_PURE_GETTER
 		thread_pool_queue& queue(size_t idx) noexcept
 		{
 			MUU_ASSERT(idx < worker_count);
@@ -393,9 +391,7 @@ namespace
 				reinterpret_cast<thread_pool_queue*>(queue_buffer.data() + sizeof(thread_pool_queue) * idx));
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(pure)
-		MUU_ATTR(nonnull)
+		MUU_PURE_GETTER
 		thread_pool_worker& worker(size_t idx) noexcept
 		{
 			MUU_ASSERT(idx < worker_count);
@@ -552,9 +548,7 @@ namespace
 		thread_pool_impl impl;
 	};
 
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	MUU_ATTR(nonnull)
 	static thread_pool_storage& storage_cast(void* ptr) noexcept
 	{

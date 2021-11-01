@@ -103,6 +103,7 @@
     <ClInclude Include="include\muu\impl\header_end.h" />
     <ClInclude Include="include\muu\impl\header_start.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="include\muu\impl\std_initializer_list.h" />
     <ClInclude Include="include\muu\impl\thread_name.h" />
     <ClInclude Include="include\muu\impl\std_cstdlib.h" />
     <ClInclude Include="include\muu\impl\std_exception.h" />

@@ -314,8 +314,8 @@ namespace muu
 
 	template <typename, size_t = dynamic_extent>
 	class span;
-	template <typename T>
-	using const_span	  = span<const T>;
+	template <typename T, size_t Extent = dynamic_extent>
+	using const_span	  = span<const T, Extent>;
 	using byte_span		  = span<std::byte>;
 	using const_byte_span = span<const std::byte>;
 

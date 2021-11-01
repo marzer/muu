@@ -2,10 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-// clang-format off
-#pragma once
-#ifndef MUU_STD_TYPE_TRAITS_INCLUDED
-#define MUU_STD_TYPE_TRAITS_INCLUDED
+#ifndef MUU_STD_TYPE_TRAITS_H
+#define MUU_STD_TYPE_TRAITS_H
 
 #include "../preprocessor.h"
 
@@ -21,5 +19,4 @@ MUU_ENABLE_WARNINGS;
 #undef MUU_ENABLE_IF
 #define MUU_ENABLE_IF(...) , std::enable_if_t<(__VA_ARGS__), int> = 0
 
-#endif // MUU_STD_TYPE_TRAITS_INCLUDED
-// clang-format on
+#endif // MUU_STD_TYPE_TRAITS_H

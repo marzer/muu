@@ -49,8 +49,7 @@ namespace muu::impl
 		template <>
 		struct uuid_slicer<2>
 		{
-			MUU_NODISCARD
-			MUU_ATTR(pure)
+			MUU_PURE_GETTER
 			static constexpr uint16_t slice(const std::byte (&bytes)[16], unsigned first) noexcept
 			{
 				MUU_ASSUME((first + 2u) <= 16u);
@@ -64,8 +63,7 @@ namespace muu::impl
 		template <>
 		struct uuid_slicer<4>
 		{
-			MUU_NODISCARD
-			MUU_ATTR(pure)
+			MUU_PURE_GETTER
 			static constexpr uint32_t slice(const std::byte (&bytes)[16], unsigned first) noexcept
 			{
 				MUU_ASSUME((first + 4u) <= 16u);
@@ -79,8 +77,7 @@ namespace muu::impl
 		template <>
 		struct uuid_slicer<8>
 		{
-			MUU_NODISCARD
-			MUU_ATTR(pure)
+			MUU_PURE_GETTER
 			static constexpr uint64_t slice(const std::byte (&bytes)[16], unsigned first) noexcept
 			{
 				MUU_ASSUME((first + 8u) <= 16u);
@@ -370,8 +367,7 @@ namespace muu
 #endif
 
 		/// \brief	Returns the UUID's variant.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr uuid_variant variant() const noexcept
 		{
 			const auto v = static_cast<unsigned>(unwrap((bytes.value[8] & std::byte{ 0b11100000_u8 }) >> 5));
@@ -395,8 +391,7 @@ namespace muu
 		}
 
 		/// \brief	Returns the UUID's version.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr uuid_version version() const noexcept
 		{
 			const auto v = static_cast<unsigned>(unwrap((bytes.value[6] & std::byte{ 0b11110000_u8 }) >> 4));
@@ -406,8 +401,7 @@ namespace muu
 		}
 
 		/// \brief	Returns the value of the 'time-low' field.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr uint32_t time_low() const noexcept
 		{
 			using slicer = impl::MUU_ENDIANNESS_NAMESPACE::uuid_slicer<4>;
@@ -415,8 +409,7 @@ namespace muu
 		}
 
 		/// \brief	Returns the value of the 'time-mid' field.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr uint16_t time_mid() const noexcept
 		{
 			using slicer = impl::MUU_ENDIANNESS_NAMESPACE::uuid_slicer<2>;
@@ -424,8 +417,7 @@ namespace muu
 		}
 
 		/// \brief	Returns the value of the 'time-high-and-version' field.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr uint16_t time_high_and_version() const noexcept
 		{
 			using slicer = impl::MUU_ENDIANNESS_NAMESPACE::uuid_slicer<2>;
@@ -433,16 +425,14 @@ namespace muu
 		}
 
 		/// \brief	Returns the value of the 'clock-seq-high-and-reserved' field.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr uint8_t clock_seq_high_and_reserved() const noexcept
 		{
 			return unwrap(bytes.value[8]);
 		}
 
 		/// \brief	Returns the value of the 'clock-seq-low' field.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr uint8_t clock_seq_low() const noexcept
 		{
 			return unwrap(bytes.value[9]);
@@ -452,8 +442,7 @@ namespace muu
 		///
 		/// \remarks The two most significant bytes of the return value will always be zero
 		/// 		 (the 'node' field of a UUID is a 48-bit unsigned int).
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr uint64_t node() const noexcept
 		{
 			using slicer = impl::MUU_ENDIANNESS_NAMESPACE::uuid_slicer<8>;
@@ -463,8 +452,7 @@ namespace muu
 #if MUU_HAS_INT128
 
 		/// \brief	Converts a UUID directly into a 128-bit integer.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		explicit constexpr operator uint128_t() const noexcept
 		{
 			if constexpr (build::supports_constexpr_bit_cast)
@@ -516,8 +504,7 @@ namespace muu
 #endif
 
 		/// \brief	Returns true if this UUID has non-zero value.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		explicit constexpr operator bool() const noexcept
 		{
 #if MUU_HAS_INT128
@@ -534,8 +521,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if two UUIDs are equal.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator==(const uuid& lhs, const uuid& rhs) noexcept
 		{
 #if !MUU_ICC
@@ -559,16 +545,14 @@ namespace muu
 		}
 
 		/// \brief	Returns true if two UUIDs are not equal.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator!=(const uuid& lhs, const uuid& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
 
 		/// \brief	Returns the lexicographical ordering of two UUID's.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		static constexpr int32_t compare(const uuid& lhs, const uuid& rhs) noexcept
 		{
 #if !MUU_ICC
@@ -597,32 +581,28 @@ namespace muu
 		}
 
 		/// \brief	Returns true if the LHS UUID is ordered lower than the RHS UUID.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator<(const uuid& lhs, const uuid& rhs) noexcept
 		{
 			return compare(lhs, rhs) < 0;
 		}
 
 		/// \brief	Returns true if the LHS UUID is ordered lower than or equal to the RHS UUID.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator<=(const uuid& lhs, const uuid& rhs) noexcept
 		{
 			return compare(lhs, rhs) <= 0;
 		}
 
 		/// \brief	Returns true if the LHS UUID is ordered higher than the RHS UUID.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator>(const uuid& lhs, const uuid& rhs) noexcept
 		{
 			return compare(lhs, rhs) > 0;
 		}
 
 		/// \brief	Returns true if the LHS UUID is ordered higher than or equal to the RHS UUID.
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		friend constexpr bool operator>=(const uuid& lhs, const uuid& rhs) noexcept
 		{
 			return compare(lhs, rhs) >= 0;
@@ -854,8 +834,7 @@ namespace muu
 		/// \ecpp
 		///
 		/// \relatesalso muu::uuid
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		MUU_CONSTEVAL
 		uuid operator"" _uuid(const char* str, size_t len) noexcept
 		{
@@ -872,8 +851,7 @@ namespace std
 	template <>
 	struct hash<muu::uuid>
 	{
-		MUU_NODISCARD
-		MUU_ATTR(pure)
+		MUU_PURE_GETTER
 		constexpr size_t operator()(const muu::uuid& id) const noexcept
 		{
 			using namespace muu;
