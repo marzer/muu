@@ -126,44 +126,51 @@
             </dt>
             <dd>Copy constructor.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ac75146a2a65e579740f3365ac75a7e1c">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
-              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#abb145280c8a133ee93b6dfaf7da4dbf6">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Constructs a oriented bounding box from center and extent values.</dd>
+            <dd>Constructs a oriented bounding box from center, extents and axes values.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#add81e03ed9576a601ea7ca5922e4c059">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aace39fe245f69d71029d23e2423203fb">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_x,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_y,
-              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_z) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_z,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Constructs a oriented bounding box from center and extent values.</dd>
+            <dd>Constructs a oriented bounding box from center, extents and axes values.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#af245cd2ee458db4330a1b5a8e7d1cd7b">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
-              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aea08fcdd543b285510b71591f1e0e090">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
+              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a uniformly-sized oriented bounding box.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ac24deab439c1494aa6cf84a91a17fead">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#acd2da562736af93ffcb9ad67071a46bf">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs an oriented bounding box at the origin.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a9041b99ffe909613b88d0ae96c223908">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_x,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a6b134fd5096fd18af398aa82d890928b">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_x,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_y,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_z,
-              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs an oriented bounding box from center and extent values.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ac3f3b86b77c608578cea5fca1454587c">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_x,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ae5d93db6e381c03588ebd7ff75deaf32">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_x,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_y,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_z,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_x,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_y,
-              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_z) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_z,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs an oriented bounding box from center and extent values.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#ad23f68db4b47f7f5e8bde771546b8278">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a664646d09fbd8d67cd23d7f3c7ecc56e">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a uniformly-sized oriented bounding box at the origin.</dd>
             <dt id="a26c97079d2340b6ce69933cabe8441d5">
@@ -425,15 +432,16 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ac75146a2a65e579740f3365ac75a7e1c"><div>
+          <section class="m-doc-details" id="abb145280c8a133ee93b6dfaf7da4dbf6"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac75146a2a65e579740f3365ac75a7e1c">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
-              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abb145280c8a133ee93b6dfaf7da4dbf6">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Constructs a oriented bounding box from center and extent values.</p>
+            <p>Constructs a oriented bounding box from center, extents and axes values.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -447,20 +455,25 @@
                   <td>ext</td>
                   <td>The extents.</td>
                 </tr>
+                <tr>
+                  <td>rot</td>
+                  <td>The rotation axes.</td>
+                </tr>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="add81e03ed9576a601ea7ca5922e4c059"><div>
+          <section class="m-doc-details" id="aace39fe245f69d71029d23e2423203fb"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#add81e03ed9576a601ea7ca5922e4c059">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aace39fe245f69d71029d23e2423203fb">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_x,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_y,
-              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_z) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_z,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Constructs a oriented bounding box from center and extent values.</p>
+            <p>Constructs a oriented bounding box from center, extents and axes values.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -482,16 +495,21 @@
                   <td>ext_z</td>
                   <td>The length of the Z extent.</td>
                 </tr>
+                <tr>
+                  <td>rot</td>
+                  <td>The rotation axes.</td>
+                </tr>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="af245cd2ee458db4330a1b5a8e7d1cd7b"><div>
+          <section class="m-doc-details" id="aea08fcdd543b285510b71591f1e0e090"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af245cd2ee458db4330a1b5a8e7d1cd7b">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
-              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aea08fcdd543b285510b71591f1e0e090">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; cen,
+              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a uniformly-sized oriented bounding box.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -507,15 +525,20 @@
                   <td>ext</td>
                   <td>The length of all three extents.</td>
                 </tr>
+                <tr>
+                  <td>rot</td>
+                  <td>The rotation axes.</td>
+                </tr>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ac24deab439c1494aa6cf84a91a17fead"><div>
+          <section class="m-doc-details" id="acd2da562736af93ffcb9ad67071a46bf"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac24deab439c1494aa6cf84a91a17fead">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#acd2da562736af93ffcb9ad67071a46bf">oriented_bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs an oriented bounding box at the origin.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -527,18 +550,23 @@
                   <td style="width: 1%">ext</td>
                   <td>The extents.</td>
                 </tr>
+                <tr>
+                  <td>rot</td>
+                  <td>The rotation axes.</td>
+                </tr>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a9041b99ffe909613b88d0ae96c223908"><div>
+          <section class="m-doc-details" id="a6b134fd5096fd18af398aa82d890928b"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9041b99ffe909613b88d0ae96c223908">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_x,
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6b134fd5096fd18af398aa82d890928b">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_x,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_y,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_z,
-              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; ext,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs an oriented bounding box from center and extent values.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -562,20 +590,25 @@
                   <td>ext</td>
                   <td>The extents.</td>
                 </tr>
+                <tr>
+                  <td>rot</td>
+                  <td>The rotation axes.</td>
+                </tr>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ac3f3b86b77c608578cea5fca1454587c"><div>
+          <section class="m-doc-details" id="ae5d93db6e381c03588ebd7ff75deaf32"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac3f3b86b77c608578cea5fca1454587c">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_x,
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae5d93db6e381c03588ebd7ff75deaf32">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_x,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_y,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> cen_z,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_x,
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_y,
-              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_z) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext_z,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs an oriented bounding box from center and extent values.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -607,15 +640,20 @@
                   <td>ext_z</td>
                   <td>The length of the Z extent.</td>
                 </tr>
+                <tr>
+                  <td>rot</td>
+                  <td>The rotation axes.</td>
+                </tr>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ad23f68db4b47f7f5e8bde771546b8278"><div>
+          <section class="m-doc-details" id="a664646d09fbd8d67cd23d7f3c7ecc56e"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad23f68db4b47f7f5e8bde771546b8278">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a664646d09fbd8d67cd23d7f3c7ecc56e">oriented_bounding_box</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> ext,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a>&amp; rot = axes_constants::identity) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a uniformly-sized oriented bounding box at the origin.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -626,6 +664,10 @@
                 <tr>
                   <td style="width: 1%">ext</td>
                   <td>The length of all three extents.</td>
+                </tr>
+                <tr>
+                  <td>rot</td>
+                  <td>The rotation axes.</td>
                 </tr>
               </tbody>
             </table>
