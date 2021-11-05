@@ -227,6 +227,16 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a0f71605faa2fa82f02abbacd61605964">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components in the matrix are approximately equal to zero.</dd>
+            <dt id="a639ad30790fa5317a3d81dd3d768c1b6">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a639ad30790fa5317a3d81dd3d768c1b6">column</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Gets a reference to a specific column.</dd>
+            <dt id="af2dfa75917dc999ad009812aa9b1ad50">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af2dfa75917dc999ad009812aa9b1ad50">column</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Gets a const reference to a specific column.</dd>
             <dt id="a68994711ec5b1b22af112afe85b0c05b">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a68994711ec5b1b22af112afe85b0c05b">data</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -243,7 +253,7 @@
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a71c4c90f6491573dfc1d5b9da35930c6">get</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Gets a reference to the scalar component at a specific row and column.</dd>
+            <dd>endcond</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#adca05c2d4d4d607d886db1c4411c763b">get</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -307,6 +317,38 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#abdf68e567d61b72c9b2273bdaad7eb4d">transpose</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Transposes the matrix (in-place).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8d2b4b7572e55d34d78f6c19f1a7acb2">w_axis</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to the W axis column (column 3).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a5a07c610f03088775a3840dd5fbe3bf5">w_axis</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reference to the W axis column (column 3).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#abeac22655489f329fc4d5a72b1bf23f7">x_axis</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to the X axis column (column 0).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a802a5105263b94104eb838f01c00737b">x_axis</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reference to the X axis column (column 0).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa18fcf39a8d13b7c5ad02276d0902733">y_axis</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to the Y axis column (column 1).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6bf1dcdeb6a7b79fcbefcef609c38c36">y_axis</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reference to the Y axis column (column 1).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae399deb6c4263207910cb02ac47ad2f3">z_axis</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to the Z axis column (column 2).</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a08c59d77f88e64b2577039e5587d6887">z_axis</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const reference to the Z axis column (column 2).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3d3394a8e617dc6a0875b9c9c87367f0">zero</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -685,7 +727,7 @@ template&lt;typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">const <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a71c4c90f6491573dfc1d5b9da35930c6">get</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Gets a reference to the scalar component at a specific row and column.</p>
+            <p>endcond</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Template parameters</th></tr>
@@ -707,6 +749,7 @@ template&lt;typename T&gt;
                 </tr>
               </tfoot>
             </table>
+<p>Gets a reference to the scalar component at a specific row and column.</p>
           </div></section>
           <section class="m-doc-details" id="adca05c2d4d4d607d886db1c4411c763b"><div>
             <h3>
@@ -832,6 +875,78 @@ template&lt;typename T&gt;
             </h3>
             <p>Transposes the matrix (in-place).</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is square.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a8d2b4b7572e55d34d78f6c19f1a7acb2"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8d2b4b7572e55d34d78f6c19f1a7acb2">w_axis</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a reference to the W axis column (column 3).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix has at least four columns.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a5a07c610f03088775a3840dd5fbe3bf5"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5a07c610f03088775a3840dd5fbe3bf5">w_axis</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a const reference to the W axis column (column 3).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix has at least four columns.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="abeac22655489f329fc4d5a72b1bf23f7"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abeac22655489f329fc4d5a72b1bf23f7">x_axis</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a reference to the X axis column (column 0).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix has at least two columns.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a802a5105263b94104eb838f01c00737b"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a802a5105263b94104eb838f01c00737b">x_axis</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a const reference to the X axis column (column 0).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix has at least two columns.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aa18fcf39a8d13b7c5ad02276d0902733"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa18fcf39a8d13b7c5ad02276d0902733">y_axis</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a reference to the Y axis column (column 1).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix has at least two columns.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a6bf1dcdeb6a7b79fcbefcef609c38c36"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6bf1dcdeb6a7b79fcbefcef609c38c36">y_axis</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a const reference to the Y axis column (column 1).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix has at least two columns.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ae399deb6c4263207910cb02ac47ad2f3"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae399deb6c4263207910cb02ac47ad2f3">z_axis</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a reference to the Z axis column (column 2).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix has at least three columns.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a08c59d77f88e64b2577039e5587d6887"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="structmuu_1_1matrix.html#a58afa02dd5888b308b1db7e578064d4c">column_<wbr/>type</a>&amp; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a08c59d77f88e64b2577039e5587d6887">z_axis</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a const reference to the Z axis column (column 2).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix has at least three columns.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a3d3394a8e617dc6a0875b9c9c87367f0"><div>
             <h3>

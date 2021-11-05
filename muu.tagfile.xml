@@ -5049,6 +5049,76 @@
       <arglist>(const T &amp;blittable) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr column_type &amp;</type>
+      <name>column</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a639ad30790fa5317a3d81dd3d768c1b6</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const column_type &amp;</type>
+      <name>column</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>af2dfa75917dc999ad009812aa9b1ad50</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr column_type &amp;</type>
+      <name>x_axis</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>abeac22655489f329fc4d5a72b1bf23f7</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const column_type &amp;</type>
+      <name>x_axis</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a802a5105263b94104eb838f01c00737b</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr column_type &amp;</type>
+      <name>y_axis</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa18fcf39a8d13b7c5ad02276d0902733</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const column_type &amp;</type>
+      <name>y_axis</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a6bf1dcdeb6a7b79fcbefcef609c38c36</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr column_type &amp;</type>
+      <name>z_axis</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>ae399deb6c4263207910cb02ac47ad2f3</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const column_type &amp;</type>
+      <name>z_axis</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a08c59d77f88e64b2577039e5587d6887</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr column_type &amp;</type>
+      <name>w_axis</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a8d2b4b7572e55d34d78f6c19f1a7acb2</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const column_type &amp;</type>
+      <name>w_axis</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a5a07c610f03088775a3840dd5fbe3bf5</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr const scalar_type &amp;</type>
       <name>get</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
