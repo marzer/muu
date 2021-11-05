@@ -279,6 +279,9 @@
     <None Include="tools\generate_batched_tests.py">
       <Filter>tools</Filter>
     </None>
+    <None Include="tools\clang_format.bat">
+      <Filter>tools</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include=".circleci">

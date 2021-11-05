@@ -34,8 +34,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a valid code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_code_point(wchar_t c) noexcept
 	{
 		return is_ascii_code_point(static_cast<impl::wchar_code_unit>(c));
@@ -47,8 +46,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a hyphen code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_hyphen(wchar_t c) noexcept
 	{
 		return is_ascii_hyphen(static_cast<impl::wchar_code_unit>(c));
@@ -60,8 +58,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a letter code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_letter(wchar_t c) noexcept
 	{
 		return is_ascii_letter(static_cast<impl::wchar_code_unit>(c));
@@ -73,8 +70,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a lowercase code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_lowercase(wchar_t c) noexcept
 	{
 		return is_ascii_lowercase(static_cast<impl::wchar_code_unit>(c));
@@ -86,8 +82,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a number code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_number(wchar_t c) noexcept
 	{
 		return is_ascii_number(static_cast<impl::wchar_code_unit>(c));
@@ -99,8 +94,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is an uppercase code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_uppercase(wchar_t c) noexcept
 	{
 		return is_ascii_uppercase(static_cast<impl::wchar_code_unit>(c));
@@ -112,8 +106,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a whitespace code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_whitespace(wchar_t c) noexcept
 	{
 		return is_ascii_whitespace(static_cast<impl::wchar_code_unit>(c));
@@ -125,8 +118,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a valid code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_code_point(wchar_t c) noexcept
 	{
 		return is_non_ascii_code_point(static_cast<impl::wchar_code_unit>(c));
@@ -138,8 +130,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a hyphen code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_hyphen(wchar_t c) noexcept
 	{
 		return is_non_ascii_hyphen(static_cast<impl::wchar_code_unit>(c));
@@ -151,8 +142,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a letter code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_letter(wchar_t c) noexcept
 	{
 		return is_non_ascii_letter(static_cast<impl::wchar_code_unit>(c));
@@ -164,8 +154,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a lowercase code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_lowercase(wchar_t c) noexcept
 	{
 		return is_non_ascii_lowercase(static_cast<impl::wchar_code_unit>(c));
@@ -177,8 +166,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a number code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_number(wchar_t c) noexcept
 	{
 		return is_non_ascii_number(static_cast<impl::wchar_code_unit>(c));
@@ -190,8 +178,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is an uppercase code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_uppercase(wchar_t c) noexcept
 	{
 		return is_non_ascii_uppercase(static_cast<impl::wchar_code_unit>(c));
@@ -203,8 +190,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a whitespace code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_whitespace(wchar_t c) noexcept
 	{
 		return is_non_ascii_whitespace(static_cast<impl::wchar_code_unit>(c));
@@ -216,8 +202,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is not a valid code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_code_point(wchar_t c) noexcept
 	{
 		return is_not_code_point(static_cast<impl::wchar_code_unit>(c));
@@ -229,8 +214,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is not a hyphen code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_hyphen(wchar_t c) noexcept
 	{
 		return is_not_hyphen(static_cast<impl::wchar_code_unit>(c));
@@ -242,8 +226,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is not a letter code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_letter(wchar_t c) noexcept
 	{
 		return is_not_letter(static_cast<impl::wchar_code_unit>(c));
@@ -255,8 +238,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is not a lowercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_lowercase(wchar_t c) noexcept
 	{
 		return is_not_lowercase(static_cast<impl::wchar_code_unit>(c));
@@ -268,8 +250,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is not a number code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_number(wchar_t c) noexcept
 	{
 		return is_not_number(static_cast<impl::wchar_code_unit>(c));
@@ -281,8 +262,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is not an uppercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_uppercase(wchar_t c) noexcept
 	{
 		return is_not_uppercase(static_cast<impl::wchar_code_unit>(c));
@@ -294,8 +274,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is not a whitespace code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_whitespace(wchar_t c) noexcept
 	{
 		return is_not_whitespace(static_cast<impl::wchar_code_unit>(c));
@@ -307,8 +286,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a valid code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_code_point(wchar_t c) noexcept
 	{
 		return is_code_point(static_cast<impl::wchar_code_unit>(c));
@@ -320,8 +298,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a code point boundary.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_code_point_boundary(wchar_t c) noexcept
 	{
 		return is_code_point_boundary(static_cast<impl::wchar_code_unit>(c));
@@ -333,8 +310,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a combining mark code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_combining_mark(wchar_t c) noexcept
 	{
 		return is_combining_mark(static_cast<impl::wchar_code_unit>(c));
@@ -346,8 +322,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a decimal digit code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_decimal_digit(wchar_t c) noexcept
 	{
 		return is_decimal_digit(static_cast<impl::wchar_code_unit>(c));
@@ -359,8 +334,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a hexadecimal digit code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_hexadecimal_digit(wchar_t c) noexcept
 	{
 		return is_hexadecimal_digit(static_cast<impl::wchar_code_unit>(c));
@@ -372,8 +346,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a hyphen code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_hyphen(wchar_t c) noexcept
 	{
 		return is_hyphen(static_cast<impl::wchar_code_unit>(c));
@@ -385,8 +358,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a letter code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_letter(wchar_t c) noexcept
 	{
 		return is_letter(static_cast<impl::wchar_code_unit>(c));
@@ -398,8 +370,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a lowercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_lowercase(wchar_t c) noexcept
 	{
 		return is_lowercase(static_cast<impl::wchar_code_unit>(c));
@@ -411,8 +382,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a number code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_number(wchar_t c) noexcept
 	{
 		return is_number(static_cast<impl::wchar_code_unit>(c));
@@ -424,8 +394,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is an octal digit code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_octal_digit(wchar_t c) noexcept
 	{
 		return is_octal_digit(static_cast<impl::wchar_code_unit>(c));
@@ -437,8 +406,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is an uppercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_uppercase(wchar_t c) noexcept
 	{
 		return is_uppercase(static_cast<impl::wchar_code_unit>(c));
@@ -450,8 +418,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a wide character is a whitespace code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_whitespace(wchar_t c) noexcept
 	{
 		return is_whitespace(static_cast<impl::wchar_code_unit>(c));

@@ -28,8 +28,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a valid code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_code_point(unsigned char c) noexcept
 	{
 		return c <= 0x7Fu;
@@ -41,8 +40,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a hyphen code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_hyphen(unsigned char c) noexcept
 	{
 		return c == 0x2Du;
@@ -54,8 +52,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a letter code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_letter(unsigned char c) noexcept
 	{
 		return (0x41u <= c && c <= 0x5Au) || (0x61u <= c && c <= 0x7Au);
@@ -67,11 +64,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a lowercase code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_lowercase(unsigned char c) noexcept
 	{
-		return 0x61u <= c && c <= 0x7Au;
+		return c >= 0x61u && c <= 0x7Au;
 	}
 
 	/// @}
@@ -80,11 +76,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a number code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_number(unsigned char c) noexcept
 	{
-		return 0x30u <= c && c <= 0x39u;
+		return c >= 0x30u && c <= 0x39u;
 	}
 
 	/// @}
@@ -93,11 +88,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is an uppercase code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_uppercase(unsigned char c) noexcept
 	{
-		return 0x41u <= c && c <= 0x5Au;
+		return c >= 0x41u && c <= 0x5Au;
 	}
 
 	/// @}
@@ -106,8 +100,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a whitespace code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_whitespace(unsigned char c) noexcept
 	{
 		return (0x09u <= c && c <= 0x0Du) || c == 0x20u;
@@ -119,8 +112,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a valid code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_code_point(unsigned char c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -133,8 +125,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a hyphen code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_hyphen(unsigned char c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -147,8 +138,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a letter code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_letter(unsigned char c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -161,8 +151,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a lowercase code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_lowercase(unsigned char c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -175,8 +164,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a number code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_number(unsigned char c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -189,8 +177,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is an uppercase code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_uppercase(unsigned char c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -203,8 +190,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a whitespace code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_whitespace(unsigned char c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -217,8 +203,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is not a valid code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_code_point(unsigned char c) noexcept
 	{
 		return !is_ascii_code_point(c) && !is_non_ascii_code_point(c);
@@ -230,8 +215,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is not a hyphen code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_hyphen(unsigned char c) noexcept
 	{
 		return !is_ascii_hyphen(c) && !is_non_ascii_hyphen(c);
@@ -243,8 +227,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is not a letter code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_letter(unsigned char c) noexcept
 	{
 		return !is_ascii_letter(c) && !is_non_ascii_letter(c);
@@ -256,8 +239,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is not a lowercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_lowercase(unsigned char c) noexcept
 	{
 		return !is_ascii_lowercase(c) && !is_non_ascii_lowercase(c);
@@ -269,8 +251,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is not a number code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_number(unsigned char c) noexcept
 	{
 		return !is_ascii_number(c) && !is_non_ascii_number(c);
@@ -282,8 +263,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is not an uppercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_uppercase(unsigned char c) noexcept
 	{
 		return !is_ascii_uppercase(c) && !is_non_ascii_uppercase(c);
@@ -295,8 +275,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is not a whitespace code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_whitespace(unsigned char c) noexcept
 	{
 		return !is_ascii_whitespace(c) && !is_non_ascii_whitespace(c);
@@ -308,8 +287,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a valid code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_code_point(unsigned char c) noexcept
 	{
 		return c <= 0x7Fu;
@@ -321,8 +299,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a code point boundary.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_code_point_boundary(unsigned char c) noexcept
 	{
 		return (c & 0b11000000u) != 0b10000000u;
@@ -334,8 +311,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a combining mark code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_combining_mark(unsigned char c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -348,11 +324,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a decimal digit code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_decimal_digit(unsigned char c) noexcept
 	{
-		return 0x30u <= c && c <= 0x39u;
+		return c >= 0x30u && c <= 0x39u;
 	}
 
 	/// @}
@@ -361,11 +336,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a hexadecimal digit code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_hexadecimal_digit(unsigned char c) noexcept
 	{
-		return 0x30u <= c && c <= 0x66u && (1ull << (static_cast<uint_least64_t>(c) - 0x30u)) & 0x7E0000007E03FFull;
+		return c >= 0x30u && c <= 0x66u && (1ull << (static_cast<uint_least64_t>(c) - 0x30u)) & 0x7E0000007E03FFull;
 	}
 
 	/// @}
@@ -374,8 +348,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a hyphen code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_hyphen(unsigned char c) noexcept
 	{
 		return is_ascii_hyphen(c) || is_non_ascii_hyphen(c);
@@ -387,8 +360,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a letter code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_letter(unsigned char c) noexcept
 	{
 		return is_ascii_letter(c) || is_non_ascii_letter(c);
@@ -400,8 +372,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a lowercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_lowercase(unsigned char c) noexcept
 	{
 		return is_ascii_lowercase(c) || is_non_ascii_lowercase(c);
@@ -413,8 +384,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a number code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_number(unsigned char c) noexcept
 	{
 		return is_ascii_number(c) || is_non_ascii_number(c);
@@ -426,11 +396,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is an octal digit code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_octal_digit(unsigned char c) noexcept
 	{
-		return 0x30u <= c && c <= 0x37u;
+		return c >= 0x30u && c <= 0x37u;
 	}
 
 	/// @}
@@ -439,8 +408,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is an uppercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_uppercase(unsigned char c) noexcept
 	{
 		return is_ascii_uppercase(c) || is_non_ascii_uppercase(c);
@@ -452,8 +420,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a character is a whitespace code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_whitespace(unsigned char c) noexcept
 	{
 		return is_ascii_whitespace(c) || is_non_ascii_whitespace(c);

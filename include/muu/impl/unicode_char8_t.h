@@ -28,8 +28,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a valid code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_code_point(char8_t c) noexcept
 	{
 		return c <= u8'\x7F';
@@ -41,8 +40,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a hyphen code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_hyphen(char8_t c) noexcept
 	{
 		return c == u8'-';
@@ -54,8 +52,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a letter code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_letter(char8_t c) noexcept
 	{
 		return (u8'A' <= c && c <= u8'Z') || (u8'a' <= c && c <= u8'z');
@@ -67,11 +64,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a lowercase code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_lowercase(char8_t c) noexcept
 	{
-		return u8'a' <= c && c <= u8'z';
+		return c >= u8'a' && c <= u8'z';
 	}
 
 	/// @}
@@ -80,11 +76,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a number code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_number(char8_t c) noexcept
 	{
-		return u8'0' <= c && c <= u8'9';
+		return c >= u8'0' && c <= u8'9';
 	}
 
 	/// @}
@@ -93,11 +88,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is an uppercase code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_uppercase(char8_t c) noexcept
 	{
-		return u8'A' <= c && c <= u8'Z';
+		return c >= u8'A' && c <= u8'Z';
 	}
 
 	/// @}
@@ -106,8 +100,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a whitespace code point from the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_ascii_whitespace(char8_t c) noexcept
 	{
 		return (u8'\t' <= c && c <= u8'\r') || c == u8' ';
@@ -119,8 +112,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a valid code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_code_point(char8_t c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -133,8 +125,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a hyphen code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_hyphen(char8_t c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -147,8 +138,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a letter code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_letter(char8_t c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -161,8 +151,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a lowercase code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_lowercase(char8_t c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -175,8 +164,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a number code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_number(char8_t c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -189,8 +177,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is an uppercase code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_uppercase(char8_t c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -203,8 +190,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a whitespace code point from outside the ASCII range.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_whitespace(char8_t c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -217,8 +203,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is not a valid code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_code_point(char8_t c) noexcept
 	{
 		return !is_ascii_code_point(c) && !is_non_ascii_code_point(c);
@@ -230,8 +215,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is not a hyphen code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_hyphen(char8_t c) noexcept
 	{
 		return !is_ascii_hyphen(c) && !is_non_ascii_hyphen(c);
@@ -243,8 +227,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is not a letter code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_letter(char8_t c) noexcept
 	{
 		return !is_ascii_letter(c) && !is_non_ascii_letter(c);
@@ -256,8 +239,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is not a lowercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_lowercase(char8_t c) noexcept
 	{
 		return !is_ascii_lowercase(c) && !is_non_ascii_lowercase(c);
@@ -269,8 +251,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is not a number code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_number(char8_t c) noexcept
 	{
 		return !is_ascii_number(c) && !is_non_ascii_number(c);
@@ -282,8 +263,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is not an uppercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_uppercase(char8_t c) noexcept
 	{
 		return !is_ascii_uppercase(c) && !is_non_ascii_uppercase(c);
@@ -295,8 +275,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is not a whitespace code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_not_whitespace(char8_t c) noexcept
 	{
 		return !is_ascii_whitespace(c) && !is_non_ascii_whitespace(c);
@@ -308,8 +287,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a valid code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_code_point(char8_t c) noexcept
 	{
 		return c <= u8'\x7F';
@@ -321,8 +299,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a code point boundary.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_code_point_boundary(char8_t c) noexcept
 	{
 		return (c & 0b11000000u) != 0b10000000u;
@@ -334,8 +311,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a combining mark code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_combining_mark(char8_t c) noexcept
 	{
 		MUU_UNUSED(c);
@@ -348,11 +324,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a decimal digit code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_decimal_digit(char8_t c) noexcept
 	{
-		return u8'0' <= c && c <= u8'9';
+		return c >= u8'0' && c <= u8'9';
 	}
 
 	/// @}
@@ -361,11 +336,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a hexadecimal digit code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_hexadecimal_digit(char8_t c) noexcept
 	{
-		return u8'0' <= c && c <= u8'f' && (1ull << (static_cast<uint_least64_t>(c) - 0x30u)) & 0x7E0000007E03FFull;
+		return c >= u8'0' && c <= u8'f' && (1ull << (static_cast<uint_least64_t>(c) - 0x30u)) & 0x7E0000007E03FFull;
 	}
 
 	/// @}
@@ -374,8 +348,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a hyphen code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_hyphen(char8_t c) noexcept
 	{
 		return is_ascii_hyphen(c) || is_non_ascii_hyphen(c);
@@ -387,8 +360,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a letter code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_letter(char8_t c) noexcept
 	{
 		return is_ascii_letter(c) || is_non_ascii_letter(c);
@@ -400,8 +372,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a lowercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_lowercase(char8_t c) noexcept
 	{
 		return is_ascii_lowercase(c) || is_non_ascii_lowercase(c);
@@ -413,8 +384,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a number code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_number(char8_t c) noexcept
 	{
 		return is_ascii_number(c) || is_non_ascii_number(c);
@@ -426,11 +396,10 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is an octal digit code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_octal_digit(char8_t c) noexcept
 	{
-		return u8'0' <= c && c <= u8'7';
+		return c >= u8'0' && c <= u8'7';
 	}
 
 	/// @}
@@ -439,8 +408,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is an uppercase code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_uppercase(char8_t c) noexcept
 	{
 		return is_ascii_uppercase(c) || is_non_ascii_uppercase(c);
@@ -452,8 +420,7 @@ namespace muu
 	/// @{
 
 	/// \brief		Returns true if a UTF-8 code unit is a whitespace code point.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool is_whitespace(char8_t c) noexcept
 	{
 		return is_ascii_whitespace(c) || is_non_ascii_whitespace(c);

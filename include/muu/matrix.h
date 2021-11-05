@@ -277,7 +277,94 @@ namespace muu::impl
 	}
 
 	#undef MAT_GET
-}
+
+	template <typename Derived, bool = is_matrix_<Derived, 1, 2>>
+	struct matrix_xy_axis_getter
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_xy_axis_getter<matrix<Scalar, Rows, Columns>, true>
+	{
+		using column_type = vector<Scalar, Rows>;
+
+		MUU_PURE_INLINE_GETTER
+		MUU_ATTR(flatten)
+		constexpr column_type& x_axis() noexcept
+		{
+			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<0>();
+		}
+
+		MUU_PURE_INLINE_GETTER
+		MUU_ATTR(flatten)
+		constexpr const column_type& x_axis() const noexcept
+		{
+			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<0>();
+		}
+
+		MUU_PURE_INLINE_GETTER
+		MUU_ATTR(flatten)
+		constexpr column_type& y_axis() noexcept
+		{
+			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<1>();
+		}
+
+		MUU_PURE_INLINE_GETTER
+		MUU_ATTR(flatten)
+		constexpr const column_type& y_axis() const noexcept
+		{
+			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<1>();
+		}
+	};
+
+	template <typename Derived, bool = is_matrix_<Derived, 1, 3>>
+	struct matrix_z_axis_getter
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_z_axis_getter<matrix<Scalar, Rows, Columns>, true>
+	{
+		using column_type = vector<Scalar, Rows>;
+
+		MUU_PURE_INLINE_GETTER
+		MUU_ATTR(flatten)
+		constexpr column_type& z_axis() noexcept
+		{
+			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<2>();
+		}
+
+		MUU_PURE_INLINE_GETTER
+		MUU_ATTR(flatten)
+		constexpr const column_type& z_axis() const noexcept
+		{
+			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<2>();
+		}
+	};
+
+	template <typename Derived, bool = is_matrix_<Derived, 1, 4>>
+	struct matrix_w_axis_getter
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_w_axis_getter<matrix<Scalar, Rows, Columns>, true>
+	{
+		using column_type = vector<Scalar, Rows>;
+
+		MUU_PURE_INLINE_GETTER
+		MUU_ATTR(flatten)
+		constexpr column_type& w_axis() noexcept
+		{
+			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<3>();
+		}
+
+		MUU_PURE_INLINE_GETTER
+		MUU_ATTR(flatten)
+		constexpr const column_type& w_axis() const noexcept
+		{
+			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<3>();
+		}
+	};
+
+} // impl
 
 namespace muu
 {
@@ -309,8 +396,13 @@ namespace muu
 	/// \tparam Rows		The number of rows in the matrix.
 	/// \tparam Columns		The number of columns in the matrix.
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct MUU_TRIVIAL_ABI matrix //
-		MUU_HIDDEN_BASE(impl::matrix_<Scalar, Rows, Columns>)
+	struct MUU_EMPTY_BASES MUU_TRIVIAL_ABI matrix //
+		MUU_HIDDEN_BASE(
+			impl::matrix_<Scalar, Rows, Columns>,
+			impl::matrix_xy_axis_getter<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_z_axis_getter<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_w_axis_getter<matrix<Scalar, Rows, Columns>>
+		)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Matrix scalar type cannot be a reference");
 		static_assert(!is_cv<Scalar>, "Matrix scalar type cannot be const- or volatile-qualified");
@@ -582,13 +674,83 @@ namespace muu
 	  public:
 	#endif // constructors
 
-	#if 1 // scalar component accessors -------------------------------------------------------------------------------
+	#if 1 // column accessors ------------------------------------------------------------------------------------------
+
+		/// \brief Gets a reference to a specific column.
+		template <size_t C>
+		MUU_PURE_INLINE_GETTER
+		constexpr column_type& column() noexcept
+		{
+			static_assert(C < Columns, "Column index out of range");
+
+			return base::m[C];
+		}
+
+		/// \brief Gets a const reference to a specific column.
+		template <size_t C>
+		MUU_PURE_INLINE_GETTER
+		constexpr const column_type& column() const noexcept
+		{
+			static_assert(C < Columns, "Column index out of range");
+
+			return base::m[C];
+		}
+
+		#ifdef DOXYGEN
+
+		/// \brief Returns a reference to the X axis column (column 0).
+		///
+		/// \availability	This function is only available when the matrix has at least two columns.
+		constexpr column_type& x_axis() noexcept;
+
+		/// \brief Returns a const reference to the X axis column (column 0).
+		///
+		/// \availability	This function is only available when the matrix has at least two columns.
+		constexpr const column_type& x_axis() const noexcept;
+
+		/// \brief Returns a reference to the Y axis column (column 1).
+		///
+		/// \availability	This function is only available when the matrix has at least two columns.
+		constexpr column_type& y_axis() noexcept;
+
+		/// \brief Returns a const reference to the Y axis column (column 1).
+		///
+		/// \availability	This function is only available when the matrix has at least two columns.
+		constexpr const column_type& y_axis() const noexcept;
+
+		/// \brief Returns a reference to the Z axis column (column 2).
+		///
+		/// \availability	This function is only available when the matrix has at least three columns.
+		constexpr column_type& z_axis() noexcept;
+
+		/// \brief Returns a const reference to the Z axis column (column 2).
+		///
+		/// \availability	This function is only available when the matrix has at least three columns.
+		constexpr const column_type& z_axis() const noexcept;
+
+		/// \brief Returns a reference to the W axis column (column 3).
+		///
+		/// \availability	This function is only available when the matrix has at least four columns.
+		constexpr column_type& w_axis() noexcept;
+
+		/// \brief Returns a const reference to the W axis column (column 3).
+		///
+		/// \availability	This function is only available when the matrix has at least four columns.
+		constexpr const column_type& w_axis() const noexcept;
+
+		#endif
+
+	#endif // column accessors
+
+	#if 1 // scalar component accessors --------------------------------------------------------------------------------
 
 	  private:
+		/// cond
+
 		template <size_t R, size_t C, typename T>
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
-		static constexpr auto& do_get(T& mat) noexcept
+		static constexpr auto& do_get_scalar(T& mat) noexcept
 		{
 			static_assert(R < Rows, "Row index out of range");
 			static_assert(C < Columns, "Column index out of range");
@@ -606,6 +768,8 @@ namespace muu
 			return mat.m[c][r];
 		}
 
+		/// endcond
+
 	  public:
 		/// \brief Gets a reference to the scalar component at a specific row and column.
 		///
@@ -618,7 +782,7 @@ namespace muu
 		MUU_ATTR(flatten)
 		constexpr const scalar_type& get() const noexcept
 		{
-			return do_get<R, C>(*this);
+			return do_get_scalar<R, C>(*this);
 		}
 
 		/// \brief Gets a reference to the scalar component at a specific row and column.
@@ -632,7 +796,7 @@ namespace muu
 		MUU_ATTR(flatten)
 		constexpr scalar_type& get() noexcept
 		{
-			return do_get<R, C>(*this);
+			return do_get_scalar<R, C>(*this);
 		}
 
 		/// \brief Gets a reference to the scalar component at a specific row and column.
@@ -664,7 +828,7 @@ namespace muu
 		MUU_ATTR(flatten)
 		constexpr const scalar_type* data() const noexcept
 		{
-			return &do_get<0, 0>(*this);
+			return &do_get_scalar<0, 0>(*this);
 		}
 
 		/// \brief Returns a pointer to the first scalar component in the matrix.
@@ -672,12 +836,12 @@ namespace muu
 		MUU_ATTR(flatten)
 		constexpr scalar_type* data() noexcept
 		{
-			return &do_get<0, 0>(*this);
+			return &do_get_scalar<0, 0>(*this);
 		}
 
 	#endif // scalar component accessors
 
-	#if 1 // equality -------------------------------------------------------------------------------------------------
+	#if 1 // equality --------------------------------------------------------------------------------------------------
 
 		/// \brief		Returns true if two matrices are exactly equal.
 		///
@@ -788,7 +952,7 @@ namespace muu
 
 	#endif // equality
 
-	#if 1 // approx_equal ---------------------------------------------------------------------------------------------
+	#if 1 // approx_equal ----------------------------------------------------------------------------------------------
 
 		/// \brief	Returns true if two matrices are approximately equal.
 		///
@@ -888,7 +1052,7 @@ namespace muu
 
 	#endif // approx_equal
 
-	#if 1 // addition -------------------------------------------------------------------------------------------------
+	#if 1 // addition --------------------------------------------------------------------------------------------------
 
 		/// \brief Returns the componentwise addition of two matrices.
 		MUU_PURE_GETTER
@@ -917,8 +1081,7 @@ namespace muu
 
 	#endif // addition
 
-	#if 1 // subtraction
-		  // -------------------------------------------------------------------------------------------------
+	#if 1 // subtraction -----------------------------------------------------------------------------------------------
 
 		/// \brief Returns the componentwise subtraction of two matrices.
 		MUU_PURE_GETTER
@@ -951,7 +1114,7 @@ namespace muu
 
 	#endif // subtraction
 
-	#if 1 // multiplication -------------------------------------------------------------------------------------------
+	#if 1 // multiplication --------------------------------------------------------------------------------------------
 
 		/// \brief Multiplies two matrices.
 		///
@@ -1243,7 +1406,7 @@ namespace muu
 
 	#endif // multiplication
 
-	#if 1 // division -------------------------------------------------------------------------------------------------
+	#if 1 // division --------------------------------------------------------------------------------------------------
 
 		/// \brief Returns the componentwise multiplication of a matrix by a scalar.
 		MUU_PURE_GETTER
@@ -1283,7 +1446,7 @@ namespace muu
 
 	#endif // division
 
-	#if 1 // transposition --------------------------------------------------------------------------------------------
+	#if 1 // transposition ---------------------------------------------------------------------------------------------
 
 		/// \brief	Returns a transposed copy of a matrix.
 		MUU_PURE_GETTER
@@ -1348,7 +1511,7 @@ namespace muu
 
 	#endif // transposition
 
-	#if 1 // inverse & determinant ------------------------------------------------------------------------------------
+	#if 1 // inverse & determinant -------------------------------------------------------------------------------------
 
 		/// \brief	Calculates the determinant of a matrix.
 		///
@@ -1528,7 +1691,7 @@ namespace muu
 
 	#endif // inverse & determinant
 
-	#if 1 // orthonormalize -------------------------------------------------------------------------------------------
+	#if 1 // orthonormalize --------------------------------------------------------------------------------------------
 
 	  private:
 		template <size_t Depth = Rows>
@@ -1650,7 +1813,7 @@ namespace muu
 
 	#endif // orthonormalize
 
-	#if 1 // misc -----------------------------------------------------------------------------------------------------
+	#if 1 // misc ------------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a matrix out to a text stream.
 		template <typename Char, typename Traits>

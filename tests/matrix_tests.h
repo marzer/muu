@@ -253,8 +253,8 @@ BATCHED_TEST_CASE("matrix constructors", common_matrices<ALL_ARITHMETIC>)
 
 	BATCHED_SECTION("coercing constructor")
 	{
-		using other_type = std::
-			conditional_t<any_same<T, signed int, unsigned int>, float, set_signed<signed int, is_signed<T>>>;
+		using other_type =
+			std::conditional_t<any_same<T, signed int, unsigned int>, float, set_signed<signed int, is_signed<T>>>;
 
 		matrix<other_type, matrix_t::rows, matrix_t::columns> other;
 		for (size_t r = 0; r < matrix_t::rows; r++)
@@ -375,6 +375,48 @@ BATCHED_TEST_CASE("matrix accessors", common_matrices<ALL_ARITHMETIC>)
 			CHECK(rows[2][1] == (mat_const.template get<2, 1>()));
 		if constexpr (matrix_t::rows >= 3 && matrix_t::columns >= 3)
 			CHECK(rows[2][2] == (mat_const.template get<2, 2>()));
+	}
+
+	BATCHED_SECTION("named column accessors")
+	{
+		if constexpr (matrix_t::columns >= 2)
+		{
+			CHECK(&mat.template column<0>() == &mat.m[0]);
+			CHECK(&mat.template column<1>() == &mat.m[1]);
+			CHECK(&mat.x_axis() == &mat.m[0]);
+			CHECK(&mat.y_axis() == &mat.m[1]);
+		}
+		if constexpr (matrix_t::columns >= 3)
+		{
+			CHECK(&mat.template column<2>() == &mat.m[2]);
+			CHECK(&mat.z_axis() == &mat.m[2]);
+		}
+		if constexpr (matrix_t::columns >= 4)
+		{
+			CHECK(&mat.template column<3>() == &mat.m[3]);
+			CHECK(&mat.w_axis() == &mat.m[3]);
+		}
+	}
+
+	BATCHED_SECTION("named column accessors (const)")
+	{
+		if constexpr (matrix_t::columns >= 2)
+		{
+			CHECK(&mat_const.template column<0>() == &mat_const.m[0]);
+			CHECK(&mat_const.template column<1>() == &mat_const.m[1]);
+			CHECK(&mat_const.x_axis() == &mat_const.m[0]);
+			CHECK(&mat_const.y_axis() == &mat_const.m[1]);
+		}
+		if constexpr (matrix_t::columns >= 3)
+		{
+			CHECK(&mat_const.template column<2>() == &mat_const.m[2]);
+			CHECK(&mat_const.z_axis() == &mat_const.m[2]);
+		}
+		if constexpr (matrix_t::columns >= 4)
+		{
+			CHECK(&mat_const.template column<3>() == &mat_const.m[3]);
+			CHECK(&mat_const.w_axis() == &mat_const.m[3]);
+		}
 	}
 }
 

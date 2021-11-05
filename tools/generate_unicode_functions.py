@@ -30,6 +30,8 @@ class G: # G for Globals
 	expression_ids				= False
 	doxygen						= True
 	asserts						= False
+	tomlplusplus_funcs			= False
+	macro_prefix				= r'MUU_'
 
 
 
@@ -715,7 +717,7 @@ class CodepointChunk:
 			elif (self.first() > self.span_first()) and (self.last() < self.span_last()):
 				expressions.append(self.__Expression(
 					750,
-					f'({self.first_lit()} <= c && c <= {self.last_lit()})' + exid(4),
+					f'(c >= {self.first_lit()} && c <= {self.last_lit()})' + exid(4),
 					True,
 					True
 				))
@@ -732,7 +734,7 @@ class CodepointChunk:
 				assert self.last() == self.span_last()
 				expressions.append(self.__Expression(
 					750,
-					f'{self.first_lit()} <= c' + exid(6),
+					f'c >= {self.first_lit()}' + exid(6),
 					True,
 					False
 				))
@@ -764,7 +766,7 @@ class CodepointChunk:
 							bools.insert(0, f'c <= {self.last_lit()}')
 							handles_high = True
 						if (self.first() > self.span_first()):
-							bools.insert(0, f'{self.first_lit()} <= c')
+							bools.insert(0, f'c >= {self.first_lit()}')
 							handles_low = True
 						score = score - 10 * (len(bools) - 1)
 						expressions.append(self.__Expression(
@@ -794,7 +796,7 @@ class CodepointChunk:
 				bools.insert(0, f'c <= {self.last_lit()}')
 				handles_high = True
 			if (self.first() > self.span_first()):
-				bools.insert(0, f'{self.first_lit()} <= c')
+				bools.insert(0, f'c >= {self.first_lit()}')
 				handles_low = True
 			score = score - 10 * len(bools)
 			expressions.append(self.__Expression(
@@ -893,9 +895,9 @@ class CodepointChunk:
 			exclusions = []
 			assumptions = []
 			if self.span_first() < self.first():
-				exclusions.append(f'{self.first_lit()} > c')
+				exclusions.append(f'c < {self.first_lit()}')
 			else:
-				assumptions.append(f'{self.first_lit()} <= c')
+				assumptions.append(f'c >= {self.first_lit()}')
 			if self.last() < self.span_last():
 				exclusions.append(f'c > {self.last_lit()}')
 			else:
@@ -903,7 +905,7 @@ class CodepointChunk:
 			if exclusions:
 				s += 'if ({})\n\treturn false{};\n'.format(strip_brackets(compound_or(*exclusions)), exid(10))
 			if assumptions:
-				s += 'MUU_ASSUME({}){};'.format(strip_brackets(compound_and(*assumptions)), exid(11))
+				s += '{}ASSUME({}){};'.format(G.macro_prefix, strip_brackets(compound_and(*assumptions)), exid(11))
 				s += '\n'
 			if exclusions or assumptions:
 				s += '\n'
@@ -1028,7 +1030,7 @@ class CodepointChunk:
 			return_trues += [e[1].expression() for e in emittables_simple_equality]
 			if not requires_switch:
 				return_trues += [e[1].expression() for e in emittables_other if e[1].has_expression()]
-			
+
 			return_falses = []
 			if always_false_selector:
 				return_falses.append(always_false_selector)
@@ -1079,15 +1081,15 @@ class CodepointChunk:
 							'\n' if c.has_expression() else '\n\t}\n',
 						)
 						emitted += 1
-					s += '\tdefault: {};\n'.format('MUU_UNREACHABLE' if default is None else 'return '+str(default).lower())
+					s += '\tdefault: {};\n'.format(rf'{G.macro_prefix}UNREACHABLE' if default is None else 'return '+str(default).lower())
 					s += "}"
 					if (emitted <= 1):
 							s += "\n/* FIX ME: switch has only {} case{}! */".format(emitted, 's' if emitted > 1 else '')
 					s += '\n' + summary
 					if G.asserts:
-						s += '\nMUU_CONSTEXPR_SAFE_ASSERT(false && "unreachable!");'
+						s += f'\n{G.macro_prefix}CONSTEXPR_SAFE_ASSERT(false && "unreachable!");'
 					else:
-						s += '\nMUU_UNREACHABLE;'
+						s += f'\n{G.macro_prefix}UNREACHABLE;'
 
 			if selector_references > 0:
 				s = s.replace('@@SELECTOR@@', selector_name if selector_references > 1 else strip_brackets(selector))
@@ -1389,8 +1391,7 @@ def write_function_header(files, code_unit, name, return_type, description):
 		h('\t/// @{')
 		h('')
 		h('\t/// \\brief\t\t' + ("\n\t///\t\t\t\t".join(description.split('\n'))))
-	h('\tMUU_NODISCARD')
-	h(f'\tMUU_ATTR{"_NDEBUG" if G.asserts else ""}(const)')
+	h(f'\t{G.macro_prefix}CONST_GETTER')
 	h(f'\tconstexpr {return_type} {name}({code_unit.typename} c) noexcept')
 	h('\t{')
 
@@ -1513,7 +1514,7 @@ def write_identification_function(files, code_unit, name, description, categorie
 	# write function
 	write_function_header(files, code_unit, name, 'bool', description)
 	if not code_points:
-		write_function_body(files, f'MUU_UNUSED(c);')
+		write_function_body(files, f'{G.macro_prefix}UNUSED(c);')
 		write_function_body(files, f'return false{exid(69)};')
 	elif code_unit.proxy:
 		write_function_body(files, f'return {name}(static_cast<{code_unit.proxy_typename}>(c));')
@@ -1528,11 +1529,11 @@ def write_identification_function(files, code_unit, name, description, categorie
 		if chunk is not None:
 			write_function_body(files, str(chunk))
 		else:
-			write_function_body(files, 'MUU_UNUSED(c);\nreturn false;')
+			write_function_body(files, f'{G.macro_prefix}UNUSED(c);\nreturn false;')
 	write_function_footer(files, code_unit)
 
 	# write tests
-	if files[1] != None: 
+	if files[1] != None:
 		t = lambda txt,end='\n': print(txt, file=files[1], end=end)
 		t(f'TEST_CASE("unicode - {name} ({code_unit.typename})")')
 		t('{')
@@ -1572,7 +1573,7 @@ def write_identification_function(files, code_unit, name, description, categorie
 						for mx in mutex_groups:
 							t(f'\t\tREQUIRE(in_only<{mx}>(fn, v));')
 						t('\t}')
-		
+
 		t('}')
 		t('')
 
@@ -1950,7 +1951,49 @@ def write_header(folders, code_unit):
 			'is_ascii_whitespace(c)', 'is_non_ascii_whitespace(c)'
 		)
 
+		######### hackery just for tomlplusplus:
 
+		if G.tomlplusplus_funcs:
+
+			write_identification_function(files, code_unit,
+				'is_ascii_horizontal_whitespace', "",
+				value_ranges=('\t', ' ')
+			)
+
+			write_identification_function(files, code_unit,
+				'is_non_ascii_horizontal_whitespace', "",
+				value_ranges=(160, 5760, 6158, (8192, 8203), 8239, 8287, 8288, 12288, 65279)
+			)
+
+			write_compound_boolean_function(files, code_unit,
+				'is_horizontal_whitespace', '',
+				'is_ascii_horizontal_whitespace(c)', 'is_non_ascii_horizontal_whitespace(c)'
+			)
+
+			write_identification_function(files, code_unit,
+				'is_vertical_whitespace', "",
+				value_ranges=((10, 13), 133, 8232, 8233)
+			)
+
+			write_identification_function(files, code_unit,
+				'is_vertical_whitespace_excl_cr', "",
+				value_ranges=((10, 12), 133, 8232, 8233)
+			)
+
+			write_compound_boolean_function(files, code_unit,
+				'is_whitespace', '',
+				'is_horizontal_whitespace(c)', 'is_vertical_whitespace(c)'
+			)
+
+			write_identification_function(files, code_unit,
+				'is_ascii_bare_key_character', f"",
+				value_ranges=(('a', 'z'), ('A', 'Z'), ('0', '9'), '-', '_')
+			)
+
+			write_identification_function(files, code_unit,
+				'is_value_prefix', f"",
+				value_ranges=('[', '{', '.', '"', "'", 't', 'f', 'T', 'F', 'i', 'I', 'n', 'N',)
+			)
 
 		# finish up header
 		if G.doxygen:
@@ -2002,12 +2045,28 @@ def main():
 	# G.word_size = 32
 	# G.compound_boolean_limit = 4
 	# G.expression_ids = True
-	write_header((header_folder, tests_folder), CodeUnit('char'))
-	write_header((header_folder, tests_folder), CodeUnit('unsigned char'))
-	write_header((header_folder, tests_folder), CodeUnit('char8_t'))
-	write_header((header_folder, tests_folder), CodeUnit('char16_t'))
+
+	if G.tomlplusplus_funcs:
+		G.generate_tests			= False
+		G.hoist_constant_children	= True
+		G.bitmask_expressions		= True
+		G.bitmask_tables			= True
+		G.depth_limit				= 0
+		G.word_size					= 64
+		G.compound_boolean_limit	= 3
+		G.expression_ids			= False
+		G.doxygen					= False
+		G.asserts					= False
+		G.macro_prefix				= 'TOML_'
+
+
+	if not G.tomlplusplus_funcs:
+		write_header((header_folder, tests_folder), CodeUnit('char'))
+		write_header((header_folder, tests_folder), CodeUnit('unsigned char'))
+		write_header((header_folder, tests_folder), CodeUnit('char8_t'))
+		write_header((header_folder, tests_folder), CodeUnit('char16_t'))
+		write_header((header_folder, tests_folder), CodeUnit('wchar_t'))
 	write_header((header_folder, tests_folder), CodeUnit('char32_t'))
-	write_header((header_folder, tests_folder), CodeUnit('wchar_t'))
 
 
 if __name__ == '__main__':

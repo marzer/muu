@@ -1871,10 +1871,15 @@ namespace muu
 		template <typename S>
 		inline constexpr bool is_quaternion_<::muu::quaternion<S>> = true;
 
-		template <typename T>
+		template <typename T,
+				  size_t MinR = 0,
+				  size_t MinC = 0,
+				  size_t MaxR = static_cast<size_t>(-1),
+				  size_t MaxC = static_cast<size_t>(-1)>
 		inline constexpr bool is_matrix_ = false;
-		template <typename S, size_t R, size_t C>
-		inline constexpr bool is_matrix_<::muu::matrix<S, R, C>> = true;
+		template <typename S, size_t MinR, size_t MinC, size_t MaxR, size_t MaxC, size_t R, size_t C>
+		inline constexpr bool is_matrix_<::muu::matrix<S, R, C>, MinR, MinC, MaxR, MaxC> = (R >= MinR && C >= MinC
+																							&& R <= MaxR && C <= MaxC);
 
 		// promotes ints to doubles, keeps floats as-is, as per the behaviour of std::sqrt, std::lerp, etc.
 		template <typename... T>
