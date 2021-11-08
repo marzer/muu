@@ -162,7 +162,8 @@ namespace
 	// clang-format on
 
 	template <typename... T>
-	using common_matrices = type_list<matrix<T, 2, 2>..., matrix<T, 3, 3>..., matrix<T, 3, 4>..., matrix<T, 4, 4>...>;
+	using common_matrices =
+		type_list<matrix<T, 2, 2>..., matrix<T, 2, 3>..., matrix<T, 3, 3>..., matrix<T, 3, 4>..., matrix<T, 4, 4>...>;
 
 	template <typename... T>
 	using square_matrices = type_list<matrix<T, 2, 2>..., matrix<T, 3, 3>..., matrix<T, 4, 4>...>;
@@ -1158,6 +1159,100 @@ BATCHED_TEST_CASE("matrix orthonormalize", rotation_matrices<ALL_FLOATS>)
 			{
 				if (r >= 3u || c >= 3u)
 					CHECK(raw(r, c) == ortho(r, c));
+			}
+		}
+	}
+}
+
+BATCHED_TEST_CASE("matrix translation and rotation", common_matrices<ALL_ARITHMETIC>)
+{
+	using matrix_t = TestType;
+	using T		   = typename matrix_t::scalar_type;
+	TEST_INFO("matrix<"sv << nameof<T> << ", "sv << matrix_t::rows << ", "sv << matrix_t::columns << ">"sv);
+
+	const auto rotation_source = matrix<T, 4, 4>{
+		T{ 0 },	 T{ 1 },  T{ 2 },  T{ 3 },	//
+		T{ 4 },	 T{ 5 },  T{ 6 },  T{ 7 },	//
+		T{ 8 },	 T{ 9 },  T{ 10 }, T{ 11 }, //
+		T{ 12 }, T{ 13 }, T{ 14 }, T{ 15 }	//
+	};
+
+	[[maybe_unused]] const auto translation_source = vector<T, 3>{
+		T{ 4 },	 //
+		T{ 20 }, //
+		T{ 69 }	 //
+	};
+
+	if constexpr (impl::is_2d_rotation_matrix_<matrix_t>)
+	{
+		const auto rot = matrix_t::from_2d_rotation(rotation_source);
+		CHECK(rot(0, 0) == T{ 0 });
+		CHECK(rot(0, 1) == T{ 1 });
+		CHECK(rot(1, 0) == T{ 4 });
+		CHECK(rot(1, 1) == T{ 5 });
+		for (size_t r = 0; r < matrix_t::rows; r++)
+		{
+			for (size_t c = 0; c < matrix_t::columns; c++)
+			{
+				if (r < 2u && c < 2u)
+					continue;
+				CHECK(rot(r, c) == matrix_t::constants::identity(r, c));
+			}
+		}
+	}
+
+	if constexpr (impl::is_2d_translation_matrix_<matrix_t>)
+	{
+		const auto xlat = matrix_t::from_2d_translation(vector<T, 2>{ translation_source });
+		CHECK(xlat(0, 2) == T{ 4 });
+		CHECK(xlat(1, 2) == T{ 20 });
+		for (size_t r = 0; r < matrix_t::rows; r++)
+		{
+			for (size_t c = 0; c < matrix_t::columns; c++)
+			{
+				if (r < 2u && c == 2u)
+					continue;
+				CHECK(xlat(r, c) == matrix_t::constants::identity(r, c));
+			}
+		}
+	}
+
+	if constexpr (impl::is_3d_rotation_matrix_<matrix_t>)
+	{
+		const auto rot = matrix_t::from_3d_rotation(rotation_source);
+		CHECK(rot(0, 0) == T{ 0 });
+		CHECK(rot(0, 1) == T{ 1 });
+		CHECK(rot(0, 2) == T{ 2 });
+		CHECK(rot(1, 0) == T{ 4 });
+		CHECK(rot(1, 1) == T{ 5 });
+		CHECK(rot(1, 2) == T{ 6 });
+		CHECK(rot(2, 0) == T{ 8 });
+		CHECK(rot(2, 1) == T{ 9 });
+		CHECK(rot(2, 2) == T{ 10 });
+		for (size_t r = 0; r < matrix_t::rows; r++)
+		{
+			for (size_t c = 0; c < matrix_t::columns; c++)
+			{
+				if (r < 3u && c < 3u)
+					continue;
+				CHECK(rot(r, c) == matrix_t::constants::identity(r, c));
+			}
+		}
+	}
+
+	if constexpr (impl::is_3d_translation_matrix_<matrix_t>)
+	{
+		const auto xlat = matrix_t::from_3d_translation(translation_source);
+		CHECK(xlat(0, 3) == T{ 4 });
+		CHECK(xlat(1, 3) == T{ 20 });
+		CHECK(xlat(2, 3) == T{ 69 });
+		for (size_t r = 0; r < matrix_t::rows; r++)
+		{
+			for (size_t c = 0; c < matrix_t::columns; c++)
+			{
+				if (r < 3u && c == 3u)
+					continue;
+				CHECK(xlat(r, c) == matrix_t::constants::identity(r, c));
 			}
 		}
 	}

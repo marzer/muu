@@ -673,10 +673,14 @@ namespace muu
 	#if 1 // constructors ----------------------------------------------------------------------------------------------
 
 	  private:
+		/// \cond
+
 		template <typename Func>
 		explicit constexpr vector(impl::componentwise_func_tag, Func&& func) noexcept
 			: base{ impl::componentwise_func_tag{}, std::make_index_sequence<Dimensions>{}, static_cast<Func&&>(func) }
 		{}
+
+		/// \endcond
 
 	  public:
 		/// \brief Default constructor. Scalar components are not initialized.
@@ -1009,8 +1013,12 @@ namespace muu
 	#endif // constructors
 
 	#if 1 // scalar component accessors --------------------------------------------------------------------------------
+		  /// \name Scalar accessors
+		  /// @{
 
 	  private:
+		/// \cond
+
 		template <size_t Index, typename T>
 		MUU_PURE_INLINE_GETTER
 		static constexpr auto& do_get(T& vec) noexcept
@@ -1069,6 +1077,8 @@ namespace muu
 			else
 				return vec.values[idx];
 		}
+
+		/// \endcond
 
 	  public:
 		/// \brief Gets a reference to the scalar component at a specific index.
@@ -1135,9 +1145,12 @@ namespace muu
 			return &do_get<0>(*this);
 		}
 
+			/// @}
 	#endif // scalar component accessors
 
 	#if 1 // equality --------------------------------------------------------------------------------------------------
+		  /// \name Equality
+		  /// @{
 
 		/// \brief		Returns true if two vectors are exactly equal.
 		///
@@ -1272,10 +1285,6 @@ namespace muu
 				return false;
 		}
 
-	#endif // equality
-
-	#if 1 // approx_equal ----------------------------------------------------------------------------------------------
-
 		/// \brief	Returns true if two vectors are approximately equal.
 		///
 		/// \availability		This function is only available when at least one of #scalar_type
@@ -1400,11 +1409,16 @@ namespace muu
 			return approx_zero(*this, epsilon);
 		}
 
-	#endif // approx_equal
+			/// @}
+	#endif // equality
 
 	#if 1 // length and distance ---------------------------------------------------------------------------------------
+		  /// \name Length and Distance
+		  /// @{
 
 	  private:
+		/// \cond
+
 		template <typename T = intermediate_float>
 		MUU_PURE_GETTER
 		static constexpr T MUU_VECTORCALL raw_length_squared(MUU_VC_PARAM(vector) v) noexcept
@@ -1464,6 +1478,8 @@ namespace muu
 				return muu::sqrt(raw_distance_squared<T>(p1, p2));
 		}
 
+		/// \endcond
+
 	  public:
 		/// \brief	Returns the squared length (magnitude) of a vector.
 		MUU_PURE_GETTER
@@ -1522,11 +1538,16 @@ namespace muu
 			return static_cast<delta_type>(raw_distance(*this, p));
 		}
 
+			/// @}
 	#endif // length and distance
 
 	#if 1 // dot and cross products ------------------------------------------------------------------------------------
+		  /// \name Dot and Cross products
+		  /// @{
 
 	  private:
+		/// \cond
+
 		template <typename T = intermediate_product>
 		MUU_PURE_GETTER
 		static constexpr T MUU_VECTORCALL raw_dot(MUU_VC_PARAM(vector) v1, MUU_VC_PARAM(vector) v2) noexcept
@@ -1550,6 +1571,8 @@ namespace muu
 			}
 			// clang-format on
 		}
+
+		/// \endcond
 
 	  public:
 		/// \brief	Returns the dot product of two vectors.
@@ -1587,9 +1610,12 @@ namespace muu
 			return impl::raw_cross<vector<product_type, 3>>(*this, v);
 		}
 
+			/// @}
 	#endif // dot and cross products
 
 	#if 1 // addition --------------------------------------------------------------------------------------------------
+		  /// \name Addition
+		  /// @{
 
 		/// \brief Returns the componentwise addition of two vectors.
 		MUU_PURE_GETTER
@@ -1637,9 +1663,12 @@ namespace muu
 			return *this;
 		}
 
+			/// @}
 	#endif // addition
 
 	#if 1 // subtraction -----------------------------------------------------------------------------------------------
+		/// \name Subtraction
+		/// @{
 
 		/// \brief Returns the componentwise subtraction of one vector from another.
 		MUU_PURE_GETTER
@@ -1692,9 +1721,12 @@ namespace muu
 			// clang-format on
 		}
 
+			/// @}
 	#endif // subtraction
 
 	#if 1 // multiplication -------------------------------------------------------------------------------------------
+		  /// \name Multiplication
+		/// @{
 
 		/// \brief Returns the componentwise multiplication of two vectors.
 		MUU_PURE_GETTER
@@ -1736,6 +1768,8 @@ namespace muu
 		}
 
 	  private:
+		/// \cond
+
 		template <typename T>
 		MUU_PURE_GETTER
 		static constexpr vector MUU_VECTORCALL raw_multiply_scalar(MUU_VC_PARAM(vector) lhs, T rhs) noexcept
@@ -1785,6 +1819,8 @@ namespace muu
 			// clang-format on
 		}
 
+		/// \endcond
+
 	  public:
 		/// \brief Returns the componentwise multiplication of a vector and a scalar.
 		MUU_PURE_GETTER
@@ -1806,9 +1842,12 @@ namespace muu
 			return raw_multiply_assign_scalar(rhs);
 		}
 
+			/// @}
 	#endif // multiplication
 
 	#if 1 // division -------------------------------------------------------------------------------------------------
+		/// \name Division
+		/// @{
 
 		/// \brief Returns the componentwise division of one vector by another.
 		MUU_PURE_GETTER
@@ -1850,6 +1889,8 @@ namespace muu
 		}
 
 	  private:
+		/// \cond
+
 		template <typename T>
 		MUU_PURE_GETTER
 		static constexpr vector MUU_VECTORCALL raw_divide_scalar(MUU_VC_PARAM(vector) lhs, T rhs) noexcept
@@ -1907,6 +1948,8 @@ namespace muu
 			// clang-format on
 		}
 
+		/// \endcond
+
 	  public:
 		/// \brief Returns the componentwise division of a vector and a scalar.
 		MUU_PURE_GETTER
@@ -1921,9 +1964,12 @@ namespace muu
 			return raw_divide_assign_scalar(rhs);
 		}
 
+			/// @}
 	#endif // division
 
 	#if 1 // modulo ---------------------------------------------------------------------------------------------------
+		/// \name Modulo
+		/// @{
 
 		/// \brief Returns the remainder of componentwise dividing of one vector by another.
 		MUU_PURE_GETTER
@@ -1967,9 +2013,13 @@ namespace muu
 			// clang-format on
 		}
 
+			/// @}
 	#endif // modulo
 
 	#if 1 // bitwise shifts ----------------------------------------------------------------------------------------
+		/// \name Bitwise shifts
+		/// \availability		These functions are only available when #scalar_type is an integral type.
+		/// @{
 
 		/// \brief Returns a vector with each scalar component left-shifted the given number of bits.
 		///
@@ -2033,9 +2083,12 @@ namespace muu
 			// clang-format on
 		}
 
+			/// @}
 	#endif // bitwise shifts
 
 	#if 1 // normalization --------------------------------------------------------------------------------------------
+		/// \name Normalization
+		/// @{
 
 		/// \brief	Normalizes a vector.
 		///
@@ -2207,9 +2260,12 @@ namespace muu
 			return normalized(*this);
 		}
 
+			/// @}
 	#endif // normalization
 
 	#if 1 // direction ------------------------------------------------------------------------------------------------
+		  /// \name Direction
+		/// @{
 
 		/// \brief		Returns the normalized direction vector from one position to another.
 		///
@@ -2308,6 +2364,7 @@ namespace muu
 			return direction(*this, to);
 		}
 
+			/// @}
 	#endif // direction
 
 	#if 1 // iterators ------------------------------------------------------------------------------------------------
@@ -2407,6 +2464,8 @@ namespace muu
 	#endif // iterators
 
 	#if 1 // min, max and clamp ---------------------------------------------------------------------------------------
+		  /// \name Min, Max and Clamp
+		/// @{
 
 		/// \brief	Returns the componentwise minimum of two or more vectors.
 		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector, T...>), typename... T)
@@ -2536,6 +2595,7 @@ namespace muu
 			// clang-format on
 		}
 
+			/// @}
 	#endif // min, max and clamp
 
 	#if 1 // swizzles -------------------------------------------------------------------------------------------------
@@ -3331,6 +3391,8 @@ namespace muu::impl
 		}
 
 	  private:
+		/// \cond
+
 		template <size_t... Indices, typename Func>
 		MUU_PURE_GETTER
 		constexpr auto componentwise(std::index_sequence<Indices...>, Func&& func) const noexcept
@@ -3358,6 +3420,8 @@ namespace muu::impl
 		{
 			return componentwise(std::make_index_sequence<Dimensions>{}, [](auto& acc) noexcept { return acc.sum(); });
 		}
+
+		/// \endcond
 	};
 }
 
