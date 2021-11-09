@@ -25,7 +25,7 @@ FOR %%p IN (x64 Win32) DO (
 				-p:SolutionPath="%cd%\\muu.sln" ^
 				-p:Platform=%%p ^
 				-p:Configuration=%%c ^
-				-p:MuuConfigurationType=%%t ^
+				-p:ConfigurationType=%%t ^
 				%*
 			IF !ERRORLEVEL! NEQ 0 GOTO FINISH
 		)

@@ -164,18 +164,20 @@ def run(args):
 		if not args.stale:
 			with utils.ScopeTimer(r'Building libs', print_start=True) as timer:
 				utils.delete_directory(lib_dir, logger=True)
-				cmd = [str(Path(tools_dir, 'build_libs_msvc.bat')),
-					f'-p:MuuOptimizedDebug={not args.debug}',
-					f'-p:MuuStripSymbols={not args.debug}',
-					f'-p:MuuInstructionSet={args.iset}',
-					'-p:MuuDeleteIntDir=True'
-				]
-				if args.verbose:
-					cmd.append('-verbosity:detailed')
-				subprocess.run(
-					cmd,
-					check=True
-				)
+				for ts in args.toolsets:
+					cmd = [str(Path(tools_dir, 'build_libs_msvc.bat')),
+						rf'-p:PlatformToolset=v{ts}',
+						rf'-p:MuuOptimizedDebug={not args.debug}',
+						rf'-p:MuuStripSymbols={not args.debug}',
+						rf'-p:MuuInstructionSet={args.iset}',
+						r'-p:MuuDeleteIntDir=True'
+					]
+					if args.verbose:
+						cmd.append('-verbosity:detailed')
+					subprocess.run(
+						cmd,
+						check=True
+					)
 
 		# copy libs
 		utils.assert_existing_directory(lib_dir)
@@ -304,8 +306,25 @@ def main():
 		default='avx',
 		help='Sets the min instruction set to target. (default: %(default)s)'
 	)
+	args.add_argument(
+		'--toolsets',
+		type=str,
+		action='extend',
+		nargs='+',
+		help='Lists the VS toolsets to use, separated by spaces. (default: 142 143)'
+	)
 	args = args.parse_args()
 	__verbose = args.verbose
+
+	# process toolsets arg
+	if not args.toolsets:
+		args.toolsets = ['142', '143']
+	args.toolsets = [ts.strip(' ,v') for ts in args.toolsets]
+	args.toolsets = [ts for ts in args.toolsets if ts]
+	for ts in args.toolsets:
+		if ts not in ('141','142','143'):
+			print(rf"unknown or unsupported VS toolset version '{ts}' - supported values are 141, 142 and 143", file=sys.stderr)
+			return -1
 
 	# collapse some invariants here to make the run routine easier to reason about
 	if args.stale:

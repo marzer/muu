@@ -189,8 +189,8 @@
 		<Message Importance="high" Text="[muu] Configuration: $(Configuration)" />
 		<Message Importance="high" Text="[muu] SolutionDir: $(SolutionDir)" />
 		<Message Importance="high" Text="[muu] ProjectDir: $(ProjectDir)" />
+		<Message Importance="high" Text="[muu] ConfigurationType: $(ConfigurationType)" />
 		<Message Importance="high" Text="[muu] MSBuildThisFileDirectory: $(MSBuildThisFileDirectory)" />
-		<Message Importance="high" Text="[muu] MuuConfigurationType: $(MuuConfigurationType)" />
 		<Message Importance="high" Text="[muu] MuuInstructionSet: $(MuuInstructionSet_)" />
 		<Message Importance="high" Text="[muu] MuuStripSymbols: $(MuuStripSymbols_)" />
 		<Message Importance="high" Text="[muu] MuuOptimizedDebug: $(MuuOptimizedDebug_)" />
