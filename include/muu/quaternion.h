@@ -10,6 +10,8 @@
 #include "vector.h"
 #include "impl/std_initializer_list.h"
 #include "impl/std_iosfwd.h"
+#include "impl/quaternion_base.h"
+#include "impl/matrix_base.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
@@ -18,48 +20,9 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
 
 //======================================================================================================================
-// IMPLEMENTATION DETAILS
-#if 1
-
-/// \cond
-
-namespace muu::impl
-{
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI quaternion_
-	{
-		Scalar s;
-		vector<Scalar, 3> v;
-	};
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<quaternion_<Scalar>> = can_be_hva_of<Scalar, quaternion_<Scalar>>;
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<quaternion<Scalar>> = is_hva<quaternion_<Scalar>>;
-
-	template <typename Scalar>
-	struct vectorcall_param_<quaternion<Scalar>>
-	{
-		using type = std::
-			conditional_t<pass_vectorcall_by_value<quaternion_<Scalar>>, quaternion<Scalar>, const quaternion<Scalar>&>;
-	};
-}
-
-namespace muu
-{
-	template <typename From, typename Scalar>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::quaternion_<Scalar>> =
-		allow_implicit_bit_cast<From, quaternion<Scalar>>;
-}
-
-/// \endcond
-
-#endif //===============================================================================================================
-
+// RELATED CLASSES
 //======================================================================================================================
-// HELPER CLASSES
-#if 1
+
 namespace muu
 {
 	/// \brief	An axis-angle rotation.
@@ -69,7 +32,8 @@ namespace muu
 	///
 	/// \see		muu::quaternion
 	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI axis_angle_rotation
+	struct MUU_TRIVIAL_ABI axis_angle_rotation //
+		MUU_HIDDEN_BASE(impl::axis_angle_rotation_<Scalar>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Axis-angle rotation scalar type cannot be a reference");
 		static_assert(!is_cv<Scalar>, "Axis-angle rotation scalar type cannot be const- or volatile-qualified");
@@ -77,11 +41,50 @@ namespace muu
 		/// \brief The scalar type of the axis and angle.
 		using scalar_type = Scalar;
 
+		/// \brief The three-dimensional #muu::vector with the same #scalar_type as this axis_angle_rotation.
+		using vector_type = vector<scalar_type, 3>;
+
+	  private:
+		/// \cond
+
+		using base = impl::axis_angle_rotation_<Scalar>;
+
+		/// \endcond
+
+	  public:
+#ifdef DOXYGEN
+
 		/// \brief	The axis being rotated around.
-		vector<scalar_type, 3> axis;
+		vector_type axis;
 
 		/// \brief	The angle of rotation (in radians).
 		scalar_type angle;
+
+#endif // DOXYGEN
+
+		/// \brief Default constructor. Values are not initialized.
+		MUU_NODISCARD_CTOR
+		axis_angle_rotation() noexcept = default;
+
+		/// \brief Copy constructor.
+		MUU_NODISCARD_CTOR
+		constexpr axis_angle_rotation(const axis_angle_rotation&) noexcept = default;
+
+		/// \brief Copy-assigment operator.
+		constexpr axis_angle_rotation& operator=(const axis_angle_rotation&) noexcept = default;
+
+		/// \brief Initializes from an axis and an angle.
+		MUU_NODISCARD_CTOR
+		constexpr axis_angle_rotation(const vector_type& axis, scalar_type angle) noexcept //
+			: base{ axis, angle }
+		{}
+
+		/// \brief Converting constructor.
+		MUU_CONSTRAINED_TEMPLATE((all_arithmetic<T, U> && !all_same<scalar_type, T, U>), typename T, typename U)
+		MUU_NODISCARD_CTOR
+		explicit constexpr axis_angle_rotation(const vector<T, 3>& axis, U angle) noexcept //
+			: base{ vector_type{ axis }, static_cast<scalar_type>(angle) }
+		{}
 
 		/// \brief Writes an axis-angle rotation out to a text stream.
 		template <typename Char, typename Traits>
@@ -141,13 +144,24 @@ namespace muu
 	/// 	 - [Aircraft Principal Axes](https://en.wikipedia.org/wiki/Aircraft_principal_axes)
 	/// 	 - [Euler Angles (math)](https://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm)
 	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI euler_rotation
+	struct MUU_TRIVIAL_ABI euler_rotation //
+		MUU_HIDDEN_BASE(impl::euler_rotation_<Scalar>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Euler rotation scalar type cannot be a reference");
 		static_assert(!is_cv<Scalar>, "Euler rotation scalar type cannot be const- or volatile-qualified");
 
 		/// \brief The scalar type of the rotation's angles.
 		using scalar_type = Scalar;
+
+	  private:
+		/// \cond
+
+		using base = impl::euler_rotation_<Scalar>;
+
+		/// \endcond
+
+	  public:
+#ifdef DOXYGEN
 
 		/// \brief The rotation around the local up axis (in radians).
 		/// \remark A positive yaw means "turn the nose of the aircraft to the right".
@@ -161,18 +175,37 @@ namespace muu
 		/// \remark A positive roll means "tilt the aircraft so the right wing points toward the ground".
 		scalar_type roll;
 
+#endif // DOXYGEN
+
+		/// \brief Default constructor. Values are not initialized.
+		MUU_NODISCARD_CTOR
+		euler_rotation() noexcept = default;
+
+		/// \brief Copy constructor.
+		MUU_NODISCARD_CTOR
+		constexpr euler_rotation(const euler_rotation&) noexcept = default;
+
+		/// \brief Copy-assigment operator.
+		constexpr euler_rotation& operator=(const euler_rotation&) noexcept = default;
+
+		/// \brief Initializes from an axis and an angle.
+		MUU_NODISCARD_CTOR
+		constexpr euler_rotation(scalar_type yaw, scalar_type pitch, scalar_type roll = scalar_type{}) noexcept //
+			: base{ yaw, pitch, roll }
+		{}
+
 		/// \brief	Scales an euler rotation.
-		MUU_NODISCARD
-		MUU_ATTR(const)
-		friend constexpr euler_rotation MUU_VECTORCALL operator*(const euler_rotation& lhs, scalar_type rhs) noexcept
+		MUU_PURE_GETTER
+		friend constexpr euler_rotation MUU_VECTORCALL operator*(MUU_VC_PARAM(euler_rotation) lhs,
+																 scalar_type rhs) noexcept
 		{
 			return euler_rotation{ lhs.yaw * rhs, lhs.pitch * rhs, lhs.roll * rhs };
 		}
 
 		/// \brief	Scales an euler rotation.
-		MUU_NODISCARD
-		MUU_ATTR(const)
-		friend constexpr euler_rotation MUU_VECTORCALL operator*(scalar_type lhs, const euler_rotation& rhs) noexcept
+		MUU_PURE_GETTER
+		friend constexpr euler_rotation MUU_VECTORCALL operator*(scalar_type lhs,
+																 MUU_VC_PARAM(euler_rotation) rhs) noexcept
 		{
 			return rhs * lhs;
 		}
@@ -201,23 +234,11 @@ namespace muu
 		-> euler_rotation<impl::std_math_common_type<impl::highest_ranked<Yaw, Pitch, Roll>>>;
 
 	/// \endcond
-
-	/// \cond
-	namespace impl
-	{
-		template <typename Scalar>
-		inline constexpr bool is_hva<axis_angle_rotation<Scalar>> = can_be_hva_of<Scalar, axis_angle_rotation<Scalar>>;
-
-		template <typename Scalar>
-		inline constexpr bool is_hva<euler_rotation<Scalar>> = can_be_hva_of<Scalar, euler_rotation<Scalar>>;
-	}
-	/// \endcond
 }
-#endif //===============================================================================================================
 
 //======================================================================================================================
 // QUATERNION CLASS
-#if 1
+//======================================================================================================================
 
 namespace muu
 {
@@ -267,16 +288,16 @@ namespace muu
 		using scalar_constants = muu::constants<scalar_type>;
 
 	  public:
-	#ifdef DOXYGEN
+#ifdef DOXYGEN
 
 		/// \brief The quaternion's scalar (real) part.
 		scalar_type s;
 		/// \brief The quaternion's vector (imaginary) part.
 		vector_type v;
 
-	#endif // DOXYGEN
+#endif // DOXYGEN
 
-	#if 1 // constructors ---------------------------------------------------------------------------------------------
+#if 1 // constructors ---------------------------------------------------------------------------------------------
 
 		/// \brief Default constructor. Values are not initialized.
 		quaternion() noexcept = default;
@@ -342,9 +363,9 @@ namespace muu
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
 		}
 
-	#endif // constructors
+#endif // constructors
 
-	#if 1 // value accessors ------------------------------------------------------------------------------------------
+#if 1 // value accessors ------------------------------------------------------------------------------------------
 
 	  private:
 		template <size_t Index, typename T>
@@ -402,9 +423,9 @@ namespace muu
 			return &do_get<0>(*this);
 		}
 
-	#endif // value accessors
+#endif // value accessors
 
-	#if 1 // equality -------------------------------------------------------------------------------------------------
+#if 1 // equality -------------------------------------------------------------------------------------------------
 
 		/// \brief		Returns true if two quaternions are exactly equal.
 		///
@@ -429,11 +450,10 @@ namespace muu
 			}
 		}
 
-		#if MUU_HAS_VECTORCALL
+	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<quaternion, quaternion<T>>), typename T)
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr bool MUU_VECTORCALL operator==(quaternion lhs, quaternion<T> rhs) noexcept
 		{
 			if constexpr (std::is_same_v<scalar_type, T>)
@@ -450,7 +470,7 @@ namespace muu
 			}
 		}
 
-		#endif // MUU_HAS_VECTORCALL
+	#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if two quaternions are not exactly equal.
 		///
@@ -464,17 +484,16 @@ namespace muu
 			return !(lhs == rhs);
 		}
 
-		#if MUU_HAS_VECTORCALL
+	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<quaternion, quaternion<T>>), typename T)
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr bool MUU_VECTORCALL operator!=(quaternion lhs, quaternion<T> rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
 
-		#endif // MUU_HAS_VECTORCALL
+	#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if all the scalar components of a quaternion are exactly zero.
 		///
@@ -510,9 +529,9 @@ namespace muu
 			return infinity_or_nan(*this);
 		}
 
-	#endif // equality
+#endif // equality
 
-	#if 1 // approx_equal ---------------------------------------------------------------------------------------------
+#if 1 // approx_equal ---------------------------------------------------------------------------------------------
 
 		/// \brief	Returns true if two quaternions are approximately equal.
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL || impl::pass_vectorcall_by_reference<quaternion, quaternion<T>>),
@@ -536,11 +555,10 @@ namespace muu
 			}
 		}
 
-		#if MUU_HAS_VECTORCALL
+	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<quaternion, quaternion<T>>), typename T)
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			quaternion q1,
 			quaternion<T> q2,
@@ -559,7 +577,7 @@ namespace muu
 			}
 		}
 
-		#endif // MUU_HAS_VECTORCALL
+	#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if the quaternion is approximately equal to another.
 		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL || impl::pass_vectorcall_by_reference<quaternion<T>>), typename T)
@@ -571,7 +589,7 @@ namespace muu
 			return approx_equal(*this, q, epsilon);
 		}
 
-		#if MUU_HAS_VECTORCALL
+	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE(impl::pass_vectorcall_by_value<quaternion<T>>, typename T)
 		MUU_PURE_GETTER
@@ -582,7 +600,7 @@ namespace muu
 			return approx_equal(*this, q, epsilon);
 		}
 
-		#endif // MUU_HAS_VECTORCALL
+	#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if all the scalar components in a quaternion are approximately equal to zero.
 		MUU_PURE_GETTER
@@ -599,9 +617,9 @@ namespace muu
 			return approx_zero(*this, epsilon);
 		}
 
-	#endif // approx_equal
+#endif // approx_equal
 
-	#if 1 // dot product ----------------------------------------------------------------------------------------------
+#if 1 // dot product ----------------------------------------------------------------------------------------------
 
 	  private:
 		template <typename T = intermediate_float>
@@ -631,9 +649,9 @@ namespace muu
 			return dot(*this, q);
 		}
 
-	#endif // dot product
+#endif // dot product
 
-	#if 1 // normalization --------------------------------------------------------------------------------------------
+#if 1 // normalization --------------------------------------------------------------------------------------------
 
 		/// \brief		Normalizes a quaternion.
 		///
@@ -674,21 +692,9 @@ namespace muu
 			return normalized(*this);
 		}
 
-		[[deprecated]] MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL unit_length(MUU_VC_PARAM(quaternion) q) noexcept
-		{
-			return normalized(q);
-		}
+#endif // normalization
 
-		[[deprecated]] MUU_PURE_GETTER
-		constexpr bool unit_length() const noexcept
-		{
-			return normalized(*this);
-		}
-
-	#endif // normalization
-
-	#if 1 // conjugate ------------------------------------------------------------------------------------------------
+#if 1 // conjugate ------------------------------------------------------------------------------------------------
 
 		/// \brief		Returns the conjugate of a quaternion.
 		MUU_PURE_GETTER
@@ -704,9 +710,9 @@ namespace muu
 			return { base::s, -base::v };
 		}
 
-	#endif // conjugate
+#endif // conjugate
 
-	#if 1 // axis-angle conversions -----------------------------------------------------------------------------------
+#if 1 // axis-angle conversions ----------------------------------------------------------------------------------------
 
 		/// \brief Creates a quaternion from an axis-angle rotation.
 		///
@@ -804,9 +810,9 @@ namespace muu
 			return raw_to_axis_angle<scalar_type>(*this, shortest_path);
 		}
 
-	#endif // axis-angle conversions
+#endif // axis-angle conversions
 
-	#if 1 // euler conversions ----------------------------------------------------------------------------------------
+#if 1 // euler conversions ---------------------------------------------------------------------------------------------
 
 		/// \brief Creates a quaternion from a set of euler angles.
 		///
@@ -815,8 +821,7 @@ namespace muu
 		/// \param roll		The rotation around the local forward axis (in radians).
 		///
 		/// \return A quaternion encoding the given axis-angle rotation.
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		static constexpr quaternion MUU_VECTORCALL from_euler(scalar_type yaw,
 															  scalar_type pitch,
 															  scalar_type roll) noexcept
@@ -918,9 +923,9 @@ namespace muu
 			return to_euler(*this);
 		}
 
-	#endif // euler conversions
+#endif // euler conversions
 
-	#if 1 // multiplication -------------------------------------------------------------------------------------------
+#if 1 // multiplication ------------------------------------------------------------------------------------------------
 
 	  private:
 		MUU_PURE_GETTER
@@ -1019,9 +1024,9 @@ namespace muu
 			return *this = (*this * rhs);
 		}
 
-	#endif // multiplication
+#endif // multiplication
 
-	#if 1 // misc -----------------------------------------------------------------------------------------------------
+#if 1 // misc ----------------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a quaternion out to a text stream.
 		template <typename Char, typename Traits>
@@ -1094,7 +1099,7 @@ namespace muu
 			return *this = slerp(*this, target, alpha);
 		}
 
-	#endif // misc
+#endif // misc
 	};
 
 	/// \cond
@@ -1135,12 +1140,9 @@ namespace std
 	};
 }
 
-#endif //===============================================================================================================
-
 //======================================================================================================================
 // CONSTANTS
-#if 1
-
+//======================================================================================================================
 MUU_PUSH_PRECISE_MATH;
 
 namespace muu
@@ -1165,11 +1167,9 @@ namespace muu
 
 MUU_POP_PRECISE_MATH;
 
-#endif //===============================================================================================================
-
 //======================================================================================================================
 // FREE FUNCTIONS
-#if 1
+//======================================================================================================================
 
 namespace muu
 {
@@ -1219,13 +1219,6 @@ namespace muu
 		return quaternion<S>::normalized(q);
 	}
 
-	template <typename S>
-	[[deprecated]] MUU_PURE_GETTER
-	constexpr bool unit_length(const quaternion<S>& q) noexcept
-	{
-		return quaternion<S>::normalized(q);
-	}
-
 	/// \relatesalso muu::quaternion
 	///
 	/// \brief	Returns the dot product of two quaternions.
@@ -1262,8 +1255,6 @@ namespace muu
 		return quaternion<S>::slerp(start, finish, alpha);
 	}
 }
-
-#endif //===============================================================================================================
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"

@@ -815,14 +815,8 @@ MUU_PRAGMA_MSVC(inline_recursion(off))
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
 
-#if !MUU_INTELLISENSE
-	#define MUU_GEOM_PARAM(T) ::muu::impl::vectorcall_param < ::muu::impl::MUU_CONCAT(T, _) < scalar_type >>
-#endif
-
 /// \endcond
 
-#ifndef MUU_GEOM_PARAM
-	#define MUU_GEOM_PARAM(T) const T<scalar_type>&
-#endif
+#define MUU_GEOM_PARAM(T) MUU_VC_BASE_T_PARAM(T, scalar_type)
 
 #include "header_end.h"

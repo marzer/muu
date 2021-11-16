@@ -99,8 +99,11 @@
     <ClInclude Include="include\muu\impl\geometry_common.h" />
     <ClInclude Include="include\muu\impl\header_end.h" />
     <ClInclude Include="include\muu\impl\header_start.h" />
+    <ClInclude Include="include\muu\impl\matrix_base.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="include\muu\impl\quaternion_base.h" />
     <ClInclude Include="include\muu\impl\std_initializer_list.h" />
+    <ClInclude Include="include\muu\impl\std_tuple.h" />
     <ClInclude Include="include\muu\impl\thread_name.h" />
     <ClInclude Include="include\muu\impl\std_cstdlib.h" />
     <ClInclude Include="include\muu\impl\std_exception.h" />
@@ -114,6 +117,7 @@
     <ClInclude Include="include\muu\impl\std_type_traits.h" />
     <ClInclude Include="include\muu\impl\std_utility.h" />
     <ClInclude Include="include\muu\impl\type_name_specializations.h" />
+    <ClInclude Include="include\muu\impl\vector_base.h" />
     <ClInclude Include="include\muu\impl\vector_types_common.h" />
     <ClInclude Include="include\muu\impl\unicode_char.h" />
     <ClInclude Include="include\muu\impl\unicode_char16_t.h" />

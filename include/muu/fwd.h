@@ -264,21 +264,44 @@ namespace muu
 	struct half;
 	struct semver;
 	struct uuid;
-	template <typename>
-	struct axis_angle_rotation;
-	template <typename>
-	struct euler_rotation;
-	template <typename, size_t>
-	struct vector;
-	template <typename>
-	struct quaternion;
-	template <typename, size_t, size_t>
-	struct matrix;
 	template <typename... T>
 	struct type_list;
 	template <typename, size_t>
 	class static_string;
 
+	namespace impl
+	{
+		template <typename, size_t>
+		struct vector_;
+		template <typename>
+		struct axis_angle_rotation_;
+		template <typename>
+		struct euler_rotation_;
+		template <typename>
+		struct quaternion_;
+		template <typename, size_t, size_t>
+		struct matrix_;
+		template <typename>
+		struct plane_;
+		template <typename>
+		struct triangle_;
+		template <typename>
+		struct bounding_sphere_;
+		template <typename>
+		struct bounding_box_;
+		template <typename>
+		struct oriented_bounding_box_;
+	}
+	template <typename, size_t>
+	struct vector;
+	template <typename>
+	struct axis_angle_rotation;
+	template <typename>
+	struct euler_rotation;
+	template <typename>
+	struct quaternion;
+	template <typename, size_t, size_t>
+	struct matrix;
 	template <typename>
 	struct plane;
 	template <typename>

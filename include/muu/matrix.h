@@ -9,11 +9,7 @@
 
 #include "vector.h"
 #include "quaternion.h"
-
-MUU_DISABLE_WARNINGS;
-#include <tuple>
-MUU_ENABLE_WARNINGS;
-
+#include "impl/matrix_base.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
@@ -30,253 +26,9 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 namespace muu::impl
 {
-	struct columnwise_init_tag
-	{};
-	struct columnwise_copy_tag
-	{};
-	struct row_major_tuple_tag
-	{};
+	//--- x + y axis column getters ------------------------------------------------------------------------------------
 
-	template <typename Scalar, size_t Rows, size_t Columns>
-	struct MUU_TRIVIAL_ABI matrix_
-	{
-		vector<Scalar, Rows> m[Columns];
-
-		matrix_() noexcept = default;
-
-	  private:
-	#if MUU_MSVC
-
-		template <size_t Index>
-		MUU_CONST_INLINE_GETTER
-		static constexpr vector<Scalar, Rows> fill_column_initializer_msvc(Scalar fill) noexcept
-		{
-			return vector<Scalar, Rows>{ fill };
-		}
-
-	#endif
-
-	  public:
-	#if MUU_MSVC
-
-		// internal compiler error:
-		// https://developercommunity2.visualstudio.com/t/C-Internal-Compiler-Error-in-constexpr/1264044
-
-		template <size_t... ColumnIndices>
-		explicit constexpr matrix_(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
-			: m{ fill_column_initializer_msvc<ColumnIndices>(fill)... }
-		{
-			static_assert(sizeof...(ColumnIndices) <= Columns);
-		}
-
-	#else
-
-		template <size_t... ColumnIndices>
-		explicit constexpr matrix_(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
-			: m{ (MUU_UNUSED(ColumnIndices), vector<Scalar, Rows>{ fill })... }
-		{
-			static_assert(sizeof...(ColumnIndices) <= Columns);
-		}
-
-	#endif
-
-		template <typename... T>
-		explicit constexpr matrix_(columnwise_init_tag, T... cols) noexcept //
-			: m{ cols... }
-		{
-			static_assert(sizeof...(T) <= Columns);
-		}
-
-		template <typename T, size_t... ColumnIndices>
-		explicit constexpr matrix_(columnwise_copy_tag, std::index_sequence<ColumnIndices...>, const T& cols) noexcept
-			: m{ vector<Scalar, Rows>{ cols[ColumnIndices] }... }
-		{
-			static_assert(sizeof...(ColumnIndices) <= Columns);
-		}
-
-	  private:
-		template <size_t Index, typename T>
-		MUU_PURE_INLINE_GETTER
-		static constexpr decltype(auto) get_tuple_value_or_zero(const T& tpl) noexcept
-		{
-			if constexpr (Index < tuple_size<T>)
-			{
-				return get_from_tuple_like<Index>(tpl);
-			}
-			else
-			{
-				MUU_UNUSED(tpl);
-				return Scalar{};
-			}
-		}
-
-		template <size_t Column, typename T, size_t... RowIndices>
-		MUU_PURE_GETTER
-		MUU_ATTR(flatten)
-		static constexpr vector<Scalar, Rows> column_from_row_major_tuple(const T& tpl,
-																		  std::index_sequence<RowIndices...>) noexcept
-		{
-			static_assert(sizeof...(RowIndices) == Rows);
-
-			return vector<Scalar, Rows>{ static_cast<Scalar>(
-				get_tuple_value_or_zero<Column + (Columns * RowIndices)>(tpl))... };
-		}
-
-	  public:
-		template <typename T, size_t... ColumnIndices>
-		explicit constexpr matrix_(const T& tpl, std::index_sequence<ColumnIndices...>) noexcept
-			: m{ column_from_row_major_tuple<ColumnIndices>(tpl, std::make_index_sequence<Rows>{})... }
-		{
-			static_assert(tuple_size<T> <= Rows * Columns);
-			static_assert(sizeof...(ColumnIndices) == Columns);
-		}
-
-		template <typename T>
-		explicit constexpr matrix_(row_major_tuple_tag, const T& tpl) noexcept
-			: matrix_{ tpl, std::make_index_sequence<Columns>{} }
-		{
-			static_assert(tuple_size<T> <= Rows * Columns);
-		}
-
-		// row-major scalar constructor optimizations for some common cases
-
-		// 2x2
-		MUU_LEGACY_REQUIRES((R == 2 && C == 2), size_t R = Rows, size_t C = Columns)
-		constexpr matrix_(Scalar v00, Scalar v01, Scalar v10 = Scalar{}, Scalar v11 = Scalar{}) noexcept
-			: m{ { v00, v10 }, { v01, v11 } }
-		{}
-
-		// 2x3
-		MUU_LEGACY_REQUIRES((R == 2 && C == 3), size_t R = Rows, size_t C = Columns)
-		constexpr matrix_(Scalar v00,
-						  Scalar v01,
-						  Scalar v02 = Scalar{},
-						  Scalar v10 = Scalar{},
-						  Scalar v11 = Scalar{},
-						  Scalar v12 = Scalar{}) noexcept //
-			: m{ { v00, v10 }, { v01, v11 }, { v02, v12 } }
-		{}
-
-		// 3x3
-		MUU_LEGACY_REQUIRES((R == 3 && C == 3), size_t R = Rows, size_t C = Columns)
-		constexpr matrix_(Scalar v00,
-						  Scalar v01,
-						  Scalar v02 = Scalar{},
-						  Scalar v10 = Scalar{},
-						  Scalar v11 = Scalar{},
-						  Scalar v12 = Scalar{},
-						  Scalar v20 = Scalar{},
-						  Scalar v21 = Scalar{},
-						  Scalar v22 = Scalar{}) noexcept //
-			: m{ { v00, v10, v20 }, { v01, v11, v21 }, { v02, v12, v22 } }
-		{}
-
-		// 3x4
-		MUU_LEGACY_REQUIRES((R == 3 && C == 4), size_t R = Rows, size_t C = Columns)
-		constexpr matrix_(Scalar v00,
-						  Scalar v01,
-						  Scalar v02 = Scalar{},
-						  Scalar v03 = Scalar{},
-						  Scalar v10 = Scalar{},
-						  Scalar v11 = Scalar{},
-						  Scalar v12 = Scalar{},
-						  Scalar v13 = Scalar{},
-						  Scalar v20 = Scalar{},
-						  Scalar v21 = Scalar{},
-						  Scalar v22 = Scalar{},
-						  Scalar v23 = Scalar{}) noexcept //
-			: m{ { v00, v10, v20 }, { v01, v11, v21 }, { v02, v12, v22 }, { v03, v13, v23 } }
-		{}
-
-		// 4x4
-		MUU_LEGACY_REQUIRES((R == 4 && C == 4), size_t R = Rows, size_t C = Columns)
-		constexpr matrix_(Scalar v00,
-						  Scalar v01,
-						  Scalar v02 = Scalar{},
-						  Scalar v03 = Scalar{},
-						  Scalar v10 = Scalar{},
-						  Scalar v11 = Scalar{},
-						  Scalar v12 = Scalar{},
-						  Scalar v13 = Scalar{},
-						  Scalar v20 = Scalar{},
-						  Scalar v21 = Scalar{},
-						  Scalar v22 = Scalar{},
-						  Scalar v23 = Scalar{},
-						  Scalar v30 = Scalar{},
-						  Scalar v31 = Scalar{},
-						  Scalar v32 = Scalar{},
-						  Scalar v33 = Scalar{}) noexcept //
-			: m{ { v00, v10, v20, v30 }, { v01, v11, v21, v31 }, { v02, v12, v22, v32 }, { v03, v13, v23, v33 } }
-		{}
-	};
-
-	template <typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool is_hva<matrix_<Scalar, Rows, Columns>> =
-		can_be_hva_of<Scalar, matrix_<Scalar, Rows, Columns>>;
-
-	template <typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool is_hva<matrix<Scalar, Rows, Columns>> = is_hva<matrix_<Scalar, Rows, Columns>>;
-
-	template <typename Scalar, size_t Rows, size_t Columns>
-	struct vectorcall_param_<matrix<Scalar, Rows, Columns>>
-	{
-		using type = std::conditional_t<pass_vectorcall_by_value<matrix_<Scalar, Rows, Columns>>,
-										matrix<Scalar, Rows, Columns>,
-										const matrix<Scalar, Rows, Columns>&>;
-	};
-
-	// "2d translation matrix" == a 2d transform matrix which contans a translation column
-	template <typename T>
-	inline constexpr bool is_2d_translation_matrix_ = false;
-	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_2d_translation_matrix_<Matrix<T, 2, 3>> = is_matrix_<Matrix<T, 2, 3>>;
-	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_2d_translation_matrix_<Matrix<T, 3, 3>> = is_matrix_<Matrix<T, 3, 3>>;
-
-	// "2d rotation matrix" == a 3d transform matrix which contans a 2x2 rotation submatrix
-	template <typename T>
-	inline constexpr bool is_2d_rotation_matrix_ = false;
-	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_2d_rotation_matrix_<Matrix<T, 2, 2>> = is_matrix_<Matrix<T, 2, 2>>;
-	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_2d_rotation_matrix_<Matrix<T, 2, 3>> = is_matrix_<Matrix<T, 2, 3>>;
-	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_2d_rotation_matrix_<Matrix<T, 3, 3>> = is_matrix_<Matrix<T, 3, 3>>;
-
-	// "2d transform matrix" == a matrix which satisfies is_2d_translation_matrix_ or is_2d_rotation_matrix_
-	template <typename T>
-	inline constexpr bool is_2d_transform_matrix_ = is_2d_translation_matrix_<T> //
-												 || is_2d_rotation_matrix_<T>;
-
-	// "3d translation matrix" == a 2d transform matrix which contans a translation column
-	template <typename T>
-	inline constexpr bool is_3d_translation_matrix_ = false;
-	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_3d_translation_matrix_<Matrix<T, 3, 4>> = is_matrix_<Matrix<T, 3, 4>>;
-	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_3d_translation_matrix_<Matrix<T, 4, 4>> = is_matrix_<Matrix<T, 4, 4>>;
-
-	// "3d rotation matrix" == a 3d transform matrix which contans a 3x3 rotation submatrix
-	template <typename T>
-	inline constexpr bool is_3d_rotation_matrix_ = false;
-	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_3d_rotation_matrix_<Matrix<T, 3, 3>> = is_matrix_<Matrix<T, 3, 3>>;
-	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_3d_rotation_matrix_<Matrix<T, 3, 4>> = is_matrix_<Matrix<T, 3, 4>>;
-	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_3d_rotation_matrix_<Matrix<T, 4, 4>> = is_matrix_<Matrix<T, 4, 4>>;
-
-	// "3d transform matrix" == a matrix which satisfies is_3d_translation_matrix_ or is_3d_rotation_matrix_
-	template <typename T>
-	inline constexpr bool is_3d_transform_matrix_ = is_3d_translation_matrix_<T> //
-												 || is_3d_rotation_matrix_<T>;
-
-	// "transform matrix" == a matrix which satisfies any of the above
-	template <typename T>
-	inline constexpr bool is_transform_matrix_ = is_2d_transform_matrix_<T> //
-											  || is_3d_transform_matrix_<T>;
-
-	template <typename Derived, bool = is_transform_matrix_<Derived>>
+	template <typename Derived, bool = is_matrix_<Derived, 1, 2>>
 	struct matrix_get_xy_axis
 	{};
 
@@ -314,7 +66,9 @@ namespace muu::impl
 		}
 	};
 
-	template <typename Derived, bool = is_transform_matrix_<Derived>&& is_matrix_<Derived, 1, 3>>
+	//--- z axis column getter -----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_matrix_<Derived, 1, 3>>
 	struct matrix_get_z_axis
 	{};
 
@@ -338,7 +92,9 @@ namespace muu::impl
 		}
 	};
 
-	template <typename Derived, bool = is_transform_matrix_<Derived>&& is_matrix_<Derived, 1, 4>>
+	//--- w axis column getter -----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_matrix_<Derived, 1, 4>>
 	struct matrix_get_w_axis
 	{};
 
@@ -362,113 +118,412 @@ namespace muu::impl
 		}
 	};
 
-	template <typename Derived, bool = is_2d_translation_matrix_<Derived>>
-	struct matrix_from_2d_translation
+	//--- translation column getter ------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_translation_matrix_<Derived>>
+	struct matrix_get_translation
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct matrix_from_2d_translation<matrix<Scalar, Rows, Columns>, true>
+	struct matrix_get_translation<matrix<Scalar, Rows, Columns>, true>
 	{
-		template <typename T>
+		using column_type = vector<Scalar, Rows>;
+
+		MUU_PURE_INLINE_GETTER
+		MUU_ATTR(flatten)
+		constexpr column_type& translation() noexcept
+		{
+			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<Columns - 1u>();
+		}
+
+		MUU_PURE_INLINE_GETTER
+		MUU_ATTR(flatten)
+		constexpr const column_type& translation() const noexcept
+		{
+			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<Columns - 1u>();
+		}
+	};
+
+	//--- 2d scale matrices --------------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_2d_scale_matrix_<Derived>>
+	struct matrix_2d_scales
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_2d_scales<matrix<Scalar, Rows, Columns>, true>
+	{
+		static_assert(Rows == 2 || Rows == 3);
+		static_assert(Columns == 2 || Columns == 3);
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(Scalar x, Scalar y) noexcept
+		{
+			using out_type = matrix<Scalar, Rows, Columns>;
+
+			auto out				 = out_type::constants::identity;
+			out.template get<0, 0>() = x;
+			out.template get<1, 1>() = y;
+			return out;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(
+			const vector<Scalar, 2>& scale) noexcept
+		{
+			return from_scale(scale.x, scale.y);
+		}
+
+		MUU_CONSTRAINED_TEMPLATE(D >= 2, size_t D)
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_scale(
+			const vector<Scalar, D>& scale) noexcept
+		{
+			return from_scale(scale.template get<0>(), scale.template get<1>());
+		}
+	};
+
+	//--- 3d scale matrices --------------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_3d_scale_matrix_<Derived>>
+	struct matrix_3d_scales
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_3d_scales<matrix<Scalar, Rows, Columns>, true>
+	{
+		static_assert(Rows == 3 || Rows == 4);
+		static_assert(Columns == 3 || Columns == 4);
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(
+			Scalar x,
+			Scalar y,
+			Scalar z = constants<Scalar>::one) noexcept
+		{
+			using out_type = matrix<Scalar, Rows, Columns>;
+
+			auto out				 = out_type::constants::identity;
+			out.template get<0, 0>() = x;
+			out.template get<1, 1>() = y;
+			out.template get<2, 2>() = z;
+			return out;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(
+			const vector<Scalar, 2>& scale) noexcept
+		{
+			return from_scale(scale.x, scale.y);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(
+			const vector<Scalar, 3>& scale) noexcept
+		{
+			return from_scale(scale.x, scale.y, scale.z);
+		}
+
+		MUU_CONSTRAINED_TEMPLATE(D >= 2, size_t D)
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_scale(
+			const vector<Scalar, D>& scale) noexcept
+		{
+			return from_scale(scale.template get<0>(), scale.template get<1>());
+		}
+
+		MUU_CONSTRAINED_TEMPLATE(D >= 3, size_t D)
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_3d_scale(
+			const vector<Scalar, D>& xlat) noexcept
+		{
+			return from_2d_scale(xlat.template get<0>(), xlat.template get<1>(), xlat.template get<2>());
+		}
+	};
+
+	//--- 2d translation matrices --------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_2d_translation_matrix_<Derived>>
+	struct matrix_2d_translations
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_2d_translations<matrix<Scalar, Rows, Columns>, true>
+	{
+		static_assert(Rows == 2 || Rows == 3);
+		static_assert(Columns == 3);
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(Scalar x, Scalar y) noexcept
+		{
+			using out_type = matrix<Scalar, Rows, Columns>;
+
+			auto m = out_type::constants::identity;
+			if constexpr (Rows == 3)
+				m.translation() = vector<Scalar, Rows>{ x, y, Scalar{ 1 } };
+			else
+				m.translation() = vector<Scalar, Rows>{ x, y };
+			return m;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(
+			const vector<Scalar, 2>& xlat) noexcept
+		{
+			return from_translation(xlat.x, xlat.y);
+		}
+
+		MUU_CONSTRAINED_TEMPLATE(D >= 2, size_t D)
 		MUU_PURE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_translation(
-			const vector<T, 2>& xlat) noexcept
+			const vector<Scalar, D>& xlat) noexcept
 		{
-			using out_type = matrix<Scalar, Rows, Columns>;
-
-			auto m = out_type::constants::identity;
-			if constexpr (Rows >= 3)
-				m.m[2] = vector<Scalar, Rows>{ xlat, Scalar{ 1 } };
-			else
-				m.m[2] = vector<Scalar, Rows>{ xlat };
-			return m;
+			return from_translation(xlat.template get<0>(), xlat.template get<1>());
 		}
 	};
 
-	template <typename Derived, bool = is_2d_rotation_matrix_<Derived>>
-	struct matrix_from_2d_rotation
-	{};
-
-	template <typename Scalar, size_t Rows, size_t Columns>
-	struct matrix_from_2d_rotation<matrix<Scalar, Rows, Columns>, true>
-	{
-		template <typename T, size_t R, size_t C>
-		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_rotation(
-			const matrix<T, R, C>& rot) noexcept
-		{
-			using inner_type = matrix<Scalar, 2, 2>;
-			using out_type	 = matrix<Scalar, Rows, Columns>;
-
-			out_type m{ inner_type{ rot } };
-			if constexpr (muu::min(Rows, Columns) > 2u)
-				m.template get<2, 2>() = Scalar{ 1 };
-			if constexpr (muu::min(Rows, Columns) > 3u)
-				m.template get<3, 3>() = Scalar{ 1 };
-			if constexpr (muu::min(Rows, Columns) > 4u)
-			{
-				for (size_t i = 4, e = muu::min(Rows, Columns); i < e; i++)
-					m(i, i) = Scalar{ 1 };
-			}
-			return m;
-		}
-	};
+	//--- 3d translation matrices --------------------------------------------------------------------------------------
 
 	template <typename Derived, bool = is_3d_translation_matrix_<Derived>>
-	struct matrix_from_3d_translation
+	struct matrix_3d_translations
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct matrix_from_3d_translation<matrix<Scalar, Rows, Columns>, true>
+	struct matrix_3d_translations<matrix<Scalar, Rows, Columns>, true>
 	{
-		template <typename T>
+		static_assert(Rows == 3 || Rows == 4);
+		static_assert(Columns == 4);
+
 		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_3d_translation(
-			const vector<T, 3>& xlat) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(Scalar x,
+																					   Scalar y,
+																					   Scalar z = Scalar{}) noexcept
 		{
 			using out_type = matrix<Scalar, Rows, Columns>;
 
 			auto m = out_type::constants::identity;
-			if constexpr (Rows >= 4)
-				m.m[3] = vector<Scalar, Rows>{ xlat, Scalar{ 1 } };
+			if constexpr (Rows == 4)
+				m.translation() = vector<Scalar, Rows>{ x, y, z, Scalar{ 1 } };
 			else
-				m.m[3] = vector<Scalar, Rows>{ xlat };
+				m.translation() = vector<Scalar, Rows>{ x, y, z };
 			return m;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(
+			const vector<Scalar, 2>& xlat) noexcept
+		{
+			return from_translation(xlat.x, xlat.y);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(
+			const vector<Scalar, 3>& xlat) noexcept
+		{
+			return from_translation(xlat.x, xlat.y, xlat.z);
+		}
+
+		MUU_CONSTRAINED_TEMPLATE(D >= 2, size_t D)
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_translation(
+			const vector<Scalar, D>& xlat) noexcept
+		{
+			return from_translation(xlat.template get<0>(), xlat.template get<1>());
+		}
+
+		MUU_CONSTRAINED_TEMPLATE(D >= 3, size_t D)
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_3d_translation(
+			const vector<Scalar, D>& xlat) noexcept
+		{
+			return from_translation(xlat.template get<0>(), xlat.template get<1>(), xlat.template get<2>());
 		}
 	};
 
-	template <typename Derived, bool = is_3d_rotation_matrix_<Derived>>
-	struct matrix_from_3d_rotation
+	//--- 2d rotation matrices -----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_2d_rotation_matrix_<Derived>>
+	struct matrix_2d_rotations
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct matrix_from_3d_rotation<matrix<Scalar, Rows, Columns>, true>
+	struct matrix_2d_rotations<matrix<Scalar, Rows, Columns>, true>
 	{
-		template <typename T, size_t R, size_t C>
-		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_3d_rotation(
-			const matrix<T, R, C>& rot) noexcept
-		{
-			using inner_type = matrix<Scalar, 3, 3>;
-			using out_type	 = matrix<Scalar, Rows, Columns>;
+		static_assert(Rows >= 2 && Columns >= 2);
+		static_assert(Rows <= 3 && Columns <= 3);
+		static_assert(is_floating_point<Scalar>);
 
-			out_type m{ inner_type{ rot } };
-			if constexpr (muu::min(Rows, Columns) > 3u)
-				m.template get<3, 3>() = Scalar{ 1 };
-			if constexpr (muu::min(Rows, Columns) > 4u)
+		MUU_CONSTRAINED_TEMPLATE(R >= 2 && C >= 2, size_t R, size_t C)
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_rotation(
+			const matrix<Scalar, R, C>& rot) noexcept
+		{
+			if constexpr (R == Rows && C == Columns && R == 2u && C == 2u)
+				return rot;
+			else
 			{
-				for (size_t i = 4, e = muu::min(Rows, Columns); i < e; i++)
-					m(i, i) = Scalar{ 1 };
+				using out_type = matrix<Scalar, Rows, Columns>;
+
+				out_type out{ rot };
+
+				if constexpr (C >= 3u && Columns == 3u)
+					out.translation() = vector<Scalar, Rows>{};
+				if constexpr (R >= 3u && Rows == 3u)
+				{
+					out.template get<2, 0>() = Scalar{};
+					out.template get<2, 1>() = Scalar{};
+				}
+				if constexpr (Rows == 3u && Columns == 3u)
+					out.template get<2, 2>() = Scalar{ 1 };
+
+				return out;
 			}
-			return m;
 		}
 	};
+
+	//--- 3d rotation matrices -----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_3d_rotation_matrix_<Derived>>
+	struct matrix_3d_rotations
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_3d_rotations<matrix<Scalar, Rows, Columns>, true>
+	{
+		static_assert(Rows >= 3 && Columns >= 3);
+		static_assert(Rows <= 4 && Columns <= 4);
+		static_assert(is_floating_point<Scalar>);
+
+		MUU_CONSTRAINED_TEMPLATE(R >= 3 && C >= 3, size_t R, size_t C)
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_3d_rotation(
+			const matrix<Scalar, R, C>& rot) noexcept
+		{
+			if constexpr (R == Rows && C == Columns && R == 3u && C == 3u)
+				return rot;
+			else
+			{
+				using out_type = matrix<Scalar, Rows, Columns>;
+
+				out_type out{ rot };
+
+				if constexpr (C >= 4u && Columns == 4u)
+					out.translation() = vector<Scalar, Rows>{};
+				if constexpr (R >= 4u && Rows == 4u)
+				{
+					out.template get<3, 0>() = Scalar{};
+					out.template get<3, 1>() = Scalar{};
+					out.template get<3, 2>() = Scalar{};
+				}
+				if constexpr (Rows == 4u && Columns == 4u)
+					out.template get<3, 3>() = Scalar{ 1 };
+
+				return out;
+			}
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_quaternion(
+			MUU_VC_PARAM(quaternion<Scalar>) quat) noexcept
+		{
+			using out_type = matrix<Scalar, Rows, Columns>;
+
+			if constexpr (is_small_float_<Scalar>)
+			{
+				return out_type{ matrix<float, Rows, Columns>::from_quaternion(quaternion<float>{ quat }) };
+			}
+			else
+			{
+				MUU_FMA_BLOCK;
+
+				const Scalar x2 = quat.v.x * quat.v.x;
+				const Scalar y2 = quat.v.y * quat.v.y;
+				const Scalar z2 = quat.v.z * quat.v.z;
+				const Scalar sx = quat.s * quat.v.x;
+				const Scalar sy = quat.s * quat.v.y;
+				const Scalar sz = quat.s * quat.v.z;
+				const Scalar xz = quat.v.x * quat.v.z;
+				const Scalar yz = quat.v.y * quat.v.z;
+				const Scalar xy = quat.v.x * quat.v.y;
+
+				using col_type = vector<Scalar, Rows>;
+				out_type out{ col_type{ /* 0, 0 */ Scalar{ 1 } - Scalar{ 2 } * (y2 + z2),
+										/* 1, 0 */ Scalar{ 2 } * (xy + sz),
+										/* 2, 0 */ Scalar{ 2 } * (xz - sy) },
+							  col_type{ /* 0, 1 */ Scalar{ 2 } * (xy - sz),
+										/* 1, 1 */ Scalar{ 1 } - Scalar{ 2 } * (x2 + z2),
+										/* 2, 1 */ Scalar{ 2 } * (sx + yz) },
+							  col_type{ /* 0, 2 */ Scalar{ 2 } * (sy + xz),
+										/* 1, 2 */ Scalar{ 2 } * (yz - sx),
+										/* 2, 2 */ Scalar{ 1 } - Scalar{ 2 } * (x2 + y2) } };
+
+				if constexpr (Rows == 4u && Columns == 4u)
+					out.template get<3, 3>() = Scalar{ 1 };
+
+				return out;
+			}
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axis_angle(
+			MUU_VC_PARAM(vector<Scalar, 3>) axis,
+			Scalar angle) noexcept
+		{
+			if constexpr (is_small_float_<Scalar>)
+			{
+				using out_type = matrix<Scalar, Rows, Columns>;
+
+				return out_type{ matrix<float, Rows, Columns>::from_axis_angle(vector<float, 3>{ axis },
+																			   static_cast<float>(angle)) };
+			}
+			else
+			{
+				return from_quaternion(quaternion<Scalar>::from_axis_angle(axis, angle));
+			}
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axis_angle(
+			MUU_VC_PARAM(axis_angle_rotation<Scalar>) aa) noexcept
+		{
+			return from_axis_angle(aa.axis, aa.angle);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_euler(Scalar yaw,
+																				 Scalar pitch,
+																				 Scalar roll) noexcept
+		{
+			if constexpr (is_small_float_<Scalar>)
+			{
+				using out_type = matrix<Scalar, Rows, Columns>;
+
+				return out_type{ matrix<float, Rows, Columns>::from_euler(static_cast<float>(yaw),
+																		  static_cast<float>(pitch),
+																		  static_cast<float>(roll)) };
+			}
+			else
+			{
+				return from_quaternion(quaternion<Scalar>::from_euler(yaw, pitch, roll));
+			}
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_euler(
+			MUU_VC_PARAM(euler_rotation<Scalar>) angles) noexcept
+		{
+			return from_euler(angles.yaw, angles.pitch, angles.roll);
+		}
+	};
+
+	//--- determinants -------------------------------------------------------------------------------------------------
 
 	#define MAT_GET(r, c) static_cast<type>(m.m[c].template get<r>())
 
 	template <size_t Row0 = 0, size_t Row1 = 1, size_t Col0 = 0, size_t Col1 = 1, typename T>
 	MUU_PURE_GETTER
-	static constexpr promote_if_small_float<typename T::determinant_type> raw_determinant_2x2(const T& m) noexcept
+	static constexpr promote_if_small_float<typename T::determinant_type> MUU_VECTORCALL raw_determinant_2x2(
+		const T& m) noexcept
 	{
 		MUU_FMA_BLOCK;
 		using type = promote_if_small_float<typename T::determinant_type>;
@@ -484,7 +539,8 @@ namespace muu::impl
 			  size_t Col2 = 2,
 			  typename T>
 	MUU_PURE_GETTER
-	static constexpr promote_if_small_float<typename T::determinant_type> raw_determinant_3x3(const T& m) noexcept
+	static constexpr promote_if_small_float<typename T::determinant_type> MUU_VECTORCALL raw_determinant_3x3(
+		const T& m) noexcept
 	{
 		MUU_FMA_BLOCK;
 		using type = promote_if_small_float<typename T::determinant_type>;
@@ -504,7 +560,8 @@ namespace muu::impl
 			  size_t Col3 = 3,
 			  typename T>
 	MUU_PURE_GETTER
-	static constexpr promote_if_small_float<typename T::determinant_type> raw_determinant_4x4(const T& m) noexcept
+	static constexpr promote_if_small_float<typename T::determinant_type> MUU_VECTORCALL raw_determinant_4x4(
+		const T& m) noexcept
 	{
 		MUU_FMA_BLOCK;
 		using type = promote_if_small_float<typename T::determinant_type>;
@@ -518,13 +575,6 @@ namespace muu::impl
 	#undef MAT_GET
 
 } // impl
-
-namespace muu
-{
-	template <typename From, typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::matrix_<Scalar, Rows, Columns>> =
-		allow_implicit_bit_cast<From, matrix<Scalar, Rows, Columns>>;
-}
 
 	#define SPECIALIZED_IF(cond) , bool = (cond)
 
@@ -555,10 +605,13 @@ namespace muu
 			impl::matrix_get_xy_axis<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_get_z_axis<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_get_w_axis<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_from_2d_translation<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_from_3d_translation<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_from_2d_rotation<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_from_3d_rotation<matrix<Scalar, Rows, Columns>>
+			impl::matrix_get_translation<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_2d_translations<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_3d_translations<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_2d_rotations<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_3d_rotations<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_2d_scales<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_3d_scales<matrix<Scalar, Rows, Columns>>
 		)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Matrix scalar type cannot be a reference");
@@ -584,6 +637,15 @@ namespace muu
 
 		/// \brief The type of one column of this matrix.
 		using column_type = vector<scalar_type, rows>;
+
+		/// \brief The #muu::quaternion with the same #scalar_type as this matrix.
+		using quaternion_type = quaternion<scalar_type>;
+
+		/// \brief The #muu::axis_angle_rotation with the same #scalar_type as this matrix.
+		using axis_angle_type = axis_angle_rotation<scalar_type>;
+
+		/// \brief The #muu::euler_rotation with the same #scalar_type as this matrix.
+		using euler_type = euler_rotation<scalar_type>;
 
 		/// \brief Compile-time constants for this matrix.
 		using constants = muu::constants<matrix>;
@@ -692,7 +754,7 @@ namespace muu
 		/// \param	v0		Initial value for the matrix's first scalar component.
 		/// \param	v1		Initial value for the matrix's second scalar component.
 		/// \param	vals	Initial values for the matrix's remaining scalar components.
-		MUU_CONSTRAINED_TEMPLATE((!impl::is_transform_matrix_<matrix>		 //
+		MUU_CONSTRAINED_TEMPLATE((!impl::is_common_matrix_<matrix>			 //
 								  && (2u + sizeof...(T)) <= (Rows * Columns) //
 								  && all_convertible_to<scalar_type, scalar_type, T...>),
 								 typename... T)
@@ -701,7 +763,7 @@ namespace muu
 			: base{ impl::row_major_tuple_tag{}, std::tuple<scalar_type, scalar_type, const T&...>{ v0, v1, vals... } }
 		{}
 
-		#ifndef DOXYGEN
+		/// \cond
 
 		// row-major scalar constructor optimizations for some common cases
 
@@ -782,7 +844,7 @@ namespace muu
 			: base{ v00, v01, v02, v03, v10, v11, v12, v13, v20, v21, v22, v23, v30, v31, v32, v33 }
 		{}
 
-		#endif
+		/// \endcond
 
 		/// \brief Enlarging/truncating/converting constructor.
 		/// \details Copies source matrix's scalar components, casting if necessary:
@@ -838,61 +900,207 @@ namespace muu
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
 		}
 
-	  private:
-		/// \cond
-
-		template <typename... T>
+		/// \brief Constructs a matrix from a series of column vectors.
+		/// \details Copies from the input columns, enlarging/truncating/casting as necessary:
+		/// \cpp
+		/// matrix<int, 3, 3> m33{ vector{ 1, 2, 3 }, vector{ 4, 5, 6 }, vector{ 7, 8, 9 } };
+		/// std::cout << m33 << "\n\n";
+		///
+		/// matrix<int, 2, 2> m22{ vector{ 1, 2, 3 }, vector{ 4, 5, 6 } };
+		/// std::cout << m22 << "\n\n";
+		/// \ecpp
+		///
+		/// \out
+		/// {    1,    4,    7,
+		///      2,    5,    8,
+		///      3,    6,    9 }
+		///
+		/// {    1,    4,
+		///      2,    5 }
+		/// \eout
+		///
+		/// Any scalar components not covered by the constructor's parameters are initialized to zero.
+		///
+		/// \tparam	S0		#scalar_type of the first column's initializer.
+		/// \tparam	D0		Number of dimensions in the first column's initializer.
+		/// \tparam	S1		#scalar_type of the second column's initializer.
+		/// \tparam	D1		Number of dimensions in the second column's initializer.
+		/// \tparam	Cols	Any additional column initializers.
+		///
+		/// \availability		This constructor is only available when #columns &gt;= 2.
+		MUU_CONSTRAINED_TEMPLATE(((2u + sizeof...(Cols)) <= Columns												   //
+								  && !all_same<column_type, vector<S0, D0>, vector<S1, D1>, remove_cvref<Cols>...> //
+								  && all_convertible_to<column_type, column_type, const Cols&...>),
+								 typename S0,
+								 size_t D0,
+								 typename S1,
+								 size_t D1,
+								 typename... Cols)
 		MUU_NODISCARD_CTOR
-		constexpr matrix(impl::columnwise_init_tag, T... cols) noexcept //
-			: base{ impl::columnwise_init_tag{}, cols... }
+		explicit constexpr matrix(const vector<S0, D0>& col0, const vector<S1, D1>& col1, const Cols&... cols) noexcept
+			: base{ impl::columnwise_init_tag{}, column_type{ col0 }, column_type{ col1 }, column_type{ cols }... }
 		{}
 
-		/// \endcond
+		/// \cond
 
-	  public:
+		// non-converting case
+
+		MUU_CONSTRAINED_TEMPLATE(((2u + sizeof...(Cols)) <= Columns //
+								  && all_same<column_type, vector<S0, D0>, vector<S1, D1>, remove_cvref<Cols>...>),
+								 typename S0,
+								 size_t D0,
+								 typename S1,
+								 size_t D1,
+								 typename... Cols)
+		MUU_NODISCARD_CTOR
+		explicit constexpr matrix(const vector<S0, D0>& col0, const vector<S1, D1>& col1, const Cols&... cols) noexcept
+			: base{ impl::columnwise_init_tag{}, col0, col1, cols... }
+		{}
+
+			/// \endcond
+
 	#endif // constructors
 
-	#if 1 // 2d translations + rotations -------------------------------------------------------------------------------
-			/// \name 2D Translations & Rotations
+	#if 1 // translations ----------------------------------------------------------------------------------------------
+			/// \name Translations
 			/// @{
 
 		#ifdef DOXYGEN
 
-		/// \brief Creates a 2D translation matrix from a 2D vector.
-		/// \availability This function is only available when the matrix is 2x3 or 3x3.
-		template <typename T>
-		static constexpr matrix from_2d_translation(const vector<T, 2>& xlat) noexcept;
+		/// \brief Creates a translation matrix from x and y offsets.
+		///
+		/// \availability	This overload is only available when the matrix is 2x3 or 3x3.
+		static constexpr matrix from_translation(scalar_type x, scalar_type y) noexcept;
 
-		/// \brief Creates a 2D rotation matrix by merging the 2x2 part of another matrix with the identity matrix.
-		/// \availability This function is only available when the matrix is 2x2, 2x3 or 3x3.
-		template <typename T, size_t R, size_t C>
-		static constexpr matrix from_2d_rotation(const matrix<T, R, C>& rot) noexcept;
+		/// \brief Creates a translation matrix from x, y and z offsets.
+		///
+		/// \availability	This overload is only available when the matrix is 3x4 or 4x4.
+		static constexpr matrix from_translation(scalar_type x, scalar_type y, scalar_type z = 0) noexcept;
+
+		/// \brief Creates a translation matrix from a 2D vector.
+		///
+		/// \availability	This overload is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.
+		static constexpr matrix from_translation(const vector<scalar_type, 2>& xlat) noexcept;
+
+		/// \brief Creates a translation matrix from a 3D vector.
+		///
+		/// \availability	This function is only available when the matrix is 3x4 or 4x4.
+		static constexpr matrix from_translation(const vector<scalar_type, 3>& xlat) noexcept;
+
+		/// \brief Creates a translation matrix from the x and y components of a vector of arbitrary size.
+		///
+		/// \availability	This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.
+		template <size_t D>
+		static constexpr matrix from_2d_translation(const vector<scalar_type, D>& xlat) noexcept;
+
+		/// \brief Creates a translation matrix from the x, y and z components of a vector of arbitrary size.
+		///
+		/// \availability	This function is only available when the matrix is 3x4 or 4x4.
+		template <size_t D>
+		static constexpr matrix from_3d_translation(const vector<scalar_type, D>& xlat) noexcept;
 
 		#endif // DOXYGEN
 
 			/// @}
-	#endif // 2d translations + rotations
+	#endif // translations
 
-	#if 1 // 3d translations -------------------------------------------------------------------------------------------
-			/// \name 3D Translations & Rotations
+	#if 1 // rotations -------------------------------------------------------------------------------------------------
+			/// \name Rotations
 			/// @{
 
 		#ifdef DOXYGEN
 
-		/// \brief Creates a 3D translation matrix from a 3D vector.
-		/// \availability This function is only available when the matrix is 3x4 or 4x4.
-		template <typename T>
-		static constexpr matrix from_3d_translation(const vector<T, 3>& xlat) noexcept;
+		/// \brief Creates a 2D rotation matrix from the lower 2x2 part of a matrix.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 2x2, 2x3 or 3x3.
+		template <size_t R, size_t C>
+		static constexpr matrix from_2d_rotation(const matrix<scalar_type, R, C>& rot) noexcept;
 
-		/// \brief Creates a 3D rotation matrix by merging the 3x3 part of another matrix with the identity matrix.
-		/// \availability This function is only available when the matrix 3x4, 3x4 or 4x4.
-		template <typename T, size_t R, size_t C>
-		static constexpr matrix from_3d_rotation(const matrix<T, R, C>& rot) noexcept;
+		/// \brief Creates a 3D rotation matrix from the lower 3x3 part of a matrix.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 3x4 or 4x4.
+		template <size_t R, size_t C>
+		static constexpr matrix from_3d_rotation(const matrix<scalar_type, R, C>& rot) noexcept;
+
+		/// \brief Creates a 3D rotation matrix from a quaternion
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 3x4 or 4x4.
+		static constexpr matrix from_quaternion(const quaternion_type& quat) noexcept;
+
+		/// \brief Creates a 3D rotation matrix from an axis and an angle.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 3x4 or 4x4.
+		static constexpr matrix from_axis_angle(const vector<scalar_type, 3>& axis, scalar_type angle) noexcept;
+
+		/// \brief Creates a 3D rotation matrix from an axis and an angle.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 3x4 or 4x4.
+		static constexpr matrix from_axis_angle(const axis_angle_type& aa) noexcept;
+
+		/// \brief Creates a 3D rotation matrix from a set of euler angles.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 3x4 or 4x4.
+		static constexpr matrix from_euler(scalar_type yaw, scalar_type pitch, scalar_type roll) noexcept;
+
+		/// \brief Creates a 3D rotation matrix from a set of euler angles.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 3x4 or 4x4.
+		static constexpr matrix from_euler(const euler_type& angles) noexcept;
 
 		#endif // DOXYGEN
 
 			/// @}
-	#endif // 3d translations + rotations
+	#endif // rotations
+
+	#if 1	// scales ----------------------------------------------------------------------------------------------
+			/// \name Scales
+			/// @{
+
+		#ifdef DOXYGEN
+
+		/// \brief Creates a scale matrix from x and y offsets.
+		///
+		/// \availability	This overload is only available when the matrix is 2x2 or 2x3.
+		static constexpr matrix from_scale(scalar_type x, scalar_type y) noexcept;
+
+		/// \brief Creates a scale matrix from x, y and z offsets.
+		///
+		/// \availability	This overload is only available when the matrix is 3x3, 3x4 or 4x4.
+		static constexpr matrix from_scale(scalar_type x, scalar_type y, scalar_type z = 1) noexcept;
+
+		/// \brief Creates a scale matrix from a 2D vector.
+		///
+		/// \availability	This overload is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.
+		static constexpr matrix from_scale(const vector<scalar_type, 2>& xlat) noexcept;
+
+		/// \brief Creates a scale matrix from a 3D vector.
+		///
+		/// \availability	This overload is only available when the matrix is 3x3, 3x4 or 4x4.
+		static constexpr matrix from_scale(const vector<scalar_type, 3>& xlat) noexcept;
+
+		/// \brief Creates a scale matrix from the x and y components of a vector of arbitrary size.
+		///
+		/// \availability	This function is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.
+		template <size_t D>
+		static constexpr matrix from_2d_scale(const vector<scalar_type, D>& xlat) noexcept;
+
+		/// \brief Creates a scale matrix from the x, y and z components of a vector of arbitrary size.
+		///
+		/// \availability	This function is only available when the matrix is 3x3, 3x4 or 4x4.
+		template <size_t D>
+		static constexpr matrix from_3d_scale(const vector<scalar_type, D>& xlat) noexcept;
+
+		#endif // DOXYGEN
+
+			/// @}
+	#endif // scales
 
 	#if 1 // column accessors ------------------------------------------------------------------------------------------
 		/// \name Column accessors
@@ -959,6 +1167,16 @@ namespace muu
 		///
 		/// \availability	This function is only available when the matrix has at least four columns.
 		constexpr const column_type& w_axis() const noexcept;
+
+		/// \brief Returns a reference to the Translation column.
+		///
+		/// \availability	This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.
+		constexpr column_type& translation() noexcept;
+
+		/// \brief Returns a const reference to the Translation column.
+		///
+		/// \availability	This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.
+		constexpr const column_type& translation() const noexcept;
 
 		#endif
 
@@ -1375,8 +1593,7 @@ namespace muu
 			{
 				MUU_FMA_BLOCK;
 
-				return result_type{ impl::columnwise_init_tag{},
-									column_type{ static_cast<scalar_type>(MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1)),
+				return result_type{ column_type{ static_cast<scalar_type>(MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1)),
 												 static_cast<scalar_type>(MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1)) },
 									column_type{ static_cast<scalar_type>(MULT_DOT(0, 1, 0) + MULT_DOT(0, 1, 1)),
 												 static_cast<scalar_type>(MULT_DOT(1, 1, 0) + MULT_DOT(1, 1, 1)) } };
@@ -1386,7 +1603,6 @@ namespace muu
 				MUU_FMA_BLOCK;
 
 				return result_type{
-					impl::columnwise_init_tag{},
 					column_type{ static_cast<scalar_type>(MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1) + MULT_DOT(0, 0, 2)),
 								 static_cast<scalar_type>(MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1) + MULT_DOT(1, 0, 2)),
 								 static_cast<scalar_type>(MULT_DOT(2, 0, 0) + MULT_DOT(2, 0, 1) + MULT_DOT(2, 0, 2)) },
@@ -1403,8 +1619,7 @@ namespace muu
 			{
 				MUU_FMA_BLOCK;
 
-				return result_type{ impl::columnwise_init_tag{},
-									column_type{ static_cast<scalar_type>(MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1)
+				return result_type{ column_type{ static_cast<scalar_type>(MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1)
 																		  + MULT_DOT(0, 0, 2) + MULT_DOT(0, 0, 3)),
 												 static_cast<scalar_type>(MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1)
 																		  + MULT_DOT(1, 0, 2) + MULT_DOT(1, 0, 3)),
@@ -1700,7 +1915,6 @@ namespace muu
 			if constexpr (Rows == 2 && Columns == 2)
 			{
 				return result_type{
-					impl::columnwise_init_tag{},
 					result_column{ MAT_GET(0, 0), MAT_GET(0, 1) },
 					result_column{ MAT_GET(1, 0), MAT_GET(1, 1) },
 				};
@@ -1708,7 +1922,6 @@ namespace muu
 			else if constexpr (Rows == 3 && Columns == 3)
 			{
 				return result_type{
-					impl::columnwise_init_tag{},
 					result_column{ MAT_GET(0, 0), MAT_GET(0, 1), MAT_GET(0, 2) },
 					result_column{ MAT_GET(1, 0), MAT_GET(1, 1), MAT_GET(1, 2) },
 					result_column{ MAT_GET(2, 0), MAT_GET(2, 1), MAT_GET(2, 2) },
@@ -1717,7 +1930,6 @@ namespace muu
 			else if constexpr (Rows == 4 && Columns == 4)
 			{
 				return result_type{
-					impl::columnwise_init_tag{},
 					result_column{ MAT_GET(0, 0), MAT_GET(0, 1), MAT_GET(0, 2), MAT_GET(0, 3) },
 					result_column{ MAT_GET(1, 0), MAT_GET(1, 1), MAT_GET(1, 2), MAT_GET(1, 3) },
 					result_column{ MAT_GET(2, 0), MAT_GET(2, 1), MAT_GET(2, 2), MAT_GET(2, 3) },
@@ -1799,9 +2011,8 @@ namespace muu
 
 			if constexpr (Columns == 1)
 			{
-				return inverse_type{ impl::columnwise_init_tag{},
-									 result_column{ static_cast<result_scalar>(
-										 intermediate_float{ 1 } / static_cast<intermediate_float>(m.m[0].x)) } };
+				return inverse_type{ result_column{
+					static_cast<result_scalar>(intermediate_float{ 1 } / static_cast<intermediate_float>(m.m[0].x)) } };
 			}
 			if constexpr (Columns == 2)
 			{
@@ -1809,8 +2020,7 @@ namespace muu
 
 				const auto det =
 					intermediate_float{ 1 } / static_cast<intermediate_float>(impl::raw_determinant_2x2(m));
-				return inverse_type{ impl::columnwise_init_tag{},
-									 result_column{ static_cast<result_scalar>(det * MAT_GET(1, 1)),
+				return inverse_type{ result_column{ static_cast<result_scalar>(det * MAT_GET(1, 1)),
 													static_cast<result_scalar>(det * -MAT_GET(1, 0)) },
 									 result_column{ static_cast<result_scalar>(det * -MAT_GET(0, 1)),
 													static_cast<result_scalar>(det * MAT_GET(0, 0)) } };
@@ -1822,7 +2032,6 @@ namespace muu
 				const auto det =
 					intermediate_float{ 1 } / static_cast<intermediate_float>(impl::raw_determinant_3x3(m));
 				return inverse_type{
-					impl::columnwise_init_tag{},
 					result_column{ static_cast<result_scalar>(
 									   det * (MAT_GET(1, 1) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 1))),
 								   static_cast<result_scalar>(
@@ -1876,7 +2085,6 @@ namespace muu
 					   - MAT_GET(0, 3) * (MAT_GET(1, 0) * A1223 - MAT_GET(1, 1) * A0223 + MAT_GET(1, 2) * A0123));
 
 				return inverse_type{
-					impl::columnwise_init_tag{},
 					result_column{
 						//
 						static_cast<result_scalar>(
@@ -2139,6 +2347,17 @@ namespace muu
 							 typename T16)
 	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)
 		->matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>, 4, 4>;
+
+	template <typename S0, size_t D0, typename S1, size_t D1>
+	matrix(vector<S0, D0>, vector<S1, D1>) -> matrix<impl::highest_ranked<S0, S1>, muu::max(D0, D1), 2>;
+
+	template <typename S0, size_t D0, typename S1, size_t D1, typename S2, size_t D2>
+	matrix(vector<S0, D0>, vector<S1, D1>, vector<S2, D2>)
+		-> matrix<impl::highest_ranked<S0, S1, S2>, muu::max(D0, D1, D2), 3>;
+
+	template <typename S0, size_t D0, typename S1, size_t D1, typename S2, size_t D2, typename S3, size_t D3>
+	matrix(vector<S0, D0>, vector<S1, D1>, vector<S2, D2>, vector<S3, D3>)
+		-> matrix<impl::highest_ranked<S0, S1, S2, S3>, muu::max(D0, D1, D2, D3), 4>;
 
 	/// \endcond
 }

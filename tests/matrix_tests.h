@@ -1170,7 +1170,7 @@ BATCHED_TEST_CASE("matrix translation and rotation", common_matrices<ALL_ARITHME
 	using T		   = typename matrix_t::scalar_type;
 	TEST_INFO("matrix<"sv << nameof<T> << ", "sv << matrix_t::rows << ", "sv << matrix_t::columns << ">"sv);
 
-	const auto rotation_source = matrix<T, 4, 4>{
+	[[maybe_unused]] const auto rotation_source = matrix<T, 4, 4>{
 		T{ 0 },	 T{ 1 },  T{ 2 },  T{ 3 },	//
 		T{ 4 },	 T{ 5 },  T{ 6 },  T{ 7 },	//
 		T{ 8 },	 T{ 9 },  T{ 10 }, T{ 11 }, //
@@ -1192,10 +1192,13 @@ BATCHED_TEST_CASE("matrix translation and rotation", common_matrices<ALL_ARITHME
 		CHECK(rot(1, 1) == T{ 5 });
 		for (size_t r = 0; r < matrix_t::rows; r++)
 		{
+			TEST_INFO("r: " << r);
 			for (size_t c = 0; c < matrix_t::columns; c++)
 			{
 				if (r < 2u && c < 2u)
 					continue;
+
+				TEST_INFO("c: " << c);
 				CHECK(rot(r, c) == matrix_t::constants::identity(r, c));
 			}
 		}
@@ -1208,10 +1211,13 @@ BATCHED_TEST_CASE("matrix translation and rotation", common_matrices<ALL_ARITHME
 		CHECK(xlat(1, 2) == T{ 20 });
 		for (size_t r = 0; r < matrix_t::rows; r++)
 		{
+			TEST_INFO("r: " << r);
 			for (size_t c = 0; c < matrix_t::columns; c++)
 			{
 				if (r < 2u && c == 2u)
 					continue;
+
+				TEST_INFO("c: " << c);
 				CHECK(xlat(r, c) == matrix_t::constants::identity(r, c));
 			}
 		}
@@ -1231,10 +1237,14 @@ BATCHED_TEST_CASE("matrix translation and rotation", common_matrices<ALL_ARITHME
 		CHECK(rot(2, 2) == T{ 10 });
 		for (size_t r = 0; r < matrix_t::rows; r++)
 		{
+			TEST_INFO("r: " << r);
 			for (size_t c = 0; c < matrix_t::columns; c++)
 			{
 				if (r < 3u && c < 3u)
 					continue;
+
+				TEST_INFO("c: " << c);
+
 				CHECK(rot(r, c) == matrix_t::constants::identity(r, c));
 			}
 		}
@@ -1248,10 +1258,13 @@ BATCHED_TEST_CASE("matrix translation and rotation", common_matrices<ALL_ARITHME
 		CHECK(xlat(2, 3) == T{ 69 });
 		for (size_t r = 0; r < matrix_t::rows; r++)
 		{
+			TEST_INFO("r: " << r);
 			for (size_t c = 0; c < matrix_t::columns; c++)
 			{
 				if (r < 3u && c == 3u)
 					continue;
+
+				TEST_INFO("c: " << c);
 				CHECK(xlat(r, c) == matrix_t::constants::identity(r, c));
 			}
 		}
