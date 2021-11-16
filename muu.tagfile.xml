@@ -2307,6 +2307,13 @@
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr std::u8string_view</type>
+      <name>trim</name>
+      <anchorfile>group__trim.html</anchorfile>
+      <anchor>gabc24677b997440512aefe4e685b0d2a7</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr std::string_view</type>
       <name>trim_left</name>
       <anchorfile>group__trim__left.html</anchorfile>
@@ -2333,6 +2340,13 @@
       <anchorfile>group__trim__left.html</anchorfile>
       <anchor>gae32d321796864fd5adeaaec227134e53</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::u8string_view</type>
+      <name>trim_left</name>
+      <anchorfile>group__trim__left.html</anchorfile>
+      <anchor>gad2bab2c91264a3b5241a8d182c922ebd</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr std::string_view</type>
@@ -2363,32 +2377,46 @@
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>constexpr std::u8string_view</type>
+      <name>trim_right</name>
+      <anchorfile>group__trim__right.html</anchorfile>
+      <anchor>gacd9946ff120c34af5e6634c247a50ba5</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga5dec4ffe8de81e035e5544470a2cf1ed</anchor>
+      <anchor>ga410a285aafea5eff602d2b95626b7b3d</anchor>
       <arglist>(std::string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga76335a665c97d34bc0412a84f977d58c</anchor>
+      <anchor>ga4b033339ba2cec62aba96a5ec7f3261c</anchor>
       <arglist>(std::wstring_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga3c14a4e4c56a73e95d3beee23a97ea27</anchor>
+      <anchor>gaf51112f9bc5c2f25bcdfe34f6b902e7e</anchor>
       <arglist>(std::u16string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac78370b750780a4e30154361eefab901</anchor>
+      <anchor>ga08c5dabffb22594f3b2589551b5875e4</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>std::basic_string&lt; Char &gt;</type>
+      <name>transcode</name>
+      <anchorfile>group__transcode.html</anchorfile>
+      <anchor>ga6de085cbec631f5bb8c79c432749185a</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
   </compound>
   <compound kind="file">
@@ -2770,11 +2798,53 @@
       <anchor>aff5f8621eda6ee5677fb4ea402ebbf8d</anchor>
       <arglist></arglist>
     </member>
-    <member kind="variable">
+    <member kind="typedef">
       <type>vector&lt; scalar_type, 3 &gt;</type>
+      <name>vector_type</name>
+      <anchorfile>structmuu_1_1axis__angle__rotation.html</anchorfile>
+      <anchor>a9b1248bd20385d23e02ddf0d0f24f196</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>axis_angle_rotation</name>
+      <anchorfile>structmuu_1_1axis__angle__rotation.html</anchorfile>
+      <anchor>a0f6b3f8c072564ae9be8f880f8b4c289</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>axis_angle_rotation</name>
+      <anchorfile>structmuu_1_1axis__angle__rotation.html</anchorfile>
+      <anchor>aab6e61878acf5414ab4bc2595a36471f</anchor>
+      <arglist>(const axis_angle_rotation &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr axis_angle_rotation &amp;</type>
+      <name>operator=</name>
+      <anchorfile>structmuu_1_1axis__angle__rotation.html</anchorfile>
+      <anchor>a885500e22117183d4d9cefdadb282a99</anchor>
+      <arglist>(const axis_angle_rotation &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>axis_angle_rotation</name>
+      <anchorfile>structmuu_1_1axis__angle__rotation.html</anchorfile>
+      <anchor>a58db26feda3a5f4162d6ef02055b3ede</anchor>
+      <arglist>(const vector_type &amp;axis, scalar_type angle) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>axis_angle_rotation</name>
+      <anchorfile>structmuu_1_1axis__angle__rotation.html</anchorfile>
+      <anchor>aa1017e77713c7584abacffeb0ffe9df5</anchor>
+      <arglist>(const vector&lt; T, 3 &gt; &amp;axis, U angle) noexcept</arglist>
+    </member>
+    <member kind="variable">
+      <type>vector_type</type>
       <name>axis</name>
       <anchorfile>structmuu_1_1axis__angle__rotation.html</anchorfile>
-      <anchor>af760a9735cdfa8be8ab149ef0ae23367</anchor>
+      <anchor>a6e2a10391903abb61241f4887a189bc3</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -4331,6 +4401,34 @@
       <arglist></arglist>
     </member>
     <member kind="function">
+      <type></type>
+      <name>euler_rotation</name>
+      <anchorfile>structmuu_1_1euler__rotation.html</anchorfile>
+      <anchor>ad0ed2d5a37f964a25de40d80d694b125</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>euler_rotation</name>
+      <anchorfile>structmuu_1_1euler__rotation.html</anchorfile>
+      <anchor>a705cab67e97200ab222107a2d21aad77</anchor>
+      <arglist>(const euler_rotation &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr euler_rotation &amp;</type>
+      <name>operator=</name>
+      <anchorfile>structmuu_1_1euler__rotation.html</anchorfile>
+      <anchor>a99ff6e9d082dfc158396dd8fd32d61eb</anchor>
+      <arglist>(const euler_rotation &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>euler_rotation</name>
+      <anchorfile>structmuu_1_1euler__rotation.html</anchorfile>
+      <anchor>a0abdb50056c2166fab82cc755c600339</anchor>
+      <arglist>(scalar_type yaw, scalar_type pitch, scalar_type roll=scalar_type{}) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr euler_rotation &amp;</type>
       <name>operator*=</name>
       <anchorfile>structmuu_1_1euler__rotation.html</anchorfile>
@@ -4439,6 +4537,13 @@
       <anchorfile>classmuu_1_1fnv1a.html</anchorfile>
       <anchor>ad6ac7397af4a23e1197bf29288956e04</anchor>
       <arglist>(std::u16string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr fnv1a &amp;</type>
+      <name>operator()</name>
+      <anchorfile>classmuu_1_1fnv1a.html</anchorfile>
+      <anchor>a1174392926af3454f7fe0ff847f837df</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr hash_type</type>
@@ -4944,6 +5049,27 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>quaternion&lt; scalar_type &gt;</type>
+      <name>quaternion_type</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a1f4caac903121cbec6374c962bbd660a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>axis_angle_rotation&lt; scalar_type &gt;</type>
+      <name>axis_angle_type</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a41d4cee06d00e0bfcaba9bd6a3d89b46</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>euler_rotation&lt; scalar_type &gt;</type>
+      <name>euler_type</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a2eb54a237d7b8a24f6f54918a22e104c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>muu::constants&lt; matrix &gt;</type>
       <name>constants</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
@@ -5012,6 +5138,13 @@
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>a6f6992ca5bcb35af69c85153aeb9f782</anchor>
       <arglist>(const T &amp;blittable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>matrix</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>ad5abee3b85bc6f510980338c24e9c5c3</anchor>
+      <arglist>(const vector&lt; S0, D0 &gt; &amp;col0, const vector&lt; S1, D1 &gt; &amp;col1, const Cols &amp;... cols) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
@@ -5084,6 +5217,20 @@
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr column_type &amp;</type>
+      <name>translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a5fd652f800999c8c34c78e017727516a</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const column_type &amp;</type>
+      <name>translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a571819cbfaddc5dc2932baf547eacfb6</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr const scalar_type &amp;</type>
       <name>get</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
@@ -5127,31 +5274,136 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
-      <name>from_2d_translation</name>
+      <name>from_translation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a0ab34bf2a9b42f0f53294779ae9eff4a</anchor>
-      <arglist>(const vector&lt; T, 2 &gt; &amp;xlat) noexcept</arglist>
+      <anchor>aede0d6b7e4e6281e99500f37ea367644</anchor>
+      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
-      <name>from_2d_rotation</name>
+      <name>from_translation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ad73eb85ca72bcc2d14e2962e17289219</anchor>
-      <arglist>(const matrix&lt; T, R, C &gt; &amp;rot) noexcept</arglist>
+      <anchor>ad3eb3a4138b27d456efd5a8475e21c4e</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z=0) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a4993af9ea11ca906acef27d2a91e3070</anchor>
+      <arglist>(const vector&lt; scalar_type, 2 &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>afcf61d031627037a510b480bec8ecb08</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a5eba87c8e3e7b71783c32f84fc8de985</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
       <name>from_3d_translation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a8f082e5fa93d3d793a7bf178cf0e20fe</anchor>
-      <arglist>(const vector&lt; T, 3 &gt; &amp;xlat) noexcept</arglist>
+      <anchor>a269bb0036126025f9b52714cd1cbe575</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>ac253df72b0a6090ea245617ff6928f75</anchor>
+      <arglist>(const matrix&lt; scalar_type, R, C &gt; &amp;rot) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
       <name>from_3d_rotation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ac3a7ad073eab7ed23ae5ee4334fb37ee</anchor>
-      <arglist>(const matrix&lt; T, R, C &gt; &amp;rot) noexcept</arglist>
+      <anchor>aaeeed3324aeac34a0b04d20928c52d01</anchor>
+      <arglist>(const matrix&lt; scalar_type, R, C &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_quaternion</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>adf8d5bcc6abeb0a00716928a6f796489</anchor>
+      <arglist>(const quaternion_type &amp;quat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_axis_angle</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>ad64e9541ec96188c0b22b6a4383b93ac</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;axis, scalar_type angle) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_axis_angle</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a94f32de9a1014a6cfb2776a5165a17d7</anchor>
+      <arglist>(const axis_angle_type &amp;aa) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_euler</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aac9b759c67f7bdcc288f45c1b167defd</anchor>
+      <arglist>(scalar_type yaw, scalar_type pitch, scalar_type roll) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_euler</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aafc872b6f752d975a75f6e95227bc4aa</anchor>
+      <arglist>(const euler_type &amp;angles) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa233b035a7a473fb2a49c47dd9d64905</anchor>
+      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a24d5f3a9d30b968940677270fcb4d34a</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z=1) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>adeca6ff4be53fa9aa47b996dc1b4b066</anchor>
+      <arglist>(const vector&lt; scalar_type, 2 &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa56fc0bfb5df69bc69a9c30ffa93048e</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>abf5338743171ffedff7d4a0fa41a7435</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a69c9b9e850fe425749ddd2f5451a3d22</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
     </member>
     <member kind="variable">
       <type>column_type</type>
@@ -5298,6 +5550,20 @@
       <name>w_axis</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>a5a07c610f03088775a3840dd5fbe3bf5</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr column_type &amp;</type>
+      <name>translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a5fd652f800999c8c34c78e017727516a</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const column_type &amp;</type>
+      <name>translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a571819cbfaddc5dc2932baf547eacfb6</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
@@ -5575,31 +5841,136 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
-      <name>from_2d_translation</name>
+      <name>from_translation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a0ab34bf2a9b42f0f53294779ae9eff4a</anchor>
-      <arglist>(const vector&lt; T, 2 &gt; &amp;xlat) noexcept</arglist>
+      <anchor>aede0d6b7e4e6281e99500f37ea367644</anchor>
+      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
-      <name>from_2d_rotation</name>
+      <name>from_translation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ad73eb85ca72bcc2d14e2962e17289219</anchor>
-      <arglist>(const matrix&lt; T, R, C &gt; &amp;rot) noexcept</arglist>
+      <anchor>ad3eb3a4138b27d456efd5a8475e21c4e</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z=0) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a4993af9ea11ca906acef27d2a91e3070</anchor>
+      <arglist>(const vector&lt; scalar_type, 2 &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>afcf61d031627037a510b480bec8ecb08</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a5eba87c8e3e7b71783c32f84fc8de985</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
       <name>from_3d_translation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a8f082e5fa93d3d793a7bf178cf0e20fe</anchor>
-      <arglist>(const vector&lt; T, 3 &gt; &amp;xlat) noexcept</arglist>
+      <anchor>a269bb0036126025f9b52714cd1cbe575</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>ac253df72b0a6090ea245617ff6928f75</anchor>
+      <arglist>(const matrix&lt; scalar_type, R, C &gt; &amp;rot) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
       <name>from_3d_rotation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ac3a7ad073eab7ed23ae5ee4334fb37ee</anchor>
-      <arglist>(const matrix&lt; T, R, C &gt; &amp;rot) noexcept</arglist>
+      <anchor>aaeeed3324aeac34a0b04d20928c52d01</anchor>
+      <arglist>(const matrix&lt; scalar_type, R, C &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_quaternion</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>adf8d5bcc6abeb0a00716928a6f796489</anchor>
+      <arglist>(const quaternion_type &amp;quat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_axis_angle</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>ad64e9541ec96188c0b22b6a4383b93ac</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;axis, scalar_type angle) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_axis_angle</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a94f32de9a1014a6cfb2776a5165a17d7</anchor>
+      <arglist>(const axis_angle_type &amp;aa) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_euler</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aac9b759c67f7bdcc288f45c1b167defd</anchor>
+      <arglist>(scalar_type yaw, scalar_type pitch, scalar_type roll) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_euler</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aafc872b6f752d975a75f6e95227bc4aa</anchor>
+      <arglist>(const euler_type &amp;angles) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa233b035a7a473fb2a49c47dd9d64905</anchor>
+      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a24d5f3a9d30b968940677270fcb4d34a</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z=1) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>adeca6ff4be53fa9aa47b996dc1b4b066</anchor>
+      <arglist>(const vector&lt; scalar_type, 2 &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa56fc0bfb5df69bc69a9c30ffa93048e</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>abf5338743171ffedff7d4a0fa41a7435</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a69c9b9e850fe425749ddd2f5451a3d22</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -7024,6 +7395,13 @@
       <anchorfile>classmuu_1_1sha1.html</anchorfile>
       <anchor>a38a9f1fefb6706abd2a6b17575706249</anchor>
       <arglist>(std::u16string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>sha1 &amp;</type>
+      <name>operator()</name>
+      <anchorfile>classmuu_1_1sha1.html</anchorfile>
+      <anchor>a0c0fa278c442a6e169d8ca9007e4e3d3</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
       <type>sha1 &amp;</type>
@@ -9490,6 +9868,13 @@
       <arglist>(const uuid &amp;name_space, std::string_view name) noexcept</arglist>
     </member>
     <member kind="function">
+      <type></type>
+      <name>uuid</name>
+      <anchorfile>structmuu_1_1uuid.html</anchorfile>
+      <anchor>a8ca2e68bb49a0579a53bf607e6be67ee</anchor>
+      <arglist>(const uuid &amp;name_space, std::u8string_view name) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr uuid_variant</type>
       <name>variant</name>
       <anchorfile>structmuu_1_1uuid.html</anchorfile>
@@ -9579,6 +9964,13 @@
       <anchorfile>structmuu_1_1uuid.html</anchorfile>
       <anchor>ad6beda74aec99774e4b10d615aacacd5</anchor>
       <arglist>(std::string_view str) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr std::optional&lt; uuid &gt;</type>
+      <name>parse</name>
+      <anchorfile>structmuu_1_1uuid.html</anchorfile>
+      <anchor>af01a611af40c4882a7f603850c5bb412</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr std::optional&lt; uuid &gt;</type>
@@ -12704,6 +13096,13 @@
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr std::u8string_view</type>
+      <name>trim</name>
+      <anchorfile>group__trim.html</anchorfile>
+      <anchor>gabc24677b997440512aefe4e685b0d2a7</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr std::string_view</type>
       <name>trim_left</name>
       <anchorfile>group__trim__left.html</anchorfile>
@@ -12730,6 +13129,13 @@
       <anchorfile>group__trim__left.html</anchorfile>
       <anchor>gae32d321796864fd5adeaaec227134e53</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::u8string_view</type>
+      <name>trim_left</name>
+      <anchorfile>group__trim__left.html</anchorfile>
+      <anchor>gad2bab2c91264a3b5241a8d182c922ebd</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr std::string_view</type>
@@ -12760,32 +13166,46 @@
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>constexpr std::u8string_view</type>
+      <name>trim_right</name>
+      <anchorfile>group__trim__right.html</anchorfile>
+      <anchor>gacd9946ff120c34af5e6634c247a50ba5</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga5dec4ffe8de81e035e5544470a2cf1ed</anchor>
+      <anchor>ga410a285aafea5eff602d2b95626b7b3d</anchor>
       <arglist>(std::string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga76335a665c97d34bc0412a84f977d58c</anchor>
+      <anchor>ga4b033339ba2cec62aba96a5ec7f3261c</anchor>
       <arglist>(std::wstring_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga3c14a4e4c56a73e95d3beee23a97ea27</anchor>
+      <anchor>gaf51112f9bc5c2f25bcdfe34f6b902e7e</anchor>
       <arglist>(std::u16string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac78370b750780a4e30154361eefab901</anchor>
+      <anchor>ga08c5dabffb22594f3b2589551b5875e4</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>std::basic_string&lt; Char &gt;</type>
+      <name>transcode</name>
+      <anchorfile>group__transcode.html</anchorfile>
+      <anchor>ga6de085cbec631f5bb8c79c432749185a</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -20925,32 +21345,39 @@
     <title>transcode()</title>
     <filename>group__transcode.html</filename>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga5dec4ffe8de81e035e5544470a2cf1ed</anchor>
+      <anchor>ga410a285aafea5eff602d2b95626b7b3d</anchor>
       <arglist>(std::string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga76335a665c97d34bc0412a84f977d58c</anchor>
+      <anchor>ga4b033339ba2cec62aba96a5ec7f3261c</anchor>
       <arglist>(std::wstring_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga3c14a4e4c56a73e95d3beee23a97ea27</anchor>
+      <anchor>gaf51112f9bc5c2f25bcdfe34f6b902e7e</anchor>
       <arglist>(std::u16string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac78370b750780a4e30154361eefab901</anchor>
+      <anchor>ga08c5dabffb22594f3b2589551b5875e4</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>std::basic_string&lt; Char &gt;</type>
+      <name>transcode</name>
+      <anchorfile>group__transcode.html</anchorfile>
+      <anchor>ga6de085cbec631f5bb8c79c432749185a</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -20985,6 +21412,13 @@
       <anchor>ga74cfd907d595f68a757aa50640f9d210</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr std::u8string_view</type>
+      <name>trim</name>
+      <anchorfile>group__trim.html</anchorfile>
+      <anchor>gabc24677b997440512aefe4e685b0d2a7</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="group">
     <name>trim_left</name>
@@ -21018,6 +21452,13 @@
       <anchor>gae32d321796864fd5adeaaec227134e53</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr std::u8string_view</type>
+      <name>trim_left</name>
+      <anchorfile>group__trim__left.html</anchorfile>
+      <anchor>gad2bab2c91264a3b5241a8d182c922ebd</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="group">
     <name>trim_right</name>
@@ -21050,6 +21491,13 @@
       <anchorfile>group__trim__right.html</anchorfile>
       <anchor>ga5c65eceb22233e5c09096e48cadeb195</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr std::u8string_view</type>
+      <name>trim_right</name>
+      <anchorfile>group__trim__right.html</anchorfile>
+      <anchor>gacd9946ff120c34af5e6634c247a50ba5</anchor>
+      <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
   </compound>
   <compound kind="page">
