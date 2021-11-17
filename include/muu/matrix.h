@@ -379,6 +379,20 @@ namespace muu::impl
 				return out;
 			}
 		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
+			const matrix<Scalar, 2, 2>& rot) noexcept
+		{
+			return from_2d_rotation(rot);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
+			const matrix<Scalar, 2, 3>& rot) noexcept
+		{
+			return from_2d_rotation(rot);
+		}
 	};
 
 	//--- 3d rotation matrices -----------------------------------------------------------------------------------------
@@ -420,6 +434,27 @@ namespace muu::impl
 
 				return out;
 			}
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
+			const matrix<Scalar, 3, 3>& rot) noexcept
+		{
+			return from_3d_rotation(rot);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
+			const matrix<Scalar, 3, 4>& rot) noexcept
+		{
+			return from_3d_rotation(rot);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
+			const matrix<Scalar, 4, 4>& rot) noexcept
+		{
+			return from_3d_rotation(rot);
 		}
 
 		MUU_PURE_GETTER
@@ -1017,12 +1052,42 @@ namespace muu
 		template <size_t R, size_t C>
 		static constexpr matrix from_2d_rotation(const matrix<scalar_type, R, C>& rot) noexcept;
 
+		/// \brief Creates a 2D rotation matrix from a 2x2 matrix.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 2x2 or 2x3.
+		static constexpr matrix from_rotation(const matrix<scalar_type, 2, 2>& rot) noexcept;
+
+		/// \brief Creates a 2D rotation matrix from a 2x3 matrix.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 2x2 or 2x3.
+		static constexpr matrix from_rotation(const matrix<scalar_type, 2, 3>& rot) noexcept;
+
 		/// \brief Creates a 3D rotation matrix from the lower 3x3 part of a matrix.
 		///
 		/// \availability	This function is only available #scalar_type is a floating-point type
 		///					and the destination matrix is 3x4 or 4x4.
 		template <size_t R, size_t C>
 		static constexpr matrix from_3d_rotation(const matrix<scalar_type, R, C>& rot) noexcept;
+
+		/// \brief Creates a 3D rotation matrix from a 3x3 matrix.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 3x3, 3x4 or 4x4.
+		static constexpr matrix from_rotation(const matrix<scalar_type, 3, 3>& rot) noexcept;
+
+		/// \brief Creates a 3D rotation matrix from a 3x4 matrix.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 3x3, 3x4 or 4x4.
+		static constexpr matrix from_rotation(const matrix<scalar_type, 3, 4>& rot) noexcept;
+
+		/// \brief Creates a 3D rotation matrix from a 4x4 matrix.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 3x3, 3x4 or 4x4.
+		static constexpr matrix from_rotation(const matrix<scalar_type, 4, 4>& rot) noexcept;
 
 		/// \brief Creates a 3D rotation matrix from a quaternion
 		///
