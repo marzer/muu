@@ -5323,10 +5323,45 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa746d6f50050ec632cdea5d278339fc3</anchor>
+      <arglist>(const matrix&lt; scalar_type, 2, 2 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a21140aa6625cfd0f231d35316db36a6e</anchor>
+      <arglist>(const matrix&lt; scalar_type, 2, 3 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
       <name>from_3d_rotation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>aaeeed3324aeac34a0b04d20928c52d01</anchor>
       <arglist>(const matrix&lt; scalar_type, R, C &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a90f9a29776928b16711dd4da9787bb12</anchor>
+      <arglist>(const matrix&lt; scalar_type, 3, 3 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a787e7a744d2be98100fc2c8617d57504</anchor>
+      <arglist>(const matrix&lt; scalar_type, 3, 4 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a00dc717aef6ab590262d271310dcf63f</anchor>
+      <arglist>(const matrix&lt; scalar_type, 4, 4 &gt; &amp;rot) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
@@ -5890,10 +5925,45 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa746d6f50050ec632cdea5d278339fc3</anchor>
+      <arglist>(const matrix&lt; scalar_type, 2, 2 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a21140aa6625cfd0f231d35316db36a6e</anchor>
+      <arglist>(const matrix&lt; scalar_type, 2, 3 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
       <name>from_3d_rotation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>aaeeed3324aeac34a0b04d20928c52d01</anchor>
       <arglist>(const matrix&lt; scalar_type, R, C &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a90f9a29776928b16711dd4da9787bb12</anchor>
+      <arglist>(const matrix&lt; scalar_type, 3, 3 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a787e7a744d2be98100fc2c8617d57504</anchor>
+      <arglist>(const matrix&lt; scalar_type, 3, 4 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a00dc717aef6ab590262d271310dcf63f</anchor>
+      <arglist>(const matrix&lt; scalar_type, 4, 4 &gt; &amp;rot) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
