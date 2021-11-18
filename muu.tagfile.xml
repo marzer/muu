@@ -2837,8 +2837,8 @@
       <type>constexpr</type>
       <name>axis_angle_rotation</name>
       <anchorfile>structmuu_1_1axis__angle__rotation.html</anchorfile>
-      <anchor>aa1017e77713c7584abacffeb0ffe9df5</anchor>
-      <arglist>(const vector&lt; T, 3 &gt; &amp;axis, U angle) noexcept</arglist>
+      <anchor>af60eaa8e227e41c927b6e8d5b17a8b82</anchor>
+      <arglist>(const axis_angle_rotation&lt; T &gt; &amp;other) noexcept</arglist>
     </member>
     <member kind="variable">
       <type>vector_type</type>
@@ -4429,6 +4429,13 @@
       <arglist>(scalar_type yaw, scalar_type pitch, scalar_type roll=scalar_type{}) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr</type>
+      <name>euler_rotation</name>
+      <anchorfile>structmuu_1_1euler__rotation.html</anchorfile>
+      <anchor>a4630ae4a7c332f74c020f0774ab577ab</anchor>
+      <arglist>(const euler_rotation&lt; T &gt; &amp;other) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr euler_rotation &amp;</type>
       <name>operator*=</name>
       <anchorfile>structmuu_1_1euler__rotation.html</anchorfile>
@@ -5400,6 +5407,20 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
+      <name>from_axes</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a6adee52c61eae0ad9d4f81346ff281db</anchor>
+      <arglist>(const vector&lt; Scalar, 2 &gt; &amp;x, const vector&lt; Scalar, 2 &gt; &amp;y) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_axes</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a12bf6878e3127cf38cd120afe71e153e</anchor>
+      <arglist>(const vector&lt; Scalar, 3 &gt; &amp;x, const vector&lt; Scalar, 3 &gt; &amp;y, const vector&lt; Scalar, 3 &gt; &amp;z) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
       <name>from_scale</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>aa233b035a7a473fb2a49c47dd9d64905</anchor>
@@ -5409,8 +5430,8 @@
       <type>static constexpr matrix</type>
       <name>from_scale</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a24d5f3a9d30b968940677270fcb4d34a</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z=1) noexcept</arglist>
+      <anchor>a9412c966c1869fb76186c71038c12c54</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
@@ -6002,6 +6023,20 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
+      <name>from_axes</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a6adee52c61eae0ad9d4f81346ff281db</anchor>
+      <arglist>(const vector&lt; Scalar, 2 &gt; &amp;x, const vector&lt; Scalar, 2 &gt; &amp;y) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_axes</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a12bf6878e3127cf38cd120afe71e153e</anchor>
+      <arglist>(const vector&lt; Scalar, 3 &gt; &amp;x, const vector&lt; Scalar, 3 &gt; &amp;y, const vector&lt; Scalar, 3 &gt; &amp;z) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
       <name>from_scale</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>aa233b035a7a473fb2a49c47dd9d64905</anchor>
@@ -6011,8 +6046,8 @@
       <type>static constexpr matrix</type>
       <name>from_scale</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a24d5f3a9d30b968940677270fcb4d34a</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z=1) noexcept</arglist>
+      <anchor>a9412c966c1869fb76186c71038c12c54</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
@@ -7003,6 +7038,27 @@
       <type>constexpr</type>
       <name>quaternion</name>
       <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a797d024f715cf35c32a4b89aeecb0ed6</anchor>
+      <arglist>(const matrix&lt; scalar_type, 3, 3 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>quaternion</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>aed4aa14615616727c9315f8705aca5a1</anchor>
+      <arglist>(const matrix&lt; scalar_type, 3, 4 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>quaternion</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a73f625542acd4e3a8829ea60c29b60e6</anchor>
+      <arglist>(const matrix&lt; scalar_type, 4, 4 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>quaternion</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
       <anchor>af3526894b4d0dc8924b9ca19522a84bf</anchor>
       <arglist>(const T &amp;blittable) noexcept</arglist>
     </member>
@@ -7035,193 +7091,11 @@
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr bool</type>
-      <name>zero</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a5de37390d2a3192015c3718c1188c06c</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a67fd9e506febc8e47d1f3cf45f753594</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a6ee8ed2fdcf2fd017677cf99d4acc525</anchor>
-      <arglist>(const quaternion&lt; T &gt; &amp;q, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a28c8b69d105ad42118beafef659da195</anchor>
-      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr scalar_type</type>
-      <name>dot</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a9a3e3ad75dcc0c7a2ea37a9691c10a4b</anchor>
-      <arglist>(const quaternion &amp;q) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr quaternion &amp;</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a36aa1796676b0c19ee1bf7cc865b015b</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>normalized</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a1ce28a44e301349333106cc868529945</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr quaternion</type>
-      <name>conjugate</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a87a9219ff001bff34a40651cdb04da0c</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr axis_angle_type</type>
-      <name>to_axis_angle</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>ab607b0f34dd2812a2515e810acbee99f</anchor>
-      <arglist>(bool shortest_path=true) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr euler_type</type>
-      <name>to_euler</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>ac92ca68ed0a4f9c79e834bb9317ff658</anchor>
-      <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr quaternion &amp;</type>
-      <name>operator*=</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a52287b5c0a87601e82bd0ccd7413d158</anchor>
-      <arglist>(const quaternion &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr quaternion &amp;</type>
-      <name>operator*=</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a011d2224aa4d008c13b328cfa81823ed</anchor>
-      <arglist>(scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr quaternion &amp;</type>
       <name>slerp</name>
       <anchorfile>structmuu_1_1quaternion.html</anchorfile>
       <anchor>a743eba3d0f4a70f284a51d23ea7b9253</anchor>
       <arglist>(const quaternion &amp;target, scalar_type alpha) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>zero</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a86c52f38dfb67102744b6ae8cf9e3266</anchor>
-      <arglist>(const quaternion &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>aa73599d073a11e20e83a62a6bff92682</anchor>
-      <arglist>(const quaternion &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>aedc3132c8c2ea6a38fe049f2005c7674</anchor>
-      <arglist>(const quaternion &amp;q1, const quaternion&lt; T &gt; &amp;q2, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a4c2ca504683d3af15443db9bd49adf6a</anchor>
-      <arglist>(const quaternion &amp;q, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr scalar_type</type>
-      <name>dot</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>aa7cc3f4bb1b37effed2d84a2a64a9e9c</anchor>
-      <arglist>(const quaternion &amp;q1, const quaternion &amp;q2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr quaternion</type>
-      <name>normalize</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>ac7c2a825862798bdf28f8d36ece6a49b</anchor>
-      <arglist>(const quaternion &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>normalized</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a423f11901b4166e38166c0e4027f58b6</anchor>
-      <arglist>(const quaternion &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr quaternion</type>
-      <name>conjugate</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>afffd73b1d0225fa2a67e031c415f8522</anchor>
-      <arglist>(const quaternion &amp;q) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr quaternion</type>
-      <name>from_axis_angle</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>aada2e201cd70d1ff27897a1b13a8e0ac</anchor>
-      <arglist>(const vector_type &amp;axis, scalar_type angle) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr quaternion</type>
-      <name>from_axis_angle</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>aebdbf2ff42efa947d0b90ddfd258cf2a</anchor>
-      <arglist>(const axis_angle_type &amp;aa) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr axis_angle_type</type>
-      <name>to_axis_angle</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a7f732196d41df8c12384c0aefc6b84c5</anchor>
-      <arglist>(const quaternion &amp;quat, bool shortest_path=true) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr quaternion</type>
-      <name>from_euler</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>aba10b60ca039010903016a081fcdc17a</anchor>
-      <arglist>(scalar_type yaw, scalar_type pitch, scalar_type roll) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr quaternion</type>
-      <name>from_euler</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a8010b6ef8fd271c00b3ccb9ee09394d7</anchor>
-      <arglist>(const euler_type &amp;euler) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr euler_type</type>
-      <name>to_euler</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a09849b661edfd74a2b3123251c2b9985</anchor>
-      <arglist>(const quaternion &amp;q) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr quaternion</type>
@@ -7243,55 +7117,6 @@
       <anchorfile>structmuu_1_1quaternion.html</anchorfile>
       <anchor>ac767617ff07f372a2b4800741adb3f9d</anchor>
       <arglist></arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator==</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a929b40f3632992486f2d3ff640f1a077</anchor>
-      <arglist>(const quaternion &amp;lhs, const quaternion&lt; T &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator!=</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>afb67dd853abc2299263f049ddd8fc765</anchor>
-      <arglist>(const quaternion &amp;lhs, const quaternion&lt; T &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend quaternion</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a86c6d98f26d7cee4f66fb9138785e41b</anchor>
-      <arglist>(const quaternion &amp;lhs, const quaternion &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector_type</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>ac2e34ff956e86a2a85aacf99cd2221fc</anchor>
-      <arglist>(const quaternion &amp;lhs, const vector_type &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend vector_type</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a789b2466d90c6b58ab53c9b81f961b6d</anchor>
-      <arglist>(const vector_type &amp;lhs, const quaternion &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend quaternion</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>a2374f94da554459d8dbe786328d81cc1</anchor>
-      <arglist>(const quaternion &amp;lhs, scalar_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend quaternion</type>
-      <name>operator*</name>
-      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>abf36ca1a9fddb8cce1e5ab4a4983b5e4</anchor>
-      <arglist>(scalar_type lhs, const quaternion &amp;rhs) noexcept</arglist>
     </member>
     <member kind="friend">
       <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
@@ -7348,6 +7173,265 @@
       <anchorfile>structmuu_1_1quaternion.html</anchorfile>
       <anchor>a8df75ca3a9d767d9132a8bf68c922ea7</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;start, const quaternion&lt; S &gt; &amp;finish, S alpha) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a5de37390d2a3192015c3718c1188c06c</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a67fd9e506febc8e47d1f3cf45f753594</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a6ee8ed2fdcf2fd017677cf99d4acc525</anchor>
+      <arglist>(const quaternion&lt; T &gt; &amp;q, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a28c8b69d105ad42118beafef659da195</anchor>
+      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a929b40f3632992486f2d3ff640f1a077</anchor>
+      <arglist>(const quaternion &amp;lhs, const quaternion&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>afb67dd853abc2299263f049ddd8fc765</anchor>
+      <arglist>(const quaternion &amp;lhs, const quaternion&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a86c52f38dfb67102744b6ae8cf9e3266</anchor>
+      <arglist>(const quaternion &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>aa73599d073a11e20e83a62a6bff92682</anchor>
+      <arglist>(const quaternion &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>aedc3132c8c2ea6a38fe049f2005c7674</anchor>
+      <arglist>(const quaternion &amp;q1, const quaternion&lt; T &gt; &amp;q2, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a4c2ca504683d3af15443db9bd49adf6a</anchor>
+      <arglist>(const quaternion &amp;q, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>dot</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a9a3e3ad75dcc0c7a2ea37a9691c10a4b</anchor>
+      <arglist>(const quaternion &amp;q) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr scalar_type</type>
+      <name>dot</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>aa7cc3f4bb1b37effed2d84a2a64a9e9c</anchor>
+      <arglist>(const quaternion &amp;q1, const quaternion &amp;q2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr quaternion &amp;</type>
+      <name>normalize</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a36aa1796676b0c19ee1bf7cc865b015b</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>normalized</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a1ce28a44e301349333106cc868529945</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr quaternion</type>
+      <name>normalize</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>ac7c2a825862798bdf28f8d36ece6a49b</anchor>
+      <arglist>(const quaternion &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>normalized</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a423f11901b4166e38166c0e4027f58b6</anchor>
+      <arglist>(const quaternion &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr quaternion</type>
+      <name>conjugate</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a87a9219ff001bff34a40651cdb04da0c</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr quaternion</type>
+      <name>conjugate</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>afffd73b1d0225fa2a67e031c415f8522</anchor>
+      <arglist>(const quaternion &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr axis_angle_type</type>
+      <name>to_axis_angle</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>ab607b0f34dd2812a2515e810acbee99f</anchor>
+      <arglist>(bool shortest_path=true) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr euler_type</type>
+      <name>to_euler</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>ac92ca68ed0a4f9c79e834bb9317ff658</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr quaternion</type>
+      <name>from_axis_angle</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>aada2e201cd70d1ff27897a1b13a8e0ac</anchor>
+      <arglist>(const vector_type &amp;axis, scalar_type angle) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr quaternion</type>
+      <name>from_axis_angle</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>aebdbf2ff42efa947d0b90ddfd258cf2a</anchor>
+      <arglist>(const axis_angle_type &amp;aa) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr axis_angle_type</type>
+      <name>to_axis_angle</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a7f732196d41df8c12384c0aefc6b84c5</anchor>
+      <arglist>(const quaternion &amp;quat, bool shortest_path=true) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr quaternion</type>
+      <name>from_euler</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>aba10b60ca039010903016a081fcdc17a</anchor>
+      <arglist>(scalar_type yaw, scalar_type pitch, scalar_type roll) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr quaternion</type>
+      <name>from_euler</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a8010b6ef8fd271c00b3ccb9ee09394d7</anchor>
+      <arglist>(const euler_type &amp;euler) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr euler_type</type>
+      <name>to_euler</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a09849b661edfd74a2b3123251c2b9985</anchor>
+      <arglist>(const quaternion &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr quaternion</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>ae98f818d1da37d019c6c6d1f536ec2c0</anchor>
+      <arglist>(const vector_type &amp;from, const vector_type &amp;to) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr quaternion</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>af74fdd10eb2b9ee10d38ef64f2400e66</anchor>
+      <arglist>(const matrix&lt; scalar_type, 3, 3 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr quaternion</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a01b39d6b3d94af46c93eafa1f7e6cb4b</anchor>
+      <arglist>(const matrix&lt; scalar_type, 3, 4 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr quaternion</type>
+      <name>from_rotation</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>aa7ccaa6a5b69955ad36cc2a2566da43d</anchor>
+      <arglist>(const matrix&lt; scalar_type, 4, 4 &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr quaternion &amp;</type>
+      <name>operator*=</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a52287b5c0a87601e82bd0ccd7413d158</anchor>
+      <arglist>(const quaternion &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr quaternion &amp;</type>
+      <name>operator*=</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a011d2224aa4d008c13b328cfa81823ed</anchor>
+      <arglist>(scalar_type rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend quaternion</type>
+      <name>operator*</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a86c6d98f26d7cee4f66fb9138785e41b</anchor>
+      <arglist>(const quaternion &amp;lhs, const quaternion &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend vector_type</type>
+      <name>operator*</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>ac2e34ff956e86a2a85aacf99cd2221fc</anchor>
+      <arglist>(const quaternion &amp;lhs, const vector_type &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend vector_type</type>
+      <name>operator*</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a789b2466d90c6b58ab53c9b81f961b6d</anchor>
+      <arglist>(const vector_type &amp;lhs, const quaternion &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend quaternion</type>
+      <name>operator*</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>a2374f94da554459d8dbe786328d81cc1</anchor>
+      <arglist>(const quaternion &amp;lhs, scalar_type rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend quaternion</type>
+      <name>operator*</name>
+      <anchorfile>structmuu_1_1quaternion.html</anchorfile>
+      <anchor>abf36ca1a9fddb8cce1e5ab4a4983b5e4</anchor>
+      <arglist>(scalar_type lhs, const quaternion &amp;rhs) noexcept</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -10902,6 +10986,13 @@
       <anchor>afda8975e7299aaf9abf84b7185891021</anchor>
       <arglist>(const vector &amp;v) const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr vector&lt; product_type, 3 &gt;</type>
+      <name>orthogonal</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a7ee02b43e0475762cccb6b90328b7efb</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr product_type</type>
       <name>dot</name>
@@ -10915,6 +11006,13 @@
       <anchorfile>structmuu_1_1vector.html</anchorfile>
       <anchor>afaaba1907638af0572a02db16c4e3f39</anchor>
       <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector&lt; product_type, 3 &gt;</type>
+      <name>orthogonal</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a156610a8ec61e333412418c588c8fb8f</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector &amp;</type>
