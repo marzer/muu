@@ -1185,7 +1185,7 @@ BATCHED_TEST_CASE("matrix translation and rotation", common_matrices<ALL_ARITHME
 
 	if constexpr (impl::is_2d_rotation_matrix_<matrix_t>)
 	{
-		const auto rot = matrix_t::from_2d_rotation(rotation_source);
+		auto rot = matrix_t::from_2d_rotation(rotation_source);
 		CHECK(rot(0, 0) == T{ 0 });
 		CHECK(rot(0, 1) == T{ 1 });
 		CHECK(rot(1, 0) == T{ 4 });
@@ -1199,6 +1199,25 @@ BATCHED_TEST_CASE("matrix translation and rotation", common_matrices<ALL_ARITHME
 					continue;
 
 				TEST_INFO("c: " << c);
+				CHECK(rot(r, c) == matrix_t::constants::identity(r, c));
+			}
+		}
+
+		rot = matrix_t::from_axes(vector<T, 2>{ rotation_source.x_axis() }, vector<T, 2>{ rotation_source.y_axis() });
+		CHECK(rot(0, 0) == T{ 0 });
+		CHECK(rot(0, 1) == T{ 1 });
+		CHECK(rot(1, 0) == T{ 4 });
+		CHECK(rot(1, 1) == T{ 5 });
+		for (size_t r = 0; r < matrix_t::rows; r++)
+		{
+			TEST_INFO("r: " << r);
+			for (size_t c = 0; c < matrix_t::columns; c++)
+			{
+				if (r < 3u && c < 3u)
+					continue;
+
+				TEST_INFO("c: " << c);
+
 				CHECK(rot(r, c) == matrix_t::constants::identity(r, c));
 			}
 		}
@@ -1225,7 +1244,33 @@ BATCHED_TEST_CASE("matrix translation and rotation", common_matrices<ALL_ARITHME
 
 	if constexpr (impl::is_3d_rotation_matrix_<matrix_t>)
 	{
-		const auto rot = matrix_t::from_3d_rotation(rotation_source);
+		auto rot = matrix_t::from_3d_rotation(rotation_source);
+		CHECK(rot(0, 0) == T{ 0 });
+		CHECK(rot(0, 1) == T{ 1 });
+		CHECK(rot(0, 2) == T{ 2 });
+		CHECK(rot(1, 0) == T{ 4 });
+		CHECK(rot(1, 1) == T{ 5 });
+		CHECK(rot(1, 2) == T{ 6 });
+		CHECK(rot(2, 0) == T{ 8 });
+		CHECK(rot(2, 1) == T{ 9 });
+		CHECK(rot(2, 2) == T{ 10 });
+		for (size_t r = 0; r < matrix_t::rows; r++)
+		{
+			TEST_INFO("r: " << r);
+			for (size_t c = 0; c < matrix_t::columns; c++)
+			{
+				if (r < 3u && c < 3u)
+					continue;
+
+				TEST_INFO("c: " << c);
+
+				CHECK(rot(r, c) == matrix_t::constants::identity(r, c));
+			}
+		}
+
+		rot = matrix_t::from_axes(vector<T, 3>{ rotation_source.x_axis() },
+								  vector<T, 3>{ rotation_source.y_axis() },
+								  vector<T, 3>{ rotation_source.z_axis() });
 		CHECK(rot(0, 0) == T{ 0 });
 		CHECK(rot(0, 1) == T{ 1 });
 		CHECK(rot(0, 2) == T{ 2 });

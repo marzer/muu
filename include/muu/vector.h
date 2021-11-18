@@ -57,13 +57,15 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 
 //======================================================================================================================
 // IMPLEMENTATION DETAILS
-#if 1
-
+//======================================================================================================================
 /// \cond
 
 // helper macros -------------------------------------------------------------------------------------------------------
 
-	#define COMPONENTWISE_AND(func)                                                                                    \
+#define COMPONENTWISE_AND(func)                                                                                        \
+	do                                                                                                                 \
+	{                                                                                                                  \
+		MUU_FMA_BLOCK;                                                                                                 \
 		if constexpr (Dimensions == 1)                                                                                 \
 			return func(x);                                                                                            \
 		if constexpr (Dimensions == 2)                                                                                 \
@@ -79,9 +81,13 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 					return false;                                                                                      \
 			return true;                                                                                               \
 		}                                                                                                              \
-		static_assert(true)
+	}                                                                                                                  \
+	while (false)
 
-	#define COMPONENTWISE_OR(func)                                                                                     \
+#define COMPONENTWISE_OR(func)                                                                                         \
+	do                                                                                                                 \
+	{                                                                                                                  \
+		MUU_FMA_BLOCK;                                                                                                 \
 		if constexpr (Dimensions == 1)                                                                                 \
 			return func(x);                                                                                            \
 		if constexpr (Dimensions == 2)                                                                                 \
@@ -97,91 +103,70 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 					return true;                                                                                       \
 			return false;                                                                                              \
 		}                                                                                                              \
-		static_assert(true)
+	}                                                                                                                  \
+	while (false)
 
-	#define COMPONENTWISE_ACCUMULATE(func, op)                                                                         \
+#define COMPONENTWISE_ACCUMULATE(func, op)                                                                             \
+	do                                                                                                                 \
+	{                                                                                                                  \
+		MUU_FMA_BLOCK;                                                                                                 \
 		if constexpr (Dimensions == 1)                                                                                 \
-		{                                                                                                              \
-			MUU_FMA_BLOCK;                                                                                             \
 			return func(x);                                                                                            \
-		}                                                                                                              \
 		if constexpr (Dimensions == 2)                                                                                 \
-		{                                                                                                              \
-			MUU_FMA_BLOCK;                                                                                             \
 			return (func(x))op(func(y));                                                                               \
-		}                                                                                                              \
 		if constexpr (Dimensions == 3)                                                                                 \
-		{                                                                                                              \
-			MUU_FMA_BLOCK;                                                                                             \
 			return (func(x))op(func(y)) op(func(z));                                                                   \
-		}                                                                                                              \
 		if constexpr (Dimensions == 4)                                                                                 \
-		{                                                                                                              \
-			MUU_FMA_BLOCK;                                                                                             \
 			return (func(x))op(func(y)) op(func(z)) op(func(w));                                                       \
-		}                                                                                                              \
 		if constexpr (Dimensions > 4)                                                                                  \
 		{                                                                                                              \
-			MUU_FMA_BLOCK;                                                                                             \
 			auto val = func(values[0]);                                                                                \
 			for (size_t i = 1; i < Dimensions; i++)                                                                    \
-			{                                                                                                          \
-				MUU_FMA_BLOCK;                                                                                         \
 				val op## = func(values[i]);                                                                            \
-			}                                                                                                          \
 			return val;                                                                                                \
 		}                                                                                                              \
-		static_assert(true)
+	}                                                                                                                  \
+	while (false)
 
-	#define NULL_TRANSFORM(x) x
+#define NULL_TRANSFORM(x) x
 
-	#define COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, x_selector)                                             \
-		using func_type = decltype(func(x_selector));                                                                  \
-		if constexpr (!std::is_same_v<func_type, Scalar>)                                                              \
-		{                                                                                                              \
-			transformer(func, static_cast<Scalar>);                                                                    \
-		}                                                                                                              \
-		else                                                                                                           \
-		{                                                                                                              \
-			transformer(func, NULL_TRANSFORM);                                                                         \
-		}                                                                                                              \
-		static_assert(true)
+#define COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, x_selector)                                                 \
+	using func_type = decltype(func(x_selector));                                                                      \
+	if constexpr (!std::is_same_v<func_type, Scalar>)                                                                  \
+	{                                                                                                                  \
+		transformer(func, static_cast<Scalar>);                                                                        \
+	}                                                                                                                  \
+	else                                                                                                               \
+	{                                                                                                                  \
+		transformer(func, NULL_TRANSFORM);                                                                             \
+	}                                                                                                                  \
+	static_assert(true)
 
-	#define COMPONENTWISE_CASTING_OP(func, transformer)                                                                \
-		if constexpr (Dimensions <= 4)                                                                                 \
-		{                                                                                                              \
-			COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, x);                                                     \
-		}                                                                                                              \
-		else                                                                                                           \
-		{                                                                                                              \
-			COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, values[0]);                                             \
-		}                                                                                                              \
-		static_assert(true)
+#define COMPONENTWISE_CASTING_OP(func, transformer)                                                                    \
+	if constexpr (Dimensions <= 4)                                                                                     \
+	{                                                                                                                  \
+		COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, x);                                                         \
+	}                                                                                                                  \
+	else                                                                                                               \
+	{                                                                                                                  \
+		COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, values[0]);                                                 \
+	}                                                                                                                  \
+	static_assert(true)
 
-	#define COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM(func, xform)                                                        \
+#define COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM(func, xform)                                                            \
+	do                                                                                                                 \
+	{                                                                                                                  \
+		MUU_FMA_BLOCK;                                                                                                 \
 		if constexpr (Dimensions == 1)                                                                                 \
-		{                                                                                                              \
-			MUU_FMA_BLOCK;                                                                                             \
 			return vector{ xform(func(x)) };                                                                           \
-		}                                                                                                              \
 		if constexpr (Dimensions == 2)                                                                                 \
-		{                                                                                                              \
-			MUU_FMA_BLOCK;                                                                                             \
 			return vector{ xform(func(x)), xform(func(y)) };                                                           \
-		}                                                                                                              \
 		if constexpr (Dimensions == 3)                                                                                 \
-		{                                                                                                              \
-			MUU_FMA_BLOCK;                                                                                             \
 			return vector{ xform(func(x)), xform(func(y)), xform(func(z)) };                                           \
-		}                                                                                                              \
 		if constexpr (Dimensions == 4)                                                                                 \
-		{                                                                                                              \
-			MUU_FMA_BLOCK;                                                                                             \
 			return vector{ xform(func(x)), xform(func(y)), xform(func(z)), xform(func(w)) };                           \
-		}                                                                                                              \
 		if constexpr (Dimensions > 4)                                                                                  \
 		{                                                                                                              \
-			MUU_FMA_BLOCK;                                                                                             \
 			return vector{ impl::componentwise_func_tag{},                                                             \
 						   [&](size_t i) noexcept                                                                      \
 						   {                                                                                           \
@@ -189,58 +174,47 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 							   return xform(func(values[i]));                                                          \
 						   } };                                                                                        \
 		}                                                                                                              \
-		static_assert(true)
+	}                                                                                                                  \
+	while (false)
 
-	#define COMPONENTWISE_CONSTRUCT(func) COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM)
+#define COMPONENTWISE_CONSTRUCT(func) COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_CONSTRUCT_WITH_TRANSFORM)
 
-	#define COMPONENTWISE_ASSIGN_WITH_TRANSFORM(func, xform)                                                           \
+#define COMPONENTWISE_ASSIGN_WITH_TRANSFORM(func, xform)                                                               \
+	do                                                                                                                 \
+	{                                                                                                                  \
+		MUU_FMA_BLOCK;                                                                                                 \
 		if constexpr (Dimensions <= 4)                                                                                 \
 		{                                                                                                              \
-			{                                                                                                          \
-				MUU_FMA_BLOCK;                                                                                         \
-				base::x = xform(func(x));                                                                              \
-			}                                                                                                          \
+			base::x = xform(func(x));                                                                                  \
 			if constexpr (Dimensions >= 2)                                                                             \
-			{                                                                                                          \
-				MUU_FMA_BLOCK;                                                                                         \
 				base::y = xform(func(y));                                                                              \
-			}                                                                                                          \
 			if constexpr (Dimensions >= 3)                                                                             \
-			{                                                                                                          \
-				MUU_FMA_BLOCK;                                                                                         \
 				base::z = xform(func(z));                                                                              \
-			}                                                                                                          \
 			if constexpr (Dimensions == 4)                                                                             \
-			{                                                                                                          \
-				MUU_FMA_BLOCK;                                                                                         \
 				base::w = xform(func(w));                                                                              \
-			}                                                                                                          \
 		}                                                                                                              \
 		else                                                                                                           \
 		{                                                                                                              \
 			for (size_t i = 0; i < Dimensions; i++)                                                                    \
-			{                                                                                                          \
-				MUU_FMA_BLOCK;                                                                                         \
 				base::values[i] = xform(func(values[i]));                                                              \
-			}                                                                                                          \
 		}                                                                                                              \
-		return *this
+		return *this;                                                                                                  \
+	}                                                                                                                  \
+	while (false)
 
-	#define COMPONENTWISE_ASSIGN(func) COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_ASSIGN_WITH_TRANSFORM)
+#define COMPONENTWISE_ASSIGN(func) COMPONENTWISE_CASTING_OP(func, COMPONENTWISE_ASSIGN_WITH_TRANSFORM)
 
-	#define SPECIALIZED_IF(cond) , bool = (cond)
+#define SPECIALIZED_IF(cond) , bool = (cond)
 
 /// \endcond
 
-	#ifndef SPECIALIZED_IF
-		#define SPECIALIZED_IF(cond)
-	#endif
-
-#endif //===============================================================================================================
+#ifndef SPECIALIZED_IF
+	#define SPECIALIZED_IF(cond)
+#endif
 
 //======================================================================================================================
 // VECTOR CLASS
-#if 1
+//======================================================================================================================
 
 namespace muu
 {
@@ -288,17 +262,19 @@ namespace muu
 	  private:
 		/// \cond
 
-		template <typename S, size_t D>
+		template <typename, size_t>
 		friend struct vector;
-		template <typename S>
+		template <typename>
 		friend struct quaternion;
-		template <typename S, size_t R, size_t C>
+		template <typename, size_t, size_t>
 		friend struct matrix;
-		template <typename S>
+		template <typename>
 		friend struct plane;
 
 		using base = impl::vector_<scalar_type, Dimensions>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * Dimensions), "Vectors should not have padding");
+
+		static constexpr bool is_small_float = impl::is_small_float_<scalar_type>;
 
 		using intermediate_product = promote_if_small_float<product_type>;
 		static_assert(is_floating_point<intermediate_product> == is_floating_point<scalar_type>);
@@ -312,7 +288,7 @@ namespace muu
 		/// \endcond
 
 	  public:
-	#ifdef DOXYGEN
+#ifdef DOXYGEN
 
 		/// \brief The vector's 0th scalar component (when #dimensions &lt;= 4).
 		scalar_type x;
@@ -325,9 +301,9 @@ namespace muu
 		/// \brief The vector's scalar component array (when #dimensions &gt;= 5).
 		scalar_type values[dimensions];
 
-	#endif // DOXYGEN
+#endif // DOXYGEN
 
-	#if 1 // constructors ----------------------------------------------------------------------------------------------
+#if 1 // constructors ----------------------------------------------------------------------------------------------
 
 	  private:
 		/// \cond
@@ -667,11 +643,11 @@ namespace muu
 			: vector{ vals.data(), vals.size() }
 		{}
 
-	#endif // constructors
+#endif // constructors
 
-	#if 1 // scalar component accessors --------------------------------------------------------------------------------
-		  /// \name Scalar accessors
-		  /// @{
+#if 1	// scalar component accessors --------------------------------------------------------------------------------
+		/// \name Scalar accessors
+		/// @{
 
 	  private:
 		/// \cond
@@ -802,12 +778,12 @@ namespace muu
 			return &do_get<0>(*this);
 		}
 
-			/// @}
-	#endif // scalar component accessors
+		/// @}
+#endif // scalar component accessors
 
-	#if 1 // equality --------------------------------------------------------------------------------------------------
-		  /// \name Equality
-		  /// @{
+#if 1 // equality --------------------------------------------------------------------------------------------------
+		/// \name Equality
+		/// @{
 
 		/// \brief		Returns true if two vectors are exactly equal.
 		///
@@ -820,6 +796,7 @@ namespace muu
 		friend constexpr bool operator==(const vector& lhs, const vector<T, dimensions>& rhs) noexcept
 		{
 			// clang-format off
+
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
 				#define VEC_FUNC(member) lhs.member == rhs.member
@@ -834,10 +811,11 @@ namespace muu
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
-		#if MUU_HAS_VECTORCALL
+	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
 		MUU_NODISCARD
@@ -845,6 +823,7 @@ namespace muu
 		friend constexpr bool MUU_VECTORCALL operator==(vector lhs, vector<T, dimensions> rhs) noexcept
 		{
 			// clang-format off
+
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
 				#define VEC_FUNC(member) lhs.member == rhs.member
@@ -859,10 +838,11 @@ namespace muu
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
-		#endif // MUU_HAS_VECTORCALL
+	#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if two vectors are not exactly equal.
 		///
@@ -877,7 +857,7 @@ namespace muu
 			return !(lhs == rhs);
 		}
 
-		#if MUU_HAS_VECTORCALL
+	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
 		MUU_NODISCARD
@@ -887,7 +867,7 @@ namespace muu
 			return !(lhs == rhs);
 		}
 
-		#endif // MUU_HAS_VECTORCALL
+	#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if all the scalar components of a vector are exactly zero.
 		///
@@ -896,10 +876,12 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(vector) v) noexcept
 		{
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) v.member == scalar_type{}
 			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
@@ -918,6 +900,7 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VC_PARAM(vector) v) noexcept
 		{
 			// clang-format off
+
 			if constexpr (is_floating_point<scalar_type>)
 			{
 				#define VEC_FUNC(member) muu::infinity_or_nan(v.member)
@@ -929,6 +912,7 @@ namespace muu
 				MUU_UNUSED(v);
 				return false;
 			}
+
 			// clang-format on
 		}
 
@@ -957,6 +941,7 @@ namespace muu
 			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			// clang-format off
+
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
 				#define VEC_FUNC(member) muu::approx_equal(v1.member, v2.member, epsilon)
@@ -973,10 +958,11 @@ namespace muu
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
-		#if MUU_HAS_VECTORCALL
+	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
 								  && (impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>)),
@@ -989,6 +975,7 @@ namespace muu
 			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			// clang-format off
+
 			if constexpr (std::is_same_v<scalar_type, T>)
 			{
 				#define VEC_FUNC(member) muu::approx_equal(v1.member, v2.member, epsilon)
@@ -1005,10 +992,11 @@ namespace muu
 				COMPONENTWISE_AND(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
-		#endif // MUU_HAS_VECTORCALL
+	#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if the vector is approximately equal to another.
 		///
@@ -1026,7 +1014,7 @@ namespace muu
 			return approx_equal(*this, v, epsilon);
 		}
 
-		#if MUU_HAS_VECTORCALL
+	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
 								  && impl::pass_vectorcall_by_value<vector<T, Dimensions>>),
@@ -1039,7 +1027,7 @@ namespace muu
 			return approx_equal(*this, v, epsilon);
 		}
 
-		#endif // MUU_HAS_VECTORCALL
+	#endif // MUU_HAS_VECTORCALL
 
 		/// \brief	Returns true if all the scalar components in a vector are approximately equal to zero.
 		///
@@ -1049,10 +1037,12 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(vector) v,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) muu::approx_zero(v.member, epsilon)
 			COMPONENTWISE_AND(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
@@ -1066,12 +1056,12 @@ namespace muu
 			return approx_zero(*this, epsilon);
 		}
 
-			/// @}
-	#endif // equality
+		/// @}
+#endif // equality
 
-	#if 1 // length and distance ---------------------------------------------------------------------------------------
-		  /// \name Length and Distance
-		  /// @{
+#if 1	// length and distance ---------------------------------------------------------------------------------------
+		/// \name Length and Distance
+		/// @{
 
 	  private:
 		/// \cond
@@ -1082,10 +1072,12 @@ namespace muu
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
 
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) static_cast<T>(v.member) * static_cast<T>(v.member)
 			COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
@@ -1116,10 +1108,12 @@ namespace muu
 				return temp * temp;
 			};
 
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) subtract_and_square(p2.member, p1.member)
 			COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
@@ -1195,12 +1189,12 @@ namespace muu
 			return static_cast<delta_type>(raw_distance(*this, p));
 		}
 
-			/// @}
-	#endif // length and distance
+		/// @}
+#endif // length and distance
 
-	#if 1 // dot and cross products ------------------------------------------------------------------------------------
-		  /// \name Dot and Cross products
-		  /// @{
+#if 1	// dot and cross products ------------------------------------------------------------------------------------
+		/// \name Dot and Cross products
+		/// @{
 
 	  private:
 		/// \cond
@@ -1214,6 +1208,7 @@ namespace muu
 			using mult_type = decltype(scalar_type{} * scalar_type{});
 
 			// clang-format off
+
 			if constexpr (std::is_same_v<mult_type, T>)
 			{
 				#define VEC_FUNC(member) v1.member* v2.member
@@ -1226,6 +1221,7 @@ namespace muu
 				COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1267,19 +1263,46 @@ namespace muu
 			return impl::raw_cross<vector<product_type, 3>>(*this, v);
 		}
 
-			/// @}
-	#endif // dot and cross products
+		/// \brief	Returns a vector orthogonal to another.
+		///
+		/// \availability		This function is only available when #dimensions == 3.
+		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
+		MUU_PURE_GETTER
+		static constexpr vector<product_type, 3> orthogonal(MUU_VC_PARAM(vector) v) noexcept
+		{
+			const auto x = muu::abs(v.x);
+			const auto y = muu::abs(v.y);
+			const auto z = muu::abs(v.z);
 
-	#if 1 // addition --------------------------------------------------------------------------------------------------
-		  /// \name Addition
-		  /// @{
+			return cross(v,
+						 x < y ? (x < z ? constants::x_axis : constants::z_axis)
+							   : (y < z ? constants::y_axis : constants::z_axis));
+		}
+
+		/// \brief	Returns a vector orthogonal to this one.
+		///
+		/// \availability		This function is only available when #dimensions == 3.
+		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
+		MUU_PURE_GETTER
+		constexpr vector<product_type, 3> orthogonal() const noexcept
+		{
+			return orthogonal(*this);
+		}
+
+		/// @}
+#endif // dot and cross products
+
+#if 1 // addition --------------------------------------------------------------------------------------------------
+		/// \name Addition
+		/// @{
 
 		/// \brief Returns the componentwise addition of two vectors.
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator+(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
 			// clang-format off
-			if constexpr (impl::is_small_float_<scalar_type>)
+
+			if constexpr (is_small_float)
 			{
 				#define VEC_FUNC(member) static_cast<float>(lhs.member) + static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -1291,6 +1314,7 @@ namespace muu
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1298,7 +1322,8 @@ namespace muu
 		constexpr vector& MUU_VECTORCALL operator+=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
 			// clang-format off
-			if constexpr (impl::is_small_float_<scalar_type>)
+
+			if constexpr (is_small_float)
 			{
 				#define VEC_FUNC(member) static_cast<float>(base::member) + static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
@@ -1310,6 +1335,7 @@ namespace muu
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1320,10 +1346,10 @@ namespace muu
 			return *this;
 		}
 
-			/// @}
-	#endif // addition
+		/// @}
+#endif // addition
 
-	#if 1 // subtraction -----------------------------------------------------------------------------------------------
+#if 1 // subtraction -----------------------------------------------------------------------------------------------
 		/// \name Subtraction
 		/// @{
 
@@ -1332,7 +1358,8 @@ namespace muu
 		friend constexpr vector MUU_VECTORCALL operator-(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
 			// clang-format off
-			if constexpr (impl::is_small_float_<scalar_type>)
+
+			if constexpr (is_small_float)
 			{
 				#define VEC_FUNC(member) static_cast<float>(lhs.member) - static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -1344,6 +1371,7 @@ namespace muu
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1351,7 +1379,8 @@ namespace muu
 		constexpr vector& MUU_VECTORCALL operator-=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
 			// clang-format off
-			if constexpr (impl::is_small_float_<scalar_type>)
+
+			if constexpr (is_small_float)
 			{
 				#define VEC_FUNC(member) static_cast<float>(base::member) - static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
@@ -1363,6 +1392,7 @@ namespace muu
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1371,18 +1401,20 @@ namespace muu
 		MUU_PURE_GETTER
 		constexpr vector operator-() const noexcept
 		{
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) -base::member
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
-			/// @}
-	#endif // subtraction
+		/// @}
+#endif // subtraction
 
-	#if 1 // multiplication -------------------------------------------------------------------------------------------
-		  /// \name Multiplication
+#if 1 // multiplication -------------------------------------------------------------------------------------------
+		/// \name Multiplication
 		/// @{
 
 		/// \brief Returns the componentwise multiplication of two vectors.
@@ -1390,7 +1422,8 @@ namespace muu
 		friend constexpr vector MUU_VECTORCALL operator*(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
 			// clang-format off
-			if constexpr (impl::is_small_float_<scalar_type>)
+
+			if constexpr (is_small_float)
 			{
 				#define VEC_FUNC(member) static_cast<float>(lhs.member) * static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -1402,6 +1435,7 @@ namespace muu
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1409,7 +1443,8 @@ namespace muu
 		constexpr vector& MUU_VECTORCALL operator*=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
 			// clang-format off
-			if constexpr (impl::is_small_float_<scalar_type>)
+
+			if constexpr (is_small_float)
 			{
 				#define VEC_FUNC(member) static_cast<float>(base::member) * static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
@@ -1421,6 +1456,7 @@ namespace muu
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1436,6 +1472,7 @@ namespace muu
 				is_signed<scalar_type> || is_signed<T>>;
 
 			// clang-format off
+
 			if constexpr (all_same<type, scalar_type, T>)
 			{
 				#define VEC_FUNC(member) lhs.member* rhs
@@ -1449,6 +1486,7 @@ namespace muu
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1460,6 +1498,7 @@ namespace muu
 				is_signed<scalar_type> || is_signed<T>>;
 
 			// clang-format off
+
 			if constexpr (all_same<type, scalar_type, T>)
 			{
 				#define VEC_FUNC(member) base::member* rhs
@@ -1473,6 +1512,7 @@ namespace muu
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1499,10 +1539,10 @@ namespace muu
 			return raw_multiply_assign_scalar(rhs);
 		}
 
-			/// @}
-	#endif // multiplication
+		/// @}
+#endif // multiplication
 
-	#if 1 // division -------------------------------------------------------------------------------------------------
+#if 1 // division -------------------------------------------------------------------------------------------------
 		/// \name Division
 		/// @{
 
@@ -1511,7 +1551,8 @@ namespace muu
 		friend constexpr vector MUU_VECTORCALL operator/(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
 			// clang-format off
-			if constexpr (impl::is_small_float_<scalar_type>)
+
+			if constexpr (is_small_float)
 			{
 				#define VEC_FUNC(member) static_cast<float>(lhs.member) / static_cast<float>(rhs.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -1523,6 +1564,7 @@ namespace muu
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1530,7 +1572,8 @@ namespace muu
 		constexpr vector& MUU_VECTORCALL operator/=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
 			// clang-format off
-			if constexpr (impl::is_small_float_<scalar_type>)
+
+			if constexpr (is_small_float)
 			{
 				#define VEC_FUNC(member) static_cast<float>(base::member) / static_cast<float>(rhs.member)
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
@@ -1542,6 +1585,7 @@ namespace muu
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1557,6 +1601,7 @@ namespace muu
 				is_signed<scalar_type> || is_signed<T>>;
 
 			// clang-format off
+
 			if constexpr (is_floating_point<type>)
 			{
 				return raw_multiply_scalar(lhs, type{ 1 } / static_cast<type>(rhs));
@@ -1574,6 +1619,7 @@ namespace muu
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1585,6 +1631,7 @@ namespace muu
 				is_signed<scalar_type> || is_signed<T>>;
 
 			// clang-format off
+
 			if constexpr (is_floating_point<type>)
 			{
 				return raw_multiply_assign_scalar(type{ 1 } / static_cast<type>(rhs));
@@ -1602,6 +1649,7 @@ namespace muu
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
 			}
+
 			// clang-format on
 		}
 
@@ -1621,10 +1669,10 @@ namespace muu
 			return raw_divide_assign_scalar(rhs);
 		}
 
-			/// @}
-	#endif // division
+		/// @}
+#endif // division
 
-	#if 1 // modulo ---------------------------------------------------------------------------------------------------
+#if 1 // modulo ---------------------------------------------------------------------------------------------------
 		/// \name Modulo
 		/// @{
 
@@ -1632,20 +1680,24 @@ namespace muu
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator%(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) impl::raw_modulo(lhs.member, rhs.member)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
 		/// \brief Assigns the result of componentwise dividing this vector by another.
 		constexpr vector& MUU_VECTORCALL operator%=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) impl::raw_modulo(base::member, rhs.member)
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
@@ -1653,27 +1705,31 @@ namespace muu
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator%(MUU_VC_PARAM(vector) lhs, scalar_type rhs) noexcept
 		{
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) impl::raw_modulo(lhs.member, rhs)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
 		/// \brief Assigns the result of componentwise dividing this vector by a scalar.
 		constexpr vector& MUU_VECTORCALL operator%=(scalar_type rhs) noexcept
 		{
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) impl::raw_modulo(base::member, rhs)
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
-			/// @}
-	#endif // modulo
+		/// @}
+#endif // modulo
 
-	#if 1 // bitwise shifts ----------------------------------------------------------------------------------------
+#if 1 // bitwise shifts ----------------------------------------------------------------------------------------
 		/// \name Bitwise shifts
 		/// \availability		These functions are only available when #scalar_type is an integral type.
 		/// @{
@@ -1687,10 +1743,12 @@ namespace muu
 		{
 			MUU_ASSUME(rhs >= 0);
 
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) lhs.member << rhs
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
@@ -1702,10 +1760,12 @@ namespace muu
 		{
 			MUU_ASSUME(rhs >= 0);
 
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) base::member << rhs
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
@@ -1718,10 +1778,12 @@ namespace muu
 		{
 			MUU_ASSUME(rhs >= 0);
 
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) lhs.member >> rhs
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
@@ -1733,17 +1795,19 @@ namespace muu
 		{
 			MUU_ASSUME(rhs >= 0);
 
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) base::member >> rhs
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
-			/// @}
-	#endif // bitwise shifts
+		/// @}
+#endif // bitwise shifts
 
-	#if 1 // normalization --------------------------------------------------------------------------------------------
+#if 1 // normalization --------------------------------------------------------------------------------------------
 		/// \name Normalization
 		/// @{
 
@@ -1905,23 +1969,11 @@ namespace muu
 			return normalized(*this);
 		}
 
-		[[deprecated]] MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL unit_length(MUU_VC_PARAM(vector) v) noexcept
-		{
-			return normalized(v);
-		}
+		/// @}
+#endif // normalization
 
-		[[deprecated]] MUU_PURE_GETTER
-		constexpr bool unit_length() const noexcept
-		{
-			return normalized(*this);
-		}
-
-			/// @}
-	#endif // normalization
-
-	#if 1 // direction ------------------------------------------------------------------------------------------------
-		  /// \name Direction
+#if 1 // direction ------------------------------------------------------------------------------------------------
+		/// \name Direction
 		/// @{
 
 		/// \brief		Returns the normalized direction vector from one position to another.
@@ -2021,10 +2073,10 @@ namespace muu
 			return direction(*this, to);
 		}
 
-			/// @}
-	#endif // direction
+		/// @}
+#endif // direction
 
-	#if 1 // iterators ------------------------------------------------------------------------------------------------
+#if 1 // iterators ------------------------------------------------------------------------------------------------
 		/// \name Iterators
 		/// @{
 
@@ -2117,11 +2169,11 @@ namespace muu
 			return v.end();
 		}
 
-			/// @}
-	#endif // iterators
+		/// @}
+#endif // iterators
 
-	#if 1 // min, max and clamp ---------------------------------------------------------------------------------------
-		  /// \name Min, Max and Clamp
+#if 1 // min, max and clamp ---------------------------------------------------------------------------------------
+		/// \name Min, Max and Clamp
 		/// @{
 
 		/// \brief	Returns the componentwise minimum of two or more vectors.
@@ -2135,7 +2187,7 @@ namespace muu
 				return vector::min(v1, vector::min(v2, vecs...));
 			else
 			{
-					// clang-format off
+				// clang-format off
 
 				#define VEC_FUNC(member) muu::min(v1.member, v2.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -2182,7 +2234,7 @@ namespace muu
 				return vector::max(v1, vector::max(v2, vecs...));
 			else
 			{
-					// clang-format off
+				// clang-format off
 
 				#define VEC_FUNC(member) muu::max(v1.member, v2.member)
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
@@ -2230,10 +2282,12 @@ namespace muu
 													 MUU_VC_PARAM(vector) low,
 													 MUU_VC_PARAM(vector) high) noexcept
 		{
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) muu::clamp(v.member, low.member, high.member)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
@@ -2245,17 +2299,19 @@ namespace muu
 		/// \return	A reference to the vector.
 		constexpr vector& MUU_VECTORCALL clamp(MUU_VC_PARAM(vector) low, MUU_VC_PARAM(vector) high) noexcept
 		{
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member) muu::clamp(base::member, low.member, high.member)
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
-			/// @}
-	#endif // min, max and clamp
+		/// @}
+#endif // min, max and clamp
 
-	#if 1 // swizzles -------------------------------------------------------------------------------------------------
+#if 1 // swizzles -------------------------------------------------------------------------------------------------
 		/// \name Swizzles
 		///@{
 
@@ -2379,10 +2435,10 @@ namespace muu
 			return vector<scalar_type, 4>{ get<0>(), get<1>(), get<2>(), scalar_constants::zero };
 		}
 
-	///@}
-	#endif // swizzles
+///@}
+#endif // swizzles
 
-	#if 1 // misc -----------------------------------------------------------------------------------------------------
+#if 1 // misc -----------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a vector out to a text stream.
 		template <typename Char, typename Traits>
@@ -2407,11 +2463,13 @@ namespace muu
 			using type			 = intermediate_float;
 			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
 
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member)                                                                                    \
 				static_cast<type>(start.member) * inv_alpha + static_cast<type>(finish.member) * static_cast<type>(alpha)
 			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
@@ -2426,11 +2484,13 @@ namespace muu
 			using type			 = intermediate_float;
 			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
 
-				// clang-format off
+			// clang-format off
+
 			#define VEC_FUNC(member)                                                                                    \
 				static_cast<type>(base::member) * inv_alpha + static_cast<type>(target.member) * static_cast<type>(alpha)
 			COMPONENTWISE_ASSIGN(VEC_FUNC);
 			#undef VEC_FUNC
+
 			// clang-format on
 		}
 
@@ -2487,6 +2547,7 @@ namespace muu
 		static constexpr vector MUU_VECTORCALL abs(MUU_VC_PARAM(vector) v) noexcept
 		{
 			// clang-format off
+
 			if constexpr (is_signed<scalar_type>)
 			{
 				#define VEC_FUNC(member) muu::abs(v.member)
@@ -2495,6 +2556,7 @@ namespace muu
 			}
 			else
 				return v;
+
 			// clang-format on
 		}
 
@@ -2514,6 +2576,7 @@ namespace muu
 		static constexpr vector MUU_VECTORCALL ceil(MUU_VC_PARAM(vector) v) noexcept
 		{
 			// clang-format off
+
 			if constexpr (is_floating_point<scalar_type>)
 			{
 				#define VEC_FUNC(member) muu::ceil(v.member)
@@ -2522,6 +2585,7 @@ namespace muu
 			}
 			else
 				return v;
+
 			// clang-format on
 		}
 
@@ -2542,6 +2606,7 @@ namespace muu
 		static constexpr vector MUU_VECTORCALL floor(MUU_VC_PARAM(vector) v) noexcept
 		{
 			// clang-format off
+
 			if constexpr (is_floating_point<scalar_type>)
 			{
 				#define VEC_FUNC(member) muu::floor(v.member)
@@ -2550,6 +2615,7 @@ namespace muu
 			}
 			else
 				return v;
+
 			// clang-format on
 		}
 
@@ -2564,7 +2630,7 @@ namespace muu
 				return *this;
 		}
 
-	#endif // misc
+#endif // misc
 	};
 
 	/// \cond
@@ -2617,16 +2683,14 @@ namespace std
 	};
 }
 
-#endif //===============================================================================================================
-
 //======================================================================================================================
 // CONSTANTS
-#if 1
-
-MUU_PUSH_PRECISE_MATH;
+//======================================================================================================================
 
 namespace muu
 {
+	MUU_PUSH_PRECISE_MATH;
+
 	namespace impl
 	{
 		/// \cond
@@ -2967,17 +3031,17 @@ namespace muu
 		/// \endcond
 	}
 
-	#ifdef DOXYGEN
-		#define VECTOR_CONSTANTS_BASES                                                                                 \
-			impl::unit_length_vector_constants<Scalar, Dimensions>, impl::integer_limits<vector<Scalar, Dimensions>>,  \
-				impl::integer_positive_constants<vector<Scalar, Dimensions>>,                                          \
-				impl::floating_point_traits<vector<Scalar, Dimensions>>,                                               \
-				impl::floating_point_special_constants<vector<Scalar, Dimensions>>,                                    \
-				impl::floating_point_named_constants<vector<Scalar, Dimensions>>
-	#else
-		#define VECTOR_CONSTANTS_BASES                                                                                 \
-			impl::unit_length_vector_constants<Scalar, Dimensions>, impl::vector_constants_base<Scalar, Dimensions>
-	#endif
+#ifdef DOXYGEN
+	#define VECTOR_CONSTANTS_BASES                                                                                     \
+		impl::unit_length_vector_constants<Scalar, Dimensions>, impl::integer_limits<vector<Scalar, Dimensions>>,      \
+			impl::integer_positive_constants<vector<Scalar, Dimensions>>,                                              \
+			impl::floating_point_traits<vector<Scalar, Dimensions>>,                                                   \
+			impl::floating_point_special_constants<vector<Scalar, Dimensions>>,                                        \
+			impl::floating_point_named_constants<vector<Scalar, Dimensions>>
+#else
+	#define VECTOR_CONSTANTS_BASES                                                                                     \
+		impl::unit_length_vector_constants<Scalar, Dimensions>, impl::vector_constants_base<Scalar, Dimensions>
+#endif
 
 	/// \ingroup	constants
 	/// \see		muu::vector
@@ -2987,16 +3051,14 @@ namespace muu
 	struct constants<vector<Scalar, Dimensions>> : VECTOR_CONSTANTS_BASES
 	{};
 
-	#undef VECTOR_CONSTANTS_BASES
+#undef VECTOR_CONSTANTS_BASES
+
+	MUU_POP_PRECISE_MATH;
 }
-
-MUU_POP_PRECISE_MATH;
-
-#endif //===============================================================================================================
 
 //======================================================================================================================
 // ACCUMULATOR
-#if 1
+//======================================================================================================================
 
 namespace muu::impl
 {
@@ -3082,11 +3144,9 @@ namespace muu::impl
 	};
 }
 
-#endif //===============================================================================================================
-
 //======================================================================================================================
 // FREE FUNCTIONS
-#if 1
+//======================================================================================================================
 
 namespace muu
 {
@@ -3415,8 +3475,6 @@ namespace muu
 		return vector<S, D>::floor(v);
 	}
 }
-
-#endif //===============================================================================================================
 
 #undef COMPONENTWISE_AND
 #undef COMPONENTWISE_OR
