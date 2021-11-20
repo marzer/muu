@@ -3,16 +3,13 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 #pragma once
+/// \cond
 
 #include "core_meta.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
-MUU_DISABLE_SHADOW_WARNINGS;
-MUU_DISABLE_SUGGEST_WARNINGS;
-MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
-/// \cond
 
 namespace muu::impl
 {
@@ -356,6 +353,6 @@ namespace muu
 		allow_implicit_bit_cast<From, vector<Scalar, Dimensions>>;
 }
 
-/// \endcond
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "header_end.h"
+/// \endcond

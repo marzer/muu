@@ -13,7 +13,6 @@
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
-MUU_DISABLE_SUGGEST_WARNINGS;
 MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
@@ -21,7 +20,6 @@ MUU_PRAGMA_MSVC(float_control(precise, off))
 //======================================================================================================================
 // IMPLEMENTATION DETAILS
 //======================================================================================================================
-
 /// \cond
 
 namespace muu::impl
@@ -455,7 +453,7 @@ namespace muu::impl
 
 		MUU_PURE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axis_angle(
-			MUU_VC_PARAM(axis_angle_rotation<Scalar>) aa) noexcept
+			MUU_VC_PARAM(axis_angle<Scalar>) aa) noexcept
 		{
 			return from_axis_angle(aa.axis, aa.angle);
 		}
@@ -481,7 +479,7 @@ namespace muu::impl
 
 		MUU_PURE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_euler(
-			MUU_VC_PARAM(euler_rotation<Scalar>) angles) noexcept
+			MUU_VC_PARAM(euler_angles<Scalar>) angles) noexcept
 		{
 			return from_euler(angles.yaw, angles.pitch, angles.roll);
 		}
@@ -699,11 +697,11 @@ namespace muu
 		/// \brief The #muu::quaternion with the same #scalar_type as this matrix.
 		using quaternion_type = quaternion<scalar_type>;
 
-		/// \brief The #muu::axis_angle_rotation with the same #scalar_type as this matrix.
-		using axis_angle_type = axis_angle_rotation<scalar_type>;
+		/// \brief The #muu::axis_angle with the same #scalar_type as this matrix.
+		using axis_angle_type = axis_angle<scalar_type>;
 
-		/// \brief The #muu::euler_rotation with the same #scalar_type as this matrix.
-		using euler_type = euler_rotation<scalar_type>;
+		/// \brief The #muu::euler_angles with the same #scalar_type as this matrix.
+		using euler_type = euler_angles<scalar_type>;
 
 		/// \brief Compile-time constants for this matrix.
 		using constants = muu::constants<matrix>;
@@ -712,21 +710,36 @@ namespace muu
 		using determinant_type = std::
 			conditional_t<is_integral<scalar_type>, impl::highest_ranked<make_signed<scalar_type>, int>, scalar_type>;
 
+		/// \brief The scalar type returned by inversion operations. Always floating-point.
+		using inverse_scalar_type = std::conditional_t<is_integral<scalar_type>, double, scalar_type>;
+
 		/// \brief The matrix type returned by inversion operations. Always floating-point.
-		using inverse_type = matrix<std::conditional_t<is_integral<scalar_type>, double, scalar_type>, Rows, Columns>;
+		using inverse_type = matrix<inverse_scalar_type, Rows, Columns>;
 
 	  private:
 		/// \cond
 
-		template <typename S, size_t R, size_t C>
+		template <typename, size_t, size_t>
 		friend struct matrix;
 
 		using base = impl::matrix_<Scalar, Rows, Columns>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * Rows * Columns), "Matrices should not have padding");
 
-		using intermediate_float = promote_if_small_float<typename inverse_type::scalar_type>;
-		static_assert(is_floating_point<typename inverse_type::scalar_type>);
-		static_assert(is_floating_point<intermediate_float>);
+		using promoted_scalar				 = promote_if_small_float<scalar_type>;
+		using promoted_mat					 = matrix<promoted_scalar, Rows, Columns>;
+		static constexpr bool is_small_float = impl::is_small_float_<scalar_type>;
+
+		using product_scalar_type  = typename column_type::product_scalar_type;
+		using promoted_product	   = promote_if_small_float<product_scalar_type>;
+		using promoted_product_mat = matrix<promoted_product, Rows, Columns>;
+		static constexpr bool product_requires_promotion =
+			!all_same<product_scalar_type, scalar_type, promoted_product>;
+
+		static_assert(is_floating_point<inverse_scalar_type>);
+		using promoted_inverse	   = promote_if_small_float<inverse_scalar_type>;
+		using promoted_inverse_mat = matrix<promoted_inverse, Rows, Columns>;
+		static constexpr bool inverse_requires_promotion =
+			!all_same<inverse_scalar_type, scalar_type, promoted_inverse>;
 
 		using scalar_constants = muu::constants<scalar_type>;
 
@@ -777,7 +790,8 @@ namespace muu
 		/// // explicitly-sized matrices:
 		/// std::cout << matrix<int, 2, 3>{ 1, 2, 3, 4, 5, 6 } << "\n\n";
 		///
-		/// // 2x2, 2x3, 3x3, 3x4 and 4x4 matrices can be deduced automatically from 4, 6, 9, 12 and 16 inputs (respectively):
+		/// // 2x2, 2x3, 3x3, 3x4 and 4x4 matrices can be deduced automatically
+		/// // from 4, 6, 9, 12 and 16 inputs (respectively):
 		/// std::cout << matrix{ 1, 2, 3, 4 } << "\n\n";
 		/// std::cout << matrix{ 1, 2, 3, 4, 5, 6 } << "\n\n";
 		/// std::cout << matrix{ 1, 2, 3, 4, 5, 6, 7, 8, 9 } << "\n\n";
@@ -1019,8 +1033,10 @@ namespace muu
 
 #endif // constructors
 
-#if 1	// translatino ----------------------------------------------------------------------------------------------
+#if 1	// translation ----------------------------------------------------------------------------------------------
 		/// \name Translation
+		/// \availability	These functions are only available when the matrix is a typical 2D or 3D translation
+		///					matrix (i.e. one of 2x3, 3x3, 3x4 or 4x4).
 		/// @{
 
 	#ifdef DOXYGEN
@@ -1064,6 +1080,8 @@ namespace muu
 
 #if 1	// rotation -------------------------------------------------------------------------------------------------
 		/// \name Rotation
+		/// \availability	These functions are only available when the matrix is a typical 2D or 3D rotation matrix
+		///					(i.e. one of 2x2, 2x3, 3x3, 3x4 or 4x4) and has a floating-point #scalar_type.
 		/// @{
 
 	#ifdef DOXYGEN
@@ -1163,6 +1181,8 @@ namespace muu
 
 #if 1	// scaling ----------------------------------------------------------------------------------------------
 		/// \name Scaling
+		/// \availability	These functions are only available when the matrix is a typical 2D or 3D scale matrix
+		///					(i.e. one of 2x2, 2x3, 3x3, 3x4 or 4x4).
 		/// @{
 
 	#ifdef DOXYGEN
@@ -1387,8 +1407,8 @@ namespace muu
 		/// @}
 #endif // scalar component accessors
 
-#if 1 // equality --------------------------------------------------------------------------------------------------
-		/// \name Equality
+#if 1 // equality (exact) ----------------------------------------------------------------------------------------------
+		/// \name Equality (exact)
 		/// @{
 
 		/// \brief		Returns true if two matrices are exactly equal.
@@ -1498,6 +1518,13 @@ namespace muu
 				return false;
 		}
 
+		/// @}
+#endif // equality (exact)
+
+#if 1 // equality (approx) -------------------------------------------------------------------------------------
+		/// \name Equality (approximate)
+		/// @{
+
 		/// \brief	Returns true if two matrices are approximately equal.
 		///
 		/// \availability	This function is only available when at least one of #scalar_type
@@ -1595,7 +1622,7 @@ namespace muu
 		}
 
 		/// @}
-#endif // equality
+#endif // equality (approx)
 
 #if 1 // addition --------------------------------------------------------------------------------------------------
 		/// \name Addition
@@ -1683,97 +1710,79 @@ namespace muu
 			const matrix<scalar_type, columns, C>& rhs) noexcept
 		{
 			using result_type = matrix<scalar_type, Rows, C>;
-			using type		  = impl::highest_ranked<
-				   typename column_type::product_type,
-				   std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>>;
 
-	#define MULT_DOT(row, col, idx)                                                                                    \
-		static_cast<type>(lhs.m[idx].template get<row>()) * static_cast<type>(rhs.m[col].template get<idx>())
-
-			// common square cases are manually unrolled
-			if constexpr (Rows == 2 && Columns == 2 && C == 2)
+			if constexpr (product_requires_promotion)
 			{
-				MUU_FMA_BLOCK;
-
-				return result_type{ column_type{ static_cast<scalar_type>(MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1)),
-												 static_cast<scalar_type>(MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1)) },
-									column_type{ static_cast<scalar_type>(MULT_DOT(0, 1, 0) + MULT_DOT(0, 1, 1)),
-												 static_cast<scalar_type>(MULT_DOT(1, 1, 0) + MULT_DOT(1, 1, 1)) } };
-			}
-			else if constexpr (Rows == 3 && Columns == 3 && C == 3)
-			{
-				MUU_FMA_BLOCK;
-
-				return result_type{
-					column_type{ static_cast<scalar_type>(MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1) + MULT_DOT(0, 0, 2)),
-								 static_cast<scalar_type>(MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1) + MULT_DOT(1, 0, 2)),
-								 static_cast<scalar_type>(MULT_DOT(2, 0, 0) + MULT_DOT(2, 0, 1) + MULT_DOT(2, 0, 2)) },
-					column_type{ static_cast<scalar_type>(MULT_DOT(0, 1, 0) + MULT_DOT(0, 1, 1) + MULT_DOT(0, 1, 2)),
-								 static_cast<scalar_type>(MULT_DOT(1, 1, 0) + MULT_DOT(1, 1, 1) + MULT_DOT(1, 1, 2)),
-								 static_cast<scalar_type>(MULT_DOT(2, 1, 0) + MULT_DOT(2, 1, 1) + MULT_DOT(2, 1, 2)) },
-					column_type{ static_cast<scalar_type>(MULT_DOT(0, 2, 0) + MULT_DOT(0, 2, 1) + MULT_DOT(0, 2, 2)),
-								 static_cast<scalar_type>(MULT_DOT(1, 2, 0) + MULT_DOT(1, 2, 1) + MULT_DOT(1, 2, 2)),
-								 static_cast<scalar_type>(MULT_DOT(2, 2, 0) + MULT_DOT(2, 2, 1) + MULT_DOT(2, 2, 2)) }
-
-				};
-			}
-			else if constexpr (Rows == 4 && Columns == 4 && C == 4)
-			{
-				MUU_FMA_BLOCK;
-
-				return result_type{ column_type{ static_cast<scalar_type>(MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1)
-																		  + MULT_DOT(0, 0, 2) + MULT_DOT(0, 0, 3)),
-												 static_cast<scalar_type>(MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1)
-																		  + MULT_DOT(1, 0, 2) + MULT_DOT(1, 0, 3)),
-												 static_cast<scalar_type>(MULT_DOT(2, 0, 0) + MULT_DOT(2, 0, 1)
-																		  + MULT_DOT(2, 0, 2) + MULT_DOT(2, 0, 3)),
-												 static_cast<scalar_type>(MULT_DOT(3, 0, 0) + MULT_DOT(3, 0, 1)
-																		  + MULT_DOT(3, 0, 2) + MULT_DOT(3, 0, 3)) },
-									column_type{ static_cast<scalar_type>(MULT_DOT(0, 1, 0) + MULT_DOT(0, 1, 1)
-																		  + MULT_DOT(0, 1, 2) + MULT_DOT(0, 1, 3)),
-												 static_cast<scalar_type>(MULT_DOT(1, 1, 0) + MULT_DOT(1, 1, 1)
-																		  + MULT_DOT(1, 1, 2) + MULT_DOT(1, 1, 3)),
-												 static_cast<scalar_type>(MULT_DOT(2, 1, 0) + MULT_DOT(2, 1, 1)
-																		  + MULT_DOT(2, 1, 2) + MULT_DOT(2, 1, 3)),
-												 static_cast<scalar_type>(MULT_DOT(3, 1, 0) + MULT_DOT(3, 1, 1)
-																		  + MULT_DOT(3, 1, 2) + MULT_DOT(3, 1, 3)) },
-									column_type{ static_cast<scalar_type>(MULT_DOT(0, 2, 0) + MULT_DOT(0, 2, 1)
-																		  + MULT_DOT(0, 2, 2) + MULT_DOT(0, 2, 3)),
-												 static_cast<scalar_type>(MULT_DOT(1, 2, 0) + MULT_DOT(1, 2, 1)
-																		  + MULT_DOT(1, 2, 2) + MULT_DOT(1, 2, 3)),
-												 static_cast<scalar_type>(MULT_DOT(2, 2, 0) + MULT_DOT(2, 2, 1)
-																		  + MULT_DOT(2, 2, 2) + MULT_DOT(2, 2, 3)),
-												 static_cast<scalar_type>(MULT_DOT(3, 2, 0) + MULT_DOT(3, 2, 1)
-																		  + MULT_DOT(3, 2, 2) + MULT_DOT(3, 2, 3)) },
-									column_type{ static_cast<scalar_type>(MULT_DOT(0, 3, 0) + MULT_DOT(0, 3, 1)
-																		  + MULT_DOT(0, 3, 2) + MULT_DOT(0, 3, 3)),
-												 static_cast<scalar_type>(MULT_DOT(1, 3, 0) + MULT_DOT(1, 3, 1)
-																		  + MULT_DOT(1, 3, 2) + MULT_DOT(1, 3, 3)),
-												 static_cast<scalar_type>(MULT_DOT(2, 3, 0) + MULT_DOT(2, 3, 1)
-																		  + MULT_DOT(2, 3, 2) + MULT_DOT(2, 3, 3)),
-												 static_cast<scalar_type>(MULT_DOT(3, 3, 0) + MULT_DOT(3, 3, 1)
-																		  + MULT_DOT(3, 3, 2) + MULT_DOT(3, 3, 3)) } };
+				return result_type{ promoted_product_mat{ lhs } * matrix<promoted_product, columns, C>{ rhs } };
 			}
 			else
 			{
-				result_type out;
-				for (size_t out_r = 0; out_r < Rows; out_r++)
+				MUU_FMA_BLOCK;
+
+	#define MULT_DOT(row, col, idx) lhs.m[idx].template get<row>() * rhs.m[col].template get<idx>()
+
+				// common square cases are manually unrolled
+				if constexpr (Rows == 2 && Columns == 2 && C == 2)
 				{
-					for (size_t out_c = 0; out_c < C; out_c++)
-					{
-						MUU_FMA_BLOCK;
-
-						auto val = static_cast<type>(lhs(out_r, 0)) * static_cast<type>(rhs(0, out_c));
-						for (size_t r = 1; r < Columns; r++)
-							val += static_cast<type>(lhs(out_r, r)) * static_cast<type>(rhs(r, out_c));
-
-						out(out_r, out_c) = static_cast<scalar_type>(val);
-					}
+					return result_type{
+						column_type{ MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1), MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1) },
+						column_type{ MULT_DOT(0, 1, 0) + MULT_DOT(0, 1, 1), MULT_DOT(1, 1, 0) + MULT_DOT(1, 1, 1) }
+					};
 				}
-				return out;
-			}
+				else if constexpr (Rows == 3 && Columns == 3 && C == 3)
+				{
+					return result_type{ column_type{ MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1) + MULT_DOT(0, 0, 2),
+													 MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1) + MULT_DOT(1, 0, 2),
+													 MULT_DOT(2, 0, 0) + MULT_DOT(2, 0, 1) + MULT_DOT(2, 0, 2) },
+										column_type{ MULT_DOT(0, 1, 0) + MULT_DOT(0, 1, 1) + MULT_DOT(0, 1, 2),
+													 MULT_DOT(1, 1, 0) + MULT_DOT(1, 1, 1) + MULT_DOT(1, 1, 2),
+													 MULT_DOT(2, 1, 0) + MULT_DOT(2, 1, 1) + MULT_DOT(2, 1, 2) },
+										column_type{ MULT_DOT(0, 2, 0) + MULT_DOT(0, 2, 1) + MULT_DOT(0, 2, 2),
+													 MULT_DOT(1, 2, 0) + MULT_DOT(1, 2, 1) + MULT_DOT(1, 2, 2),
+													 MULT_DOT(2, 2, 0) + MULT_DOT(2, 2, 1) + MULT_DOT(2, 2, 2) }
+
+					};
+				}
+				else if constexpr (Rows == 4 && Columns == 4 && C == 4)
+				{
+					return result_type{
+						column_type{ MULT_DOT(0, 0, 0) + MULT_DOT(0, 0, 1) + MULT_DOT(0, 0, 2) + MULT_DOT(0, 0, 3),
+									 MULT_DOT(1, 0, 0) + MULT_DOT(1, 0, 1) + MULT_DOT(1, 0, 2) + MULT_DOT(1, 0, 3),
+									 MULT_DOT(2, 0, 0) + MULT_DOT(2, 0, 1) + MULT_DOT(2, 0, 2) + MULT_DOT(2, 0, 3),
+									 MULT_DOT(3, 0, 0) + MULT_DOT(3, 0, 1) + MULT_DOT(3, 0, 2) + MULT_DOT(3, 0, 3) },
+						column_type{ MULT_DOT(0, 1, 0) + MULT_DOT(0, 1, 1) + MULT_DOT(0, 1, 2) + MULT_DOT(0, 1, 3),
+									 MULT_DOT(1, 1, 0) + MULT_DOT(1, 1, 1) + MULT_DOT(1, 1, 2) + MULT_DOT(1, 1, 3),
+									 MULT_DOT(2, 1, 0) + MULT_DOT(2, 1, 1) + MULT_DOT(2, 1, 2) + MULT_DOT(2, 1, 3),
+									 MULT_DOT(3, 1, 0) + MULT_DOT(3, 1, 1) + MULT_DOT(3, 1, 2) + MULT_DOT(3, 1, 3) },
+						column_type{ MULT_DOT(0, 2, 0) + MULT_DOT(0, 2, 1) + MULT_DOT(0, 2, 2) + MULT_DOT(0, 2, 3),
+									 MULT_DOT(1, 2, 0) + MULT_DOT(1, 2, 1) + MULT_DOT(1, 2, 2) + MULT_DOT(1, 2, 3),
+									 MULT_DOT(2, 2, 0) + MULT_DOT(2, 2, 1) + MULT_DOT(2, 2, 2) + MULT_DOT(2, 2, 3),
+									 MULT_DOT(3, 2, 0) + MULT_DOT(3, 2, 1) + MULT_DOT(3, 2, 2) + MULT_DOT(3, 2, 3) },
+						column_type{ MULT_DOT(0, 3, 0) + MULT_DOT(0, 3, 1) + MULT_DOT(0, 3, 2) + MULT_DOT(0, 3, 3),
+									 MULT_DOT(1, 3, 0) + MULT_DOT(1, 3, 1) + MULT_DOT(1, 3, 2) + MULT_DOT(1, 3, 3),
+									 MULT_DOT(2, 3, 0) + MULT_DOT(2, 3, 1) + MULT_DOT(2, 3, 2) + MULT_DOT(2, 3, 3),
+									 MULT_DOT(3, 3, 0) + MULT_DOT(3, 3, 1) + MULT_DOT(3, 3, 2) + MULT_DOT(3, 3, 3) }
+					};
+				}
+				else
+				{
+					result_type out;
+					for (size_t out_r = 0; out_r < Rows; out_r++)
+					{
+						for (size_t out_c = 0; out_c < C; out_c++)
+						{
+							auto val = lhs(out_r, 0) * rhs(0, out_c);
+							for (size_t r = 1; r < Columns; r++)
+								val += lhs(out_r, r) * rhs(r, out_c);
+
+							out(out_r, out_c) = val;
+						}
+					}
+					return out;
+				}
 
 	#undef MULT_DOT
+			}
 		}
 
 		/// \brief Multiplies this matrix with another and assigns the result.
@@ -1795,60 +1804,50 @@ namespace muu
 		friend constexpr column_type MUU_VECTORCALL operator*(MUU_VC_PARAM(matrix) lhs,
 															  MUU_VC_PARAM(vector<scalar_type, columns>) rhs) noexcept
 		{
-			using type = impl::highest_ranked<
-				typename column_type::product_type,
-				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>>;
-
-	#define MULT_COL(row, col, vec_elem)                                                                               \
-		static_cast<type>(lhs.m[col].template get<row>()) * static_cast<type>(rhs.vec_elem)
-
-			// common square cases are manually unrolled
-			if constexpr (Rows == 2 && Columns == 2)
+			if constexpr (product_requires_promotion)
 			{
-				MUU_FMA_BLOCK;
-
-				return column_type{ static_cast<scalar_type>(MULT_COL(0, 0, x) + MULT_COL(0, 1, y)),
-									static_cast<scalar_type>(MULT_COL(1, 0, x) + MULT_COL(1, 1, y)) };
-			}
-			else if constexpr (Rows == 3 && Columns == 3)
-			{
-				MUU_FMA_BLOCK;
-
-				return column_type{ static_cast<scalar_type>(MULT_COL(0, 0, x) + MULT_COL(0, 1, y) + MULT_COL(0, 2, z)),
-									static_cast<scalar_type>(MULT_COL(1, 0, x) + MULT_COL(1, 1, y) + MULT_COL(1, 2, z)),
-									static_cast<scalar_type>(MULT_COL(2, 0, x) + MULT_COL(2, 1, y)
-															 + MULT_COL(2, 2, z)) };
-			}
-			else if constexpr (Rows == 4 && Columns == 4)
-			{
-				MUU_FMA_BLOCK;
-
-				return column_type{ static_cast<scalar_type>(MULT_COL(0, 0, x) + MULT_COL(0, 1, y) + MULT_COL(0, 2, z)
-															 + MULT_COL(0, 3, w)),
-									static_cast<scalar_type>(MULT_COL(1, 0, x) + MULT_COL(1, 1, y) + MULT_COL(1, 2, z)
-															 + MULT_COL(1, 3, w)),
-									static_cast<scalar_type>(MULT_COL(2, 0, x) + MULT_COL(2, 1, y) + MULT_COL(2, 2, z)
-															 + MULT_COL(2, 3, w)),
-									static_cast<scalar_type>(MULT_COL(3, 0, x) + MULT_COL(3, 1, y) + MULT_COL(3, 2, z)
-															 + MULT_COL(3, 3, w)) };
+				return column_type{ promoted_product_mat{ lhs } * vector<promoted_product, columns>{ rhs } };
 			}
 			else
 			{
-				column_type out;
-				for (size_t out_r = 0; out_r < Rows; out_r++)
+				MUU_FMA_BLOCK;
+
+	#define MULT_COL(row, col, vec_elem) lhs.m[col].template get<row>() * rhs.vec_elem
+
+				// common square cases are manually unrolled
+				if constexpr (Rows == 2 && Columns == 2)
 				{
-					MUU_FMA_BLOCK;
-
-					auto val = static_cast<type>(lhs(out_r, 0)) * static_cast<type>(rhs.template get<0>());
-					for (size_t c = 1; c < Columns; c++)
-						val += static_cast<type>(lhs(out_r, c)) * static_cast<type>(rhs[c]);
-
-					out[out_r] = static_cast<scalar_type>(val);
+					return column_type{ MULT_COL(0, 0, x) + MULT_COL(0, 1, y), MULT_COL(1, 0, x) + MULT_COL(1, 1, y) };
 				}
-				return out;
-			}
+				else if constexpr (Rows == 3 && Columns == 3)
+				{
+					return column_type{ MULT_COL(0, 0, x) + MULT_COL(0, 1, y) + MULT_COL(0, 2, z),
+										MULT_COL(1, 0, x) + MULT_COL(1, 1, y) + MULT_COL(1, 2, z),
+										MULT_COL(2, 0, x) + MULT_COL(2, 1, y) + MULT_COL(2, 2, z) };
+				}
+				else if constexpr (Rows == 4 && Columns == 4)
+				{
+					return column_type{ MULT_COL(0, 0, x) + MULT_COL(0, 1, y) + MULT_COL(0, 2, z) + MULT_COL(0, 3, w),
+										MULT_COL(1, 0, x) + MULT_COL(1, 1, y) + MULT_COL(1, 2, z) + MULT_COL(1, 3, w),
+										MULT_COL(2, 0, x) + MULT_COL(2, 1, y) + MULT_COL(2, 2, z) + MULT_COL(2, 3, w),
+										MULT_COL(3, 0, x) + MULT_COL(3, 1, y) + MULT_COL(3, 2, z) + MULT_COL(3, 3, w) };
+				}
+				else
+				{
+					column_type out;
+					for (size_t out_r = 0; out_r < Rows; out_r++)
+					{
+						auto val = lhs(out_r, 0) * rhs.template get<0>();
+						for (size_t c = 1; c < Columns; c++)
+							val += lhs(out_r, c) * rhs[c];
+
+						out[out_r] = val;
+					}
+					return out;
+				}
 
 	#undef MULT_COL
+			}
 		}
 
 		/// \brief Multiplies a row vector and a matrix.
@@ -1861,59 +1860,50 @@ namespace muu
 		friend constexpr row_type MUU_VECTORCALL operator*(MUU_VC_PARAM(vector<scalar_type, rows>) lhs,
 														   MUU_VC_PARAM(matrix) rhs) noexcept
 		{
-			using type = impl::highest_ranked<
-				typename column_type::product_type,
-				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>>;
-
-	#define MULT_ROW(row, col, vec_elem)                                                                               \
-		static_cast<type>(lhs.vec_elem) * static_cast<type>(rhs.template get<row, col>())
-
-			// unroll the common square cases
-			if constexpr (Rows == 2 && Columns == 2)
+			if constexpr (product_requires_promotion)
 			{
-				MUU_FMA_BLOCK;
-
-				return row_type{ static_cast<scalar_type>(MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y)),
-								 static_cast<scalar_type>(MULT_ROW(0, 1, x) + MULT_ROW(1, 1, y)) };
-			}
-			else if constexpr (Rows == 3 && Columns == 3)
-			{
-				MUU_FMA_BLOCK;
-
-				return row_type{ static_cast<scalar_type>(MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y) + MULT_ROW(2, 0, z)),
-								 static_cast<scalar_type>(MULT_ROW(0, 1, x) + MULT_ROW(1, 1, y) + MULT_ROW(2, 1, z)),
-								 static_cast<scalar_type>(MULT_ROW(0, 2, x) + MULT_ROW(1, 2, y) + MULT_ROW(2, 2, z)) };
-			}
-			else if constexpr (Rows == 4 && Columns == 4)
-			{
-				MUU_FMA_BLOCK;
-
-				return row_type{ static_cast<scalar_type>(MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y) + MULT_ROW(2, 0, z)
-														  + MULT_ROW(3, 0, w)),
-								 static_cast<scalar_type>(MULT_ROW(0, 1, x) + MULT_ROW(1, 1, y) + MULT_ROW(2, 1, z)
-														  + MULT_ROW(3, 1, w)),
-								 static_cast<scalar_type>(MULT_ROW(0, 2, x) + MULT_ROW(1, 2, y) + MULT_ROW(2, 2, z)
-														  + MULT_ROW(3, 2, w)),
-								 static_cast<scalar_type>(MULT_ROW(0, 3, x) + MULT_ROW(1, 3, y) + MULT_ROW(2, 3, z)
-														  + MULT_ROW(3, 3, w)) };
+				return row_type{ vector<promoted_product, rows>{ lhs } * promoted_product_mat{ rhs } };
 			}
 			else
 			{
-				row_type out;
-				for (size_t out_col = 0; out_col < Columns; out_col++)
+				MUU_FMA_BLOCK;
+
+	#define MULT_ROW(row, col, vec_elem) lhs.vec_elem* rhs.template get<row, col>()
+
+				// unroll the common square cases
+				if constexpr (Rows == 2 && Columns == 2)
 				{
-					MUU_FMA_BLOCK;
-
-					auto val = static_cast<type>(lhs.template get<0>()) * static_cast<type>(rhs(0, out_col));
-					for (size_t r = 1; r < Rows; r++)
-						val += static_cast<type>(lhs[r]) * static_cast<type>(rhs(r, out_col));
-
-					out[out_col] = static_cast<scalar_type>(val);
+					return row_type{ MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y), MULT_ROW(0, 1, x) + MULT_ROW(1, 1, y) };
 				}
-				return out;
-			}
+				else if constexpr (Rows == 3 && Columns == 3)
+				{
+					return row_type{ MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y) + MULT_ROW(2, 0, z),
+									 MULT_ROW(0, 1, x) + MULT_ROW(1, 1, y) + MULT_ROW(2, 1, z),
+									 MULT_ROW(0, 2, x) + MULT_ROW(1, 2, y) + MULT_ROW(2, 2, z) };
+				}
+				else if constexpr (Rows == 4 && Columns == 4)
+				{
+					return row_type{ MULT_ROW(0, 0, x) + MULT_ROW(1, 0, y) + MULT_ROW(2, 0, z) + MULT_ROW(3, 0, w),
+									 MULT_ROW(0, 1, x) + MULT_ROW(1, 1, y) + MULT_ROW(2, 1, z) + MULT_ROW(3, 1, w),
+									 MULT_ROW(0, 2, x) + MULT_ROW(1, 2, y) + MULT_ROW(2, 2, z) + MULT_ROW(3, 2, w),
+									 MULT_ROW(0, 3, x) + MULT_ROW(1, 3, y) + MULT_ROW(2, 3, z) + MULT_ROW(3, 3, w) };
+				}
+				else
+				{
+					row_type out;
+					for (size_t out_col = 0; out_col < Columns; out_col++)
+					{
+						auto val = lhs.template get<0>() * rhs(0, out_col);
+						for (size_t r = 1; r < Rows; r++)
+							val += lhs[r] * rhs(r, out_col);
+
+						out[out_col] = val;
+					}
+					return out;
+				}
 
 	#undef MULT_ROW
+			}
 		}
 
 		/// \brief Returns the componentwise multiplication of a matrix and a scalar.
@@ -1935,22 +1925,8 @@ namespace muu
 		/// \brief Componentwise multiplies this matrix by a scalar.
 		constexpr matrix& MUU_VECTORCALL operator*=(scalar_type rhs) noexcept
 		{
-			using type = impl::highest_ranked<
-				typename column_type::product_type,
-				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>>;
-
-			if constexpr (std::is_same_v<type, scalar_type>)
-			{
-				for (auto& col : base::m)
-					col.raw_multiply_assign_scalar(rhs);
-			}
-			else
-			{
-				const auto rhs_ = static_cast<type>(rhs);
-				for (auto& col : base::m)
-					col.raw_multiply_assign_scalar(rhs_);
-			}
-
+			for (auto& col : base::m)
+				col *= rhs;
 			return *this;
 		}
 
@@ -1973,26 +1949,20 @@ namespace muu
 		/// \brief Componentwise multiplies this matrix by a scalar.
 		constexpr matrix& MUU_VECTORCALL operator/=(scalar_type rhs) noexcept
 		{
-			using type = impl::highest_ranked<
-				typename column_type::product_type,
-				std::conditional_t<is_floating_point<scalar_type>, intermediate_float, scalar_type>>;
-
-			if constexpr (is_floating_point<type>)
+			if constexpr (is_small_float)
 			{
-				const auto rhs_ = type{ 1 } / static_cast<type>(rhs);
-				for (auto& col : base::m)
-					col.raw_multiply_assign_scalar(rhs_);
+				*this = matrix{ promoted_mat{ *this } * (promoted_scalar{ 1 } / static_cast<promoted_scalar>(rhs)) };
 			}
-			else if constexpr (std::is_same_v<type, scalar_type>)
+			else if constexpr (is_floating_point<scalar_type>)
 			{
+				const auto div = scalar_type{ 1 } / rhs;
 				for (auto& col : base::m)
-					col.raw_divide_assign_scalar(rhs);
+					col *= div;
 			}
 			else
 			{
-				const auto rhs_ = static_cast<type>(rhs);
 				for (auto& col : base::m)
-					col.raw_divide_assign_scalar(rhs_);
+					col /= rhs;
 			}
 			return *this;
 		}
@@ -2067,6 +2037,7 @@ namespace muu
 
 #if 1 // inverse & determinant -------------------------------------------------------------------------------------
 		/// \name Inverse & Determinant
+		/// \availability	These functions are only available when the matrix is square.
 		/// @{
 
 		/// \brief	Calculates the determinant of a matrix.
@@ -2106,129 +2077,97 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr inverse_type MUU_VECTORCALL invert(MUU_VC_PARAM(matrix) m) noexcept
 		{
-	#define MAT_GET(r, c) static_cast<intermediate_float>(m.m[c].template get<r>())
-
-			using result_scalar = typename inverse_type::scalar_type;
-			using result_column = typename inverse_type::column_type;
-
-			if constexpr (Columns == 1)
+			if constexpr (inverse_requires_promotion)
 			{
-				return inverse_type{ result_column{
-					static_cast<result_scalar>(intermediate_float{ 1 } / static_cast<intermediate_float>(m.m[0].x)) } };
+				return inverse_type{ promoted_inverse_mat::invert(promoted_inverse_mat{ m }) };
 			}
-			if constexpr (Columns == 2)
+			else
 			{
 				MUU_FMA_BLOCK;
 
-				const auto det =
-					intermediate_float{ 1 } / static_cast<intermediate_float>(impl::raw_determinant_2x2(m));
-				return inverse_type{ result_column{ static_cast<result_scalar>(det * MAT_GET(1, 1)),
-													static_cast<result_scalar>(det * -MAT_GET(1, 0)) },
-									 result_column{ static_cast<result_scalar>(det * -MAT_GET(0, 1)),
-													static_cast<result_scalar>(det * MAT_GET(0, 0)) } };
-			}
-			if constexpr (Columns == 3)
-			{
-				MUU_FMA_BLOCK;
+	#define MAT_GET(r, c) m.m[c].template get<r>()
 
-				const auto det =
-					intermediate_float{ 1 } / static_cast<intermediate_float>(impl::raw_determinant_3x3(m));
-				return inverse_type{
-					result_column{ static_cast<result_scalar>(
-									   det * (MAT_GET(1, 1) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 1))),
-								   static_cast<result_scalar>(
-									   det * -(MAT_GET(1, 0) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 0))),
-								   static_cast<result_scalar>(
-									   det * (MAT_GET(1, 0) * MAT_GET(2, 1) - MAT_GET(1, 1) * MAT_GET(2, 0))) },
-					result_column{ static_cast<result_scalar>(
-									   det * -(MAT_GET(0, 1) * MAT_GET(2, 2) - MAT_GET(0, 2) * MAT_GET(2, 1))),
-								   static_cast<result_scalar>(
-									   det * (MAT_GET(0, 0) * MAT_GET(2, 2) - MAT_GET(0, 2) * MAT_GET(2, 0))),
-								   static_cast<result_scalar>(
-									   det * -(MAT_GET(0, 0) * MAT_GET(2, 1) - MAT_GET(0, 1) * MAT_GET(2, 0))) },
-					result_column{ static_cast<result_scalar>(
-									   det * (MAT_GET(0, 1) * MAT_GET(1, 2) - MAT_GET(0, 2) * MAT_GET(1, 1))),
-								   static_cast<result_scalar>(
-									   det * -(MAT_GET(0, 0) * MAT_GET(1, 2) - MAT_GET(0, 2) * MAT_GET(1, 0))),
-								   static_cast<result_scalar>(
-									   det * (MAT_GET(0, 0) * MAT_GET(1, 1) - MAT_GET(0, 1) * MAT_GET(1, 0))) }
-				};
-			}
-			if constexpr (Columns == 4)
-			{
-				// generated using https://github.com/willnode/N-Matrix-Programmer
+				if constexpr (Columns == 1)
+				{
+					return inverse_type{ column_type{ scalar_type{ 1 } / m.m[0].x } };
+				}
+				if constexpr (Columns == 2)
+				{
+					const auto det = scalar_type{ 1 } / impl::raw_determinant_2x2(m);
+					return inverse_type{ column_type{ det * MAT_GET(1, 1), det * -MAT_GET(1, 0) },
+										 column_type{ det * -MAT_GET(0, 1), det * MAT_GET(0, 0) } };
+				}
+				if constexpr (Columns == 3)
+				{
+					const auto det = scalar_type{ 1 } / impl::raw_determinant_3x3(m);
+					return inverse_type{
+						column_type{ det * (MAT_GET(1, 1) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 1)),
+									 det * -(MAT_GET(1, 0) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 0)),
+									 det * (MAT_GET(1, 0) * MAT_GET(2, 1) - MAT_GET(1, 1) * MAT_GET(2, 0)) },
+						column_type{ det * -(MAT_GET(0, 1) * MAT_GET(2, 2) - MAT_GET(0, 2) * MAT_GET(2, 1)),
+									 det * (MAT_GET(0, 0) * MAT_GET(2, 2) - MAT_GET(0, 2) * MAT_GET(2, 0)),
+									 det * -(MAT_GET(0, 0) * MAT_GET(2, 1) - MAT_GET(0, 1) * MAT_GET(2, 0)) },
+						column_type{ det * (MAT_GET(0, 1) * MAT_GET(1, 2) - MAT_GET(0, 2) * MAT_GET(1, 1)),
+									 det * -(MAT_GET(0, 0) * MAT_GET(1, 2) - MAT_GET(0, 2) * MAT_GET(1, 0)),
+									 det * (MAT_GET(0, 0) * MAT_GET(1, 1) - MAT_GET(0, 1) * MAT_GET(1, 0)) }
+					};
+				}
+				if constexpr (Columns == 4)
+				{
+					// generated using https://github.com/willnode/N-Matrix-Programmer
 
-				MUU_FMA_BLOCK;
+					const auto A2323 = MAT_GET(2, 2) * MAT_GET(3, 3) - MAT_GET(2, 3) * MAT_GET(3, 2);
+					const auto A1323 = MAT_GET(2, 1) * MAT_GET(3, 3) - MAT_GET(2, 3) * MAT_GET(3, 1);
+					const auto A1223 = MAT_GET(2, 1) * MAT_GET(3, 2) - MAT_GET(2, 2) * MAT_GET(3, 1);
+					const auto A0323 = MAT_GET(2, 0) * MAT_GET(3, 3) - MAT_GET(2, 3) * MAT_GET(3, 0);
+					const auto A0223 = MAT_GET(2, 0) * MAT_GET(3, 2) - MAT_GET(2, 2) * MAT_GET(3, 0);
+					const auto A0123 = MAT_GET(2, 0) * MAT_GET(3, 1) - MAT_GET(2, 1) * MAT_GET(3, 0);
+					const auto A2313 = MAT_GET(1, 2) * MAT_GET(3, 3) - MAT_GET(1, 3) * MAT_GET(3, 2);
+					const auto A1313 = MAT_GET(1, 1) * MAT_GET(3, 3) - MAT_GET(1, 3) * MAT_GET(3, 1);
+					const auto A1213 = MAT_GET(1, 1) * MAT_GET(3, 2) - MAT_GET(1, 2) * MAT_GET(3, 1);
+					const auto A2312 = MAT_GET(1, 2) * MAT_GET(2, 3) - MAT_GET(1, 3) * MAT_GET(2, 2);
+					const auto A1312 = MAT_GET(1, 1) * MAT_GET(2, 3) - MAT_GET(1, 3) * MAT_GET(2, 1);
+					const auto A1212 = MAT_GET(1, 1) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 1);
+					const auto A0313 = MAT_GET(1, 0) * MAT_GET(3, 3) - MAT_GET(1, 3) * MAT_GET(3, 0);
+					const auto A0213 = MAT_GET(1, 0) * MAT_GET(3, 2) - MAT_GET(1, 2) * MAT_GET(3, 0);
+					const auto A0312 = MAT_GET(1, 0) * MAT_GET(2, 3) - MAT_GET(1, 3) * MAT_GET(2, 0);
+					const auto A0212 = MAT_GET(1, 0) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 0);
+					const auto A0113 = MAT_GET(1, 0) * MAT_GET(3, 1) - MAT_GET(1, 1) * MAT_GET(3, 0);
+					const auto A0112 = MAT_GET(1, 0) * MAT_GET(2, 1) - MAT_GET(1, 1) * MAT_GET(2, 0);
 
-				const auto A2323 = MAT_GET(2, 2) * MAT_GET(3, 3) - MAT_GET(2, 3) * MAT_GET(3, 2);
-				const auto A1323 = MAT_GET(2, 1) * MAT_GET(3, 3) - MAT_GET(2, 3) * MAT_GET(3, 1);
-				const auto A1223 = MAT_GET(2, 1) * MAT_GET(3, 2) - MAT_GET(2, 2) * MAT_GET(3, 1);
-				const auto A0323 = MAT_GET(2, 0) * MAT_GET(3, 3) - MAT_GET(2, 3) * MAT_GET(3, 0);
-				const auto A0223 = MAT_GET(2, 0) * MAT_GET(3, 2) - MAT_GET(2, 2) * MAT_GET(3, 0);
-				const auto A0123 = MAT_GET(2, 0) * MAT_GET(3, 1) - MAT_GET(2, 1) * MAT_GET(3, 0);
-				const auto A2313 = MAT_GET(1, 2) * MAT_GET(3, 3) - MAT_GET(1, 3) * MAT_GET(3, 2);
-				const auto A1313 = MAT_GET(1, 1) * MAT_GET(3, 3) - MAT_GET(1, 3) * MAT_GET(3, 1);
-				const auto A1213 = MAT_GET(1, 1) * MAT_GET(3, 2) - MAT_GET(1, 2) * MAT_GET(3, 1);
-				const auto A2312 = MAT_GET(1, 2) * MAT_GET(2, 3) - MAT_GET(1, 3) * MAT_GET(2, 2);
-				const auto A1312 = MAT_GET(1, 1) * MAT_GET(2, 3) - MAT_GET(1, 3) * MAT_GET(2, 1);
-				const auto A1212 = MAT_GET(1, 1) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 1);
-				const auto A0313 = MAT_GET(1, 0) * MAT_GET(3, 3) - MAT_GET(1, 3) * MAT_GET(3, 0);
-				const auto A0213 = MAT_GET(1, 0) * MAT_GET(3, 2) - MAT_GET(1, 2) * MAT_GET(3, 0);
-				const auto A0312 = MAT_GET(1, 0) * MAT_GET(2, 3) - MAT_GET(1, 3) * MAT_GET(2, 0);
-				const auto A0212 = MAT_GET(1, 0) * MAT_GET(2, 2) - MAT_GET(1, 2) * MAT_GET(2, 0);
-				const auto A0113 = MAT_GET(1, 0) * MAT_GET(3, 1) - MAT_GET(1, 1) * MAT_GET(3, 0);
-				const auto A0112 = MAT_GET(1, 0) * MAT_GET(2, 1) - MAT_GET(1, 1) * MAT_GET(2, 0);
+					const auto det =
+						scalar_type{ 1 }
+						/ (MAT_GET(0, 0) * (MAT_GET(1, 1) * A2323 - MAT_GET(1, 2) * A1323 + MAT_GET(1, 3) * A1223)
+						   - MAT_GET(0, 1) * (MAT_GET(1, 0) * A2323 - MAT_GET(1, 2) * A0323 + MAT_GET(1, 3) * A0223)
+						   + MAT_GET(0, 2) * (MAT_GET(1, 0) * A1323 - MAT_GET(1, 1) * A0323 + MAT_GET(1, 3) * A0123)
+						   - MAT_GET(0, 3) * (MAT_GET(1, 0) * A1223 - MAT_GET(1, 1) * A0223 + MAT_GET(1, 2) * A0123));
 
-				const auto det =
-					intermediate_float{ 1 }
-					/ (MAT_GET(0, 0) * (MAT_GET(1, 1) * A2323 - MAT_GET(1, 2) * A1323 + MAT_GET(1, 3) * A1223)
-					   - MAT_GET(0, 1) * (MAT_GET(1, 0) * A2323 - MAT_GET(1, 2) * A0323 + MAT_GET(1, 3) * A0223)
-					   + MAT_GET(0, 2) * (MAT_GET(1, 0) * A1323 - MAT_GET(1, 1) * A0323 + MAT_GET(1, 3) * A0123)
-					   - MAT_GET(0, 3) * (MAT_GET(1, 0) * A1223 - MAT_GET(1, 1) * A0223 + MAT_GET(1, 2) * A0123));
-
-				return inverse_type{
-					result_column{
-						//
-						static_cast<result_scalar>(
-							det * (MAT_GET(1, 1) * A2323 - MAT_GET(1, 2) * A1323 + MAT_GET(1, 3) * A1223)),
-						static_cast<result_scalar>(
-							det * -(MAT_GET(1, 0) * A2323 - MAT_GET(1, 2) * A0323 + MAT_GET(1, 3) * A0223)),
-						static_cast<result_scalar>(
-							det * (MAT_GET(1, 0) * A1323 - MAT_GET(1, 1) * A0323 + MAT_GET(1, 3) * A0123)),
-						static_cast<result_scalar>(
-							det * -(MAT_GET(1, 0) * A1223 - MAT_GET(1, 1) * A0223 + MAT_GET(1, 2) * A0123)) },
-					result_column{ //
-								   static_cast<result_scalar>(
-									   det * -(MAT_GET(0, 1) * A2323 - MAT_GET(0, 2) * A1323 + MAT_GET(0, 3) * A1223)),
-								   static_cast<result_scalar>(
-									   det * (MAT_GET(0, 0) * A2323 - MAT_GET(0, 2) * A0323 + MAT_GET(0, 3) * A0223)),
-								   static_cast<result_scalar>(
-									   det * -(MAT_GET(0, 0) * A1323 - MAT_GET(0, 1) * A0323 + MAT_GET(0, 3) * A0123)),
-								   static_cast<result_scalar>(
-									   det * (MAT_GET(0, 0) * A1223 - MAT_GET(0, 1) * A0223 + MAT_GET(0, 2) * A0123)) },
-					result_column{
-						//
-						static_cast<result_scalar>(
-							det * (MAT_GET(0, 1) * A2313 - MAT_GET(0, 2) * A1313 + MAT_GET(0, 3) * A1213)),
-						static_cast<result_scalar>(
-							det * -(MAT_GET(0, 0) * A2313 - MAT_GET(0, 2) * A0313 + MAT_GET(0, 3) * A0213)),
-						static_cast<result_scalar>(
-							det * (MAT_GET(0, 0) * A1313 - MAT_GET(0, 1) * A0313 + MAT_GET(0, 3) * A0113)),
-						static_cast<result_scalar>(
-							det * -(MAT_GET(0, 0) * A1213 - MAT_GET(0, 1) * A0213 + MAT_GET(0, 2) * A0113)) },
-					result_column{ //
-								   static_cast<result_scalar>(
-									   det * -(MAT_GET(0, 1) * A2312 - MAT_GET(0, 2) * A1312 + MAT_GET(0, 3) * A1212)),
-								   static_cast<result_scalar>(
-									   det * (MAT_GET(0, 0) * A2312 - MAT_GET(0, 2) * A0312 + MAT_GET(0, 3) * A0212)),
-								   static_cast<result_scalar>(
-									   det * -(MAT_GET(0, 0) * A1312 - MAT_GET(0, 1) * A0312 + MAT_GET(0, 3) * A0112)),
-								   static_cast<result_scalar>(
-									   det * (MAT_GET(0, 0) * A1212 - MAT_GET(0, 1) * A0212 + MAT_GET(0, 2) * A0112)) }
-				};
-			}
+					return inverse_type{
+						column_type{ //
+									 det * (MAT_GET(1, 1) * A2323 - MAT_GET(1, 2) * A1323 + MAT_GET(1, 3) * A1223),
+									 det * -(MAT_GET(1, 0) * A2323 - MAT_GET(1, 2) * A0323 + MAT_GET(1, 3) * A0223),
+									 det * (MAT_GET(1, 0) * A1323 - MAT_GET(1, 1) * A0323 + MAT_GET(1, 3) * A0123),
+									 det * -(MAT_GET(1, 0) * A1223 - MAT_GET(1, 1) * A0223 + MAT_GET(1, 2) * A0123) },
+						column_type{ //
+									 det * -(MAT_GET(0, 1) * A2323 - MAT_GET(0, 2) * A1323 + MAT_GET(0, 3) * A1223),
+									 det * (MAT_GET(0, 0) * A2323 - MAT_GET(0, 2) * A0323 + MAT_GET(0, 3) * A0223),
+									 det * -(MAT_GET(0, 0) * A1323 - MAT_GET(0, 1) * A0323 + MAT_GET(0, 3) * A0123),
+									 det * (MAT_GET(0, 0) * A1223 - MAT_GET(0, 1) * A0223 + MAT_GET(0, 2) * A0123) },
+						column_type{ //
+									 det * (MAT_GET(0, 1) * A2313 - MAT_GET(0, 2) * A1313 + MAT_GET(0, 3) * A1213),
+									 det * -(MAT_GET(0, 0) * A2313 - MAT_GET(0, 2) * A0313 + MAT_GET(0, 3) * A0213),
+									 det * (MAT_GET(0, 0) * A1313 - MAT_GET(0, 1) * A0313 + MAT_GET(0, 3) * A0113),
+									 det * -(MAT_GET(0, 0) * A1213 - MAT_GET(0, 1) * A0213 + MAT_GET(0, 2) * A0113) },
+						column_type{ //
+									 det * -(MAT_GET(0, 1) * A2312 - MAT_GET(0, 2) * A1312 + MAT_GET(0, 3) * A1212),
+									 det * (MAT_GET(0, 0) * A2312 - MAT_GET(0, 2) * A0312 + MAT_GET(0, 3) * A0212),
+									 det * -(MAT_GET(0, 0) * A1312 - MAT_GET(0, 1) * A0312 + MAT_GET(0, 3) * A0112),
+									 det * (MAT_GET(0, 0) * A1212 - MAT_GET(0, 1) * A0212 + MAT_GET(0, 2) * A0112) }
+					};
+				}
 
 	#undef MAT_GET
+			}
 		}
 
 		/// \brief	Inverts the matrix (in-place).
@@ -2246,38 +2185,40 @@ namespace muu
 
 #if 1	// orthonormalize --------------------------------------------------------------------------------------------
 		/// \name Orthonormalization
+		/// \availability	These functions are only available when the matrix is a typical 3D rotation matrix
+		///					(i.e. one of 3x3, 3x4 or 4x4) and has a floating-point #scalar_type.
 		/// @{
 
 	  private:
 		/// \cond
 
 		template <size_t Depth = Rows>
-		static constexpr intermediate_float MUU_VECTORCALL column_dot(MUU_VC_PARAM(column_type) c1,
-																	  MUU_VC_PARAM(column_type) c2) noexcept
+		static constexpr scalar_type MUU_VECTORCALL column_dot(MUU_VC_PARAM(column_type) c1,
+															   MUU_VC_PARAM(column_type) c2) noexcept
 		{
 			static_assert(Depth > 0);
 			static_assert(Depth <= Rows);
-
-			using type = intermediate_float;
+			static_assert(is_floating_point<scalar_type>);
+			static_assert(!is_small_float);
 
 			if constexpr (Depth == Rows)
-				return column_type::template raw_dot<type>(c1, c2);
+				return column_type::dot(c1, c2);
 			else
 			{
 				MUU_FMA_BLOCK;
 
 				// avoid operator[] for vectors <= 4 elems (potentially slower and/or not-constexpr safe)
-				type dot = static_cast<type>(c1.template get<0>()) * static_cast<type>(c2.template get<0>());
+				scalar_type dot = c1.template get<0>() * c2.template get<0>();
 				if constexpr (Depth > 1)
-					dot += static_cast<type>(c1.template get<1>()) * static_cast<type>(c2.template get<1>());
+					dot += c1.template get<1>() * c2.template get<1>();
 				if constexpr (Depth > 2)
-					dot += static_cast<type>(c1.template get<2>()) * static_cast<type>(c2.template get<2>());
+					dot += c1.template get<2>() * c2.template get<2>();
 				if constexpr (Depth > 3)
-					dot += static_cast<type>(c1.template get<3>()) * static_cast<type>(c2.template get<3>());
+					dot += c1.template get<3>() * c2.template get<3>();
 				if constexpr (Depth > 4)
 				{
 					for (size_t i = 4; i < Depth; i++)
-						dot += static_cast<type>(c1[i]) * static_cast<type>(c2[i]);
+						dot += c1[i] * c2[i];
 				}
 				return dot;
 			}
@@ -2288,33 +2229,35 @@ namespace muu
 		{
 			static_assert(Depth > 0);
 			static_assert(Depth <= Rows);
+			static_assert(is_floating_point<scalar_type>);
+			static_assert(!is_small_float);
 
 			if constexpr (Depth == Rows)
 				c.normalize();
 			else
 			{
 				MUU_FMA_BLOCK;
-				using type = intermediate_float;
 
-				const type inv_len = type{ 1 } / muu::sqrt(column_dot<Depth>(c, c));
+				const auto inv_len = scalar_type{ 1 } / muu::sqrt(column_dot<Depth>(c, c));
 
 				// avoid operator[] for vectors <= 4 elems (potentially slower and/or not-constexpr safe)
-				c.template get<0>() = static_cast<scalar_type>(static_cast<type>(c.template get<0>()) * inv_len);
+				c.template get<0>() = c.template get<0>() * inv_len;
 				if constexpr (Depth > 1)
-					c.template get<1>() = static_cast<scalar_type>(static_cast<type>(c.template get<1>()) * inv_len);
+					c.template get<1>() = c.template get<1>() * inv_len;
 				if constexpr (Depth > 2)
-					c.template get<2>() = static_cast<scalar_type>(static_cast<type>(c.template get<2>()) * inv_len);
+					c.template get<2>() = c.template get<2>() * inv_len;
 				if constexpr (Depth > 3)
-					c.template get<3>() = static_cast<scalar_type>(static_cast<type>(c.template get<3>()) * inv_len);
+					c.template get<3>() = c.template get<3>() * inv_len;
 				if constexpr (Depth > 4)
 				{
 					for (size_t i = 4; i < Depth; i++)
-						c[i] = static_cast<scalar_type>(static_cast<type>(c[i]) * inv_len);
+						c[i] = c[i] * inv_len;
 				}
 			}
 		}
 
 		/// \endcond
+
 	  public:
 		/// \brief	Orthonormalizes the 3x3 part of a rotation or transformation matrix.
 		///
@@ -2326,34 +2269,43 @@ namespace muu
 							typename T = Scalar)
 		static constexpr matrix MUU_VECTORCALL orthonormalize(MUU_VC_PARAM(matrix) m) noexcept
 		{
-			// 'modified' gram-schmidt:
-			// https://fgiesen.wordpress.com/2013/06/02/modified-gram-schmidt-orthogonalization/
-
-			matrix out{ m };
-
-			// x-axis
-			column_normalize<3>(out.m[0]);
-
-			constexpr auto subtract_dot_mult = [](auto& out_, auto& c1, auto& c2) noexcept
+			if constexpr (is_small_float)
+			{
+				return matrix{ promoted_mat::orthonormalize(promoted_mat{ m }) };
+			}
+			else
 			{
 				MUU_FMA_BLOCK;
 
-				const auto dot = column_dot<3>(c1, c2);
-				out_.template get<0>() -= dot * c2.template get<0>();
-				out_.template get<1>() -= dot * c2.template get<1>();
-				out_.template get<2>() -= dot * c2.template get<2>();
-			};
+				// 'modified' gram-schmidt:
+				// https://fgiesen.wordpress.com/2013/06/02/modified-gram-schmidt-orthogonalization/
 
-			// y-axis
-			subtract_dot_mult(out.m[1], m.m[1], out.m[0]);
-			column_normalize<3>(out.m[1]);
+				matrix out{ m };
 
-			// z-axis
-			subtract_dot_mult(out.m[2], m.m[2], out.m[0]);
-			subtract_dot_mult(out.m[2], out.m[2], out.m[1]);
-			column_normalize<3>(out.m[2]);
+				// x-axis
+				column_normalize<3>(out.m[0]);
 
-			return out;
+				constexpr auto subtract_dot_mult = [](auto& out_, auto& c1, auto& c2) noexcept
+				{
+					MUU_FMA_BLOCK;
+
+					const auto dot = column_dot<3>(c1, c2);
+					out_.template get<0>() -= dot * c2.template get<0>();
+					out_.template get<1>() -= dot * c2.template get<1>();
+					out_.template get<2>() -= dot * c2.template get<2>();
+				};
+
+				// y-axis
+				subtract_dot_mult(out.m[1], m.m[1], out.m[0]);
+				column_normalize<3>(out.m[1]);
+
+				// z-axis
+				subtract_dot_mult(out.m[2], m.m[2], out.m[0]);
+				subtract_dot_mult(out.m[2], out.m[2], out.m[1]);
+				column_normalize<3>(out.m[2]);
+
+				return out;
+			}
 		}
 
 		/// \brief	Orthonormalizes the 3x3 part of the matrix.
@@ -2870,3 +2822,7 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
+
+/// \cond
+#include "impl/quaternion_x_matrix.h"
+/// \endcond

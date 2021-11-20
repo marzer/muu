@@ -2,8 +2,10 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-
 /// \cond
+
+// this file does not contain header guards; this is intentional
+
 // clang-format off
 #ifdef MUU_TYPE_NAME_H
 
@@ -83,5 +85,5 @@ namespace muu
 }
 
 #endif // MUU_TYPE_NAME_H
-/// \endcond
 // clang-format on
+/// \endcond

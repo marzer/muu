@@ -2,6 +2,7 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+#pragma once
 
 /// \file
 /// \brief  Contains the definition of muu::vector.
@@ -32,25 +33,23 @@
 		- __vectorcall: https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019
 		- vectorizer sandbox: https://godbolt.org/z/vn8aKv (change vector_param_mode to see the effect in the MSVC tab)
 
-	-	You'll see intermediate_float used instead of scalar_type or delta_type in a few places. It's a 'better' type
-		used for intermediate floating-point values where precision loss or unnecessary cast round-tripping is to be
-		avoided. generally:
-			when scalar_type is a float >= 32 bits: intermediate_float == scalar_type
-			when scalar_type is a float < 32 bits: intermediate_float == float
-			when scalar_type is integral: intermediate_float == double.
+	-	You'll see promoted_delta used instead of scalar_type or delta_scalar_type in a few places. It's a 'better'
+		type used for intermediate floating-point values where precision loss or unnecessary cast round-tripping is to
+		be avoided. generally:
+			- when scalar_type is a float >= 32 bits: promoted_delta == scalar_type
+			- when scalar_type is a float < 32 bits: promoted_delta == float
+			- when scalar_type is integral: promoted_delta == double.
 
 	-	Some code is statically switched/branched according to whether a static_cast<> is necessary; this is to avoid
 		unnecessary codegen and improve debug build performance for non-trivial scalar_types (e.g. muu::half).
 */
 
-#pragma once
 #include "impl/std_initializer_list.h"
 #include "impl/vector_types_common.h"
 #include "impl/vector_base.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
-MUU_DISABLE_SUGGEST_WARNINGS;
 MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 MUU_PRAGMA_MSVC(float_control(precise, off))
@@ -241,14 +240,17 @@ namespace muu
 		using scalar_type = Scalar;
 
 		/// \brief The scalar type used for length, distance, blend factors, etc. Always floating-point.
-		using delta_type = std::conditional_t<is_integral<scalar_type>, double, scalar_type>;
+		using delta_scalar_type = std::conditional_t<is_integral<scalar_type>, double, scalar_type>;
+
+		/// \brief The vector type with #scalar_type == #delta_scalar_type and the same number of #dimensions as this one.
+		using delta_type = vector<delta_scalar_type, dimensions>;
 
 		/// \brief The scalar type used for products (dot, cross, etc.). Always signed.
-		using product_type = std::
+		using product_scalar_type = std::
 			conditional_t<is_integral<scalar_type>, impl::highest_ranked<make_signed<scalar_type>, int>, scalar_type>;
 
-		/// \brief The vector type with #scalar_type == #product_type and the same number of #dimensions as this one.
-		using vector_product = vector<product_type, dimensions>;
+		/// \brief The vector type with #scalar_type == #product_scalar_type and the same number of #dimensions as this one.
+		using product_type = vector<product_scalar_type, dimensions>;
 
 		/// \brief Compile-time constants for this vector type.
 		using constants = muu::constants<vector>;
@@ -264,24 +266,24 @@ namespace muu
 
 		template <typename, size_t>
 		friend struct vector;
-		template <typename>
-		friend struct quaternion;
-		template <typename, size_t, size_t>
-		friend struct matrix;
-		template <typename>
-		friend struct plane;
 
 		using base = impl::vector_<scalar_type, Dimensions>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * Dimensions), "Vectors should not have padding");
 
+		using promoted_scalar				 = promote_if_small_float<scalar_type>;
+		using promoted_vec					 = vector<promoted_scalar, Dimensions>;
 		static constexpr bool is_small_float = impl::is_small_float_<scalar_type>;
 
-		using intermediate_product = promote_if_small_float<product_type>;
-		static_assert(is_floating_point<intermediate_product> == is_floating_point<scalar_type>);
+		static_assert(is_signed<product_scalar_type>);
+		using promoted_product	   = promote_if_small_float<product_scalar_type>;
+		using promoted_product_vec = vector<promoted_product, Dimensions>;
+		static constexpr bool product_requires_promotion =
+			!all_same<product_scalar_type, scalar_type, promoted_product>;
 
-		using intermediate_float = promote_if_small_float<delta_type>;
-		static_assert(is_floating_point<delta_type>);
-		static_assert(is_floating_point<intermediate_float>);
+		static_assert(is_floating_point<delta_scalar_type>);
+		using promoted_delta						   = promote_if_small_float<delta_scalar_type>;
+		using promoted_delta_vec					   = vector<promoted_delta, Dimensions>;
+		static constexpr bool delta_requires_promotion = !all_same<delta_scalar_type, scalar_type, promoted_delta>;
 
 		using scalar_constants = muu::constants<scalar_type>;
 
@@ -781,8 +783,8 @@ namespace muu
 		/// @}
 #endif // scalar component accessors
 
-#if 1 // equality --------------------------------------------------------------------------------------------------
-		/// \name Equality
+#if 1 // equality (exact) ----------------------------------------------------------------------------------------------
+		/// \name Equality (exact)
 		/// @{
 
 		/// \brief		Returns true if two vectors are exactly equal.
@@ -926,6 +928,13 @@ namespace muu
 				return false;
 		}
 
+		/// @}
+#endif // equality (exact)
+
+#if 1 // equality (approx) -------------------------------------------------------------------------------------
+		/// \name Equality (approximate)
+		/// @{
+
 		/// \brief	Returns true if two vectors are approximately equal.
 		///
 		/// \availability		This function is only available when at least one of #scalar_type
@@ -1057,200 +1066,173 @@ namespace muu
 		}
 
 		/// @}
-#endif // equality
+#endif // equality (approx)
 
-#if 1	// length and distance ---------------------------------------------------------------------------------------
+#if 1 // length and distance ---------------------------------------------------------------------------------------
 		/// \name Length and Distance
 		/// @{
 
-	  private:
-		/// \cond
-
-		template <typename T = intermediate_float>
-		MUU_PURE_GETTER
-		static constexpr T MUU_VECTORCALL raw_length_squared(MUU_VC_PARAM(vector) v) noexcept
-		{
-			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
-
-			// clang-format off
-
-			#define VEC_FUNC(member) static_cast<T>(v.member) * static_cast<T>(v.member)
-			COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
-			#undef VEC_FUNC
-
-			// clang-format on
-		}
-
-		template <typename T = intermediate_float>
-		MUU_PURE_GETTER
-		static constexpr T MUU_VECTORCALL raw_length(MUU_VC_PARAM(vector) v) noexcept
-		{
-			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
-
-			if constexpr (Dimensions == 1)
-				return static_cast<T>(v.x);
-			else
-				return muu::sqrt(raw_length_squared<T>(v));
-		}
-
-		template <typename T = intermediate_float>
-		MUU_PURE_GETTER
-		static constexpr T MUU_VECTORCALL raw_distance_squared(MUU_VC_PARAM(vector) p1,
-															   MUU_VC_PARAM(vector) p2) noexcept
-		{
-			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
-
-			constexpr auto subtract_and_square = [](scalar_type lhs, scalar_type rhs) noexcept -> T
-			{
-				MUU_FMA_BLOCK;
-
-				const T temp = static_cast<T>(lhs) - static_cast<T>(rhs);
-				return temp * temp;
-			};
-
-			// clang-format off
-
-			#define VEC_FUNC(member) subtract_and_square(p2.member, p1.member)
-			COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
-			#undef VEC_FUNC
-
-			// clang-format on
-		}
-
-		template <typename T = intermediate_float>
-		MUU_PURE_GETTER
-		static constexpr T MUU_VECTORCALL raw_distance(MUU_VC_PARAM(vector) p1, MUU_VC_PARAM(vector) p2) noexcept
-		{
-			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_float>, T>); // non-truncating
-
-			if constexpr (Dimensions == 1)
-				return static_cast<T>(p2.x) - static_cast<T>(p1.x);
-			else
-				return muu::sqrt(raw_distance_squared<T>(p1, p2));
-		}
-
-		/// \endcond
-
-	  public:
 		/// \brief	Returns the squared length (magnitude) of a vector.
 		MUU_PURE_GETTER
-		static constexpr delta_type MUU_VECTORCALL length_squared(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr delta_scalar_type MUU_VECTORCALL length_squared(MUU_VC_PARAM(vector) v) noexcept
 		{
-			return static_cast<delta_type>(raw_length_squared(v));
+			if constexpr (delta_requires_promotion)
+			{
+				return static_cast<delta_scalar_type>(promoted_delta_vec::length_squared(promoted_delta_vec{ v }));
+			}
+			else
+			{
+				// clang-format off
+
+				#define VEC_FUNC(member) v.member * v.member
+				COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
+				#undef VEC_FUNC
+
+				// clang-format on
+			}
 		}
 
 		/// \brief	Returns the squared length (magnitude) of the vector.
 		MUU_PURE_GETTER
-		constexpr delta_type length_squared() const noexcept
+		constexpr delta_scalar_type length_squared() const noexcept
 		{
-			return static_cast<delta_type>(raw_length_squared(*this));
+			return length_squared(*this);
 		}
 
 		/// \brief	Returns the length (magnitude) of a vector.
 		MUU_PURE_GETTER
-		static constexpr delta_type MUU_VECTORCALL length(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr delta_scalar_type MUU_VECTORCALL length(MUU_VC_PARAM(vector) v) noexcept
 		{
-			return static_cast<delta_type>(raw_length(v));
+			if constexpr (Dimensions == 1)
+			{
+				return static_cast<delta_scalar_type>(v.x);
+			}
+			else if constexpr (delta_requires_promotion)
+			{
+				return static_cast<delta_scalar_type>(promoted_delta_vec::length(promoted_delta_vec{ v }));
+			}
+			else
+			{
+				return muu::sqrt(length_squared(v));
+			}
 		}
 
 		/// \brief	Returns the length (magnitude) of the vector.
 		MUU_PURE_GETTER
-		constexpr delta_type length() const noexcept
+		constexpr delta_scalar_type length() const noexcept
 		{
-			return static_cast<delta_type>(raw_length(*this));
+			return length(*this);
 		}
 
 		/// \brief	Returns the squared distance between two point vectors.
 		MUU_PURE_GETTER
-		static constexpr delta_type MUU_VECTORCALL distance_squared(MUU_VC_PARAM(vector) p1,
-																	MUU_VC_PARAM(vector) p2) noexcept
+		static constexpr delta_scalar_type MUU_VECTORCALL distance_squared(MUU_VC_PARAM(vector) p1,
+																		   MUU_VC_PARAM(vector) p2) noexcept
 		{
-			return static_cast<delta_type>(raw_distance_squared(p1, p2));
+			if constexpr (delta_requires_promotion)
+			{
+				return static_cast<delta_scalar_type>(
+					promoted_delta_vec::distance_squared(promoted_delta_vec{ p1 }, promoted_delta_vec{ p2 }));
+			}
+			else
+			{
+				return length_squared(p2 - p1);
+			}
 		}
 
 		/// \brief	Returns the squared distance between this and another point vector.
 		MUU_PURE_GETTER
-		constexpr delta_type MUU_VECTORCALL distance_squared(MUU_VC_PARAM(vector) p) const noexcept
+		constexpr delta_scalar_type MUU_VECTORCALL distance_squared(MUU_VC_PARAM(vector) p) const noexcept
 		{
-			return static_cast<delta_type>(raw_distance_squared(*this, p));
+			return distance_squared(*this, p);
 		}
 
 		/// \brief	Returns the squared distance between two point vectors.
 		MUU_PURE_GETTER
-		static constexpr delta_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector) p1, MUU_VC_PARAM(vector) p2) noexcept
+		static constexpr delta_scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector) p1,
+																   MUU_VC_PARAM(vector) p2) noexcept
 		{
-			return static_cast<delta_type>(raw_distance(p1, p2));
+			if constexpr (delta_requires_promotion)
+			{
+				return static_cast<delta_scalar_type>(
+					promoted_delta_vec::distance(promoted_delta_vec{ p1 }, promoted_delta_vec{ p2 }));
+			}
+			else
+			{
+				return muu::sqrt(distance_squared(p1, p2));
+			}
 		}
 
 		/// \brief	Returns the squared distance between this and another point vector.
 		MUU_PURE_GETTER
-		constexpr delta_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector) p) const noexcept
+		constexpr delta_scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector) p) const noexcept
 		{
-			return static_cast<delta_type>(raw_distance(*this, p));
+			return distance(*this, p);
 		}
 
 		/// @}
 #endif // length and distance
 
-#if 1	// dot and cross products ------------------------------------------------------------------------------------
-		/// \name Dot and Cross products
+#if 1 // dot product ---------------------------------------------------------------------------------------------------
+		/// \name Dot product
 		/// @{
 
-	  private:
-		/// \cond
-
-		template <typename T = intermediate_product>
+		/// \brief	Returns the dot product of two vectors.
 		MUU_PURE_GETTER
-		static constexpr T MUU_VECTORCALL raw_dot(MUU_VC_PARAM(vector) v1, MUU_VC_PARAM(vector) v2) noexcept
+		static constexpr product_scalar_type MUU_VECTORCALL dot(MUU_VC_PARAM(vector) v1,
+																MUU_VC_PARAM(vector) v2) noexcept
 		{
-			static_assert(std::is_same_v<impl::highest_ranked<T, intermediate_product>, T>); // non-truncating
-
-			using mult_type = decltype(scalar_type{} * scalar_type{});
-
-			// clang-format off
-
-			if constexpr (std::is_same_v<mult_type, T>)
+			if constexpr (product_requires_promotion)
 			{
-				#define VEC_FUNC(member) v1.member* v2.member
-				COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
-				#undef VEC_FUNC
+				return static_cast<product_scalar_type>(
+					promoted_product_vec::dot(promoted_product_vec{ v1 }, promoted_product_vec{ v2 }));
 			}
 			else
 			{
-				#define VEC_FUNC(member) static_cast<T>(v1.member) * static_cast<T>(v2.member)
+				// clang-format off
+
+				#define VEC_FUNC(member) v1.member * v2.member
 				COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
 				#undef VEC_FUNC
+
+				// clang-format on
 			}
-
-			// clang-format on
-		}
-
-		/// \endcond
-
-	  public:
-		/// \brief	Returns the dot product of two vectors.
-		MUU_PURE_GETTER
-		static constexpr product_type MUU_VECTORCALL dot(MUU_VC_PARAM(vector) v1, MUU_VC_PARAM(vector) v2) noexcept
-		{
-			return static_cast<product_type>(raw_dot(v1, v2));
 		}
 
 		/// \brief	Returns the dot product of this and another vector.
 		MUU_PURE_GETTER
-		constexpr product_type MUU_VECTORCALL dot(MUU_VC_PARAM(vector) v) const noexcept
+		constexpr product_scalar_type MUU_VECTORCALL dot(MUU_VC_PARAM(vector) v) const noexcept
 		{
-			return static_cast<product_type>(raw_dot(*this, v));
+			return dot(*this, v);
 		}
+
+		/// @}
+#endif // dot product
+
+#if 1 // cross product // ----------------------------------------------------------------------------------------------
+		/// \name Cross product
+		/// \availability		These functions are only available when #dimensions == 3.
+		/// @{
 
 		/// \brief	Returns the cross product of two vectors.
 		///
 		/// \availability		This function is only available when #dimensions == 3.
 		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
 		MUU_PURE_GETTER
-		static constexpr vector<product_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) lhs,
-																	  MUU_VC_PARAM(vector) rhs) noexcept
+		static constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) v1,
+																			 MUU_VC_PARAM(vector) v2) noexcept
 		{
-			return impl::raw_cross<vector<product_type, 3>>(lhs, rhs);
+			if constexpr (product_requires_promotion)
+			{
+				return vector<product_scalar_type, 3>{ promoted_product_vec::cross(promoted_product_vec{ v1 },
+																				   promoted_product_vec{ v2 }) };
+			}
+			else
+			{
+				return { v1.y * v2.z - v1.z * v2.y, //
+						 v1.z * v2.x - v1.x * v2.z,
+						 v1.x * v2.y - v1.y * v2.x };
+			}
 		}
 
 		/// \brief	Returns the cross product of this vector and another.
@@ -1258,9 +1240,9 @@ namespace muu
 		/// \availability		This function is only available when #dimensions == 3.
 		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
 		MUU_PURE_GETTER
-		constexpr vector<product_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) v) const noexcept
+		constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) v) const noexcept
 		{
-			return impl::raw_cross<vector<product_type, 3>>(*this, v);
+			return cross(*this, v);
 		}
 
 		/// \brief	Returns a vector orthogonal to another.
@@ -1268,7 +1250,7 @@ namespace muu
 		/// \availability		This function is only available when #dimensions == 3.
 		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
 		MUU_PURE_GETTER
-		static constexpr vector<product_type, 3> orthogonal(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr vector<product_scalar_type, 3> orthogonal(MUU_VC_PARAM(vector) v) noexcept
 		{
 			const auto x = muu::abs(v.x);
 			const auto y = muu::abs(v.y);
@@ -1284,13 +1266,13 @@ namespace muu
 		/// \availability		This function is only available when #dimensions == 3.
 		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
 		MUU_PURE_GETTER
-		constexpr vector<product_type, 3> orthogonal() const noexcept
+		constexpr vector<product_scalar_type, 3> orthogonal() const noexcept
 		{
 			return orthogonal(*this);
 		}
 
 		/// @}
-#endif // dot and cross products
+#endif // cross product
 
 #if 1 // addition --------------------------------------------------------------------------------------------------
 		/// \name Addition
@@ -1300,43 +1282,39 @@ namespace muu
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator+(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			// clang-format off
-
 			if constexpr (is_small_float)
 			{
-				#define VEC_FUNC(member) static_cast<float>(lhs.member) + static_cast<float>(rhs.member)
-				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-				#undef VEC_FUNC
+				return vector{ promoted_vec{ lhs } + promoted_vec{ rhs } };
 			}
 			else
 			{
+				// clang-format off
+
 				#define VEC_FUNC(member) lhs.member + rhs.member
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
-			}
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Componentwise adds another vector to this one.
 		constexpr vector& MUU_VECTORCALL operator+=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			// clang-format off
-
 			if constexpr (is_small_float)
 			{
-				#define VEC_FUNC(member) static_cast<float>(base::member) + static_cast<float>(rhs.member)
-				COMPONENTWISE_ASSIGN(VEC_FUNC);
-				#undef VEC_FUNC
+				return *this = vector{ promoted_vec{ *this } + promoted_vec{ rhs } };
 			}
 			else
 			{
+				// clang-format off
+
 				#define VEC_FUNC(member) base::member + rhs.member
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
-			}
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Returns a componentwise copy of a vector.
@@ -1357,43 +1335,39 @@ namespace muu
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator-(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			// clang-format off
-
 			if constexpr (is_small_float)
 			{
-				#define VEC_FUNC(member) static_cast<float>(lhs.member) - static_cast<float>(rhs.member)
-				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-				#undef VEC_FUNC
+				return vector{ promoted_vec{ lhs } - promoted_vec{ rhs } };
 			}
 			else
 			{
+				// clang-format off
+
 				#define VEC_FUNC(member) lhs.member - rhs.member
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
-			}
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Componentwise subtracts another vector from this one.
 		constexpr vector& MUU_VECTORCALL operator-=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			// clang-format off
-
 			if constexpr (is_small_float)
 			{
-				#define VEC_FUNC(member) static_cast<float>(base::member) - static_cast<float>(rhs.member)
-				COMPONENTWISE_ASSIGN(VEC_FUNC);
-				#undef VEC_FUNC
+				return *this = vector{ promoted_vec{ *this } - promoted_vec{ rhs } };
 			}
 			else
 			{
+				// clang-format off
+
 				#define VEC_FUNC(member) base::member - rhs.member
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
-			}
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Returns the componentwise negation of a vector.
@@ -1421,122 +1395,85 @@ namespace muu
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator*(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			// clang-format off
-
 			if constexpr (is_small_float)
 			{
-				#define VEC_FUNC(member) static_cast<float>(lhs.member) * static_cast<float>(rhs.member)
-				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-				#undef VEC_FUNC
+				return vector{ promoted_vec{ lhs } * promoted_vec{ rhs } };
 			}
 			else
 			{
-				#define VEC_FUNC(member) lhs.member* rhs.member
+				// clang-format off
+
+				#define VEC_FUNC(member) lhs.member * rhs.member
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
-			}
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Componentwise multiplies this vector by another.
 		constexpr vector& MUU_VECTORCALL operator*=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			// clang-format off
-
 			if constexpr (is_small_float)
 			{
-				#define VEC_FUNC(member) static_cast<float>(base::member) * static_cast<float>(rhs.member)
-				COMPONENTWISE_ASSIGN(VEC_FUNC);
-				#undef VEC_FUNC
+				return *this = vector{ promoted_vec{ *this } * promoted_vec{ rhs } };
 			}
 			else
 			{
-				#define VEC_FUNC(member) base::member* rhs.member
+				// clang-format off
+
+				#define VEC_FUNC(member) base::member * rhs.member
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
-			}
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
-	  private:
-		/// \cond
-
-		template <typename T>
-		MUU_PURE_GETTER
-		static constexpr vector MUU_VECTORCALL raw_multiply_scalar(MUU_VC_PARAM(vector) lhs, T rhs) noexcept
-		{
-			using type = set_signed<
-				impl::highest_ranked<decltype(scalar_type{} * promote_if_small_float<T>{}), intermediate_product>,
-				is_signed<scalar_type> || is_signed<T>>;
-
-			// clang-format off
-
-			if constexpr (all_same<type, scalar_type, T>)
-			{
-				#define VEC_FUNC(member) lhs.member* rhs
-				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-				#undef VEC_FUNC
-			}
-			else
-			{
-				const auto rhs_ = static_cast<type>(rhs);
-				#define VEC_FUNC(member) static_cast<type>(lhs.member) * rhs_
-				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-				#undef VEC_FUNC
-			}
-
-			// clang-format on
-		}
-
-		template <typename T>
-		constexpr vector& MUU_VECTORCALL raw_multiply_assign_scalar(T rhs) noexcept
-		{
-			using type = set_signed<
-				impl::highest_ranked<decltype(scalar_type{} * promote_if_small_float<T>{}), intermediate_product>,
-				is_signed<scalar_type> || is_signed<T>>;
-
-			// clang-format off
-
-			if constexpr (all_same<type, scalar_type, T>)
-			{
-				#define VEC_FUNC(member) base::member* rhs
-				COMPONENTWISE_ASSIGN(VEC_FUNC);
-				#undef VEC_FUNC
-			}
-			else
-			{
-				const auto rhs_ = static_cast<type>(rhs);
-				#define VEC_FUNC(member) static_cast<type>(base::member) * rhs_
-				COMPONENTWISE_ASSIGN(VEC_FUNC);
-				#undef VEC_FUNC
-			}
-
-			// clang-format on
-		}
-
-		/// \endcond
-
-	  public:
 		/// \brief Returns the componentwise multiplication of a vector and a scalar.
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator*(MUU_VC_PARAM(vector) lhs, scalar_type rhs) noexcept
 		{
-			return raw_multiply_scalar(lhs, rhs);
+			if constexpr (is_small_float)
+			{
+				return vector{ promoted_vec{ lhs } * static_cast<promoted_scalar>(rhs) };
+			}
+			else
+			{
+				// clang-format off
+
+				#define VEC_FUNC(member) lhs.member * rhs
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
+
+				// clang-format on
+			}
 		}
 
 		/// \brief Returns the componentwise multiplication of a vector and a scalar.
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator*(scalar_type lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			return raw_multiply_scalar(rhs, lhs);
+			return rhs * lhs;
 		}
 
 		/// \brief Componentwise multiplies this vector by a scalar.
 		constexpr vector& MUU_VECTORCALL operator*=(scalar_type rhs) noexcept
 		{
-			return raw_multiply_assign_scalar(rhs);
+			if constexpr (is_small_float)
+			{
+				return *this = vector{ promoted_vec{ *this } * static_cast<promoted_scalar>(rhs) };
+			}
+			else
+			{
+				// clang-format off
+
+				#define VEC_FUNC(member) base::member * rhs
+				COMPONENTWISE_ASSIGN(VEC_FUNC);
+				#undef VEC_FUNC
+
+				// clang-format on
+			}
 		}
 
 		/// @}
@@ -1550,123 +1487,87 @@ namespace muu
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator/(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			// clang-format off
-
 			if constexpr (is_small_float)
 			{
-				#define VEC_FUNC(member) static_cast<float>(lhs.member) / static_cast<float>(rhs.member)
-				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-				#undef VEC_FUNC
+				return vector{ promoted_vec{ lhs } / promoted_vec{ rhs } };
 			}
 			else
 			{
+				// clang-format off
+
 				#define VEC_FUNC(member) lhs.member / rhs.member
 				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
 				#undef VEC_FUNC
-			}
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Componentwise divides this vector by another.
 		constexpr vector& MUU_VECTORCALL operator/=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			// clang-format off
-
 			if constexpr (is_small_float)
 			{
-				#define VEC_FUNC(member) static_cast<float>(base::member) / static_cast<float>(rhs.member)
-				COMPONENTWISE_ASSIGN(VEC_FUNC);
-				#undef VEC_FUNC
+				return *this = vector{ promoted_vec{ *this } / promoted_vec{ rhs } };
 			}
 			else
 			{
+				// clang-format off
+
 				#define VEC_FUNC(member) base::member / rhs.member
 				COMPONENTWISE_ASSIGN(VEC_FUNC);
 				#undef VEC_FUNC
-			}
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
-	  private:
-		/// \cond
-
-		template <typename T>
-		MUU_PURE_GETTER
-		static constexpr vector MUU_VECTORCALL raw_divide_scalar(MUU_VC_PARAM(vector) lhs, T rhs) noexcept
-		{
-			using type = set_signed<
-				impl::highest_ranked<decltype(scalar_type{} / promote_if_small_float<T>{}), intermediate_product>,
-				is_signed<scalar_type> || is_signed<T>>;
-
-			// clang-format off
-
-			if constexpr (is_floating_point<type>)
-			{
-				return raw_multiply_scalar(lhs, type{ 1 } / static_cast<type>(rhs));
-			}
-			else if constexpr (all_same<type, scalar_type, T>)
-			{
-				#define VEC_FUNC(member) lhs.member / rhs
-				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-				#undef VEC_FUNC
-			}
-			else
-			{
-				const auto rhs_ = static_cast<type>(rhs);
-				#define VEC_FUNC(member) static_cast<type>(lhs.member) / rhs_
-				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-				#undef VEC_FUNC
-			}
-
-			// clang-format on
-		}
-
-		template <typename T>
-		constexpr vector& MUU_VECTORCALL raw_divide_assign_scalar(T rhs) noexcept
-		{
-			using type = set_signed<
-				impl::highest_ranked<decltype(scalar_type{} / promote_if_small_float<T>{}), intermediate_product>,
-				is_signed<scalar_type> || is_signed<T>>;
-
-			// clang-format off
-
-			if constexpr (is_floating_point<type>)
-			{
-				return raw_multiply_assign_scalar(type{ 1 } / static_cast<type>(rhs));
-			}
-			else if constexpr (all_same<type, scalar_type, T>)
-			{
-				#define VEC_FUNC(member) base::member / rhs
-				COMPONENTWISE_ASSIGN(VEC_FUNC);
-				#undef VEC_FUNC
-			}
-			else
-			{
-				const auto rhs_ = static_cast<type>(rhs);
-				#define VEC_FUNC(member) static_cast<type>(base::member) / rhs_
-				COMPONENTWISE_ASSIGN(VEC_FUNC);
-				#undef VEC_FUNC
-			}
-
-			// clang-format on
-		}
-
-		/// \endcond
-
-	  public:
 		/// \brief Returns the componentwise division of a vector and a scalar.
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator/(MUU_VC_PARAM(vector) lhs, scalar_type rhs) noexcept
 		{
-			return raw_divide_scalar(lhs, rhs);
+			if constexpr (is_small_float)
+			{
+				return vector{ promoted_vec{ lhs } * (promoted_scalar{ 1 } / static_cast<promoted_scalar>(rhs)) };
+			}
+			else if constexpr (is_floating_point<scalar_type>)
+			{
+				return lhs * (scalar_type{ 1 } / rhs);
+			}
+			else
+			{
+				// clang-format off
+
+				#define VEC_FUNC(member) lhs.member / rhs
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
+
+				// clang-format on
+			}
 		}
 
 		/// \brief Componentwise divides this vector by a scalar.
 		constexpr vector& MUU_VECTORCALL operator/=(scalar_type rhs) noexcept
 		{
-			return raw_divide_assign_scalar(rhs);
+			if constexpr (is_small_float)
+			{
+				return *this =
+						   vector{ promoted_vec{ *this } * (promoted_scalar{ 1 } / static_cast<promoted_scalar>(rhs)) };
+			}
+			else if constexpr (is_floating_point<scalar_type>)
+			{
+				return *this *= (scalar_type{ 1 } / rhs);
+			}
+			else
+			{
+				// clang-format off
+
+				#define VEC_FUNC(member) base::member / rhs
+				COMPONENTWISE_ASSIGN(VEC_FUNC);
+				#undef VEC_FUNC
+
+				// clang-format on
+			}
 		}
 
 		/// @}
@@ -1680,50 +1581,78 @@ namespace muu
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator%(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			// clang-format off
+			if constexpr (is_small_float)
+			{
+				return vector{ promoted_vec{ lhs } % promoted_vec{ rhs } };
+			}
+			else
+			{
+				// clang-format off
 
-			#define VEC_FUNC(member) impl::raw_modulo(lhs.member, rhs.member)
-			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-			#undef VEC_FUNC
+				#define VEC_FUNC(member) impl::raw_modulo(lhs.member, rhs.member)
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Assigns the result of componentwise dividing this vector by another.
 		constexpr vector& MUU_VECTORCALL operator%=(MUU_VC_PARAM(vector) rhs) noexcept
 		{
-			// clang-format off
+			if constexpr (is_small_float)
+			{
+				return *this = vector{ promoted_vec{ *this } % promoted_vec{ rhs } };
+			}
+			else
+			{
+				// clang-format off
 
-			#define VEC_FUNC(member) impl::raw_modulo(base::member, rhs.member)
-			COMPONENTWISE_ASSIGN(VEC_FUNC);
-			#undef VEC_FUNC
+				#define VEC_FUNC(member) impl::raw_modulo(base::member, rhs.member)
+				COMPONENTWISE_ASSIGN(VEC_FUNC);
+				#undef VEC_FUNC
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Returns the remainder of componentwise dividing vector by a scalar.
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator%(MUU_VC_PARAM(vector) lhs, scalar_type rhs) noexcept
 		{
-			// clang-format off
+			if constexpr (is_small_float)
+			{
+				return vector{ promoted_vec{ lhs } % static_cast<promoted_scalar>(rhs) };
+			}
+			else
+			{
+				// clang-format off
 
-			#define VEC_FUNC(member) impl::raw_modulo(lhs.member, rhs)
-			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-			#undef VEC_FUNC
+				#define VEC_FUNC(member) impl::raw_modulo(lhs.member, rhs)
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Assigns the result of componentwise dividing this vector by a scalar.
 		constexpr vector& MUU_VECTORCALL operator%=(scalar_type rhs) noexcept
 		{
-			// clang-format off
+			if constexpr (is_small_float)
+			{
+				return *this = vector{ promoted_vec{ *this } % static_cast<promoted_scalar>(rhs) };
+			}
+			else
+			{
+				// clang-format off
 
-			#define VEC_FUNC(member) impl::raw_modulo(base::member, rhs)
-			COMPONENTWISE_ASSIGN(VEC_FUNC);
-			#undef VEC_FUNC
+				#define VEC_FUNC(member) impl::raw_modulo(base::member, rhs)
+				COMPONENTWISE_ASSIGN(VEC_FUNC);
+				#undef VEC_FUNC
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// @}
@@ -1739,34 +1668,48 @@ namespace muu
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator<<(MUU_VC_PARAM(vector) lhs, product_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator<<(MUU_VC_PARAM(vector) lhs, product_scalar_type rhs) noexcept
 		{
-			MUU_ASSUME(rhs >= 0);
+			if constexpr (product_requires_promotion)
+			{
+				return vector{ promoted_product_vec{ lhs } << static_cast<promoted_product>(rhs) };
+			}
+			else
+			{
+				MUU_ASSUME(rhs >= 0);
 
-			// clang-format off
+				// clang-format off
 
-			#define VEC_FUNC(member) lhs.member << rhs
-			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-			#undef VEC_FUNC
+				#define VEC_FUNC(member) lhs.member << rhs
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Componentwise left-shifts each scalar component in the vector by the given number of bits.
 		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
-		constexpr vector& MUU_VECTORCALL operator<<=(product_type rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator<<=(product_scalar_type rhs) noexcept
 		{
-			MUU_ASSUME(rhs >= 0);
+			if constexpr (product_requires_promotion)
+			{
+				return *this = vector{ promoted_product_vec{ *this } << static_cast<promoted_product>(rhs) };
+			}
+			else
+			{
+				MUU_ASSUME(rhs >= 0);
 
-			// clang-format off
+				// clang-format off
 
-			#define VEC_FUNC(member) base::member << rhs
-			COMPONENTWISE_ASSIGN(VEC_FUNC);
-			#undef VEC_FUNC
+				#define VEC_FUNC(member) base::member << rhs
+				COMPONENTWISE_ASSIGN(VEC_FUNC);
+				#undef VEC_FUNC
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Returns a vector with each scalar component right-shifted the given number of bits.
@@ -1774,34 +1717,48 @@ namespace muu
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator>>(MUU_VC_PARAM(vector) lhs, product_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator>>(MUU_VC_PARAM(vector) lhs, product_scalar_type rhs) noexcept
 		{
-			MUU_ASSUME(rhs >= 0);
+			if constexpr (product_requires_promotion)
+			{
+				return vector{ promoted_product_vec{ lhs } >> static_cast<promoted_product>(rhs) };
+			}
+			else
+			{
+				MUU_ASSUME(rhs >= 0);
 
-			// clang-format off
+				// clang-format off
 
-			#define VEC_FUNC(member) lhs.member >> rhs
-			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-			#undef VEC_FUNC
+				#define VEC_FUNC(member) lhs.member >> rhs
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief Componentwise right-shifts each scalar component in the vector by the given number of bits.
 		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
-		constexpr vector& MUU_VECTORCALL operator>>=(product_type rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator>>=(product_scalar_type rhs) noexcept
 		{
-			MUU_ASSUME(rhs >= 0);
+			if constexpr (product_requires_promotion)
+			{
+				return *this = vector{ promoted_product_vec{ *this } >> static_cast<promoted_product>(rhs) };
+			}
+			else
+			{
+				MUU_ASSUME(rhs >= 0);
 
-			// clang-format off
+				// clang-format off
 
-			#define VEC_FUNC(member) base::member >> rhs
-			COMPONENTWISE_ASSIGN(VEC_FUNC);
-			#undef VEC_FUNC
+				#define VEC_FUNC(member) base::member >> rhs
+				COMPONENTWISE_ASSIGN(VEC_FUNC);
+				#undef VEC_FUNC
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// @}
@@ -1809,6 +1766,7 @@ namespace muu
 
 #if 1 // normalization --------------------------------------------------------------------------------------------
 		/// \name Normalization
+		/// \availability These functions are only available when #scalar_type is a floating-point type.
 		/// @{
 
 		/// \brief	Normalizes a vector.
@@ -1821,18 +1779,25 @@ namespace muu
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		MUU_NODISCARD
-		static constexpr vector MUU_VECTORCALL normalize(MUU_VC_PARAM(vector) v, delta_type& length_out) noexcept
+		static constexpr vector MUU_VECTORCALL normalize(MUU_VC_PARAM(vector) v, delta_scalar_type& length_out) noexcept
 		{
 			if constexpr (Dimensions == 1)
 			{
-				length_out = static_cast<delta_type>(v.x);
+				length_out = static_cast<delta_scalar_type>(v.x);
 				return vector{ scalar_constants::one };
+			}
+			else if constexpr (delta_requires_promotion)
+			{
+				promoted_delta lo{};
+				auto out   = vector{ promoted_delta_vec::normalize(promoted_delta_vec{ v }, lo) };
+				length_out = static_cast<delta_scalar_type>(lo);
+				return out;
 			}
 			else
 			{
-				const auto len = raw_length(v);
-				length_out	   = static_cast<delta_type>(len);
-				return raw_divide_scalar(v, len);
+				const auto len = length(v);
+				length_out	   = len;
+				return v * (delta_scalar_type{ 1 } / len);
 			}
 		}
 
@@ -1852,8 +1817,14 @@ namespace muu
 				MUU_UNUSED(v);
 				return vector{ scalar_constants::one };
 			}
+			else if constexpr (delta_requires_promotion)
+			{
+				return vector{ promoted_delta_vec::normalize(promoted_delta_vec{ v }) };
+			}
 			else
-				return raw_divide_scalar(v, raw_length(v));
+			{
+				return v * (delta_scalar_type{ 1 } / length(v));
+			}
 		}
 
 		/// \brief	Normalizes the vector (in-place).
@@ -1864,20 +1835,9 @@ namespace muu
 		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		constexpr vector& normalize(delta_type& length_out) noexcept
+		constexpr vector& normalize(delta_scalar_type& length_out) noexcept
 		{
-			if constexpr (Dimensions == 1)
-			{
-				length_out = static_cast<delta_type>(base::x);
-				base::x	   = scalar_constants::one;
-				return *this;
-			}
-			else
-			{
-				const auto len = raw_length(*this);
-				length_out	   = static_cast<delta_type>(len);
-				return raw_divide_assign_scalar(len);
-			}
+			return *this = normalize(*this, length_out);
 		}
 
 		/// \brief	Normalizes the vector (in-place).
@@ -1888,13 +1848,7 @@ namespace muu
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& normalize() noexcept
 		{
-			if constexpr (Dimensions == 1)
-			{
-				base::x = scalar_constants::one;
-				return *this;
-			}
-			else
-				return raw_divide_assign_scalar(raw_length(*this));
+			return *this = normalize(*this);
 		}
 
 		/// \brief	Normalizes a vector using a pre-calculated squared-length.
@@ -1907,9 +1861,18 @@ namespace muu
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
 		MUU_NODISCARD
-		static constexpr vector MUU_VECTORCALL normalize_lensq(MUU_VC_PARAM(vector) v, delta_type v_lensq) noexcept
+		static constexpr vector MUU_VECTORCALL normalize_lensq(MUU_VC_PARAM(vector) v,
+															   delta_scalar_type v_lensq) noexcept
 		{
-			return raw_divide_scalar(v, muu::sqrt(static_cast<intermediate_float>(v_lensq)));
+			if constexpr (delta_requires_promotion)
+			{
+				return vector{ promoted_delta_vec::normalize_lensq(promoted_delta_vec{ v },
+																   static_cast<promoted_delta>(v_lensq)) };
+			}
+			else
+			{
+				return v * (delta_scalar_type{ 1 } / muu::sqrt(v_lensq));
+			}
 		}
 
 		/// \brief	Normalizes the vector using a pre-calculated squared-length (in-place).
@@ -1920,9 +1883,9 @@ namespace muu
 		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
-		constexpr vector& MUU_VECTORCALL normalize_lensq(delta_type lensq) noexcept
+		constexpr vector& MUU_VECTORCALL normalize_lensq(delta_scalar_type lensq) noexcept
 		{
-			return raw_divide_assign_scalar(muu::sqrt(static_cast<intermediate_float>(lensq)));
+			return *this = normalize_lensq(*this, lensq);
 		}
 
 		/// \brief Returns true if a vector is normalized (i.e. has a length of 1).
@@ -1949,15 +1912,19 @@ namespace muu
 			}
 			else
 			{
-				if constexpr (Dimensions == 1)
-					return muu::approx_equal(static_cast<intermediate_float>(v.x), intermediate_float{ 1 });
+				constexpr promoted_delta epsilon = promoted_delta{ 1 }
+												 / (100ull * (sizeof(scalar_type) >= sizeof(float) ? 10000ull : 1ull)
+													* (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull));
+
+				if constexpr (delta_requires_promotion)
+				{
+					return muu::approx_equal(promoted_delta_vec::length_squared(promoted_delta_vec{ v }),
+											 promoted_delta{ 1 },
+											 epsilon);
+				}
 				else
 				{
-					constexpr auto epsilon = intermediate_float{ 1 }
-										   / (100ull * (sizeof(scalar_type) >= sizeof(float) ? 10000ull : 1ull)
-											  * (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull));
-
-					return muu::approx_equal(raw_length_squared(v), intermediate_float{ 1 }, epsilon);
+					return muu::approx_equal(length_squared(v), promoted_delta{ 1 }, epsilon);
 				}
 			}
 		}
@@ -1974,6 +1941,7 @@ namespace muu
 
 #if 1 // direction ------------------------------------------------------------------------------------------------
 		/// \name Direction
+		/// \availability	These functions are only available when #dimensions == 2 or 3.
 		/// @{
 
 		/// \brief		Returns the normalized direction vector from one position to another.
@@ -1984,33 +1952,24 @@ namespace muu
 		///
 		/// \return		A normalized direction vector pointing from the start position to the end position.
 		///
-		/// \availability		This function is only available when #dimensions == 2 or 3.
-		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
+		/// \availability	This function is only available when #dimensions == 2 or 3.
+		MUU_LEGACY_REQUIRES(Dim == 2 || Dim == 3, size_t Dim = Dimensions)
 		MUU_PURE_GETTER
-		static constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
-																 MUU_VC_PARAM(vector) to,
-																 delta_type& distance_out) noexcept
+		static constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
+															 MUU_VC_PARAM(vector) to,
+															 delta_scalar_type& distance_out) noexcept
 		{
-			// all are the same type - only happens with float, double, long double etc.
-			if constexpr (all_same<scalar_type, intermediate_float, delta_type>)
+			if constexpr (delta_requires_promotion)
 			{
-				return vector_product::normalize(to - from, distance_out);
+				promoted_delta dist_out{};
+				const auto out =
+					promoted_delta_vec::direction(promoted_delta_vec{ from }, promoted_delta_vec{ to }, dist_out);
+				distance_out = static_cast<delta_scalar_type>(dist_out);
+				return delta_type{ out };
 			}
-
-			// only intermediate type is different - half, _Float16, __fp16
-			else if constexpr (std::is_same_v<scalar_type, delta_type>)
+			else
 			{
-				using ivec = vector<intermediate_float, dimensions>;
-				intermediate_float dist{};
-				vector_product result{ ivec::normalize(ivec{ to } - ivec{ from }, dist) };
-				distance_out = static_cast<delta_type>(dist);
-				return result;
-			}
-
-			// only scalar_type is different - integers.
-			else if constexpr (std::is_same_v<delta_type, intermediate_float>)
-			{
-				return vector_product::normalize(vector_product{ to } - vector_product{ from }, distance_out);
+				return delta_type::normalize(to - from, distance_out);
 			}
 		}
 
@@ -2021,29 +1980,20 @@ namespace muu
 		///
 		/// \return		A normalized direction vector pointing from the start position to the end position.
 		///
-		/// \availability		This function is only available when #dimensions == 2 or 3.
-		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
+		/// \availability	This function is only available when #dimensions == 2 or 3.
+		MUU_LEGACY_REQUIRES(Dim == 2 || Dim == 3, size_t Dim = Dimensions)
 		MUU_PURE_GETTER
-		static constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
-																 MUU_VC_PARAM(vector) to) noexcept
+		static constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
+															 MUU_VC_PARAM(vector) to) noexcept
 		{
-			// all are the same type - only happens with float, double, long double etc.
-			if constexpr (all_same<scalar_type, intermediate_float, delta_type>)
+			if constexpr (delta_requires_promotion)
 			{
-				return vector_product::normalize(to - from);
+				return delta_type{ promoted_delta_vec::direction(promoted_delta_vec{ from },
+																 promoted_delta_vec{ to }) };
 			}
-
-			// only intermediate type is different - half, _Float16, __fp16
-			else if constexpr (std::is_same_v<scalar_type, delta_type>)
+			else
 			{
-				using ivec = vector<intermediate_float, dimensions>;
-				return vector_product{ ivec::normalize(ivec{ to } - ivec{ from }) };
-			}
-
-			// only scalar_type is different - integers.
-			else if constexpr (std::is_same_v<delta_type, intermediate_float>)
-			{
-				return vector_product::normalize(vector_product{ to } - vector_product{ from });
+				return delta_type::normalize(to - from);
 			}
 		}
 
@@ -2052,11 +2002,11 @@ namespace muu
 		/// \param	to				The end position.
 		/// \param	distance_out	An output param to receive the distance between the two points.
 		///
-		/// \availability		This function is only available when #dimensions == 2 or 3.
-		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
+		/// \availability	This function is only available when #dimensions == 2 or 3.
+		MUU_LEGACY_REQUIRES(Dim == 2 || Dim == 3, size_t Dim = Dimensions)
 		MUU_PURE_GETTER
-		constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to,
-														  delta_type& distance_out) const noexcept
+		constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to,
+													  delta_scalar_type& distance_out) const noexcept
 		{
 			return direction(*this, to, distance_out);
 		}
@@ -2065,10 +2015,10 @@ namespace muu
 		///
 		/// \param	to				The end position.
 		///
-		/// \availability		This function is only available when #dimensions == 2 or 3.
-		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
+		/// \availability	This function is only available when #dimensions == 2 or 3.
+		MUU_LEGACY_REQUIRES(Dim == 2 || Dim == 3, size_t Dim = Dimensions)
 		MUU_PURE_GETTER
-		constexpr vector_product MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to) const noexcept
+		constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to) const noexcept
 		{
 			return direction(*this, to);
 		}
@@ -2458,19 +2408,26 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr vector MUU_VECTORCALL lerp(MUU_VC_PARAM(vector) start,
 													MUU_VC_PARAM(vector) finish,
-													delta_type alpha) noexcept
+													delta_scalar_type alpha) noexcept
 		{
-			using type			 = intermediate_float;
-			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
+			if constexpr (delta_requires_promotion)
+			{
+				return vector{ promoted_delta_vec::lerp(promoted_delta_vec{ start },
+														promoted_delta_vec{ finish },
+														static_cast<promoted_delta>(alpha)) };
+			}
+			else
+			{
+				const auto inv_alpha = delta_scalar_type{ 1 } - alpha;
 
-			// clang-format off
+				// clang-format off
 
-			#define VEC_FUNC(member)                                                                                    \
-				static_cast<type>(start.member) * inv_alpha + static_cast<type>(finish.member) * static_cast<type>(alpha)
-			COMPONENTWISE_CONSTRUCT(VEC_FUNC);
-			#undef VEC_FUNC
+				#define VEC_FUNC(member)     start.member * inv_alpha + finish.member * alpha
+				COMPONENTWISE_CONSTRUCT(VEC_FUNC);
+				#undef VEC_FUNC
 
-			// clang-format on
+				// clang-format on
+			}
 		}
 
 		/// \brief	Linearly interpolates this vector towards another (in-place).
@@ -2479,19 +2436,9 @@ namespace muu
 		/// \param	alpha 	The blend factor.
 		///
 		/// \return	A reference to the vector.
-		constexpr vector& MUU_VECTORCALL lerp(vector target, delta_type alpha) noexcept
+		constexpr vector& MUU_VECTORCALL lerp(MUU_VC_PARAM(vector) target, delta_scalar_type alpha) noexcept
 		{
-			using type			 = intermediate_float;
-			const auto inv_alpha = type{ 1 } - static_cast<type>(alpha);
-
-			// clang-format off
-
-			#define VEC_FUNC(member)                                                                                    \
-				static_cast<type>(base::member) * inv_alpha + static_cast<type>(target.member) * static_cast<type>(alpha)
-			COMPONENTWISE_ASSIGN(VEC_FUNC);
-			#undef VEC_FUNC
-
-			// clang-format on
+			return *this = lerp(*this, target, alpha);
 		}
 
 		/// \brief	Calculates the angle between two vectors.
@@ -2508,20 +2455,28 @@ namespace muu
 		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		MUU_PURE_GETTER
-		static constexpr delta_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v1, MUU_VC_PARAM(vector) v2) noexcept
+		static constexpr delta_scalar_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v1,
+																MUU_VC_PARAM(vector) v2) noexcept
 		{
-			// law of cosines
-			// https://stackoverflow.com/questions/10507620/finding-the-angle-between-vectors
-
 			// intermediate calcs are done using doubles because anything else is far too imprecise
-			using calc_type			= impl::highest_ranked<intermediate_float, double>;
-			const calc_type divisor = raw_length<calc_type>(v1) * raw_length<calc_type>(v2);
-			if (divisor == calc_type{})
-				return delta_type{};
+			using angle_type = impl::highest_ranked<promoted_delta, double>;
 
-			return static_cast<delta_type>(muu::acos(muu::clamp(raw_dot<calc_type>(v1, v2) / divisor,
-																-muu::constants<calc_type>::one,
-																muu::constants<calc_type>::one)));
+			if constexpr (!all_same<delta_scalar_type, scalar_type, angle_type>)
+			{
+				using angle_vec = vector<angle_type, Dimensions>;
+				return static_cast<delta_scalar_type>(angle_vec::angle(angle_vec{ v1 }, angle_vec{ v2 }));
+			}
+			else
+			{
+				// law of cosines
+				// https://stackoverflow.com/questions/10507620/finding-the-angle-between-vectors
+
+				const auto divisor = length(v1) * length(v2);
+				if (divisor == delta_scalar_type{})
+					return delta_scalar_type{};
+
+				return muu::acos(muu::clamp(dot(v1, v2) / divisor, delta_scalar_type{ -1 }, delta_scalar_type{ 1 }));
+			}
 		}
 
 		/// \brief	Calculates the angle between this vector and another.
@@ -2537,7 +2492,7 @@ namespace muu
 		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
 		MUU_PURE_GETTER
-		constexpr delta_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v) const noexcept
+		constexpr delta_scalar_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v) const noexcept
 		{
 			return angle(*this, v);
 		}
@@ -3219,9 +3174,9 @@ namespace muu
 	/// \brief	Returns the squared length of a vector.
 	template <typename S,
 			  size_t D //
-				  MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
+				  MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type)>
 	MUU_PURE_GETTER
-	constexpr delta_type length_squared(const vector<S, D>& v) noexcept
+	constexpr delta_scalar_type length_squared(const vector<S, D>& v) noexcept
 	{
 		return vector<S, D>::length_squared(v);
 	}
@@ -3231,9 +3186,9 @@ namespace muu
 	/// \brief	Returns the length (magnitude) of a vector.
 	template <typename S,
 			  size_t D //
-				  MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
+				  MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type)>
 	MUU_PURE_GETTER
-	constexpr delta_type length(const vector<S, D>& v) noexcept
+	constexpr delta_scalar_type length(const vector<S, D>& v) noexcept
 	{
 		return vector<S, D>::length(v);
 	}
@@ -3243,9 +3198,9 @@ namespace muu
 	/// \brief	Returns the squared distance between two point vectors.
 	template <typename S,
 			  size_t D //
-				  MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
+				  MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type)>
 	MUU_PURE_GETTER
-	constexpr delta_type distance_squared(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
+	constexpr delta_scalar_type distance_squared(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
 	{
 		return vector<S, D>::distance_squared(p1, p2);
 	}
@@ -3255,9 +3210,9 @@ namespace muu
 	/// \brief	Returns the distance between two point vectors.
 	template <typename S,
 			  size_t D //
-				  MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
+				  MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type)>
 	MUU_PURE_GETTER
-	constexpr delta_type distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
+	constexpr delta_scalar_type distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
 	{
 		return vector<S, D>::distance(p1, p2);
 	}
@@ -3267,9 +3222,9 @@ namespace muu
 	/// \brief	Returns the dot product of two vectors.
 	template <typename S,
 			  size_t D //
-				  MUU_HIDDEN_PARAM(typename product_type = typename vector<S, D>::product_type)>
+				  MUU_HIDDEN_PARAM(typename product_scalar_type = typename vector<S, D>::product_scalar_type)>
 	MUU_PURE_GETTER
-	constexpr product_type dot(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	constexpr product_scalar_type dot(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
 		return vector<S, D>::dot(v1, v2);
 	}
@@ -3278,11 +3233,11 @@ namespace muu
 	///
 	/// \brief	Returns the cross product of two three-dimensional vectors.
 	template <typename S //
-				  MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, 3>::vector_product)>
+				  MUU_HIDDEN_PARAM(typename product_type = typename vector<S, 3>::product_type)>
 	MUU_PURE_GETTER
-	constexpr vector_product cross(const vector<S, 3>& lhs, const vector<S, 3>& rhs) noexcept
+	constexpr product_type cross(const vector<S, 3>& lhs, const vector<S, 3>& rhs) noexcept
 	{
-		return impl::raw_cross<typename vector<S, 3>::vector_product>(lhs, rhs);
+		return vector<S, 3>::cross(lhs, rhs);
 	}
 
 	/// \relatesalso muu::vector
@@ -3295,12 +3250,13 @@ namespace muu
 	/// \return		A normalized copy of the input vector.
 	///
 	/// \availability This function is only available when `S` is a floating-point type.
-	MUU_CONSTRAINED_TEMPLATE(is_floating_point<S>,
-							 typename S,
-							 size_t D //
-								 MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type))
+	MUU_CONSTRAINED_TEMPLATE(
+		is_floating_point<S>,
+		typename S,
+		size_t D //
+			MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type))
 	MUU_NODISCARD
-	constexpr vector<S, D> normalize(const vector<S, D>& v, delta_type& length_out) noexcept
+	constexpr vector<S, D> normalize(const vector<S, D>& v, delta_scalar_type& length_out) noexcept
 	{
 		return vector<S, D>::normalize(v, length_out);
 	}
@@ -3334,13 +3290,13 @@ namespace muu
 	/// \availability		This function is only available when `D` == 2 or 3.
 	MUU_CONSTRAINED_TEMPLATE((D == 2 || D == 3),
 							 typename S,
-							 size_t D																			   //
-								 MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, D>::vector_product) //
-							 MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type))
+							 size_t D																	   //
+								 MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type) //
+							 MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type))
 	MUU_NODISCARD
-	constexpr vector_product direction(const vector<S, D>& from,
-									   const vector<S, D>& to,
-									   delta_type& distance_out) noexcept
+	constexpr delta_type direction(const vector<S, D>& from,
+								   const vector<S, D>& to,
+								   delta_scalar_type& distance_out) noexcept
 	{
 		return vector<S, D>::direction(from, to, distance_out);
 	}
@@ -3358,9 +3314,9 @@ namespace muu
 	MUU_CONSTRAINED_TEMPLATE((D == 2 || D == 3),
 							 typename S,
 							 size_t D //
-								 MUU_HIDDEN_PARAM(typename vector_product = typename vector<S, D>::vector_product))
+								 MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type))
 	MUU_PURE_GETTER
-	constexpr vector_product direction(const vector<S, D>& from, const vector<S, D>& to) noexcept
+	constexpr delta_type direction(const vector<S, D>& from, const vector<S, D>& to) noexcept
 	{
 		return vector<S, D>::direction(from, to);
 	}
@@ -3407,11 +3363,11 @@ namespace muu
 	/// \brief	Performs a linear interpolation between two vectors.
 	template <typename S,
 			  size_t D //
-				  MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type)>
+				  MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type)>
 	MUU_PURE_GETTER
 	constexpr vector<S, D> MUU_VECTORCALL lerp(const vector<S, D>& start,
 											   const vector<S, D>& finish,
-											   delta_type alpha) noexcept
+											   delta_scalar_type alpha) noexcept
 	{
 		return vector<S, D>::lerp(start, finish, alpha);
 	}
@@ -3430,12 +3386,13 @@ namespace muu
 	/// 			The result is never greater than `pi` radians (180 degrees).
 	///
 	/// \availability		This function is only available when `D` == 2 or 3.
-	MUU_CONSTRAINED_TEMPLATE((D == 2 || D == 3),
-							 typename S,
-							 size_t D //
-								 MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type))
+	MUU_CONSTRAINED_TEMPLATE(
+		(D == 2 || D == 3),
+		typename S,
+		size_t D //
+			MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type))
 	MUU_PURE_GETTER
-	constexpr delta_type angle(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
+	constexpr delta_scalar_type angle(const vector<S, D>& v1, const vector<S, D>& v2) noexcept
 	{
 		return vector<S, D>::angle(v1, v2);
 	}

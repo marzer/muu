@@ -19,6 +19,7 @@ IF %ERRORLEVEL% NEQ 0 (
 CALL :RunClangFormatOnDirectories ^
 	src ^
 	include\muu ^
+	include\muu\impl ^
 	examples
 
 POPD

@@ -1861,12 +1861,14 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
-		template <typename T>
+		template <typename T, size_t MinD = 0, size_t MaxD = static_cast<size_t>(-1)>
 		inline constexpr bool is_vector_ = false;
-		template <typename S, size_t D>
-		inline constexpr bool is_vector_<::muu::vector<S, D>> = true;
-		template <typename S, size_t D>
-		inline constexpr bool is_vector_<::muu::impl::vector_<S, D>> = true;
+
+		template <typename S, size_t D, size_t MinD, size_t MaxD>
+		inline constexpr bool is_vector_<::muu::vector<S, D>, MinD, MaxD> = (D >= MinD && D <= MaxD);
+
+		template <typename S, size_t D, size_t MinD, size_t MaxD>
+		inline constexpr bool is_vector_<::muu::impl::vector_<S, D>, MinD, MaxD> = (D >= MinD && D <= MaxD);
 
 		template <typename T>
 		inline constexpr bool is_quaternion_ = false;
@@ -1881,12 +1883,14 @@ namespace muu
 				  size_t MaxR = static_cast<size_t>(-1),
 				  size_t MaxC = static_cast<size_t>(-1)>
 		inline constexpr bool is_matrix_ = false;
-		template <typename S, size_t MinR, size_t MinC, size_t MaxR, size_t MaxC, size_t R, size_t C>
-		inline constexpr bool is_matrix_<::muu::matrix<S, R, C>, MinR, MinC, MaxR, MaxC> = (R >= MinR && C >= MinC
-																							&& R <= MaxR && C <= MaxC);
-		template <typename S, size_t MinR, size_t MinC, size_t MaxR, size_t MaxC, size_t R, size_t C>
-		inline constexpr bool is_matrix_<::muu::impl::matrix_<S, R, C>, MinR, MinC, MaxR, MaxC> =
-			is_matrix_<::muu::matrix<S, R, C>, MinR, MinC, MaxR, MaxC>;
+
+		template <typename S, size_t R, size_t C, size_t MinR, size_t MinC, size_t MaxR, size_t MaxC>
+		inline constexpr bool is_matrix_<::muu::matrix<S, R, C>, MinR, MinC, MaxR, MaxC> = //
+			(R >= MinR && C >= MinC && R <= MaxR && C <= MaxC);
+
+		template <typename S, size_t R, size_t C, size_t MinR, size_t MinC, size_t MaxR, size_t MaxC>
+		inline constexpr bool is_matrix_<::muu::impl::matrix_<S, R, C>, MinR, MinC, MaxR, MaxC> = //
+			(R >= MinR && C >= MinC && R <= MaxR && C <= MaxC);
 
 		// promotes ints to doubles, keeps floats as-is, as per the behaviour of std::sqrt, std::lerp, etc.
 		template <typename... T>

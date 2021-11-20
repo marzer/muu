@@ -1225,15 +1225,15 @@ BATCHED_TEST_CASE("vector angle", vectors_NN<2, 3, ALL_ARITHMETIC>)
 	using T		   = typename vector_t::scalar_type;
 	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
 
-	using delta_type	= typename vector_t::delta_type;
-	using constant_type = impl::highest_ranked<delta_type, float>;
+	using delta_scalar_type = typename vector_t::delta_scalar_type;
+	using constant_type		= impl::highest_ranked<delta_scalar_type, float>;
 
-	[[maybe_unused]] static const auto eps = static_cast<delta_type>(
-		(muu::max)(static_cast<long double>(constants<delta_type>::default_epsilon), 0.000000001L));
+	[[maybe_unused]] static const auto eps = static_cast<delta_scalar_type>(
+		(muu::max)(static_cast<long double>(constants<delta_scalar_type>::default_epsilon), 0.000000001L));
 
 #define CHECK_ANGLE(val)                                                                                               \
-	CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<delta_type>(val), eps);                                             \
-	CHECK_APPROX_EQUAL_EPS(b.angle(a), static_cast<delta_type>(val), eps)
+	CHECK_APPROX_EQUAL_EPS(a.angle(b), static_cast<delta_scalar_type>(val), eps);                                      \
+	CHECK_APPROX_EQUAL_EPS(b.angle(a), static_cast<delta_scalar_type>(val), eps)
 
 	if constexpr (vector_t::dimensions == 2)
 	{

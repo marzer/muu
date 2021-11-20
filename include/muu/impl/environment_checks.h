@@ -3,16 +3,14 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 #pragma once
+/// \cond
 
 #include "../preprocessor.h"
-
 MUU_DISABLE_WARNINGS;
 #include <climits>
 #include <cfloat>
 #include <limits>
 MUU_ENABLE_WARNINGS;
-
-/// \cond
 
 #ifndef MUU_DISABLE_ENVIRONMENT_CHECKS
 

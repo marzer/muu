@@ -274,9 +274,9 @@ namespace muu
 		template <typename, size_t>
 		struct vector_;
 		template <typename>
-		struct axis_angle_rotation_;
+		struct axis_angle_;
 		template <typename>
-		struct euler_rotation_;
+		struct euler_angles_;
 		template <typename>
 		struct quaternion_;
 		template <typename, size_t, size_t>
@@ -295,9 +295,9 @@ namespace muu
 	template <typename, size_t>
 	struct vector;
 	template <typename>
-	struct axis_angle_rotation;
+	struct axis_angle;
 	template <typename>
-	struct euler_rotation;
+	struct euler_angles;
 	template <typename>
 	struct quaternion;
 	template <typename, size_t, size_t>
@@ -312,6 +312,11 @@ namespace muu
 	struct bounding_box;
 	template <typename>
 	struct oriented_bounding_box;
+
+	template <typename T>
+	using axis_angle_rotation = axis_angle<T>;
+	template <typename T>
+	using euler_rotation = euler_angles<T>;
 
 	class bitset;
 	class blob;

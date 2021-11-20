@@ -42,7 +42,7 @@ namespace
 
 	template <typename... T>
 	using make_quaternions = type_list<quaternion<T>...>;
-	using all_quaternions = make_quaternions<ALL_FLOATS>;
+	using all_quaternions  = make_quaternions<ALL_FLOATS>;
 }
 
 namespace muu
@@ -322,7 +322,7 @@ BATCHED_TEST_CASE("quaternion euler", all_quaternions)
 	using s		= constants<T>;
 	using v		= constants<vec_t>;
 
-	static const std::tuple<vec_t, euler_rotation<T>, vec_t> values[] = {
+	static const std::tuple<vec_t, euler_angles<T>, vec_t> values[] = {
 		/*  0 */ { v::forward, { T{}, T{}, T{} }, v::forward },
 
 		// positive yaws

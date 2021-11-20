@@ -11,8 +11,6 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 
 namespace muu
 {
-#if 1 // to make clang-format behave
-
 	/// \brief	Unwraps an enum to it's raw integer equivalent.
 	/// \ingroup core
 	///
@@ -151,13 +149,13 @@ namespace muu
 	MUU_ATTR(flatten)
 	constexpr bool is_constant_evaluated() noexcept
 	{
-	#if MUU_CLANG >= 9 || MUU_GCC >= 9 || MUU_MSVC >= 1925 || MUU_HAS_BUILTIN(is_constant_evaluated)
+#if MUU_CLANG >= 9 || MUU_GCC >= 9 || MUU_MSVC >= 1925 || MUU_HAS_BUILTIN(is_constant_evaluated)
 		return __builtin_is_constant_evaluated();
-	#elif defined(__cpp_lib_is_constant_evaluated)
+#elif defined(__cpp_lib_is_constant_evaluated)
 		return std::is_constant_evaluated();
-	#else
+#else
 		return false;
-	#endif
+#endif
 	}
 
 	namespace build
@@ -166,7 +164,7 @@ namespace muu
 		inline constexpr bool supports_is_constant_evaluated = is_constant_evaluated();
 	}
 
-	#define MUU_USE_STD_LAUNDER 0
+#define MUU_USE_STD_LAUNDER 0
 
 	/// \brief	Equivalent to C++17's std::launder
 	/// \ingroup core
@@ -381,7 +379,7 @@ namespace muu
 							   || inherits_from<to_base, from_base>)
 				return pointer_cast<To>(static_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
 
-	#if MUU_WINDOWS
+#if MUU_WINDOWS
 
 			// IUnknown -> IUnknown (windows only)
 			else if constexpr (std::is_class_v<from_base>				 //
@@ -412,7 +410,7 @@ namespace muu
 				}
 			}
 
-	#endif // MUU_WINDOWS
+#endif // MUU_WINDOWS
 
 			// base -> derived
 			else if constexpr (inherits_from<from_base, to_base>)
@@ -561,31 +559,31 @@ namespace muu
 		}
 		else
 		{
-	#if MUU_CLANG || MUU_GCC || MUU_HAS_BUILTIN(assume_aligned)
+#if MUU_CLANG || MUU_GCC || MUU_HAS_BUILTIN(assume_aligned)
 
 			return static_cast<T*>(__builtin_assume_aligned(ptr, N));
 
-	#elif MUU_MSVC
+#elif MUU_MSVC
 
 			if constexpr (N < 16384)
 				return static_cast<T*>(__builtin_assume_aligned(ptr, N));
 			else
 				return ptr;
 
-	#elif MUU_ICC
+#elif MUU_ICC
 
 			__assume_aligned(ptr, N);
 			return ptr;
 
-	#elif defined(__cpp_lib_assume_aligned)
+#elif defined(__cpp_lib_assume_aligned)
 
 			return std::assume_aligned<N>(ptr);
 
-	#else
+#else
 
 			return ptr;
 
-	#endif
+#endif
 		}
 	}
 
@@ -836,8 +834,6 @@ namespace muu
 
 		return reinterpret_cast<T*>(apply_alignment(reinterpret_cast<uintptr_t>(ptr), alignment));
 	}
-
-#endif
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

@@ -14,8 +14,6 @@ MUU_DISABLE_LIFETIME_WARNINGS;
 
 namespace muu
 {
-#if 1 // to make clang-format behave
-
 	/// \brief	Equivalent to C++20's std::bit_cast.
 	/// \ingroup core
 	///
@@ -37,14 +35,14 @@ namespace muu
 					  "From and To types must be trivially-copyable");
 		static_assert(sizeof(From) == sizeof(To), "From and To types must be the same size");
 
-	#if MUU_CLANG >= 11 || MUU_GCC >= 11 || MUU_MSVC >= 1926
+#if MUU_CLANG >= 11 || MUU_GCC >= 11 || MUU_MSVC >= 1926
 
 		return __builtin_bit_cast(To, from);
 
-	#else
+#else
 
-		#undef MUU_HAS_INTRINSIC_BIT_CAST
-		#define MUU_HAS_INTRINSIC_BIT_CAST 0
+	#undef MUU_HAS_INTRINSIC_BIT_CAST
+	#define MUU_HAS_INTRINSIC_BIT_CAST 0
 
 		if constexpr (std::is_same_v<remove_cv<From>, remove_cv<To>>)
 		{
@@ -65,10 +63,8 @@ namespace muu
 			return dst;
 		}
 
-	#endif
-	}
-
 #endif
+	}
 
 	namespace build
 	{

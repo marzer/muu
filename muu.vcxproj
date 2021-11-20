@@ -75,7 +75,9 @@
   <ItemGroup>
     <ClInclude Include="include\muu\accumulator.h" />
     <ClInclude Include="include\muu\all.h" />
+    <ClInclude Include="include\muu\axis_angle.h" />
     <ClInclude Include="include\muu\bit.h" />
+    <ClInclude Include="include\muu\euler_angles.h" />
     <ClInclude Include="include\muu\function_view.h" />
     <ClInclude Include="include\muu\impl\aligned_alloc.h" />
     <ClInclude Include="include\muu\bitset.h" />
@@ -101,7 +103,7 @@
     <ClInclude Include="include\muu\impl\header_start.h" />
     <ClInclude Include="include\muu\impl\matrix_base.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
-    <ClInclude Include="include\muu\impl\quaternion_base.h" />
+    <ClInclude Include="include\muu\impl\quaternion_x_matrix.h" />
     <ClInclude Include="include\muu\impl\std_initializer_list.h" />
     <ClInclude Include="include\muu\impl\std_tuple.h" />
     <ClInclude Include="include\muu\impl\thread_name.h" />

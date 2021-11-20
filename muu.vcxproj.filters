@@ -229,13 +229,19 @@
     <ClInclude Include="include\muu\impl\vector_base.h">
       <Filter>include\impl</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\quaternion_base.h">
-      <Filter>include\impl</Filter>
-    </ClInclude>
     <ClInclude Include="include\muu\impl\matrix_base.h">
       <Filter>include\impl</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\impl\std_tuple.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\axis_angle.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\euler_angles.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\quaternion_x_matrix.h">
       <Filter>include\impl</Filter>
     </ClInclude>
   </ItemGroup>

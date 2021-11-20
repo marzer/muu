@@ -3,6 +3,7 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 #pragma once
+/// \cond
 
 #include "../bit.h"
 #include "core_utils.h"
@@ -12,7 +13,6 @@
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
-/// \cond
 namespace muu::impl
 {
 	inline constexpr size_t aligned_alloc_min_align		= muu::max<size_t>(__STDCPP_DEFAULT_NEW_ALIGNMENT__, 16);
@@ -66,7 +66,7 @@ namespace muu::impl
 	}
 
 }
-/// \endcond
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "header_end.h"
+/// \endcond
