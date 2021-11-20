@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::euler_rotation struct | muu Miscellaneous useful utilities for C++</title>
+  <title>muu::euler_angles struct | muu Miscellaneous useful utilities for C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -57,9 +57,9 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="quaternion_8h.html">&lt;muu/quaternion.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="euler__angles_8h.html">&lt;muu/euler_angles.h&gt;</a></div>
           <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>euler_rotation <span class="m-thin">struct</span>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>euler_angles <span class="m-thin">struct</span>
         </h1>
         <p>A set of euler angles used for rotation.</p>
         <table class="m-table m-fullwidth m-flat">
@@ -92,8 +92,8 @@
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt id="affbb106f98f36e599adfb649d5b57cb1">
-              using <a class="m-doc-self" href="#affbb106f98f36e599adfb649d5b57cb1">scalar_type</a> = Scalar
+            <dt id="aabcd8c1321d511d7ea2188bd3f14710f">
+              using <a class="m-doc-self" href="#aabcd8c1321d511d7ea2188bd3f14710f">scalar_type</a> = Scalar
             </dt>
             <dd>The scalar type of the rotation's angles.</dd>
           </dl>
@@ -101,36 +101,44 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="ad0ed2d5a37f964a25de40d80d694b125">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad0ed2d5a37f964a25de40d80d694b125">euler_rotation</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a4b519d3b1385779c61a2a3dd19776581">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4b519d3b1385779c61a2a3dd19776581">euler_angles</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Default constructor. Values are not initialized.</dd>
-            <dt id="a705cab67e97200ab222107a2d21aad77">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a705cab67e97200ab222107a2d21aad77">euler_rotation</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="af799c3d99932c0a05cf3bbf621acc0b6">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af799c3d99932c0a05cf3bbf621acc0b6">euler_angles</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Copy constructor.</dd>
-            <dt id="a0abdb50056c2166fab82cc755c600339">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0abdb50056c2166fab82cc755c600339">euler_rotation</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> yaw,
-              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> pitch,
-              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> roll = <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a>{}) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ab010790677ab3d340f7447aa5d78004e">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab010790677ab3d340f7447aa5d78004e">euler_angles</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> yaw,
+              <a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> pitch,
+              <a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> roll = <a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a>{}) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Initializes from three euler angles.</dd>
-            <dt id="a4630ae4a7c332f74c020f0774ab577ab">
+            <dd>Initializes from three separate euler angles.</dd>
+            <dt id="ab79830eae2b4dfe9a750f33edf0c8423">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab79830eae2b4dfe9a750f33edf0c8423">euler_angles</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a>, 3&gt;&amp; v) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Initializes from a vec3, where x, y and z are yaw, pitch and roll, respectively.</dd>
+            <dt id="a9274f66d83810344e3ea8e0b505ca979">
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4630ae4a7c332f74c020f0774ab577ab">euler_rotation</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&lt;T&gt;&amp; other) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9274f66d83810344e3ea8e0b505ca979">euler_angles</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&lt;T&gt;&amp; other) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converting constructor.</dd>
+            <dt id="ace51a4d845f47fd1efb6134d05b7b9ba">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ace51a4d845f47fd1efb6134d05b7b9ba">operator vector&lt;scalar_type, 3&gt;</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converts the euler angles to a vec3, where x, y and z are yaw, pitch and roll, respectively.</dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="ab8d64d5e1603a831c339840272968c9d">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab8d64d5e1603a831c339840272968c9d">operator*=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a13a2a7de450ca546071a189f042c301a">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a13a2a7de450ca546071a189f042c301a">operator*=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Scales an euler rotation.</dd>
-            <dt id="a99ff6e9d082dfc158396dd8fd32d61eb">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a99ff6e9d082dfc158396dd8fd32d61eb">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dd>Scales the euler angles.</dd>
+            <dt id="a6356761ebb48f89851054553c211de5d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6356761ebb48f89851054553c211de5d">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Copy-assigment operator.</dd>
           </dl>
@@ -139,15 +147,15 @@
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
             <dt>
-              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> <a class="m-doc" href="#a43df5a8cc14a4f521144452b46d86e9d">yaw</a>
+              <a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> <a class="m-doc" href="#a243345ebff2f2e055960d3dece4360fe">yaw</a>
             </dt>
             <dd>The rotation around the local up axis (in radians).</dd>
             <dt>
-              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> <a class="m-doc" href="#ad2283863923506b0e8ecd64b5cabfa03">pitch</a>
+              <a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> <a class="m-doc" href="#a551cbcad0e1b3c3c8d7ebb4c70828e4f">pitch</a>
             </dt>
             <dd>The rotation around the local right axis (in radians).</dd>
             <dt>
-              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> <a class="m-doc" href="#ad467aa815b6f8a719a771f3883231e60">roll</a>
+              <a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> <a class="m-doc" href="#aa4ee1ae394deea49ef828d5562776ec0">roll</a>
             </dt>
             <dd>The rotation around the local forward axis (in radians).</dd>
           </dl>
@@ -155,52 +163,52 @@
         <section id="friends">
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
-            <dt id="addf506eca83b83b717a9a9605dffd84b">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#addf506eca83b83b717a9a9605dffd84b">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&amp; lhs,
-              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a69086f4755e603d6adf8761439081172">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a69086f4755e603d6adf8761439081172">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; lhs,
+              <a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Scales an euler rotation.</dd>
-            <dt id="aa0b38f4e166feaf38ea164c9ffa08a40">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa0b38f4e166feaf38ea164c9ffa08a40">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> lhs,
-              const <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&amp; rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dd>Scales a set of euler angles.</dd>
+            <dt id="a0e227ca0a71b6f21085b0a81ddd46350">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0e227ca0a71b6f21085b0a81ddd46350">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> lhs,
+              const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; rhs) -&gt; friend <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Scales an euler rotation.</dd>
-            <dt id="a4edf70c1013fccd2de298c0d69d1f8f6">
+            <dd>Scales a set of euler angles.</dd>
+            <dt id="ab240e81d52e65c68650e931c08b18a3d">
               <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4edf70c1013fccd2de298c0d69d1f8f6">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
-              const <a class="m-doc" href="structmuu_1_1euler__rotation.html">euler_<wbr/>rotation</a>&amp; rot) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab240e81d52e65c68650e931c08b18a3d">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; rot) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
-            <dd>Writes a euler rotation out to a text stream.</dd>
+            <dd>Writes a set of euler angles out to a text stream.</dd>
           </dl>
         </section>
         <section>
           <h2>Variable documentation</h2>
-          <section class="m-doc-details" id="a43df5a8cc14a4f521144452b46d86e9d"><div>
+          <section class="m-doc-details" id="a243345ebff2f2e055960d3dece4360fe"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;
               </div>
-              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> muu::<wbr/>euler_rotation&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#a43df5a8cc14a4f521144452b46d86e9d">yaw</a>
+              <a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> muu::<wbr/>euler_angles&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#a243345ebff2f2e055960d3dece4360fe">yaw</a>
             </h3>
             <p>The rotation around the local up axis (in radians).</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>A positive yaw means "turn the nose of the aircraft to the right".</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ad2283863923506b0e8ecd64b5cabfa03"><div>
+          <section class="m-doc-details" id="a551cbcad0e1b3c3c8d7ebb4c70828e4f"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;
               </div>
-              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> muu::<wbr/>euler_rotation&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#ad2283863923506b0e8ecd64b5cabfa03">pitch</a>
+              <a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> muu::<wbr/>euler_angles&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#a551cbcad0e1b3c3c8d7ebb4c70828e4f">pitch</a>
             </h3>
             <p>The rotation around the local right axis (in radians).</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>A positive pitch means "point the nose of the aircraft up toward the sky".</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ad467aa815b6f8a719a771f3883231e60"><div>
+          <section class="m-doc-details" id="aa4ee1ae394deea49ef828d5562776ec0"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;
               </div>
-              <a class="m-doc" href="structmuu_1_1euler__rotation.html#affbb106f98f36e599adfb649d5b57cb1">scalar_<wbr/>type</a> muu::<wbr/>euler_rotation&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#ad467aa815b6f8a719a771f3883231e60">roll</a>
+              <a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> muu::<wbr/>euler_angles&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#aa4ee1ae394deea49ef828d5562776ec0">roll</a>
             </h3>
             <p>The rotation around the local forward axis (in radians).</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>A positive roll means "tilt the aircraft so the right wing points toward the ground".</p></aside>

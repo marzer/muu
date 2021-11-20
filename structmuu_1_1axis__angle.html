@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::axis_angle_rotation struct | muu Miscellaneous useful utilities for C++</title>
+  <title>muu::axis_angle struct | muu Miscellaneous useful utilities for C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -57,9 +57,9 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="quaternion_8h.html">&lt;muu/quaternion.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="axis__angle_8h.html">&lt;muu/axis_angle.h&gt;</a></div>
           <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>axis_angle_rotation <span class="m-thin">struct</span>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>axis_angle <span class="m-thin">struct</span>
         </h1>
         <p>An axis-angle rotation.</p>
         <table class="m-table m-fullwidth m-flat">
@@ -92,44 +92,60 @@
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt id="aff5f8621eda6ee5677fb4ea402ebbf8d">
-              using <a class="m-doc-self" href="#aff5f8621eda6ee5677fb4ea402ebbf8d">scalar_type</a> = Scalar
+            <dt id="a48a79f7456c651d2a41f032c8adc5da7">
+              using <a class="m-doc-self" href="#a48a79f7456c651d2a41f032c8adc5da7">axis_type</a> = <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1axis__angle.html#ae9c45bfa212fbda35af919d6ee4199ee">scalar_<wbr/>type</a>, 3&gt;
+            </dt>
+            <dd>The three-dimensional <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a> with the same <a class="m-doc" href="structmuu_1_1axis__angle.html#ae9c45bfa212fbda35af919d6ee4199ee">scalar_<wbr/>type</a> as this axis-angle.</dd>
+            <dt id="ae9c45bfa212fbda35af919d6ee4199ee">
+              using <a class="m-doc-self" href="#ae9c45bfa212fbda35af919d6ee4199ee">scalar_type</a> = Scalar
             </dt>
             <dd>The scalar type of the axis and angle.</dd>
-            <dt id="a9b1248bd20385d23e02ddf0d0f24f196">
-              using <a class="m-doc-self" href="#a9b1248bd20385d23e02ddf0d0f24f196">vector_type</a> = <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1axis__angle__rotation.html#aff5f8621eda6ee5677fb4ea402ebbf8d">scalar_<wbr/>type</a>, 3&gt;
-            </dt>
-            <dd>The three-dimensional <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a> with the same <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html#aff5f8621eda6ee5677fb4ea402ebbf8d">scalar_<wbr/>type</a> as this <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">axis_<wbr/>angle_<wbr/>rotation</a>.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a0f6b3f8c072564ae9be8f880f8b4c289">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0f6b3f8c072564ae9be8f880f8b4c289">axis_angle_rotation</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="aa45db55ef584d446311f490bf2c42cd0">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa45db55ef584d446311f490bf2c42cd0">axis_angle</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Default constructor. Values are not initialized.</dd>
-            <dt id="aab6e61878acf5414ab4bc2595a36471f">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aab6e61878acf5414ab4bc2595a36471f">axis_angle_rotation</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">axis_<wbr/>angle_<wbr/>rotation</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ae68423bb717e304bf828f5937bbcb481">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae68423bb717e304bf828f5937bbcb481">axis_angle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Copy constructor.</dd>
-            <dt id="a58db26feda3a5f4162d6ef02055b3ede">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a58db26feda3a5f4162d6ef02055b3ede">axis_angle_rotation</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html#a9b1248bd20385d23e02ddf0d0f24f196">vector_<wbr/>type</a>&amp; axis,
-              <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html#aff5f8621eda6ee5677fb4ea402ebbf8d">scalar_<wbr/>type</a> angle) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a5651c10fea5a9d27075fe75af41b538d">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5651c10fea5a9d27075fe75af41b538d">axis_angle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle.html#a48a79f7456c651d2a41f032c8adc5da7">axis_<wbr/>type</a>&amp; axis,
+              <a class="m-doc" href="structmuu_1_1axis__angle.html#ae9c45bfa212fbda35af919d6ee4199ee">scalar_<wbr/>type</a> angle) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Initializes from an axis and an angle.</dd>
-            <dt id="af60eaa8e227e41c927b6e8d5b17a8b82">
+            <dt id="a0c98a17953e4bd5509e73a4ab0a63675">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0c98a17953e4bd5509e73a4ab0a63675">axis_angle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle.html#a48a79f7456c651d2a41f032c8adc5da7">axis_<wbr/>type</a>&amp; axis) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Initializes from an axis, setting angle to zero.</dd>
+            <dt id="a270d00dbdd352f221c5c9902820bf426">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a270d00dbdd352f221c5c9902820bf426">axis_angle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1axis__angle.html#ae9c45bfa212fbda35af919d6ee4199ee">scalar_<wbr/>type</a>, 4&gt;&amp; v) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Initializes from a vec4, where x, y and z are the axis, and w is the angle.</dd>
+            <dt id="ae0709a8da57db9a054a3dbe2d9efc177">
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af60eaa8e227e41c927b6e8d5b17a8b82">axis_angle_rotation</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">axis_<wbr/>angle_<wbr/>rotation</a>&lt;T&gt;&amp; other) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae0709a8da57db9a054a3dbe2d9efc177">axis_angle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&lt;T&gt;&amp; other) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converting constructor.</dd>
+            <dt id="a5967c42c69cb9c818f71a6a99cfaf667">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5967c42c69cb9c818f71a6a99cfaf667">operator const axis_type&amp;</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to the axis component.</dd>
+            <dt id="a50bbbb9e409868cedc6911b5f184ef3f">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a50bbbb9e409868cedc6911b5f184ef3f">operator vector&lt;scalar_type, 4&gt;</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converts this axis-angle to a vec4, where x, y and z are the axis, and w is the angle.</dd>
           </dl>
         </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a885500e22117183d4d9cefdadb282a99">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a885500e22117183d4d9cefdadb282a99">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">axis_<wbr/>angle_<wbr/>rotation</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">axis_<wbr/>angle_<wbr/>rotation</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a286caeb01d46efae4abc681a077b2c8c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a286caeb01d46efae4abc681a077b2c8c">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Copy-assigment operator.</dd>
           </dl>
@@ -137,12 +153,12 @@
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="a6e2a10391903abb61241f4887a189bc3">
-              <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html#a9b1248bd20385d23e02ddf0d0f24f196">vector_<wbr/>type</a> <a class="m-doc-self" href="#a6e2a10391903abb61241f4887a189bc3">axis</a>
+            <dt id="a767ddf87e5d82f9d384b580f579cc26a">
+              vector_type <a class="m-doc-self" href="#a767ddf87e5d82f9d384b580f579cc26a">axis</a>
             </dt>
             <dd>The axis being rotated around.</dd>
-            <dt id="a670cd5cd2382a6fa0cd7fffb2101d1d5">
-              <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html#aff5f8621eda6ee5677fb4ea402ebbf8d">scalar_<wbr/>type</a> <a class="m-doc-self" href="#a670cd5cd2382a6fa0cd7fffb2101d1d5">angle</a>
+            <dt id="aec5c14abacf3400cd1859bee75530802">
+              <a class="m-doc" href="structmuu_1_1axis__angle.html#ae9c45bfa212fbda35af919d6ee4199ee">scalar_<wbr/>type</a> <a class="m-doc-self" href="#aec5c14abacf3400cd1859bee75530802">angle</a>
             </dt>
             <dd>The angle of rotation (in radians).</dd>
           </dl>
@@ -150,10 +166,10 @@
         <section id="friends">
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
-            <dt id="a6b8e74461f8d696f80dbc98d5cc697fe">
+            <dt id="a77e1aa350ab8edcead53e508e968f1ae">
               <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6b8e74461f8d696f80dbc98d5cc697fe">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
-              const <a class="m-doc" href="structmuu_1_1axis__angle__rotation.html">axis_<wbr/>angle_<wbr/>rotation</a>&amp; rot) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a77e1aa350ab8edcead53e508e968f1ae">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              const <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&amp; rot) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
             <dd>Writes an axis-angle rotation out to a text stream.</dd>
           </dl>

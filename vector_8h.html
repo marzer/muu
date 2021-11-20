@@ -115,8 +115,8 @@
             <dd>Returns a copy of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> with all scalar components set to their absolute values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ad3a39a64a42865cc1b4dfe5ba737c7f4">angle</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a6ba11c907004b9c139971dce77af94ad">angle</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) -&gt; delta_scalar_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Calculates the angle between two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
@@ -146,39 +146,39 @@
             <dd>Componentwise clamps a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> between two others.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a6522fd4daefcf5bb938bd2879c99b741">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, 3&gt;&amp; lhs,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, 3&gt;&amp; rhs) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a69747a8040656c2d281a3078feed3f04">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, 3&gt;&amp; lhs,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, 3&gt;&amp; rhs) -&gt; product_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the cross product of two three-dimensional <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a5894cf9d191befc3a53ed17f6ead1b3f">direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; from,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a301d7c955199fcc78010b6b55d2797b5">direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; from,
               const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; to,
-              delta_type&amp; distance_out) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              delta_scalar_type&amp; distance_out) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the normalized direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> from one position to another.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#af688d95d2f8af0a0687b78875d465e93">direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; from,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; to) -&gt; vector_product <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ac63b2e49523e6dc701fe704270fa0b39">direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; from,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; to) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the normalized direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> from one position to another.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a4633afca2e5b98a7e8b5f857cfa7a611">distance</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; p1,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; p2) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a2544755914a8b5e912e5c363b5696b1e">distance</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; p1,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; p2) -&gt; delta_scalar_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the distance between two point <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ac89dde907a1376136b6ec7296671ba65">distance_squared</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; p1,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; p2) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#aa4daf32f61f3d16a4951ed22f1a17b27">distance_squared</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; p1,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; p2) -&gt; delta_scalar_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the squared distance between two point <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ac5cdbbcc7fbf5513c01aa5e9d799c77e">dot</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) -&gt; product_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a458166cf1b29e986402f7b3130ecbbed">dot</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v2) -&gt; product_scalar_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the dot product of two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
@@ -193,19 +193,19 @@
             <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a2331787cdf36e4d844da3b1f046da7f9">length</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#a3a4a6f056f9ccb03312234014d928c82">length</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v) -&gt; delta_scalar_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the length (magnitude) of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#af37b8bb87586b2493271f14f82d2481e">length_squared</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v) -&gt; delta_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#af307f925c296e9d48af1ac07f8397976">length_squared</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v) -&gt; delta_scalar_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the squared length of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#ga8a4dcbb8bec3e3ce9276430bdb3f44f3">lerp</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; start,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__lerp.html#gabcb72a5920c41c8b337d9060ff775b77">lerp</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; start,
               const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; finish,
-              delta_type alpha) -&gt; <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              delta_scalar_type alpha) -&gt; <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Performs a linear interpolation between two <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
@@ -224,8 +224,8 @@
             <dd>Returns the componentwise minimum of two or more <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#aaed6aa88dd289829bd7f1b15182d2577">normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v,
-              delta_type&amp; length_out) -&gt; <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ac7f7d7901bd21fcfa2848c992e75dab6">normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v,
+              delta_scalar_type&amp; length_out) -&gt; <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Normalizes a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
             <dt>
