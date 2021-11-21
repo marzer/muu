@@ -10,7 +10,6 @@
 #include "impl/geometry_common.h"
 #include "impl/header_start.h"
 MUU_PRAGMA_MSVC(float_control(except, off))
-MUU_PRAGMA_MSVC(float_control(precise, off))
 
 //======================================================================================================================
 // BOUNDING BOX CLASS

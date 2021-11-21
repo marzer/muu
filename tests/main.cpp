@@ -20,10 +20,11 @@ MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")
 
 int MAIN_CALLCONV main(int argc, char* argv[])
 {
-	#ifdef _WIN32
-		SetConsoleOutputCP(65001);
-	#endif
+#ifdef _WIN32
+	SetConsoleOutputCP(65001);
+#endif
 	std::setlocale(LC_ALL, "");
 	std::locale::global(std::locale(""));
+	srand(static_cast<unsigned>(time(nullptr)));
 	return Catch::Session().run(argc, argv);
 }

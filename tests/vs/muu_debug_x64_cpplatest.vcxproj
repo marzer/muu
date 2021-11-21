@@ -25,9 +25,6 @@
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(MuuConfigurationType)'!=''">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -63,7 +60,9 @@
   <ItemGroup>
     <ClInclude Include="$(SolutionDir)include\muu\accumulator.h" />
     <ClInclude Include="$(SolutionDir)include\muu\all.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\axis_angle.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bit.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\euler_angles.h" />
     <ClInclude Include="$(SolutionDir)include\muu\function_view.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\aligned_alloc.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bitset.h" />
@@ -87,7 +86,11 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\geometry_common.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_end.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_start.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\matrix_base.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\quaternion_x_matrix.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_initializer_list.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_tuple.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\thread_name.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_cstdlib.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_exception.h" />
@@ -101,6 +104,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_type_traits.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_utility.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\type_name_specializations.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\vector_base.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\vector_types_common.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_char.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\unicode_char16_t.h" />
@@ -113,6 +117,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\matrix.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_meta.h" />
     <ClInclude Include="$(SolutionDir)include\muu\oriented_bounding_box.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\packed_unit_vector.h" />
     <ClInclude Include="$(SolutionDir)include\muu\plane.h" />
     <ClInclude Include="$(SolutionDir)include\muu\quaternion.h" />
     <ClInclude Include="$(SolutionDir)include\muu\rolling_average.h" />

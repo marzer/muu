@@ -154,6 +154,18 @@
     <ClCompile Include="..\bit.cpp" />
     <ClCompile Include="..\integer_range.cpp" />
     <ClCompile Include="..\type_list.cpp" />
+    <ClCompile Include="..\packed_unit_vector_0.cpp">
+      <Filter>packed_unit_vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\packed_unit_vector_1.cpp">
+      <Filter>packed_unit_vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\packed_unit_vector_2.cpp">
+      <Filter>packed_unit_vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\packed_unit_vector_3.cpp">
+      <Filter>packed_unit_vector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />
@@ -184,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="..\infinity_or_nan_tests.h">
       <Filter>infinity_or_nan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\packed_unit_vector_tests.h">
+      <Filter>packed_unit_vector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +234,9 @@
     </Filter>
     <Filter Include="infinity_or_nan">
       <UniqueIdentifier>{b74fb7e2-dedb-4cd0-9a91-1f963c7c7f23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="packed_unit_vector">
+      <UniqueIdentifier>{96481ffd-eae4-4770-8c72-301ac108db97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

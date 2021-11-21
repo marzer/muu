@@ -223,6 +223,30 @@
     <ClInclude Include="include\muu\impl\thread_name.h">
       <Filter>include\impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\impl\std_initializer_list.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\vector_base.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\matrix_base.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\std_tuple.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\axis_angle.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\euler_angles.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\quaternion_x_matrix.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\packed_unit_vector.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">
@@ -274,6 +298,9 @@
     </None>
     <None Include=".clang-format" />
     <None Include="tools\generate_batched_tests.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="tools\clang_format.bat">
       <Filter>tools</Filter>
     </None>
   </ItemGroup>

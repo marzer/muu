@@ -10,7 +10,6 @@
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
-MUU_PRAGMA_MSVC(float_control(precise, off))
 
 namespace muu::impl
 {

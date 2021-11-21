@@ -10,11 +10,16 @@
 #include "core.h"
 #include "bit.h"
 #include "impl/std_memcpy.h"
+#include "impl/std_memory.h" // addressof
 #include "impl/header_start.h"
 MUU_DISABLE_SUGGEST_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
+//======================================================================================================================
+// IMPLEMENTATION DETAILS
+//======================================================================================================================
 /// \cond
+
 namespace muu::impl
 {
 	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : build::bitness - 1;
@@ -81,8 +86,7 @@ namespace muu::impl
 		}
 
 		MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		static constexpr uintptr_t set_tag(uintptr_t bits, T tag) noexcept
 		{
 			if constexpr (is_enum<T>)
@@ -106,8 +110,7 @@ namespace muu::impl
 			return bits;
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		static constexpr uintptr_t get_tag(uintptr_t bits) noexcept
 		{
 			return bits & tag_mask;
@@ -131,8 +134,7 @@ namespace muu::impl
 		}
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		static constexpr T get_tag_as(uintptr_t bits) noexcept
 		{
 			static_assert(std::is_trivially_copyable_v<T>, "The tag type must be trivially copyable");
@@ -158,8 +160,7 @@ namespace muu::impl
 			}
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		static constexpr uintptr_t get_ptr(uintptr_t bits) noexcept
 		{
 			bits &= ptr_mask;
@@ -295,7 +296,8 @@ namespace muu::impl
 		using base = tagged_ptr_to_function<T, MinAlign>;
 		using base::bits_;
 
-		constexpr tagged_ptr_to_object(uintptr_t bits = {}) noexcept : base{ bits }
+		constexpr tagged_ptr_to_object(uintptr_t bits = {}) noexcept //
+			: base{ bits }
 		{}
 
 	  public:
@@ -305,7 +307,12 @@ namespace muu::impl
 	struct tptr_nullptr_deduced_tag
 	{};
 }
+
 /// \endcond
+
+//======================================================================================================================
+// TAGGED POINTER
+//======================================================================================================================
 
 namespace muu
 {
@@ -610,48 +617,42 @@ namespace muu
 		}
 
 		/// \brief	Returns true if a tagged_ptr and raw pointer refer to the same address.
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr bool operator==(tagged_ptr lhs, const_pointer rhs) noexcept
 		{
 			return lhs.ptr() == rhs;
 		}
 
 		/// \brief	Returns true if a tagged_ptr and raw pointer do not refer to the same address.
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr bool operator!=(tagged_ptr lhs, const_pointer rhs) noexcept
 		{
 			return lhs.ptr() != rhs;
 		}
 
 		/// \brief	Returns true if a tagged_ptr and raw pointer refer to the same address.
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr bool operator==(const_pointer lhs, tagged_ptr rhs) noexcept
 		{
 			return lhs == rhs.ptr();
 		}
 
 		/// \brief	Returns true if a tagged_ptr and raw pointer do not refer to the same address.
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr bool operator!=(const_pointer lhs, tagged_ptr rhs) noexcept
 		{
 			return lhs != rhs.ptr();
 		}
 
 		/// \brief	Returns true if two tagged_ptrs are equal (including their tag bits).
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr bool operator==(tagged_ptr lhs, tagged_ptr rhs) noexcept
 		{
 			return lhs.bits_ == rhs.bits_;
 		}
 
 		/// \brief	Returns true if two tagged_ptrs are not equal (including their tag bits).
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr bool operator!=(tagged_ptr lhs, tagged_ptr rhs) noexcept
 		{
 			return lhs.bits_ != rhs.bits_;
@@ -667,8 +668,6 @@ namespace muu
 	tagged_ptr(T*, U) -> tagged_ptr<T>;
 	template <typename T>
 	tagged_ptr(T*) -> tagged_ptr<T>;
-
-	/// \endcond
 
 	namespace impl
 	{
@@ -708,17 +707,20 @@ namespace muu
 			using pointer	   = TaggedPointer<T, MinAlign>;
 			using element_type = T;
 
-			MUU_NODISCARD
+			MUU_PURE_GETTER
 			constexpr static pointer pointer_to(element_type& r) noexcept
 			{
-				return pointer{ &r };
+				return pointer{ std::addressof(r) };
 			}
 		};
 	}
+
+	/// \endcond
 }
 
 namespace std
 {
+	/// \brief Specialization of std::pointer_traits for #muu::tagged_ptr.
 	template <typename T, size_t MinAlign>
 	struct pointer_traits<muu::tagged_ptr<T, MinAlign>>
 		: muu::impl::tagged_pointer_traits<muu::tagged_ptr<T, MinAlign>, std::is_void_v<T>>

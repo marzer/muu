@@ -7,6 +7,9 @@
 #include "../vector.h"
 #include "../matrix.h"
 #include "header_start.h"
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
+MUU_PRAGMA_MSVC(float_control(except, off))
+MUU_PRAGMA_MSVC(inline_recursion(on))
 
 namespace muu
 {
@@ -32,14 +35,6 @@ namespace muu
 }
 
 /// \cond
-
-MUU_PUSH_WARNINGS;
-MUU_DISABLE_SPAM_WARNINGS;
-MUU_FORCE_NDEBUG_OPTIMIZATIONS;
-MUU_PRAGMA_MSVC(inline_recursion(on))
-MUU_PRAGMA_MSVC(float_control(push))
-MUU_PRAGMA_MSVC(float_control(except, off))
-MUU_PRAGMA_MSVC(float_control(precise, off))
 
 namespace muu::impl
 {
@@ -810,13 +805,10 @@ namespace muu
 		allow_implicit_bit_cast<From, oriented_bounding_box<Scalar>>;
 }
 
-MUU_PRAGMA_MSVC(float_control(pop))
-MUU_PRAGMA_MSVC(inline_recursion(off))
-MUU_RESET_NDEBUG_OPTIMIZATIONS;
-MUU_POP_WARNINGS; // MUU_DISABLE_SPAM_WARNINGS
-
 /// \endcond
 
 #define MUU_GEOM_PARAM(T) MUU_VC_BASE_T_PARAM(T, scalar_type)
 
+MUU_PRAGMA_MSVC(inline_recursion(off))
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "header_end.h"

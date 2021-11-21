@@ -312,6 +312,8 @@ namespace muu
 	struct bounding_box;
 	template <typename>
 	struct oriented_bounding_box;
+	template <typename, size_t>
+	struct packed_unit_vector;
 
 	template <typename T>
 	using axis_angle_rotation = axis_angle<T>;

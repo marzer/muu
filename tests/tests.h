@@ -228,24 +228,26 @@ MUU_ENABLE_WARNINGS;
 #endif
 
 #if MUU_HAS_FP16
-	#define EXTENDED_FLOATS_1 , __fp16
+	#define SMALL_FLOATS_1 , __fp16
 #else
-	#define EXTENDED_FLOATS_1
+	#define SMALL_FLOATS_1
 #endif
 
 #if MUU_HAS_FLOAT16
-	#define EXTENDED_FLOATS_2 , _Float16
+	#define SMALL_FLOATS_2 , _Float16
 #else
-	#define EXTENDED_FLOATS_2
+	#define SMALL_FLOATS_2
 #endif
 
 #if MUU_HAS_FLOAT128
-	#define EXTENDED_FLOATS_3 , float128_t
+	#define BIG_FLOATS_1 , float128_t
 #else
-	#define EXTENDED_FLOATS_3
+	#define BIG_FLOATS_1
 #endif
 
-#define EXTENDED_FLOATS			half EXTENDED_FLOATS_1 EXTENDED_FLOATS_2 EXTENDED_FLOATS_3
+#define SMALL_FLOATS			half SMALL_FLOATS_1 SMALL_FLOATS_2
+#define EXTENDED_FLOATS			SMALL_FLOATS BIG_FLOATS_1
+#define BIG_FLOATS				STANDARD_FLOATS BIG_FLOATS_1
 #define ALL_FLOATS				STANDARD_FLOATS, EXTENDED_FLOATS
 #define ALL_ARITHMETIC			ALL_FLOATS, ALL_INTS
 #define ALL_SIGNED_ARITHMETIC	ALL_FLOATS, ALL_SIGNED_INTS
@@ -329,7 +331,16 @@ namespace muu
 		{
 			if constexpr (impl::is_small_float_<T>) // NaN's otherwise
 			{
-				return static_cast<T>(static_cast<float>(1 + (::rand() % 1000)) / 1000.0f);
+				T val;
+				do
+				{
+					static constexpr int granularity = 500;
+
+					val = static_cast<T>(static_cast<float>(::rand() % granularity)
+										 / static_cast<float>(granularity - 1));
+				}
+				while (infinity_or_nan(val));
+				return val;
 			}
 			else
 			{
@@ -422,7 +433,7 @@ namespace muu
 				while (left-- > 0)
 					lhs.put(constants<Char>::space);
 
-				lhs << std::fixed << std::setprecision(constants<T>::decimal_digits) << rhs.value;
+				lhs << std::fixed << std::setprecision(constants<T>::decimal_digits + 2) << rhs.value;
 			}
 			else
 			{

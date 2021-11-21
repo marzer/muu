@@ -18,13 +18,9 @@ MUU_PRAGMA_MSVC(warning(disable : 4191)) // unsafe pointer conversion
 
 namespace muu
 {
-#if 1 // to make clang-format behave
-
 	/// \cond
 	namespace impl
 	{
-	#if 1
-
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
@@ -45,7 +41,7 @@ namespace muu
 			return count;
 		}
 
-		#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
+#define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
@@ -54,7 +50,7 @@ namespace muu
 		{
 			MUU_ASSUME(val > T{});
 
-		#if MUU_GCC || MUU_CLANG
+#if MUU_GCC || MUU_CLANG
 
 			if constexpr (std::is_same_v<T, unsigned long long>)
 				return __builtin_clzll(val);
@@ -67,23 +63,23 @@ namespace muu
 			else
 				static_assert(always_false<T>, "Evaluated unreachable branch!");
 
-		#elif MUU_MSVC || MUU_ICC_CL
+#elif MUU_MSVC || MUU_ICC_CL
 
 			if constexpr (sizeof(T) == sizeof(unsigned long long))
 			{
-			#if MUU_ARCH_X64
+	#if MUU_ARCH_X64
 
 				unsigned long p;
 				_BitScanReverse64(&p, static_cast<unsigned long long>(val));
 				return 63 - static_cast<int>(p);
 
-			#else
+	#else
 
 				if (const auto high = static_cast<unsigned long>(val >> 32); high != 0ull)
 					return countl_zero_intrinsic(high);
 				return 32 + countl_zero_intrinsic(static_cast<unsigned long>(val));
 
-			#endif
+	#endif
 			}
 			else if constexpr (sizeof(T) == sizeof(unsigned long))
 			{
@@ -97,17 +93,15 @@ namespace muu
 			else
 				static_assert(always_false<T>, "Evaluated unreachable branch!");
 
-		#else
+#else
 
-			#undef MUU_HAS_INTRINSIC_COUNTL_ZERO
-			#define MUU_HAS_INTRINSIC_COUNTL_ZERO 0
+	#undef MUU_HAS_INTRINSIC_COUNTL_ZERO
+	#define MUU_HAS_INTRINSIC_COUNTL_ZERO 0
 
 			static_assert(always_false<T>, "countl_zero not implemented on this compiler");
 
-		#endif
+#endif
 		}
-
-	#endif
 	}
 	/// \endcond
 
@@ -130,7 +124,7 @@ namespace muu
 		if constexpr (is_enum<T>)
 			return countl_zero(static_cast<std::underlying_type_t<T>>(val));
 
-	#if MUU_HAS_INT128
+#if MUU_HAS_INT128
 		else if constexpr (std::is_same_v<T, uint128_t>)
 		{
 			if (const auto high = countl_zero(static_cast<uint64_t>(val >> 64)); high < 64)
@@ -138,7 +132,7 @@ namespace muu
 			else
 				return 64 + countl_zero(static_cast<uint64_t>(val));
 		}
-	#endif
+#endif
 
 		else
 		{
@@ -160,8 +154,6 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
-	#if 1
-
 		template <typename T>
 		MUU_NODISCARD
 		MUU_ATTR(const)
@@ -182,7 +174,7 @@ namespace muu
 			return count;
 		}
 
-		#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
+#define MUU_HAS_INTRINSIC_COUNTR_ZERO 1
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
@@ -191,7 +183,7 @@ namespace muu
 		{
 			MUU_ASSUME(val > T{});
 
-		#if MUU_GCC || MUU_CLANG
+#if MUU_GCC || MUU_CLANG
 
 			if constexpr (std::is_same_v<T, unsigned long long>)
 				return __builtin_ctzll(val);
@@ -202,23 +194,23 @@ namespace muu
 			else
 				static_assert(always_false<T>, "Evaluated unreachable branch!");
 
-		#elif MUU_MSVC || MUU_ICC_CL
+#elif MUU_MSVC || MUU_ICC_CL
 
 			if constexpr (sizeof(T) == sizeof(unsigned long long))
 			{
-			#if MUU_ARCH_X64
+	#if MUU_ARCH_X64
 
 				unsigned long p;
 				_BitScanForward64(&p, static_cast<unsigned long long>(val));
 				return static_cast<int>(p);
 
-			#else
+	#else
 
 				if (const auto low = static_cast<unsigned long>(val); low != 0ull)
 					return countr_zero_intrinsic(low);
 				return 32 + countr_zero_intrinsic(static_cast<unsigned long>(val >> 32));
 
-			#endif
+	#endif
 			}
 			else if constexpr (sizeof(T) == sizeof(unsigned long))
 			{
@@ -231,17 +223,15 @@ namespace muu
 			else
 				static_assert(always_false<T>, "Evaluated unreachable branch!");
 
-		#else
+#else
 
-			#undef MUU_HAS_INTRINSIC_COUNTR_ZERO
-			#define MUU_HAS_INTRINSIC_COUNTR_ZERO 0
+	#undef MUU_HAS_INTRINSIC_COUNTR_ZERO
+	#define MUU_HAS_INTRINSIC_COUNTR_ZERO 0
 
 			static_assert(always_false<T>, "countr_zero not implemented on this compiler");
 
-		#endif
+#endif
 		}
-
-	#endif
 	}
 	/// \endcond
 
@@ -264,7 +254,7 @@ namespace muu
 		if constexpr (is_enum<T>)
 			return countr_zero(static_cast<std::underlying_type_t<T>>(val));
 
-	#if MUU_HAS_INT128
+#if MUU_HAS_INT128
 		else if constexpr (std::is_same_v<T, uint128_t>)
 		{
 			if (const auto low = countr_zero(static_cast<uint64_t>(val)); low < 64)
@@ -272,7 +262,7 @@ namespace muu
 			else
 				return 64 + countr_zero(static_cast<uint64_t>(val >> 64));
 		}
-	#endif
+#endif
 
 		else
 		{
@@ -425,7 +415,6 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
-	#if 1
 		template <size_t>
 		struct popcount_traits;
 
@@ -469,7 +458,7 @@ namespace muu
 			static constexpr int rsh	  = 56;
 		};
 
-		#if MUU_HAS_INT128
+#if MUU_HAS_INT128
 		template <>
 		struct popcount_traits<128>
 		{
@@ -479,7 +468,7 @@ namespace muu
 			static constexpr uint128_t h01 = bit_pack(0x0101010101010101_u64, 0x0101010101010101_u64);
 			static constexpr int rsh	   = 120;
 		};
-		#endif
+#endif
 
 		template <typename T>
 		MUU_NODISCARD
@@ -494,7 +483,7 @@ namespace muu
 			return static_cast<int>(static_cast<T>(((val + (val >> 4)) & pt::m4) * pt::h01) >> pt::rsh);
 		}
 
-		#define MUU_HAS_INTRINSIC_POPCOUNT 1
+#define MUU_HAS_INTRINSIC_POPCOUNT 1
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
@@ -502,7 +491,7 @@ namespace muu
 		{
 			MUU_ASSUME(val > T{});
 
-		#if MUU_GCC || MUU_CLANG
+#if MUU_GCC || MUU_CLANG
 
 			if constexpr (sizeof(T) <= sizeof(unsigned int))
 				return __builtin_popcount(static_cast<unsigned int>(val));
@@ -510,15 +499,15 @@ namespace muu
 				return __builtin_popcountl(val);
 			else if constexpr (std::is_same_v<T, unsigned long long>)
 				return __builtin_popcountll(val);
-			#if MUU_HAS_INT128
+	#if MUU_HAS_INT128
 			else if constexpr (std::is_same_v<T, uint128_t>)
 				return __builtin_popcountll(static_cast<unsigned long long>(val >> 64))
 					 + __builtin_popcountll(static_cast<unsigned long long>(val));
-			#endif
+	#endif
 			else
 				static_assert(always_false<T>, "Unsupported integer type");
 
-		#elif MUU_ICC
+#elif MUU_ICC
 
 			if constexpr (sizeof(T) <= sizeof(int))
 				return _popcnt32(static_cast<int>(val));
@@ -527,40 +516,38 @@ namespace muu
 			else
 				static_assert(always_false<T>, "Unsupported integer type");
 
-		#elif MUU_MSVC
+#elif MUU_MSVC
 
 			if constexpr (sizeof(T) <= sizeof(unsigned short))
 			{
-			#if MUU_MSVC >= 1928 // VS 16.8
+	#if MUU_MSVC >= 1928 // VS 16.8
 				return __popcnt16(static_cast<unsigned short>(val));
-			#else
+	#else
 				return popcount_native(val);
-			#endif
+	#endif
 			}
 			else if constexpr (sizeof(T) == sizeof(unsigned int))
 				return __popcnt(static_cast<unsigned int>(val));
 			else if constexpr (std::is_same_v<T, unsigned __int64>)
 			{
-			#if MUU_MSVC >= 1928 && MUU_ARCH_X64 // VS 16.8
+	#if MUU_MSVC >= 1928 && MUU_ARCH_X64 // VS 16.8
 				return __popcnt64(static_cast<unsigned __int64>(val));
-			#else
+	#else
 				return __popcnt(static_cast<unsigned int>(val >> 32)) + __popcnt(static_cast<unsigned int>(val));
-			#endif
+	#endif
 			}
 			else
 				static_assert(always_false<T>, "Unsupported integer type");
 
-		#else
+#else
 
-			#undef MUU_HAS_INTRINSIC_POPCOUNT
-			#define MUU_HAS_INTRINSIC_POPCOUNT 0
+	#undef MUU_HAS_INTRINSIC_POPCOUNT
+	#define MUU_HAS_INTRINSIC_POPCOUNT 0
 
 			static_assert(always_false<T>, "popcount_intrinsic not implemented for this compiler");
 
-		#endif
+#endif
 		}
-
-	#endif
 	}
 	/// \endcond
 
@@ -848,15 +835,13 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
-	#if 1
-
-		#define MUU_HAS_INTRINSIC_BYTE_REVERSE 1
+#define MUU_HAS_INTRINSIC_BYTE_REVERSE 1
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
 		T MUU_VECTORCALL byte_reverse_intrinsic(T val) noexcept
 		{
-		#if MUU_GCC || MUU_CLANG
+#if MUU_GCC || MUU_CLANG
 
 			if constexpr (std::is_same_v<T, uint16_t>)
 				return __builtin_bswap16(val);
@@ -864,21 +849,21 @@ namespace muu
 				return __builtin_bswap32(val);
 			else if constexpr (std::is_same_v<T, uint64_t>)
 				return __builtin_bswap64(val);
-			#if MUU_HAS_INT128
+	#if MUU_HAS_INT128
 			else if constexpr (std::is_same_v<T, uint128_t>)
 			{
-				#if MUU_HAS_BUILTIN(__builtin_bswap128)
+		#if MUU_HAS_BUILTIN(__builtin_bswap128)
 				return __builtin_bswap128(val);
-				#else
+		#else
 				return (static_cast<uint128_t>(byte_reverse_intrinsic(static_cast<uint64_t>(val))) << 64)
 					 | byte_reverse_intrinsic(static_cast<uint64_t>(val >> 64));
-				#endif
+		#endif
 			}
-			#endif
+	#endif
 			else
 				static_assert(always_false<T>, "Unsupported integer type");
 
-		#elif MUU_MSVC || MUU_ICC_CL
+#elif MUU_MSVC || MUU_ICC_CL
 
 			if constexpr (sizeof(T) == sizeof(unsigned short))
 				return static_cast<T>(_byteswap_ushort(static_cast<unsigned short>(val)));
@@ -889,14 +874,14 @@ namespace muu
 			else
 				static_assert(always_false<T>, "Unsupported integer type");
 
-		#else
+#else
 
-			#undef MUU_HAS_INTRINSIC_BYTE_REVERSE
-			#define MUU_HAS_INTRINSIC_BYTE_REVERSE 0
+	#undef MUU_HAS_INTRINSIC_BYTE_REVERSE
+	#define MUU_HAS_INTRINSIC_BYTE_REVERSE 0
 
 			static_assert(always_false<T>, "byte_reverse_intrinsic not implemented for this compiler");
 
-		#endif
+#endif
 		}
 
 		template <typename T>
@@ -910,26 +895,32 @@ namespace muu
 			}
 			else if constexpr (sizeof(T) == sizeof(uint32_t))
 			{
-				return (val << 24) | ((val << 8) & 0x00FF0000_u32) | ((val >> 8) & 0x0000FF00_u32) | (val >> 24);
+				return (val << 24)					 //
+					 | ((val << 8) & 0x00FF0000_u32) //
+					 | ((val >> 8) & 0x0000FF00_u32) //
+					 | (val >> 24);
 			}
 			else if constexpr (sizeof(T) == sizeof(uint64_t))
 			{
-				return (val << 56) | ((val << 40) & 0x00FF000000000000_u64) | ((val << 24) & 0x0000FF0000000000_u64)
-					 | ((val << 8) & 0x000000FF00000000_u64) | ((val >> 8) & 0x00000000FF000000_u64)
-					 | ((val >> 24) & 0x0000000000FF0000_u64) | ((val >> 40) & 0x000000000000FF00_u64) | (val >> 56);
+				return (val << 56)							  //
+					 | ((val << 40) & 0x00FF000000000000_u64) //
+					 | ((val << 24) & 0x0000FF0000000000_u64) //
+					 | ((val << 8) & 0x000000FF00000000_u64)  //
+					 | ((val >> 8) & 0x00000000FF000000_u64)  //
+					 | ((val >> 24) & 0x0000000000FF0000_u64) //
+					 | ((val >> 40) & 0x000000000000FF00_u64) //
+					 | (val >> 56);
 			}
-		#if MUU_HAS_INT128
+#if MUU_HAS_INT128
 			else if constexpr (sizeof(T) == sizeof(uint128_t))
 			{
 				return (static_cast<uint128_t>(byte_reverse_native(static_cast<uint64_t>(val))) << 64)
 					 | byte_reverse_native(static_cast<uint64_t>(val >> 64));
 			}
-		#endif
+#endif
 			else
 				static_assert(always_false<T>, "Unsupported integer type");
 		}
-
-	#endif
 	}
 	/// \endcond
 
@@ -1029,8 +1020,6 @@ namespace muu
 		else
 			return bit_pack<return_type>(byte_select<ByteIndices>(val)...);
 	}
-
-#endif
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

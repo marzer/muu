@@ -39,6 +39,7 @@
 #include "type_name.h"
 #include "uuid.h"
 #include "vector.h"
+#include "packed_unit_vector.h"
 //#include "bitset.h"
 //#include "bounding_sphere.h"
 //#include "concatenate.h"

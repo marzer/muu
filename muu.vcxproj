@@ -132,6 +132,7 @@
     <ClInclude Include="include\muu\matrix.h" />
     <ClInclude Include="include\muu\impl\core_meta.h" />
     <ClInclude Include="include\muu\oriented_bounding_box.h" />
+    <ClInclude Include="include\muu\packed_unit_vector.h" />
     <ClInclude Include="include\muu\plane.h" />
     <ClInclude Include="include\muu\quaternion.h" />
     <ClInclude Include="include\muu\rolling_average.h" />

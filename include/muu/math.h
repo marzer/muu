@@ -141,8 +141,7 @@ namespace muu
 		{};
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr bool MUU_VECTORCALL infinity_or_nan_(T val) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
@@ -195,27 +194,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns true if a float is infinity or NaN.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL infinity_or_nan(float x) noexcept
 	{
 		return impl::infinity_or_nan_(x);
 	}
 
 	/// \brief	Returns true if a double is infinity or NaN.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL infinity_or_nan(double x) noexcept
 	{
 		return impl::infinity_or_nan_(x);
 	}
 
 	/// \brief	Returns true if a long double is infinity or NaN.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL infinity_or_nan(long double x) noexcept
 	{
 		return impl::infinity_or_nan_(x);
@@ -224,9 +217,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns true if a float128_t is infinity or NaN.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL infinity_or_nan(float128_t x) noexcept
 	{
 		return impl::infinity_or_nan_(x);
@@ -237,9 +228,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns true if a _Float16 is infinity or NaN.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL infinity_or_nan(_Float16 x) noexcept
 	{
 		return impl::infinity_or_nan_(x);
@@ -250,9 +239,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns true if a __fp16 is infinity or NaN.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL infinity_or_nan(__fp16 x) noexcept
 	{
 		return impl::infinity_or_nan_(x);
@@ -262,8 +249,7 @@ namespace muu
 
 	/// \brief	Returns true if an arithmetic value is infinity or NaN.
 	MUU_CONSTRAINED_TEMPLATE(is_arithmetic<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool infinity_or_nan(T x) noexcept
 	{
 		if constexpr (is_floating_point<T>)
@@ -282,7 +268,7 @@ namespace muu
 	///
 	/// \returns	The result `T::infinity_or_nan(obj)` or `obj.infinity_or_nan()` (coerced to bool).
 	MUU_CONSTRAINED_TEMPLATE(impl::has_specialized_infinity_or_nan<T>, typename T)
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool infinity_or_nan(const T& obj) noexcept
 	{
 		if constexpr (is_detected<impl::has_static_infinity_or_nan_, T>)
@@ -368,27 +354,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns the absolute value of a float.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL abs(float x) noexcept
 	{
 		return impl::abs_(x);
 	}
 
 	/// \brief	Returns the absolute value of a double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL abs(double x) noexcept
 	{
 		return impl::abs_(x);
 	}
 
 	/// \brief	Returns the absolute value of a long double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL abs(long double x) noexcept
 	{
 		return impl::abs_(x);
@@ -397,9 +377,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns the absolute value of a float128_t.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL abs(float128_t x) noexcept
 	{
 		return impl::abs_(x);
@@ -410,9 +388,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns the absolute value of a _Float16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL abs(_Float16 x) noexcept
 	{
 		return impl::abs_(x);
@@ -423,9 +399,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns the absolute value of an __fp16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL abs(__fp16 x) noexcept
 	{
 		return impl::abs_(x);
@@ -434,45 +408,35 @@ namespace muu
 	#endif
 
 	/// \brief	Returns the absolute value of a signed char.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr signed char MUU_VECTORCALL abs(signed char x) noexcept
 	{
 		return static_cast<signed char>(impl::abs_(static_cast<int>(x)));
 	}
 
 	/// \brief	Returns the absolute value of a short.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr short MUU_VECTORCALL abs(short x) noexcept
 	{
 		return static_cast<short>(impl::abs_(static_cast<int>(x)));
 	}
 
 	/// \brief	Returns the absolute value of an int.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr int MUU_VECTORCALL abs(int x) noexcept
 	{
 		return impl::abs_(x);
 	}
 
 	/// \brief	Returns the absolute value of a long.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr long MUU_VECTORCALL abs(long x) noexcept
 	{
 		return impl::abs_(x);
 	}
 
 	/// \brief	Returns the absolute value of a long long.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr long long MUU_VECTORCALL abs(long long x) noexcept
 	{
 		return impl::abs_(x);
@@ -480,9 +444,7 @@ namespace muu
 
 	/// \brief	Returns the absolute value of an integral type.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr T MUU_VECTORCALL abs(T x) noexcept
 	{
 		if constexpr (is_signed<T>)
@@ -500,24 +462,21 @@ namespace muu
 	/// @{
 
 	/// \brief	Returns true if two floats are approximately equal.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(float a, float b, float epsilon = default_epsilon<float>) noexcept
 	{
 		return abs(b - a) < epsilon;
 	}
 
 	/// \brief	Returns true if two doubles are approximately equal.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(double a, double b, double epsilon = default_epsilon<double>) noexcept
 	{
 		return abs(b - a) < epsilon;
 	}
 
 	/// \brief	Returns true if two long doubles are approximately equal.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(long double a,
 											   long double b,
 											   long double epsilon = default_epsilon<long double>) noexcept
@@ -528,8 +487,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns true if two float128_ts are approximately equal.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(float128_t a,
 											   float128_t b,
 											   float128_t epsilon = default_epsilon<float128_t>) noexcept
@@ -542,8 +500,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns true if two _Float16s are approximately equal.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(_Float16 a,
 											   _Float16 b,
 											   _Float16 epsilon = default_epsilon<_Float16>) noexcept
@@ -556,8 +513,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns true if two __fp16 are approximately equal.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(__fp16 a, __fp16 b, __fp16 epsilon = default_epsilon<__fp16>) noexcept
 	{
 		return abs(b - a) < epsilon;
@@ -728,27 +684,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns the floor of a float value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL floor(float x) noexcept
 	{
 		return impl::floor_(x);
 	}
 
 	/// \brief	Returns the floor of a double value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL floor(double x) noexcept
 	{
 		return impl::floor_(x);
 	}
 
 	/// \brief	Returns the floor of a long double value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL floor(long double x) noexcept
 	{
 		return impl::floor_(x);
@@ -757,9 +707,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns the floor of a float128_t value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL floor(float128_t x) noexcept
 	{
 		return impl::floor_(x);
@@ -770,9 +718,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns the floor of a _Float16 value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL floor(_Float16 x) noexcept
 	{
 		return impl::floor_(x);
@@ -783,9 +729,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns the floor of a __fp16 value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL floor(__fp16 x) noexcept
 	{
 		return impl::floor_(x);
@@ -795,9 +739,7 @@ namespace muu
 
 	/// \brief	Returns the floor of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL floor(T x) noexcept
 	{
 		return impl::floor_(static_cast<double>(x));
@@ -872,27 +814,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns the ceiling of a float value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL ceil(float x) noexcept
 	{
 		return impl::ceil_(x);
 	}
 
 	/// \brief	Returns the ceiling of a double value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL ceil(double x) noexcept
 	{
 		return impl::ceil_(x);
 	}
 
 	/// \brief	Returns the ceiling of a long double value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL ceil(long double x) noexcept
 	{
 		return impl::ceil_(x);
@@ -901,9 +837,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns the ceiling of a float128_t value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL ceil(float128_t x) noexcept
 	{
 		return impl::ceil_(x);
@@ -914,9 +848,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns the ceiling of a _Float16 value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL ceil(_Float16 x) noexcept
 	{
 		return impl::ceil_(x);
@@ -927,9 +859,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns the ceiling of a __fp16 value.
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL ceil(__fp16 x) noexcept
 	{
 		return impl::ceil_(x);
@@ -939,9 +869,7 @@ namespace muu
 
 	/// \brief	Returns the ceiling of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL ceil(T x) noexcept
 	{
 		return impl::ceil_(static_cast<double>(x));
@@ -966,8 +894,7 @@ namespace muu
 		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_sqrt(T x)
 		{
 			MUU_FMA_BLOCK;
@@ -991,7 +918,6 @@ namespace muu
 			T prev = T{};
 			for (intmax_t i = 0; i < max_constexpr_math_iterations && curr != prev; i++)
 			{
-				MUU_FMA_BLOCK;
 				prev = curr;
 				curr = constants<T>::one_over_two * (curr + x / curr);
 			}
@@ -1001,8 +927,7 @@ namespace muu
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL sqrt_(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
@@ -1028,24 +953,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns the square-root of a float.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL sqrt(float x) noexcept
 	{
 		return impl::sqrt_(x);
 	}
 
 	/// \brief	Returns the square-root of a double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL sqrt(double x) noexcept
 	{
 		return impl::sqrt_(x);
 	}
 
 	/// \brief	Returns the square-root of a long double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL sqrt(long double x) noexcept
 	{
 		return impl::sqrt_(x);
@@ -1054,8 +976,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns the square-root of a float128_t.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL sqrt(float128_t x) noexcept
 	{
 		return impl::sqrt_(x);
@@ -1066,8 +987,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns the square-root of a _Float16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL sqrt(_Float16 x) noexcept
 	{
 		return impl::sqrt_(x);
@@ -1078,8 +998,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns the square-root of a __fp16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL sqrt(__fp16 x) noexcept
 	{
 		return impl::sqrt_(x);
@@ -1089,8 +1008,7 @@ namespace muu
 
 	/// \brief	Returns the square-root of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL sqrt(T x) noexcept
 	{
 		return impl::sqrt_(static_cast<double>(x));
@@ -1112,18 +1030,15 @@ namespace muu
 		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_sin(T);
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_tan(T);
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_cos(T x)
 		{
 			MUU_FMA_BLOCK;
@@ -1154,7 +1069,6 @@ namespace muu
 			T sum  = T{ 1 } + term;
 			for (intmax_t i = 2; i < max_constexpr_math_iterations; i++)
 			{
-				MUU_FMA_BLOCK;
 				const auto prev = sum;
 				term *= -x * x / (T{ 2 } * i * (T{ 2 } * i - T{ 1 }));
 				sum += term;
@@ -1167,8 +1081,7 @@ namespace muu
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL cos_(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
@@ -1194,24 +1107,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns the cosine of a float.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL cos(float x) noexcept
 	{
 		return impl::cos_(x);
 	}
 
 	/// \brief	Returns the cosine of a double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL cos(double x) noexcept
 	{
 		return impl::cos_(x);
 	}
 
 	/// \brief	Returns the cosine of a long double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL cos(long double x) noexcept
 	{
 		return impl::cos_(x);
@@ -1220,8 +1130,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns the cosine of a float128_t.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL cos(float128_t x) noexcept
 	{
 		return impl::cos_(x);
@@ -1232,8 +1141,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns the cosine of a _Float16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL cos(_Float16 x) noexcept
 	{
 		return impl::cos_(x);
@@ -1244,8 +1152,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns the cosine of a __fp16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL cos(__fp16 x) noexcept
 	{
 		return impl::cos_(x);
@@ -1255,8 +1162,7 @@ namespace muu
 
 	/// \brief	Returns the cosine of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL cos(T x) noexcept
 	{
 		return impl::cos_(static_cast<double>(x));
@@ -1278,8 +1184,7 @@ namespace muu
 		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_sin(T x)
 		{
 			MUU_FMA_BLOCK;
@@ -1313,7 +1218,6 @@ namespace muu
 			int sign = -1;
 			for (intmax_t i = 3; i < max_constexpr_math_iterations * 2; i += 2, sign = -sign)
 			{
-				MUU_FMA_BLOCK;
 				const auto prev = sum;
 				term			= -term * x * x / (i * (i - T{ 1 }));
 				sum += term;
@@ -1326,8 +1230,7 @@ namespace muu
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL sin_(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
@@ -1353,24 +1256,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns the sine of a float.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL sin(float x) noexcept
 	{
 		return impl::sin_(x);
 	}
 
 	/// \brief	Returns the sine of a double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL sin(double x) noexcept
 	{
 		return impl::sin_(x);
 	}
 
 	/// \brief	Returns the sine of a long double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL sin(long double x) noexcept
 	{
 		return impl::sin_(x);
@@ -1379,8 +1279,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns the sine of a float128_t.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL sin(float128_t x) noexcept
 	{
 		return impl::sin_(x);
@@ -1391,8 +1290,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns the sine of a _Float16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL sin(_Float16 x) noexcept
 	{
 		return impl::sin_(x);
@@ -1403,8 +1301,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns the sine of a __fp16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL sin(__fp16 x) noexcept
 	{
 		return impl::sin_(x);
@@ -1414,8 +1311,7 @@ namespace muu
 
 	/// \brief	Returns the sine of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL sin(T x) noexcept
 	{
 		return impl::sin_(static_cast<double>(x));
@@ -1437,8 +1333,7 @@ namespace muu
 		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_tan(T x)
 		{
 			MUU_FMA_BLOCK;
@@ -1465,7 +1360,6 @@ namespace muu
 				return T{ 1 } / consteval_tan(constants<T>::pi_over_two - x);
 			if (x > constants<T>::pi_over_eight && x < constants<T>::pi_over_four)
 			{
-				MUU_FMA_BLOCK;
 				const auto x_ = consteval_tan(x / T{ 2 });
 				return (x_ + x_) / (T{ 1 } - x_ * x_);
 			}
@@ -1476,8 +1370,7 @@ namespace muu
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL tan_(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
@@ -1503,24 +1396,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns the tangent of a float.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL tan(float x) noexcept
 	{
 		return impl::tan_(x);
 	}
 
 	/// \brief	Returns the tangent of a double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL tan(double x) noexcept
 	{
 		return impl::tan_(x);
 	}
 
 	/// \brief	Returns the tangent of a long double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL tan(long double x) noexcept
 	{
 		return impl::tan_(x);
@@ -1529,8 +1419,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns the tangent of a float128_t.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL tan(float128_t x) noexcept
 	{
 		return impl::tan_(x);
@@ -1541,8 +1430,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns the tangent of a _Float16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL tan(_Float16 x) noexcept
 	{
 		return impl::tan_(x);
@@ -1553,8 +1441,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns the tangent of a __fp16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL tan(__fp16 x) noexcept
 	{
 		return impl::tan_(x);
@@ -1564,8 +1451,7 @@ namespace muu
 
 	/// \brief	Returns the tangent of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL tan(T x) noexcept
 	{
 		return impl::tan_(static_cast<double>(x));
@@ -1587,18 +1473,15 @@ namespace muu
 		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_asin(T);
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_atan(T);
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_acos(T x)
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1622,8 +1505,7 @@ namespace muu
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL acos_(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
@@ -1649,24 +1531,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns the arc cosine of a float.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL acos(float x) noexcept
 	{
 		return impl::acos_(x);
 	}
 
 	/// \brief	Returns the arc cosine of a double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL acos(double x) noexcept
 	{
 		return impl::acos_(x);
 	}
 
 	/// \brief	Returns the arc cosine of a long double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL acos(long double x) noexcept
 	{
 		return impl::acos_(x);
@@ -1675,8 +1554,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns the arc cosine of a float128_t.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL acos(float128_t x) noexcept
 	{
 		return impl::acos_(x);
@@ -1687,8 +1565,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns the arc cosine of a _Float16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL acos(_Float16 x) noexcept
 	{
 		return impl::acos_(x);
@@ -1699,8 +1576,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns the arc cosine of a __fp16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL acos(__fp16 x) noexcept
 	{
 		return impl::acos_(x);
@@ -1710,8 +1586,7 @@ namespace muu
 
 	/// \brief	Returns the arc cosine of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL acos(T x) noexcept
 	{
 		return impl::acos_(static_cast<double>(x));
@@ -1733,8 +1608,7 @@ namespace muu
 		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_asin(T x)
 		{
 			MUU_FMA_BLOCK;
@@ -1767,7 +1641,6 @@ namespace muu
 			T term = x * x * x / T{ 2 };
 			for (intmax_t i = 1; i < max_constexpr_math_iterations * 2; i += 2)
 			{
-				MUU_FMA_BLOCK;
 				const T prev = sum;
 				sum += term * static_cast<T>(i) / static_cast<T>(i + 2);
 				term *= x * x * static_cast<T>(i) / static_cast<T>(i + 3);
@@ -1780,8 +1653,7 @@ namespace muu
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL asin_(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
@@ -1807,24 +1679,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns the arc sine of a float.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL asin(float x) noexcept
 	{
 		return impl::asin_(x);
 	}
 
 	/// \brief	Returns the arc sine of a double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL asin(double x) noexcept
 	{
 		return impl::asin_(x);
 	}
 
 	/// \brief	Returns the arc sine of a long double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL asin(long double x) noexcept
 	{
 		return impl::asin_(x);
@@ -1833,8 +1702,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns the arc sine of a float128_t.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL asin(float128_t x) noexcept
 	{
 		return impl::asin_(x);
@@ -1845,8 +1713,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns the arc sine of a _Float16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL asin(_Float16 x) noexcept
 	{
 		return impl::asin_(x);
@@ -1857,8 +1724,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns the arc sine of a __fp16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL asin(__fp16 x) noexcept
 	{
 		return impl::asin_(x);
@@ -1868,8 +1734,7 @@ namespace muu
 
 	/// \brief	Returns the arc sine of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL asin(T x) noexcept
 	{
 		return impl::asin_(static_cast<double>(x));
@@ -1891,8 +1756,7 @@ namespace muu
 		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_atan(T x)
 		{
 			MUU_FMA_BLOCK;
@@ -1924,7 +1788,6 @@ namespace muu
 			T sum			= T{ 1 };
 			for (intmax_t i = 1; i <= max_constexpr_math_iterations; i++)
 			{
-				MUU_FMA_BLOCK;
 				const T prev = sum;
 				prod *= (T{ 2 } * static_cast<T>(i) * x_sq) / ((T{ 2 } * static_cast<T>(i) + T{ 1 }) * (x_sq + T{ 1 }));
 				sum += prod;
@@ -1937,8 +1800,7 @@ namespace muu
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL atan_(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
@@ -1964,24 +1826,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns the arc tangent of a float.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL atan(float x) noexcept
 	{
 		return impl::atan_(x);
 	}
 
 	/// \brief	Returns the arc tangent of a double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL atan(double x) noexcept
 	{
 		return impl::atan_(x);
 	}
 
 	/// \brief	Returns the arc tangent of a long double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL atan(long double x) noexcept
 	{
 		return impl::atan_(x);
@@ -1990,8 +1849,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns the arc tangent of a float128_t.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL atan(float128_t x) noexcept
 	{
 		return impl::atan_(x);
@@ -2002,8 +1860,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns the arc tangent of a _Float16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL atan(_Float16 x) noexcept
 	{
 		return impl::atan_(x);
@@ -2014,8 +1871,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns the arc tangent of a __fp16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL atan(__fp16 x) noexcept
 	{
 		return impl::atan_(x);
@@ -2025,8 +1881,7 @@ namespace muu
 
 	/// \brief	Returns the arc tangent of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL atan(T x) noexcept
 	{
 		return impl::atan_(static_cast<double>(x));
@@ -2048,8 +1903,7 @@ namespace muu
 		MUU_PUSH_PRECISE_MATH;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL consteval_atan2(T y, T x)
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -2081,8 +1935,7 @@ namespace muu
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
-		MUU_ALWAYS_INLINE
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL atan2_(T y, T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
@@ -2111,24 +1964,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Returns the arc tangent of a float.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL atan2(float y, float x) noexcept
 	{
 		return impl::atan2_(y, x);
 	}
 
 	/// \brief	Returns the arc tangent of a double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL atan2(double y, double x) noexcept
 	{
 		return impl::atan2_(y, x);
 	}
 
 	/// \brief	Returns the arc tangent of a long double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL atan2(long double y, long double x) noexcept
 	{
 		return impl::atan2_(y, x);
@@ -2137,8 +1987,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns the arc tangent of a float128_t.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL atan2(float128_t y, float128_t x) noexcept
 	{
 		return impl::atan2_(y, x);
@@ -2149,8 +1998,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns the arc tangent of a _Float16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL atan2(_Float16 y, _Float16 x) noexcept
 	{
 		return impl::atan2_(y, x);
@@ -2161,8 +2009,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns the arc tangent of a __fp16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL atan2(__fp16 y, __fp16 x) noexcept
 	{
 		return impl::atan2_(y, x);
@@ -2174,8 +2021,7 @@ namespace muu
 	///
 	/// \details Integer arguments are promoted to double.
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<X, Y>), typename X, typename Y)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr auto MUU_VECTORCALL atan2(Y y, X x) noexcept
 	{
 		using return_type = impl::std_math_common_type<X, Y>;
@@ -2193,8 +2039,7 @@ namespace muu
 	/// @{
 
 	/// \brief	Returns a linear interpolation between two floats.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr float MUU_VECTORCALL lerp(float start, float finish, float alpha) noexcept
 	{
 		MUU_FMA_BLOCK;
@@ -2202,8 +2047,7 @@ namespace muu
 	}
 
 	/// \brief	Returns a linear interpolation between two doubles.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr double MUU_VECTORCALL lerp(double start, double finish, double alpha) noexcept
 	{
 		MUU_FMA_BLOCK;
@@ -2211,8 +2055,7 @@ namespace muu
 	}
 
 	/// \brief	Returns a linear interpolation between two long doubles.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr long double MUU_VECTORCALL lerp(long double start, long double finish, long double alpha) noexcept
 	{
 		MUU_FMA_BLOCK;
@@ -2222,8 +2065,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Returns a linear interpolation between two float128_ts.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr float128_t MUU_VECTORCALL lerp(float128_t start, float128_t finish, float128_t alpha) noexcept
 	{
 		MUU_FMA_BLOCK;
@@ -2235,8 +2077,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Returns a linear interpolation between two _Float16s.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr _Float16 MUU_VECTORCALL lerp(_Float16 start, _Float16 finish, _Float16 alpha) noexcept
 	{
 		return static_cast<_Float16>(
@@ -2248,8 +2089,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Returns a linear interpolation between two __fp16s.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr __fp16 MUU_VECTORCALL lerp(__fp16 start, __fp16 finish, __fp16 alpha) noexcept
 	{
 		return static_cast<__fp16>(
@@ -2262,8 +2102,7 @@ namespace muu
 	///
 	/// \details Integer arguments are promoted to double.
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<T, U, V>), typename T, typename U, typename V)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr auto MUU_VECTORCALL lerp(T start, U finish, V alpha) noexcept
 	{
 		using return_type		= impl::std_math_common_type<T, U, V>;
@@ -2285,8 +2124,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL normalize_angle_(T val) noexcept
 		{
 			static_assert(muu::is_floating_point<T>);
@@ -2300,24 +2138,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Normalizes the angle value of a float.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL normalize_angle(float x) noexcept
 	{
 		return impl::normalize_angle_(x);
 	}
 
 	/// \brief	Normalizes the angle value of a double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL normalize_angle(double x) noexcept
 	{
 		return impl::normalize_angle_(x);
 	}
 
 	/// \brief	Normalizes the angle value of a long double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL normalize_angle(long double x) noexcept
 	{
 		return impl::normalize_angle_(x);
@@ -2326,8 +2161,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Normalizes the angle value of a float128_t.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL normalize_angle(float128_t x) noexcept
 	{
 		return impl::normalize_angle_(x);
@@ -2338,8 +2172,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Normalizes the angle value of a _Float16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL normalize_angle(_Float16 x) noexcept
 	{
 		return static_cast<_Float16>(impl::normalize_angle_(static_cast<float>(x)));
@@ -2350,8 +2183,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Normalizes the angle value of a __fp16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL normalize_angle(__fp16 x) noexcept
 	{
 		return static_cast<__fp16>(impl::normalize_angle_(static_cast<float>(x)));
@@ -2361,8 +2193,7 @@ namespace muu
 
 	/// \brief	Normalizes the angle of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL normalize_angle(T x) noexcept
 	{
 		return impl::normalize_angle_(static_cast<double>(x));
@@ -2380,8 +2211,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL normalize_angle_signed_(T val) noexcept
 		{
 			static_assert(muu::is_floating_point<T>);
@@ -2399,24 +2229,21 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Normalizes the angle value of a float.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float MUU_VECTORCALL normalize_angle_signed(float x) noexcept
 	{
 		return impl::normalize_angle_signed_(x);
 	}
 
 	/// \brief	Normalizes the angle value of a double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL normalize_angle_signed(double x) noexcept
 	{
 		return impl::normalize_angle_signed_(x);
 	}
 
 	/// \brief	Normalizes the angle value of a long double.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr long double MUU_VECTORCALL normalize_angle_signed(long double x) noexcept
 	{
 		return impl::normalize_angle_signed_(x);
@@ -2425,8 +2252,7 @@ namespace muu
 	#if MUU_HAS_FLOAT128
 
 	/// \brief	Normalizes the angle value of a float128_t.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr float128_t MUU_VECTORCALL normalize_angle_signed(float128_t x) noexcept
 	{
 		return impl::normalize_angle_signed_(x);
@@ -2437,8 +2263,7 @@ namespace muu
 	#if MUU_HAS_FLOAT16
 
 	/// \brief	Normalizes the angle value of a _Float16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL normalize_angle_signed(_Float16 x) noexcept
 	{
 		return static_cast<_Float16>(impl::normalize_angle_signed_(static_cast<float>(x)));
@@ -2449,8 +2274,7 @@ namespace muu
 	#if MUU_HAS_FP16
 
 	/// \brief	Normalizes the angle value of a __fp16.
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 MUU_VECTORCALL normalize_angle_signed(__fp16 x) noexcept
 	{
 		return static_cast<__fp16>(impl::normalize_angle_signed_(static_cast<float>(x)));
@@ -2460,8 +2284,7 @@ namespace muu
 
 	/// \brief	Normalizes the angle of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr double MUU_VECTORCALL normalize_angle_signed(T x) noexcept
 	{
 		return impl::normalize_angle_signed_(static_cast<double>(x));
@@ -2474,8 +2297,7 @@ namespace muu
 	///
 	/// \remark This is a variadic version of std::lcm.
 	MUU_CONSTRAINED_TEMPLATE((all_integer<T, U, V...>), typename T, typename U, typename... V)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr auto MUU_VECTORCALL lcm(T val1, U val2, V... vals) noexcept
 	{
 		if constexpr (sizeof...(vals) == 0u)
@@ -2496,8 +2318,7 @@ namespace muu
 	///
 	/// \remark This is a variadic version of std::gcd.
 	MUU_CONSTRAINED_TEMPLATE((all_integer<T, U, V...>), typename T, typename U, typename... V)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr auto MUU_VECTORCALL gcd(T val1, U val2, V... vals) noexcept
 	{
 		if constexpr (sizeof...(vals) == 0u)
@@ -2512,6 +2333,17 @@ namespace muu
 		{
 			return muu::gcd(std::gcd(val1, val2), vals...);
 		}
+	}
+
+	/// \brief Evenly divides an integer into buckets.
+	MUU_CONSTRAINED_TEMPLATE((is_integer<T> && is_unsigned<T>), typename T)
+	MUU_CONST_GETTER
+	constexpr T evenly_distribute(T total, T bucket_count, T bucket_index) noexcept
+	{
+		T val = total / bucket_count;
+		if (bucket_index < total % bucket_count)
+			val++;
+		return val;
 	}
 
 	/** @} */ // math

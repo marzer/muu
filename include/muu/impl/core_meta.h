@@ -1833,6 +1833,10 @@ namespace muu
 		template <typename T>
 		inline constexpr bool is_small_float_ = is_floating_point<T> && sizeof(T) <= sizeof(float)
 											 && is_extended_arithmetic<T>;
+
+		template <typename... T>
+		inline constexpr bool any_small_float_ = (false || ... || is_small_float_<T>);
+
 		template <typename T>
 		inline constexpr bool is_large_float_ = is_floating_point<T> && sizeof(T) >= sizeof(long double)
 											 && is_extended_arithmetic<T>;

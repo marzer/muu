@@ -13,7 +13,6 @@
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
 MUU_PRAGMA_MSVC(float_control(except, off))
-MUU_PRAGMA_MSVC(float_control(precise, off))
 
 //======================================================================================================================
 // IMPLEMENTATION DETAILS

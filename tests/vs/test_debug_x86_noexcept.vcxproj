@@ -140,6 +140,10 @@
     <ClCompile Include="..\oriented_bounding_box_1.cpp" />
     <ClCompile Include="..\oriented_bounding_box_2.cpp" />
     <ClCompile Include="..\oriented_bounding_box_3.cpp" />
+    <ClCompile Include="..\packed_unit_vector_0.cpp" />
+    <ClCompile Include="..\packed_unit_vector_1.cpp" />
+    <ClCompile Include="..\packed_unit_vector_2.cpp" />
+    <ClCompile Include="..\packed_unit_vector_3.cpp" />
     <ClCompile Include="..\plane_0.cpp" />
     <ClCompile Include="..\plane_1.cpp" />
     <ClCompile Include="..\plane_2.cpp" />
@@ -183,6 +187,7 @@
     <ClInclude Include="..\bounding_box_tests.h" />
     <ClInclude Include="..\catch2.h" />
     <ClInclude Include="..\float_test_data.h" />
+    <ClInclude Include="..\packed_unit_vector_tests.h" />
     <ClInclude Include="..\infinity_or_nan_tests.h" />
     <ClInclude Include="..\matrix_tests.h" />
     <ClInclude Include="..\oriented_bounding_box_tests.h" />

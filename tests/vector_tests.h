@@ -625,6 +625,8 @@ BATCHED_TEST_CASE("vector infinity_or_nan", vectors<ALL_ARITHMETIC>)
 
 BATCHED_TEST_CASE("vector dot", vectors<ALL_ARITHMETIC>)
 {
+	MUU_FMA_BLOCK;
+
 	using vector_t = TestType;
 	using T		   = typename vector_t::scalar_type;
 	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
@@ -639,14 +641,37 @@ BATCHED_TEST_CASE("vector dot", vectors<ALL_ARITHMETIC>)
 	// (accumulating in a potentially more precise intermediate type then coverting the result is what happens in
 	// the vector class to minimize loss in float16, so that same behaviour is replicated here)
 	using intermediate_type = promote_if_small_float<dot_type>;
-	auto expected_sum		= intermediate_type{};
-	for (size_t i = 0; i < vector_t::dimensions; i++)
+	intermediate_type expected_int;
+	if constexpr (vector_t::dimensions == 1_sz)
 	{
-		MUU_FMA_BLOCK;
-		expected_sum += static_cast<intermediate_type>(x1[i]) * static_cast<intermediate_type>(x2[i]);
+		expected_int = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0]);
 	}
-	const auto expected = static_cast<dot_type>(expected_sum);
+	if constexpr (vector_t::dimensions == 2_sz)
+	{
+		expected_int = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0])
+					 + static_cast<intermediate_type>(x1[1]) * static_cast<intermediate_type>(x2[1]);
+	}
+	if constexpr (vector_t::dimensions == 3_sz)
+	{
+		expected_int = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0])
+					 + static_cast<intermediate_type>(x1[1]) * static_cast<intermediate_type>(x2[1])
+					 + static_cast<intermediate_type>(x1[2]) * static_cast<intermediate_type>(x2[2]);
+	}
+	if constexpr (vector_t::dimensions == 4_sz)
+	{
+		expected_int = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0])
+					 + static_cast<intermediate_type>(x1[1]) * static_cast<intermediate_type>(x2[1])
+					 + static_cast<intermediate_type>(x1[2]) * static_cast<intermediate_type>(x2[2])
+					 + static_cast<intermediate_type>(x1[3]) * static_cast<intermediate_type>(x2[3]);
+	}
+	if constexpr (vector_t::dimensions > 4_sz)
+	{
+		expected_int = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0]);
+		for (size_t i = 1; i < vector_t::dimensions; i++)
+			expected_int += static_cast<intermediate_type>(x1[i]) * static_cast<intermediate_type>(x2[i]);
+	}
 
+	const auto expected = static_cast<dot_type>(expected_int);
 	CHECK_APPROX_EQUAL(vector1.dot(vector2), expected);
 	CHECK_APPROX_EQUAL(vector_t::dot(vector1, vector2), expected);
 	CHECK_APPROX_EQUAL(muu::dot(vector1, vector2), expected);

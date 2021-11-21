@@ -244,6 +244,9 @@
     <ClInclude Include="include\muu\impl\quaternion_x_matrix.h">
       <Filter>include\impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\packed_unit_vector.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">

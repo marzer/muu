@@ -52,7 +52,6 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
 MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(float_control(except, off))
-MUU_PRAGMA_MSVC(float_control(precise, off))
 
 //======================================================================================================================
 // IMPLEMENTATION DETAILS
@@ -225,8 +224,7 @@ namespace muu
 	template <typename Scalar, size_t Dimensions>
 	struct MUU_TRIVIAL_ABI vector MUU_HIDDEN_BASE(impl::vector_<Scalar, Dimensions>)
 	{
-		static_assert(!std::is_reference_v<Scalar>, "Vector scalar type cannot be a reference");
-		static_assert(!is_cv<Scalar>, "Vector scalar type cannot be const- or volatile-qualified");
+		static_assert(!is_cvref<Scalar>, "Vector scalar type cannot be const, volatile, or a reference");
 		static_assert(std::is_trivially_constructible_v<Scalar>	  //
 						  && std::is_trivially_copyable_v<Scalar> //
 						  && std::is_trivially_destructible_v<Scalar>,
@@ -1912,9 +1910,12 @@ namespace muu
 			}
 			else
 			{
-				constexpr promoted_delta epsilon = promoted_delta{ 1 }
-												 / (100ull * (sizeof(scalar_type) >= sizeof(float) ? 10000ull : 1ull)
-													* (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull));
+				constexpr promoted_delta epsilon =
+					promoted_delta{ 1 }
+					/ (100ull																		//
+					   * (muu::constants<scalar_type>::significand_digits >= 24u ? 10000ull : 1ull) // float32
+					   * (muu::constants<scalar_type>::significand_digits >= 53u ? 10000ull : 1ull) // float64
+					);
 
 				if constexpr (delta_requires_promotion)
 				{
@@ -2773,7 +2774,7 @@ namespace muu
 		{
 			using scalars = muu::constants<Scalar>;
 
-			/// \name Unit vectors
+			/// \name Axes
 			/// @{
 
 			/// \brief	A unit-length vector representing the X axis.
@@ -2787,7 +2788,7 @@ namespace muu
 		{
 			using scalars = muu::constants<Scalar>;
 
-			/// \name Unit vectors
+			/// \name Axes
 			/// @{
 
 			/// \brief	A unit-length vector representing the Y axis.
@@ -2801,7 +2802,7 @@ namespace muu
 		{
 			using scalars = muu::constants<Scalar>;
 
-			/// \name Unit vectors
+			/// \name Axes
 			/// @{
 
 			/// \brief	A unit-length vector representing the Z axis.
@@ -2815,7 +2816,7 @@ namespace muu
 		{
 			using scalars = muu::constants<Scalar>;
 
-			/// \name Unit vectors
+			/// \name Axes
 			/// @{
 
 			/// \brief	A unit-length vector representing the W axis.
@@ -2832,7 +2833,7 @@ namespace muu
 		{
 			using scalars = muu::constants<Scalar>;
 
-			/// \name Directions
+			/// \name Directions (screen space)
 			/// @{
 
 			/// \brief	Right direction (in a top-down screen coordinate system).
@@ -2849,7 +2850,7 @@ namespace muu
 		{
 			using scalars = muu::constants<Scalar>;
 
-			/// \name Directions
+			/// \name Directions (screen space)
 			/// @{
 
 			/// \brief	Left direction (in a top-down screen coordinate system).
@@ -2866,7 +2867,7 @@ namespace muu
 		{
 			using scalars = muu::constants<Scalar>;
 
-			/// \name Directions
+			/// \name Directions (world space)
 			/// @{
 
 			/// \brief	Backward direction (in a right-handed coordinate system).
@@ -2880,7 +2881,7 @@ namespace muu
 		{
 			using scalars = muu::constants<Scalar>;
 
-			/// \name Directions
+			/// \name Directions (world space)
 			/// @{
 
 			/// \brief	Forward direction (in a right-handed coordinate system).
@@ -2894,7 +2895,7 @@ namespace muu
 		{
 			using scalars = muu::constants<Scalar>;
 
-			/// \name Directions
+			/// \name Directions (world space)
 			/// @{
 
 			/// \brief	Right direction (in a right-handed coordinate system).
@@ -2912,7 +2913,7 @@ namespace muu
 		{
 			using scalars = muu::constants<Scalar>;
 
-			/// \name Directions
+			/// \name Directions (world space)
 			/// @{
 
 			/// \brief	Left direction (in a right-handed coordinate system).
@@ -3157,14 +3158,6 @@ namespace muu
 	template <typename S, size_t D>
 	MUU_PURE_GETTER
 	constexpr bool normalized(const vector<S, D>& v) noexcept
-	{
-		return vector<S, D>::normalized(v);
-	}
-
-	template <typename S, size_t D>
-	MUU_NODISCARD
-	[[deprecated]] MUU_ATTR(pure)
-	constexpr bool unit_length(const vector<S, D>& v) noexcept
 	{
 		return vector<S, D>::normalized(v);
 	}

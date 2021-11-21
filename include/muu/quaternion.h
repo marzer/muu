@@ -18,7 +18,6 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;
 MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(float_control(except, off))
-MUU_PRAGMA_MSVC(float_control(precise, off))
 
 //======================================================================================================================
 // IMPLEMENTATION DETAILS
@@ -543,9 +542,12 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL normalized(MUU_VC_PARAM(quaternion) q) noexcept
 		{
-			constexpr promoted_scalar epsilon = promoted_scalar{ 1 }
-											  / (100ull * (sizeof(scalar_type) >= sizeof(float) ? 10000ull : 1ull)
-												 * (sizeof(scalar_type) >= sizeof(double) ? 10000ull : 1ull));
+			constexpr promoted_scalar epsilon =
+				promoted_scalar{ 1 }
+				/ (100ull																		//
+				   * (muu::constants<scalar_type>::significand_digits >= 24u ? 10000ull : 1ull) // float32
+				   * (muu::constants<scalar_type>::significand_digits >= 53u ? 10000ull : 1ull) // float64
+				);
 
 			if constexpr (is_small_float)
 			{
