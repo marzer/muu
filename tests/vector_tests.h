@@ -631,50 +631,61 @@ BATCHED_TEST_CASE("vector dot", vectors<ALL_ARITHMETIC>)
 	using T		   = typename vector_t::scalar_type;
 	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
 
-	const auto x1 = random_array<T, vector_t::dimensions>(0, 5);
-	const auto x2 = random_array<T, vector_t::dimensions>(0, 5);
-	const vector_t vector1{ x1 }, vector2{ x2 };
+	using dot_type = decltype(std::declval<vector_t>().dot(std::declval<vector_t>()));
 
-	using dot_type = decltype(vector1.dot(vector2));
-
-	// expected result
-	// (accumulating in a potentially more precise intermediate type then coverting the result is what happens in
-	// the vector class to minimize loss in float16, so that same behaviour is replicated here)
-	using intermediate_type = promote_if_small_float<dot_type>;
-	intermediate_type expected_int;
-	if constexpr (vector_t::dimensions == 1_sz)
+	auto epsilon = default_epsilon<dot_type>;
+	if constexpr (is_floating_point<dot_type>)
 	{
-		expected_int = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0]);
-	}
-	if constexpr (vector_t::dimensions == 2_sz)
-	{
-		expected_int = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0])
-					 + static_cast<intermediate_type>(x1[1]) * static_cast<intermediate_type>(x2[1]);
-	}
-	if constexpr (vector_t::dimensions == 3_sz)
-	{
-		expected_int = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0])
-					 + static_cast<intermediate_type>(x1[1]) * static_cast<intermediate_type>(x2[1])
-					 + static_cast<intermediate_type>(x1[2]) * static_cast<intermediate_type>(x2[2]);
-	}
-	if constexpr (vector_t::dimensions == 4_sz)
-	{
-		expected_int = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0])
-					 + static_cast<intermediate_type>(x1[1]) * static_cast<intermediate_type>(x2[1])
-					 + static_cast<intermediate_type>(x1[2]) * static_cast<intermediate_type>(x2[2])
-					 + static_cast<intermediate_type>(x1[3]) * static_cast<intermediate_type>(x2[3]);
-	}
-	if constexpr (vector_t::dimensions > 4_sz)
-	{
-		expected_int = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0]);
-		for (size_t i = 1; i < vector_t::dimensions; i++)
-			expected_int += static_cast<intermediate_type>(x1[i]) * static_cast<intermediate_type>(x2[i]);
+		if constexpr (vector_t::dimensions >= 3 && constants<dot_type>::significand_digits >= 53)
+			epsilon *= dot_type{ 100 };
 	}
 
-	const auto expected = static_cast<dot_type>(expected_int);
-	CHECK_APPROX_EQUAL(vector1.dot(vector2), expected);
-	CHECK_APPROX_EQUAL(vector_t::dot(vector1, vector2), expected);
-	CHECK_APPROX_EQUAL(muu::dot(vector1, vector2), expected);
+	RANDOM_ITERATIONS
+	{
+		const auto x1 = random_array<T, vector_t::dimensions>(0, 5);
+		const auto x2 = random_array<T, vector_t::dimensions>(0, 5);
+		const vector_t vector1{ x1 }, vector2{ x2 };
+
+		// note: obviously i could use the loop case for all sizes but this manual unrolling mimicks
+		// the way the code would be compiled for each time, so is more likely to have the same arithmetic
+		// reorderings and optimizations applied
+		using intermediate_type = promote_if_small_float<dot_type>;
+		intermediate_type dot_val;
+		if constexpr (vector_t::dimensions == 1_sz)
+		{
+			dot_val = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0]);
+		}
+		if constexpr (vector_t::dimensions == 2_sz)
+		{
+			dot_val = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0])
+					+ static_cast<intermediate_type>(x1[1]) * static_cast<intermediate_type>(x2[1]);
+		}
+		if constexpr (vector_t::dimensions == 3_sz)
+		{
+			dot_val = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0])
+					+ static_cast<intermediate_type>(x1[1]) * static_cast<intermediate_type>(x2[1])
+					+ static_cast<intermediate_type>(x1[2]) * static_cast<intermediate_type>(x2[2]);
+		}
+		if constexpr (vector_t::dimensions >= 4_sz)
+		{
+			dot_val = static_cast<intermediate_type>(x1[0]) * static_cast<intermediate_type>(x2[0])
+					+ static_cast<intermediate_type>(x1[1]) * static_cast<intermediate_type>(x2[1])
+					+ static_cast<intermediate_type>(x1[2]) * static_cast<intermediate_type>(x2[2])
+					+ static_cast<intermediate_type>(x1[3]) * static_cast<intermediate_type>(x2[3]);
+
+			for (size_t i = 4; i < vector_t::dimensions; i++)
+				dot_val += static_cast<intermediate_type>(x1[i]) * static_cast<intermediate_type>(x2[i]);
+		}
+		const auto expected = static_cast<dot_type>(dot_val);
+
+		// fp16s end up with nans sometimes when the float is denormal; not much i can do about this
+		if constexpr (impl::is_small_float_<dot_type>)
+			SKIP_INF_NAN(expected);
+
+		CHECK_APPROX_EQUAL_EPS(vector1.dot(vector2), expected, epsilon);
+		CHECK_APPROX_EQUAL_EPS(vector_t::dot(vector1, vector2), expected, epsilon);
+		CHECK_APPROX_EQUAL_EPS(muu::dot(vector1, vector2), expected, epsilon);
+	}
 }
 
 BATCHED_TEST_CASE("vector cross", vectors_N<3, ALL_FLOATS>)
@@ -799,46 +810,57 @@ BATCHED_TEST_CASE("vector multiplication", vectors<ALL_ARITHMETIC>)
 	using T		   = typename vector_t::scalar_type;
 	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
 
-	const auto scalar = static_cast<T>(2.4);
-	const auto x1	  = random_array<T, vector_t::dimensions>(0, 5);
-	const auto x2	  = random_array<T, vector_t::dimensions>(0, 5);
-	const vector_t vector1{ x1 }, vector2{ x2 };
-
-	BATCHED_SECTION("vector * vector")
+	RANDOM_ITERATIONS
 	{
-		vector_t result = vector1 * vector2;
-		for (size_t i = 0; i < vector_t::dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * x2[i]), result[i]);
-	}
+		const auto scalar = random<T>(1, 5);
+		const auto x1	  = random_array<T, vector_t::dimensions>(1, 5);
+		const auto x2	  = random_array<T, vector_t::dimensions>(1, 5);
+		const vector_t vector1{ x1 }, vector2{ x2 };
 
-	BATCHED_SECTION("vector *= vector")
-	{
-		vector_t result(vector1);
-		result *= vector2;
-		for (size_t i = 0; i < vector_t::dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * x2[i]), result[i]);
-	}
+		if constexpr (impl::is_small_float_<T>)
+			SKIP_INF_NAN(vector1 * vector2, vector1 * scalar, scalar * vector2);
 
-	BATCHED_SECTION("vector * scalar")
-	{
-		vector_t result = vector1 * scalar;
-		for (size_t i = 0; i < vector_t::dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * scalar), result[i]);
-	}
+		{
+			TEST_INFO("vector * vector");
 
-	BATCHED_SECTION("scalar * vector")
-	{
-		vector_t result = scalar * vector2;
-		for (size_t i = 0; i < vector_t::dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(x2[i] * scalar), result[i]);
-	}
+			vector_t result = vector1 * vector2;
+			for (size_t i = 0; i < vector_t::dimensions; i++)
+				CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * x2[i]), result[i]);
+		}
 
-	BATCHED_SECTION("vector *= scalar")
-	{
-		vector_t result(vector1);
-		result *= scalar;
-		for (size_t i = 0; i < vector_t::dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * scalar), result[i]);
+		{
+			TEST_INFO("vector *= vector");
+
+			vector_t result(vector1);
+			result *= vector2;
+			for (size_t i = 0; i < vector_t::dimensions; i++)
+				CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * x2[i]), result[i]);
+		}
+
+		{
+			TEST_INFO("vector * scalar");
+
+			vector_t result = vector1 * scalar;
+			for (size_t i = 0; i < vector_t::dimensions; i++)
+				CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * scalar), result[i]);
+		}
+
+		{
+			TEST_INFO("scalar * vector");
+
+			vector_t result = scalar * vector2;
+			for (size_t i = 0; i < vector_t::dimensions; i++)
+				CHECK_APPROX_EQUAL(static_cast<T>(x2[i] * scalar), result[i]);
+		}
+
+		{
+			TEST_INFO("vector *= scalar");
+
+			vector_t result(vector1);
+			result *= scalar;
+			for (size_t i = 0; i < vector_t::dimensions; i++)
+				CHECK_APPROX_EQUAL(static_cast<T>(x1[i] * scalar), result[i]);
+		}
 	}
 }
 
@@ -848,38 +870,54 @@ BATCHED_TEST_CASE("vector division", vectors<ALL_ARITHMETIC>)
 	using T		   = typename vector_t::scalar_type;
 	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
 
-	const auto scalar = static_cast<T>(2.4);
-	const vector_t vec1{ random_array<T, vector_t::dimensions>(2, 5) };
-	const vector_t vec2{ random_array<T, vector_t::dimensions>(2, 5) };
+	const auto rand_max = is_floating_point<T> ? T{ 3 } : T{ 100 };
+	auto epsilon		= default_epsilon<T>;
+	if constexpr (impl::is_small_float_<T>)
+		epsilon *= T{ 10 };
 
-	BATCHED_SECTION("vector / vector")
+	RANDOM_ITERATIONS
 	{
-		vector_t result = vec1 / vec2;
-		for (size_t i = 0; i < vector_t::dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(vec1[i] / vec2[i]), result[i]);
-	}
+		const auto scalar = random<T>(1, rand_max);
+		const auto x1	  = random_array<T, vector_t::dimensions>(1, rand_max);
+		const auto x2	  = random_array<T, vector_t::dimensions>(1, rand_max);
+		const vector_t vector1{ x1 }, vector2{ x2 };
 
-	BATCHED_SECTION("vector /= vector")
-	{
-		vector_t result = vec1;
-		result /= vec2;
-		for (size_t i = 0; i < vector_t::dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(vec1[i] / vec2[i]), result[i]);
-	}
+		if constexpr (impl::is_small_float_<T>)
+			SKIP_INF_NAN(vector1 / vector2, vector1 / scalar);
 
-	BATCHED_SECTION("vector / scalar")
-	{
-		vector_t result = vec1 / scalar;
-		for (size_t i = 0; i < vector_t::dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(vec1[i] / scalar), result[i]);
-	}
+		{
+			TEST_INFO("vector / vector");
 
-	BATCHED_SECTION("vector /= scalar")
-	{
-		vector_t result = vec1;
-		result /= scalar;
-		for (size_t i = 0; i < vector_t::dimensions; i++)
-			CHECK_APPROX_EQUAL(static_cast<T>(vec1[i] / scalar), result[i]);
+			vector_t result = vector1 / vector2;
+			for (size_t i = 0; i < vector_t::dimensions; i++)
+				CHECK_APPROX_EQUAL_EPS(static_cast<T>(x1[i] / x2[i]), result[i], epsilon);
+		}
+
+		{
+			TEST_INFO("vector /= vector");
+
+			vector_t result(vector1);
+			result /= vector2;
+			for (size_t i = 0; i < vector_t::dimensions; i++)
+				CHECK_APPROX_EQUAL_EPS(static_cast<T>(x1[i] / x2[i]), result[i], epsilon);
+		}
+
+		{
+			TEST_INFO("vector / scalar");
+
+			vector_t result = vector1 / scalar;
+			for (size_t i = 0; i < vector_t::dimensions; i++)
+				CHECK_APPROX_EQUAL_EPS(static_cast<T>(x1[i] / scalar), result[i], epsilon);
+		}
+
+		{
+			TEST_INFO("vector /= scalar");
+
+			vector_t result(vector1);
+			result /= scalar;
+			for (size_t i = 0; i < vector_t::dimensions; i++)
+				CHECK_APPROX_EQUAL_EPS(static_cast<T>(x1[i] / scalar), result[i], epsilon);
+		}
 	}
 }
 
@@ -971,28 +1009,36 @@ BATCHED_TEST_CASE("vector normalization", vectors<ALL_FLOATS>)
 	using T		   = typename vector_t::scalar_type;
 	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
 
-	const vector_t x{ random_array<T, vector_t::dimensions>(2, 10) };
-
-	BATCHED_SECTION("vector.normalize()")
+	RANDOM_ITERATIONS
 	{
-		vector_t vec{ x };
-		vec.normalize();
-		CHECK(vec.normalized());
-		CHECK(vec.length() == approx(T{ 1 }));
-	}
+		const vector_t x{ random_array<T, vector_t::dimensions>(2, 10) };
+		if constexpr (impl::is_small_float_<T>)
+			SKIP_INF_NAN(x, vector_t::normalize(x));
 
-	BATCHED_SECTION("vector::normalize(vector)")
-	{
-		const auto vec = vector_t::normalize(x);
-		CHECK(vec.normalized());
-		CHECK(vec.length() == approx(T{ 1 }));
-	}
+		{
+			TEST_INFO("vector.normalize()");
 
-	BATCHED_SECTION("muu::normalize(vector)")
-	{
-		const auto vec = muu::normalize(x);
-		CHECK(vec.normalized());
-		CHECK(vec.length() == approx(T{ 1 }));
+			vector_t vec{ x };
+			vec.normalize();
+			CHECK(vec.normalized());
+			CHECK(vec.length() == approx(T{ 1 }));
+		}
+
+		{
+			TEST_INFO("vector::normalize(vector)");
+
+			const auto vec = vector_t::normalize(x);
+			CHECK(vec.normalized());
+			CHECK(vec.length() == approx(T{ 1 }));
+		}
+
+		{
+			TEST_INFO("muu::normalize(vector)");
+
+			const auto vec = muu::normalize(x);
+			CHECK(vec.normalized());
+			CHECK(vec.length() == approx(T{ 1 }));
+		}
 	}
 }
 

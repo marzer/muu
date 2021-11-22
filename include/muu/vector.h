@@ -118,8 +118,8 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 			return (func(x))op(func(y)) op(func(z)) op(func(w));                                                       \
 		if constexpr (Dimensions > 4)                                                                                  \
 		{                                                                                                              \
-			auto val = func(values[0]);                                                                                \
-			for (size_t i = 1; i < Dimensions; i++)                                                                    \
+			auto val = (func(values[0]))op(func(values[1])) op(func(values[2])) op(func(values[3]));                   \
+			for (size_t i = 4; i < Dimensions; i++)                                                                    \
 				val op## = func(values[i]);                                                                            \
 			return val;                                                                                                \
 		}                                                                                                              \
@@ -1115,6 +1115,28 @@ namespace muu
 			}
 		}
 
+		/// \brief	Returns the length (magnitude) of a vector.
+		///
+		/// \warning	This function is implemented such that it is _always_ available at compile time,
+		///				arriving at the result using very slow iterative machinery. Do not use it at runtime!
+		MUU_PURE_GETTER
+		MUU_CONSTEVAL
+		static delta_scalar_type MUU_VECTORCALL consteval_length(MUU_VC_PARAM(vector) v) noexcept
+		{
+			if constexpr (Dimensions == 1)
+			{
+				return static_cast<delta_scalar_type>(v.x);
+			}
+			else if constexpr (delta_requires_promotion)
+			{
+				return static_cast<delta_scalar_type>(promoted_delta_vec::consteval_length(promoted_delta_vec{ v }));
+			}
+			else
+			{
+				return muu::consteval_sqrt(length_squared(v));
+			}
+		}
+
 		/// \brief	Returns the length (magnitude) of the vector.
 		MUU_PURE_GETTER
 		constexpr delta_scalar_type length() const noexcept
@@ -1822,6 +1844,36 @@ namespace muu
 			else
 			{
 				return v * (delta_scalar_type{ 1 } / length(v));
+			}
+		}
+
+		/// \brief	Normalizes a vector.
+		///
+		/// \param v	The vector to normalize.
+		///
+		/// \return		A normalized copy of the input vector.
+		///
+		/// \availability This function is only available when #scalar_type is a floating-point type.
+		///
+		/// \warning	This function is implemented such that it is _always_ available at compile time,
+		///				arriving at the result using very slow iterative machinery. Do not use it at runtime!
+		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_PURE_GETTER
+		MUU_CONSTEVAL
+		static vector MUU_VECTORCALL consteval_normalize(MUU_VC_PARAM(vector) v) noexcept
+		{
+			if constexpr (Dimensions == 1)
+			{
+				MUU_UNUSED(v);
+				return vector{ scalar_constants::one };
+			}
+			else if constexpr (delta_requires_promotion)
+			{
+				return vector{ promoted_delta_vec::consteval_normalize(promoted_delta_vec{ v }) };
+			}
+			else
+			{
+				return v * (delta_scalar_type{ 1 } / consteval_length(v));
 			}
 		}
 

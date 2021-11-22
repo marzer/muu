@@ -30,6 +30,14 @@ MUU_DISABLE_ARITHMETIC_WARNINGS;
 
 namespace muu
 {
+	/// \cond
+	namespace impl
+	{
+		// this is way too high on purpose- the algorithms early-out
+		inline constexpr intmax_t max_constexpr_math_iterations = 100;
+	}
+	/// \endcond
+
 	namespace build
 	{
 		/// \brief	True if some math functions (sin, cos, sqrt etc.) can be used in constexpr contexts
@@ -878,6 +886,137 @@ namespace muu
 	/** @} */ // math::ceil
 #endif		  // ceil
 
+#if 1 // consteval_sqrt ------------------------------------------------------------------------------------------------
+	/// \addtogroup		consteval_sqrt	consteval_sqrt()
+	/// \brief			std::sqrt alternatives that are always available at compile time.
+	///
+	/// \warning	These functions are implemented such that they are _always_ available at compile time,
+	///				arriving at their results using very slow iterative machinery. Do not use them at runtime!
+	/// @{
+
+	/// \cond
+	namespace impl
+	{
+		MUU_PUSH_PRECISE_MATH;
+
+		template <typename T>
+		MUU_CONST_GETTER
+		MUU_CONSTEVAL
+		T consteval_sqrt_(T x) noexcept(!MUU_HAS_EXCEPTIONS)
+		{
+			static_assert(is_floating_point<T>);
+
+			if constexpr (!std::is_same_v<impl::highest_ranked<T, long double>, T>)
+			{
+				return static_cast<T>(consteval_sqrt_(static_cast<long double>(x)));
+			}
+			else
+			{
+				MUU_FMA_BLOCK;
+
+				static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
+
+				if (x == T{} || x != x) // accounts for -0.0 and NaN
+					return x;
+				if (x < T{})
+				{
+	#if MUU_HAS_EXCEPTIONS
+					throw "consteval_sqrt() input out-of-range"; // force compilation failure
+	#else
+					return constants<T>::nan;
+	#endif
+				}
+				if (x == T{ 1 })
+					return T{ 1 };
+
+				// Newton-Raphson method: https://en.wikipedia.org/wiki/Newton%27s_method
+				T curr = x;
+				T prev = T{};
+				for (intmax_t i = 0; i < max_constexpr_math_iterations && curr != prev; i++)
+				{
+					prev = curr;
+					curr = constants<T>::one_over_two * (curr + x / curr);
+				}
+				return curr;
+			}
+		}
+
+		MUU_POP_PRECISE_MATH;
+	}
+	/// \endcond
+
+	/// \brief	Returns the square-root of a float.
+	MUU_CONST_INLINE_GETTER
+	MUU_CONSTEVAL
+	float consteval_sqrt(float x) noexcept
+	{
+		return impl::consteval_sqrt_(x);
+	}
+
+	/// \brief	Returns the square-root of a double.
+	MUU_CONST_INLINE_GETTER
+	MUU_CONSTEVAL
+	double consteval_sqrt(double x) noexcept
+	{
+		return impl::consteval_sqrt_(x);
+	}
+
+	/// \brief	Returns the square-root of a long double.
+	MUU_CONST_INLINE_GETTER
+	MUU_CONSTEVAL
+	long double consteval_sqrt(long double x) noexcept
+	{
+		return impl::consteval_sqrt_(x);
+	}
+
+	#if MUU_HAS_FLOAT128
+
+	/// \brief	Returns the square-root of a float128_t.
+	MUU_CONST_INLINE_GETTER
+	MUU_CONSTEVAL
+	float128_t consteval_sqrt(float128_t x) noexcept
+	{
+		return impl::consteval_sqrt_(x);
+	}
+
+	#endif
+
+	#if MUU_HAS_FLOAT16
+
+	/// \brief	Returns the square-root of a _Float16.
+	MUU_CONST_INLINE_GETTER
+	MUU_CONSTEVAL
+	_Float16 consteval_sqrt(_Float16 x) noexcept
+	{
+		return impl::consteval_sqrt_(x);
+	}
+
+	#endif
+
+	#if MUU_HAS_FP16
+
+	/// \brief	Returns the square-root of a __fp16.
+	MUU_CONST_INLINE_GETTER
+	MUU_CONSTEVAL
+	__fp16 consteval_sqrt(__fp16 x) noexcept
+	{
+		return impl::consteval_sqrt_(x);
+	}
+
+	#endif
+
+	/// \brief	Returns the square-root of an integer.
+	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
+	MUU_CONST_INLINE_GETTER
+	MUU_CONSTEVAL
+	double consteval_sqrt(T x) noexcept
+	{
+		return impl::consteval_sqrt_(static_cast<double>(x));
+	}
+
+	/** @} */ // math::sqrt
+#endif		  // sqrt
+
 #if 1 // sqrt ----------------------------------------------------------------------------------------------------------
 	/// \addtogroup		sqrt	sqrt()
 	/// \brief			Constexpr-friendly alternatives to std::sqrt.
@@ -888,44 +1027,6 @@ namespace muu
 	/// \cond
 	namespace impl
 	{
-		// this is way too high on purpose- the algorithms early-out
-		inline constexpr intmax_t max_constexpr_math_iterations = 100;
-
-		MUU_PUSH_PRECISE_MATH;
-
-		template <typename T>
-		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_sqrt(T x)
-		{
-			MUU_FMA_BLOCK;
-			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
-
-			if (x == T{} || x != x) // accounts for -0.0 and NaN
-				return x;
-			if (x < T{})
-			{
-	#if MUU_HAS_EXCEPTIONS
-				throw "consteval_sqrt() input out-of-range"; // force compilation failure
-	#else
-				return constants<T>::nan;
-	#endif
-			}
-			if (x == T{ 1 })
-				return T{ 1 };
-
-			// Newton-Raphson method: https://en.wikipedia.org/wiki/Newton%27s_method
-			T curr = x;
-			T prev = T{};
-			for (intmax_t i = 0; i < max_constexpr_math_iterations && curr != prev; i++)
-			{
-				prev = curr;
-				curr = constants<T>::one_over_two * (curr + x / curr);
-			}
-			return curr;
-		}
-
-		MUU_POP_PRECISE_MATH;
-
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL sqrt_(T x) noexcept
@@ -935,7 +1036,7 @@ namespace muu
 			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
 			{
 				using type = highest_ranked<T, long double>;
-				return static_cast<T>(consteval_sqrt<type>(x));
+				return static_cast<T>(consteval_sqrt_<type>(x));
 			}
 			else
 			{

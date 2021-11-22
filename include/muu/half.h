@@ -67,12 +67,10 @@ namespace muu
 
 #if MUU_HALF_EMULATED
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr uint16_t MUU_VECTORCALL f32_to_f16(float) noexcept;
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr float MUU_VECTORCALL f16_to_f32(uint16_t) noexcept;
 
 #endif
@@ -308,8 +306,7 @@ namespace muu
 		// COMPARISONS
 		//====================================================
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator==(half lhs, half rhs) noexcept
 		{
 #if MUU_HALF_EMULATED
@@ -319,8 +316,7 @@ namespace muu
 #endif
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator!=(half lhs, half rhs) noexcept
 		{
 #if MUU_HALF_EMULATED
@@ -330,8 +326,7 @@ namespace muu
 #endif
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator<(half lhs, half rhs) noexcept
 		{
 #if MUU_HALF_EMULATED
@@ -341,8 +336,7 @@ namespace muu
 #endif
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator<=(half lhs, half rhs) noexcept
 		{
 #if MUU_HALF_EMULATED
@@ -352,8 +346,7 @@ namespace muu
 #endif
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator>(half lhs, half rhs) noexcept
 		{
 #if MUU_HALF_EMULATED
@@ -363,8 +356,7 @@ namespace muu
 #endif
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator>=(half lhs, half rhs) noexcept
 		{
 #if MUU_HALF_EMULATED
@@ -375,14 +367,12 @@ namespace muu
 		}
 
 #define HALF_PROMOTING_BINARY_OP(return_type, input_type, op)                                                          \
-	MUU_NODISCARD                                                                                                      \
-	MUU_ATTR(const)                                                                                                    \
+	MUU_CONST_GETTER                                                                                                   \
 	friend constexpr return_type MUU_VECTORCALL operator op(half lhs, input_type rhs) noexcept                         \
 	{                                                                                                                  \
 		return static_cast<input_type>(lhs) op rhs;                                                                    \
 	}                                                                                                                  \
-	MUU_NODISCARD                                                                                                      \
-	MUU_ATTR(const)                                                                                                    \
+	MUU_CONST_GETTER                                                                                                   \
 	friend constexpr return_type MUU_VECTORCALL operator op(input_type lhs, half rhs) noexcept                         \
 	{                                                                                                                  \
 		return lhs op static_cast<input_type>(rhs);                                                                    \
@@ -390,14 +380,12 @@ namespace muu
 	static_assert(true)
 
 #define HALF_CONVERTING_BINARY_OP(return_type, input_type, op)                                                         \
-	MUU_NODISCARD                                                                                                      \
-	MUU_ATTR(const)                                                                                                    \
+	MUU_CONST_GETTER                                                                                                   \
 	friend constexpr return_type MUU_VECTORCALL operator op(half lhs, input_type rhs) noexcept                         \
 	{                                                                                                                  \
 		return static_cast<return_type>(static_cast<float>(lhs) op static_cast<float>(rhs));                           \
 	}                                                                                                                  \
-	MUU_NODISCARD                                                                                                      \
-	MUU_ATTR(const)                                                                                                    \
+	MUU_CONST_GETTER                                                                                                   \
 	friend constexpr return_type MUU_VECTORCALL operator op(input_type lhs, half rhs) noexcept                         \
 	{                                                                                                                  \
 		return static_cast<return_type>(static_cast<float>(lhs) op static_cast<float>(rhs));                           \
@@ -445,29 +433,25 @@ namespace muu
 		// ARITHMETIC OPERATORS
 		//====================================================
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr half MUU_VECTORCALL operator+(half lhs, half rhs) noexcept
 		{
 			return half{ static_cast<float>(lhs) + static_cast<float>(rhs) };
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr half MUU_VECTORCALL operator-(half lhs, half rhs) noexcept
 		{
 			return half{ static_cast<float>(lhs) - static_cast<float>(rhs) };
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr half MUU_VECTORCALL operator*(half lhs, half rhs) noexcept
 		{
 			return half{ static_cast<float>(lhs) * static_cast<float>(rhs) };
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr half MUU_VECTORCALL operator/(half lhs, half rhs) noexcept
 		{
 			return half{ static_cast<float>(lhs) / static_cast<float>(rhs) };
@@ -958,8 +942,7 @@ namespace muu
 		/// \ecpp
 		///
 		/// \relatesalso	muu::half
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		MUU_CONSTEVAL
 		half operator"" _f16(long double val) noexcept
 		{
@@ -972,8 +955,7 @@ namespace muu
 		/// \ecpp
 		///
 		/// \relatesalso	muu::half
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		MUU_CONSTEVAL
 		half operator"" _f16(unsigned long long val) noexcept
 		{
@@ -985,9 +967,7 @@ namespace muu
 	///
 	/// \ingroup	infinity_or_nan
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL infinity_or_nan(half x) noexcept
 	{
 #if MUU_HALF_EMULATED
@@ -1001,9 +981,7 @@ namespace muu
 	///
 	/// \ingroup	abs
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL abs(half x) noexcept
 	{
 #if MUU_HALF_EMULATED
@@ -1022,8 +1000,7 @@ namespace muu
 	///
 	/// \ingroup	approx_equal
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(half a, half b, half epsilon = constants<half>::default_epsilon) noexcept
 	{
 		return muu::approx_equal(static_cast<float>(a), static_cast<float>(b), static_cast<float>(epsilon));
@@ -1043,9 +1020,7 @@ namespace muu
 	///
 	/// \ingroup	floor
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL floor(half x) noexcept
 	{
 		return impl::floor_(x);
@@ -1055,9 +1030,7 @@ namespace muu
 	///
 	/// \ingroup	ceil
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL ceil(half x) noexcept
 	{
 		return impl::ceil_(x);
@@ -1065,10 +1038,20 @@ namespace muu
 
 	/// \brief	Returns the square-root of a half-precision float.
 	///
+	/// \ingroup	consteval_sqrt
+	/// \relatesalso	muu::half
+	MUU_CONST_GETTER
+	MUU_CONSTEVAL
+	half consteval_sqrt(half x) noexcept
+	{
+		return half{ impl::consteval_sqrt_(static_cast<float>(x)) };
+	}
+
+	/// \brief	Returns the square-root of a half-precision float.
+	///
 	/// \ingroup	sqrt
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL sqrt(half x) noexcept
 	{
 		return half{ impl::sqrt_(static_cast<float>(x)) };
@@ -1078,8 +1061,7 @@ namespace muu
 	///
 	/// \ingroup	cos
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL cos(half x) noexcept
 	{
 		return half{ impl::cos_(static_cast<float>(x)) };
@@ -1089,8 +1071,7 @@ namespace muu
 	///
 	/// \ingroup	sin
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL sin(half x) noexcept
 	{
 		return half{ impl::sin_(static_cast<float>(x)) };
@@ -1100,8 +1081,7 @@ namespace muu
 	///
 	/// \ingroup	tan
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL tan(half x) noexcept
 	{
 		return half{ impl::tan_(static_cast<float>(x)) };
@@ -1111,8 +1091,7 @@ namespace muu
 	///
 	/// \ingroup	acos
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL acos(half x) noexcept
 	{
 		return half{ impl::acos_(static_cast<float>(x)) };
@@ -1122,8 +1101,7 @@ namespace muu
 	///
 	/// \ingroup	asin
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL asin(half x) noexcept
 	{
 		return half{ impl::asin_(static_cast<float>(x)) };
@@ -1133,8 +1111,7 @@ namespace muu
 	///
 	/// \ingroup	atan
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL atan(half x) noexcept
 	{
 		return half{ impl::atan_(static_cast<float>(x)) };
@@ -1144,8 +1121,7 @@ namespace muu
 	///
 	/// \ingroup	atan2
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL atan2(half y, half x) noexcept
 	{
 		return half{ impl::atan2_(static_cast<float>(x), static_cast<float>(y)) };
@@ -1155,8 +1131,7 @@ namespace muu
 	///
 	/// \ingroup	lerp
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL lerp(half start, half finish, half alpha) noexcept
 	{
 		return half{ muu::lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)) };
@@ -1166,8 +1141,7 @@ namespace muu
 	///
 	/// \ingroup	normalize_angle
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL normalize_angle(half x) noexcept
 	{
 		return half{ impl::normalize_angle_(static_cast<float>(x)) };
@@ -1177,8 +1151,7 @@ namespace muu
 	///
 	/// \ingroup	normalize_angle_signed
 	/// \relatesalso	muu::half
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr half MUU_VECTORCALL normalize_angle_signed(half x) noexcept
 	{
 		return half{ impl::normalize_angle_signed_(static_cast<float>(x)) };
@@ -1192,8 +1165,7 @@ namespace muu::impl
 	inline constexpr int8_t f16_single_exp_bias = 127;
 	inline constexpr int8_t f16_half_exp_bias	= 15;
 
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr uint16_t MUU_VECTORCALL f32_to_f16_emulated(float val) noexcept
 	{
 		const uint32_t bits32 = muu::bit_cast<uint32_t>(val);
@@ -1244,8 +1216,7 @@ namespace muu::impl
 		return s16 | exp16 | frac16;
 	}
 
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr float MUU_VECTORCALL f16_to_f32_emulated(uint16_t val) noexcept
 	{
 		// 1000 0000 0000 0000 ->
@@ -1322,8 +1293,7 @@ namespace muu::impl
 
 	#endif // MUU_HALF_USE_INTRINSICS
 
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr uint16_t MUU_VECTORCALL f32_to_f16(float val) noexcept
 	{
@@ -1338,8 +1308,7 @@ namespace muu::impl
 		return f32_to_f16_emulated(val);
 	}
 
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr float MUU_VECTORCALL f16_to_f32(uint16_t val) noexcept
 	{
@@ -1391,10 +1360,8 @@ namespace std
 		static constexpr auto traps				= false;
 		static constexpr auto tinyness_before	= false;
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
-		static MUU_CONSTEVAL
-		half min() noexcept
+		MUU_CONST_GETTER
+		static constexpr half min() noexcept
 		{
 #if MUU_HALF_EMULATED
 			using namespace muu::literals;
@@ -1404,26 +1371,20 @@ namespace std
 #endif
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
-		static MUU_CONSTEVAL
-		half lowest() noexcept
+		MUU_CONST_GETTER
+		static constexpr half lowest() noexcept
 		{
 			return half::constants::lowest;
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
-		static MUU_CONSTEVAL
-		half max() noexcept
+		MUU_CONST_GETTER
+		static constexpr half max() noexcept
 		{
 			return half::constants::highest;
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
-		static MUU_CONSTEVAL
-		half epsilon() noexcept
+		MUU_CONST_GETTER
+		static constexpr half epsilon() noexcept
 		{
 #if MUU_HALF_EMULATED
 			using namespace muu::literals;
@@ -1433,10 +1394,8 @@ namespace std
 #endif
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
-		static MUU_CONSTEVAL
-		half round_error() noexcept
+		MUU_CONST_GETTER
+		static constexpr half round_error() noexcept
 		{
 #if MUU_HALF_EMULATED
 			using namespace muu::literals;
@@ -1446,34 +1405,26 @@ namespace std
 #endif
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
-		static MUU_CONSTEVAL
-		half infinity() noexcept
+		MUU_CONST_GETTER
+		static constexpr half infinity() noexcept
 		{
 			return half::constants::infinity;
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
-		static MUU_CONSTEVAL
-		half quiet_NaN() noexcept
+		MUU_CONST_GETTER
+		static constexpr half quiet_NaN() noexcept
 		{
 			return half::constants::nan;
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
-		static MUU_CONSTEVAL
-		half signaling_NaN() noexcept
+		MUU_CONST_GETTER
+		static constexpr half signaling_NaN() noexcept
 		{
 			return half::constants::signaling_nan;
 		}
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
-		static MUU_CONSTEVAL
-		half denorm_min() noexcept
+		MUU_CONST_GETTER
+		static constexpr half denorm_min() noexcept
 		{
 #if MUU_HALF_EMULATED
 			using namespace muu::literals;

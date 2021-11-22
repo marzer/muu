@@ -149,7 +149,10 @@ MUU_ENABLE_WARNINGS;
 			CHECK(approx_equal(cae_expected, cae_actual, cae_epsilon));                                                \
 		}                                                                                                              \
 		else                                                                                                           \
+		{                                                                                                              \
+			static_cast<void>(epsilon_);                                                                               \
 			CHECK((expected_) == (actual_));                                                                           \
+		}                                                                                                              \
 	}                                                                                                                  \
 	while (false)
 
@@ -240,14 +243,14 @@ MUU_ENABLE_WARNINGS;
 #endif
 
 #if MUU_HAS_FLOAT128
-	#define BIG_FLOATS_1 , float128_t
+	#define LARGE_FLOATS_1 , float128_t
 #else
-	#define BIG_FLOATS_1
+	#define LARGE_FLOATS_1
 #endif
 
 #define SMALL_FLOATS			half SMALL_FLOATS_1 SMALL_FLOATS_2
-#define EXTENDED_FLOATS			SMALL_FLOATS BIG_FLOATS_1
-#define BIG_FLOATS				STANDARD_FLOATS BIG_FLOATS_1
+#define EXTENDED_FLOATS			SMALL_FLOATS LARGE_FLOATS_1
+#define NON_FP16_FLOATS			STANDARD_FLOATS LARGE_FLOATS_1
 #define ALL_FLOATS				STANDARD_FLOATS, EXTENDED_FLOATS
 #define ALL_ARITHMETIC			ALL_FLOATS, ALL_INTS
 #define ALL_SIGNED_ARITHMETIC	ALL_FLOATS, ALL_SIGNED_INTS
@@ -283,7 +286,14 @@ MUU_ENABLE_WARNINGS;
 	MUU_FOR_EACH_FORCE_UNROLL(func(long double, __VA_ARGS__))                                                          \
 	static_assert(true)
 
-// nameof --------------------------------------------------------------------------------------------------------------
+#define RANDOM_ITERATIONS for (size_t ri_iteration = 0; ri_iteration < 1000_sz; ri_iteration++)
+
+#define SKIP_INF_NAN(...)                                                                                              \
+	if (any_infinity_or_nan(__VA_ARGS__))                                                                              \
+	continue
+
+// nameof
+// --------------------------------------------------------------------------------------------------------------
 
 template <typename T>
 struct nameof_;
@@ -305,8 +315,7 @@ MUU_FOR_EACH(MAKE_NAME_OF, ALL_ARITHMETIC)
 namespace muu
 {
 	template <typename T>
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	MUU_CONSTEVAL
 	muu::remove_cvref<T> make_infinity(int sign = 1) noexcept
 	{
@@ -315,8 +324,7 @@ namespace muu
 	}
 
 	template <typename T>
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	MUU_CONSTEVAL
 	muu::remove_cvref<T> make_nan() noexcept
 	{
@@ -348,8 +356,13 @@ namespace muu
 				return static_cast<T>(static_cast<fp>(::rand()) / static_cast<fp>(RAND_MAX));
 			}
 		}
-		else // 0 - min(RAND_MAX, limit)
-			return static_cast<T>(static_cast<T>(::rand()) % constants<T>::highest);
+		else
+		{
+			if constexpr (RAND_MAX > constants<T>::highest)
+				return static_cast<T>(::rand() % static_cast<decltype(::rand())>(constants<T>::highest));
+			else
+				return static_cast<T>(::rand());
+		}
 	}
 
 	template <typename T, typename Max>
@@ -414,6 +427,13 @@ namespace muu
 		return static_cast<T&&>(val);
 	}
 
+	template <typename... T>
+	MUU_CONST_GETTER
+	constexpr bool any_infinity_or_nan(const T&... vals) noexcept
+	{
+		return (false || ... || infinity_or_nan(vals));
+	}
+
 	template <typename T>
 	struct print_aligned
 	{
@@ -445,6 +465,40 @@ namespace muu
 
 	template <typename T>
 	print_aligned(T) -> print_aligned<T>;
+
+	template <size_t Skip, size_t Length, typename T>
+	struct print_bits
+	{
+		T value;
+
+		static_assert(is_unsigned<T> && is_integer<T>);
+
+		template <typename Char>
+		friend std::basic_ostream<Char>& operator<<(std::basic_ostream<Char>& lhs, const print_bits& rhs)
+		{
+			T v	   = rhs.value;
+			T mask = T{ 1 } << ((sizeof(T) * CHAR_BIT) - 1u);
+			if constexpr (Skip != 0)
+			{
+				mask >>= Skip;
+				v >>= Skip;
+			}
+			static constexpr size_t Remaining = (sizeof(T) * CHAR_BIT) - Skip;
+			if constexpr (Remaining > Length)
+				mask >>= (Remaining - Length);
+
+			while (mask)
+			{
+				lhs.put(static_cast<Char>(48 + static_cast<int>(!!(v & mask))));
+				mask >>= T{ 1 };
+			}
+
+			return lhs;
+		}
+	};
+
+	template <typename T>
+	print_bits(T) -> print_bits<0, static_cast<size_t>(-1), T>;
 
 	template <size_t Offset = 0_sz, typename Tuple, size_t... Indices>
 	constexpr auto tuple_subset(Tuple&& tpl, std::index_sequence<Indices...>) noexcept

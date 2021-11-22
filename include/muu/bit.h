@@ -22,8 +22,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr int MUU_VECTORCALL countl_zero_native(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
@@ -116,8 +115,7 @@ namespace muu
 	///
 	/// \returns	The number of consecutive zeros from the left end of an integer's bits.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	MUU_ATTR(flatten)
 	constexpr int MUU_VECTORCALL countl_zero(T val) noexcept
 	{
@@ -155,8 +153,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr int MUU_VECTORCALL countr_zero_native(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
@@ -246,8 +243,7 @@ namespace muu
 	///
 	/// \returns	The number of consecutive zeros from the right end of an integer's bits.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	MUU_ATTR(flatten)
 	constexpr int MUU_VECTORCALL countr_zero(T val) noexcept
 	{
@@ -292,8 +288,7 @@ namespace muu
 	///
 	/// \returns	The number of consecutive ones from the left end of an integer's bits.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr int MUU_VECTORCALL countl_one(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -313,8 +308,7 @@ namespace muu
 	///
 	/// \returns	The number of consecutive ones from the right end of an integer's bits.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr int MUU_VECTORCALL countr_one(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -334,8 +328,7 @@ namespace muu
 	///
 	/// \returns	The smallest integral power of two that is not smaller than `val`.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr T MUU_VECTORCALL bit_ceil(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -372,8 +365,7 @@ namespace muu
 	/// \returns	An integral value containing the input values packed bitwise left-to-right. If the total size of the
 	/// 			inputs was less than the return type, the output will be zero-padded on the left.
 	MUU_CONSTRAINED_TEMPLATE((all_integral<T, U, V...>), typename Return = void, typename T, typename U, typename... V)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr auto MUU_VECTORCALL bit_pack(T val1, U val2, V... vals) noexcept
 	{
 		static_assert(!is_cvref<Return>, "Return type cannot be const, volatile, or a reference");
@@ -471,8 +463,7 @@ namespace muu
 #endif
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr int MUU_VECTORCALL popcount_native(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
@@ -562,8 +553,7 @@ namespace muu
 	///
 	/// \returns	The number of bits that were set to `1` in `val`.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	MUU_ATTR(flatten)
 	constexpr int MUU_VECTORCALL popcount(T val) noexcept
 	{
@@ -597,8 +587,7 @@ namespace muu
 	///
 	/// \returns	True if the input value had only a single bit set (and thus was a power of two).
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr bool MUU_VECTORCALL has_single_bit(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -628,8 +617,7 @@ namespace muu
 	///
 	/// \returns	Zero if `val` is zero; otherwise, the largest integral power of two that is not greater than `val`.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr T MUU_VECTORCALL bit_floor(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -654,8 +642,7 @@ namespace muu
 	/// \returns	If `val` is not zero, calculates the number of bits needed to store `val` (i.e. `1 + log2(x)`).
 	/// 			Returns `0` if `val` is zero.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr T MUU_VECTORCALL bit_width(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -679,8 +666,7 @@ namespace muu
 	///
 	/// \returns	An instance of T right-filled with the desired number of ones.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr T MUU_VECTORCALL bit_fill_right(size_t count) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -710,8 +696,7 @@ namespace muu
 	///
 	/// \returns	An instance of T left-filled with the desired number of ones.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr T MUU_VECTORCALL bit_fill_left(size_t count) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -885,8 +870,7 @@ namespace muu
 		}
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr T MUU_VECTORCALL byte_reverse_native(T val) noexcept
 		{
 			if constexpr (sizeof(T) == sizeof(uint16_t))
@@ -996,9 +980,7 @@ namespace muu
 	/// \returns	An integral value containing the selected bytes packed bitwise left-to-right. If the total size of the
 	/// 			inputs was less than the return type, the output will be zero-padded on the left.
 	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, size_t... ByteIndices, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
+	MUU_CONST_GETTER
 	constexpr auto MUU_VECTORCALL swizzle(T val) noexcept
 	{
 		static_assert(sizeof...(ByteIndices) > 0_sz, "At least one byte index must be specified.");

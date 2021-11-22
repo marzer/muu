@@ -31,6 +31,10 @@ if compiler_supports_cpp20
 	endif
 endif
 
+# if is_release and (is_gcc or is_clang)
+# 	muu_lib_overrides += 'optimization=2'
+# endif
+
 muu_dependencies = []
 if not is_windows
 	muu_dependencies += dependency('threads')

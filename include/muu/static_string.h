@@ -16,7 +16,7 @@
 #include "impl/header_start.h"
 
 #if !defined(DOXYGEN) && defined(__cpp_nontype_template_args) && __cpp_nontype_template_args >= 201911                 \
-	&& (!MUU_MSVC || MUU_MSVC >= 1930)
+	&& (!MUU_MSVC || MUU_MSVC > 1931)
 	#define MUU_STATIC_STRING_CHAR_UDL 1
 #else
 	#define MUU_STATIC_STRING_CHAR_UDL 0
@@ -891,7 +891,8 @@ namespace muu
 		///
 		/// \relatesalso muu::static_string
 		template <char... Str>
-		constexpr static_string<char, sizeof...(Str)> operator"" _ss()
+		MUU_CONSTEVAL
+		static_string<char, sizeof...(Str)> operator"" _ss()
 		{
 			const char str[] = { Str... };
 			return static_string<char, sizeof...(Str)>{ str };
@@ -900,7 +901,8 @@ namespace muu
 #if MUU_STATIC_STRING_CHAR_UDL
 
 		template <impl::static_string_udl_impl Str>
-		constexpr decltype(Str) operator"" _ss()
+		MUU_CONSTEVAL
+		decltype(Str) operator"" _ss()
 		{
 			return Str;
 		}

@@ -190,6 +190,10 @@ foreach cpp20 : cpp20_modes
 				test_args += '-DSHOULD_HAVE_FLOAT128=1'
 			endif
 
+			# if is_release and (is_gcc or is_clang)
+			# 	test_overrides += 'optimization=2'
+			# endif
+
 			test_executables += [[
 				test_name,
 				executable(

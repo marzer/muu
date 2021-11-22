@@ -37,6 +37,8 @@ namespace
 
 	template <typename... T>
 	using planes = type_list<plane<T>...>;
+
+	using tested_planes = planes<NON_FP16_FLOATS>; // waste of time checking fp16
 }
 
 namespace muu
@@ -45,7 +47,7 @@ namespace muu
 	inline constexpr bool allow_implicit_bit_cast<blittable<T>, plane<T>> = true;
 }
 
-BATCHED_TEST_CASE("plane constructors", planes<ALL_FLOATS>)
+BATCHED_TEST_CASE("plane constructors", tested_planes)
 {
 	using plane = TestType;
 	using T		= typename plane::scalar_type;
@@ -121,7 +123,7 @@ BATCHED_TEST_CASE("plane constructors", planes<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("plane equality", planes<ALL_FLOATS>)
+BATCHED_TEST_CASE("plane equality", tested_planes)
 {
 	using plane = TestType;
 	using T		= typename plane::scalar_type;
@@ -176,7 +178,7 @@ BATCHED_TEST_CASE("plane equality", planes<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("plane zero", planes<ALL_FLOATS>)
+BATCHED_TEST_CASE("plane zero", tested_planes)
 {
 	using plane = TestType;
 	using T		= typename plane::scalar_type;
@@ -223,7 +225,7 @@ BATCHED_TEST_CASE("plane zero", planes<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("plane infinity_or_nan", planes<ALL_FLOATS>)
+BATCHED_TEST_CASE("plane infinity_or_nan", tested_planes)
 {
 	using plane = TestType;
 	using T		= typename plane::scalar_type;

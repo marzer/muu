@@ -2028,22 +2028,32 @@ namespace muu
 				else if constexpr (is_detected<is_aggregate_4_args_, T>) // four
 				{
 					auto&& [a, b, c, d] = static_cast<T&&>(obj);
+					MUU_UNUSED(a);
+					MUU_UNUSED(b);
+					MUU_UNUSED(c);
+					MUU_UNUSED(d);
 					return std::bool_constant<
 						is_valid_hva_<T, decltype(a), decltype(b), decltype(c), decltype(d)>::value>{};
 				}
 				else if constexpr (is_detected<is_aggregate_3_args_, T>) // three
 				{
 					auto&& [a, b, c] = static_cast<T&&>(obj);
+					MUU_UNUSED(a);
+					MUU_UNUSED(b);
+					MUU_UNUSED(c);
 					return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b), decltype(c)>::value>{};
 				}
 				else if constexpr (is_detected<is_aggregate_2_args_, T>) // two
 				{
 					auto&& [a, b] = static_cast<T&&>(obj);
+					MUU_UNUSED(a);
+					MUU_UNUSED(b);
 					return std::bool_constant<is_valid_hva_<T, decltype(a), decltype(b)>::value>{};
 				}
 				else if constexpr (is_detected<is_aggregate_1_arg_, T>) // one
 				{
 					auto&& [a] = static_cast<T&&>(obj);
+					MUU_UNUSED(a);
 					return std::bool_constant<is_valid_hva_<T, decltype(a)>::value>{};
 				}
 				else
