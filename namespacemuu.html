@@ -183,6 +183,11 @@
             </dt>
             <dd>Matrix constants.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename Integer, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html">constants&lt;packed_unit_vector&lt;Integer, Dimensions&gt;&gt;</a>
+            </dt>
+            <dd>Packed unit <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> constants.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01plane_3_01_scalar_01_4_01_4.html">constants&lt;plane&lt;Scalar&gt;&gt;</a>
             </dt>
@@ -310,6 +315,11 @@
               struct <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>
             </dt>
             <dd>An oriented bounding box.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Integer, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1packed__unit__vector.html">packed_unit_vector</a>
+            </dt>
+            <dd>A utility type for lossy packing of 2D or 3D unit <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a> into a single integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1plane.html">plane</a>
@@ -1194,6 +1204,39 @@
             </dt>
             <dd>Returns a value clamped between two bounds (inclusive).</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__consteval__sqrt.html#ga435fcf395534dfec9465ed87a52fc88d">consteval_sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a half-precision float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__consteval__sqrt.html#ga4133ea944ff868e69eabab5d872f6da4">consteval_sqrt</a>(</span><span class="m-doc-wrap">float x) -&gt; float <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a float.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__consteval__sqrt.html#ga5b1bf68a67a05d300f8e9c7fd5d1c026">consteval_sqrt</a>(</span><span class="m-doc-wrap">double x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__consteval__sqrt.html#ga603ad552348bcbdb218217d23675d3ce">consteval_sqrt</a>(</span><span class="m-doc-wrap">long double x) -&gt; long double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a long double.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__consteval__sqrt.html#gabd0f8319f64fbe7ca4c1e6739f44d962">consteval_sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> x) -&gt; <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_t</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__consteval__sqrt.html#ga26b70752b25e3620d807aa8b4f533c38">consteval_sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> x) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__consteval__sqrt.html#ga04769433189ec11e79f9abb3da5b8856">consteval_sqrt</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> x) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of a <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__consteval__sqrt.html#gafb8dd23cf2d5d5628aa5f09cd7af2035">consteval_sqrt</a>(</span><span class="m-doc-wrap">T x) -&gt; double <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the square-root of an integer.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__cos.html#ga3f48d168cf2a5cc17d95fd4860ce8267">cos</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the cosine of a half-precision float.</dd>
@@ -1299,6 +1342,13 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__iterators.html#gaa1738bf3c1eae5986fd53eafe6ad7c3e">end_iterator</a>(</span><span class="m-doc-wrap">T&amp;&amp; iterable) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the 'end' iterator of an iterable object.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__math.html#gabf640468db93ee9390f6809f2495a291">evenly_distribute</a>(</span><span class="m-doc-wrap">T total,
+              T bucket_count,
+              T bucket_index) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Evenly divides an integer into buckets.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__floor.html#ga33492d2d742e23fb32d6feddeb0a12a5">floor</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; <a class="m-doc" href="structmuu_1_1half.html">half</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>

@@ -41,6 +41,7 @@
     <includes id="type__name_8h" name="type_name.h" local="yes" imported="no">type_name.h</includes>
     <includes id="uuid_8h" name="uuid.h" local="yes" imported="no">uuid.h</includes>
     <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
+    <includes id="packed__unit__vector_8h" name="packed_unit_vector.h" local="yes" imported="no">packed_unit_vector.h</includes>
   </compound>
   <compound kind="file">
     <name>axis_angle.h</name>
@@ -345,6 +346,13 @@
       <name>ceil</name>
       <anchorfile>group__ceil.html</anchorfile>
       <anchor>gadb3f9b52071aea9fe1cf894a7fb9c039</anchor>
+      <arglist>(half x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr half</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga435fcf395534dfec9465ed87a52fc88d</anchor>
       <arglist>(half x) noexcept</arglist>
     </member>
     <member kind="function">
@@ -810,6 +818,55 @@
       <name>ceil</name>
       <anchorfile>group__ceil.html</anchorfile>
       <anchor>gaa15d5ffe910a00ffbeb36c5fc16e2a97</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga4133ea944ff868e69eabab5d872f6da4</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga5b1bf68a67a05d300f8e9c7fd5d1c026</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga603ad552348bcbdb218217d23675d3ce</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>gabd0f8319f64fbe7ca4c1e6739f44d962</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga26b70752b25e3620d807aa8b4f533c38</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga04769433189ec11e79f9abb3da5b8856</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>gafb8dd23cf2d5d5628aa5f09cd7af2035</anchor>
       <arglist>(T x) noexcept</arglist>
     </member>
     <member kind="function">
@@ -1365,6 +1422,13 @@
       <anchor>ga54f9d1a2efa5ffdf81afdaa4fcb89fd6</anchor>
       <arglist>(T val1, U val2, V... vals) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>evenly_distribute</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>gabf640468db93ee9390f6809f2495a291</anchor>
+      <arglist>(T total, T bucket_count, T bucket_index) noexcept</arglist>
+    </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>supports_constexpr_math</name>
@@ -1468,6 +1532,15 @@
       <anchor>ga4c274a76495695493647b4e0b7af1299</anchor>
       <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
+  </compound>
+  <compound kind="file">
+    <name>packed_unit_vector.h</name>
+    <path>/root/project/include/muu/</path>
+    <filename>packed__unit__vector_8h.html</filename>
+    <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
+    <class kind="struct">muu::packed_unit_vector</class>
+    <class kind="struct">muu::constants&lt; packed_unit_vector&lt; Integer, Dimensions &gt; &gt;</class>
+    <namespace>muu</namespace>
   </compound>
   <compound kind="file">
     <name>plane.h</name>
@@ -2444,6 +2517,7 @@
     <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
     <class kind="class">muu::tagged_ptr</class>
+    <class kind="struct">std::pointer_traits&lt; muu::tagged_ptr&lt; T, MinAlign &gt; &gt;</class>
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
@@ -3901,6 +3975,194 @@
     </member>
   </compound>
   <compound kind="struct">
+    <name>muu::constants&lt; packed_unit_vector&lt; Integer, Dimensions &gt; &gt;</name>
+    <filename>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</filename>
+    <templarg>typename Integer</templarg>
+    <templarg>size_t Dimensions</templarg>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>x_axis</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a0ba2dc3211663f94b2cb20c04bce014a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>y_axis</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>ab9fdf3cd4a576cdb88b1e5e38b6c4443</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>z_axis</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>aee30cdbf5d70e9adb65091a037459939</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>screen_right</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>afdcda3eeb7339857a5de40ad13bdf4c8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>screen_down</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a49c615cfafe21fae764fa485b9cebaa9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>screen_left</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a43a06aa760b042eef35f78f326410805</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>screen_up</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>aa21f246e5aab15d224ceace91f94cecd</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>backward</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>ab24dfea2bbcc69405b93c4b7fb9c0aff</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>forward</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a4bc02f5b03fbccc019a5070a921b3458</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>right</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a60fbd154a12bb4b99fe61dee1742a80d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>up</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a2748cc669e8518b0d8c0053eb12b6e54</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>left</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a1c5a10c05f25983612ba2b37653fd960</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>down</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a2b6336740eb165faab4e5ce46fe5f723</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>x_axis</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a0ba2dc3211663f94b2cb20c04bce014a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>y_axis</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>ab9fdf3cd4a576cdb88b1e5e38b6c4443</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>z_axis</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>aee30cdbf5d70e9adb65091a037459939</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>screen_right</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>afdcda3eeb7339857a5de40ad13bdf4c8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>screen_down</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a49c615cfafe21fae764fa485b9cebaa9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>screen_left</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a43a06aa760b042eef35f78f326410805</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>screen_up</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>aa21f246e5aab15d224ceace91f94cecd</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>backward</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>ab24dfea2bbcc69405b93c4b7fb9c0aff</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>forward</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a4bc02f5b03fbccc019a5070a921b3458</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>right</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a60fbd154a12bb4b99fe61dee1742a80d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>up</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a2748cc669e8518b0d8c0053eb12b6e54</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>left</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a1c5a10c05f25983612ba2b37653fd960</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr packed_unit_vector&lt; Integer, Dimensions &gt;</type>
+      <name>down</name>
+      <anchorfile>structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html</anchorfile>
+      <anchor>a2b6336740eb165faab4e5ce46fe5f723</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
     <name>muu::constants&lt; plane&lt; Scalar &gt; &gt;</name>
     <filename>structmuu_1_1constants_3_01plane_3_01_scalar_01_4_01_4.html</filename>
     <templarg>typename Scalar</templarg>
@@ -4777,6 +5039,13 @@
       <name>ceil</name>
       <anchorfile>group__ceil.html</anchorfile>
       <anchor>gadb3f9b52071aea9fe1cf894a7fb9c039</anchor>
+      <arglist>(half x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr half</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga435fcf395534dfec9465ed87a52fc88d</anchor>
       <arglist>(half x) noexcept</arglist>
     </member>
     <member kind="function">
@@ -6687,6 +6956,68 @@
     </member>
   </compound>
   <compound kind="struct">
+    <name>muu::packed_unit_vector</name>
+    <filename>structmuu_1_1packed__unit__vector.html</filename>
+    <templarg>typename Integer</templarg>
+    <templarg>size_t Dimensions</templarg>
+    <member kind="typedef">
+      <type>muu::constants&lt; packed_unit_vector &gt;</type>
+      <name>constants</name>
+      <anchorfile>structmuu_1_1packed__unit__vector.html</anchorfile>
+      <anchor>a4f4b6c4e7d9c57716cf8097d65663d19</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>Integer</type>
+      <name>integer_type</name>
+      <anchorfile>structmuu_1_1packed__unit__vector.html</anchorfile>
+      <anchor>a6bbcaff4fcb03f6cd054c6b9649fe79d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>packed_unit_vector</name>
+      <anchorfile>structmuu_1_1packed__unit__vector.html</anchorfile>
+      <anchor>a0fbbd14a92c4f06243ec22a20f28c379</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>packed_unit_vector</name>
+      <anchorfile>structmuu_1_1packed__unit__vector.html</anchorfile>
+      <anchor>ad8ae2d6bcd2b5bdf923858ac3fdc73da</anchor>
+      <arglist>(const packed_unit_vector &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr packed_unit_vector &amp;</type>
+      <name>operator=</name>
+      <anchorfile>structmuu_1_1packed__unit__vector.html</anchorfile>
+      <anchor>ae39745b69611dd7364cf7b4492aea51d</anchor>
+      <arglist>(const packed_unit_vector &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>packed_unit_vector</name>
+      <anchorfile>structmuu_1_1packed__unit__vector.html</anchorfile>
+      <anchor>a038a99584a22b6fc765c4328191228e9</anchor>
+      <arglist>(const vector&lt; T, dimensions &gt; &amp;vec) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>operator vector&lt; T, dimensions &gt;</name>
+      <anchorfile>structmuu_1_1packed__unit__vector.html</anchorfile>
+      <anchor>a4e4b57405b4a192a2fc107f168725ffe</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr size_t</type>
+      <name>dimensions</name>
+      <anchorfile>structmuu_1_1packed__unit__vector.html</anchorfile>
+      <anchor>aec7dcdcc76d16a6dc95f852e0a5428c9</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
     <name>muu::plane</name>
     <filename>structmuu_1_1plane.html</filename>
     <templarg>typename Scalar</templarg>
@@ -7005,6 +7336,12 @@
       <anchor>a4e9f367c8d12193247c5bbef139b7ba7</anchor>
       <arglist>(const plane &amp;p, const bounding_box&lt; scalar_type &gt; &amp;bb) noexcept</arglist>
     </member>
+  </compound>
+  <compound kind="struct">
+    <name>std::pointer_traits&lt; muu::tagged_ptr&lt; T, MinAlign &gt; &gt;</name>
+    <filename>structstd_1_1pointer__traits_3_01muu_1_1tagged__ptr_3_01_t_00_01_min_align_01_4_01_4.html</filename>
+    <templarg>typename T</templarg>
+    <templarg>size_t MinAlign</templarg>
   </compound>
   <compound kind="struct">
     <name>muu::quaternion</name>
@@ -11033,6 +11370,13 @@
       <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
+      <type>constexpr static delta_scalar_type</type>
+      <name>consteval_length</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a3b41ddab84addf22faf1a002fc88a1b9</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
       <type>static constexpr delta_scalar_type</type>
       <name>distance_squared</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
@@ -11289,6 +11633,13 @@
       <name>normalize</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
       <anchor>ab36f324a503d1fb436f63563f91715c1</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>constexpr static vector</type>
+      <name>consteval_normalize</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a9b6e21a0d75aed64f138a376951ed5f3</anchor>
       <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
@@ -11554,6 +11905,8 @@
     <class kind="struct">muu::matrix</class>
     <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
     <class kind="struct">muu::oriented_bounding_box</class>
+    <class kind="struct">muu::packed_unit_vector</class>
+    <class kind="struct">muu::constants&lt; packed_unit_vector&lt; Integer, Dimensions &gt; &gt;</class>
     <class kind="struct">muu::plane</class>
     <class kind="struct">muu::constants&lt; plane&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::quaternion</class>
@@ -12163,6 +12516,13 @@
     </member>
     <member kind="function">
       <type>constexpr half</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga435fcf395534dfec9465ed87a52fc88d</anchor>
+      <arglist>(half x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr half</type>
       <name>sqrt</name>
       <anchorfile>group__sqrt.html</anchorfile>
       <anchor>gae9514bab097b1d4944394221097d5449</anchor>
@@ -12593,6 +12953,55 @@
       <name>ceil</name>
       <anchorfile>group__ceil.html</anchorfile>
       <anchor>gaa15d5ffe910a00ffbeb36c5fc16e2a97</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga4133ea944ff868e69eabab5d872f6da4</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga5b1bf68a67a05d300f8e9c7fd5d1c026</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga603ad552348bcbdb218217d23675d3ce</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>gabd0f8319f64fbe7ca4c1e6739f44d962</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga26b70752b25e3620d807aa8b4f533c38</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga04769433189ec11e79f9abb3da5b8856</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>gafb8dd23cf2d5d5628aa5f09cd7af2035</anchor>
       <arglist>(T x) noexcept</arglist>
     </member>
     <member kind="function">
@@ -13147,6 +13556,13 @@
       <anchorfile>group__math.html</anchorfile>
       <anchor>ga54f9d1a2efa5ffdf81afdaa4fcb89fd6</anchor>
       <arglist>(T val1, U val2, V... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>evenly_distribute</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>gabf640468db93ee9390f6809f2495a291</anchor>
+      <arglist>(T total, T bucket_count, T bucket_index) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -16277,6 +16693,7 @@
     <class kind="struct">muu::constants&lt; half &gt;</class>
     <class kind="struct">std::numeric_limits&lt; muu::half &gt;</class>
     <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
+    <class kind="struct">muu::constants&lt; packed_unit_vector&lt; Integer, Dimensions &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; plane&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; quaternion&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; uuid &gt;</class>
@@ -16654,6 +17071,7 @@
     <subgroup>atan</subgroup>
     <subgroup>atan2</subgroup>
     <subgroup>ceil</subgroup>
+    <subgroup>consteval_sqrt</subgroup>
     <subgroup>cos</subgroup>
     <subgroup>floor</subgroup>
     <subgroup>infinity_or_nan</subgroup>
@@ -16701,6 +17119,13 @@
       <anchorfile>group__math.html</anchorfile>
       <anchor>ga54f9d1a2efa5ffdf81afdaa4fcb89fd6</anchor>
       <arglist>(T val1, U val2, V... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>evenly_distribute</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>gabf640468db93ee9390f6809f2495a291</anchor>
+      <arglist>(T total, T bucket_count, T bucket_index) noexcept</arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -19298,6 +19723,74 @@
       <anchorfile>group__ceil.html</anchorfile>
       <anchor>gae07fcd5b9220de0b39fa3461c3c529de</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="group">
+    <name>consteval_sqrt</name>
+    <title>consteval_sqrt()</title>
+    <filename>group__consteval__sqrt.html</filename>
+    <member kind="function">
+      <type>constexpr half</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga435fcf395534dfec9465ed87a52fc88d</anchor>
+      <arglist>(half x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga4133ea944ff868e69eabab5d872f6da4</anchor>
+      <arglist>(float x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga5b1bf68a67a05d300f8e9c7fd5d1c026</anchor>
+      <arglist>(double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr long double</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga603ad552348bcbdb218217d23675d3ce</anchor>
+      <arglist>(long double x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr float128_t</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>gabd0f8319f64fbe7ca4c1e6739f44d962</anchor>
+      <arglist>(float128_t x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr _Float16</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga26b70752b25e3620d807aa8b4f533c38</anchor>
+      <arglist>(_Float16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr __fp16</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga04769433189ec11e79f9abb3da5b8856</anchor>
+      <arglist>(__fp16 x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr double</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>gafb8dd23cf2d5d5628aa5f09cd7af2035</anchor>
+      <arglist>(T x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr half</type>
+      <name>consteval_sqrt</name>
+      <anchorfile>group__consteval__sqrt.html</anchorfile>
+      <anchor>ga435fcf395534dfec9465ed87a52fc88d</anchor>
+      <arglist>(half x) noexcept</arglist>
     </member>
   </compound>
   <compound kind="group">

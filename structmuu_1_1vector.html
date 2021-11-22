@@ -597,6 +597,10 @@
         <section id="length-and-distance">
           <h2><a href="#length-and-distance">Length and Distance</a></h2>
           <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a3b41ddab84addf22faf1a002fc88a1b9">consteval_length</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the length (magnitude) of a vector.</dd>
             <dt id="a1047e8b5bf25b8bc519786621ff39478">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a1047e8b5bf25b8bc519786621ff39478">distance</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; p1,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; p2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -736,6 +740,10 @@
           <h2><a href="#normalization">Normalization</a></h2>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>These functions are only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is a floating-point type.</p></aside>
           <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a9b6e21a0d75aed64f138a376951ed5f3">consteval_normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Normalizes a vector.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aeeafc5d6cf7fec1c6c3fc3317e15aa0c">normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v,
               <a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a>&amp; length_out) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1957,6 +1965,15 @@ template&lt;typename T&gt;
             <p>Returns true if two vectors are exactly equal.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#a35fe1423143996ce50300eeeeeda2eb5">approx_<wbr/>equal()</a>.</p></aside>
           </div></section>
+          <section class="m-doc-details" id="a3b41ddab84addf22faf1a002fc88a1b9"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3b41ddab84addf22faf1a002fc88a1b9">consteval_length</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the length (magnitude) of a vector.</p>
+<aside class="m-note m-danger"><h4>Warning</h4><p>This function is implemented such that it is <em>always</em> available at compile time, arriving at the result using very slow iterative machinery. Do not use it at runtime!</p></aside>
+          </div></section>
           <section class="m-doc-details" id="a585b0468facf48d12a3fc82a23b7507d"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
@@ -2021,6 +2038,32 @@ template&lt;typename T&gt;
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="a9b6e21a0d75aed64f138a376951ed5f3"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9b6e21a0d75aed64f138a376951ed5f3">consteval_normalize</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Normalizes a vector.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">v</td>
+                  <td>The vector to normalize.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A normalized copy of the input vector.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is a floating-point type.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>This function is implemented such that it is <em>always</em> available at compile time, arriving at the result using very slow iterative machinery. Do not use it at runtime!</p></aside>
           </div></section>
           <section class="m-doc-details" id="aeeafc5d6cf7fec1c6c3fc3317e15aa0c"><div>
             <h3>

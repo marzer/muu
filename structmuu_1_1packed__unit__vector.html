@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/tagged_ptr.h file | muu Miscellaneous useful utilities for C++</title>
+  <title>muu::packed_unit_vector struct | muu Miscellaneous useful utilities for C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -57,41 +57,76 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>tagged_ptr.h <span class="m-thin">file</span>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="packed__unit__vector_8h.html">&lt;muu/packed_unit_vector.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename Integer, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>packed_unit_vector <span class="m-thin">struct</span>
         </h1>
-        <p>Contains the definition of <a class="m-doc" href="classmuu_1_1tagged__ptr.html">muu::<wbr/>tagged_ptr</a>.</p>
+        <p>A utility type for lossy packing of 2D or 3D unit <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a> into a single integer.</p>
         <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-static-attribs">Public static variables</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
-            <dd>The root namespace for all muu functions and types.</dd>
+            <dt id="a4f4b6c4e7d9c57716cf8097d65663d19">
+              using <a class="m-doc-self" href="#a4f4b6c4e7d9c57716cf8097d65663d19">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1packed__unit__vector.html">packed_<wbr/>unit_<wbr/>vector</a>&gt;
+            </dt>
+            <dd>Compile-time constants for this <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> type.</dd>
+            <dt id="a6bbcaff4fcb03f6cd054c6b9649fe79d">
+              using <a class="m-doc-self" href="#a6bbcaff4fcb03f6cd054c6b9649fe79d">integer_type</a> = Integer
+            </dt>
+            <dd>The integer type used as the backing storage for this unit <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
           </dl>
         </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
+        <section id="pub-static-attribs">
+          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign = <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_<wbr/>of</a>&lt;T&gt;&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">muu::tagged_ptr</a>
+            <dt id="aec7dcdcc76d16a6dc95f852e0a5428c9"> static <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#aec7dcdcc76d16a6dc95f852e0a5428c9">dimensions</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Specialized pointer capable of storing data in the unused bits of a pointer's value.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> MinAlign&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1pointer__traits_3_01muu_1_1tagged__ptr_3_01_t_00_01_min_align_01_4_01_4.html">std::pointer_traits&lt;muu::tagged_ptr&lt;T, MinAlign&gt;&gt;</a>
+            <dd>The number of scalar components stored in this <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="a4e4b57405b4a192a2fc107f168725ffe">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4e4b57405b4a192a2fc107f168725ffe">operator vector&lt;T, dimensions&gt;</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Specialization of <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/memory/pointer_traits.html" target="_blank">std::<wbr/>pointer_traits</a> for <a class="m-doc" href="classmuu_1_1tagged__ptr.html">muu::<wbr/>tagged_ptr</a>.</dd>
+            <dd>Unpacks the packed unit <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> into a regular multi-component floating-point <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
+            <dt id="a0fbbd14a92c4f06243ec22a20f28c379">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0fbbd14a92c4f06243ec22a20f28c379">packed_unit_vector</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Default constructor. Storage bits are not initialized.</dd>
+            <dt id="ad8ae2d6bcd2b5bdf923858ac3fdc73da">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad8ae2d6bcd2b5bdf923858ac3fdc73da">packed_unit_vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1packed__unit__vector.html">packed_<wbr/>unit_<wbr/>vector</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy constructor.</dd>
+            <dt id="a038a99584a22b6fc765c4328191228e9">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a038a99584a22b6fc765c4328191228e9">packed_unit_vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1packed__unit__vector.html#aec7dcdcc76d16a6dc95f852e0a5428c9">dimensions</a>&gt;&amp; vec) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs from a regular unit <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="ae39745b69611dd7364cf7b4492aea51d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae39745b69611dd7364cf7b4492aea51d">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1packed__unit__vector.html">packed_<wbr/>unit_<wbr/>vector</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1packed__unit__vector.html">packed_<wbr/>unit_<wbr/>vector</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy-assigment operator.</dd>
           </dl>
         </section>
       </div>
