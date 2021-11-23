@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
-	<Type Name="muu::v0::half">
+	<Type Name="muu::half">
 		<Intrinsic Name="sign" Expression="(((unsigned)impl_ &amp; 0x8000u) &gt;&gt; 15)" />
 		<Intrinsic Name="exponent" Expression="(((unsigned)impl_ &amp; 0x7C00u) &gt;&gt; 10)" />
 		<Intrinsic Name="mantissa" Expression="((unsigned)impl_ &amp; 0x03FFu)" />
@@ -30,7 +30,7 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::tagged_ptr&lt;*,*&gt;">
+	<Type Name="muu::tagged_ptr&lt;*,*&gt;">
 		<Intrinsic Name="offset_64" Expression="16" />
 		<Intrinsic Name="offset_32" Expression="0" />
 
@@ -128,7 +128,7 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::uuid">
+	<Type Name="muu::uuid">
 		<Intrinsic Name="b0" Expression="((unsigned)bytes.value[0])" />
 		<Intrinsic Name="b1" Expression="((unsigned)bytes.value[1])" />
 		<Intrinsic Name="b2" Expression="((unsigned)bytes.value[2])" />
@@ -158,15 +158,15 @@
 		</DisplayString>
 		<Expand>
 			<Synthetic Name="[version]">
-				<DisplayString Condition="version() &gt;= 5u">{muu::v0::uuid_version::unknown}</DisplayString>
-				<DisplayString>{(muu::v0::uuid_version)version()}</DisplayString>
+				<DisplayString Condition="version() &gt;= 5u">{muu::uuid_version::unknown}</DisplayString>
+				<DisplayString>{(muu::uuid_version)version()}</DisplayString>
 			</Synthetic>
 			<Synthetic Name="[variant]">
-				<DisplayString Condition="variant() == 0u">{muu::v0::uuid_variant::none}</DisplayString>
-				<DisplayString Condition="variant() &lt;= 0b011u">{muu::v0::uuid_variant::reserved_ncs}</DisplayString>
-				<DisplayString Condition="(variant() | 0b101u) == 0b101u">{muu::v0::uuid_variant::standard}</DisplayString>
-				<DisplayString Condition="variant() == 0b110">{muu::v0::uuid_variant::reserved_microsoft}</DisplayString>
-				<DisplayString>{muu::v0::uuid_variant::reserved_future}</DisplayString>
+				<DisplayString Condition="variant() == 0u">{muu::uuid_variant::none}</DisplayString>
+				<DisplayString Condition="variant() &lt;= 0b011u">{muu::uuid_variant::reserved_ncs}</DisplayString>
+				<DisplayString Condition="(variant() | 0b101u) == 0b101u">{muu::uuid_variant::standard}</DisplayString>
+				<DisplayString Condition="variant() == 0b110">{muu::uuid_variant::reserved_microsoft}</DisplayString>
+				<DisplayString>{muu::uuid_variant::reserved_future}</DisplayString>
 			</Synthetic>
 			<ArrayItems>
 				<Size>16</Size>
@@ -175,7 +175,7 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::compressed_pair&lt;*, *&gt;">
+	<Type Name="muu::compressed_pair&lt;*, *&gt;">
 		<Intrinsic Name="mode" Expression="(unsigned)flags_" />
 		
 		<DisplayString IncludeView="noparens" Condition="mode() == 0" Optional="true">{first_}, {second_}</DisplayString>
@@ -196,7 +196,7 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::span&lt;*, 0&gt;" Priority="High">
+	<Type Name="muu::span&lt;*, 0&gt;" Priority="High">
 		<DisplayString>{{ size=0 }}</DisplayString>
 		<Expand>
 			<Item Name="[size]">0</Item>
@@ -204,7 +204,7 @@
 		</Expand>
 	</Type>
 	
-	<Type Name="muu::v0::span&lt;*, -1&gt;" Priority="Medium">
+	<Type Name="muu::span&lt;*, -1&gt;" Priority="Medium">
 		<DisplayString>{{ size={ptr_and_size.second_} }}</DisplayString>
 		<Expand>
 			<Item Name="[size]">ptr_and_size.second_</Item>
@@ -216,7 +216,7 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::span&lt;*, *&gt;" Priority="Low">
+	<Type Name="muu::span&lt;*, *&gt;" Priority="Low">
 		<DisplayString>{{ size={$T2} }}</DisplayString>
 		<Expand>
 			<Item Name="[size]">$T2</Item>
@@ -228,7 +228,7 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::string_param">
+	<Type Name="muu::string_param">
 		<Intrinsic Name="string" Expression="(std::string*)&amp;storage" />
 		<Intrinsic Name="wstring" Expression="(std::wstring*)&amp;storage" />
 		<Intrinsic Name="u8string" Expression="(std::u8string*)&amp;storage" />
@@ -263,14 +263,14 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::vector&lt;*, 1&gt;">
+	<Type Name="muu::vector&lt;*, 1&gt;">
 		<DisplayString>{{ {x} }}</DisplayString>
 		<Expand>
 			<Item Name="x">x</Item>
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::vector&lt;*, 2&gt;">
+	<Type Name="muu::vector&lt;*, 2&gt;">
 		<DisplayString>{{ {x}, {y} }}</DisplayString>
 		<Expand>
 			<Item Name="x">x</Item>
@@ -278,7 +278,7 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::vector&lt;*, 3&gt;">
+	<Type Name="muu::vector&lt;*, 3&gt;">
 		<DisplayString>{{ {x}, {y}, {z} }}</DisplayString>
 		<Expand>
 			<Item Name="x">x</Item>
@@ -287,7 +287,7 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::vector&lt;*, 4&gt;">
+	<Type Name="muu::vector&lt;*, 4&gt;">
 		<DisplayString>{{ {x}, {y}, {z}, {w} }}</DisplayString>
 		<Expand>
 			<Item Name="x">x</Item>
@@ -297,12 +297,9 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::vector&lt;*,*&gt;">
+	<Type Name="muu::vector&lt;*,*&gt;">
 		<Intrinsic Name="ptr" Expression="(($T1*)&amp;values)" />
-		<Intrinsic Name="hidden_elements" Expression="($T2 &gt; 5u ? $T2 - 5u : 0u)" />
-		<DisplayString Condition="hidden_elements() &gt; 0u">{{ {*ptr()}, {*(ptr() + 1)}, {*(ptr() + 2)}, {*(ptr() + 3)}, {*(ptr() + 4)}, ... }}</DisplayString>
-		<DisplayString Condition="hidden_elements() ==   0u">{{ {*ptr()}, {*(ptr() + 1)}, {*(ptr() + 2)}, {*(ptr() + 3)}, {*(ptr() + 4)} }}</DisplayString>
-		<DisplayString>NATVIS ERROR</DisplayString>
+		<DisplayString>{{ {*ptr()}, {*(ptr() + 1)}, {*(ptr() + 2)}, {*(ptr() + 3)}, ... }}</DisplayString>
 		<Expand>
 			<ArrayItems>
 				<Size>$T2</Size>
@@ -311,7 +308,89 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::v0::quaternion&lt;*&gt;">
+	<Type Name="muu::packed_unit_vector&lt;*,*&gt;">
+		<Intrinsic Name="total_bits" Expression="(sizeof($T1) * 8ULL)" />
+		<Intrinsic Name="sign_bits" Expression="((unsigned long long)$T2)" />
+		<Intrinsic Name="value_bits" Expression="(total_bits() - sign_bits())" />
+		<Intrinsic Name="x_bits" Expression="($T2 == 3ULL ? (value_bits() / 2ULL + 1ULL) : value_bits())" />
+		<Intrinsic Name="y_bits" Expression="($T2 == 3ULL ? (value_bits() / 2ULL) : 0ULL)" />
+		<Intrinsic Name="x_range" Expression="((1ULL &lt;&lt; x_bits()) - 1ULL)" />
+		<Intrinsic Name="y_range" Expression="((1ULL &lt;&lt; y_bits()) - 1ULL)" />
+		<Intrinsic Name="sign_mask" Expression="(((1ULL &lt;&lt; sign_bits()) - 1ULL) &lt;&lt; (x_bits() + y_bits()))" />
+		<Intrinsic Name="x_mask" Expression="(x_range() &lt;&lt; y_bits())" />
+		<Intrinsic Name="y_mask" Expression="y_range()" />
+		<Intrinsic Name="x_sign_bit" Expression="(1ULL &lt;&lt; (total_bits() - 1ULL))" />
+		<Intrinsic Name="y_sign_bit" Expression="(1ULL &lt;&lt; (total_bits() - 2ULL))" />
+		<Intrinsic Name="z_sign_bit" Expression="(1ULL &lt;&lt; (total_bits() - 3ULL))" />
+
+		<Intrinsic Name="x_range_div" Expression="(1.0f / (float)x_range())" />
+		<Intrinsic Name="x_sign" Expression="((float)(1 - ((int)(!!(b() &amp; x_sign_bit())) * 2)))" />
+		<Intrinsic Name="y_sign" Expression="((float)(1 - ((int)(!!(b() &amp; y_sign_bit())) * 2)))" />
+		<Intrinsic Name="z_sign" Expression="((float)(1 - ((int)(!!(b() &amp; z_sign_bit())) * 2)))" />
+		
+		<Intrinsic Name="b" Expression="((unsigned long long)bits)" />
+		<Intrinsic Name="ix" Expression="((b() &amp; x_mask()) &gt;&gt; y_bits())" />
+		<Intrinsic Name="iy" Expression="(b() &amp; y_mask())" />
+		
+		<Intrinsic Name="inverted" Expression="($T2 == 3ULL &amp;&amp; ix() + iy() &gt; x_range())" />
+
+		<Intrinsic Name="x_unsigned" Expression="(((float)(inverted() ? (x_range() - ix()) : ix())) * x_range_div())" />
+		<Intrinsic Name="y_unsigned" Expression="(
+			$T2 == 3ULL
+			? (((float)(inverted() ? (x_range() - iy()) : iy())) * x_range_div())
+			: (1.0f - x_unsigned())
+		)" />
+		<Intrinsic Name="z_unsigned" Expression="(1.0f - x_unsigned() - y_unsigned())" />
+
+		<Intrinsic Name="x" Expression="(x_unsigned() * x_sign())" />
+		<Intrinsic Name="y" Expression="(y_unsigned() * y_sign())" />
+		<Intrinsic Name="z" Expression="($T2 == 3ULL ? (z_unsigned() * z_sign()) : 0.0f)" />
+
+		<Intrinsic Name="dot" Expression="(v0 * v0 + v1 * v1 + v2 * v2)" >
+			<Parameter Name="v0" Type="float"></Parameter>
+			<Parameter Name="v1" Type="float"></Parameter>
+			<Parameter Name="v2" Type="float"></Parameter>
+		</Intrinsic>
+
+		<Intrinsic Name="lensq" Expression="dot(x(), y(), z())" />
+
+		<!-- xml inline Newton-Raphson lmao-->
+		<Intrinsic Name="sqrt_iteration_0" Expression="(0.5f * (x + 1.0f))">
+			<Parameter Name="x" Type="float"></Parameter>
+		</Intrinsic>
+		<Intrinsic Name="sqrt_iteration_1" Expression="(0.5f * (sqrt_iteration_0(x) + x / sqrt_iteration_0(x)))">
+			<Parameter Name="x" Type="float"></Parameter>
+		</Intrinsic>
+		<Intrinsic Name="sqrt_iteration_2" Expression="(0.5f * (sqrt_iteration_1(x) + x / sqrt_iteration_1(x)))">
+			<Parameter Name="x" Type="float"></Parameter>
+		</Intrinsic>
+		<Intrinsic Name="sqrt_iteration_3" Expression="(0.5f * (sqrt_iteration_2(x) + x / sqrt_iteration_2(x)))">
+			<Parameter Name="x" Type="float"></Parameter>
+		</Intrinsic>
+		<Intrinsic Name="sqrt_iteration_4" Expression="(0.5f * (sqrt_iteration_3(x) + x / sqrt_iteration_3(x)))">
+			<Parameter Name="x" Type="float"></Parameter>
+		</Intrinsic>
+		<Intrinsic Name="sqrt" Expression="(0.5f * (sqrt_iteration_4(x) + x / sqrt_iteration_4(x)))">
+			<Parameter Name="x" Type="float"></Parameter>
+		</Intrinsic>
+
+		<Intrinsic Name="x_norm" Expression="(x() / sqrt(lensq()))" />
+		<Intrinsic Name="y_norm" Expression="(y() / sqrt(lensq()))" />
+		<Intrinsic Name="z_norm" Expression="(z() / sqrt(lensq()))" />
+
+		<DisplayString Condition="$T2 == 2">{{ {x_norm()}, {y_norm()} }}</DisplayString>
+		<DisplayString Condition="$T2 == 3">{{ {x_norm()}, {y_norm()}, {z_norm()} }}</DisplayString>
+		<DisplayString>NATVIS ERROR</DisplayString>
+
+		<Expand>
+			<Item Name="x">x_norm()</Item>
+			<Item Name="y">y_norm()</Item>
+			<Item Name="z" Condition="$T2 == 3">z_norm()</Item>
+		</Expand>
+
+	</Type>
+
+	<Type Name="muu::quaternion&lt;*&gt;">
 		<DisplayString>{{ {s}, {v} }}</DisplayString>
 		<Expand>
 			<Item Name="s">s</Item>

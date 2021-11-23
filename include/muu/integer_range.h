@@ -4,10 +4,14 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
-#include "impl/core_meta.h"
-#include "impl/core_utils.h"
+/// \file
+/// \brief  Contains the definition of muu::integer_range.
+
 #include "iterators.h"
+#include "meta.h"
+#include "impl/core_utils.h"
 #include "impl/header_start.h"
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 namespace muu
 {
@@ -319,4 +323,5 @@ namespace muu
 	using intptr_range = integer_range<intptr_t>;
 }
 
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"

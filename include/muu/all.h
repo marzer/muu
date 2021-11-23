@@ -25,6 +25,7 @@
 #include "iterators.h"
 #include "math.h"
 #include "matrix.h"
+#include "meta.h"
 #include "oriented_bounding_box.h"
 #include "plane.h"
 #include "quaternion.h"

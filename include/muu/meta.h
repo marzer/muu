@@ -4,16 +4,19 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
-#include "../fwd.h"
+/// \file
+/// \brief Type traits and metafunctions.
 
+#include "fwd.h"
+#include "impl/std_type_traits.h"
+#include "impl/std_utility.h"
+#include "impl/is_constant_evaluated.h"
 MUU_DISABLE_WARNINGS;
-#include "std_type_traits.h"
-#include "std_utility.h"
 #if MUU_HAS_VECTORCALL
 	#include <intrin.h>
 #endif
 MUU_ENABLE_WARNINGS;
-#include "header_start.h"
+#include "impl/header_start.h"
 MUU_PRAGMA_MSVC(warning(disable : 4296)) // condition always true/false
 
 namespace muu
@@ -21,17 +24,17 @@ namespace muu
 	/// \addtogroup		meta
 	/// @{
 
-#if defined(__cpp_lib_remove_cvref) && __cpp_lib_remove_cvref >= 201711
-
-	template <typename T>
-	using remove_cvref = std::remove_cvref_t<T>;
-
-#else
+#if defined(DOXYGEN) || !defined(__cpp_lib_remove_cvref) || __cpp_lib_remove_cvref < 201711
 
 	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
 	/// \remark This is equivalent to C++20's std::remove_cvref_t.
 	template <typename T>
 	using remove_cvref = std::remove_cv_t<std::remove_reference_t<T>>;
+
+#else
+
+	template <typename T>
+	using remove_cvref = std::remove_cvref_t<T>;
 
 #endif
 
@@ -1148,18 +1151,18 @@ namespace muu
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
 		|| any_same<remove_enum<remove_cvref<T>>,
 #if MUU_HAS_INT128
-			int128_t,
+		int128_t,
 #endif
 #if MUU_HAS_FLOAT128
-			float128_t,
+		float128_t,
 #endif
 #if MUU_HAS_FLOAT16
-			_Float16,
+		_Float16,
 #endif
 #if MUU_HAS_FP16
-			__fp16,
+		__fp16,
 #endif
-			half>;
+		half>;
 
 	/// \brief Are any of the named types signed or reference-to-signed?
 	/// \remarks True for enums backed by signed integers.
@@ -1232,16 +1235,16 @@ namespace muu
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
 		|| any_same<remove_cvref<T>,
 #if MUU_HAS_FLOAT128
-			float128_t,
+		float128_t,
 #endif
 #if MUU_HAS_FLOAT16
-			_Float16,
+		_Float16,
 #endif
 #if MUU_HAS_FP16
-			__fp16,
+		__fp16,
 #endif
-			half>
-	;
+		half>
+		;
 
 	/// \brief Are any of the named types floating-point or reference-to-floating-point?
 	/// \remarks True for muu::half.
@@ -2089,21 +2092,21 @@ namespace muu
 		struct readonly_param_base_
 		{
 			using type = std::conditional_t<
-			is_floating_point<T>
-			|| is_integral<T>
-			|| std::is_scalar_v<T>
-			|| (Vectorcall
-				&& MUU_HAS_VECTORCALL
-				&& (is_vectorcall_simd_intrinsic<T> || (!MUU_ARCH_X86 && is_hva<T>))
+				is_floating_point<T>
+				|| is_integral<T>
+				|| std::is_scalar_v<T>
+				|| (Vectorcall
+					&& MUU_HAS_VECTORCALL
+					&& (is_vectorcall_simd_intrinsic<T> || (!MUU_ARCH_X86 && is_hva<T>))
 					// HVAs cause a bunch of codegen bugs when passed by value with vectorcall on x86
-			)
-			|| ((std::is_class_v<T> || std::is_union_v<T>)
-				&& (std::is_trivially_copyable_v<T> || std::is_nothrow_copy_constructible_v<T>)
-				&& std::is_nothrow_destructible_v<T>
-				&& sizeof(T) <= sizeof(void*)),
-			T,
-			std::add_lvalue_reference_t<std::add_const_t<T>>
-		>;
+					)
+				|| ((std::is_class_v<T> || std::is_union_v<T>)
+					&& (std::is_trivially_copyable_v<T> || std::is_nothrow_copy_constructible_v<T>)
+					&& std::is_nothrow_destructible_v<T>
+					&& sizeof(T) <= sizeof(void*)),
+				T,
+				std::add_lvalue_reference_t<std::add_const_t<T>>
+			>;
 		};
 		template <typename T>
 		struct readonly_param_base_<T&>
@@ -2205,4 +2208,4 @@ namespace muu
 	/// \endcond
 }
 
-#include "header_end.h"
+#include "impl/header_end.h"

@@ -4,7 +4,10 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
-#include "core_meta.h"
+/// \file
+/// \brief Contains the definition of muu::bit_cast.
+
+#include "../meta.h"
 #include "std_memcpy.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"

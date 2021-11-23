@@ -51,10 +51,10 @@ MUU_DISABLE_WARNINGS;
 MUU_ENABLE_WARNINGS;
 
 #include "impl/header_start.h"
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_PRAGMA_MSVC(warning(disable : 4556)) // value of intrinsic immediate argument '8' is out of range '0 - 7'
 MUU_PRAGMA_GCC(diagnostic ignored "-Wold-style-cast") // false positive with _mm_load_ss
-MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 namespace muu
 {

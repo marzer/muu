@@ -638,6 +638,8 @@ BATCHED_TEST_CASE("vector dot", vectors<ALL_ARITHMETIC>)
 	{
 		if constexpr (vector_t::dimensions >= 3 && constants<dot_type>::significand_digits >= 53)
 			epsilon *= dot_type{ 100 };
+		else if constexpr (vector_t::dimensions >= 5 && constants<dot_type>::significand_digits >= 24)
+			epsilon *= dot_type{ 10 };
 	}
 
 	RANDOM_ITERATIONS

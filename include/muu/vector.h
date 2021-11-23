@@ -1144,7 +1144,7 @@ namespace muu
 			return length(*this);
 		}
 
-		/// \brief	Returns the squared distance between two point vectors.
+		/// \brief	Returns the squared distance between two points.
 		MUU_PURE_GETTER
 		static constexpr delta_scalar_type MUU_VECTORCALL distance_squared(MUU_VC_PARAM(vector) p1,
 																		   MUU_VC_PARAM(vector) p2) noexcept
@@ -1167,7 +1167,7 @@ namespace muu
 			return distance_squared(*this, p);
 		}
 
-		/// \brief	Returns the squared distance between two point vectors.
+		/// \brief	Returns the distance between two points.
 		MUU_PURE_GETTER
 		static constexpr delta_scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector) p1,
 																   MUU_VC_PARAM(vector) p2) noexcept
@@ -1183,7 +1183,27 @@ namespace muu
 			}
 		}
 
-		/// \brief	Returns the squared distance between this and another point vector.
+		/// \brief	Returns the distance between two points.
+		///
+		/// \warning	This function is implemented such that it is _always_ available at compile time,
+		///				arriving at the result using very slow iterative machinery. Do not use it at runtime!
+		MUU_PURE_GETTER
+		MUU_CONSTEVAL
+		static delta_scalar_type MUU_VECTORCALL consteval_distance(MUU_VC_PARAM(vector) p1,
+																   MUU_VC_PARAM(vector) p2) noexcept
+		{
+			if constexpr (delta_requires_promotion)
+			{
+				return static_cast<delta_scalar_type>(
+					promoted_delta_vec::consteval_distance(promoted_delta_vec{ p1 }, promoted_delta_vec{ p2 }));
+			}
+			else
+			{
+				return muu::consteval_sqrt(distance_squared(p1, p2));
+			}
+		}
+
+		/// \brief	Returns the distance between this and another point vector.
 		MUU_PURE_GETTER
 		constexpr delta_scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector) p) const noexcept
 		{
@@ -2670,6 +2690,9 @@ namespace muu
 	MUU_CONSTRAINED_TEMPLATE(N != dynamic_extent, typename T, size_t N)
 	vector(const muu::span<T, N>&)->vector<T, N>;
 
+	template <typename I, size_t D>
+	vector(const packed_unit_vector<I, D>&) -> vector<float, D>;
+
 	/// \endcond
 }
 
@@ -3240,7 +3263,23 @@ namespace muu
 
 	/// \relatesalso muu::vector
 	///
-	/// \brief	Returns the squared distance between two point vectors.
+	/// \brief	Returns the length (magnitude) of a vector.
+	///
+	/// \warning	This function is implemented such that it is _always_ available at compile time,
+	///				arriving at the result using very slow iterative machinery. Do not use it at runtime!
+	template <typename S,
+			  size_t D //
+				  MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type)>
+	MUU_PURE_GETTER
+	MUU_CONSTEVAL
+	delta_scalar_type consteval_length(const vector<S, D>& v) noexcept
+	{
+		return vector<S, D>::consteval_length(v);
+	}
+
+	/// \relatesalso muu::vector
+	///
+	/// \brief	Returns the squared distance between two points.
 	template <typename S,
 			  size_t D //
 				  MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type)>
@@ -3252,7 +3291,7 @@ namespace muu
 
 	/// \relatesalso muu::vector
 	///
-	/// \brief	Returns the distance between two point vectors.
+	/// \brief	Returns the distance between two points.
 	template <typename S,
 			  size_t D //
 				  MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type)>
@@ -3260,6 +3299,22 @@ namespace muu
 	constexpr delta_scalar_type distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
 	{
 		return vector<S, D>::distance(p1, p2);
+	}
+
+	/// \relatesalso muu::vector
+	///
+	/// \brief	Returns the distance between two points.
+	///
+	/// \warning	This function is implemented such that it is _always_ available at compile time,
+	///				arriving at the result using very slow iterative machinery. Do not use it at runtime!
+	template <typename S,
+			  size_t D //
+				  MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type)>
+	MUU_PURE_GETTER
+	MUU_CONSTEVAL
+	delta_scalar_type consteval_distance(const vector<S, D>& p1, const vector<S, D>& p2) noexcept
+	{
+		return vector<S, D>::consteval_distance(p1, p2);
 	}
 
 	/// \relatesalso muu::vector
@@ -3320,6 +3375,26 @@ namespace muu
 	constexpr vector<S, D> normalize(const vector<S, D>& v) noexcept
 	{
 		return vector<S, D>::normalize(v);
+	}
+
+	/// \relatesalso muu::vector
+	///
+	/// \brief	Normalizes a vector.
+	///
+	/// \param v	The vector to normalize.
+	///
+	/// \return		A normalized copy of the input vector.
+	///
+	/// \availability This function is only available when `S` is a floating-point type.
+	///
+	/// \warning	This function is implemented such that it is _always_ available at compile time,
+	///				arriving at the result using very slow iterative machinery. Do not use it at runtime!
+	MUU_CONSTRAINED_TEMPLATE(is_floating_point<S>, typename S, size_t D)
+	MUU_PURE_GETTER
+	MUU_CONSTEVAL
+	vector<S, D> consteval_normalize(const vector<S, D>& v) noexcept
+	{
+		return vector<S, D>::consteval_normalize(v);
 	}
 
 	/// \relatesalso muu::vector

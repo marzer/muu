@@ -141,7 +141,7 @@ namespace muu::impl
 				if constexpr (Dimensions >= 3)
 				{
 					arith_type ix = (b & x_mask) >> y_bits;
-					arith_type iy = b & y_range;
+					arith_type iy = b & y_mask;
 
 					if (ix + iy > x_range)
 					{
@@ -178,6 +178,24 @@ namespace muu::impl
 namespace muu
 {
 	/// \brief A utility type for lossy packing of 2D or 3D unit vectors into a single integer.
+	///
+	/// \detail \cpp
+	/// muu::vector v{ 2.0f, 3.0f, 4.0f };
+	/// v.normalize();
+	/// muu::packed_unit_vector pv{ v }; // deduced as 3D with uint32_t storage
+	/// muu::packed_unit_vector<uint16_t, 3> pv2{ v };
+	///
+	/// std::cout << v << " (" << sizeof(v) << " bytes)\n";
+	/// std::cout << pv << " (" << sizeof(pv) << " bytes)\n";
+	/// std::cout << pv2 << " (" << sizeof(pv2) << " bytes)";
+	/// \ecpp
+	/// \out
+	/// { 0.371391, 0.557086, 0.742781 } (12 bytes)
+	/// { 0.371357, 0.557061, 0.742817 } (4 bytes)
+	/// { 0.367753, 0.55163, 0.74864 } (2 bytes)
+	/// \eout
+	///
+	/// \see muu::vector
 	template <typename Integer, size_t Dimensions>
 	struct MUU_TRIVIAL_ABI packed_unit_vector
 	{
@@ -201,17 +219,17 @@ namespace muu
 		/// \brief The integer type used as the backing storage for this unit vector.
 		using integer_type = Integer;
 
-#ifndef MUU_TESTS_HACK_LOL
-	  private:
-#endif
-		/// \cond
+		/// \brief The integer used as the backing storage for this unit vector.
+		integer_type bits;
 
-		integer_type bits_;
+	  private:
+		/// \cond
 
 		using traits	 = impl::packed_unit_vector_traits<integer_type, Dimensions>;
 		using arith_type = typename traits::arith_type;
 
 		/// \endcond
+
 	  public:
 		/// \brief Default constructor. Storage bits are not initialized.
 		MUU_NODISCARD_CTOR
@@ -225,10 +243,13 @@ namespace muu
 		constexpr packed_unit_vector& operator=(const packed_unit_vector&) noexcept = default;
 
 		/// \brief Constructs from a regular unit vector.
+		///
+		/// \tparam T	Source vector scalar type.
+		/// \param vec	Source vector. Should be normalized already.
 		template <typename T>
 		MUU_NODISCARD_CTOR
 		explicit constexpr packed_unit_vector(const vector<T, dimensions>& vec) noexcept
-			: bits_{ static_cast<integer_type>(traits::pack_vector(vec)) }
+			: bits{ static_cast<integer_type>(traits::pack_vector(vec)) }
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(vec.normalized());
 		}
@@ -236,28 +257,47 @@ namespace muu
 		/// \brief Unpacks the packed unit vector into a regular multi-component floating-point vector.
 		MUU_CONSTRAINED_TEMPLATE(is_floating_point<T>, typename T)
 		MUU_PURE_INLINE_GETTER
-		constexpr operator vector<T, dimensions>() const noexcept
+		constexpr vector<T, dimensions> unpack() const noexcept
 		{
-			return traits::template unpack_vector<T>(static_cast<arith_type>(bits_));
+			return traits::template unpack_vector<T>(static_cast<arith_type>(bits));
 		}
 
+		/// \brief Unpacks the packed unit vector into a regular multi-component floating-point vector.
+		MUU_CONSTRAINED_TEMPLATE(is_floating_point<T>, typename T)
+		MUU_PURE_INLINE_GETTER
+		explicit constexpr operator vector<T, dimensions>() const noexcept
+		{
+			return unpack<T>();
+		}
+
+		/// \brief Checks if the x-axis component is negative (without needing to unpack the vector).
 		MUU_PURE_INLINE_GETTER
 		constexpr bool x_negative() const noexcept
 		{
-			return !!(static_cast<arith_type>(bits_) & traits::x_sign_bit);
+			return !!(static_cast<arith_type>(bits) & traits::x_sign_bit);
 		}
 
+		/// \brief Checks if the y-axis component is negative (without needing to unpack the vector).
 		MUU_PURE_INLINE_GETTER
 		constexpr bool y_negative() const noexcept
 		{
-			return !!(static_cast<arith_type>(bits_) & traits::y_sign_bit);
+			return !!(static_cast<arith_type>(bits) & traits::y_sign_bit);
 		}
 
+		/// \brief Checks if the z-axis component is negative (without needing to unpack the vector).
 		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr bool z_negative() const noexcept
 		{
-			return !!(static_cast<arith_type>(bits_) & traits::z_sign_bit);
+			return !!(static_cast<arith_type>(bits) & traits::z_sign_bit);
+		}
+
+		/// \brief Writes a packed unit vector out to a text stream.
+		template <typename Char, typename Traits>
+		friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& os,
+															const packed_unit_vector& v)
+		{
+			return os << v.unpack<float>();
 		}
 	};
 

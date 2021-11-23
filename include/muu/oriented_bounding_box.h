@@ -9,6 +9,7 @@
 
 #include "impl/geometry_common.h"
 #include "impl/header_start.h"
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 
 //======================================================================================================================
@@ -687,4 +688,5 @@ namespace muu
 
 #endif //===============================================================================================================
 
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"

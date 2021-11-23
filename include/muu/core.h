@@ -10,5 +10,4 @@
 #include "impl/core_build.h"
 #include "impl/core_constants.h"
 #include "impl/core_literals.h"
-#include "impl/core_meta.h"
 #include "impl/core_utils.h"

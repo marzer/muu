@@ -8,7 +8,7 @@
 /// \brief  Contains the definition of muu::static_string.
 
 #include "iterators.h"
-#include "impl/core_meta.h"
+#include "meta.h"
 #include "impl/core_utils.h"
 #include "impl/core_constants.h"
 #include "impl/std_string_view.h"

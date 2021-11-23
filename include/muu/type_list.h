@@ -4,6 +4,9 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
+/// \file
+/// \brief  Contains the definition of muu::type_list.
+
 #include "fwd.h"
 
 #ifndef MUU_TYPE_LIST_PAGE_SIZE

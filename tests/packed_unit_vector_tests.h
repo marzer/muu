@@ -6,8 +6,6 @@
 #pragma once
 #include "tests.h"
 #include "batching.h"
-
-#define MUU_TESTS_HACK_LOL
 #include "../include/muu/packed_unit_vector.h"
 
 namespace
@@ -44,8 +42,9 @@ namespace
 	struct packed_vector_bit_printer<packed_unit_vector<Integer, Dimensions>>
 	{
 		using vector_type = packed_unit_vector<Integer, Dimensions>;
-		using traits	  = impl::packed_unit_vector_traits<Integer, Dimensions>;
-		using arith_type  = typename traits::arith_type;
+
+		using traits	 = impl::packed_unit_vector_traits<Integer, Dimensions>;
+		using arith_type = typename traits::arith_type;
 
 		template <size_t Length, size_t Skip = 0>
 		using print = print_bits<Skip, Length, arith_type>;
@@ -55,7 +54,7 @@ namespace
 		template <typename Char>
 		friend std::basic_ostream<Char>& operator<<(std::basic_ostream<Char>& lhs, const packed_vector_bit_printer& rhs)
 		{
-			const auto bits = static_cast<arith_type>(rhs.value.bits_);
+			const auto bits = static_cast<arith_type>(rhs.value.bits);
 
 			lhs << print<traits::sign_bits, traits::x_bits + traits::y_bits>{ bits };
 			lhs.put(static_cast<Char>(32));

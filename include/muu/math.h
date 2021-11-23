@@ -8,8 +8,8 @@
 /// \brief Math functions, mostly constexpr-friendly alternatives to functions from `<cmath>`.
 
 #include "core.h"
+#include "meta.h"
 #include "bit.h"
-
 MUU_DISABLE_WARNINGS;
 #include <cmath>
 #if MUU_HAS_QUADMATH
@@ -23,7 +23,6 @@ MUU_DISABLE_WARNINGS;
 #endif
 #include <numeric>
 MUU_ENABLE_WARNINGS;
-
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_ARITHMETIC_WARNINGS;
@@ -1033,22 +1032,23 @@ namespace muu
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
-			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			if constexpr (MUU_INTELLISENSE || build::supports_is_constant_evaluated)
 			{
-				using type = highest_ranked<T, long double>;
-				return static_cast<T>(consteval_sqrt_<type>(x));
+				if (is_constant_evaluated())
+				{
+					using type = highest_ranked<T, long double>;
+					return static_cast<T>(consteval_sqrt_<type>(x));
+				}
 			}
-			else
-			{
-				if constexpr (is_standard_arithmetic<T>)
-					return std::sqrt(x);
+
+			if constexpr (is_standard_arithmetic<T>)
+				return std::sqrt(x);
 	#if MUU_HAS_QUADMATH
-				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::sqrtq(x);
+			else if constexpr (std::is_same_v<float128_t, T>)
+				return ::sqrtq(x);
 	#endif
-				else
-					return static_cast<T>(std::sqrt(static_cast<clamp_to_standard_float<T>>(x)));
-			}
+			else
+				return static_cast<T>(std::sqrt(static_cast<clamp_to_standard_float<T>>(x)));
 		}
 	}
 	/// \endcond

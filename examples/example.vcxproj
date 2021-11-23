@@ -27,26 +27,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -57,16 +57,17 @@
   <Import Project="../muu.props" />
   <PropertyGroup>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)</LocalDebuggerWorkingDirectory>
-    <IncludePath>$(ProjectDir.TrimEnd('\'));$(MuuRepoRoot)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(MuuRepoRoot)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir.TrimEnd('\'));$(IncludePath)</IncludePath>
   </PropertyGroup>
   <!-- muu -->
   <Target Name="CopyMuu" AfterTargets="Build;Rebuild">
-      <Copy SourceFiles="$(SolutionDir)lib\win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(Configuration)_DynamicLibrary\muu.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
-      <Copy SourceFiles="$(SolutionDir)lib\win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(Configuration)_DynamicLibrary\muu.pdb" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" ContinueOnError="true" />
+    <Copy SourceFiles="$(SolutionDir)lib\win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(Configuration)_DynamicLibrary\muu.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(SolutionDir)lib\win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(Configuration)_DynamicLibrary\muu.pdb" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" ContinueOnError="true" />
   </Target>
   <Target Name="CleanMuu" AfterTargets="Clean" Condition="Exists('$(TargetDir)')">
-      <Delete Files="$(TargetDir)muu.dll" Condition="Exists('$(TargetDir)stim.dll')" ContinueOnError="true" />
-      <Delete Files="$(TargetDir)muu.pdb" Condition="Exists('$(TargetDir)stim.pdb')" ContinueOnError="true" />
+    <Delete Files="$(TargetDir)muu.dll" Condition="Exists('$(TargetDir)stim.dll')" ContinueOnError="true" />
+    <Delete Files="$(TargetDir)muu.pdb" Condition="Exists('$(TargetDir)stim.pdb')" ContinueOnError="true" />
   </Target>
   <ItemGroup>
     <ClCompile Include="example.cpp" />
@@ -75,12 +76,12 @@
     <None Include="meson.build" />
   </ItemGroup>
   <ItemGroup>
-    <Natvis Include="../muu.natvis" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\muu.vcxproj">
       <Project>{0e287b5a-1168-43fd-b067-f6be8e182a57}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\muu.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

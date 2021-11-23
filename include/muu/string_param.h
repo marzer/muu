@@ -7,7 +7,7 @@
 /// \file
 /// \brief  Contains the definition of muu::string_param.
 
-#include "impl/core_meta.h"
+#include "meta.h"
 #include "impl/std_string.h"
 #include "impl/std_string_view.h"
 #include "impl/std_iosfwd.h"

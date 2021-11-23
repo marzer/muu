@@ -5,7 +5,7 @@
 #pragma once
 /// \cond
 
-#include "core_meta.h"
+#include "../meta.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))

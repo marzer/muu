@@ -10,7 +10,7 @@
 #include "bit.h"
 #include "chars.h"
 #include "string_param.h"
-#include "impl/core_meta.h"
+#include "meta.h"
 #include "impl/core_constants.h"
 #include "impl/std_string.h"
 #include "impl/std_string_view.h"

@@ -7,12 +7,10 @@
 /// \file
 /// \brief Utilities for working with iterators.
 
-#include "impl/core_meta.h"
-
+#include "meta.h"
 MUU_DISABLE_WARNINGS;
 #include <iterator>
 MUU_ENABLE_WARNINGS;
-
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 

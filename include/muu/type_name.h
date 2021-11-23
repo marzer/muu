@@ -10,6 +10,7 @@
 
 #include "static_string.h"
 #include "type_list.h"
+#include "impl/header_start.h"
 
 namespace muu
 {
@@ -868,6 +869,8 @@ namespace muu
 	/// \endcond
 }
 
+#include "impl/header_end.h"
+/// \cond
 #include "impl/type_name_specializations.h"
-
+/// \endcond
 #endif // MUU_TYPE_NAME_H

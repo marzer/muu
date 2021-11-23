@@ -7,7 +7,7 @@
 /// \file
 /// \brief Contains the definition of muu::function_view.
 
-#include "impl/core_meta.h"
+#include "meta.h"
 #include "impl/core_utils.h"
 #include "impl/std_memory.h" // addressof
 #include "impl/header_start.h"

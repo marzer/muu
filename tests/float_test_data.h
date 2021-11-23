@@ -29,1080 +29,1079 @@ namespace muu
 	template <>
 	struct float_test_data_by_traits<16, 11>
 	{
-		static constexpr long double values[] = 
-		{
-			0.467L, 0.308L, 0.217L, 0.002L, 0.032L, 0.012L, 0.106L, 0.250L, 0.368L, 0.257L, 0.298L, 0.435L, 0.190L, 
-			0.428L, 0.041L, 0.344L, 0.098L, 0.158L, 0.028L, 0.440L, 0.477L, 0.060L, 0.282L, 0.070L, 0.134L, 0.264L, 
-			0.078L, 0.422L, 0.356L, 0.316L, 0.337L, 0.152L, 0.086L, 0.094L, 0.496L, 0.080L, 0.049L, 0.405L, 0.462L, 
-			0.422L, 0.294L, 0.476L, 0.092L, 0.475L, 0.002L, 0.224L, 0.153L, 0.241L, 0.428L, 0.398L, 0.364L, 0.382L, 
-			0.172L, 0.245L, 0.116L, 0.258L, 0.308L, 0.130L, 0.280L, 0.066L, 0.101L, 0.220L, 0.174L, 0.018L, 0.072L, 
-			0.408L, 0.138L, 0.496L, 0.437L, 0.195L, 0.235L, 0.374L, 0.139L, 0.226L, 0.099L, 0.418L, 0.188L, 0.172L, 
-			0.224L, 0.236L, 0.432L, 0.482L, 0.127L, 0.483L, 0.176L, 0.108L, 0.468L, 0.438L, 0.227L, 0.362L, 0.018L, 
-			0.158L, 0.084L, 0.466L, 0.482L, 0.270L, 0.248L, 0.214L, 0.131L, 0.400L, 0.342L, 0.200L, 0.394L, 0.405L, 
-			0.446L, 0.436L, 0.166L, 0.470L, 0.038L, 0.224L, 0.190L, 0.433L, 0.303L, 0.282L, 0.232L, 0.023L, 0.030L, 
-			0.114L, 0.077L, 0.262L, 0.436L, 0.011L, 0.258L, 0.144L, 0.194L, 0.046L, 0.284L, 0.149L, 0.445L, 0.325L, 
-			0.274L, 0.002L, 0.184L, 0.379L, 0.332L, 0.136L, 0.062L, 0.255L, 0.117L, 0.284L, 0.340L, 0.078L, 0.113L, 
-			0.288L, 0.338L, 0.473L, 0.360L, 0.050L, 0.103L, 0.322L, 0.082L, 0.352L, 0.110L, 0.054L, 0.478L, 0.188L, 
-			0.406L, 0.337L, 0.165L, 0.116L, 0.244L, 0.100L, 0.112L, 0.015L, 0.070L, 0.110L, 0.278L, 0.088L, 0.206L, 
-			0.077L, 0.220L, 0.230L, 0.464L, 0.032L, 0.500L, 0.403L, 0.264L, 0.312L, 0.392L, 0.286L, 0.202L, 0.342L, 
-			0.318L, 0.205L, 0.314L, 0.145L, 0.478L, 0.004L, 0.380L, 0.478L, 0.381L, 0.356L, 0.157L, 0.283L, 0.490L, 
-			0.028L, 0.498L, 0.202L, 0.239L, 0.308L, 0.175L, 0.210L, 0.231L, 0.330L, 0.184L, 0.252L, 0.308L, 0.500L, 
-			0.370L, 0.116L, 0.370L, 0.438L, 0.078L, 0.218L, 0.084L, 0.268L, 0.221L, 0.472L, 0.494L, 0.214L, 0.489L, 
-			0.307L, 0.227L, 0.072L, 0.121L, 0.490L, 0.260L, 0.180L, 0.217L, 0.479L, 0.438L, 0.181L, 0.399L, 0.364L, 
-			0.093L, 0.128L, 0.190L, 0.061L, 0.358L, 0.456L, 0.275L, 0.464L, 0.460L, 0.215L, 0.297L, 0.434L, 0.325L, 
-			0.283L, 0.270L, 0.302L, 0.216L, 0.351L, 0.090L, 0.043L, 0.190L, 0.076L, 0.147L, 0.311L, 0.033L, 0.498L, 
-			0.428L, 0.238L, 0.282L, 0.156L, 0.404L, 0.426L, 0.110L, 0.462L, 0.124L, 0.166L, 0.123L, 0.086L, 0.174L, 
-			0.444L, 0.005L, 0.066L, 0.481L, 0.388L, 0.044L, 0.027L, 0.330L, 0.012L, 0.151L, 0.366L, 0.372L, 0.427L, 
-			0.234L, 0.288L, 0.274L, 0.349L, 0.472L, 0.400L, 0.123L, 0.208L, 0.270L, 0.125L, 0.304L, 0.120L, 0.419L, 
-			0.252L, 0.288L, 0.103L, 0.386L, 0.189L, 0.390L, 0.403L, 0.144L, 0.495L, 0.340L, 0.323L, 0.218L, 0.444L, 
-			0.155L, 0.492L, 0.313L, 0.234L, 0.020L, 0.352L, 0.440L, 0.470L, 0.466L, 0.308L, 0.475L, 0.179L, 0.114L, 
-			0.455L, 0.141L, 0.350L, 0.394L, 0.200L, 0.284L, 0.257L, 0.362L, 0.152L, 0.242L, 0.448L, 0.108L, 0.026L, 
-			0.162L, 0.254L, 0.198L, 0.208L, 0.340L, 0.038L, 0.208L, 0.381L, 0.292L, 0.160L, 0.161L, 0.432L, 0.223L, 
-			0.042L, 0.191L, 0.360L, 0.380L, 0.086L, 0.232L, 0.232L, 0.173L, 0.430L, 0.417L, 0.367L, 0.023L, 0.381L, 
-			0.456L, 0.458L, 0.124L, 0.186L, 0.452L, 0.159L, 0.416L, 0.138L, 0.434L, 0.497L, 0.489L, 0.058L, 0.386L, 
-			0.060L, 0.149L, 0.452L, 0.206L, 0.050L, 0.295L, 0.156L, 0.490L, 0.235L, 0.418L, 0.416L, 0.331L, 0.160L, 
+		static constexpr long double values[] = {
+			0.467L, 0.308L, 0.217L, 0.002L, 0.032L, 0.012L, 0.106L, 0.250L, 0.368L, 0.257L, 0.298L, 0.435L, 0.190L,
+			0.428L, 0.041L, 0.344L, 0.098L, 0.158L, 0.028L, 0.440L, 0.477L, 0.060L, 0.282L, 0.070L, 0.134L, 0.264L,
+			0.078L, 0.422L, 0.356L, 0.316L, 0.337L, 0.152L, 0.086L, 0.094L, 0.496L, 0.080L, 0.049L, 0.405L, 0.462L,
+			0.422L, 0.294L, 0.476L, 0.092L, 0.475L, 0.002L, 0.224L, 0.153L, 0.241L, 0.428L, 0.398L, 0.364L, 0.382L,
+			0.172L, 0.245L, 0.116L, 0.258L, 0.308L, 0.130L, 0.280L, 0.066L, 0.101L, 0.220L, 0.174L, 0.018L, 0.072L,
+			0.408L, 0.138L, 0.496L, 0.437L, 0.195L, 0.235L, 0.374L, 0.139L, 0.226L, 0.099L, 0.418L, 0.188L, 0.172L,
+			0.224L, 0.236L, 0.432L, 0.482L, 0.127L, 0.483L, 0.176L, 0.108L, 0.468L, 0.438L, 0.227L, 0.362L, 0.018L,
+			0.158L, 0.084L, 0.466L, 0.482L, 0.270L, 0.248L, 0.214L, 0.131L, 0.400L, 0.342L, 0.200L, 0.394L, 0.405L,
+			0.446L, 0.436L, 0.166L, 0.470L, 0.038L, 0.224L, 0.190L, 0.433L, 0.303L, 0.282L, 0.232L, 0.023L, 0.030L,
+			0.114L, 0.077L, 0.262L, 0.436L, 0.011L, 0.258L, 0.144L, 0.194L, 0.046L, 0.284L, 0.149L, 0.445L, 0.325L,
+			0.274L, 0.002L, 0.184L, 0.379L, 0.332L, 0.136L, 0.062L, 0.255L, 0.117L, 0.284L, 0.340L, 0.078L, 0.113L,
+			0.288L, 0.338L, 0.473L, 0.360L, 0.050L, 0.103L, 0.322L, 0.082L, 0.352L, 0.110L, 0.054L, 0.478L, 0.188L,
+			0.406L, 0.337L, 0.165L, 0.116L, 0.244L, 0.100L, 0.112L, 0.015L, 0.070L, 0.110L, 0.278L, 0.088L, 0.206L,
+			0.077L, 0.220L, 0.230L, 0.464L, 0.032L, 0.500L, 0.403L, 0.264L, 0.312L, 0.392L, 0.286L, 0.202L, 0.342L,
+			0.318L, 0.205L, 0.314L, 0.145L, 0.478L, 0.004L, 0.380L, 0.478L, 0.381L, 0.356L, 0.157L, 0.283L, 0.490L,
+			0.028L, 0.498L, 0.202L, 0.239L, 0.308L, 0.175L, 0.210L, 0.231L, 0.330L, 0.184L, 0.252L, 0.308L, 0.500L,
+			0.370L, 0.116L, 0.370L, 0.438L, 0.078L, 0.218L, 0.084L, 0.268L, 0.221L, 0.472L, 0.494L, 0.214L, 0.489L,
+			0.307L, 0.227L, 0.072L, 0.121L, 0.490L, 0.260L, 0.180L, 0.217L, 0.479L, 0.438L, 0.181L, 0.399L, 0.364L,
+			0.093L, 0.128L, 0.190L, 0.061L, 0.358L, 0.456L, 0.275L, 0.464L, 0.460L, 0.215L, 0.297L, 0.434L, 0.325L,
+			0.283L, 0.270L, 0.302L, 0.216L, 0.351L, 0.090L, 0.043L, 0.190L, 0.076L, 0.147L, 0.311L, 0.033L, 0.498L,
+			0.428L, 0.238L, 0.282L, 0.156L, 0.404L, 0.426L, 0.110L, 0.462L, 0.124L, 0.166L, 0.123L, 0.086L, 0.174L,
+			0.444L, 0.005L, 0.066L, 0.481L, 0.388L, 0.044L, 0.027L, 0.330L, 0.012L, 0.151L, 0.366L, 0.372L, 0.427L,
+			0.234L, 0.288L, 0.274L, 0.349L, 0.472L, 0.400L, 0.123L, 0.208L, 0.270L, 0.125L, 0.304L, 0.120L, 0.419L,
+			0.252L, 0.288L, 0.103L, 0.386L, 0.189L, 0.390L, 0.403L, 0.144L, 0.495L, 0.340L, 0.323L, 0.218L, 0.444L,
+			0.155L, 0.492L, 0.313L, 0.234L, 0.020L, 0.352L, 0.440L, 0.470L, 0.466L, 0.308L, 0.475L, 0.179L, 0.114L,
+			0.455L, 0.141L, 0.350L, 0.394L, 0.200L, 0.284L, 0.257L, 0.362L, 0.152L, 0.242L, 0.448L, 0.108L, 0.026L,
+			0.162L, 0.254L, 0.198L, 0.208L, 0.340L, 0.038L, 0.208L, 0.381L, 0.292L, 0.160L, 0.161L, 0.432L, 0.223L,
+			0.042L, 0.191L, 0.360L, 0.380L, 0.086L, 0.232L, 0.232L, 0.173L, 0.430L, 0.417L, 0.367L, 0.023L, 0.381L,
+			0.456L, 0.458L, 0.124L, 0.186L, 0.452L, 0.159L, 0.416L, 0.138L, 0.434L, 0.497L, 0.489L, 0.058L, 0.386L,
+			0.060L, 0.149L, 0.452L, 0.206L, 0.050L, 0.295L, 0.156L, 0.490L, 0.235L, 0.418L, 0.416L, 0.331L, 0.160L,
 			0.432L, 0.056L, 0.102L, 0.078L, 0.186L, 0.286L, 0.055L, 0.302L, 0.443L, 0.165L
 		};
 
-		static constexpr long double values_sum_low         = 102.974L;
-		static constexpr long double values_sum             = 103.077L;
-		static constexpr long double values_sum_high        = 103.180L;
-		static constexpr long double values_min             = 0.002L;
-		static constexpr long double values_max             = 0.500L;
+		static constexpr long double values_sum_low	 = 102.974L;
+		static constexpr long double values_sum		 = 103.077L;
+		static constexpr long double values_sum_high = 103.180L;
+		static constexpr long double values_min		 = 0.002L;
+		static constexpr long double values_max		 = 0.500L;
 
-		static constexpr long double one_over_two           = 0.50000L; // 0'01110'0000000000
-		static constexpr long double two_over_three         = 0.66667L; // 0'01110'0101010110
-		static constexpr long double two_over_five          = 0.40000L; // 0'01101'1001100111
-		static constexpr long double sqrt_two               = 1.41421L; // 0'01111'0110101000
-		static constexpr long double one_over_sqrt_two      = 0.70711L; // 0'01110'0110101000
-		static constexpr long double one_over_three         = 0.33333L; // 0'01101'0101010110
-		static constexpr long double three_over_two         = 1.50000L; // 0'01111'1000000000
-		static constexpr long double three_over_four        = 0.75000L; // 0'01110'1000000000
-		static constexpr long double three_over_five        = 0.60000L; // 0'01110'0011001101
-		static constexpr long double sqrt_three             = 1.73205L; // 0'01111'1011101110
-		static constexpr long double one_over_sqrt_three    = 0.57735L; // 0'01110'0010011111
-		static constexpr long double pi                     = 3.14159L; // 0'10000'1001001001
-		static constexpr long double one_over_pi            = 0.31831L; // 0'01101'0100011000
-		static constexpr long double pi_over_two            = 1.57080L; // 0'01111'1001001001
-		static constexpr long double pi_over_three          = 1.04720L; // 0'01111'0000110001
-		static constexpr long double pi_over_four           = 0.78540L; // 0'01110'1001001001
-		static constexpr long double pi_over_five           = 0.62832L; // 0'01110'0100000111
-		static constexpr long double pi_over_six            = 0.52360L; // 0'01110'0000110001
-		static constexpr long double pi_over_seven          = 0.44880L; // 0'01101'1100101111
-		static constexpr long double pi_over_eight          = 0.39270L; // 0'01101'1001001001
-		static constexpr long double sqrt_pi                = 1.77245L; // 0'01111'1100010111
-		static constexpr long double one_over_sqrt_pi       = 0.56419L; // 0'01110'0010000100
-		static constexpr long double two_pi                 = 6.28319L; // 0'10001'1001001001
-		static constexpr long double one_over_two_pi        = 0.15915L; // 0'01100'0100011000
-		static constexpr long double sqrt_two_pi            = 2.50663L; // 0'10000'0100000100
-		static constexpr long double one_over_sqrt_two_pi   = 0.39894L; // 0'01101'1001100010
-		static constexpr long double three_pi               = 9.42478L; // 0'10010'0010110111
-		static constexpr long double one_over_three_pi      = 0.10610L; // 0'01011'1011001011
-		static constexpr long double three_pi_over_two      = 4.71239L; // 0'10001'0010110111
-		static constexpr long double three_pi_over_four     = 2.35619L; // 0'10000'0010110111
-		static constexpr long double three_pi_over_five     = 1.88496L; // 0'01111'1110001010
-		static constexpr long double sqrt_three_pi          = 3.06998L; // 0'10000'1000100100
-		static constexpr long double one_over_sqrt_three_pi = 0.32574L; // 0'01101'0100110110
-		static constexpr long double e                      = 2.71828L; // 0'10000'0101110000
-		static constexpr long double one_over_e             = 0.36788L; // 0'01101'0111100011
-		static constexpr long double e_over_two             = 1.35914L; // 0'01111'0101110000
-		static constexpr long double e_over_three           = 0.90609L; // 0'01110'1101000000
-		static constexpr long double e_over_four            = 0.67957L; // 0'01110'0101110000
-		static constexpr long double e_over_five            = 0.54366L; // 0'01110'0001011010
-		static constexpr long double e_over_six             = 0.45305L; // 0'01101'1101000000
-		static constexpr long double sqrt_e                 = 1.64872L; // 0'01111'1010011001
-		static constexpr long double one_over_sqrt_e        = 0.60653L; // 0'01110'0011011010
-		static constexpr long double phi                    = 1.61803L; // 0'01111'1001111001
-		static constexpr long double one_over_phi           = 0.61803L; // 0'01110'0011110010
-		static constexpr long double phi_over_two           = 0.80902L; // 0'01110'1001111001
-		static constexpr long double phi_over_three         = 0.53934L; // 0'01110'0001010001
-		static constexpr long double phi_over_four          = 0.40451L; // 0'01101'1001111001
-		static constexpr long double phi_over_five          = 0.32361L; // 0'01101'0100101110
-		static constexpr long double phi_over_six           = 0.26967L; // 0'01101'0001010001
-		static constexpr long double sqrt_phi               = 1.27202L; // 0'01111'0100010111
-		static constexpr long double one_over_sqrt_phi      = 0.78615L; // 0'01110'1001001010
-		static constexpr long double degrees_to_radians     = 0.01745L; // 0'01001'0001111000
-		static constexpr long double radians_to_degrees     = 57.29578L; // 0'10100'1100101010
+		static constexpr long double one_over_two			= 0.50000L;	 // 0'01110'0000000000
+		static constexpr long double two_over_three			= 0.66667L;	 // 0'01110'0101010110
+		static constexpr long double two_over_five			= 0.40000L;	 // 0'01101'1001100111
+		static constexpr long double sqrt_two				= 1.41421L;	 // 0'01111'0110101000
+		static constexpr long double one_over_sqrt_two		= 0.70711L;	 // 0'01110'0110101000
+		static constexpr long double one_over_three			= 0.33333L;	 // 0'01101'0101010110
+		static constexpr long double three_over_two			= 1.50000L;	 // 0'01111'1000000000
+		static constexpr long double three_over_four		= 0.75000L;	 // 0'01110'1000000000
+		static constexpr long double three_over_five		= 0.60000L;	 // 0'01110'0011001101
+		static constexpr long double sqrt_three				= 1.73205L;	 // 0'01111'1011101110
+		static constexpr long double one_over_sqrt_three	= 0.57735L;	 // 0'01110'0010011111
+		static constexpr long double pi						= 3.14159L;	 // 0'10000'1001001001
+		static constexpr long double one_over_pi			= 0.31831L;	 // 0'01101'0100011000
+		static constexpr long double pi_over_two			= 1.57080L;	 // 0'01111'1001001001
+		static constexpr long double pi_over_three			= 1.04720L;	 // 0'01111'0000110001
+		static constexpr long double pi_over_four			= 0.78540L;	 // 0'01110'1001001001
+		static constexpr long double pi_over_five			= 0.62832L;	 // 0'01110'0100000111
+		static constexpr long double pi_over_six			= 0.52360L;	 // 0'01110'0000110001
+		static constexpr long double pi_over_seven			= 0.44880L;	 // 0'01101'1100101111
+		static constexpr long double pi_over_eight			= 0.39270L;	 // 0'01101'1001001001
+		static constexpr long double sqrt_pi				= 1.77245L;	 // 0'01111'1100010111
+		static constexpr long double one_over_sqrt_pi		= 0.56419L;	 // 0'01110'0010000100
+		static constexpr long double two_pi					= 6.28319L;	 // 0'10001'1001001001
+		static constexpr long double one_over_two_pi		= 0.15915L;	 // 0'01100'0100011000
+		static constexpr long double sqrt_two_pi			= 2.50663L;	 // 0'10000'0100000100
+		static constexpr long double one_over_sqrt_two_pi	= 0.39894L;	 // 0'01101'1001100010
+		static constexpr long double three_pi				= 9.42478L;	 // 0'10010'0010110111
+		static constexpr long double one_over_three_pi		= 0.10610L;	 // 0'01011'1011001011
+		static constexpr long double three_pi_over_two		= 4.71239L;	 // 0'10001'0010110111
+		static constexpr long double three_pi_over_four		= 2.35619L;	 // 0'10000'0010110111
+		static constexpr long double three_pi_over_five		= 1.88496L;	 // 0'01111'1110001010
+		static constexpr long double sqrt_three_pi			= 3.06998L;	 // 0'10000'1000100100
+		static constexpr long double one_over_sqrt_three_pi = 0.32574L;	 // 0'01101'0100110110
+		static constexpr long double e						= 2.71828L;	 // 0'10000'0101110000
+		static constexpr long double one_over_e				= 0.36788L;	 // 0'01101'0111100011
+		static constexpr long double e_over_two				= 1.35914L;	 // 0'01111'0101110000
+		static constexpr long double e_over_three			= 0.90609L;	 // 0'01110'1101000000
+		static constexpr long double e_over_four			= 0.67957L;	 // 0'01110'0101110000
+		static constexpr long double e_over_five			= 0.54366L;	 // 0'01110'0001011010
+		static constexpr long double e_over_six				= 0.45305L;	 // 0'01101'1101000000
+		static constexpr long double sqrt_e					= 1.64872L;	 // 0'01111'1010011001
+		static constexpr long double one_over_sqrt_e		= 0.60653L;	 // 0'01110'0011011010
+		static constexpr long double phi					= 1.61803L;	 // 0'01111'1001111001
+		static constexpr long double one_over_phi			= 0.61803L;	 // 0'01110'0011110010
+		static constexpr long double phi_over_two			= 0.80902L;	 // 0'01110'1001111001
+		static constexpr long double phi_over_three			= 0.53934L;	 // 0'01110'0001010001
+		static constexpr long double phi_over_four			= 0.40451L;	 // 0'01101'1001111001
+		static constexpr long double phi_over_five			= 0.32361L;	 // 0'01101'0100101110
+		static constexpr long double phi_over_six			= 0.26967L;	 // 0'01101'0001010001
+		static constexpr long double sqrt_phi				= 1.27202L;	 // 0'01111'0100010111
+		static constexpr long double one_over_sqrt_phi		= 0.78615L;	 // 0'01110'1001001010
+		static constexpr long double degrees_to_radians		= 0.01745L;	 // 0'01001'0001111000
+		static constexpr long double radians_to_degrees		= 57.29578L; // 0'10100'1100101010
 
-		static constexpr auto int_blittable    = true;
-		static constexpr auto bits_sign        = 0b1000000000000000_u16;
-		static constexpr auto bits_exponent    = 0b0111110000000000_u16;
-		static constexpr auto bits_mantissa    = 0b0000001111111111_u16;
-		static constexpr auto bits_pos_inf     = 0b0111110000000000_u16;
-		static constexpr auto bits_neg_inf     = 0b1111110000000000_u16;
+		static constexpr auto int_blittable	   = true;
+		static constexpr auto bits_sign		   = 0b1000000000000000_u16;
+		static constexpr auto bits_exponent	   = 0b0111110000000000_u16;
+		static constexpr auto bits_mantissa	   = 0b0000001111111111_u16;
+		static constexpr auto bits_pos_inf	   = 0b0111110000000000_u16;
+		static constexpr auto bits_neg_inf	   = 0b1111110000000000_u16;
 		static constexpr auto bits_pos_nan_min = 0b0111110000000001_u16;
 		static constexpr auto bits_pos_nan_max = 0b0111111111111111_u16;
 		static constexpr auto bits_neg_nan_min = 0b1111110000000001_u16;
 		static constexpr auto bits_neg_nan_max = 0b1111111111111111_u16;
-		static constexpr auto bits_snan        = 0b1111110000000001_u16;
-		static constexpr auto bits_qnan        = 0b1111111000000001_u16;
+		static constexpr auto bits_snan		   = 0b1111110000000001_u16;
+		static constexpr auto bits_qnan		   = 0b1111111000000001_u16;
 	};
 
 	template <>
 	struct float_test_data_by_traits<32, 24>
 	{
-		static constexpr long double values[] = 
-		{
-			0.478014L, 0.315420L, 0.221937L, 0.002305L, 0.031914L, 0.011517L, 0.108732L, 0.255230L, 0.376568L, 
-			0.262696L, 0.304706L, 0.445430L, 0.194654L, 0.438549L, 0.041930L, 0.352419L, 0.100300L, 0.161510L, 
-			0.029124L, 0.449668L, 0.488251L, 0.060662L, 0.289070L, 0.071042L, 0.136257L, 0.269668L, 0.080216L, 
-			0.431941L, 0.364115L, 0.323747L, 0.344634L, 0.154668L, 0.087300L, 0.095894L, 0.081816L, 0.049950L, 
-			0.414688L, 0.472593L, 0.431248L, 0.300314L, 0.487333L, 0.094242L, 0.486371L, 0.001286L, 0.229536L, 
-			0.156452L, 0.246293L, 0.437586L, 0.407311L, 0.373008L, 0.390968L, 0.176433L, 0.250520L, 0.118664L, 
-			0.264614L, 0.314581L, 0.132424L, 0.285798L, 0.067985L, 0.103027L, 0.224606L, 0.177168L, 0.018152L, 
-			0.073267L, 0.417238L, 0.141596L, 0.447187L, 0.199178L, 0.240364L, 0.383471L, 0.142131L, 0.231777L, 
-			0.101344L, 0.428499L, 0.191870L, 0.176083L, 0.228818L, 0.242036L, 0.442261L, 0.493317L, 0.129956L, 
-			0.494187L, 0.180406L, 0.109854L, 0.478342L, 0.448134L, 0.232444L, 0.369828L, 0.018368L, 0.161566L, 
-			0.086041L, 0.476530L, 0.493676L, 0.275934L, 0.254356L, 0.219154L, 0.133754L, 0.410052L, 0.349394L, 
-			0.203975L, 0.402960L, 0.414658L, 0.456354L, 0.446102L, 0.170376L, 0.481020L, 0.038831L, 0.229862L, 
-			0.193938L, 0.442891L, 0.309910L, 0.288552L, 0.236954L, 0.023106L, 0.031140L, 0.117114L, 0.078679L, 
-			0.268758L, 0.446110L, 0.011075L, 0.264362L, 0.147187L, 0.197838L, 0.046572L, 0.291209L, 0.152084L, 
-			0.455202L, 0.332686L, 0.280810L, 0.001943L, 0.187826L, 0.387638L, 0.339154L, 0.139538L, 0.062620L, 
-			0.260622L, 0.119478L, 0.291200L, 0.348496L, 0.078858L, 0.115384L, 0.294613L, 0.346004L, 0.484273L, 
-			0.368978L, 0.051266L, 0.105222L, 0.329732L, 0.083378L, 0.360624L, 0.111952L, 0.054578L, 0.488812L, 
-			0.191773L, 0.416110L, 0.344788L, 0.168584L, 0.118768L, 0.249112L, 0.102204L, 0.113678L, 0.015020L, 
-			0.070954L, 0.113124L, 0.284912L, 0.090104L, 0.211326L, 0.078848L, 0.225121L, 0.235544L, 0.474288L, 
-			0.033076L, 0.412532L, 0.270437L, 0.319810L, 0.400686L, 0.293298L, 0.206172L, 0.349584L, 0.325560L, 
-			0.209776L, 0.321216L, 0.148104L, 0.489381L, 0.004472L, 0.389616L, 0.489345L, 0.390126L, 0.363585L, 
-			0.160590L, 0.289583L, 0.027806L, 0.206750L, 0.244712L, 0.314556L, 0.178918L, 0.215430L, 0.236526L, 
-			0.337817L, 0.188660L, 0.257506L, 0.315378L, 0.379256L, 0.118450L, 0.378107L, 0.448218L, 0.079878L, 
-			0.222946L, 0.086099L, 0.274446L, 0.225927L, 0.483504L, 0.218521L, 0.314086L, 0.232100L, 0.072824L, 
-			0.123753L, 0.266006L, 0.183668L, 0.221850L, 0.490302L, 0.448395L, 0.185168L, 0.408228L, 0.372262L, 
-			0.094903L, 0.130798L, 0.194942L, 0.062246L, 0.366774L, 0.466462L, 0.281300L, 0.474395L, 0.470505L, 
-			0.220042L, 0.303764L, 0.444232L, 0.332373L, 0.289406L, 0.275855L, 0.308964L, 0.221340L, 0.359314L, 
-			0.092648L, 0.043810L, 0.193982L, 0.077647L, 0.150020L, 0.318378L, 0.033388L, 0.438225L, 0.243925L, 
-			0.287746L, 0.159331L, 0.413212L, 0.435811L, 0.111698L, 0.472668L, 0.126796L, 0.169054L, 0.125772L, 
-			0.087228L, 0.177225L, 0.454472L, 0.004914L, 0.067716L, 0.492492L, 0.397204L, 0.045316L, 0.027427L, 
-			0.337057L, 0.012364L, 0.154430L, 0.374320L, 0.380476L, 0.437046L, 0.239786L, 0.294892L, 0.280108L, 
-			0.357217L, 0.483524L, 0.408676L, 0.125698L, 0.212048L, 0.276527L, 0.127514L, 0.311029L, 0.123226L, 
-			0.428839L, 0.257211L, 0.294432L, 0.105422L, 0.394634L, 0.193242L, 0.399145L, 0.412507L, 0.146443L, 
-			0.347842L, 0.330489L, 0.223644L, 0.453988L, 0.158592L, 0.320046L, 0.239998L, 0.020464L, 0.360709L, 
-			0.449816L, 0.480818L, 0.476452L, 0.315224L, 0.485964L, 0.183176L, 0.116963L, 0.465920L, 0.144190L, 
-			0.358364L, 0.403698L, 0.204813L, 0.290473L, 0.262758L, 0.370808L, 0.155154L, 0.247562L, 0.458293L, 
-			0.109956L, 0.026824L, 0.166286L, 0.259241L, 0.202855L, 0.212556L, 0.347879L, 0.039154L, 0.212426L, 
-			0.389976L, 0.299231L, 0.162996L, 0.164660L, 0.442265L, 0.228328L, 0.043505L, 0.195174L, 0.368201L, 
-			0.389483L, 0.087109L, 0.237362L, 0.236602L, 0.176697L, 0.439422L, 0.426577L, 0.375448L, 0.023246L, 
-			0.390074L, 0.466067L, 0.468916L, 0.127130L, 0.190538L, 0.462241L, 0.162487L, 0.425422L, 0.141767L, 
-			0.444420L, 0.059537L, 0.395673L, 0.061156L, 0.152301L, 0.462112L, 0.210746L, 0.050301L, 0.301617L, 
-			0.159108L, 0.240510L, 0.427270L, 0.426181L, 0.338925L, 0.163516L, 0.442486L, 0.056628L, 0.104766L, 
-			0.080232L, 0.189461L, 0.292655L, 0.056241L, 0.308758L, 0.453360L, 0.168636L, 0.199080L, 0.412976L, 
-			0.099622L, 0.059874L, 0.428048L, 0.397275L, 0.421428L, 0.023134L, 0.007672L, 0.072246L, 0.456605L, 
+		static constexpr long double values[] = {
+			0.478014L, 0.315420L, 0.221937L, 0.002305L, 0.031914L, 0.011517L, 0.108732L, 0.255230L, 0.376568L,
+			0.262696L, 0.304706L, 0.445430L, 0.194654L, 0.438549L, 0.041930L, 0.352419L, 0.100300L, 0.161510L,
+			0.029124L, 0.449668L, 0.488251L, 0.060662L, 0.289070L, 0.071042L, 0.136257L, 0.269668L, 0.080216L,
+			0.431941L, 0.364115L, 0.323747L, 0.344634L, 0.154668L, 0.087300L, 0.095894L, 0.081816L, 0.049950L,
+			0.414688L, 0.472593L, 0.431248L, 0.300314L, 0.487333L, 0.094242L, 0.486371L, 0.001286L, 0.229536L,
+			0.156452L, 0.246293L, 0.437586L, 0.407311L, 0.373008L, 0.390968L, 0.176433L, 0.250520L, 0.118664L,
+			0.264614L, 0.314581L, 0.132424L, 0.285798L, 0.067985L, 0.103027L, 0.224606L, 0.177168L, 0.018152L,
+			0.073267L, 0.417238L, 0.141596L, 0.447187L, 0.199178L, 0.240364L, 0.383471L, 0.142131L, 0.231777L,
+			0.101344L, 0.428499L, 0.191870L, 0.176083L, 0.228818L, 0.242036L, 0.442261L, 0.493317L, 0.129956L,
+			0.494187L, 0.180406L, 0.109854L, 0.478342L, 0.448134L, 0.232444L, 0.369828L, 0.018368L, 0.161566L,
+			0.086041L, 0.476530L, 0.493676L, 0.275934L, 0.254356L, 0.219154L, 0.133754L, 0.410052L, 0.349394L,
+			0.203975L, 0.402960L, 0.414658L, 0.456354L, 0.446102L, 0.170376L, 0.481020L, 0.038831L, 0.229862L,
+			0.193938L, 0.442891L, 0.309910L, 0.288552L, 0.236954L, 0.023106L, 0.031140L, 0.117114L, 0.078679L,
+			0.268758L, 0.446110L, 0.011075L, 0.264362L, 0.147187L, 0.197838L, 0.046572L, 0.291209L, 0.152084L,
+			0.455202L, 0.332686L, 0.280810L, 0.001943L, 0.187826L, 0.387638L, 0.339154L, 0.139538L, 0.062620L,
+			0.260622L, 0.119478L, 0.291200L, 0.348496L, 0.078858L, 0.115384L, 0.294613L, 0.346004L, 0.484273L,
+			0.368978L, 0.051266L, 0.105222L, 0.329732L, 0.083378L, 0.360624L, 0.111952L, 0.054578L, 0.488812L,
+			0.191773L, 0.416110L, 0.344788L, 0.168584L, 0.118768L, 0.249112L, 0.102204L, 0.113678L, 0.015020L,
+			0.070954L, 0.113124L, 0.284912L, 0.090104L, 0.211326L, 0.078848L, 0.225121L, 0.235544L, 0.474288L,
+			0.033076L, 0.412532L, 0.270437L, 0.319810L, 0.400686L, 0.293298L, 0.206172L, 0.349584L, 0.325560L,
+			0.209776L, 0.321216L, 0.148104L, 0.489381L, 0.004472L, 0.389616L, 0.489345L, 0.390126L, 0.363585L,
+			0.160590L, 0.289583L, 0.027806L, 0.206750L, 0.244712L, 0.314556L, 0.178918L, 0.215430L, 0.236526L,
+			0.337817L, 0.188660L, 0.257506L, 0.315378L, 0.379256L, 0.118450L, 0.378107L, 0.448218L, 0.079878L,
+			0.222946L, 0.086099L, 0.274446L, 0.225927L, 0.483504L, 0.218521L, 0.314086L, 0.232100L, 0.072824L,
+			0.123753L, 0.266006L, 0.183668L, 0.221850L, 0.490302L, 0.448395L, 0.185168L, 0.408228L, 0.372262L,
+			0.094903L, 0.130798L, 0.194942L, 0.062246L, 0.366774L, 0.466462L, 0.281300L, 0.474395L, 0.470505L,
+			0.220042L, 0.303764L, 0.444232L, 0.332373L, 0.289406L, 0.275855L, 0.308964L, 0.221340L, 0.359314L,
+			0.092648L, 0.043810L, 0.193982L, 0.077647L, 0.150020L, 0.318378L, 0.033388L, 0.438225L, 0.243925L,
+			0.287746L, 0.159331L, 0.413212L, 0.435811L, 0.111698L, 0.472668L, 0.126796L, 0.169054L, 0.125772L,
+			0.087228L, 0.177225L, 0.454472L, 0.004914L, 0.067716L, 0.492492L, 0.397204L, 0.045316L, 0.027427L,
+			0.337057L, 0.012364L, 0.154430L, 0.374320L, 0.380476L, 0.437046L, 0.239786L, 0.294892L, 0.280108L,
+			0.357217L, 0.483524L, 0.408676L, 0.125698L, 0.212048L, 0.276527L, 0.127514L, 0.311029L, 0.123226L,
+			0.428839L, 0.257211L, 0.294432L, 0.105422L, 0.394634L, 0.193242L, 0.399145L, 0.412507L, 0.146443L,
+			0.347842L, 0.330489L, 0.223644L, 0.453988L, 0.158592L, 0.320046L, 0.239998L, 0.020464L, 0.360709L,
+			0.449816L, 0.480818L, 0.476452L, 0.315224L, 0.485964L, 0.183176L, 0.116963L, 0.465920L, 0.144190L,
+			0.358364L, 0.403698L, 0.204813L, 0.290473L, 0.262758L, 0.370808L, 0.155154L, 0.247562L, 0.458293L,
+			0.109956L, 0.026824L, 0.166286L, 0.259241L, 0.202855L, 0.212556L, 0.347879L, 0.039154L, 0.212426L,
+			0.389976L, 0.299231L, 0.162996L, 0.164660L, 0.442265L, 0.228328L, 0.043505L, 0.195174L, 0.368201L,
+			0.389483L, 0.087109L, 0.237362L, 0.236602L, 0.176697L, 0.439422L, 0.426577L, 0.375448L, 0.023246L,
+			0.390074L, 0.466067L, 0.468916L, 0.127130L, 0.190538L, 0.462241L, 0.162487L, 0.425422L, 0.141767L,
+			0.444420L, 0.059537L, 0.395673L, 0.061156L, 0.152301L, 0.462112L, 0.210746L, 0.050301L, 0.301617L,
+			0.159108L, 0.240510L, 0.427270L, 0.426181L, 0.338925L, 0.163516L, 0.442486L, 0.056628L, 0.104766L,
+			0.080232L, 0.189461L, 0.292655L, 0.056241L, 0.308758L, 0.453360L, 0.168636L, 0.199080L, 0.412976L,
+			0.099622L, 0.059874L, 0.428048L, 0.397275L, 0.421428L, 0.023134L, 0.007672L, 0.072246L, 0.456605L,
 			0.389432L, 0.258322L, 0.192975L, 0.380270L
 		};
 
-		static constexpr long double values_sum_low         = 101.661622L;
-		static constexpr long double values_sum             = 101.662639L;
-		static constexpr long double values_sum_high        = 101.663656L;
-		static constexpr long double values_min             = 0.001286L;
-		static constexpr long double values_max             = 0.494187L;
+		static constexpr long double values_sum_low	 = 101.661622L;
+		static constexpr long double values_sum		 = 101.662639L;
+		static constexpr long double values_sum_high = 101.663656L;
+		static constexpr long double values_min		 = 0.001286L;
+		static constexpr long double values_max		 = 0.494187L;
 
-		static constexpr long double one_over_two           = 0.500000000L;
-		static constexpr long double two_over_three         = 0.666666667L;
-		static constexpr long double two_over_five          = 0.400000000L;
-		static constexpr long double sqrt_two               = 1.414213562L;
-		static constexpr long double one_over_sqrt_two      = 0.707106781L;
-		static constexpr long double one_over_three         = 0.333333333L;
-		static constexpr long double three_over_two         = 1.500000000L;
-		static constexpr long double three_over_four        = 0.750000000L;
-		static constexpr long double three_over_five        = 0.600000000L;
-		static constexpr long double sqrt_three             = 1.732050808L;
-		static constexpr long double one_over_sqrt_three    = 0.577350269L;
-		static constexpr long double pi                     = 3.141592654L;
-		static constexpr long double one_over_pi            = 0.318309886L;
-		static constexpr long double pi_over_two            = 1.570796327L;
-		static constexpr long double pi_over_three          = 1.047197551L;
-		static constexpr long double pi_over_four           = 0.785398163L;
-		static constexpr long double pi_over_five           = 0.628318531L;
-		static constexpr long double pi_over_six            = 0.523598776L;
-		static constexpr long double pi_over_seven          = 0.448798951L;
-		static constexpr long double pi_over_eight          = 0.392699082L;
-		static constexpr long double sqrt_pi                = 1.772453851L;
-		static constexpr long double one_over_sqrt_pi       = 0.564189584L;
-		static constexpr long double two_pi                 = 6.283185307L;
-		static constexpr long double one_over_two_pi        = 0.159154943L;
-		static constexpr long double sqrt_two_pi            = 2.506628275L;
-		static constexpr long double one_over_sqrt_two_pi   = 0.398942280L;
-		static constexpr long double three_pi               = 9.424777961L;
-		static constexpr long double one_over_three_pi      = 0.106103295L;
-		static constexpr long double three_pi_over_two      = 4.712388980L;
-		static constexpr long double three_pi_over_four     = 2.356194490L;
-		static constexpr long double three_pi_over_five     = 1.884955592L;
-		static constexpr long double sqrt_three_pi          = 3.069980124L;
+		static constexpr long double one_over_two			= 0.500000000L;
+		static constexpr long double two_over_three			= 0.666666667L;
+		static constexpr long double two_over_five			= 0.400000000L;
+		static constexpr long double sqrt_two				= 1.414213562L;
+		static constexpr long double one_over_sqrt_two		= 0.707106781L;
+		static constexpr long double one_over_three			= 0.333333333L;
+		static constexpr long double three_over_two			= 1.500000000L;
+		static constexpr long double three_over_four		= 0.750000000L;
+		static constexpr long double three_over_five		= 0.600000000L;
+		static constexpr long double sqrt_three				= 1.732050808L;
+		static constexpr long double one_over_sqrt_three	= 0.577350269L;
+		static constexpr long double pi						= 3.141592654L;
+		static constexpr long double one_over_pi			= 0.318309886L;
+		static constexpr long double pi_over_two			= 1.570796327L;
+		static constexpr long double pi_over_three			= 1.047197551L;
+		static constexpr long double pi_over_four			= 0.785398163L;
+		static constexpr long double pi_over_five			= 0.628318531L;
+		static constexpr long double pi_over_six			= 0.523598776L;
+		static constexpr long double pi_over_seven			= 0.448798951L;
+		static constexpr long double pi_over_eight			= 0.392699082L;
+		static constexpr long double sqrt_pi				= 1.772453851L;
+		static constexpr long double one_over_sqrt_pi		= 0.564189584L;
+		static constexpr long double two_pi					= 6.283185307L;
+		static constexpr long double one_over_two_pi		= 0.159154943L;
+		static constexpr long double sqrt_two_pi			= 2.506628275L;
+		static constexpr long double one_over_sqrt_two_pi	= 0.398942280L;
+		static constexpr long double three_pi				= 9.424777961L;
+		static constexpr long double one_over_three_pi		= 0.106103295L;
+		static constexpr long double three_pi_over_two		= 4.712388980L;
+		static constexpr long double three_pi_over_four		= 2.356194490L;
+		static constexpr long double three_pi_over_five		= 1.884955592L;
+		static constexpr long double sqrt_three_pi			= 3.069980124L;
 		static constexpr long double one_over_sqrt_three_pi = 0.325735008L;
-		static constexpr long double e                      = 2.718281828L;
-		static constexpr long double one_over_e             = 0.367879441L;
-		static constexpr long double e_over_two             = 1.359140914L;
-		static constexpr long double e_over_three           = 0.906093943L;
-		static constexpr long double e_over_four            = 0.679570457L;
-		static constexpr long double e_over_five            = 0.543656366L;
-		static constexpr long double e_over_six             = 0.453046971L;
-		static constexpr long double sqrt_e                 = 1.648721271L;
-		static constexpr long double one_over_sqrt_e        = 0.606530660L;
-		static constexpr long double phi                    = 1.618033989L;
-		static constexpr long double one_over_phi           = 0.618033989L;
-		static constexpr long double phi_over_two           = 0.809016994L;
-		static constexpr long double phi_over_three         = 0.539344663L;
-		static constexpr long double phi_over_four          = 0.404508497L;
-		static constexpr long double phi_over_five          = 0.323606798L;
-		static constexpr long double phi_over_six           = 0.269672331L;
-		static constexpr long double sqrt_phi               = 1.272019650L;
-		static constexpr long double one_over_sqrt_phi      = 0.786151378L;
-		static constexpr long double degrees_to_radians     = 0.017453293L;
-		static constexpr long double radians_to_degrees     = 57.295779513L;
+		static constexpr long double e						= 2.718281828L;
+		static constexpr long double one_over_e				= 0.367879441L;
+		static constexpr long double e_over_two				= 1.359140914L;
+		static constexpr long double e_over_three			= 0.906093943L;
+		static constexpr long double e_over_four			= 0.679570457L;
+		static constexpr long double e_over_five			= 0.543656366L;
+		static constexpr long double e_over_six				= 0.453046971L;
+		static constexpr long double sqrt_e					= 1.648721271L;
+		static constexpr long double one_over_sqrt_e		= 0.606530660L;
+		static constexpr long double phi					= 1.618033989L;
+		static constexpr long double one_over_phi			= 0.618033989L;
+		static constexpr long double phi_over_two			= 0.809016994L;
+		static constexpr long double phi_over_three			= 0.539344663L;
+		static constexpr long double phi_over_four			= 0.404508497L;
+		static constexpr long double phi_over_five			= 0.323606798L;
+		static constexpr long double phi_over_six			= 0.269672331L;
+		static constexpr long double sqrt_phi				= 1.272019650L;
+		static constexpr long double one_over_sqrt_phi		= 0.786151378L;
+		static constexpr long double degrees_to_radians		= 0.017453293L;
+		static constexpr long double radians_to_degrees		= 57.295779513L;
 
-		static constexpr auto int_blittable    = true;
-		static constexpr auto bits_sign        = 0b10000000000000000000000000000000_u32;
-		static constexpr auto bits_exponent    = 0b01111111100000000000000000000000_u32;
-		static constexpr auto bits_mantissa    = 0b00000000011111111111111111111111_u32;
-		static constexpr auto bits_pos_inf     = 0b01111111100000000000000000000000_u32;
-		static constexpr auto bits_neg_inf     = 0b11111111100000000000000000000000_u32;
+		static constexpr auto int_blittable	   = true;
+		static constexpr auto bits_sign		   = 0b10000000000000000000000000000000_u32;
+		static constexpr auto bits_exponent	   = 0b01111111100000000000000000000000_u32;
+		static constexpr auto bits_mantissa	   = 0b00000000011111111111111111111111_u32;
+		static constexpr auto bits_pos_inf	   = 0b01111111100000000000000000000000_u32;
+		static constexpr auto bits_neg_inf	   = 0b11111111100000000000000000000000_u32;
 		static constexpr auto bits_pos_nan_min = 0b01111111100000000000000000000001_u32;
 		static constexpr auto bits_pos_nan_max = 0b01111111111111111111111111111111_u32;
 		static constexpr auto bits_neg_nan_min = 0b11111111100000000000000000000001_u32;
 		static constexpr auto bits_neg_nan_max = 0b11111111111111111111111111111111_u32;
-		static constexpr auto bits_snan        = 0b11111111100000000000000000000001_u32;
-		static constexpr auto bits_qnan        = 0b11111111110000000000000000000001_u32;
+		static constexpr auto bits_snan		   = 0b11111111100000000000000000000001_u32;
+		static constexpr auto bits_qnan		   = 0b11111111110000000000000000000001_u32;
 	};
 
 	template <>
 	struct float_test_data_by_traits<64, 53>
 	{
-		static constexpr long double values[] = 
-		{
-			0.338679456587630L, 0.002474810214478L, 0.012365341563468L, 0.274049423621664L, 0.282067077136438L, 
-			0.478275921255471L, 0.045021643493220L, 0.107695600970342L, 0.031270170943492L, 0.310384650051940L, 
-			0.146304056959063L, 0.086130231228378L, 0.390966199733134L, 0.370049265839600L, 0.093738294754360L, 
-			0.053633739223550L, 0.322461468522468L, 0.101193573092890L, 0.001380676677544L, 0.167987848540790L, 
-			0.469853251128402L, 0.400515958632212L, 0.189444018897940L, 0.127413378450963L, 0.337778786851356L, 
-			0.306873808225132L, 0.110623603624214L, 0.190231463976070L, 0.078668842829366L, 0.152039256319833L, 
-			0.480164390270446L, 0.258087548133489L, 0.248868167165970L, 0.460096639201701L, 0.189067393752454L, 
-			0.259882965869610L, 0.117953425790006L, 0.481182177842818L, 0.397098595889315L, 0.173478099289780L, 
-			0.296281751075862L, 0.235313710055375L, 0.440288382789268L, 0.219016845924971L, 0.445235140296130L, 
-			0.478998096913944L, 0.246810454716276L, 0.475550310803264L, 0.332763283297569L, 0.254426454586182L, 
-			0.033434267557890L, 0.084480338928024L, 0.479005918451858L, 0.283854433954506L, 0.212427537852474L, 
-			0.312682399841814L, 0.488770048701004L, 0.301518804279122L, 0.201674492307577L, 0.364163274858025L, 
-			0.067236137081024L, 0.128287445672827L, 0.374195923452314L, 0.123892949624791L, 0.371518025321164L, 
-			0.396186946833735L, 0.112979324707556L, 0.089527796384842L, 0.120209021796881L, 0.446795495886348L, 
-			0.181014956422653L, 0.267480312247380L, 0.122061241694100L, 0.076184191419483L, 0.305922393916365L, 
-			0.226907786280317L, 0.241721082377518L, 0.290380133647982L, 0.430232478946638L, 0.221374553202813L, 
-			0.349566672635757L, 0.344903912982262L, 0.418347012817045L, 0.418894459701408L, 0.172431541274856L, 
-			0.262756208600747L, 0.192110880601455L, 0.253968741065946L, 0.202573516212720L, 0.338633456230432L, 
-			0.407222975603672L, 0.405988711273228L, 0.085768037835810L, 0.092447936746905L, 0.294684102588398L, 
-			0.234636134663834L, 0.337249325372286L, 0.078192977790933L, 0.197213102886925L, 0.198824462690374L, 
-			0.399714950988406L, 0.140441524334040L, 0.393820838711416L, 0.302045485720733L, 0.326162865231821L, 
-			0.356883537098134L, 0.296197162523162L, 0.237661133353128L, 0.099481504262024L, 0.208284618463984L, 
-			0.161083066477864L, 0.035849248614066L, 0.470541521960214L, 0.308965914005148L, 0.443681511713312L, 
-			0.181520869672462L, 0.093660866987957L, 0.487986320148976L, 0.072707373996656L, 0.426494417224550L, 
-			0.029448628880195L, 0.013274977013276L, 0.401921524618494L, 0.469276127641801L, 0.316636708641362L, 
-			0.383558906721866L, 0.438814494181180L, 0.227683173669428L, 0.136916100115666L, 0.132312036495192L, 
-			0.460463439006538L, 0.316145006258968L, 0.423733315298879L, 0.428578398118752L, 0.157242589816862L, 
-			0.373494578119001L, 0.240135122684186L, 0.170286575401704L, 0.343646690039828L, 0.021971888235882L, 
-			0.482985582282916L, 0.196683575375420L, 0.384788858132035L, 0.219916864002021L, 0.282133296482496L, 
-			0.166596857786768L, 0.492088302015860L, 0.028800353584748L, 0.278357511557495L, 0.228228950551636L, 
-			0.042042712288333L, 0.418732264166556L, 0.175014700510798L, 0.474878028498212L, 0.046712999543782L, 
-			0.395352539025512L, 0.093533098125359L, 0.254050435274325L, 0.471824356050964L, 0.403133820111921L, 
-			0.418836715988580L, 0.204586992901868L, 0.174469907352460L, 0.152221825947648L, 0.063928343182998L, 
-			0.065665228181088L, 0.496187458111579L, 0.054010076963485L, 0.170842149555408L, 0.258245553306344L, 
-			0.457609040650324L, 0.175573208844940L, 0.060803516945584L, 0.086148439904892L, 0.314235615791747L, 
-			0.331526608456635L, 0.181071235710001L, 0.443428271454930L, 0.064289626023220L, 0.426571462674362L, 
-			0.024839522041146L, 0.077571435756895L, 0.490276908007410L, 0.277372730573410L, 0.408310446353286L, 
-			0.112929656879346L, 0.255359024314012L, 0.468320363469764L, 0.445385426367808L, 0.402580259050458L, 
-			0.496746438594018L, 0.315490013751818L, 0.109717967805901L, 0.316535910801585L, 0.368119591990662L, 
-			0.027747342955034L, 0.494937159211104L, 0.165590842350232L, 0.156562998676824L, 0.349908940094684L, 
-			0.476394763487418L, 0.318635172173708L, 0.138159457627698L, 0.283264417456662L, 0.066523562087516L, 
-			0.402019391493774L, 0.479822294954037L, 0.263562884974862L, 0.451767341343717L, 0.248455404700488L, 
-			0.381946584492274L, 0.327908402674172L, 0.146014042933678L, 0.406619178202212L, 0.410347490195844L, 
-			0.149380275485320L, 0.361520419743614L, 0.316600567839056L, 0.281724198071237L, 0.312893307589800L, 
-			0.126584072397176L, 0.247105081617023L, 0.072844568055775L, 0.057632344335750L, 0.446429720777306L, 
-			0.406029618581672L, 0.066052111985790L, 0.262749059371028L, 0.038583690097856L, 0.238331490605184L, 
-			0.075736558418042L, 0.108787110106234L, 0.456443606155601L, 0.173989107088652L, 0.368026876196986L, 
-			0.021544594517722L, 0.131963145189706L, 0.020461961976788L, 0.358933701274452L, 0.104966708417920L, 
-			0.391486163539972L, 0.017240645915046L, 0.303428731086486L, 0.380342224735667L, 0.229964233510828L, 
-			0.070516621640132L, 0.119189557428267L, 0.139103774500623L, 0.397192249656900L, 0.478828671904459L, 
-			0.449830638598145L, 0.287009866382932L, 0.260584632243006L, 0.156171807576082L, 0.161375241351614L, 
-			0.409895053779127L, 0.093720136826950L, 0.084341768669300L, 0.319056544177204L, 0.493859502321714L, 
-			0.043291127335629L, 0.055011115716151L, 0.225197259475006L, 0.214882764080914L, 0.102435704305442L, 
-			0.335251338134393L, 0.291119552761152L, 0.499264978083978L, 0.305482669689676L, 0.413740437153818L, 
-			0.105263485210519L, 0.447173998500396L, 0.421938535863336L, 0.105154076027955L, 0.486023715069231L, 
-			0.102474501558907L, 0.252931949821920L, 0.372034551378506L, 0.180378500300027L, 0.383759238646340L, 
-			0.461438917376224L, 0.205693114950045L, 0.411787998824319L, 0.408811297898310L, 0.412684588718592L, 
-			0.322003308708316L, 0.135659299544268L, 0.288066057670600L, 0.215179787749429L, 0.497858916215230L, 
-			0.247641522637370L, 0.494346340761522L, 0.175502190034177L, 0.154298276968824L, 0.134859340726280L, 
-			0.276519338336331L, 0.462141641872526L, 0.473359594187988L, 0.470638152338236L, 0.447746127344508L, 
-			0.243318739798233L, 0.236697269455432L, 0.162466615046929L, 0.078998667418120L, 0.075620094386738L, 
-			0.326526693883995L, 0.044984422791836L, 0.075117715627845L, 0.197204014381962L, 0.113090362310132L, 
-			0.149611342656316L, 0.377239223543243L, 0.011436032377522L, 0.262059315549792L, 0.048752444248670L, 
-			0.229027128267627L, 0.264642333419767L, 0.129112723887522L, 0.056541188222796L, 0.425708183077552L, 
-			0.411108125114657L, 0.055011885856495L, 0.406265747629022L, 0.431369215107870L, 0.210206039541281L, 
-			0.317306347439712L, 0.117934933939180L, 0.268406835938471L, 0.336054615479841L, 0.419345751262028L, 
-			0.172835473514572L, 0.421019669451108L, 0.482243873038397L, 0.129885905176890L, 0.082904940938586L, 
-			0.052970091807127L, 0.206786422973670L, 0.057484475517460L, 0.041705407362262L, 0.069160853007719L, 
-			0.219300988187967L, 0.152495923325340L, 0.257613591022078L, 0.298740798437896L, 0.218062295136705L, 
-			0.175837370888783L, 0.323937183531414L, 0.236361945979372L, 0.056056073223905L, 0.150605060761992L, 
-			0.423559716597092L, 0.178824401980736L, 0.311858871443803L, 0.372709708532894L, 0.273284805125746L, 
-			0.302479051865634L, 0.002173319221490L, 0.225329415954318L, 0.279157001266628L, 0.328547851989934L, 
-			0.383638239454243L, 0.067940754051997L, 0.397180842804297L, 0.300344558825257L, 0.181975090377002L, 
-			0.464934758100322L, 0.355029954652875L, 0.341475324358392L, 0.257160579851352L, 0.343318765114578L, 
-			0.069345313450776L, 0.498842589677693L, 0.264924071993719L, 0.418297465389788L, 0.441589016811972L, 
-			0.188339367604214L, 0.112210580009678L, 0.199786678045732L, 0.008436194410998L, 0.298612476218900L, 
-			0.212270974178019L, 0.362555168362104L, 0.409052524532992L, 0.135153276905708L, 0.165026708759801L, 
-			0.022766296937619L, 0.361465131224512L, 0.457631351448434L, 0.205920113970173L, 0.432856667248071L, 
-			0.080259611194922L, 0.074613826834177L, 0.006689899340236L, 0.486370707715725L, 0.425696707376238L, 
+		static constexpr long double values[] = {
+			0.338679456587630L, 0.002474810214478L, 0.012365341563468L, 0.274049423621664L, 0.282067077136438L,
+			0.478275921255471L, 0.045021643493220L, 0.107695600970342L, 0.031270170943492L, 0.310384650051940L,
+			0.146304056959063L, 0.086130231228378L, 0.390966199733134L, 0.370049265839600L, 0.093738294754360L,
+			0.053633739223550L, 0.322461468522468L, 0.101193573092890L, 0.001380676677544L, 0.167987848540790L,
+			0.469853251128402L, 0.400515958632212L, 0.189444018897940L, 0.127413378450963L, 0.337778786851356L,
+			0.306873808225132L, 0.110623603624214L, 0.190231463976070L, 0.078668842829366L, 0.152039256319833L,
+			0.480164390270446L, 0.258087548133489L, 0.248868167165970L, 0.460096639201701L, 0.189067393752454L,
+			0.259882965869610L, 0.117953425790006L, 0.481182177842818L, 0.397098595889315L, 0.173478099289780L,
+			0.296281751075862L, 0.235313710055375L, 0.440288382789268L, 0.219016845924971L, 0.445235140296130L,
+			0.478998096913944L, 0.246810454716276L, 0.475550310803264L, 0.332763283297569L, 0.254426454586182L,
+			0.033434267557890L, 0.084480338928024L, 0.479005918451858L, 0.283854433954506L, 0.212427537852474L,
+			0.312682399841814L, 0.488770048701004L, 0.301518804279122L, 0.201674492307577L, 0.364163274858025L,
+			0.067236137081024L, 0.128287445672827L, 0.374195923452314L, 0.123892949624791L, 0.371518025321164L,
+			0.396186946833735L, 0.112979324707556L, 0.089527796384842L, 0.120209021796881L, 0.446795495886348L,
+			0.181014956422653L, 0.267480312247380L, 0.122061241694100L, 0.076184191419483L, 0.305922393916365L,
+			0.226907786280317L, 0.241721082377518L, 0.290380133647982L, 0.430232478946638L, 0.221374553202813L,
+			0.349566672635757L, 0.344903912982262L, 0.418347012817045L, 0.418894459701408L, 0.172431541274856L,
+			0.262756208600747L, 0.192110880601455L, 0.253968741065946L, 0.202573516212720L, 0.338633456230432L,
+			0.407222975603672L, 0.405988711273228L, 0.085768037835810L, 0.092447936746905L, 0.294684102588398L,
+			0.234636134663834L, 0.337249325372286L, 0.078192977790933L, 0.197213102886925L, 0.198824462690374L,
+			0.399714950988406L, 0.140441524334040L, 0.393820838711416L, 0.302045485720733L, 0.326162865231821L,
+			0.356883537098134L, 0.296197162523162L, 0.237661133353128L, 0.099481504262024L, 0.208284618463984L,
+			0.161083066477864L, 0.035849248614066L, 0.470541521960214L, 0.308965914005148L, 0.443681511713312L,
+			0.181520869672462L, 0.093660866987957L, 0.487986320148976L, 0.072707373996656L, 0.426494417224550L,
+			0.029448628880195L, 0.013274977013276L, 0.401921524618494L, 0.469276127641801L, 0.316636708641362L,
+			0.383558906721866L, 0.438814494181180L, 0.227683173669428L, 0.136916100115666L, 0.132312036495192L,
+			0.460463439006538L, 0.316145006258968L, 0.423733315298879L, 0.428578398118752L, 0.157242589816862L,
+			0.373494578119001L, 0.240135122684186L, 0.170286575401704L, 0.343646690039828L, 0.021971888235882L,
+			0.482985582282916L, 0.196683575375420L, 0.384788858132035L, 0.219916864002021L, 0.282133296482496L,
+			0.166596857786768L, 0.492088302015860L, 0.028800353584748L, 0.278357511557495L, 0.228228950551636L,
+			0.042042712288333L, 0.418732264166556L, 0.175014700510798L, 0.474878028498212L, 0.046712999543782L,
+			0.395352539025512L, 0.093533098125359L, 0.254050435274325L, 0.471824356050964L, 0.403133820111921L,
+			0.418836715988580L, 0.204586992901868L, 0.174469907352460L, 0.152221825947648L, 0.063928343182998L,
+			0.065665228181088L, 0.496187458111579L, 0.054010076963485L, 0.170842149555408L, 0.258245553306344L,
+			0.457609040650324L, 0.175573208844940L, 0.060803516945584L, 0.086148439904892L, 0.314235615791747L,
+			0.331526608456635L, 0.181071235710001L, 0.443428271454930L, 0.064289626023220L, 0.426571462674362L,
+			0.024839522041146L, 0.077571435756895L, 0.490276908007410L, 0.277372730573410L, 0.408310446353286L,
+			0.112929656879346L, 0.255359024314012L, 0.468320363469764L, 0.445385426367808L, 0.402580259050458L,
+			0.496746438594018L, 0.315490013751818L, 0.109717967805901L, 0.316535910801585L, 0.368119591990662L,
+			0.027747342955034L, 0.494937159211104L, 0.165590842350232L, 0.156562998676824L, 0.349908940094684L,
+			0.476394763487418L, 0.318635172173708L, 0.138159457627698L, 0.283264417456662L, 0.066523562087516L,
+			0.402019391493774L, 0.479822294954037L, 0.263562884974862L, 0.451767341343717L, 0.248455404700488L,
+			0.381946584492274L, 0.327908402674172L, 0.146014042933678L, 0.406619178202212L, 0.410347490195844L,
+			0.149380275485320L, 0.361520419743614L, 0.316600567839056L, 0.281724198071237L, 0.312893307589800L,
+			0.126584072397176L, 0.247105081617023L, 0.072844568055775L, 0.057632344335750L, 0.446429720777306L,
+			0.406029618581672L, 0.066052111985790L, 0.262749059371028L, 0.038583690097856L, 0.238331490605184L,
+			0.075736558418042L, 0.108787110106234L, 0.456443606155601L, 0.173989107088652L, 0.368026876196986L,
+			0.021544594517722L, 0.131963145189706L, 0.020461961976788L, 0.358933701274452L, 0.104966708417920L,
+			0.391486163539972L, 0.017240645915046L, 0.303428731086486L, 0.380342224735667L, 0.229964233510828L,
+			0.070516621640132L, 0.119189557428267L, 0.139103774500623L, 0.397192249656900L, 0.478828671904459L,
+			0.449830638598145L, 0.287009866382932L, 0.260584632243006L, 0.156171807576082L, 0.161375241351614L,
+			0.409895053779127L, 0.093720136826950L, 0.084341768669300L, 0.319056544177204L, 0.493859502321714L,
+			0.043291127335629L, 0.055011115716151L, 0.225197259475006L, 0.214882764080914L, 0.102435704305442L,
+			0.335251338134393L, 0.291119552761152L, 0.499264978083978L, 0.305482669689676L, 0.413740437153818L,
+			0.105263485210519L, 0.447173998500396L, 0.421938535863336L, 0.105154076027955L, 0.486023715069231L,
+			0.102474501558907L, 0.252931949821920L, 0.372034551378506L, 0.180378500300027L, 0.383759238646340L,
+			0.461438917376224L, 0.205693114950045L, 0.411787998824319L, 0.408811297898310L, 0.412684588718592L,
+			0.322003308708316L, 0.135659299544268L, 0.288066057670600L, 0.215179787749429L, 0.497858916215230L,
+			0.247641522637370L, 0.494346340761522L, 0.175502190034177L, 0.154298276968824L, 0.134859340726280L,
+			0.276519338336331L, 0.462141641872526L, 0.473359594187988L, 0.470638152338236L, 0.447746127344508L,
+			0.243318739798233L, 0.236697269455432L, 0.162466615046929L, 0.078998667418120L, 0.075620094386738L,
+			0.326526693883995L, 0.044984422791836L, 0.075117715627845L, 0.197204014381962L, 0.113090362310132L,
+			0.149611342656316L, 0.377239223543243L, 0.011436032377522L, 0.262059315549792L, 0.048752444248670L,
+			0.229027128267627L, 0.264642333419767L, 0.129112723887522L, 0.056541188222796L, 0.425708183077552L,
+			0.411108125114657L, 0.055011885856495L, 0.406265747629022L, 0.431369215107870L, 0.210206039541281L,
+			0.317306347439712L, 0.117934933939180L, 0.268406835938471L, 0.336054615479841L, 0.419345751262028L,
+			0.172835473514572L, 0.421019669451108L, 0.482243873038397L, 0.129885905176890L, 0.082904940938586L,
+			0.052970091807127L, 0.206786422973670L, 0.057484475517460L, 0.041705407362262L, 0.069160853007719L,
+			0.219300988187967L, 0.152495923325340L, 0.257613591022078L, 0.298740798437896L, 0.218062295136705L,
+			0.175837370888783L, 0.323937183531414L, 0.236361945979372L, 0.056056073223905L, 0.150605060761992L,
+			0.423559716597092L, 0.178824401980736L, 0.311858871443803L, 0.372709708532894L, 0.273284805125746L,
+			0.302479051865634L, 0.002173319221490L, 0.225329415954318L, 0.279157001266628L, 0.328547851989934L,
+			0.383638239454243L, 0.067940754051997L, 0.397180842804297L, 0.300344558825257L, 0.181975090377002L,
+			0.464934758100322L, 0.355029954652875L, 0.341475324358392L, 0.257160579851352L, 0.343318765114578L,
+			0.069345313450776L, 0.498842589677693L, 0.264924071993719L, 0.418297465389788L, 0.441589016811972L,
+			0.188339367604214L, 0.112210580009678L, 0.199786678045732L, 0.008436194410998L, 0.298612476218900L,
+			0.212270974178019L, 0.362555168362104L, 0.409052524532992L, 0.135153276905708L, 0.165026708759801L,
+			0.022766296937619L, 0.361465131224512L, 0.457631351448434L, 0.205920113970173L, 0.432856667248071L,
+			0.080259611194922L, 0.074613826834177L, 0.006689899340236L, 0.486370707715725L, 0.425696707376238L,
 			0.105660004498838L, 0.224665618110878L, 0.210310878177036L, 0.026468150761085L, 0.313686673002255L
 		};
 
-		static constexpr long double values_sum_low         = 102.528340980158395L;
-		static constexpr long double values_sum             = 102.528340980260923L;
-		static constexpr long double values_sum_high        = 102.528340980363451L;
-		static constexpr long double values_min             = 0.001380676677544L;
-		static constexpr long double values_max             = 0.499264978083978L;
+		static constexpr long double values_sum_low	 = 102.528340980158395L;
+		static constexpr long double values_sum		 = 102.528340980260923L;
+		static constexpr long double values_sum_high = 102.528340980363451L;
+		static constexpr long double values_min		 = 0.001380676677544L;
+		static constexpr long double values_max		 = 0.499264978083978L;
 
-		static constexpr long double one_over_two           = 0.50000000000000000L;
-		static constexpr long double two_over_three         = 0.66666666666666667L;
-		static constexpr long double two_over_five          = 0.40000000000000000L;
-		static constexpr long double sqrt_two               = 1.41421356237309505L;
-		static constexpr long double one_over_sqrt_two      = 0.70710678118654752L;
-		static constexpr long double one_over_three         = 0.33333333333333333L;
-		static constexpr long double three_over_two         = 1.50000000000000000L;
-		static constexpr long double three_over_four        = 0.75000000000000000L;
-		static constexpr long double three_over_five        = 0.60000000000000000L;
-		static constexpr long double sqrt_three             = 1.73205080756887729L;
-		static constexpr long double one_over_sqrt_three    = 0.57735026918962576L;
-		static constexpr long double pi                     = 3.14159265358979324L;
-		static constexpr long double one_over_pi            = 0.31830988618379067L;
-		static constexpr long double pi_over_two            = 1.57079632679489662L;
-		static constexpr long double pi_over_three          = 1.04719755119659775L;
-		static constexpr long double pi_over_four           = 0.78539816339744831L;
-		static constexpr long double pi_over_five           = 0.62831853071795865L;
-		static constexpr long double pi_over_six            = 0.52359877559829887L;
-		static constexpr long double pi_over_seven          = 0.44879895051282761L;
-		static constexpr long double pi_over_eight          = 0.39269908169872415L;
-		static constexpr long double sqrt_pi                = 1.77245385090551603L;
-		static constexpr long double one_over_sqrt_pi       = 0.56418958354775629L;
-		static constexpr long double two_pi                 = 6.28318530717958648L;
-		static constexpr long double one_over_two_pi        = 0.15915494309189534L;
-		static constexpr long double sqrt_two_pi            = 2.50662827463100050L;
-		static constexpr long double one_over_sqrt_two_pi   = 0.39894228040143268L;
-		static constexpr long double three_pi               = 9.42477796076937972L;
-		static constexpr long double one_over_three_pi      = 0.10610329539459689L;
-		static constexpr long double three_pi_over_two      = 4.71238898038468986L;
-		static constexpr long double three_pi_over_four     = 2.35619449019234493L;
-		static constexpr long double three_pi_over_five     = 1.88495559215387594L;
-		static constexpr long double sqrt_three_pi          = 3.06998012383946547L;
+		static constexpr long double one_over_two			= 0.50000000000000000L;
+		static constexpr long double two_over_three			= 0.66666666666666667L;
+		static constexpr long double two_over_five			= 0.40000000000000000L;
+		static constexpr long double sqrt_two				= 1.41421356237309505L;
+		static constexpr long double one_over_sqrt_two		= 0.70710678118654752L;
+		static constexpr long double one_over_three			= 0.33333333333333333L;
+		static constexpr long double three_over_two			= 1.50000000000000000L;
+		static constexpr long double three_over_four		= 0.75000000000000000L;
+		static constexpr long double three_over_five		= 0.60000000000000000L;
+		static constexpr long double sqrt_three				= 1.73205080756887729L;
+		static constexpr long double one_over_sqrt_three	= 0.57735026918962576L;
+		static constexpr long double pi						= 3.14159265358979324L;
+		static constexpr long double one_over_pi			= 0.31830988618379067L;
+		static constexpr long double pi_over_two			= 1.57079632679489662L;
+		static constexpr long double pi_over_three			= 1.04719755119659775L;
+		static constexpr long double pi_over_four			= 0.78539816339744831L;
+		static constexpr long double pi_over_five			= 0.62831853071795865L;
+		static constexpr long double pi_over_six			= 0.52359877559829887L;
+		static constexpr long double pi_over_seven			= 0.44879895051282761L;
+		static constexpr long double pi_over_eight			= 0.39269908169872415L;
+		static constexpr long double sqrt_pi				= 1.77245385090551603L;
+		static constexpr long double one_over_sqrt_pi		= 0.56418958354775629L;
+		static constexpr long double two_pi					= 6.28318530717958648L;
+		static constexpr long double one_over_two_pi		= 0.15915494309189534L;
+		static constexpr long double sqrt_two_pi			= 2.50662827463100050L;
+		static constexpr long double one_over_sqrt_two_pi	= 0.39894228040143268L;
+		static constexpr long double three_pi				= 9.42477796076937972L;
+		static constexpr long double one_over_three_pi		= 0.10610329539459689L;
+		static constexpr long double three_pi_over_two		= 4.71238898038468986L;
+		static constexpr long double three_pi_over_four		= 2.35619449019234493L;
+		static constexpr long double three_pi_over_five		= 1.88495559215387594L;
+		static constexpr long double sqrt_three_pi			= 3.06998012383946547L;
 		static constexpr long double one_over_sqrt_three_pi = 0.32573500793527995L;
-		static constexpr long double e                      = 2.71828182845904553L;
-		static constexpr long double one_over_e             = 0.36787944117144228L;
-		static constexpr long double e_over_two             = 1.35914091422952277L;
-		static constexpr long double e_over_three           = 0.90609394281968184L;
-		static constexpr long double e_over_four            = 0.67957045711476138L;
-		static constexpr long double e_over_five            = 0.54365636569180911L;
-		static constexpr long double e_over_six             = 0.45304697140984092L;
-		static constexpr long double sqrt_e                 = 1.64872127070012824L;
-		static constexpr long double one_over_sqrt_e        = 0.60653065971263339L;
-		static constexpr long double phi                    = 1.61803398874989485L;
-		static constexpr long double one_over_phi           = 0.61803398874989485L;
-		static constexpr long double phi_over_two           = 0.80901699437494742L;
-		static constexpr long double phi_over_three         = 0.53934466291663162L;
-		static constexpr long double phi_over_four          = 0.40450849718747371L;
-		static constexpr long double phi_over_five          = 0.32360679774997897L;
-		static constexpr long double phi_over_six           = 0.26967233145831581L;
-		static constexpr long double sqrt_phi               = 1.27201964951406896L;
-		static constexpr long double one_over_sqrt_phi      = 0.78615137775742329L;
-		static constexpr long double degrees_to_radians     = 0.01745329251994330L;
-		static constexpr long double radians_to_degrees     = 57.29577951308232088L;
+		static constexpr long double e						= 2.71828182845904553L;
+		static constexpr long double one_over_e				= 0.36787944117144228L;
+		static constexpr long double e_over_two				= 1.35914091422952277L;
+		static constexpr long double e_over_three			= 0.90609394281968184L;
+		static constexpr long double e_over_four			= 0.67957045711476138L;
+		static constexpr long double e_over_five			= 0.54365636569180911L;
+		static constexpr long double e_over_six				= 0.45304697140984092L;
+		static constexpr long double sqrt_e					= 1.64872127070012824L;
+		static constexpr long double one_over_sqrt_e		= 0.60653065971263339L;
+		static constexpr long double phi					= 1.61803398874989485L;
+		static constexpr long double one_over_phi			= 0.61803398874989485L;
+		static constexpr long double phi_over_two			= 0.80901699437494742L;
+		static constexpr long double phi_over_three			= 0.53934466291663162L;
+		static constexpr long double phi_over_four			= 0.40450849718747371L;
+		static constexpr long double phi_over_five			= 0.32360679774997897L;
+		static constexpr long double phi_over_six			= 0.26967233145831581L;
+		static constexpr long double sqrt_phi				= 1.27201964951406896L;
+		static constexpr long double one_over_sqrt_phi		= 0.78615137775742329L;
+		static constexpr long double degrees_to_radians		= 0.01745329251994330L;
+		static constexpr long double radians_to_degrees		= 57.29577951308232088L;
 
-		static constexpr auto int_blittable    = true;
-		static constexpr auto bits_sign        = 0x8000000000000000_u64;
-		static constexpr auto bits_exponent    = 0x7FF0000000000000_u64;
-		static constexpr auto bits_mantissa    = 0x000FFFFFFFFFFFFF_u64;
-		static constexpr auto bits_pos_inf     = 0x7FF0000000000000_u64;
-		static constexpr auto bits_neg_inf     = 0xFFF0000000000000_u64;
+		static constexpr auto int_blittable	   = true;
+		static constexpr auto bits_sign		   = 0x8000000000000000_u64;
+		static constexpr auto bits_exponent	   = 0x7FF0000000000000_u64;
+		static constexpr auto bits_mantissa	   = 0x000FFFFFFFFFFFFF_u64;
+		static constexpr auto bits_pos_inf	   = 0x7FF0000000000000_u64;
+		static constexpr auto bits_neg_inf	   = 0xFFF0000000000000_u64;
 		static constexpr auto bits_pos_nan_min = 0x7FF0000000000001_u64;
 		static constexpr auto bits_pos_nan_max = 0x7FFFFFFFFFFFFFFF_u64;
 		static constexpr auto bits_neg_nan_min = 0xFFF0000000000001_u64;
 		static constexpr auto bits_neg_nan_max = 0xFFFFFFFFFFFFFFFF_u64;
-		static constexpr auto bits_snan        = 0xFFF0000000000001_u64;
-		static constexpr auto bits_qnan        = 0xFFF8000000000001_u64;
+		static constexpr auto bits_snan		   = 0xFFF0000000000001_u64;
+		static constexpr auto bits_qnan		   = 0xFFF8000000000001_u64;
 	};
 
 	template <>
 	struct float_test_data_by_traits<80, 64>
 	{
-		static constexpr long double values[] = 
-		{
-			0.346807506472001390L, 0.002534166905161806L, 0.012662757720234572L, 0.280627904378551840L, 
-			0.288836260140646454L, 0.489754862165433391L, 0.046101568718720868L, 0.110280903892806246L, 
-			0.032021445016969220L, 0.317835347600826724L, 0.149815780347224151L, 0.088197487387883482L, 
-			0.400348259357576078L, 0.378929495379946992L, 0.095987460227644472L, 0.054921106506215934L, 
-			0.330198747487729636L, 0.103620200443301402L, 0.001413969650528168L, 0.172020285175362166L, 
-			0.481130058642181202L, 0.410126901209788180L, 0.193989752225235988L, 0.130472161061733907L, 
-			0.345885361087076892L, 0.314238566187434860L, 0.113279277379160342L, 0.194798259809934470L, 
-			0.080557856229590582L, 0.155686471630415705L, 0.491686915379721710L, 0.264282339404718193L, 
-			0.254841240845232146L, 0.471139620520587685L, 0.193605042599091590L, 0.266121139579593770L, 
-			0.120785396761842742L, 0.492729082631968386L, 0.406630174344327331L, 0.177643442325423796L, 
-			0.303392531851688982L, 0.240961833297067983L, 0.450856079252235924L, 0.224272469094898283L, 
-			0.455921242661256642L, 0.490494312273552920L, 0.252735490971332468L, 0.486963521663870784L, 
-			0.340748609136596257L, 0.260533277850497862L, 0.034238057744179202L, 0.086508415711945112L, 
-			0.490502733936023698L, 0.290668105145002698L, 0.217525568565880890L, 0.320187344648846870L, 
-			0.308754110666563410L, 0.206516289038542969L, 0.372903624313101865L, 0.068851399375526080L, 
-			0.131366592337470331L, 0.383175499915461018L, 0.126866116554303447L, 0.380434722384071372L, 
-			0.405695309171854663L, 0.115692164167770852L, 0.091675122653480010L, 0.123093044773454353L, 
-			0.457518134259207692L, 0.185359696007083517L, 0.273900596212200532L, 0.124990699852773268L, 
-			0.078013925612504155L, 0.313264272104637389L, 0.232354591461571965L, 0.247522850389357870L, 
-			0.297348221896181358L, 0.440558816465261902L, 0.226687544008056957L, 0.357956693438039917L, 
-			0.353180828818671350L, 0.428387513511936149L, 0.428947924978239648L, 0.176570026185459944L, 
-			0.269062942978860715L, 0.196721699004855663L, 0.260063105333617882L, 0.207434266659359216L, 
-			0.346761207968833568L, 0.416996171396817880L, 0.415732633359291148L, 0.087826617693217826L, 
-			0.094666575527679385L, 0.301756475808774126L, 0.240266361009686170L, 0.345341342168994686L, 
-			0.080070556558968789L, 0.201945126362238989L, 0.203594669428877382L, 0.409306734258700918L, 
-			0.143813058990140888L, 0.403272486326784120L, 0.309293030825911453L, 0.333991402460977101L, 
-			0.365447653660849558L, 0.303305358211275290L, 0.243365009456771240L, 0.101867784542693256L, 
-			0.213284792596306672L, 0.164948906515688744L, 0.036709600031581874L, 0.481833455102246166L, 
-			0.316380413147565724L, 0.454330645622434336L, 0.185877337457608206L, 0.095908269502285749L, 
-			0.499697610001779184L, 0.074453799262165616L, 0.436729903220310886L, 0.030155848186610499L, 
-			0.013593907879874076L, 0.411569055702701310L, 0.480537443899261129L, 0.324236679261624914L, 
-			0.392763808199915082L, 0.449344481977452348L, 0.233148544229317172L, 0.140202246368586962L, 
-			0.135488146240393048L, 0.471513406809492298L, 0.323731419380296472L, 0.433904618460472895L, 
-			0.438864470675923808L, 0.161015261157500958L, 0.382456613466243417L, 0.245898170518702362L, 
-			0.174373365532211944L, 0.351893834480965652L, 0.022499867915445610L, 0.494577771365812388L, 
-			0.201403972121310780L, 0.394024636095125059L, 0.225193853618952165L, 0.288904648552253632L, 
-			0.170593731693998480L, 0.029492626043979372L, 0.285038329221140855L, 0.233706969750727764L, 
-			0.043050803684863053L, 0.428782788793898140L, 0.179215485258034766L, 0.486275180020319524L, 
-			0.047833717430715366L, 0.404840779147006056L, 0.095777319177070639L, 0.260147001167124053L, 
-			0.483148499712706580L, 0.412808547871820849L, 0.428890211593545316L, 0.209498160790871788L, 
-			0.178656313396038540L, 0.155873938396469248L, 0.065461363839843990L, 0.067241558635286112L, 
-			0.055306434320245405L, 0.174941206829272272L, 0.264442708279966440L, 0.468590904510275668L, 
-			0.179787368906017420L, 0.062262699593520304L, 0.088215971808449148L, 0.321777305619876483L, 
-			0.339483099446053819L, 0.185416499541769265L, 0.454071173925993170L, 0.065832385095296308L, 
-			0.436808037001398202L, 0.025435953399283002L, 0.079435291321924959L, 0.284028334215758434L, 
-			0.418110664714546054L, 0.115638131055999218L, 0.261486009532757660L, 0.479559767474822084L, 
-			0.456073368217613632L, 0.412243650640450522L, 0.323061797461633546L, 0.112350426879172045L, 
-			0.324132092646891697L, 0.376955299543905670L, 0.028411708733469210L, 0.169566430358280856L, 
-			0.160320366674955608L, 0.358307367597898972L, 0.487827716820076730L, 0.326284127982589836L, 
-			0.141476094978354738L, 0.290062199617675798L, 0.068120061323875420L, 0.411666232715368078L, 
-			0.491338060310655029L, 0.269889470002792718L, 0.462608826271982565L, 0.254418336444826440L, 
-			0.391112900518734066L, 0.335778102046898684L, 0.149519043100494254L, 0.416376877560427620L, 
-			0.420194468111792516L, 0.152964252242655880L, 0.370197434836625278L, 0.324199781564004688L, 
-			0.288485862394571717L, 0.320403042655769768L, 0.129622090019725688L, 0.253035670952258175L, 
-			0.074591070467018719L, 0.059016926896678278L, 0.457144170753856090L, 0.415774219485253800L, 
-			0.067637134049930366L, 0.269055290787844116L, 0.039509831356544192L, 0.244050310485907584L, 
-			0.077553680255629434L, 0.111398102783349882L, 0.467398680220090705L, 0.178162836922187020L, 
-			0.376859358190450810L, 0.022061785601748698L, 0.135130949991299402L, 0.020953048083438548L, 
-			0.367548450331634516L, 0.107485591559361920L, 0.400881574309419012L, 0.017653767932694950L, 
-			0.310711925077649046L, 0.389470878497426867L, 0.235483059102879660L, 0.072207221809676740L, 
-			0.122049342541086763L, 0.142443806368786191L, 0.406725584059811396L, 0.490318648337345227L, 
-			0.460626883875977217L, 0.293898389481979476L, 0.266840191706092350L, 0.159920071078924306L, 
-			0.165248555763610046L, 0.419732061877919927L, 0.095969710297235526L, 0.086366184591149172L, 
-			0.326715089761246260L, 0.044330962364156621L, 0.056331731372002871L, 0.230600671716952126L, 
-			0.220040618314974994L, 0.104895407183918882L, 0.343296228239049593L, 0.298107489046990144L, 
-			0.312815079164939084L, 0.423669652775315482L, 0.107790678542831511L, 0.457906614596622892L, 
-			0.432065760941839400L, 0.107678597188758579L, 0.497688263434411311L, 0.104934096391869051L, 
-			0.259002682646560736L, 0.380965300151480906L, 0.184708464347413755L, 0.392969700958095940L, 
-			0.472513194112415968L, 0.210629513326666141L, 0.421669992936015743L, 0.418622752005619526L, 
-			0.422589192188500480L, 0.329730389148238300L, 0.138914865906195660L, 0.294980005757849544L, 
-			0.220342823622264885L, 0.253585630347201082L, 0.179714910508399873L, 0.158001838975416696L, 
-			0.138095606242033672L, 0.283155617494818891L, 0.473233628129023118L, 0.484720951451610324L, 
-			0.481931947285891900L, 0.458493404664214396L, 0.249158260048627929L, 0.242377448655309384L, 
-			0.166366396616323857L, 0.080894662382082568L, 0.077436330511770162L, 0.334362692550213723L, 
-			0.046063076508334748L, 0.076921522979184453L, 0.201937087832374154L, 0.115803594315234804L, 
-			0.153201576241984316L, 0.386291687983031755L, 0.011711362885862066L, 0.268347546347886176L, 
-			0.049922694369448542L, 0.234525697205326699L, 0.270994139150461175L, 0.132211458146244002L, 
-			0.057898102714036044L, 0.435923409038721712L, 0.420975725236125985L, 0.056330656252835567L, 
-			0.416015983100191710L, 0.441721550728946462L, 0.215250972213052961L, 0.324922389741684320L, 
-			0.120763967858021356L, 0.274847590214567079L, 0.344119820548773409L, 0.429410993639703372L, 
-			0.176982530082267212L, 0.431123133988557156L, 0.493817771780431933L, 0.133001549679774010L, 
-			0.084894108011595098L, 0.054242606825177495L, 0.211749035445920998L, 0.058864215347055124L, 
-			0.042706278438253782L, 0.070819658903809383L, 0.224563629897282879L, 0.156156106229868956L, 
-			0.263794960037644798L, 0.305911122327484936L, 0.223296851173177793L, 0.180057760741175887L, 
-			0.331712783982854550L, 0.242035285474679276L, 0.057402661272878817L, 0.154219573118626184L, 
-			0.433724485732068708L, 0.183115886858931520L, 0.319343820619686235L, 0.381653732716711070L, 
-			0.279844274596177522L, 0.309738710766730786L, 0.002225987126006002L, 0.230738972971343758L, 
-			0.285856967793419716L, 0.336434037541467054L, 0.392845150461371427L, 0.069572363565585309L, 
-			0.406712052095910985L, 0.307553027785305897L, 0.186340975983898922L, 0.476093160760126818L, 
-			0.363550847622507211L, 0.349670441321262840L, 0.263331060727882840L, 0.351557874189210834L, 
-			0.071009947206707992L, 0.271281801445777783L, 0.428335840605094620L, 0.452186646494566852L, 
-			0.192859983855644662L, 0.114905083547939534L, 0.204580983041281060L, 0.008638436388831734L, 
-			0.305780034009959956L, 0.217366760205259491L, 0.371254563388624504L, 0.418868600937075968L, 
-			0.138397570091149548L, 0.168987901065602297L, 0.023311876419662995L, 0.370141188490972608L, 
-			0.468614068104864626L, 0.210864020054264829L, 0.443244311302362567L, 0.082186163713832490L, 
-			0.076404510618341121L, 0.006850346623361484L, 0.498045655353341581L, 0.435913839113303150L, 
-			0.108194967344184726L, 0.230058656368712094L, 0.215358131259025164L, 0.027103879014995581L, 
-			0.321213529698275087L, 0.290175961620200998L, 0.333023062232134179L, 0.389976352313098362L, 
-			0.244558099515520426L, 0.263722158811400890L, 0.401988332148422399L, 0.186794011720330146L, 
+		static constexpr long double values[] = {
+			0.346807506472001390L, 0.002534166905161806L, 0.012662757720234572L, 0.280627904378551840L,
+			0.288836260140646454L, 0.489754862165433391L, 0.046101568718720868L, 0.110280903892806246L,
+			0.032021445016969220L, 0.317835347600826724L, 0.149815780347224151L, 0.088197487387883482L,
+			0.400348259357576078L, 0.378929495379946992L, 0.095987460227644472L, 0.054921106506215934L,
+			0.330198747487729636L, 0.103620200443301402L, 0.001413969650528168L, 0.172020285175362166L,
+			0.481130058642181202L, 0.410126901209788180L, 0.193989752225235988L, 0.130472161061733907L,
+			0.345885361087076892L, 0.314238566187434860L, 0.113279277379160342L, 0.194798259809934470L,
+			0.080557856229590582L, 0.155686471630415705L, 0.491686915379721710L, 0.264282339404718193L,
+			0.254841240845232146L, 0.471139620520587685L, 0.193605042599091590L, 0.266121139579593770L,
+			0.120785396761842742L, 0.492729082631968386L, 0.406630174344327331L, 0.177643442325423796L,
+			0.303392531851688982L, 0.240961833297067983L, 0.450856079252235924L, 0.224272469094898283L,
+			0.455921242661256642L, 0.490494312273552920L, 0.252735490971332468L, 0.486963521663870784L,
+			0.340748609136596257L, 0.260533277850497862L, 0.034238057744179202L, 0.086508415711945112L,
+			0.490502733936023698L, 0.290668105145002698L, 0.217525568565880890L, 0.320187344648846870L,
+			0.308754110666563410L, 0.206516289038542969L, 0.372903624313101865L, 0.068851399375526080L,
+			0.131366592337470331L, 0.383175499915461018L, 0.126866116554303447L, 0.380434722384071372L,
+			0.405695309171854663L, 0.115692164167770852L, 0.091675122653480010L, 0.123093044773454353L,
+			0.457518134259207692L, 0.185359696007083517L, 0.273900596212200532L, 0.124990699852773268L,
+			0.078013925612504155L, 0.313264272104637389L, 0.232354591461571965L, 0.247522850389357870L,
+			0.297348221896181358L, 0.440558816465261902L, 0.226687544008056957L, 0.357956693438039917L,
+			0.353180828818671350L, 0.428387513511936149L, 0.428947924978239648L, 0.176570026185459944L,
+			0.269062942978860715L, 0.196721699004855663L, 0.260063105333617882L, 0.207434266659359216L,
+			0.346761207968833568L, 0.416996171396817880L, 0.415732633359291148L, 0.087826617693217826L,
+			0.094666575527679385L, 0.301756475808774126L, 0.240266361009686170L, 0.345341342168994686L,
+			0.080070556558968789L, 0.201945126362238989L, 0.203594669428877382L, 0.409306734258700918L,
+			0.143813058990140888L, 0.403272486326784120L, 0.309293030825911453L, 0.333991402460977101L,
+			0.365447653660849558L, 0.303305358211275290L, 0.243365009456771240L, 0.101867784542693256L,
+			0.213284792596306672L, 0.164948906515688744L, 0.036709600031581874L, 0.481833455102246166L,
+			0.316380413147565724L, 0.454330645622434336L, 0.185877337457608206L, 0.095908269502285749L,
+			0.499697610001779184L, 0.074453799262165616L, 0.436729903220310886L, 0.030155848186610499L,
+			0.013593907879874076L, 0.411569055702701310L, 0.480537443899261129L, 0.324236679261624914L,
+			0.392763808199915082L, 0.449344481977452348L, 0.233148544229317172L, 0.140202246368586962L,
+			0.135488146240393048L, 0.471513406809492298L, 0.323731419380296472L, 0.433904618460472895L,
+			0.438864470675923808L, 0.161015261157500958L, 0.382456613466243417L, 0.245898170518702362L,
+			0.174373365532211944L, 0.351893834480965652L, 0.022499867915445610L, 0.494577771365812388L,
+			0.201403972121310780L, 0.394024636095125059L, 0.225193853618952165L, 0.288904648552253632L,
+			0.170593731693998480L, 0.029492626043979372L, 0.285038329221140855L, 0.233706969750727764L,
+			0.043050803684863053L, 0.428782788793898140L, 0.179215485258034766L, 0.486275180020319524L,
+			0.047833717430715366L, 0.404840779147006056L, 0.095777319177070639L, 0.260147001167124053L,
+			0.483148499712706580L, 0.412808547871820849L, 0.428890211593545316L, 0.209498160790871788L,
+			0.178656313396038540L, 0.155873938396469248L, 0.065461363839843990L, 0.067241558635286112L,
+			0.055306434320245405L, 0.174941206829272272L, 0.264442708279966440L, 0.468590904510275668L,
+			0.179787368906017420L, 0.062262699593520304L, 0.088215971808449148L, 0.321777305619876483L,
+			0.339483099446053819L, 0.185416499541769265L, 0.454071173925993170L, 0.065832385095296308L,
+			0.436808037001398202L, 0.025435953399283002L, 0.079435291321924959L, 0.284028334215758434L,
+			0.418110664714546054L, 0.115638131055999218L, 0.261486009532757660L, 0.479559767474822084L,
+			0.456073368217613632L, 0.412243650640450522L, 0.323061797461633546L, 0.112350426879172045L,
+			0.324132092646891697L, 0.376955299543905670L, 0.028411708733469210L, 0.169566430358280856L,
+			0.160320366674955608L, 0.358307367597898972L, 0.487827716820076730L, 0.326284127982589836L,
+			0.141476094978354738L, 0.290062199617675798L, 0.068120061323875420L, 0.411666232715368078L,
+			0.491338060310655029L, 0.269889470002792718L, 0.462608826271982565L, 0.254418336444826440L,
+			0.391112900518734066L, 0.335778102046898684L, 0.149519043100494254L, 0.416376877560427620L,
+			0.420194468111792516L, 0.152964252242655880L, 0.370197434836625278L, 0.324199781564004688L,
+			0.288485862394571717L, 0.320403042655769768L, 0.129622090019725688L, 0.253035670952258175L,
+			0.074591070467018719L, 0.059016926896678278L, 0.457144170753856090L, 0.415774219485253800L,
+			0.067637134049930366L, 0.269055290787844116L, 0.039509831356544192L, 0.244050310485907584L,
+			0.077553680255629434L, 0.111398102783349882L, 0.467398680220090705L, 0.178162836922187020L,
+			0.376859358190450810L, 0.022061785601748698L, 0.135130949991299402L, 0.020953048083438548L,
+			0.367548450331634516L, 0.107485591559361920L, 0.400881574309419012L, 0.017653767932694950L,
+			0.310711925077649046L, 0.389470878497426867L, 0.235483059102879660L, 0.072207221809676740L,
+			0.122049342541086763L, 0.142443806368786191L, 0.406725584059811396L, 0.490318648337345227L,
+			0.460626883875977217L, 0.293898389481979476L, 0.266840191706092350L, 0.159920071078924306L,
+			0.165248555763610046L, 0.419732061877919927L, 0.095969710297235526L, 0.086366184591149172L,
+			0.326715089761246260L, 0.044330962364156621L, 0.056331731372002871L, 0.230600671716952126L,
+			0.220040618314974994L, 0.104895407183918882L, 0.343296228239049593L, 0.298107489046990144L,
+			0.312815079164939084L, 0.423669652775315482L, 0.107790678542831511L, 0.457906614596622892L,
+			0.432065760941839400L, 0.107678597188758579L, 0.497688263434411311L, 0.104934096391869051L,
+			0.259002682646560736L, 0.380965300151480906L, 0.184708464347413755L, 0.392969700958095940L,
+			0.472513194112415968L, 0.210629513326666141L, 0.421669992936015743L, 0.418622752005619526L,
+			0.422589192188500480L, 0.329730389148238300L, 0.138914865906195660L, 0.294980005757849544L,
+			0.220342823622264885L, 0.253585630347201082L, 0.179714910508399873L, 0.158001838975416696L,
+			0.138095606242033672L, 0.283155617494818891L, 0.473233628129023118L, 0.484720951451610324L,
+			0.481931947285891900L, 0.458493404664214396L, 0.249158260048627929L, 0.242377448655309384L,
+			0.166366396616323857L, 0.080894662382082568L, 0.077436330511770162L, 0.334362692550213723L,
+			0.046063076508334748L, 0.076921522979184453L, 0.201937087832374154L, 0.115803594315234804L,
+			0.153201576241984316L, 0.386291687983031755L, 0.011711362885862066L, 0.268347546347886176L,
+			0.049922694369448542L, 0.234525697205326699L, 0.270994139150461175L, 0.132211458146244002L,
+			0.057898102714036044L, 0.435923409038721712L, 0.420975725236125985L, 0.056330656252835567L,
+			0.416015983100191710L, 0.441721550728946462L, 0.215250972213052961L, 0.324922389741684320L,
+			0.120763967858021356L, 0.274847590214567079L, 0.344119820548773409L, 0.429410993639703372L,
+			0.176982530082267212L, 0.431123133988557156L, 0.493817771780431933L, 0.133001549679774010L,
+			0.084894108011595098L, 0.054242606825177495L, 0.211749035445920998L, 0.058864215347055124L,
+			0.042706278438253782L, 0.070819658903809383L, 0.224563629897282879L, 0.156156106229868956L,
+			0.263794960037644798L, 0.305911122327484936L, 0.223296851173177793L, 0.180057760741175887L,
+			0.331712783982854550L, 0.242035285474679276L, 0.057402661272878817L, 0.154219573118626184L,
+			0.433724485732068708L, 0.183115886858931520L, 0.319343820619686235L, 0.381653732716711070L,
+			0.279844274596177522L, 0.309738710766730786L, 0.002225987126006002L, 0.230738972971343758L,
+			0.285856967793419716L, 0.336434037541467054L, 0.392845150461371427L, 0.069572363565585309L,
+			0.406712052095910985L, 0.307553027785305897L, 0.186340975983898922L, 0.476093160760126818L,
+			0.363550847622507211L, 0.349670441321262840L, 0.263331060727882840L, 0.351557874189210834L,
+			0.071009947206707992L, 0.271281801445777783L, 0.428335840605094620L, 0.452186646494566852L,
+			0.192859983855644662L, 0.114905083547939534L, 0.204580983041281060L, 0.008638436388831734L,
+			0.305780034009959956L, 0.217366760205259491L, 0.371254563388624504L, 0.418868600937075968L,
+			0.138397570091149548L, 0.168987901065602297L, 0.023311876419662995L, 0.370141188490972608L,
+			0.468614068104864626L, 0.210864020054264829L, 0.443244311302362567L, 0.082186163713832490L,
+			0.076404510618341121L, 0.006850346623361484L, 0.498045655353341581L, 0.435913839113303150L,
+			0.108194967344184726L, 0.230058656368712094L, 0.215358131259025164L, 0.027103879014995581L,
+			0.321213529698275087L, 0.290175961620200998L, 0.333023062232134179L, 0.389976352313098362L,
+			0.244558099515520426L, 0.263722158811400890L, 0.401988332148422399L, 0.186794011720330146L,
 			0.263515120672372558L, 0.495056287061314730L, 0.005064072566462712L, 0.450359383209413976L
 		};
 
-		static constexpr long double values_sum_low         = 102.739434643000955904L;
-		static constexpr long double values_sum             = 102.739434643001058643L;
-		static constexpr long double values_sum_high        = 102.739434643001161382L;
-		static constexpr long double values_min             = 0.001413969650528168L;
-		static constexpr long double values_max             = 0.499697610001779184L;
+		static constexpr long double values_sum_low	 = 102.739434643000955904L;
+		static constexpr long double values_sum		 = 102.739434643001058643L;
+		static constexpr long double values_sum_high = 102.739434643001161382L;
+		static constexpr long double values_min		 = 0.001413969650528168L;
+		static constexpr long double values_max		 = 0.499697610001779184L;
 
-		static constexpr long double one_over_two           = 0.500000000000000000000L;
-		static constexpr long double two_over_three         = 0.666666666666666666667L;
-		static constexpr long double two_over_five          = 0.400000000000000000000L;
-		static constexpr long double sqrt_two               = 1.414213562373095048802L;
-		static constexpr long double one_over_sqrt_two      = 0.707106781186547524401L;
-		static constexpr long double one_over_three         = 0.333333333333333333333L;
-		static constexpr long double three_over_two         = 1.500000000000000000000L;
-		static constexpr long double three_over_four        = 0.750000000000000000000L;
-		static constexpr long double three_over_five        = 0.600000000000000000000L;
-		static constexpr long double sqrt_three             = 1.732050807568877293527L;
-		static constexpr long double one_over_sqrt_three    = 0.577350269189625764509L;
-		static constexpr long double pi                     = 3.141592653589793238463L;
-		static constexpr long double one_over_pi            = 0.318309886183790671538L;
-		static constexpr long double pi_over_two            = 1.570796326794896619231L;
-		static constexpr long double pi_over_three          = 1.047197551196597746154L;
-		static constexpr long double pi_over_four           = 0.785398163397448309616L;
-		static constexpr long double pi_over_five           = 0.628318530717958647693L;
-		static constexpr long double pi_over_six            = 0.523598775598298873077L;
-		static constexpr long double pi_over_seven          = 0.448798950512827605495L;
-		static constexpr long double pi_over_eight          = 0.392699081698724154808L;
-		static constexpr long double sqrt_pi                = 1.772453850905516027298L;
-		static constexpr long double one_over_sqrt_pi       = 0.564189583547756286948L;
-		static constexpr long double two_pi                 = 6.283185307179586476925L;
-		static constexpr long double one_over_two_pi        = 0.159154943091895335769L;
-		static constexpr long double sqrt_two_pi            = 2.506628274631000502416L;
-		static constexpr long double one_over_sqrt_two_pi   = 0.398942280401432677940L;
-		static constexpr long double three_pi               = 9.424777960769379715388L;
-		static constexpr long double one_over_three_pi      = 0.106103295394596890513L;
-		static constexpr long double three_pi_over_two      = 4.712388980384689857694L;
-		static constexpr long double three_pi_over_four     = 2.356194490192344928847L;
-		static constexpr long double three_pi_over_five     = 1.884955592153875943078L;
-		static constexpr long double sqrt_three_pi          = 3.069980123839465465439L;
+		static constexpr long double one_over_two			= 0.500000000000000000000L;
+		static constexpr long double two_over_three			= 0.666666666666666666667L;
+		static constexpr long double two_over_five			= 0.400000000000000000000L;
+		static constexpr long double sqrt_two				= 1.414213562373095048802L;
+		static constexpr long double one_over_sqrt_two		= 0.707106781186547524401L;
+		static constexpr long double one_over_three			= 0.333333333333333333333L;
+		static constexpr long double three_over_two			= 1.500000000000000000000L;
+		static constexpr long double three_over_four		= 0.750000000000000000000L;
+		static constexpr long double three_over_five		= 0.600000000000000000000L;
+		static constexpr long double sqrt_three				= 1.732050807568877293527L;
+		static constexpr long double one_over_sqrt_three	= 0.577350269189625764509L;
+		static constexpr long double pi						= 3.141592653589793238463L;
+		static constexpr long double one_over_pi			= 0.318309886183790671538L;
+		static constexpr long double pi_over_two			= 1.570796326794896619231L;
+		static constexpr long double pi_over_three			= 1.047197551196597746154L;
+		static constexpr long double pi_over_four			= 0.785398163397448309616L;
+		static constexpr long double pi_over_five			= 0.628318530717958647693L;
+		static constexpr long double pi_over_six			= 0.523598775598298873077L;
+		static constexpr long double pi_over_seven			= 0.448798950512827605495L;
+		static constexpr long double pi_over_eight			= 0.392699081698724154808L;
+		static constexpr long double sqrt_pi				= 1.772453850905516027298L;
+		static constexpr long double one_over_sqrt_pi		= 0.564189583547756286948L;
+		static constexpr long double two_pi					= 6.283185307179586476925L;
+		static constexpr long double one_over_two_pi		= 0.159154943091895335769L;
+		static constexpr long double sqrt_two_pi			= 2.506628274631000502416L;
+		static constexpr long double one_over_sqrt_two_pi	= 0.398942280401432677940L;
+		static constexpr long double three_pi				= 9.424777960769379715388L;
+		static constexpr long double one_over_three_pi		= 0.106103295394596890513L;
+		static constexpr long double three_pi_over_two		= 4.712388980384689857694L;
+		static constexpr long double three_pi_over_four		= 2.356194490192344928847L;
+		static constexpr long double three_pi_over_five		= 1.884955592153875943078L;
+		static constexpr long double sqrt_three_pi			= 3.069980123839465465439L;
 		static constexpr long double one_over_sqrt_three_pi = 0.325735007935279947724L;
-		static constexpr long double e                      = 2.718281828459045534885L;
-		static constexpr long double one_over_e             = 0.367879441171442281059L;
-		static constexpr long double e_over_two             = 1.359140914229522767442L;
-		static constexpr long double e_over_three           = 0.906093942819681844962L;
-		static constexpr long double e_over_four            = 0.679570457114761383721L;
-		static constexpr long double e_over_five            = 0.543656365691809106977L;
-		static constexpr long double e_over_six             = 0.453046971409840922481L;
-		static constexpr long double sqrt_e                 = 1.648721270700128237684L;
-		static constexpr long double one_over_sqrt_e        = 0.606530659712633390187L;
-		static constexpr long double phi                    = 1.618033988749894848205L;
-		static constexpr long double one_over_phi           = 0.618033988749894848205L;
-		static constexpr long double phi_over_two           = 0.809016994374947424102L;
-		static constexpr long double phi_over_three         = 0.539344662916631616068L;
-		static constexpr long double phi_over_four          = 0.404508497187473712051L;
-		static constexpr long double phi_over_five          = 0.323606797749978969641L;
-		static constexpr long double phi_over_six           = 0.269672331458315808034L;
-		static constexpr long double sqrt_phi               = 1.272019649514068964252L;
-		static constexpr long double one_over_sqrt_phi      = 0.786151377757423286070L;
-		static constexpr long double degrees_to_radians     = 0.017453292519943295769L;
-		static constexpr long double radians_to_degrees     = 57.295779513082320876798L;
+		static constexpr long double e						= 2.718281828459045534885L;
+		static constexpr long double one_over_e				= 0.367879441171442281059L;
+		static constexpr long double e_over_two				= 1.359140914229522767442L;
+		static constexpr long double e_over_three			= 0.906093942819681844962L;
+		static constexpr long double e_over_four			= 0.679570457114761383721L;
+		static constexpr long double e_over_five			= 0.543656365691809106977L;
+		static constexpr long double e_over_six				= 0.453046971409840922481L;
+		static constexpr long double sqrt_e					= 1.648721270700128237684L;
+		static constexpr long double one_over_sqrt_e		= 0.606530659712633390187L;
+		static constexpr long double phi					= 1.618033988749894848205L;
+		static constexpr long double one_over_phi			= 0.618033988749894848205L;
+		static constexpr long double phi_over_two			= 0.809016994374947424102L;
+		static constexpr long double phi_over_three			= 0.539344662916631616068L;
+		static constexpr long double phi_over_four			= 0.404508497187473712051L;
+		static constexpr long double phi_over_five			= 0.323606797749978969641L;
+		static constexpr long double phi_over_six			= 0.269672331458315808034L;
+		static constexpr long double sqrt_phi				= 1.272019649514068964252L;
+		static constexpr long double one_over_sqrt_phi		= 0.786151377757423286070L;
+		static constexpr long double degrees_to_radians		= 0.017453292519943295769L;
+		static constexpr long double radians_to_degrees		= 57.295779513082320876798L;
 
-		static constexpr auto int_blittable    = false;
-		static constexpr auto bits_sign        = std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16 };
-		static constexpr auto bits_exponent    = std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x7FFF_u16 };
-		static constexpr auto bits_integer     = std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x0000_u16 };
-		static constexpr auto bits_mantissa    = std::array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0x7FFF_u16, 0x0000_u16 };
-		static constexpr auto bits_pos_inf     = std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
-		static constexpr auto bits_neg_inf     = std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
-		static constexpr auto bits_pos_nan_min = std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
-		static constexpr auto bits_pos_nan_max = std::array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0x7FFF_u16 };
-		static constexpr auto bits_neg_nan_min = std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
-		static constexpr auto bits_neg_nan_max = std::array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16 };
-		static constexpr auto bits_snan        = std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
-		static constexpr auto bits_qnan        = std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0xC000_u16, 0xFFFF_u16 };
+		static constexpr auto int_blittable = false;
+		static constexpr auto bits_sign		= std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16 };
+		static constexpr auto bits_exponent = std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x7FFF_u16 };
+		static constexpr auto bits_integer	= std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x0000_u16 };
+		static constexpr auto bits_mantissa = std::array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0x7FFF_u16, 0x0000_u16 };
+		static constexpr auto bits_pos_inf	= std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+		static constexpr auto bits_neg_inf	= std::array{ 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
+		static constexpr auto bits_pos_nan_min =
+			std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+		static constexpr auto bits_pos_nan_max =
+			std::array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0x7FFF_u16 };
+		static constexpr auto bits_neg_nan_min =
+			std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
+		static constexpr auto bits_neg_nan_max =
+			std::array{ 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16, 0xFFFF_u16 };
+		static constexpr auto bits_snan = std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0xFFFF_u16 };
+		static constexpr auto bits_qnan = std::array{ 0x0001_u16, 0x0000_u16, 0x0000_u16, 0xC000_u16, 0xFFFF_u16 };
 	};
 
 	template <>
 	struct float_test_data_by_traits<128, 64>
 	{
-		static constexpr long double values[] = 
-		{
-			0.346807506472001390L, 0.002534166905161806L, 0.012662757720234572L, 0.280627904378551840L, 
-			0.288836260140646454L, 0.489754862165433391L, 0.046101568718720868L, 0.110280903892806246L, 
-			0.032021445016969220L, 0.317835347600826724L, 0.149815780347224151L, 0.088197487387883482L, 
-			0.400348259357576078L, 0.378929495379946992L, 0.095987460227644472L, 0.054921106506215934L, 
-			0.330198747487729636L, 0.103620200443301402L, 0.001413969650528168L, 0.172020285175362166L, 
-			0.481130058642181202L, 0.410126901209788180L, 0.193989752225235988L, 0.130472161061733907L, 
-			0.345885361087076892L, 0.314238566187434860L, 0.113279277379160342L, 0.194798259809934470L, 
-			0.080557856229590582L, 0.155686471630415705L, 0.491686915379721710L, 0.264282339404718193L, 
-			0.254841240845232146L, 0.471139620520587685L, 0.193605042599091590L, 0.266121139579593770L, 
-			0.120785396761842742L, 0.492729082631968386L, 0.406630174344327331L, 0.177643442325423796L, 
-			0.303392531851688982L, 0.240961833297067983L, 0.450856079252235924L, 0.224272469094898283L, 
-			0.455921242661256642L, 0.490494312273552920L, 0.252735490971332468L, 0.486963521663870784L, 
-			0.340748609136596257L, 0.260533277850497862L, 0.034238057744179202L, 0.086508415711945112L, 
-			0.490502733936023698L, 0.290668105145002698L, 0.217525568565880890L, 0.320187344648846870L, 
-			0.308754110666563410L, 0.206516289038542969L, 0.372903624313101865L, 0.068851399375526080L, 
-			0.131366592337470331L, 0.383175499915461018L, 0.126866116554303447L, 0.380434722384071372L, 
-			0.405695309171854663L, 0.115692164167770852L, 0.091675122653480010L, 0.123093044773454353L, 
-			0.457518134259207692L, 0.185359696007083517L, 0.273900596212200532L, 0.124990699852773268L, 
-			0.078013925612504155L, 0.313264272104637389L, 0.232354591461571965L, 0.247522850389357870L, 
-			0.297348221896181358L, 0.440558816465261902L, 0.226687544008056957L, 0.357956693438039917L, 
-			0.353180828818671350L, 0.428387513511936149L, 0.428947924978239648L, 0.176570026185459944L, 
-			0.269062942978860715L, 0.196721699004855663L, 0.260063105333617882L, 0.207434266659359216L, 
-			0.346761207968833568L, 0.416996171396817880L, 0.415732633359291148L, 0.087826617693217826L, 
-			0.094666575527679385L, 0.301756475808774126L, 0.240266361009686170L, 0.345341342168994686L, 
-			0.080070556558968789L, 0.201945126362238989L, 0.203594669428877382L, 0.409306734258700918L, 
-			0.143813058990140888L, 0.403272486326784120L, 0.309293030825911453L, 0.333991402460977101L, 
-			0.365447653660849558L, 0.303305358211275290L, 0.243365009456771240L, 0.101867784542693256L, 
-			0.213284792596306672L, 0.164948906515688744L, 0.036709600031581874L, 0.481833455102246166L, 
-			0.316380413147565724L, 0.454330645622434336L, 0.185877337457608206L, 0.095908269502285749L, 
-			0.499697610001779184L, 0.074453799262165616L, 0.436729903220310886L, 0.030155848186610499L, 
-			0.013593907879874076L, 0.411569055702701310L, 0.480537443899261129L, 0.324236679261624914L, 
-			0.392763808199915082L, 0.449344481977452348L, 0.233148544229317172L, 0.140202246368586962L, 
-			0.135488146240393048L, 0.471513406809492298L, 0.323731419380296472L, 0.433904618460472895L, 
-			0.438864470675923808L, 0.161015261157500958L, 0.382456613466243417L, 0.245898170518702362L, 
-			0.174373365532211944L, 0.351893834480965652L, 0.022499867915445610L, 0.494577771365812388L, 
-			0.201403972121310780L, 0.394024636095125059L, 0.225193853618952165L, 0.288904648552253632L, 
-			0.170593731693998480L, 0.029492626043979372L, 0.285038329221140855L, 0.233706969750727764L, 
-			0.043050803684863053L, 0.428782788793898140L, 0.179215485258034766L, 0.486275180020319524L, 
-			0.047833717430715366L, 0.404840779147006056L, 0.095777319177070639L, 0.260147001167124053L, 
-			0.483148499712706580L, 0.412808547871820849L, 0.428890211593545316L, 0.209498160790871788L, 
-			0.178656313396038540L, 0.155873938396469248L, 0.065461363839843990L, 0.067241558635286112L, 
-			0.055306434320245405L, 0.174941206829272272L, 0.264442708279966440L, 0.468590904510275668L, 
-			0.179787368906017420L, 0.062262699593520304L, 0.088215971808449148L, 0.321777305619876483L, 
-			0.339483099446053819L, 0.185416499541769265L, 0.454071173925993170L, 0.065832385095296308L, 
-			0.436808037001398202L, 0.025435953399283002L, 0.079435291321924959L, 0.284028334215758434L, 
-			0.418110664714546054L, 0.115638131055999218L, 0.261486009532757660L, 0.479559767474822084L, 
-			0.456073368217613632L, 0.412243650640450522L, 0.323061797461633546L, 0.112350426879172045L, 
-			0.324132092646891697L, 0.376955299543905670L, 0.028411708733469210L, 0.169566430358280856L, 
-			0.160320366674955608L, 0.358307367597898972L, 0.487827716820076730L, 0.326284127982589836L, 
-			0.141476094978354738L, 0.290062199617675798L, 0.068120061323875420L, 0.411666232715368078L, 
-			0.491338060310655029L, 0.269889470002792718L, 0.462608826271982565L, 0.254418336444826440L, 
-			0.391112900518734066L, 0.335778102046898684L, 0.149519043100494254L, 0.416376877560427620L, 
-			0.420194468111792516L, 0.152964252242655880L, 0.370197434836625278L, 0.324199781564004688L, 
-			0.288485862394571717L, 0.320403042655769768L, 0.129622090019725688L, 0.253035670952258175L, 
-			0.074591070467018719L, 0.059016926896678278L, 0.457144170753856090L, 0.415774219485253800L, 
-			0.067637134049930366L, 0.269055290787844116L, 0.039509831356544192L, 0.244050310485907584L, 
-			0.077553680255629434L, 0.111398102783349882L, 0.467398680220090705L, 0.178162836922187020L, 
-			0.376859358190450810L, 0.022061785601748698L, 0.135130949991299402L, 0.020953048083438548L, 
-			0.367548450331634516L, 0.107485591559361920L, 0.400881574309419012L, 0.017653767932694950L, 
-			0.310711925077649046L, 0.389470878497426867L, 0.235483059102879660L, 0.072207221809676740L, 
-			0.122049342541086763L, 0.142443806368786191L, 0.406725584059811396L, 0.490318648337345227L, 
-			0.460626883875977217L, 0.293898389481979476L, 0.266840191706092350L, 0.159920071078924306L, 
-			0.165248555763610046L, 0.419732061877919927L, 0.095969710297235526L, 0.086366184591149172L, 
-			0.326715089761246260L, 0.044330962364156621L, 0.056331731372002871L, 0.230600671716952126L, 
-			0.220040618314974994L, 0.104895407183918882L, 0.343296228239049593L, 0.298107489046990144L, 
-			0.312815079164939084L, 0.423669652775315482L, 0.107790678542831511L, 0.457906614596622892L, 
-			0.432065760941839400L, 0.107678597188758579L, 0.497688263434411311L, 0.104934096391869051L, 
-			0.259002682646560736L, 0.380965300151480906L, 0.184708464347413755L, 0.392969700958095940L, 
-			0.472513194112415968L, 0.210629513326666141L, 0.421669992936015743L, 0.418622752005619526L, 
-			0.422589192188500480L, 0.329730389148238300L, 0.138914865906195660L, 0.294980005757849544L, 
-			0.220342823622264885L, 0.253585630347201082L, 0.179714910508399873L, 0.158001838975416696L, 
-			0.138095606242033672L, 0.283155617494818891L, 0.473233628129023118L, 0.484720951451610324L, 
-			0.481931947285891900L, 0.458493404664214396L, 0.249158260048627929L, 0.242377448655309384L, 
-			0.166366396616323857L, 0.080894662382082568L, 0.077436330511770162L, 0.334362692550213723L, 
-			0.046063076508334748L, 0.076921522979184453L, 0.201937087832374154L, 0.115803594315234804L, 
-			0.153201576241984316L, 0.386291687983031755L, 0.011711362885862066L, 0.268347546347886176L, 
-			0.049922694369448542L, 0.234525697205326699L, 0.270994139150461175L, 0.132211458146244002L, 
-			0.057898102714036044L, 0.435923409038721712L, 0.420975725236125985L, 0.056330656252835567L, 
-			0.416015983100191710L, 0.441721550728946462L, 0.215250972213052961L, 0.324922389741684320L, 
-			0.120763967858021356L, 0.274847590214567079L, 0.344119820548773409L, 0.429410993639703372L, 
-			0.176982530082267212L, 0.431123133988557156L, 0.493817771780431933L, 0.133001549679774010L, 
-			0.084894108011595098L, 0.054242606825177495L, 0.211749035445920998L, 0.058864215347055124L, 
-			0.042706278438253782L, 0.070819658903809383L, 0.224563629897282879L, 0.156156106229868956L, 
-			0.263794960037644798L, 0.305911122327484936L, 0.223296851173177793L, 0.180057760741175887L, 
-			0.331712783982854550L, 0.242035285474679276L, 0.057402661272878817L, 0.154219573118626184L, 
-			0.433724485732068708L, 0.183115886858931520L, 0.319343820619686235L, 0.381653732716711070L, 
-			0.279844274596177522L, 0.309738710766730786L, 0.002225987126006002L, 0.230738972971343758L, 
-			0.285856967793419716L, 0.336434037541467054L, 0.392845150461371427L, 0.069572363565585309L, 
-			0.406712052095910985L, 0.307553027785305897L, 0.186340975983898922L, 0.476093160760126818L, 
-			0.363550847622507211L, 0.349670441321262840L, 0.263331060727882840L, 0.351557874189210834L, 
-			0.071009947206707992L, 0.271281801445777783L, 0.428335840605094620L, 0.452186646494566852L, 
-			0.192859983855644662L, 0.114905083547939534L, 0.204580983041281060L, 0.008638436388831734L, 
-			0.305780034009959956L, 0.217366760205259491L, 0.371254563388624504L, 0.418868600937075968L, 
-			0.138397570091149548L, 0.168987901065602297L, 0.023311876419662995L, 0.370141188490972608L, 
-			0.468614068104864626L, 0.210864020054264829L, 0.443244311302362567L, 0.082186163713832490L, 
-			0.076404510618341121L, 0.006850346623361484L, 0.498045655353341581L, 0.435913839113303150L, 
-			0.108194967344184726L, 0.230058656368712094L, 0.215358131259025164L, 0.027103879014995581L, 
-			0.321213529698275087L, 0.290175961620200998L, 0.333023062232134179L, 0.389976352313098362L, 
-			0.244558099515520426L, 0.263722158811400890L, 0.401988332148422399L, 0.186794011720330146L, 
+		static constexpr long double values[] = {
+			0.346807506472001390L, 0.002534166905161806L, 0.012662757720234572L, 0.280627904378551840L,
+			0.288836260140646454L, 0.489754862165433391L, 0.046101568718720868L, 0.110280903892806246L,
+			0.032021445016969220L, 0.317835347600826724L, 0.149815780347224151L, 0.088197487387883482L,
+			0.400348259357576078L, 0.378929495379946992L, 0.095987460227644472L, 0.054921106506215934L,
+			0.330198747487729636L, 0.103620200443301402L, 0.001413969650528168L, 0.172020285175362166L,
+			0.481130058642181202L, 0.410126901209788180L, 0.193989752225235988L, 0.130472161061733907L,
+			0.345885361087076892L, 0.314238566187434860L, 0.113279277379160342L, 0.194798259809934470L,
+			0.080557856229590582L, 0.155686471630415705L, 0.491686915379721710L, 0.264282339404718193L,
+			0.254841240845232146L, 0.471139620520587685L, 0.193605042599091590L, 0.266121139579593770L,
+			0.120785396761842742L, 0.492729082631968386L, 0.406630174344327331L, 0.177643442325423796L,
+			0.303392531851688982L, 0.240961833297067983L, 0.450856079252235924L, 0.224272469094898283L,
+			0.455921242661256642L, 0.490494312273552920L, 0.252735490971332468L, 0.486963521663870784L,
+			0.340748609136596257L, 0.260533277850497862L, 0.034238057744179202L, 0.086508415711945112L,
+			0.490502733936023698L, 0.290668105145002698L, 0.217525568565880890L, 0.320187344648846870L,
+			0.308754110666563410L, 0.206516289038542969L, 0.372903624313101865L, 0.068851399375526080L,
+			0.131366592337470331L, 0.383175499915461018L, 0.126866116554303447L, 0.380434722384071372L,
+			0.405695309171854663L, 0.115692164167770852L, 0.091675122653480010L, 0.123093044773454353L,
+			0.457518134259207692L, 0.185359696007083517L, 0.273900596212200532L, 0.124990699852773268L,
+			0.078013925612504155L, 0.313264272104637389L, 0.232354591461571965L, 0.247522850389357870L,
+			0.297348221896181358L, 0.440558816465261902L, 0.226687544008056957L, 0.357956693438039917L,
+			0.353180828818671350L, 0.428387513511936149L, 0.428947924978239648L, 0.176570026185459944L,
+			0.269062942978860715L, 0.196721699004855663L, 0.260063105333617882L, 0.207434266659359216L,
+			0.346761207968833568L, 0.416996171396817880L, 0.415732633359291148L, 0.087826617693217826L,
+			0.094666575527679385L, 0.301756475808774126L, 0.240266361009686170L, 0.345341342168994686L,
+			0.080070556558968789L, 0.201945126362238989L, 0.203594669428877382L, 0.409306734258700918L,
+			0.143813058990140888L, 0.403272486326784120L, 0.309293030825911453L, 0.333991402460977101L,
+			0.365447653660849558L, 0.303305358211275290L, 0.243365009456771240L, 0.101867784542693256L,
+			0.213284792596306672L, 0.164948906515688744L, 0.036709600031581874L, 0.481833455102246166L,
+			0.316380413147565724L, 0.454330645622434336L, 0.185877337457608206L, 0.095908269502285749L,
+			0.499697610001779184L, 0.074453799262165616L, 0.436729903220310886L, 0.030155848186610499L,
+			0.013593907879874076L, 0.411569055702701310L, 0.480537443899261129L, 0.324236679261624914L,
+			0.392763808199915082L, 0.449344481977452348L, 0.233148544229317172L, 0.140202246368586962L,
+			0.135488146240393048L, 0.471513406809492298L, 0.323731419380296472L, 0.433904618460472895L,
+			0.438864470675923808L, 0.161015261157500958L, 0.382456613466243417L, 0.245898170518702362L,
+			0.174373365532211944L, 0.351893834480965652L, 0.022499867915445610L, 0.494577771365812388L,
+			0.201403972121310780L, 0.394024636095125059L, 0.225193853618952165L, 0.288904648552253632L,
+			0.170593731693998480L, 0.029492626043979372L, 0.285038329221140855L, 0.233706969750727764L,
+			0.043050803684863053L, 0.428782788793898140L, 0.179215485258034766L, 0.486275180020319524L,
+			0.047833717430715366L, 0.404840779147006056L, 0.095777319177070639L, 0.260147001167124053L,
+			0.483148499712706580L, 0.412808547871820849L, 0.428890211593545316L, 0.209498160790871788L,
+			0.178656313396038540L, 0.155873938396469248L, 0.065461363839843990L, 0.067241558635286112L,
+			0.055306434320245405L, 0.174941206829272272L, 0.264442708279966440L, 0.468590904510275668L,
+			0.179787368906017420L, 0.062262699593520304L, 0.088215971808449148L, 0.321777305619876483L,
+			0.339483099446053819L, 0.185416499541769265L, 0.454071173925993170L, 0.065832385095296308L,
+			0.436808037001398202L, 0.025435953399283002L, 0.079435291321924959L, 0.284028334215758434L,
+			0.418110664714546054L, 0.115638131055999218L, 0.261486009532757660L, 0.479559767474822084L,
+			0.456073368217613632L, 0.412243650640450522L, 0.323061797461633546L, 0.112350426879172045L,
+			0.324132092646891697L, 0.376955299543905670L, 0.028411708733469210L, 0.169566430358280856L,
+			0.160320366674955608L, 0.358307367597898972L, 0.487827716820076730L, 0.326284127982589836L,
+			0.141476094978354738L, 0.290062199617675798L, 0.068120061323875420L, 0.411666232715368078L,
+			0.491338060310655029L, 0.269889470002792718L, 0.462608826271982565L, 0.254418336444826440L,
+			0.391112900518734066L, 0.335778102046898684L, 0.149519043100494254L, 0.416376877560427620L,
+			0.420194468111792516L, 0.152964252242655880L, 0.370197434836625278L, 0.324199781564004688L,
+			0.288485862394571717L, 0.320403042655769768L, 0.129622090019725688L, 0.253035670952258175L,
+			0.074591070467018719L, 0.059016926896678278L, 0.457144170753856090L, 0.415774219485253800L,
+			0.067637134049930366L, 0.269055290787844116L, 0.039509831356544192L, 0.244050310485907584L,
+			0.077553680255629434L, 0.111398102783349882L, 0.467398680220090705L, 0.178162836922187020L,
+			0.376859358190450810L, 0.022061785601748698L, 0.135130949991299402L, 0.020953048083438548L,
+			0.367548450331634516L, 0.107485591559361920L, 0.400881574309419012L, 0.017653767932694950L,
+			0.310711925077649046L, 0.389470878497426867L, 0.235483059102879660L, 0.072207221809676740L,
+			0.122049342541086763L, 0.142443806368786191L, 0.406725584059811396L, 0.490318648337345227L,
+			0.460626883875977217L, 0.293898389481979476L, 0.266840191706092350L, 0.159920071078924306L,
+			0.165248555763610046L, 0.419732061877919927L, 0.095969710297235526L, 0.086366184591149172L,
+			0.326715089761246260L, 0.044330962364156621L, 0.056331731372002871L, 0.230600671716952126L,
+			0.220040618314974994L, 0.104895407183918882L, 0.343296228239049593L, 0.298107489046990144L,
+			0.312815079164939084L, 0.423669652775315482L, 0.107790678542831511L, 0.457906614596622892L,
+			0.432065760941839400L, 0.107678597188758579L, 0.497688263434411311L, 0.104934096391869051L,
+			0.259002682646560736L, 0.380965300151480906L, 0.184708464347413755L, 0.392969700958095940L,
+			0.472513194112415968L, 0.210629513326666141L, 0.421669992936015743L, 0.418622752005619526L,
+			0.422589192188500480L, 0.329730389148238300L, 0.138914865906195660L, 0.294980005757849544L,
+			0.220342823622264885L, 0.253585630347201082L, 0.179714910508399873L, 0.158001838975416696L,
+			0.138095606242033672L, 0.283155617494818891L, 0.473233628129023118L, 0.484720951451610324L,
+			0.481931947285891900L, 0.458493404664214396L, 0.249158260048627929L, 0.242377448655309384L,
+			0.166366396616323857L, 0.080894662382082568L, 0.077436330511770162L, 0.334362692550213723L,
+			0.046063076508334748L, 0.076921522979184453L, 0.201937087832374154L, 0.115803594315234804L,
+			0.153201576241984316L, 0.386291687983031755L, 0.011711362885862066L, 0.268347546347886176L,
+			0.049922694369448542L, 0.234525697205326699L, 0.270994139150461175L, 0.132211458146244002L,
+			0.057898102714036044L, 0.435923409038721712L, 0.420975725236125985L, 0.056330656252835567L,
+			0.416015983100191710L, 0.441721550728946462L, 0.215250972213052961L, 0.324922389741684320L,
+			0.120763967858021356L, 0.274847590214567079L, 0.344119820548773409L, 0.429410993639703372L,
+			0.176982530082267212L, 0.431123133988557156L, 0.493817771780431933L, 0.133001549679774010L,
+			0.084894108011595098L, 0.054242606825177495L, 0.211749035445920998L, 0.058864215347055124L,
+			0.042706278438253782L, 0.070819658903809383L, 0.224563629897282879L, 0.156156106229868956L,
+			0.263794960037644798L, 0.305911122327484936L, 0.223296851173177793L, 0.180057760741175887L,
+			0.331712783982854550L, 0.242035285474679276L, 0.057402661272878817L, 0.154219573118626184L,
+			0.433724485732068708L, 0.183115886858931520L, 0.319343820619686235L, 0.381653732716711070L,
+			0.279844274596177522L, 0.309738710766730786L, 0.002225987126006002L, 0.230738972971343758L,
+			0.285856967793419716L, 0.336434037541467054L, 0.392845150461371427L, 0.069572363565585309L,
+			0.406712052095910985L, 0.307553027785305897L, 0.186340975983898922L, 0.476093160760126818L,
+			0.363550847622507211L, 0.349670441321262840L, 0.263331060727882840L, 0.351557874189210834L,
+			0.071009947206707992L, 0.271281801445777783L, 0.428335840605094620L, 0.452186646494566852L,
+			0.192859983855644662L, 0.114905083547939534L, 0.204580983041281060L, 0.008638436388831734L,
+			0.305780034009959956L, 0.217366760205259491L, 0.371254563388624504L, 0.418868600937075968L,
+			0.138397570091149548L, 0.168987901065602297L, 0.023311876419662995L, 0.370141188490972608L,
+			0.468614068104864626L, 0.210864020054264829L, 0.443244311302362567L, 0.082186163713832490L,
+			0.076404510618341121L, 0.006850346623361484L, 0.498045655353341581L, 0.435913839113303150L,
+			0.108194967344184726L, 0.230058656368712094L, 0.215358131259025164L, 0.027103879014995581L,
+			0.321213529698275087L, 0.290175961620200998L, 0.333023062232134179L, 0.389976352313098362L,
+			0.244558099515520426L, 0.263722158811400890L, 0.401988332148422399L, 0.186794011720330146L,
 			0.263515120672372558L, 0.495056287061314730L, 0.005064072566462712L, 0.450359383209413976L
 		};
 
-		static constexpr long double values_sum_low         = 102.739434643000955904L;
-		static constexpr long double values_sum             = 102.739434643001058643L;
-		static constexpr long double values_sum_high        = 102.739434643001161382L;
-		static constexpr long double values_min             = 0.001413969650528168L;
-		static constexpr long double values_max             = 0.499697610001779184L;
+		static constexpr long double values_sum_low	 = 102.739434643000955904L;
+		static constexpr long double values_sum		 = 102.739434643001058643L;
+		static constexpr long double values_sum_high = 102.739434643001161382L;
+		static constexpr long double values_min		 = 0.001413969650528168L;
+		static constexpr long double values_max		 = 0.499697610001779184L;
 
-		static constexpr long double one_over_two           = 0.500000000000000000000L;
-		static constexpr long double two_over_three         = 0.666666666666666666667L;
-		static constexpr long double two_over_five          = 0.400000000000000000000L;
-		static constexpr long double sqrt_two               = 1.414213562373095048802L;
-		static constexpr long double one_over_sqrt_two      = 0.707106781186547524401L;
-		static constexpr long double one_over_three         = 0.333333333333333333333L;
-		static constexpr long double three_over_two         = 1.500000000000000000000L;
-		static constexpr long double three_over_four        = 0.750000000000000000000L;
-		static constexpr long double three_over_five        = 0.600000000000000000000L;
-		static constexpr long double sqrt_three             = 1.732050807568877293527L;
-		static constexpr long double one_over_sqrt_three    = 0.577350269189625764509L;
-		static constexpr long double pi                     = 3.141592653589793238463L;
-		static constexpr long double one_over_pi            = 0.318309886183790671538L;
-		static constexpr long double pi_over_two            = 1.570796326794896619231L;
-		static constexpr long double pi_over_three          = 1.047197551196597746154L;
-		static constexpr long double pi_over_four           = 0.785398163397448309616L;
-		static constexpr long double pi_over_five           = 0.628318530717958647693L;
-		static constexpr long double pi_over_six            = 0.523598775598298873077L;
-		static constexpr long double pi_over_seven          = 0.448798950512827605495L;
-		static constexpr long double pi_over_eight          = 0.392699081698724154808L;
-		static constexpr long double sqrt_pi                = 1.772453850905516027298L;
-		static constexpr long double one_over_sqrt_pi       = 0.564189583547756286948L;
-		static constexpr long double two_pi                 = 6.283185307179586476925L;
-		static constexpr long double one_over_two_pi        = 0.159154943091895335769L;
-		static constexpr long double sqrt_two_pi            = 2.506628274631000502416L;
-		static constexpr long double one_over_sqrt_two_pi   = 0.398942280401432677940L;
-		static constexpr long double three_pi               = 9.424777960769379715388L;
-		static constexpr long double one_over_three_pi      = 0.106103295394596890513L;
-		static constexpr long double three_pi_over_two      = 4.712388980384689857694L;
-		static constexpr long double three_pi_over_four     = 2.356194490192344928847L;
-		static constexpr long double three_pi_over_five     = 1.884955592153875943078L;
-		static constexpr long double sqrt_three_pi          = 3.069980123839465465439L;
+		static constexpr long double one_over_two			= 0.500000000000000000000L;
+		static constexpr long double two_over_three			= 0.666666666666666666667L;
+		static constexpr long double two_over_five			= 0.400000000000000000000L;
+		static constexpr long double sqrt_two				= 1.414213562373095048802L;
+		static constexpr long double one_over_sqrt_two		= 0.707106781186547524401L;
+		static constexpr long double one_over_three			= 0.333333333333333333333L;
+		static constexpr long double three_over_two			= 1.500000000000000000000L;
+		static constexpr long double three_over_four		= 0.750000000000000000000L;
+		static constexpr long double three_over_five		= 0.600000000000000000000L;
+		static constexpr long double sqrt_three				= 1.732050807568877293527L;
+		static constexpr long double one_over_sqrt_three	= 0.577350269189625764509L;
+		static constexpr long double pi						= 3.141592653589793238463L;
+		static constexpr long double one_over_pi			= 0.318309886183790671538L;
+		static constexpr long double pi_over_two			= 1.570796326794896619231L;
+		static constexpr long double pi_over_three			= 1.047197551196597746154L;
+		static constexpr long double pi_over_four			= 0.785398163397448309616L;
+		static constexpr long double pi_over_five			= 0.628318530717958647693L;
+		static constexpr long double pi_over_six			= 0.523598775598298873077L;
+		static constexpr long double pi_over_seven			= 0.448798950512827605495L;
+		static constexpr long double pi_over_eight			= 0.392699081698724154808L;
+		static constexpr long double sqrt_pi				= 1.772453850905516027298L;
+		static constexpr long double one_over_sqrt_pi		= 0.564189583547756286948L;
+		static constexpr long double two_pi					= 6.283185307179586476925L;
+		static constexpr long double one_over_two_pi		= 0.159154943091895335769L;
+		static constexpr long double sqrt_two_pi			= 2.506628274631000502416L;
+		static constexpr long double one_over_sqrt_two_pi	= 0.398942280401432677940L;
+		static constexpr long double three_pi				= 9.424777960769379715388L;
+		static constexpr long double one_over_three_pi		= 0.106103295394596890513L;
+		static constexpr long double three_pi_over_two		= 4.712388980384689857694L;
+		static constexpr long double three_pi_over_four		= 2.356194490192344928847L;
+		static constexpr long double three_pi_over_five		= 1.884955592153875943078L;
+		static constexpr long double sqrt_three_pi			= 3.069980123839465465439L;
 		static constexpr long double one_over_sqrt_three_pi = 0.325735007935279947724L;
-		static constexpr long double e                      = 2.718281828459045534885L;
-		static constexpr long double one_over_e             = 0.367879441171442281059L;
-		static constexpr long double e_over_two             = 1.359140914229522767442L;
-		static constexpr long double e_over_three           = 0.906093942819681844962L;
-		static constexpr long double e_over_four            = 0.679570457114761383721L;
-		static constexpr long double e_over_five            = 0.543656365691809106977L;
-		static constexpr long double e_over_six             = 0.453046971409840922481L;
-		static constexpr long double sqrt_e                 = 1.648721270700128237684L;
-		static constexpr long double one_over_sqrt_e        = 0.606530659712633390187L;
-		static constexpr long double phi                    = 1.618033988749894848205L;
-		static constexpr long double one_over_phi           = 0.618033988749894848205L;
-		static constexpr long double phi_over_two           = 0.809016994374947424102L;
-		static constexpr long double phi_over_three         = 0.539344662916631616068L;
-		static constexpr long double phi_over_four          = 0.404508497187473712051L;
-		static constexpr long double phi_over_five          = 0.323606797749978969641L;
-		static constexpr long double phi_over_six           = 0.269672331458315808034L;
-		static constexpr long double sqrt_phi               = 1.272019649514068964252L;
-		static constexpr long double one_over_sqrt_phi      = 0.786151377757423286070L;
-		static constexpr long double degrees_to_radians     = 0.017453292519943295769L;
-		static constexpr long double radians_to_degrees     = 57.295779513082320876798L;
+		static constexpr long double e						= 2.718281828459045534885L;
+		static constexpr long double one_over_e				= 0.367879441171442281059L;
+		static constexpr long double e_over_two				= 1.359140914229522767442L;
+		static constexpr long double e_over_three			= 0.906093942819681844962L;
+		static constexpr long double e_over_four			= 0.679570457114761383721L;
+		static constexpr long double e_over_five			= 0.543656365691809106977L;
+		static constexpr long double e_over_six				= 0.453046971409840922481L;
+		static constexpr long double sqrt_e					= 1.648721270700128237684L;
+		static constexpr long double one_over_sqrt_e		= 0.606530659712633390187L;
+		static constexpr long double phi					= 1.618033988749894848205L;
+		static constexpr long double one_over_phi			= 0.618033988749894848205L;
+		static constexpr long double phi_over_two			= 0.809016994374947424102L;
+		static constexpr long double phi_over_three			= 0.539344662916631616068L;
+		static constexpr long double phi_over_four			= 0.404508497187473712051L;
+		static constexpr long double phi_over_five			= 0.323606797749978969641L;
+		static constexpr long double phi_over_six			= 0.269672331458315808034L;
+		static constexpr long double sqrt_phi				= 1.272019649514068964252L;
+		static constexpr long double one_over_sqrt_phi		= 0.786151377757423286070L;
+		static constexpr long double degrees_to_radians		= 0.017453292519943295769L;
+		static constexpr long double radians_to_degrees		= 57.295779513082320876798L;
 
-		#if MUU_HAS_INT128
-		static constexpr auto int_blittable    = true;
-		static constexpr auto bits_sign        = bit_pack(0x0000000000008000_u64, 0x0000000000000000_u64);
-		static constexpr auto bits_exponent    = bit_pack(0x0000000000007FFF_u64, 0x0000000000000000_u64);
-		static constexpr auto bits_integer     = bit_pack(0x0000000000000000_u64, 0x8000000000000000_u64);
-		static constexpr auto bits_mantissa    = bit_pack(0x0000000000000000_u64, 0x7FFFFFFFFFFFFFFF_u64);
-		static constexpr auto bits_pos_inf     = bit_pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
-		static constexpr auto bits_neg_inf     = bit_pack(0x000000000000FFFF_u64, 0x8000000000000000_u64);
+#if MUU_HAS_INT128
+		static constexpr auto int_blittable	   = true;
+		static constexpr auto bits_sign		   = bit_pack(0x0000000000008000_u64, 0x0000000000000000_u64);
+		static constexpr auto bits_exponent	   = bit_pack(0x0000000000007FFF_u64, 0x0000000000000000_u64);
+		static constexpr auto bits_integer	   = bit_pack(0x0000000000000000_u64, 0x8000000000000000_u64);
+		static constexpr auto bits_mantissa	   = bit_pack(0x0000000000000000_u64, 0x7FFFFFFFFFFFFFFF_u64);
+		static constexpr auto bits_pos_inf	   = bit_pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
+		static constexpr auto bits_neg_inf	   = bit_pack(0x000000000000FFFF_u64, 0x8000000000000000_u64);
 		static constexpr auto bits_pos_nan_min = bit_pack(0x0000000000007FFF_u64, 0x8000000000000001_u64);
 		static constexpr auto bits_pos_nan_max = bit_pack(0x0000000000007FFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
 		static constexpr auto bits_neg_nan_min = bit_pack(0x000000000000FFFF_u64, 0x8000000000000001_u64);
 		static constexpr auto bits_neg_nan_max = bit_pack(0x000000000000FFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
-		static constexpr auto bits_snan        = bit_pack(0x000000000000FFFF_u64, 0x8000000000000001_u64);
-		static constexpr auto bits_qnan        = bit_pack(0x000000000000FFFF_u64, 0xC000000000000001_u64);
-		#else
-		static constexpr auto int_blittable    = false;
-		static constexpr auto bits_sign        = std::array{ 0x0000000000000000_u64, 0x0000000000008000_u64 };
-		static constexpr auto bits_exponent    = std::array{ 0x0000000000000000_u64, 0x0000000000007FFF_u64 };
-		static constexpr auto bits_integer     = std::array{ 0x8000000000000000_u64, 0x0000000000000000_u64 };
-		static constexpr auto bits_mantissa    = std::array{ 0x7FFFFFFFFFFFFFFF_u64, 0x0000000000000000_u64 };
-		static constexpr auto bits_pos_inf     = std::array{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
-		static constexpr auto bits_neg_inf     = std::array{ 0x8000000000000000_u64, 0x000000000000FFFF_u64 };
+		static constexpr auto bits_snan		   = bit_pack(0x000000000000FFFF_u64, 0x8000000000000001_u64);
+		static constexpr auto bits_qnan		   = bit_pack(0x000000000000FFFF_u64, 0xC000000000000001_u64);
+#else
+		static constexpr auto int_blittable	   = false;
+		static constexpr auto bits_sign		   = std::array{ 0x0000000000000000_u64, 0x0000000000008000_u64 };
+		static constexpr auto bits_exponent	   = std::array{ 0x0000000000000000_u64, 0x0000000000007FFF_u64 };
+		static constexpr auto bits_integer	   = std::array{ 0x8000000000000000_u64, 0x0000000000000000_u64 };
+		static constexpr auto bits_mantissa	   = std::array{ 0x7FFFFFFFFFFFFFFF_u64, 0x0000000000000000_u64 };
+		static constexpr auto bits_pos_inf	   = std::array{ 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
+		static constexpr auto bits_neg_inf	   = std::array{ 0x8000000000000000_u64, 0x000000000000FFFF_u64 };
 		static constexpr auto bits_pos_nan_min = std::array{ 0x8000000000000001_u64, 0x0000000000007FFF_u64 };
 		static constexpr auto bits_pos_nan_max = std::array{ 0xFFFFFFFFFFFFFFFF_u64, 0x0000000000007FFF_u64 };
 		static constexpr auto bits_neg_nan_min = std::array{ 0x8000000000000001_u64, 0x000000000000FFFF_u64 };
 		static constexpr auto bits_neg_nan_max = std::array{ 0xFFFFFFFFFFFFFFFF_u64, 0x000000000000FFFF_u64 };
-		static constexpr auto bits_snan        = std::array{ 0x8000000000000001_u64, 0x000000000000FFFF_u64 };
-		static constexpr auto bits_qnan        = std::array{ 0xC000000000000001_u64, 0x000000000000FFFF_u64 };
-		#endif // MUU_HAS_INT128
+		static constexpr auto bits_snan		   = std::array{ 0x8000000000000001_u64, 0x000000000000FFFF_u64 };
+		static constexpr auto bits_qnan		   = std::array{ 0xC000000000000001_u64, 0x000000000000FFFF_u64 };
+#endif // MUU_HAS_INT128
 	};
 
-	#if MUU_HAS_FLOAT128
+#if MUU_HAS_FLOAT128
 	template <>
 	struct float_test_data_by_traits<128, 113>
 	{
-		static constexpr float128_t values[] = 
-		{
-			0.002868982899771494123398061350766q, 0.315930513574404234347196109724236q, 
-			0.051927582269544436601802442790809q, 0.036061017294617750754103977978470q, 
-			0.357838579493370629069868756382881q, 0.099293263129872497039149192716375q, 
-			0.426628502680012077314051532934030q, 0.116700291133688320299544043124708q, 
-			0.193690586451981749009541771440040q, 0.461772506677809668491653295459410q, 
-			0.146907942086145265453330821514260q, 0.353803365398149098604633108666908q, 
-			0.219320524572607919414315838933270q, 0.175284221128188378953709784041014q, 
-			0.297556413788584045694595120133614q, 0.286935529622681361254076423007477q, 
-			0.217971172352348139648213996925349q, 0.135969157910768137449924730695690q, 
-			0.457837499988199997064651345516162q, 0.271296447043918701032783493905430q, 
-			0.252526553370836689063659058996884q, 0.284550879654812627455052497843092q, 
-			0.383661539893971978405025911744320q, 0.038546246903229913236197795328838q, 
-			0.244905371430165700264141104884426q, 0.232495189671486758983488106979154q, 
-			0.077495686097907918256513950637609q, 0.431419347347642348011501975036795q, 
-			0.428329706856449858578953715886039q, 0.130254972736540202094924459085127q, 
-			0.138597304226247191622987651499082q, 0.308364982306759895769327015376381q, 
-			0.087825553046736077576951949408148q, 0.261578586594731402766199484728269q, 
-			0.334809770771034868953833683498810q, 0.255216072431064183186288096318798q, 
-			0.397661997918373056287471933392749q, 0.482301777203098688157514713302313q, 
-			0.198810931420661138766325744142496q, 0.221506095438104763364355522291371q, 
-			0.233550533713010023091224773682394q, 0.469505102327464444868284093702176q, 
-			0.098910613231879478763042187711244q, 0.339769125633906427157783019132313q, 
-			0.270523155257633103804960948644673q, 0.090139571877128492684340184830846q, 
-			0.227365311104461329331656771145122q, 0.229240953885583852346191085410214q, 
-			0.161909920755645853754412774343286q, 0.454021688389442221707110202728030q, 
-			0.411465413108310496284906412873677q, 0.273994330561661888211606768704026q, 
-			0.240104256665582556948768436594568q, 0.041341542744328092986288714870056q, 
-			0.356228249109464027172856108727574q, 0.209251157663643428445552019577844q, 
-			0.491727188222977993963374650792560q, 0.015316502663180694277513947398979q, 
-			0.442233153389596297335244499622482q, 0.262492399854744591732348235302716q, 
-			0.152537713523649624133205747756242q, 0.364508595937398324906069729921866q, 
-			0.494121036488838147147353305179711q, 0.430643332422666965292323167381534q, 
-			0.196322074968458030134408342636826q, 0.025331531685058765434426478516244q, 
-			0.226787719471386071278821588695560q, 0.443609376559747905960989984435648q, 
-			0.325293168687410294858328562407397q, 0.320926236410306140623537991861868q, 
-			0.048474306354073199089041189268564q, 0.201777125089686454975470879151260q, 
-			0.053852788422769058948900279502116q, 0.107858957648436642942196329631848q, 
-			0.482857792891460432937524698352689q, 0.235871845471078909636985511028926q, 
-			0.175522523908802993586967563340684q, 0.073720006029003149079198402889044q, 
-			0.196984001531592904096847626478237q, 0.070110742987336537287250939923084q, 
-			0.099351855356663221545040757380251q, 0.382200905398458607491024232204931q, 
-			0.491801547154970383341377878648116q, 0.089409561064854335030612354874682q, 
-			0.319794288568799476614316818530290q, 0.130210272808501243495045027130246q, 
-			0.464120226890520823955594934252864q, 0.126504008348838972124628167895562q, 
-			0.424387359461445238683991594606769q, 0.180494728160166377781384476760728q, 
-			0.159268845196742448128114605168524q, 0.326589311673256274082765351159692q, 
-			0.463519110602372597211544030909532q, 0.303841282932932764183981039169589q, 
-			0.440379371060979830022972448686920q, 0.168323685510550636636916170897916q, 
-			0.473108616529123584798911248528484q, 0.172226630516557310446810699633294q, 
-			0.365029021644925475533753572042622q, 0.360737724086292680729239874448325q, 
-			0.284875570207937100598669698883960q, 0.066438821900040384097369890377695q, 
-			0.468130487089052338673491571937882q, 0.044483871959322684595423158030356q, 
-			0.087332541556616525058163716003968q, 0.424301232275434844828920686853388q, 
-			0.024857187016943981041385172268942q, 0.023583987961824718998344078489930q, 
-			0.451360895888838108955722167244160q, 0.349792873236832360176622576554406q, 
-			0.265114902033743846607917981814195q, 0.137419772085582340936099431383492q, 
-			0.457901315657564788494595148277519q, 0.300440136717103053169683096272468q, 
-			0.186035752481356947011754539175954q, 0.108060858045489375266513058226359q, 
-			0.367827879416902175147107463809140q, 0.049874210862920704614499999838258q, 
-			0.259656269166279356246953828732471q, 0.118103121594986278898346698622738q, 
-			0.335614683587567594580020334134137q, 0.352187136186608241287259275059338q, 
-			0.477028986376721081893098225273688q, 0.121226314605170872030857760871464q, 
-			0.118145365219041947135924804754735q, 0.428905148479511754404528279355360q, 
-			0.442442585979541246385113485245691q, 0.237142594560901152341497781254368q, 
-			0.474764053423828707843489420797788q, 0.475774497889768693097589042642758q, 
-			0.156407645620681448375611800486364q, 0.248098909316372404889361192718280q, 
-			0.177896312777829104837405319478529q, 0.155476324394473539160874351376157q, 
-			0.318788418604575654245314280193686q, 0.272891708128245834123568384674009q, 
-			0.187311741049231797422172021563364q, 0.091097379711430120108641014156873q, 
-			0.376485914352130409259948415197746q, 0.227356114104417172187057947254597q, 
-			0.172488045276797599033935183969780q, 0.302131773937558471574951951712946q, 
-			0.148861684154384532341806206462199q, 0.490811358002490622017100051410764q, 
-			0.063458018016853920897927810842913q, 0.497352572272471280036916946428894q, 
-			0.135984570202451618695962196690528q, 0.387450467555405199731759460943015q, 
-			0.199290087768567233443960776737612q, 0.149774416138277597212555555594301q, 
-			0.061050098055781592158014297474394q, 0.238414651106784880200064445072124q, 
-			0.048075398652844796107585329449492q, 0.252855906900958103374698374196583q, 
-			0.297013563072682450819234611521948q, 0.251397657077300735662024462940680q, 
-			0.373442177341141953144613945979471q, 0.064616240013954452405629975009772q, 
-			0.206175495972247882973481358519652q, 0.429713059826454529400774680682843q, 
-			0.002496900356267794781598768971298q, 0.321848904105511174588811572912014q, 
-			0.442310091156423477205102160409518q, 0.457928580854461570313600018600861q, 
-			0.209826076745614419009095740501801q, 0.409320643858119176850307691425122q, 
-			0.296500570032683650055106671963896q, 0.079958168040458466668914678568146q, 
-			0.305459601320773659518004235028605q, 0.217138738156564054566466706201028q, 
-			0.230352780161673294573561597588174q, 0.244711038921739966769750418263572q, 
-			0.471602672272520822585087851073144q, 0.190248591729814267487596152056044q, 
-			0.416752744892937826420727447467155q, 0.237408193345729064467519372534642q, 
-			0.086032699181571247378358901503530q, 0.121843949750574548783354456994926q, 
-			0.242463303187808945008960109042078q, 0.361666260691811173553514831500925q, 
-			0.374981433605539654890621849222694q, 0.275335371445280798916864908247162q, 
-			0.296945714834632385843109777760943q, 0.210349149907441366402463947486975q, 
-			0.222791772532772069621837677858136q, 0.059391407368771201598086135470070q, 
-			0.282330131559277459395670347347154q, 0.421991320692403739967818692186677q, 
-			0.377626107531408528981926933872067q, 0.307516332726401727572894509323154q, 
-			0.254891682025632126515398041140398q, 0.194678650585536310407270047767006q, 
-			0.076677541860058085936381604879020q, 0.394475070527855221420141810588963q, 
-			0.239461604742830030197086024702858q, 0.119490208465421951233613855231730q, 
-			0.244624875694388134020180983913262q, 0.295902755300446193891731017779259q, 
-			0.479883494189277936822270588055280q, 0.063563144094678011267880545442172q, 
-			0.125539164318250282854968336696813q, 0.233790738803858035531526235920776q, 
-			0.247985982305035492109885759826683q, 0.361384287687590802655961482660394q, 
-			0.062288547684037950124397919939976q, 0.189778919767727651112695756819930q, 
-			0.228633142050331781947650474031196q, 0.384253855717632702720681949046088q, 
-			0.317266441272385553525846886246850q, 0.185556729070159274560892922342210q, 
-			0.098307736668406344202310194954876q, 0.492200694783376964340570307834400q, 
-			0.438098985551354671500398953857689q, 0.473108474167043525436815886308309q, 
-			0.468280177596319670095938916045938q, 0.298856226414192135327549567234279q, 
-			0.205551656175478688897376269828359q, 0.276140208095778048190503754960792q, 
-			0.198703275415080683289416685503492q, 0.102502215945570681999522764764078q, 
-			0.451259084822654394143931454145897q, 0.102371135261682885008286350121810q, 
-			0.212654176934765849533547405606946q, 0.426562178815594425324997497112954q, 
-			0.152936914211113560765714906409944q, 0.092744118949450347639748990500948q, 
-			0.085666781802255845067022160024312q, 0.487116031401095010373614994637404q, 
-			0.461869176791299648482327211895556q, 0.234731454369140970141004477309952q, 
-			0.019076909632854864496928749510384q, 0.280541285416591642191739118043992q, 
-			0.327375826557238317555890255053664q, 0.244985396518794520178708651890866q, 
-			0.206425740966229934738888101834508q, 0.065891695488755572909975278936831q, 
-			0.238994518142112716094433063027506q, 0.426680860616922995839967090761458q, 
-			0.122832975482941875172107627854076q, 0.430731423730842080395464384627916q, 
-			0.301135786133139507599781313396709q, 0.048804605944654112612731682688200q, 
-			0.031592732755651434855263979899688q, 0.060154761915131799724604576343474q, 
-			0.350772949012726993955342285758806q, 0.073288866568819871722928919878674q, 
-			0.323822991762807891711673790037713q, 0.069778233222512009653687240011628q, 
-			0.086182346266977439202156280053636q, 0.493138892834853237453043219176258q, 
-			0.497975465838713925854335787179168q, 0.158492792147138394982706674963114q, 
-			0.181175215336989449841196470309136q, 0.110896388109470020104123928455738q, 
-			0.091639432036982702331347585835128q, 0.350422140419855109237561019717480q, 
-			0.333688902557280639682081599485791q, 0.119677161667523765844605491936963q, 
-			0.237797631689349793219132752850576q, 0.378239080103892450718652453597608q, 
-			0.242904408498734951782758975084004q, 0.268194399899065345037729248282544q, 
-			0.377376472868238334351309894525828q, 0.242151016659676986624066835522724q, 
-			0.342561529844775730954529835418414q, 0.188720607809491434292312014379227q, 
-			0.277770979670956916760540661717880q, 0.159665916033590699903505316551690q, 
-			0.471356288101506945899320487430128q, 0.446477740573001459215971209597243q, 
-			0.460358772883431360825586886900756q, 0.016266969161877282616718853556302q, 
-			0.482286256378557255329755044404992q, 0.148779778956394264121644011276010q, 
-			0.035758898127051876809381976734836q, 0.420384237807496262537516923205281q, 
-			0.433108280909621760806102949336654q, 0.208925592881232256049416474336273q, 
-			0.168132209992436371582785555075348q, 0.253026782827601306416402956669874q, 
-			0.051394942767779749069276727467869q, 0.025816593012050096607476970188794q, 
-			0.233940076029873739270796566067239q, 0.299973725195368985516248488859976q, 
-			0.133442155223002788719055945051961q, 0.039222366341025469032122484387527q, 
-			0.062986765571225374037432804028677q, 0.167860479256316909418605444672924q, 
-			0.074918804522371249173531589285572q, 0.395470760051767459330850773420022q, 
-			0.220681362359504322455174199583419q, 0.067422358080962833667999158392301q, 
-			0.081499025645577184344309686943310q, 0.468558660041429152826940968528508q, 
-			0.321869243492819989209516308709602q, 0.305996022083967393325726336166530q, 
-			0.236591334260663042673793613177104q, 0.153172253828795549134949352733440q, 
-			0.009487601625627115804289828518337q, 0.262388908346230924815049209569124q, 
-			0.328001596107314497988770322464476q, 0.313774254370265159664758689415299q, 
-			0.071566283924395629107503794240296q, 0.086609359862108182836386638236904q, 
-			0.236868579503059966036493537456522q, 0.341621922650267086083890083803332q, 
-			0.324906798883383813177356259888137q, 0.113789988889371806155361112376191q, 
-			0.196599981451609264808466787074502q, 0.193494406932087341971339800083538q, 
-			0.006645803949231430469952077503700q, 0.270099757850565407621021128446246q, 
-			0.453184909406301394539751498785113q, 0.221534300751968731245959803819618q, 
-			0.383206708008117073964590048236915q, 0.063383108187929861941407569168677q, 
-			0.169982344309849614315132112957544q, 0.402164970579901610459469616469809q, 
-			0.435185608525552934571848618773358q, 0.098249219435547691635434322406166q, 
-			0.050665157456450141015915173161860q, 0.077939537365195379495396946767046q, 
-			0.113333319726359260897286178621010q, 0.046148880511749429344280479142654q, 
-			0.236825828672821686899411944117262q, 0.384935297992971396105993473235750q, 
-			0.234275778426296354245137040029705q, 0.437440891138126900677473691387799q, 
-			0.080460313110770979810258417520750q, 0.029518437847805979420670362137572q, 
-			0.007441244256928924610548202492686q, 0.463669708270969106389242153512513q, 
-			0.118369022385608293230520083001901q, 0.365989540577444712741770842364966q, 
-			0.133085887021358641636460499042590q, 0.387576315582602463031585634145794q, 
-			0.308494927972154669563424281909143q, 0.329186735391205641516455554033306q, 
-			0.433231841537061153917218993320744q, 0.483357637955704472200281133935398q, 
-			0.422060159477014364974684442391422q, 0.282864448700282765147470726092938q, 
-			0.239177119062623393348030241370697q, 0.313440277413129196726272090957771q, 
-			0.172478322581830571431695587340830q, 0.114921332930544766532581295314128q, 
-			0.104621324696149491875381338719742q, 0.057042507648951013449488733692202q, 
-			0.354173058935282063584256738723827q, 0.157951354970546262092715664779728q, 
-			0.265286916449964243782252165578680q, 0.399201196027534536259745895198142q, 
-			0.216963995192956709320260721864587q, 0.199713190866362900538985401294988q, 
-			0.083635845073995387325695597923998q, 0.365237999606239419865990513845730q, 
-			0.276961958249126026105711591354248q, 0.444003537278423952029244469657994q, 
-			0.184786232611932872910338916919898q, 0.364657135437711265195492746614976q, 
-			0.367215915488116743624235696288297q, 0.334194195970049677179773489099014q, 
-			0.458458986623050678031620404474314q, 0.169002460689358416509634932951514q, 
-			0.017946267613585963072210838384678q, 0.208080187895600100066233917705300q, 
-			0.228698734394102785766554733384040q, 0.179337305882577939068721919231486q, 
-			0.449455179373221595079047920908825q, 0.161357101097290427954304098046286q, 
-			0.026959581701724887864751133457317q, 0.121261759892969462506805249485544q, 
-			0.074495073248925317007399714409076q, 0.402545087568428885902171677583594q, 
-			0.101194790889776177971576114713502q, 0.273406389340026826786692272905885q, 
-			0.218972328245699787902654813158640q, 0.159591253775484696494796081426220q, 
-			0.133618931895537023167314979972094q, 0.098427240009993416307987894687660q, 
-			0.344547763951301755924215752243227q, 0.068862305200628090016260282339374q, 
-			0.252809244703897359429125688752602q, 0.066145138534700171431010254047908q, 
-			0.364399034029392264198491846763330q, 0.173330140651249988394381891683162q, 
-			0.045903164395563603917281614285693q, 0.218620789703331213558100946810939q, 
-			0.430887779346503068979898118741571q, 0.028270032468782773235698342468650q, 
-			0.119068365938961585492846150038232q, 0.168321269462236650469192754531482q, 
-			0.265290822321325661865422583543212q, 0.470637448084756068385427901245154q, 
-			0.233284228736684517134266920637724q, 0.197100510476780129248350105811306q, 
-			0.098969550129886042589974884296865q, 0.252763712896572274226360404433172q, 
+		static constexpr float128_t values[] = {
+			0.002868982899771494123398061350766q, 0.315930513574404234347196109724236q,
+			0.051927582269544436601802442790809q, 0.036061017294617750754103977978470q,
+			0.357838579493370629069868756382881q, 0.099293263129872497039149192716375q,
+			0.426628502680012077314051532934030q, 0.116700291133688320299544043124708q,
+			0.193690586451981749009541771440040q, 0.461772506677809668491653295459410q,
+			0.146907942086145265453330821514260q, 0.353803365398149098604633108666908q,
+			0.219320524572607919414315838933270q, 0.175284221128188378953709784041014q,
+			0.297556413788584045694595120133614q, 0.286935529622681361254076423007477q,
+			0.217971172352348139648213996925349q, 0.135969157910768137449924730695690q,
+			0.457837499988199997064651345516162q, 0.271296447043918701032783493905430q,
+			0.252526553370836689063659058996884q, 0.284550879654812627455052497843092q,
+			0.383661539893971978405025911744320q, 0.038546246903229913236197795328838q,
+			0.244905371430165700264141104884426q, 0.232495189671486758983488106979154q,
+			0.077495686097907918256513950637609q, 0.431419347347642348011501975036795q,
+			0.428329706856449858578953715886039q, 0.130254972736540202094924459085127q,
+			0.138597304226247191622987651499082q, 0.308364982306759895769327015376381q,
+			0.087825553046736077576951949408148q, 0.261578586594731402766199484728269q,
+			0.334809770771034868953833683498810q, 0.255216072431064183186288096318798q,
+			0.397661997918373056287471933392749q, 0.482301777203098688157514713302313q,
+			0.198810931420661138766325744142496q, 0.221506095438104763364355522291371q,
+			0.233550533713010023091224773682394q, 0.469505102327464444868284093702176q,
+			0.098910613231879478763042187711244q, 0.339769125633906427157783019132313q,
+			0.270523155257633103804960948644673q, 0.090139571877128492684340184830846q,
+			0.227365311104461329331656771145122q, 0.229240953885583852346191085410214q,
+			0.161909920755645853754412774343286q, 0.454021688389442221707110202728030q,
+			0.411465413108310496284906412873677q, 0.273994330561661888211606768704026q,
+			0.240104256665582556948768436594568q, 0.041341542744328092986288714870056q,
+			0.356228249109464027172856108727574q, 0.209251157663643428445552019577844q,
+			0.491727188222977993963374650792560q, 0.015316502663180694277513947398979q,
+			0.442233153389596297335244499622482q, 0.262492399854744591732348235302716q,
+			0.152537713523649624133205747756242q, 0.364508595937398324906069729921866q,
+			0.494121036488838147147353305179711q, 0.430643332422666965292323167381534q,
+			0.196322074968458030134408342636826q, 0.025331531685058765434426478516244q,
+			0.226787719471386071278821588695560q, 0.443609376559747905960989984435648q,
+			0.325293168687410294858328562407397q, 0.320926236410306140623537991861868q,
+			0.048474306354073199089041189268564q, 0.201777125089686454975470879151260q,
+			0.053852788422769058948900279502116q, 0.107858957648436642942196329631848q,
+			0.482857792891460432937524698352689q, 0.235871845471078909636985511028926q,
+			0.175522523908802993586967563340684q, 0.073720006029003149079198402889044q,
+			0.196984001531592904096847626478237q, 0.070110742987336537287250939923084q,
+			0.099351855356663221545040757380251q, 0.382200905398458607491024232204931q,
+			0.491801547154970383341377878648116q, 0.089409561064854335030612354874682q,
+			0.319794288568799476614316818530290q, 0.130210272808501243495045027130246q,
+			0.464120226890520823955594934252864q, 0.126504008348838972124628167895562q,
+			0.424387359461445238683991594606769q, 0.180494728160166377781384476760728q,
+			0.159268845196742448128114605168524q, 0.326589311673256274082765351159692q,
+			0.463519110602372597211544030909532q, 0.303841282932932764183981039169589q,
+			0.440379371060979830022972448686920q, 0.168323685510550636636916170897916q,
+			0.473108616529123584798911248528484q, 0.172226630516557310446810699633294q,
+			0.365029021644925475533753572042622q, 0.360737724086292680729239874448325q,
+			0.284875570207937100598669698883960q, 0.066438821900040384097369890377695q,
+			0.468130487089052338673491571937882q, 0.044483871959322684595423158030356q,
+			0.087332541556616525058163716003968q, 0.424301232275434844828920686853388q,
+			0.024857187016943981041385172268942q, 0.023583987961824718998344078489930q,
+			0.451360895888838108955722167244160q, 0.349792873236832360176622576554406q,
+			0.265114902033743846607917981814195q, 0.137419772085582340936099431383492q,
+			0.457901315657564788494595148277519q, 0.300440136717103053169683096272468q,
+			0.186035752481356947011754539175954q, 0.108060858045489375266513058226359q,
+			0.367827879416902175147107463809140q, 0.049874210862920704614499999838258q,
+			0.259656269166279356246953828732471q, 0.118103121594986278898346698622738q,
+			0.335614683587567594580020334134137q, 0.352187136186608241287259275059338q,
+			0.477028986376721081893098225273688q, 0.121226314605170872030857760871464q,
+			0.118145365219041947135924804754735q, 0.428905148479511754404528279355360q,
+			0.442442585979541246385113485245691q, 0.237142594560901152341497781254368q,
+			0.474764053423828707843489420797788q, 0.475774497889768693097589042642758q,
+			0.156407645620681448375611800486364q, 0.248098909316372404889361192718280q,
+			0.177896312777829104837405319478529q, 0.155476324394473539160874351376157q,
+			0.318788418604575654245314280193686q, 0.272891708128245834123568384674009q,
+			0.187311741049231797422172021563364q, 0.091097379711430120108641014156873q,
+			0.376485914352130409259948415197746q, 0.227356114104417172187057947254597q,
+			0.172488045276797599033935183969780q, 0.302131773937558471574951951712946q,
+			0.148861684154384532341806206462199q, 0.490811358002490622017100051410764q,
+			0.063458018016853920897927810842913q, 0.497352572272471280036916946428894q,
+			0.135984570202451618695962196690528q, 0.387450467555405199731759460943015q,
+			0.199290087768567233443960776737612q, 0.149774416138277597212555555594301q,
+			0.061050098055781592158014297474394q, 0.238414651106784880200064445072124q,
+			0.048075398652844796107585329449492q, 0.252855906900958103374698374196583q,
+			0.297013563072682450819234611521948q, 0.251397657077300735662024462940680q,
+			0.373442177341141953144613945979471q, 0.064616240013954452405629975009772q,
+			0.206175495972247882973481358519652q, 0.429713059826454529400774680682843q,
+			0.002496900356267794781598768971298q, 0.321848904105511174588811572912014q,
+			0.442310091156423477205102160409518q, 0.457928580854461570313600018600861q,
+			0.209826076745614419009095740501801q, 0.409320643858119176850307691425122q,
+			0.296500570032683650055106671963896q, 0.079958168040458466668914678568146q,
+			0.305459601320773659518004235028605q, 0.217138738156564054566466706201028q,
+			0.230352780161673294573561597588174q, 0.244711038921739966769750418263572q,
+			0.471602672272520822585087851073144q, 0.190248591729814267487596152056044q,
+			0.416752744892937826420727447467155q, 0.237408193345729064467519372534642q,
+			0.086032699181571247378358901503530q, 0.121843949750574548783354456994926q,
+			0.242463303187808945008960109042078q, 0.361666260691811173553514831500925q,
+			0.374981433605539654890621849222694q, 0.275335371445280798916864908247162q,
+			0.296945714834632385843109777760943q, 0.210349149907441366402463947486975q,
+			0.222791772532772069621837677858136q, 0.059391407368771201598086135470070q,
+			0.282330131559277459395670347347154q, 0.421991320692403739967818692186677q,
+			0.377626107531408528981926933872067q, 0.307516332726401727572894509323154q,
+			0.254891682025632126515398041140398q, 0.194678650585536310407270047767006q,
+			0.076677541860058085936381604879020q, 0.394475070527855221420141810588963q,
+			0.239461604742830030197086024702858q, 0.119490208465421951233613855231730q,
+			0.244624875694388134020180983913262q, 0.295902755300446193891731017779259q,
+			0.479883494189277936822270588055280q, 0.063563144094678011267880545442172q,
+			0.125539164318250282854968336696813q, 0.233790738803858035531526235920776q,
+			0.247985982305035492109885759826683q, 0.361384287687590802655961482660394q,
+			0.062288547684037950124397919939976q, 0.189778919767727651112695756819930q,
+			0.228633142050331781947650474031196q, 0.384253855717632702720681949046088q,
+			0.317266441272385553525846886246850q, 0.185556729070159274560892922342210q,
+			0.098307736668406344202310194954876q, 0.492200694783376964340570307834400q,
+			0.438098985551354671500398953857689q, 0.473108474167043525436815886308309q,
+			0.468280177596319670095938916045938q, 0.298856226414192135327549567234279q,
+			0.205551656175478688897376269828359q, 0.276140208095778048190503754960792q,
+			0.198703275415080683289416685503492q, 0.102502215945570681999522764764078q,
+			0.451259084822654394143931454145897q, 0.102371135261682885008286350121810q,
+			0.212654176934765849533547405606946q, 0.426562178815594425324997497112954q,
+			0.152936914211113560765714906409944q, 0.092744118949450347639748990500948q,
+			0.085666781802255845067022160024312q, 0.487116031401095010373614994637404q,
+			0.461869176791299648482327211895556q, 0.234731454369140970141004477309952q,
+			0.019076909632854864496928749510384q, 0.280541285416591642191739118043992q,
+			0.327375826557238317555890255053664q, 0.244985396518794520178708651890866q,
+			0.206425740966229934738888101834508q, 0.065891695488755572909975278936831q,
+			0.238994518142112716094433063027506q, 0.426680860616922995839967090761458q,
+			0.122832975482941875172107627854076q, 0.430731423730842080395464384627916q,
+			0.301135786133139507599781313396709q, 0.048804605944654112612731682688200q,
+			0.031592732755651434855263979899688q, 0.060154761915131799724604576343474q,
+			0.350772949012726993955342285758806q, 0.073288866568819871722928919878674q,
+			0.323822991762807891711673790037713q, 0.069778233222512009653687240011628q,
+			0.086182346266977439202156280053636q, 0.493138892834853237453043219176258q,
+			0.497975465838713925854335787179168q, 0.158492792147138394982706674963114q,
+			0.181175215336989449841196470309136q, 0.110896388109470020104123928455738q,
+			0.091639432036982702331347585835128q, 0.350422140419855109237561019717480q,
+			0.333688902557280639682081599485791q, 0.119677161667523765844605491936963q,
+			0.237797631689349793219132752850576q, 0.378239080103892450718652453597608q,
+			0.242904408498734951782758975084004q, 0.268194399899065345037729248282544q,
+			0.377376472868238334351309894525828q, 0.242151016659676986624066835522724q,
+			0.342561529844775730954529835418414q, 0.188720607809491434292312014379227q,
+			0.277770979670956916760540661717880q, 0.159665916033590699903505316551690q,
+			0.471356288101506945899320487430128q, 0.446477740573001459215971209597243q,
+			0.460358772883431360825586886900756q, 0.016266969161877282616718853556302q,
+			0.482286256378557255329755044404992q, 0.148779778956394264121644011276010q,
+			0.035758898127051876809381976734836q, 0.420384237807496262537516923205281q,
+			0.433108280909621760806102949336654q, 0.208925592881232256049416474336273q,
+			0.168132209992436371582785555075348q, 0.253026782827601306416402956669874q,
+			0.051394942767779749069276727467869q, 0.025816593012050096607476970188794q,
+			0.233940076029873739270796566067239q, 0.299973725195368985516248488859976q,
+			0.133442155223002788719055945051961q, 0.039222366341025469032122484387527q,
+			0.062986765571225374037432804028677q, 0.167860479256316909418605444672924q,
+			0.074918804522371249173531589285572q, 0.395470760051767459330850773420022q,
+			0.220681362359504322455174199583419q, 0.067422358080962833667999158392301q,
+			0.081499025645577184344309686943310q, 0.468558660041429152826940968528508q,
+			0.321869243492819989209516308709602q, 0.305996022083967393325726336166530q,
+			0.236591334260663042673793613177104q, 0.153172253828795549134949352733440q,
+			0.009487601625627115804289828518337q, 0.262388908346230924815049209569124q,
+			0.328001596107314497988770322464476q, 0.313774254370265159664758689415299q,
+			0.071566283924395629107503794240296q, 0.086609359862108182836386638236904q,
+			0.236868579503059966036493537456522q, 0.341621922650267086083890083803332q,
+			0.324906798883383813177356259888137q, 0.113789988889371806155361112376191q,
+			0.196599981451609264808466787074502q, 0.193494406932087341971339800083538q,
+			0.006645803949231430469952077503700q, 0.270099757850565407621021128446246q,
+			0.453184909406301394539751498785113q, 0.221534300751968731245959803819618q,
+			0.383206708008117073964590048236915q, 0.063383108187929861941407569168677q,
+			0.169982344309849614315132112957544q, 0.402164970579901610459469616469809q,
+			0.435185608525552934571848618773358q, 0.098249219435547691635434322406166q,
+			0.050665157456450141015915173161860q, 0.077939537365195379495396946767046q,
+			0.113333319726359260897286178621010q, 0.046148880511749429344280479142654q,
+			0.236825828672821686899411944117262q, 0.384935297992971396105993473235750q,
+			0.234275778426296354245137040029705q, 0.437440891138126900677473691387799q,
+			0.080460313110770979810258417520750q, 0.029518437847805979420670362137572q,
+			0.007441244256928924610548202492686q, 0.463669708270969106389242153512513q,
+			0.118369022385608293230520083001901q, 0.365989540577444712741770842364966q,
+			0.133085887021358641636460499042590q, 0.387576315582602463031585634145794q,
+			0.308494927972154669563424281909143q, 0.329186735391205641516455554033306q,
+			0.433231841537061153917218993320744q, 0.483357637955704472200281133935398q,
+			0.422060159477014364974684442391422q, 0.282864448700282765147470726092938q,
+			0.239177119062623393348030241370697q, 0.313440277413129196726272090957771q,
+			0.172478322581830571431695587340830q, 0.114921332930544766532581295314128q,
+			0.104621324696149491875381338719742q, 0.057042507648951013449488733692202q,
+			0.354173058935282063584256738723827q, 0.157951354970546262092715664779728q,
+			0.265286916449964243782252165578680q, 0.399201196027534536259745895198142q,
+			0.216963995192956709320260721864587q, 0.199713190866362900538985401294988q,
+			0.083635845073995387325695597923998q, 0.365237999606239419865990513845730q,
+			0.276961958249126026105711591354248q, 0.444003537278423952029244469657994q,
+			0.184786232611932872910338916919898q, 0.364657135437711265195492746614976q,
+			0.367215915488116743624235696288297q, 0.334194195970049677179773489099014q,
+			0.458458986623050678031620404474314q, 0.169002460689358416509634932951514q,
+			0.017946267613585963072210838384678q, 0.208080187895600100066233917705300q,
+			0.228698734394102785766554733384040q, 0.179337305882577939068721919231486q,
+			0.449455179373221595079047920908825q, 0.161357101097290427954304098046286q,
+			0.026959581701724887864751133457317q, 0.121261759892969462506805249485544q,
+			0.074495073248925317007399714409076q, 0.402545087568428885902171677583594q,
+			0.101194790889776177971576114713502q, 0.273406389340026826786692272905885q,
+			0.218972328245699787902654813158640q, 0.159591253775484696494796081426220q,
+			0.133618931895537023167314979972094q, 0.098427240009993416307987894687660q,
+			0.344547763951301755924215752243227q, 0.068862305200628090016260282339374q,
+			0.252809244703897359429125688752602q, 0.066145138534700171431010254047908q,
+			0.364399034029392264198491846763330q, 0.173330140651249988394381891683162q,
+			0.045903164395563603917281614285693q, 0.218620789703331213558100946810939q,
+			0.430887779346503068979898118741571q, 0.028270032468782773235698342468650q,
+			0.119068365938961585492846150038232q, 0.168321269462236650469192754531482q,
+			0.265290822321325661865422583543212q, 0.470637448084756068385427901245154q,
+			0.233284228736684517134266920637724q, 0.197100510476780129248350105811306q,
+			0.098969550129886042589974884296865q, 0.252763712896572274226360404433172q,
 			0.189821416449709648068042637079742q, 0.123725492039382793718015687371694q
 		};
 
-		static constexpr float128_t values_sum_low         = 97.927944306207317800749240923218632q;
-		static constexpr float128_t values_sum             = 97.927944306207317800749241902498075q;
-		static constexpr float128_t values_sum_high        = 97.927944306207317800749242881777518q;
-		static constexpr float128_t values_min             = 0.002496900356267794781598768971298q;
-		static constexpr float128_t values_max             = 0.497975465838713925854335787179168q;
+		static constexpr float128_t values_sum_low	= 97.927944306207317800749240923218632q;
+		static constexpr float128_t values_sum		= 97.927944306207317800749241902498075q;
+		static constexpr float128_t values_sum_high = 97.927944306207317800749242881777518q;
+		static constexpr float128_t values_min		= 0.002496900356267794781598768971298q;
+		static constexpr float128_t values_max		= 0.497975465838713925854335787179168q;
 
-		static constexpr float128_t one_over_two           = 0.500000000000000000000000000000000000q;
-		static constexpr float128_t two_over_three         = 0.666666666666666666666666666666666667q;
-		static constexpr float128_t two_over_five          = 0.400000000000000000000000000000000000q;
-		static constexpr float128_t sqrt_two               = 1.414213562373095048801688724209698079q;
-		static constexpr float128_t one_over_sqrt_two      = 0.707106781186547524400844362104849039q;
-		static constexpr float128_t one_over_three         = 0.333333333333333333333333333333333333q;
-		static constexpr float128_t three_over_two         = 1.500000000000000000000000000000000000q;
-		static constexpr float128_t three_over_four        = 0.750000000000000000000000000000000000q;
-		static constexpr float128_t three_over_five        = 0.600000000000000000000000000000000000q;
-		static constexpr float128_t sqrt_three             = 1.732050807568877293527446341505872367q;
-		static constexpr float128_t one_over_sqrt_three    = 0.577350269189625764509148780501957456q;
-		static constexpr float128_t pi                     = 3.141592653589793238462643383279502884q;
-		static constexpr float128_t one_over_pi            = 0.318309886183790671537767526745028724q;
-		static constexpr float128_t pi_over_two            = 1.570796326794896619231321691639751442q;
-		static constexpr float128_t pi_over_three          = 1.047197551196597746154214461093167628q;
-		static constexpr float128_t pi_over_four           = 0.785398163397448309615660845819875721q;
-		static constexpr float128_t pi_over_five           = 0.628318530717958647692528676655900577q;
-		static constexpr float128_t pi_over_six            = 0.523598775598298873077107230546583814q;
-		static constexpr float128_t pi_over_seven          = 0.448798950512827605494663340468500412q;
-		static constexpr float128_t pi_over_eight          = 0.392699081698724154807830422909937861q;
-		static constexpr float128_t sqrt_pi                = 1.772453850905516027298167483341145183q;
-		static constexpr float128_t one_over_sqrt_pi       = 0.564189583547756286948079451560772586q;
-		static constexpr float128_t two_pi                 = 6.283185307179586476925286766559005768q;
-		static constexpr float128_t one_over_two_pi        = 0.159154943091895335768883763372514362q;
-		static constexpr float128_t sqrt_two_pi            = 2.506628274631000502415765284811045253q;
+		static constexpr float128_t one_over_two		   = 0.500000000000000000000000000000000000q;
+		static constexpr float128_t two_over_three		   = 0.666666666666666666666666666666666667q;
+		static constexpr float128_t two_over_five		   = 0.400000000000000000000000000000000000q;
+		static constexpr float128_t sqrt_two			   = 1.414213562373095048801688724209698079q;
+		static constexpr float128_t one_over_sqrt_two	   = 0.707106781186547524400844362104849039q;
+		static constexpr float128_t one_over_three		   = 0.333333333333333333333333333333333333q;
+		static constexpr float128_t three_over_two		   = 1.500000000000000000000000000000000000q;
+		static constexpr float128_t three_over_four		   = 0.750000000000000000000000000000000000q;
+		static constexpr float128_t three_over_five		   = 0.600000000000000000000000000000000000q;
+		static constexpr float128_t sqrt_three			   = 1.732050807568877293527446341505872367q;
+		static constexpr float128_t one_over_sqrt_three	   = 0.577350269189625764509148780501957456q;
+		static constexpr float128_t pi					   = 3.141592653589793238462643383279502884q;
+		static constexpr float128_t one_over_pi			   = 0.318309886183790671537767526745028724q;
+		static constexpr float128_t pi_over_two			   = 1.570796326794896619231321691639751442q;
+		static constexpr float128_t pi_over_three		   = 1.047197551196597746154214461093167628q;
+		static constexpr float128_t pi_over_four		   = 0.785398163397448309615660845819875721q;
+		static constexpr float128_t pi_over_five		   = 0.628318530717958647692528676655900577q;
+		static constexpr float128_t pi_over_six			   = 0.523598775598298873077107230546583814q;
+		static constexpr float128_t pi_over_seven		   = 0.448798950512827605494663340468500412q;
+		static constexpr float128_t pi_over_eight		   = 0.392699081698724154807830422909937861q;
+		static constexpr float128_t sqrt_pi				   = 1.772453850905516027298167483341145183q;
+		static constexpr float128_t one_over_sqrt_pi	   = 0.564189583547756286948079451560772586q;
+		static constexpr float128_t two_pi				   = 6.283185307179586476925286766559005768q;
+		static constexpr float128_t one_over_two_pi		   = 0.159154943091895335768883763372514362q;
+		static constexpr float128_t sqrt_two_pi			   = 2.506628274631000502415765284811045253q;
 		static constexpr float128_t one_over_sqrt_two_pi   = 0.398942280401432677939946059934381868q;
-		static constexpr float128_t three_pi               = 9.424777960769379715387930149838508653q;
-		static constexpr float128_t one_over_three_pi      = 0.106103295394596890512589175581676241q;
-		static constexpr float128_t three_pi_over_two      = 4.712388980384689857693965074919254326q;
-		static constexpr float128_t three_pi_over_four     = 2.356194490192344928846982537459627163q;
-		static constexpr float128_t three_pi_over_five     = 1.884955592153875943077586029967701731q;
-		static constexpr float128_t sqrt_three_pi          = 3.069980123839465465438654874667794582q;
+		static constexpr float128_t three_pi			   = 9.424777960769379715387930149838508653q;
+		static constexpr float128_t one_over_three_pi	   = 0.106103295394596890512589175581676241q;
+		static constexpr float128_t three_pi_over_two	   = 4.712388980384689857693965074919254326q;
+		static constexpr float128_t three_pi_over_four	   = 2.356194490192344928846982537459627163q;
+		static constexpr float128_t three_pi_over_five	   = 1.884955592153875943077586029967701731q;
+		static constexpr float128_t sqrt_three_pi		   = 3.069980123839465465438654874667794582q;
 		static constexpr float128_t one_over_sqrt_three_pi = 0.325735007935279947724256415225564670q;
-		static constexpr float128_t e                      = 2.718281828459045534884808148490265012q;
-		static constexpr float128_t one_over_e             = 0.367879441171442281059287928010393142q;
-		static constexpr float128_t e_over_two             = 1.359140914229522767442404074245132506q;
-		static constexpr float128_t e_over_three           = 0.906093942819681844961602716163421671q;
-		static constexpr float128_t e_over_four            = 0.679570457114761383721202037122566253q;
-		static constexpr float128_t e_over_five            = 0.543656365691809106976961629698053002q;
-		static constexpr float128_t e_over_six             = 0.453046971409840922480801358081710835q;
-		static constexpr float128_t sqrt_e                 = 1.648721270700128237684053351021451524q;
-		static constexpr float128_t one_over_sqrt_e        = 0.606530659712633390187322401455485737q;
-		static constexpr float128_t phi                    = 1.618033988749894848204586834365638118q;
-		static constexpr float128_t one_over_phi           = 0.618033988749894848204586834365638118q;
-		static constexpr float128_t phi_over_two           = 0.809016994374947424102293417182819059q;
-		static constexpr float128_t phi_over_three         = 0.539344662916631616068195611455212706q;
-		static constexpr float128_t phi_over_four          = 0.404508497187473712051146708591409529q;
-		static constexpr float128_t phi_over_five          = 0.323606797749978969640917366873127624q;
-		static constexpr float128_t phi_over_six           = 0.269672331458315808034097805727606353q;
-		static constexpr float128_t sqrt_phi               = 1.272019649514068964252422461737491492q;
-		static constexpr float128_t one_over_sqrt_phi      = 0.786151377757423286069558585842958930q;
-		static constexpr float128_t degrees_to_radians     = 0.017453292519943295769236907684886127q;
-		static constexpr float128_t radians_to_degrees     = 57.295779513082320876798154814105170332q;
+		static constexpr float128_t e					   = 2.718281828459045534884808148490265012q;
+		static constexpr float128_t one_over_e			   = 0.367879441171442281059287928010393142q;
+		static constexpr float128_t e_over_two			   = 1.359140914229522767442404074245132506q;
+		static constexpr float128_t e_over_three		   = 0.906093942819681844961602716163421671q;
+		static constexpr float128_t e_over_four			   = 0.679570457114761383721202037122566253q;
+		static constexpr float128_t e_over_five			   = 0.543656365691809106976961629698053002q;
+		static constexpr float128_t e_over_six			   = 0.453046971409840922480801358081710835q;
+		static constexpr float128_t sqrt_e				   = 1.648721270700128237684053351021451524q;
+		static constexpr float128_t one_over_sqrt_e		   = 0.606530659712633390187322401455485737q;
+		static constexpr float128_t phi					   = 1.618033988749894848204586834365638118q;
+		static constexpr float128_t one_over_phi		   = 0.618033988749894848204586834365638118q;
+		static constexpr float128_t phi_over_two		   = 0.809016994374947424102293417182819059q;
+		static constexpr float128_t phi_over_three		   = 0.539344662916631616068195611455212706q;
+		static constexpr float128_t phi_over_four		   = 0.404508497187473712051146708591409529q;
+		static constexpr float128_t phi_over_five		   = 0.323606797749978969640917366873127624q;
+		static constexpr float128_t phi_over_six		   = 0.269672331458315808034097805727606353q;
+		static constexpr float128_t sqrt_phi			   = 1.272019649514068964252422461737491492q;
+		static constexpr float128_t one_over_sqrt_phi	   = 0.786151377757423286069558585842958930q;
+		static constexpr float128_t degrees_to_radians	   = 0.017453292519943295769236907684886127q;
+		static constexpr float128_t radians_to_degrees	   = 57.295779513082320876798154814105170332q;
 
-		#if MUU_HAS_INT128
-		static constexpr auto int_blittable    = true;
-		static constexpr auto bits_sign        = bit_pack(0x8000000000000000_u64, 0x0000000000000000_u64);
-		static constexpr auto bits_exponent    = bit_pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
-		static constexpr auto bits_mantissa    = bit_pack(0x0000FFFFFFFFFFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
-		static constexpr auto bits_pos_inf     = bit_pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
-		static constexpr auto bits_neg_inf     = bit_pack(0xFFFF000000000000_u64, 0x0000000000000000_u64);
+	#if MUU_HAS_INT128
+		static constexpr auto int_blittable	   = true;
+		static constexpr auto bits_sign		   = bit_pack(0x8000000000000000_u64, 0x0000000000000000_u64);
+		static constexpr auto bits_exponent	   = bit_pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
+		static constexpr auto bits_mantissa	   = bit_pack(0x0000FFFFFFFFFFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
+		static constexpr auto bits_pos_inf	   = bit_pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
+		static constexpr auto bits_neg_inf	   = bit_pack(0xFFFF000000000000_u64, 0x0000000000000000_u64);
 		static constexpr auto bits_pos_nan_min = bit_pack(0x7FFF000000000000_u64, 0x0000000000000001_u64);
 		static constexpr auto bits_pos_nan_max = bit_pack(0x7FFFFFFFFFFFFFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
 		static constexpr auto bits_neg_nan_min = bit_pack(0xFFFF000000000000_u64, 0x0000000000000001_u64);
 		static constexpr auto bits_neg_nan_max = bit_pack(0xFFFFFFFFFFFFFFFF_u64, 0xFFFFFFFFFFFFFFFF_u64);
-		static constexpr auto bits_snan        = bit_pack(0xFFFF000000000000_u64, 0x0000000000000001_u64);
-		static constexpr auto bits_qnan        = bit_pack(0xFFFF800000000000_u64, 0x0000000000000001_u64);
-		#else
-		static constexpr auto int_blittable    = false;
-		static constexpr auto bits_sign        = std::array{ 0x0000000000000000_u64, 0x8000000000000000_u64 };
-		static constexpr auto bits_exponent    = std::array{ 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
-		static constexpr auto bits_mantissa    = std::array{ 0xFFFFFFFFFFFFFFFF_u64, 0x0000FFFFFFFFFFFF_u64 };
-		static constexpr auto bits_pos_inf     = std::array{ 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
-		static constexpr auto bits_neg_inf     = std::array{ 0x0000000000000000_u64, 0xFFFF000000000000_u64 };
+		static constexpr auto bits_snan		   = bit_pack(0xFFFF000000000000_u64, 0x0000000000000001_u64);
+		static constexpr auto bits_qnan		   = bit_pack(0xFFFF800000000000_u64, 0x0000000000000001_u64);
+	#else
+		static constexpr auto int_blittable	   = false;
+		static constexpr auto bits_sign		   = std::array{ 0x0000000000000000_u64, 0x8000000000000000_u64 };
+		static constexpr auto bits_exponent	   = std::array{ 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
+		static constexpr auto bits_mantissa	   = std::array{ 0xFFFFFFFFFFFFFFFF_u64, 0x0000FFFFFFFFFFFF_u64 };
+		static constexpr auto bits_pos_inf	   = std::array{ 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
+		static constexpr auto bits_neg_inf	   = std::array{ 0x0000000000000000_u64, 0xFFFF000000000000_u64 };
 		static constexpr auto bits_pos_nan_min = std::array{ 0x0000000000000001_u64, 0x7FFF000000000000_u64 };
 		static constexpr auto bits_pos_nan_max = std::array{ 0xFFFFFFFFFFFFFFFF_u64, 0x7FFFFFFFFFFFFFFF_u64 };
 		static constexpr auto bits_neg_nan_min = std::array{ 0x0000000000000001_u64, 0xFFFF000000000000_u64 };
 		static constexpr auto bits_neg_nan_max = std::array{ 0xFFFFFFFFFFFFFFFF_u64, 0xFFFFFFFFFFFFFFFF_u64 };
-		static constexpr auto bits_snan        = std::array{ 0x0000000000000001_u64, 0xFFFF000000000000_u64 };
-		static constexpr auto bits_qnan        = std::array{ 0x0000000000000001_u64, 0xFFFF800000000000_u64 };
-		#endif // MUU_HAS_INT128
+		static constexpr auto bits_snan		   = std::array{ 0x0000000000000001_u64, 0xFFFF000000000000_u64 };
+		static constexpr auto bits_qnan		   = std::array{ 0x0000000000000001_u64, 0xFFFF800000000000_u64 };
+	#endif // MUU_HAS_INT128
 	};
-	#endif // MUU_HAS_FLOAT128
+#endif // MUU_HAS_FLOAT128
 
 	template <typename T>
-	struct float_test_data : float_test_data_by_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits> {};
+	struct float_test_data : float_test_data_by_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits>
+	{};
 }

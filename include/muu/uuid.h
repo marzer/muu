@@ -8,13 +8,11 @@
 
 #pragma once
 #include "hashing.h"
-
 MUU_DISABLE_WARNINGS;
 #include <optional>
-#include <iosfwd>
 #include <typeindex> // std::hash on-the-cheap
 MUU_ENABLE_WARNINGS;
-
+#include "impl/std_iosfwd.h"
 #include "impl/header_start.h"
 MUU_DISABLE_SWITCH_WARNINGS;
 
