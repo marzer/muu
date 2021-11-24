@@ -52,7 +52,7 @@ def run(args):
 
 	# ignore list for copytree
 	garbage = ['*.exp', '*.ilk', '*.build', '*.dox', '*.log']
-	if not args.debug:
+	if args.nosymbols:
 		garbage.append('*.pdb')
 	garbage = shutil.ignore_patterns(*garbage)
 
@@ -82,7 +82,7 @@ def run(args):
 				cwd=root_dir,
 				check=True
 			)
-		
+
 	# get git commit hash
 	print(rf'Getting git commit hash... ', end='')
 	git_commit_hash = git_query('rev-parse HEAD', cwd=root_dir)
@@ -150,7 +150,7 @@ def run(args):
 				cwd=root_dir,
 				check=True
 			)
-		
+
 	# libs
 	if not args.nolibs:
 
@@ -167,8 +167,8 @@ def run(args):
 				for ts in args.toolsets:
 					cmd = [str(Path(tools_dir, 'build_libs_msvc.bat')),
 						rf'-p:PlatformToolset=v{ts}',
-						rf'-p:MuuOptimizedDebug={not args.debug}',
-						rf'-p:MuuStripSymbols={not args.debug}',
+						rf'-p:MuuOptimizedDebug={not args.nofastdebug}',
+						rf'-p:MuuStripSymbols={args.nosymbols}',
 						rf'-p:MuuInstructionSet={args.iset}',
 						r'-p:MuuDeleteIntDir=True'
 					]
@@ -296,9 +296,14 @@ def main():
 		help='Does not create the zip file.'
 	)
 	args.add_argument(
-		'--debug',
+		'--nofastdebug',
 		action='store_true',
-		help='Builds binaries with debug symbols and includes symbol files with the release.'
+		help='Debug-mode binaries are not build with any optimization at all (default is "optimized debug").'
+	)
+	args.add_argument(
+		'--nosymbols',
+		action='store_true',
+		help='Does not generate debug information or emit symbol database files.'
 	)
 	args.add_argument(
 		'--iset',

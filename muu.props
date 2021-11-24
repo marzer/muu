@@ -144,9 +144,6 @@
 			<LinkIncremental>true</LinkIncremental>
 		</Link>
 	</ItemDefinitionGroup>
-	<PropertyGroup Condition="'$(MuuOptimizedDebug_)'=='True'">
-		<LinkIncremental>false</LinkIncremental>
-	</PropertyGroup>
 
 	<!-- :: release or optimized debug -->
 	<ItemDefinitionGroup Condition="!$(Configuration.ToLower().Contains('debug')) Or '$(MuuOptimizedDebug_)'=='True'">
@@ -160,6 +157,9 @@
 			<AdditionalOptions>%(AdditionalOptions) /INCREMENTAL:NO</AdditionalOptions>
 		</Link>
 	</ItemDefinitionGroup>
+	<PropertyGroup Condition="!$(Configuration.ToLower().Contains('debug')) Or '$(MuuOptimizedDebug_)'=='True'">
+		<LinkIncremental>false</LinkIncremental>
+	</PropertyGroup>
 
 	<!-- :: release -->
 	<ItemDefinitionGroup Condition="!$(Configuration.ToLower().Contains('debug'))">
