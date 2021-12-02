@@ -435,4 +435,3 @@ namespace muu
 #endif
 #include "header_end.h"
 // clang-format on
-

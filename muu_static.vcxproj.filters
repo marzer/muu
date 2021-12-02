@@ -142,9 +142,6 @@
     <ClInclude Include="include\muu\generic_allocator.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\core_meta.h">
-      <Filter>include\impl</Filter>
-    </ClInclude>
     <ClInclude Include="include\muu\impl\core_constants.h">
       <Filter>include\impl</Filter>
     </ClInclude>
@@ -245,6 +242,12 @@
       <Filter>include\impl</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\packed_unit_vector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\is_constant_evaluated.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\meta.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

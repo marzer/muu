@@ -1415,11 +1415,22 @@ namespace muu
 	using remove_noexcept = typename impl::remove_noexcept_<T>::type;
 
 	/// \brief Does Child inherit from Parent?
-	/// \remarks This does not return true when the objects are the same type, unlike std::is_base_of.
-	template <typename Parent, typename Child>
+	/// \remarks This does _not_ consider `Child == Parent` as being an "inherits from" relationship, unlike std::is_base_of.
+	template <typename Child, typename Parent>
 	inline constexpr bool inherits_from =
 		std::is_base_of_v<remove_cvref<Parent>,
 						  remove_cvref<Child>> && !std::is_same_v<remove_cvref<Parent>, remove_cvref<Child>>;
+
+	/// \brief Does Child inherit from any of the types named by Parent?
+	/// \remarks This does _not_ consider `Child == Parent` as being an "inherits from" relationship, unlike std::is_base_of.
+	template <typename Child, typename... Parents>
+	inline constexpr bool inherits_from_any = (false || ... || inherits_from<Child, Parents>);
+
+	/// \brief Does Child inherit from all of the types named by Parent?
+	/// \remarks This does _not_ consider `Child == Parent` as being an "inherits from" relationship, unlike std::is_base_of.
+	template <typename Child, typename... Parents>
+	inline constexpr bool inherits_from_all = (sizeof...(Parents) > 0)
+										   && (true && ... && inherits_from<Child, Parents>);
 
 	/// \brief	Rebases a pointer, preserving the const and volatile qualification of the pointed type.
 	template <typename Ptr, typename NewBase>

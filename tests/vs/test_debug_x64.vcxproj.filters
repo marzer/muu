@@ -116,9 +116,6 @@
     <ClCompile Include="..\plane_3.cpp">
       <Filter>plane</Filter>
     </ClCompile>
-    <ClCompile Include="..\core_meta.cpp">
-      <Filter>core</Filter>
-    </ClCompile>
     <ClCompile Include="..\core_other.cpp">
       <Filter>core</Filter>
     </ClCompile>
@@ -166,6 +163,7 @@
     <ClCompile Include="..\packed_unit_vector_3.cpp">
       <Filter>packed_unit_vector</Filter>
     </ClCompile>
+    <ClCompile Include="..\meta.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />

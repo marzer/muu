@@ -116,7 +116,7 @@
     <ClCompile Include="..\plane_3.cpp">
       <Filter>plane</Filter>
     </ClCompile>
-    <ClCompile Include="..\core_meta.cpp">
+    <ClCompile Include="..\meta.cpp">
       <Filter>core</Filter>
     </ClCompile>
     <ClCompile Include="..\core_other.cpp">

@@ -97,17 +97,14 @@ namespace muu
 	/// \brief	Returns true if a value is between two bounds (inclusive).
 	/// \ingroup core
 	template <typename T, typename U>
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	MUU_ATTR(flatten)
-	constexpr bool MUU_VECTORCALL between(T val, U low, U high) noexcept
+	constexpr bool MUU_VECTORCALL between(const T& val, const U& low, const U& high) noexcept
 	{
-		if constexpr ((is_arithmetic<T> || is_enum<U>) || (is_arithmetic<T> || is_enum<U>))
+		if constexpr ((is_arithmetic<T> || is_enum<T>)&&(is_arithmetic<U> || is_enum<U>))
 		{
 			if constexpr (is_enum<T> || is_enum<U>)
-				return between(static_cast<std::underlying_type_t<T>>(val),
-							   static_cast<std::underlying_type_t<U>>(low),
-							   static_cast<std::underlying_type_t<U>>(high));
+				return between(unwrap(val), unwrap(low), unwrap(high));
 			else
 			{
 				using lhs = remove_cvref<T>;
@@ -146,8 +143,7 @@ namespace muu
 	/// 		 for it in their standard library. Using this version allows you to get around that
 	/// 		 by writing code 'as if' it were there and have it compile just the same.
 	template <class T>
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
+	MUU_CONST_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr T* launder(T* ptr) noexcept
 	{
@@ -349,7 +345,7 @@ namespace muu
 			// derived -> base
 			else if constexpr (std::is_void_v<from_base>  //
 							   || std::is_void_v<to_base> //
-							   || inherits_from<to_base, from_base>)
+							   || inherits_from<from_base, to_base>)
 				return pointer_cast<To>(static_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
 
 #if MUU_WINDOWS
@@ -386,7 +382,7 @@ namespace muu
 #endif // MUU_WINDOWS
 
 			// base -> derived
-			else if constexpr (inherits_from<from_base, to_base>)
+			else if constexpr (inherits_from<to_base, from_base>)
 			{
 				if constexpr (std::is_polymorphic_v<from_base>)
 					return pointer_cast<To>(dynamic_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
@@ -479,8 +475,7 @@ namespace muu
 	///
 	/// \remark This is equivalent to C++20's std::to_address.
 	template <typename T>
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
 	constexpr T* to_address(T* p) noexcept
 	{
 		static_assert(!std::is_function_v<T>, "to_address may not be used on functions.");
@@ -514,11 +509,9 @@ namespace muu
 	///
 	/// \see [P1007R1: std::assume_aligned](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1007r1.pdf)
 	template <size_t N, typename T>
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
-	MUU_ATTR(assume_aligned(N))
+	MUU_CONST_INLINE_GETTER
 	MUU_ATTR(flatten)
-	MUU_ATTR(const)
+	MUU_ATTR(assume_aligned(N))
 	constexpr T* assume_aligned(T* ptr) noexcept
 	{
 		static_assert(N > 0 && (N & (N - 1u)) == 0u, "assume_aligned() requires a power-of-two alignment value.");
@@ -718,8 +711,8 @@ namespace muu
 	/// \tparam	T	An unsigned integer or enum type.
 	/// \param 	val	The unsigned value being aligned.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, size_t Alignment, typename T)
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_INLINE_GETTER
+	MUU_ATTR(flatten)
 	constexpr T apply_alignment(T val) noexcept
 	{
 		static_assert(Alignment, "alignment cannot be zero");
@@ -743,12 +736,11 @@ namespace muu
 	/// \tparam	T		An object type (or void).
 	/// \param 	ptr		The pointer being aligned.
 	template <size_t Alignment, typename T>
-	MUU_NODISCARD
+	MUU_CONST_INLINE_GETTER
+	MUU_ATTR(flatten)
 	MUU_ATTR(nonnull)
 	MUU_ATTR(returns_nonnull)
 	MUU_ATTR(assume_aligned(Alignment))
-	MUU_ATTR(const)
-	MUU_ATTR(flatten)
 	constexpr T* apply_alignment(T* ptr) noexcept
 	{
 		static_assert(!std::is_function_v<T>, "apply_alignment() may not be used on pointers to functions.");
@@ -768,7 +760,6 @@ namespace muu
 	/// \param 	alignment	The alignment to round up to. Must be a power of two.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	MUU_CONST_GETTER
-	MUU_ATTR_NDEBUG(flatten)
 	constexpr T apply_alignment(T val, size_t alignment) noexcept
 	{
 		MUU_CONSTEXPR_SAFE_ASSERT(alignment && "alignment cannot be zero");
@@ -794,10 +785,9 @@ namespace muu
 	/// \param 	ptr			The pointer being aligned.
 	/// \param 	alignment	The alignment to round up to. Must be a power of two.
 	template <typename T>
+	MUU_CONST_GETTER
 	MUU_ATTR(nonnull)
 	MUU_ATTR(returns_nonnull)
-	MUU_ATTR_NDEBUG(const)
-	MUU_ATTR_NDEBUG(flatten)
 	constexpr T* apply_alignment(T* ptr, size_t alignment) noexcept
 	{
 		static_assert(!std::is_function_v<T>, "apply_alignment() may not be used on pointers to functions.");

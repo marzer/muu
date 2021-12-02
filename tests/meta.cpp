@@ -839,15 +839,27 @@ struct derived_type : base_type
 {};
 struct more_derived_type : derived_type
 {};
-static_assert(inherits_from<base_type, derived_type>);
-static_assert(inherits_from<derived_type, more_derived_type>);
-static_assert(inherits_from<base_type, more_derived_type>);
+static_assert(inherits_from<derived_type, base_type>);
+static_assert(inherits_from<more_derived_type, derived_type>);
+static_assert(inherits_from<more_derived_type, base_type>);
 static_assert(!inherits_from<base_type, base_type>);
 static_assert(!inherits_from<derived_type, derived_type>);
 static_assert(!inherits_from<more_derived_type, more_derived_type>);
-static_assert(!inherits_from<derived_type, base_type>);
-static_assert(!inherits_from<more_derived_type, base_type>);
-static_assert(!inherits_from<more_derived_type, derived_type>);
+static_assert(!inherits_from<base_type, derived_type>);
+static_assert(!inherits_from<base_type, more_derived_type>);
+static_assert(!inherits_from<derived_type, more_derived_type>);
+
+// inherits_from_any/all
+struct base_type_2
+{};
+struct base_type_3
+{};
+struct derived_from_1_2 : base_type, base_type_2
+{};
+static_assert(inherits_from_any<derived_from_1_2, base_type, base_type_2, base_type_3>);
+static_assert(!inherits_from_all<derived_from_1_2, base_type, base_type_2, base_type_3>);
+static_assert(inherits_from_all<derived_from_1_2, base_type>);
+static_assert(inherits_from_all<derived_from_1_2, base_type, base_type_2>);
 
 // rebase_pointer
 static_assert(std::is_same_v<rebase_pointer<int*, an_enum>, an_enum*>);

@@ -115,7 +115,7 @@
     <ClCompile Include="..\compressed_pair.cpp" />
     <ClCompile Include="..\bit.cpp" />
     <ClCompile Include="..\core_other.cpp" />
-    <ClCompile Include="..\core_meta.cpp" />
+    <ClCompile Include="..\meta.cpp" />
     <ClCompile Include="..\function_view.cpp" />
     <ClCompile Include="..\half.cpp" />
     <ClCompile Include="..\hashing.cpp" />

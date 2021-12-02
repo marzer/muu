@@ -86,6 +86,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\geometry_common.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_end.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_start.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\is_constant_evaluated.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\matrix_base.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_for_each.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\quaternion_x_matrix.h" />
@@ -115,7 +116,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\iterators.h" />
     <ClInclude Include="$(SolutionDir)include\muu\math.h" />
     <ClInclude Include="$(SolutionDir)include\muu\matrix.h" />
-    <ClInclude Include="$(SolutionDir)include\muu\impl\core_meta.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\meta.h" />
     <ClInclude Include="$(SolutionDir)include\muu\oriented_bounding_box.h" />
     <ClInclude Include="$(SolutionDir)include\muu\packed_unit_vector.h" />
     <ClInclude Include="$(SolutionDir)include\muu\plane.h" />
