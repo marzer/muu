@@ -1093,9 +1093,9 @@
             <dd>Returns the 'begin' iterator of an iterable object.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga108fd48e10e2c18acbaaf9f611b14d5b">between</a>(</span><span class="m-doc-wrap">T val,
-              U low,
-              U high) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga4ff100d8bb39742b764c341678f60a7d">between</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              const U&amp; low,
+              const U&amp; high) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
@@ -3168,10 +3168,20 @@
             </dt>
             <dd>Returns the index of the first appearance of the type T in the type list U.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Parent, typename Child&gt;</div>
+              <div class="m-doc-template">template&lt;typename Child, typename Parent&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Does Child inherit from Parent?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Child, typename... Parents&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaadc58b7614ccb6f2626162c71fd204c9">inherits_from_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Does Child inherit from all of the types named by Parent?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Child, typename... Parents&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gadd83c88c9a60057f0d637c083772bedb">inherits_from_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Does Child inherit from any of the types named by Parent?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga62cd2e27697815af581b5a8584fd1f76">is_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>

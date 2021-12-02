@@ -2349,6 +2349,20 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>inherits_from_any</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gadd83c88c9a60057f0d637c083772bedb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>inherits_from_all</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaadc58b7614ccb6f2626162c71fd204c9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_code_unit</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga0e1dddeef206a9a47a8223994c219cd3</anchor>
@@ -15349,8 +15363,8 @@
       <type>constexpr bool</type>
       <name>between</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>ga108fd48e10e2c18acbaaf9f611b14d5b</anchor>
-      <arglist>(T val, U low, U high) noexcept</arglist>
+      <anchor>ga4ff100d8bb39742b764c341678f60a7d</anchor>
+      <arglist>(const T &amp;val, const U &amp;low, const U &amp;high) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr T *</type>
@@ -17321,6 +17335,20 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>inherits_from_any</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gadd83c88c9a60057f0d637c083772bedb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>inherits_from_all</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaadc58b7614ccb6f2626162c71fd204c9</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_code_unit</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga0e1dddeef206a9a47a8223994c219cd3</anchor>
@@ -18220,8 +18248,8 @@
       <type>constexpr bool</type>
       <name>between</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>ga108fd48e10e2c18acbaaf9f611b14d5b</anchor>
-      <arglist>(T val, U low, U high) noexcept</arglist>
+      <anchor>ga4ff100d8bb39742b764c341678f60a7d</anchor>
+      <arglist>(const T &amp;val, const U &amp;low, const U &amp;high) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr T *</type>
@@ -19255,6 +19283,20 @@
       <name>inherits_from</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gad99449272de65874d3b7569d9eb9e805</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>inherits_from_any</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gadd83c88c9a60057f0d637c083772bedb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>inherits_from_all</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaadc58b7614ccb6f2626162c71fd204c9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

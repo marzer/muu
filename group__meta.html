@@ -641,10 +641,20 @@
             </dt>
             <dd>Returns the index of the first appearance of the type T in the type list U.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Parent, typename Child&gt;</div>
+              <div class="m-doc-template">template&lt;typename Child, typename Parent&gt;</div>
               bool <a class="m-doc" href="#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Does Child inherit from Parent?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Child, typename... Parents&gt;</div>
+              bool <a class="m-doc" href="#gaadc58b7614ccb6f2626162c71fd204c9">inherits_from_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Does Child inherit from all of the types named by Parent?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Child, typename... Parents&gt;</div>
+              bool <a class="m-doc" href="#gadd83c88c9a60057f0d637c083772bedb">inherits_from_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Does Child inherit from any of the types named by Parent?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#ga62cd2e27697815af581b5a8584fd1f76">is_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -2037,12 +2047,34 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename Parent, typename Child&gt;
+                template&lt;typename Child, typename Parent&gt;
               </div>
               bool <a class="m-doc-self" href="#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Does Child inherit from Parent?</p>
-<aside class="m-note m-default"><h4>Remark</h4><p>This does not return true when the objects are the same type, unlike <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/is_base_of.html" target="_blank">std::<wbr/>is_base_of</a>.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>This does <em>not</em> consider <code>Child == Parent</code> as being an "inherits from" relationship, unlike <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/is_base_of.html" target="_blank">std::<wbr/>is_base_of</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaadc58b7614ccb6f2626162c71fd204c9"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Child, typename... Parents&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gaadc58b7614ccb6f2626162c71fd204c9">inherits_from_all</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Does Child inherit from all of the types named by Parent?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This does <em>not</em> consider <code>Child == Parent</code> as being an "inherits from" relationship, unlike <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/is_base_of.html" target="_blank">std::<wbr/>is_base_of</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gadd83c88c9a60057f0d637c083772bedb"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename Child, typename... Parents&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gadd83c88c9a60057f0d637c083772bedb">inherits_from_any</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Does Child inherit from any of the types named by Parent?</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This does <em>not</em> consider <code>Child == Parent</code> as being an "inherits from" relationship, unlike <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/is_base_of.html" target="_blank">std::<wbr/>is_base_of</a>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ga62cd2e27697815af581b5a8584fd1f76"><div>
             <h3>

@@ -639,10 +639,20 @@
             </dt>
             <dd>Returns the index of the first appearance of the type T in the type list U.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Parent, typename Child&gt;</div>
+              <div class="m-doc-template">template&lt;typename Child, typename Parent&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Does Child inherit from Parent?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Child, typename... Parents&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaadc58b7614ccb6f2626162c71fd204c9">inherits_from_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Does Child inherit from all of the types named by Parent?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Child, typename... Parents&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gadd83c88c9a60057f0d637c083772bedb">inherits_from_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Does Child inherit from any of the types named by Parent?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga62cd2e27697815af581b5a8584fd1f76">is_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>

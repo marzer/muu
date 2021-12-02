@@ -195,9 +195,9 @@
             <dd>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga108fd48e10e2c18acbaaf9f611b14d5b">between</a>(</span><span class="m-doc-wrap">T val,
-              U low,
-              U high) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4ff100d8bb39742b764c341678f60a7d">between</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              const U&amp; low,
+              const U&amp; high) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
@@ -592,15 +592,15 @@
             <p>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Compilers typically implement <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/memory/assume_aligned" target="_blank">std::assume_aligned</a> as an intrinsic which is available regardless of the C++ mode. Using this function on these compilers allows you to get the same behaviour even when you aren't targeting C++20.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1007r1.pdf" target="_blank">P1007R1: std::<wbr/>assume_aligned</a></p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga108fd48e10e2c18acbaaf9f611b14d5b"><div>
+          <section class="m-doc-details" id="ga4ff100d8bb39742b764c341678f60a7d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T, typename U&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga108fd48e10e2c18acbaaf9f611b14d5b">between</a>(</span><span class="m-doc-wrap">T val,
-              U low,
-              U high) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4ff100d8bb39742b764c341678f60a7d">between</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              const U&amp; low,
+              const U&amp; high) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if a value is between two bounds (inclusive).</p>
           </div></section>
