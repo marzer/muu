@@ -19,6 +19,8 @@ MUU_DISABLE_SPAM_WARNINGS;
 	#undef max
 #endif
 
-MUU_PRAGMA_GCC(push_options)
+#if MUU_CLANG == 13
+	#pragma clang diagnostic ignored "-Wreserved-identifier" // false-positive
+#endif
 
-MUU_PRAGMA_CLANG_GE(13, float_control(push))
+MUU_PRAGMA_GCC(push_options)

@@ -7,8 +7,6 @@
 
 #include "../preprocessor.h"
 
-MUU_PRAGMA_CLANG_GE(13, float_control(pop))
-
 MUU_PRAGMA_GCC(pop_options)
 
 #if MUU_MSVC || MUU_ICC_CL

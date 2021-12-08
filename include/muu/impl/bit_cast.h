@@ -9,6 +9,11 @@
 
 #include "../meta.h"
 #include "std_memcpy.h"
+#if MUU_CLANG >= 12 && defined(__cpp_lib_bit_cast) && __cpp_lib_bit_cast >= 201806
+MUU_DISABLE_WARNINGS;
+	#include <bit>
+MUU_ENABLE_WARNINGS;
+#endif
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 MUU_DISABLE_LIFETIME_WARNINGS;
@@ -38,9 +43,13 @@ namespace muu
 					  "From and To types must be trivially-copyable");
 		static_assert(sizeof(From) == sizeof(To), "From and To types must be the same size");
 
-#if MUU_CLANG >= 11 || MUU_GCC >= 11 || MUU_MSVC >= 1926
+#if MUU_CLANG == 11 || MUU_GCC >= 11 || MUU_MSVC >= 1926
 
 		return __builtin_bit_cast(To, from);
+
+#elif MUU_CLANG >= 12 && defined(__cpp_lib_bit_cast) && __cpp_lib_bit_cast >= 201806
+
+		return std::bit_cast<To>(from);
 
 #else
 

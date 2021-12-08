@@ -1037,14 +1037,12 @@ MUU_ENABLE_WARNINGS;
 
 #define MUU_PUSH_PRECISE_MATH												\
 	MUU_PRAGMA_MSVC(float_control(precise, on, push))						\
-	MUU_PRAGMA_CLANG_GE(13, float_control(precise, on, push))				\
 	MUU_PRAGMA_GCC(push_options)											\
 	MUU_PRAGMA_GCC(optimize("-fno-fast-math"))								\
 	static_assert(true)
 
 #define MUU_POP_PRECISE_MATH												\
 	MUU_PRAGMA_GCC(pop_options)												\
-	MUU_PRAGMA_CLANG_GE(13, float_control(pop))								\
 	MUU_PRAGMA_MSVC(float_control(pop))										\
 	static_assert(true)
 

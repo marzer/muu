@@ -290,10 +290,7 @@ namespace muu
 	namespace build
 	{
 		/// \brief	True if using infinity_or_nan() in constexpr contexts is supported on this compiler.
-		inline constexpr bool supports_constexpr_infinity_or_nan = //
-			build::supports_constexpr_bit_cast					   //
-			&& (!MUU_CLANG || MUU_CLANG != 12) /* constexpr bit cast seems to be broken in clang 12 */
-			;
+		inline constexpr bool supports_constexpr_infinity_or_nan = build::supports_constexpr_bit_cast;
 	}
 
 	/// \addtogroup	math
