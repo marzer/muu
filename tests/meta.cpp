@@ -130,7 +130,7 @@ static_assert(!any_same<int&, int, float, double>);
 static_assert(!any_same<int&, float, int, double>);
 
 // all_same (variadic std::is_same_v && ...)
-static_assert(all_same<int>); // one type is the same as itself
+static_assert(!all_same<int>); //
 static_assert(all_same<int, int>);
 static_assert(all_same<int, int, int>);
 static_assert(all_same<int, int, int, int>);

@@ -9,11 +9,6 @@
 
 #include "../meta.h"
 #include "std_memcpy.h"
-#if MUU_CLANG >= 12 && defined(__cpp_lib_bit_cast) && __cpp_lib_bit_cast >= 201806
-MUU_DISABLE_WARNINGS;
-	#include <bit>
-MUU_ENABLE_WARNINGS;
-#endif
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 MUU_DISABLE_LIFETIME_WARNINGS;
@@ -33,23 +28,19 @@ namespace muu
 	/// \availability On older compilers lacking support for std::bit_cast you won't be able to call this function
 	/// 		   in constexpr contexts (since it falls back to a memcpy-based implementation).
 	/// 		   Check for constexpr support by examining build::supports_constexpr_bit_cast.
-	template <typename To, typename From>
+	MUU_CONSTRAINED_TEMPLATE((std::is_trivially_copyable_v<From>  //
+							  && std::is_trivially_copyable_v<To> //
+							  && sizeof(From) == sizeof(To)),
+							 typename To,
+							 typename From)
 	MUU_PURE_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr To bit_cast(const From& from) noexcept
 	{
-		static_assert(!std::is_reference_v<From> && !std::is_reference_v<To>, "From and To types cannot be references");
-		static_assert(std::is_trivially_copyable_v<From> && std::is_trivially_copyable_v<To>,
-					  "From and To types must be trivially-copyable");
-		static_assert(sizeof(From) == sizeof(To), "From and To types must be the same size");
-
-#if MUU_CLANG == 11 || MUU_GCC >= 11 || MUU_MSVC >= 1926
+#if MUU_CLANG >= 11 || MUU_GCC >= 11 || MUU_MSVC >= 1926                                                               \
+	|| (!MUU_CLANG && !MUU_GCC && MUU_HAS_BUILTIN(__builtin_bit_cast))
 
 		return __builtin_bit_cast(To, from);
-
-#elif MUU_CLANG >= 12 && defined(__cpp_lib_bit_cast) && __cpp_lib_bit_cast >= 201806
-
-		return std::bit_cast<To>(from);
 
 #else
 
@@ -65,16 +56,30 @@ namespace muu
 			return static_cast<To>(
 				static_cast<std::underlying_type_t<remove_cv<To>>>(static_cast<std::underlying_type_t<From>>(from)));
 		}
+		else if constexpr (!std::is_nothrow_default_constructible_v<remove_cv<To>>)
+		{
+			union proxy_t
+			{
+				alignas(To) unsigned char dummy[sizeof(To)];
+				remove_cv<To> to;
+
+				proxy_t() noexcept
+				{}
+			};
+
+			proxy_t proxy;
+			MUU_MEMCPY(&proxy.to, &from, sizeof(To));
+			return proxy.to;
+		}
 		else
 		{
 			static_assert(std::is_nothrow_default_constructible_v<remove_cv<To>>,
 						  "Bit-cast fallback requires the To type be nothrow default-constructible");
 
-			remove_cv<To> dst;
-			MUU_MEMCPY(&dst, &from, sizeof(To));
-			return dst;
+			remove_cv<To> to;
+			MUU_MEMCPY(&to, &from, sizeof(To));
+			return to;
 		}
-
 #endif
 	}
 

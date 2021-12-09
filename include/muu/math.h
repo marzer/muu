@@ -68,58 +68,54 @@ namespace muu
 		template <>
 		struct infinity_or_nan_traits<16, 11>
 		{
-			static constexpr auto mask = 0b0111110000000000_u16;
+			static constexpr uint16_t mask = 0b0111110000000000_u16;
+			using check_type			   = decltype(mask);
 		};
 
 		template <>
 		struct infinity_or_nan_traits<32, 24>
 		{
-			static constexpr auto mask = 0b01111111100000000000000000000000_u32;
+			static constexpr uint32_t mask = 0b01111111100000000000000000000000_u32;
+			using check_type			   = decltype(mask);
 		};
 
 		template <>
 		struct infinity_or_nan_traits<64, 53>
 		{
-			static constexpr auto mask = 0b0111111111110000000000000000000000000000000000000000000000000000_u64;
+			static constexpr uint64_t mask = 0b0111111111110000000000000000000000000000000000000000000000000000_u64;
+			using check_type			   = decltype(mask);
 		};
 
 		template <>
 		struct infinity_or_nan_traits<80, 64>
 		{
-			struct mask_type
+			struct check_type
 			{
-				uint16_t value[5];
+				unsigned char value[10];
 			};
-			static constexpr mask_type mask = { 0x0000_u16, 0x0000_u16, 0x0000_u16, 0x8000_u16, 0x7FFF_u16 };
+			static constexpr auto mask = bit_pack<uint32_t>(0x7F_u8, 0xFF_u8, 0x80_u8);
 
 			MUU_PURE_INLINE_GETTER
-			static constexpr bool MUU_VECTORCALL check(const mask_type& mask_) noexcept
+			static constexpr bool MUU_VECTORCALL check(const check_type& f) noexcept
 			{
-				return (mask_.value[3] & mask.value[3]) == mask.value[3]
-					&& (mask_.value[4] & mask.value[4]) == mask.value[4];
+				return (bit_pack<uint32_t>(f.value[9], f.value[8], f.value[7]) & mask) == mask;
 			}
 		};
 
 		template <>
 		struct infinity_or_nan_traits<128, 64>
 		{
-	#if MUU_HAS_INT128
-			static constexpr uint128_t mask = bit_pack(0x0000000000007FFF_u64, 0x8000000000000000_u64);
-	#else
-			struct mask_type
+			struct check_type
 			{
-				uint64_t value[2];
+				unsigned char value[16];
 			};
-			static constexpr mask_type mask = { 0x8000000000000000_u64, 0x0000000000007FFF_u64 };
+			static constexpr auto mask = bit_pack<uint32_t>(0x7F_u8, 0xFF_u8, 0x80_u8);
 
 			MUU_PURE_INLINE_GETTER
-			static constexpr bool MUU_VECTORCALL check(const mask_type& mask_) noexcept
+			static constexpr bool MUU_VECTORCALL check(const check_type& f) noexcept
 			{
-				return (mask_.value[0] & mask.value[0]) == mask.value[0]
-					&& (mask_.value[1] & mask.value[1]) == mask.value[1];
+				return (bit_pack<uint32_t>(f.value[9], f.value[8], f.value[7]) & mask) == mask;
 			}
-
-	#endif
 		};
 
 		template <>
@@ -127,17 +123,18 @@ namespace muu
 		{
 	#if MUU_HAS_INT128
 			static constexpr uint128_t mask = bit_pack(0x7FFF000000000000_u64, 0x0000000000000000_u64);
+			using check_type				= decltype(mask);
 	#else
-			struct mask_type
+			struct check_type
 			{
 				uint64_t value[2];
 			};
-			static constexpr mask_type mask = { 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
+			static constexpr check_type mask = { 0x0000000000000000_u64, 0x7FFF000000000000_u64 };
 
 			MUU_PURE_INLINE_GETTER
-			static constexpr bool MUU_VECTORCALL check(const mask_type& mask_) noexcept
+			static constexpr bool MUU_VECTORCALL check(const check_type& f) noexcept
 			{
-				return (mask_.value[1] & mask.value[1]) == mask.value[1];
+				return (f.value[1] & mask.value[1]) == mask.value[1];
 			}
 	#endif
 		};
@@ -158,16 +155,16 @@ namespace muu
 			// A2: They don't work reliably with -ffast-math
 			// A3: https://godbolt.org/z/P9GGdK
 
-			using traits	= infinity_or_nan_traits_typed<T>;
-			using mask_type = std::remove_const_t<decltype(traits::mask)>;
+			using traits	 = infinity_or_nan_traits_typed<T>;
+			using check_type = typename traits::check_type;
 
-			if constexpr (is_integral<mask_type>)
+			if constexpr (is_integral<check_type>)
 			{
-				return (muu::bit_cast<mask_type>(val) & traits::mask) == traits::mask;
+				return (muu::bit_cast<check_type>(val) & traits::mask) == traits::mask;
 			}
 			else
 			{
-				return traits::check(muu::bit_cast<mask_type>(val));
+				return traits::check(muu::bit_cast<check_type>(val));
 			}
 		}
 

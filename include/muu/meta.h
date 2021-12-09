@@ -980,7 +980,7 @@ namespace muu
 	/// \brief	True if all the types named by T and U are exactly the same.
 	/// \remark This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
 	template <typename T, typename... U>
-	inline constexpr bool all_same = (true && ... && std::is_same_v<T, U>);
+	inline constexpr bool all_same = (sizeof...(U) > 0) && (true && ... && std::is_same_v<T, U>);
 
 	/// \brief	Returns the index of the first appearance of the type T in the type list U.
 	template <typename T, typename... U>
