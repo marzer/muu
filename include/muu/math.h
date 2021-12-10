@@ -894,8 +894,7 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_GETTER
-		MUU_CONSTEVAL
-		T consteval_sqrt_(T x) noexcept(!MUU_HAS_EXCEPTIONS)
+		constexpr T consteval_sqrt_(T x) noexcept(!MUU_HAS_EXCEPTIONS)
 		{
 			static_assert(is_floating_point<T>);
 
@@ -940,24 +939,21 @@ namespace muu
 
 	/// \brief	Returns the square-root of a float.
 	MUU_CONST_INLINE_GETTER
-	MUU_CONSTEVAL
-	float consteval_sqrt(float x) noexcept
+	constexpr float consteval_sqrt(float x) noexcept
 	{
 		return impl::consteval_sqrt_(x);
 	}
 
 	/// \brief	Returns the square-root of a double.
 	MUU_CONST_INLINE_GETTER
-	MUU_CONSTEVAL
-	double consteval_sqrt(double x) noexcept
+	constexpr double consteval_sqrt(double x) noexcept
 	{
 		return impl::consteval_sqrt_(x);
 	}
 
 	/// \brief	Returns the square-root of a long double.
 	MUU_CONST_INLINE_GETTER
-	MUU_CONSTEVAL
-	long double consteval_sqrt(long double x) noexcept
+	constexpr long double consteval_sqrt(long double x) noexcept
 	{
 		return impl::consteval_sqrt_(x);
 	}
@@ -966,8 +962,7 @@ namespace muu
 
 	/// \brief	Returns the square-root of a float128_t.
 	MUU_CONST_INLINE_GETTER
-	MUU_CONSTEVAL
-	float128_t consteval_sqrt(float128_t x) noexcept
+	constexpr float128_t consteval_sqrt(float128_t x) noexcept
 	{
 		return impl::consteval_sqrt_(x);
 	}
@@ -978,8 +973,7 @@ namespace muu
 
 	/// \brief	Returns the square-root of a _Float16.
 	MUU_CONST_INLINE_GETTER
-	MUU_CONSTEVAL
-	_Float16 consteval_sqrt(_Float16 x) noexcept
+	constexpr _Float16 consteval_sqrt(_Float16 x) noexcept
 	{
 		return impl::consteval_sqrt_(x);
 	}
@@ -990,8 +984,7 @@ namespace muu
 
 	/// \brief	Returns the square-root of a __fp16.
 	MUU_CONST_INLINE_GETTER
-	MUU_CONSTEVAL
-	__fp16 consteval_sqrt(__fp16 x) noexcept
+	constexpr __fp16 consteval_sqrt(__fp16 x) noexcept
 	{
 		return impl::consteval_sqrt_(x);
 	}
@@ -1001,8 +994,7 @@ namespace muu
 	/// \brief	Returns the square-root of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_CONST_INLINE_GETTER
-	MUU_CONSTEVAL
-	double consteval_sqrt(T x) noexcept
+	constexpr double consteval_sqrt(T x) noexcept
 	{
 		return impl::consteval_sqrt_(static_cast<double>(x));
 	}

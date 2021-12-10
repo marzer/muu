@@ -850,13 +850,17 @@ namespace muu
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wofstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wfstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::streampos);
-#if MUU_HAS_SYNCSTREAMS
+
+	// these should also be in <iosfwd> but aren't forward-declared on libstdc++-11 for whatever reason
+	// so they break stuff and I don't care enough to handle this better
+#if 0
+	#if MUU_HAS_SYNCSTREAMS
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::syncbuf);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::osyncstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wsyncbuf);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wosyncstream);
-#endif
-#if MUU_HAS_SPANSTREAMS
+	#endif
+	#if MUU_HAS_SPANSTREAMS
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::spanbuf);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ispanstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ospanstream);
@@ -865,7 +869,9 @@ namespace muu
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wispanstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wospanstream);
 	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wspanstream);
+	#endif
 #endif
+
 	/// \endcond
 }
 

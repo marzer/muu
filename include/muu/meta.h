@@ -2023,10 +2023,10 @@ namespace muu
 				&& (0 + ... + hva_member_<Members>::arity) <= 4
 
 				// all members the same type
-				&& all_same<typename hva_member_<Members>::type...>
+				&& (sizeof...(Members) == 1 || all_same<typename hva_member_<Members>::type...>)
 
 				// no padding
-				&& sizeof(T) == (0u + ... + sizeof(Members))
+				&&(sizeof(T) == (0u + ... + sizeof(Members)))
 
 				// alignment matches member type
 				&& alignof(T) == alignof(most_aligned<typename hva_member_<Members>::type...>);

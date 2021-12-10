@@ -20,16 +20,29 @@ namespace
 	template <typename Integer, typename Float>
 	using make_puvs_both_dimensions = type_list<puv_test_tuple<Integer, 2, Float>, puv_test_tuple<Integer, 3, Float>>;
 
-	template <typename Integer, typename... Floats>
-	using make_puvs_for_floats = typename type_list<make_puvs_both_dimensions<Integer, Floats>...>::flatten;
-
 	template <typename, typename>
 	struct puv_test_tuple_product;
 
 	template <typename... Integers, typename... Floats>
 	struct puv_test_tuple_product<type_list<Integers...>, type_list<Floats...>>
 	{
-		using types = typename type_list<make_puvs_for_floats<Integers, Floats...>...>::flatten;
+		using integers = type_list<Integers...>;
+		using floats   = type_list<Floats...>;
+
+		template <size_t Index>
+		using puvs_at_index = make_puvs_both_dimensions<typename integers::template select<Index / floats::length>,
+														typename floats::template select<Index % floats::length>>;
+
+		template <typename>
+		struct flattener;
+
+		template <size_t... Indices>
+		struct flattener<std::index_sequence<Indices...>>
+		{
+			using types = typename type_list<puvs_at_index<Indices>...>::flatten;
+		};
+
+		using types = typename flattener<std::make_index_sequence<sizeof...(Integers) * sizeof...(Floats)>>::types;
 	};
 
 	using all_packed_unit_vectors =

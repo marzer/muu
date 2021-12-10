@@ -56,6 +56,6 @@ static_assert('a' + static_string{ "bcd" } == static_string{ "abcd" });
 static_assert(0_ss == static_string{ "0" });
 static_assert(0.2_ss == static_string{ "0.2" });
 static_assert(0xabCD1234_ss == static_string{ "0xabCD1234" });
-#if MUU_STATIC_STRING_CHAR_UDL
+#if MUU_HAS_STATIC_STRING_LITERALS
 static_assert("abc"_ss == static_string{ "abc" });
 #endif

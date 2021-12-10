@@ -13,14 +13,20 @@
 #include "impl/core_constants.h"
 #include "impl/std_string_view.h"
 #include "impl/std_iosfwd.h"
+#include "impl/std_compare.h"
 #include "impl/header_start.h"
 
-#if !defined(DOXYGEN) && defined(__cpp_nontype_template_args) && __cpp_nontype_template_args >= 201911                 \
+#if MUU_HAS_THREE_WAY_COMPARISON && defined(__cpp_nontype_template_args) && __cpp_nontype_template_args >= 201911      \
 	&& (!MUU_MSVC || MUU_MSVC > 1931)
-	#define MUU_STATIC_STRING_CHAR_UDL 1
+	#define MUU_HAS_STATIC_STRING_LITERALS 1
 #else
-	#define MUU_STATIC_STRING_CHAR_UDL 0
+	#define MUU_HAS_STATIC_STRING_LITERALS 0
 #endif
+
+/// \def MUU_HAS_STATIC_STRING_LITERALS
+/// \ingroup	preprocessor
+/// \brief Indicates whether #muu::static_string string literals (e.g. `"hello"_ss`) are supported by the compiler.
+/// \see muu::static_string
 
 namespace muu
 {
@@ -88,13 +94,17 @@ namespace muu
 		/// \brief	The string view type corresponding to this string's character type.
 		using view_type = std::basic_string_view<Character>;
 
+		/// \cond
+
+		// note that this is public only so this class qualifies as a 'structural type' per C++20's NTTP class rules.
+		// don't mess with this directly!
+		value_type chars_[Length + 1_sz];
+
 	  private:
 		template <typename, size_t>
 		friend class static_string;
 
 		using empty_string_type = static_string<Character, 0>;
-
-		value_type chars_[Length + 1_sz];
 
 		template <typename Array, size_t... Indices>
 		MUU_NODISCARD_CTOR
@@ -119,6 +129,7 @@ namespace muu
 		{
 			static_assert(sizeof...(Indices) <= Length);
 		}
+		/// \endcond
 
 	  public:
 #if 1 // constructors --------------------------------------------------------------------------------------------------
@@ -833,6 +844,10 @@ namespace muu
 			return compare(lhs, rhs) >= 0;
 		}
 
+	#if MUU_HAS_THREE_WAY_COMPARISON
+		friend constexpr auto operator<=>(const static_string&, const static_string&) noexcept = default;
+	#endif
+
 		/// @}
 #endif // equality
 
@@ -864,20 +879,26 @@ namespace muu
 	MUU_CONSTRAINED_TEMPLATE(is_character<T>, typename T)
 	static_string(T)->static_string<T, 1>;
 
-#if MUU_STATIC_STRING_CHAR_UDL
+#if MUU_HAS_STATIC_STRING_LITERALS
 	namespace impl
 	{
-		template <size_t Length>
+		template <typename Char, size_t Length>
 		struct static_string_udl_impl
 		{
-			static_string<char, Length> value;
+			static_string<Char, Length - 1> value;
 
-			constexpr static_string_udl_impl(const char (&str)[Length + 1]) //
+			constexpr static_string_udl_impl(const Char (&str)[Length]) noexcept //
 				: value{ str }
 			{}
+
+			friend constexpr auto operator<=>(const static_string_udl_impl&,
+											  const static_string_udl_impl&) noexcept = default;
 		};
+
+		template <typename T, size_t N>
+		static_string_udl_impl(const T (&)[N]) -> static_string_udl_impl<T, N>;
 	}
-#endif // MUU_STATIC_STRING_CHAR_UDL
+#endif // MUU_HAS_STATIC_STRING_LITERALS
 
 	/// \endcond
 
@@ -898,16 +919,33 @@ namespace muu
 			return static_string<char, sizeof...(Str)>{ str };
 		}
 
-#if MUU_STATIC_STRING_CHAR_UDL
+#if defined(DOXYGEN) || MUU_HAS_STATIC_STRING_LITERALS
 
+		/// \brief	Constructs a static_string directly using a string literal.
+		/// \detail \cpp
+		/// constexpr auto str = "hello"_ss;
+		/// static_assert(str == static_string{ "hello" })
+		/// \ecpp
+		///
+		/// \availability This operator depends on C++20's class-type NTTPs and three-way comparison operator.
+		/// Check for support using #MUU_HAS_STATIC_STRING_LITERALS and/or #build::supports_static_string_literals.
+		///
+		/// \relatesalso muu::static_string
 		template <impl::static_string_udl_impl Str>
 		MUU_CONSTEVAL
-		decltype(Str) operator"" _ss()
+		auto operator"" _ss()
 		{
-			return Str;
+			return Str.value;
 		}
 
 #endif
+	}
+
+	namespace build
+	{
+		/// \brief Indicates whether #muu::static_string string literals (e.g. `"hello"_ss`) are supported by the compiler.
+		/// \see muu::static_string
+		inline constexpr bool supports_static_string_literals = !!MUU_HAS_STATIC_STRING_LITERALS;
 	}
 }
 

@@ -615,8 +615,8 @@ BATCHED_TEST_CASE("matrix addition", common_matrices<ALL_ARITHMETIC>)
 	{
 		for (size_t c = 0; c < matrix_t::columns; c++)
 		{
-			mat1(r, c) = random<T>(0, 5);
-			mat2(r, c) = random<T>(1, 5);
+			mat1(r, c) = random<T>();
+			mat2(r, c) = random<T>();
 		}
 	}
 

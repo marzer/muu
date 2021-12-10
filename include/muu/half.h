@@ -1041,8 +1041,7 @@ namespace muu
 	/// \ingroup	consteval_sqrt
 	/// \relatesalso	muu::half
 	MUU_CONST_GETTER
-	MUU_CONSTEVAL
-	half consteval_sqrt(half x) noexcept
+	constexpr half consteval_sqrt(half x) noexcept
 	{
 		return half{ impl::consteval_sqrt_(static_cast<float>(x)) };
 	}

@@ -105,6 +105,7 @@
     <ClInclude Include="include\muu\impl\matrix_base.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
     <ClInclude Include="include\muu\impl\quaternion_x_matrix.h" />
+    <ClInclude Include="include\muu\impl\std_compare.h" />
     <ClInclude Include="include\muu\impl\std_initializer_list.h" />
     <ClInclude Include="include\muu\impl\std_tuple.h" />
     <ClInclude Include="include\muu\impl\thread_name.h" />
