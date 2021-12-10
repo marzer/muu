@@ -3521,12 +3521,34 @@
     <class kind="class">muu::static_string</class>
     <namespace>muu</namespace>
     <namespace>muu::literals</namespace>
+    <namespace>muu::build</namespace>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_STATIC_STRING_LITERALS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gad1a4aea6de6cd311e2d75437f7980756</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="function">
       <type>constexpr static_string&lt; char, sizeof...(Str)&gt;</type>
       <name>operator&quot;&quot;_ss</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
       <anchor>a57b7502d3109a0053c90b1ed5bb12488</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>operator&quot;&quot;_ss</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a8e54812a469ae2ead0e36f335e547478</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_static_string_literals</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ad135127eb0889116bcc2d4db72f41673</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="file">
@@ -10097,166 +10119,12 @@
       <anchor>a57b7502d3109a0053c90b1ed5bb12488</anchor>
       <arglist>()</arglist>
     </member>
-    <member kind="friend">
-      <type>constexpr friend iterator</type>
-      <name>begin</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a9259f70e1fdc15787582bbe7a1d0cc0d</anchor>
-      <arglist>(static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend iterator</type>
-      <name>end</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a7bc817a43af26884a257df59aa7305e6</anchor>
-      <arglist>(static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_iterator</type>
-      <name>begin</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a40b161620f5b1433cbc59af1fb3172ae</anchor>
-      <arglist>(const static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_iterator</type>
-      <name>end</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>ad4c3904a07a05f37c6bdac327d1d34cd</anchor>
-      <arglist>(const static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_iterator</type>
-      <name>cbegin</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>af9da8bc158c30cb74045d6466883b22b</anchor>
-      <arglist>(const static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_iterator</type>
-      <name>cend</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a05e85a21ee69cfd38252cdc4c8cf61ad</anchor>
-      <arglist>(const static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend reverse_iterator</type>
-      <name>rbegin</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>afef81aab577cc02043cae88ad6cfa2af</anchor>
-      <arglist>(static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend reverse_iterator</type>
-      <name>rend</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>aa5ef58a6dce4bd74d3336f4855b876a1</anchor>
-      <arglist>(static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_reverse_iterator</type>
-      <name>rbegin</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a1c3bcb426405e23ebdc18470259849e8</anchor>
-      <arglist>(const static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_reverse_iterator</type>
-      <name>rend</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a5aef08100182f7d1718675f72ceb785e</anchor>
-      <arglist>(const static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_reverse_iterator</type>
-      <name>crbegin</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a2b124a1058101a6bb50113d73858a2e6</anchor>
-      <arglist>(const static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend const_reverse_iterator</type>
-      <name>crend</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a2e6b1a4898a7daf5cb4337a0c6917e7f</anchor>
-      <arglist>(const static_string &amp;s) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend static_string&lt; value_type, Length+Len &gt;</type>
-      <name>operator+</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a46c949d05d12af2f0bde724615f30425</anchor>
-      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend static_string&lt; value_type, Length+1 &gt;</type>
-      <name>operator+</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a4bcdfb71e9e8fc6ded5f011448e15d8b</anchor>
-      <arglist>(const static_string &amp;lhs, value_type rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend static_string&lt; value_type, Length+1 &gt;</type>
-      <name>operator+</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>ab49411c9a14e2f8168f4de1345d68679</anchor>
-      <arglist>(value_type lhs, const static_string &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator==</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a3d40d423643ec604ef50eadcfbe4fc4d</anchor>
-      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator!=</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>ab6681a6935373e84871bdc7bfa37b6a6</anchor>
-      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator&lt;</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a9392f851db545972a2a44c070d6c1981</anchor>
-      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator&lt;=</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a2cc4cd0a784f77cf4e25b015f6fd902f</anchor>
-      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator&gt;</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a06ab9205c067bc722d071c474f2c79a8</anchor>
-      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator&gt;=</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a26bc866313e9002f1f4a88c8ed927cc2</anchor>
-      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
-    </member>
     <member kind="function">
-      <type>constexpr int</type>
-      <name>compare</name>
+      <type>constexpr auto</type>
+      <name>operator&quot;&quot;_ss</name>
       <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a9c952c0234ebd2eaac91f8801703cd6c</anchor>
-      <arglist>(const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr int</type>
-      <name>compare</name>
-      <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>ab90370a7496a730818364b9c2d69fb54</anchor>
-      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
+      <anchor>a8e54812a469ae2ead0e36f335e547478</anchor>
+      <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>constexpr reference</type>
@@ -10474,6 +10342,167 @@
       <anchorfile>classmuu_1_1static__string.html</anchorfile>
       <anchor>ab6d289e4b4f48a97ac8763431b104f61</anchor>
       <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>compare</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a9c952c0234ebd2eaac91f8801703cd6c</anchor>
+      <arglist>(const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a3d40d423643ec604ef50eadcfbe4fc4d</anchor>
+      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>ab6681a6935373e84871bdc7bfa37b6a6</anchor>
+      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator&lt;</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a9392f851db545972a2a44c070d6c1981</anchor>
+      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator&lt;=</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a2cc4cd0a784f77cf4e25b015f6fd902f</anchor>
+      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator&gt;</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a06ab9205c067bc722d071c474f2c79a8</anchor>
+      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator&gt;=</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a26bc866313e9002f1f4a88c8ed927cc2</anchor>
+      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr int</type>
+      <name>compare</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>ab90370a7496a730818364b9c2d69fb54</anchor>
+      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a9259f70e1fdc15787582bbe7a1d0cc0d</anchor>
+      <arglist>(static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a7bc817a43af26884a257df59aa7305e6</anchor>
+      <arglist>(static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>begin</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a40b161620f5b1433cbc59af1fb3172ae</anchor>
+      <arglist>(const static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>ad4c3904a07a05f37c6bdac327d1d34cd</anchor>
+      <arglist>(const static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>af9da8bc158c30cb74045d6466883b22b</anchor>
+      <arglist>(const static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a05e85a21ee69cfd38252cdc4c8cf61ad</anchor>
+      <arglist>(const static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend reverse_iterator</type>
+      <name>rbegin</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>afef81aab577cc02043cae88ad6cfa2af</anchor>
+      <arglist>(static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend reverse_iterator</type>
+      <name>rend</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>aa5ef58a6dce4bd74d3336f4855b876a1</anchor>
+      <arglist>(static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_reverse_iterator</type>
+      <name>rbegin</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a1c3bcb426405e23ebdc18470259849e8</anchor>
+      <arglist>(const static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_reverse_iterator</type>
+      <name>rend</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a5aef08100182f7d1718675f72ceb785e</anchor>
+      <arglist>(const static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_reverse_iterator</type>
+      <name>crbegin</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a2b124a1058101a6bb50113d73858a2e6</anchor>
+      <arglist>(const static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_reverse_iterator</type>
+      <name>crend</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a2e6b1a4898a7daf5cb4337a0c6917e7f</anchor>
+      <arglist>(const static_string &amp;s) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend static_string&lt; value_type, Length+Len &gt;</type>
+      <name>operator+</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a46c949d05d12af2f0bde724615f30425</anchor>
+      <arglist>(const static_string &amp;lhs, const static_string&lt; value_type, Len &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend static_string&lt; value_type, Length+1 &gt;</type>
+      <name>operator+</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>a4bcdfb71e9e8fc6ded5f011448e15d8b</anchor>
+      <arglist>(const static_string &amp;lhs, value_type rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend static_string&lt; value_type, Length+1 &gt;</type>
+      <name>operator+</name>
+      <anchorfile>classmuu_1_1static__string.html</anchorfile>
+      <anchor>ab49411c9a14e2f8168f4de1345d68679</anchor>
+      <arglist>(value_type lhs, const static_string &amp;rhs) noexcept</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -17710,6 +17739,13 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>supports_static_string_literals</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ad135127eb0889116bcc2d4db72f41673</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>supports_type_name</name>
       <anchorfile>namespacemuu_1_1build.html</anchorfile>
       <anchor>ad4ed37ffabb38340c21bc4b899db2646</anchor>
@@ -17850,6 +17886,13 @@
       <name>operator&quot;&quot;_ss</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
       <anchor>a57b7502d3109a0053c90b1ed5bb12488</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>operator&quot;&quot;_ss</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a8e54812a469ae2ead0e36f335e547478</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -20262,6 +20305,13 @@
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>gae04a44728acc9352d70e8a7bf067eae3</anchor>
       <arglist>(T)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_STATIC_STRING_LITERALS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gad1a4aea6de6cd311e2d75437f7980756</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="group">

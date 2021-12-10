@@ -510,6 +510,11 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a57b7502d3109a0053c90b1ed5bb12488">operator""_ss</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;char, sizeof...(Str)&gt; <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
             <dd>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> exactly representing a numeric literal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;impl::static_string_udl_impl Str&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8e54812a469ae2ead0e36f335e547478">operator""_ss</a>(</span><span class="m-doc-wrap">) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> directly using a string literal.</dd>
           </dl>
         </section>
         <section>
@@ -645,6 +650,17 @@ template&lt;char... Str&gt;
             <p>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> exactly representing a numeric literal.</p>
 <pre class="m-code"><span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str</span> <span class="o">=</span> <span class="mf">3.141</span><span class="n">_ss</span><span class="p">;</span>
 <span class="k">static_assert</span><span class="p">(</span><span class="n">str</span> <span class="o">==</span> <span class="n">static_string</span><span class="p">{</span> <span class="s">"3.141"</span> <span class="p">})</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="a8e54812a469ae2ead0e36f335e547478"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;<br/>
+template&lt;impl::static_string_udl_impl Str&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8e54812a469ae2ead0e36f335e547478">operator""_ss</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span></span></span>
+            </h3>
+            <p>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> directly using a string literal.</p>
+<pre class="m-code"><span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str</span> <span class="o">=</span> <span class="s">"hello"</span><span class="n">_ss</span><span class="p">;</span>
+<span class="k">static_assert</span><span class="p">(</span><span class="n">str</span> <span class="o">==</span> <span class="n">static_string</span><span class="p">{</span> <span class="s">"hello"</span> <span class="p">})</span></pre><aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator depends on C++20's class-type NTTPs and three-way comparison operator. Check for support using <a class="m-doc" href="group__preprocessor.html#gad1a4aea6de6cd311e2d75437f7980756">MUU_<wbr/>HAS_<wbr/>STATIC_<wbr/>STRING_<wbr/>LITERALS</a> and/or <a class="m-doc" href="namespacemuu_1_1build.html#ad135127eb0889116bcc2d4db72f41673">build::<wbr/>supports_static_string_literals</a>.</p></aside>
           </div></section>
         </section>
       </div>
