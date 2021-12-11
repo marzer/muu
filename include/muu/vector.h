@@ -1364,6 +1364,47 @@ namespace muu
 			return *this;
 		}
 
+		/// \brief Returns the sum of all the scalar components in a vector.
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL sum(MUU_VC_PARAM(vector) v) noexcept
+		{
+			if constexpr (dimensions == 1)
+			{
+				return v.x;
+			}
+			else
+			{
+				using scalar_sum_type  = decltype(scalar_type{} + scalar_type{});
+				using float_arith_type = promoted_scalar;
+				using integer_arith_type =
+					std::conditional_t<std::is_same_v<scalar_sum_type, scalar_type>, scalar_type, scalar_sum_type>;
+				using arith_type = std::conditional_t<is_integral<scalar_type>, integer_arith_type, float_arith_type>;
+
+				if constexpr (!std::is_same_v<arith_type, scalar_type>)
+				{
+					using arith_vec = vector<arith_type, dimensions>;
+					return static_cast<scalar_type>(arith_vec::sum(arith_vec{ v }));
+				}
+				else
+				{
+					// clang-format off
+
+					#define VEC_FUNC(member) v.member
+					COMPONENTWISE_ACCUMULATE(VEC_FUNC, +);
+					#undef VEC_FUNC
+
+					// clang-format on
+				}
+			}
+		}
+
+		/// \brief Returns the sum of all the scalar components in the vector.
+		MUU_PURE_GETTER
+		constexpr scalar_type MUU_VECTORCALL sum() const noexcept
+		{
+			return sum(*this);
+		}
+
 		/// @}
 #endif // addition
 
@@ -1514,6 +1555,47 @@ namespace muu
 
 				// clang-format on
 			}
+		}
+
+		/// \brief Returns the product of all the scalar components in a vector.
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL product(MUU_VC_PARAM(vector) v) noexcept
+		{
+			if constexpr (dimensions == 1)
+			{
+				return v.x;
+			}
+			else
+			{
+				using scalar_mult_type = decltype(scalar_type{} * scalar_type{});
+				using float_arith_type = promoted_scalar;
+				using integer_arith_type =
+					std::conditional_t<std::is_same_v<scalar_mult_type, scalar_type>, scalar_type, scalar_mult_type>;
+				using arith_type = std::conditional_t<is_integral<scalar_type>, integer_arith_type, float_arith_type>;
+
+				if constexpr (!std::is_same_v<arith_type, scalar_type>)
+				{
+					using arith_vec = vector<arith_type, dimensions>;
+					return static_cast<scalar_type>(arith_vec::product(arith_vec{ v }));
+				}
+				else
+				{
+					// clang-format off
+
+					#define VEC_FUNC(member) v.member
+					COMPONENTWISE_ACCUMULATE(VEC_FUNC, *);
+					#undef VEC_FUNC
+
+					// clang-format on
+				}
+			}
+		}
+
+		/// \brief Returns the product of all the scalar components in the vector.
+		MUU_PURE_GETTER
+		constexpr scalar_type MUU_VECTORCALL product() const noexcept
+		{
+			return product(*this);
 		}
 
 		/// @}

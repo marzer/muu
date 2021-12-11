@@ -754,7 +754,7 @@ namespace muu
 		using slice = type_list<>;
 
 		template <typename U>
-		static constexpr size_t index_of = index_of_type<U>;
+		static constexpr size_t index_of = static_cast<size_t>(-1);
 
 		using flatten = type_list<>;
 

@@ -769,6 +769,54 @@ BATCHED_TEST_CASE("vector addition", vectors<ALL_ARITHMETIC>)
 	}
 }
 
+BATCHED_TEST_CASE("vector sum", vectors<ALL_ARITHMETIC>)
+{
+	using vector_t = TestType;
+	using T		   = typename vector_t::scalar_type;
+	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
+
+	using scalar_sum_type	 = decltype(T{} + T{});
+	using float_arith_type	 = promote_if_small_float<T>;
+	using integer_arith_type = std::conditional_t<std::is_same_v<scalar_sum_type, T>, T, scalar_sum_type>;
+	using arith_type		 = std::conditional_t<is_integral<T>, integer_arith_type, float_arith_type>;
+
+	RANDOM_ITERATIONS
+	{
+		const auto x = random_array<T, vector_t::dimensions>(0, 5);
+		const vector_t vec{ x };
+
+		arith_type expected = x[0];
+		for (size_t i = 1; i < vector_t::dimensions; i++)
+			expected += static_cast<arith_type>(x[i]);
+
+		CHECK_APPROX_EQUAL(vec.sum(), static_cast<T>(expected));
+	}
+}
+
+BATCHED_TEST_CASE("vector product", vectors<ALL_ARITHMETIC>)
+{
+	using vector_t = TestType;
+	using T		   = typename vector_t::scalar_type;
+	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
+
+	using scalar_mult_type	 = decltype(T{} * T{});
+	using float_arith_type	 = promote_if_small_float<T>;
+	using integer_arith_type = std::conditional_t<std::is_same_v<scalar_mult_type, T>, T, scalar_mult_type>;
+	using arith_type		 = std::conditional_t<is_integral<T>, integer_arith_type, float_arith_type>;
+
+	RANDOM_ITERATIONS
+	{
+		const auto x = random_array<T, vector_t::dimensions>(0, 5);
+		const vector_t vec{ x };
+
+		arith_type expected = x[0];
+		for (size_t i = 1; i < vector_t::dimensions; i++)
+			expected *= static_cast<arith_type>(x[i]);
+
+		CHECK_APPROX_EQUAL(vec.product(), static_cast<T>(expected));
+	}
+}
+
 BATCHED_TEST_CASE("vector subtraction", vectors<ALL_ARITHMETIC>)
 {
 	using vector_t = TestType;

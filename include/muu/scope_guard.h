@@ -31,6 +31,7 @@ namespace muu
 			int uncaught_exceptions_;
 
 			template <typename U>
+			MUU_NODISCARD_CTOR
 			scope_guard_storage(U&& callable) //
 				noexcept(std::is_reference_v<T> || std::is_nothrow_constructible_v<T, U&&>)
 				: func_and_dismissed_{ static_cast<U&&>(callable), false },
@@ -47,6 +48,7 @@ namespace muu
 			compressed_pair<T, bool> func_and_dismissed_;
 
 			template <typename U>
+			MUU_NODISCARD_CTOR
 			scope_guard_storage(U&& callable) //
 				noexcept(std::is_reference_v<T> || std::is_nothrow_constructible_v<T, U&&>)
 				: func_and_dismissed_{ static_cast<U&&>(callable), false }
@@ -65,10 +67,12 @@ namespace muu
 			using base = scope_guard_storage<T, Mode>;
 
 			template <typename U>
+			MUU_NODISCARD_CTOR
 			scope_guard_move(U&& callable) noexcept(std::is_nothrow_constructible_v<base, U&&>)
 				: base{ static_cast<U&&>(callable) }
 			{}
 
+			MUU_NODISCARD_CTOR
 			scope_guard_move(scope_guard_move&& other) noexcept(std::is_nothrow_move_constructible_v<base>)
 				: base{ static_cast<base&&>(other) }
 			{
@@ -89,6 +93,7 @@ namespace muu
 			using base = scope_guard_storage<T, Mode>;
 
 			template <typename U>
+			MUU_NODISCARD_CTOR
 			scope_guard_move(U&& callable) noexcept(std::is_nothrow_constructible_v<base, U&&>)
 				: base{ static_cast<U&&>(callable) }
 			{}
@@ -101,12 +106,12 @@ namespace muu
 		{
 			static_assert(!std::is_rvalue_reference_v<T>,
 						  "Callables wrapped by a scope guard may not be rvalue references");
-			static_assert(!build::has_exceptions
+			static_assert(!build::supports_exceptions
 							  || std::is_nothrow_invocable_v<std::add_lvalue_reference_t<std::remove_reference_t<T>>>,
 						  "Callables wrapped by a scope guard must be nothrow-invocable (functions, lambdas, etc.)");
 			static_assert(std::is_invocable_v<std::add_lvalue_reference_t<std::remove_reference_t<T>>>,
 						  "Callables wrapped by a scope guard must be invocable (functions, lambdas, etc.)");
-			static_assert(!build::has_exceptions || std::is_reference_v<T> || std::is_nothrow_destructible_v<T>,
+			static_assert(!build::supports_exceptions || std::is_reference_v<T> || std::is_nothrow_destructible_v<T>,
 						  "Callables wrapped by a scope guard must be nothrow-destructible");
 			static_assert(std::is_reference_v<T> || std::is_destructible_v<T>,
 						  "Callables wrapped by a scope guard must be destructible");
@@ -119,6 +124,7 @@ namespace muu
 
 		  public:
 			template <typename U>
+			MUU_NODISCARD_CTOR
 			scope_guard_(U&& callable) noexcept(std::is_nothrow_constructible_v<base, U&&>)
 				: base{ static_cast<U&&>(callable) }
 			{
@@ -139,13 +145,19 @@ namespace muu
 						return;
 				}
 
-				if (!base::func_and_dismissed_.second())
+				if (!dismissed())
 					base::func_and_dismissed_.first()();
 			}
 
 			void dismiss() noexcept
 			{
 				base::func_and_dismissed_.second() = true;
+			}
+
+			MUU_PURE_INLINE_GETTER
+			bool dismissed() const noexcept
+			{
+				return base::func_and_dismissed_.second();
 			}
 		};
 	}
@@ -212,6 +224,9 @@ namespace muu
 #ifdef DOXYGEN
 		/// \brief	Dismisses the scope guard, cancelling invocation of the wrapped callable.
 		void dismiss() noexcept;
+
+		/// \brief	Returns true if the scope guard has been dismissed.
+		bool dismissed() const noexcept;
 #endif
 	};
 
@@ -297,6 +312,9 @@ namespace muu
 #ifdef DOXYGEN
 		/// \brief	Dismisses the scope guard, cancelling invocation of the wrapped callable.
 		void dismiss() noexcept;
+
+		/// \brief	Returns true if the scope guard has been dismissed.
+		bool dismissed() const noexcept;
 #endif
 	};
 
@@ -346,6 +364,9 @@ namespace muu
 #ifdef DOXYGEN
 		/// \brief	Dismisses the scope guard, cancelling invocation of the wrapped callable.
 		void dismiss() noexcept;
+
+		/// \brief	Returns true if the scope guard has been dismissed.
+		bool dismissed() const noexcept;
 #endif
 	};
 

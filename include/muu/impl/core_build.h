@@ -88,7 +88,7 @@ namespace muu::build
 	);
 	static_assert(second <= 60u); // 60 b/c leap seconds
 
-	/// \brief	The bitness of the current architecture.
+	/// \brief	The 'bitness' of the target architecture (e.g. `64` on AMD64).
 	inline constexpr size_t bitness = MUU_ARCH_BITNESS;
 
 	/// \brief The number of bits in a byte (aka CHAR_BIT).
@@ -97,11 +97,11 @@ namespace muu::build
 	/// \brief The number of bytes required to store a pointer.
 	inline constexpr size_t pointer_size = sizeof(void*);
 
-	/// \brief True if exceptions are enabled.
-	inline constexpr bool has_exceptions = !!MUU_HAS_EXCEPTIONS;
+	/// \brief True if exceptions are supported.
+	inline constexpr bool supports_exceptions = !!MUU_HAS_EXCEPTIONS;
 
 	/// \brief True if run-time type identification (RTTI) is enabled.
-	inline constexpr bool has_rtti = !!MUU_HAS_RTTI;
+	inline constexpr bool supports_rtti = !!MUU_HAS_RTTI;
 
 	/// \brief True if the target environment is little-endian.
 	inline constexpr bool is_little_endian = !!MUU_LITTLE_ENDIAN;

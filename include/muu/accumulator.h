@@ -35,7 +35,7 @@ namespace muu
 		static_assert(!is_cvref<ValueType>, "Accumulated type cannot be const, volatile, or a reference");
 		static_assert(!is_cvref<Impl>, "Implementation type cannot be const, volatile, or a reference");
 		static_assert(std::is_default_constructible_v<Impl>, "Implementation type must be default-constructible");
-		static_assert(!build::has_exceptions || std::is_nothrow_destructible_v<Impl>,
+		static_assert(!build::supports_exceptions || std::is_nothrow_destructible_v<Impl>,
 					  "Implementation type must be nothrow-destructible");
 
 	  public:

@@ -86,28 +86,12 @@ namespace muu
 			using check_type			   = decltype(mask);
 		};
 
-		template <>
-		struct infinity_or_nan_traits<80, 64>
+		template <size_t TotalBits>
+		struct infinity_or_nan_traits<TotalBits, 64>
 		{
 			struct check_type
 			{
-				unsigned char value[10];
-			};
-			static constexpr auto mask = bit_pack<uint32_t>(0x7F_u8, 0xFF_u8, 0x80_u8);
-
-			MUU_PURE_INLINE_GETTER
-			static constexpr bool MUU_VECTORCALL check(const check_type& f) noexcept
-			{
-				return (bit_pack<uint32_t>(f.value[9], f.value[8], f.value[7]) & mask) == mask;
-			}
-		};
-
-		template <>
-		struct infinity_or_nan_traits<128, 64>
-		{
-			struct check_type
-			{
-				unsigned char value[16];
+				unsigned char value[TotalBits / CHAR_BIT];
 			};
 			static constexpr auto mask = bit_pack<uint32_t>(0x7F_u8, 0xFF_u8, 0x80_u8);
 
@@ -152,7 +136,7 @@ namespace muu
 
 			// Q:  "what about fpclassify, isnan, isinf??"
 			// A1: They're not constexpr
-			// A2: They don't work reliably with -ffast-math
+			// A2: They don't work reliably with -ffast-math and friends
 			// A3: https://godbolt.org/z/P9GGdK
 
 			using traits	 = infinity_or_nan_traits_typed<T>;
@@ -327,7 +311,7 @@ namespace muu
 		{
 			static_assert(is_signed<T>);
 
-			if (MUU_INTELLISENSE || !build::supports_is_constant_evaluated || is_constant_evaluated())
+			if (!build::supports_is_constant_evaluated || is_constant_evaluated())
 				return consteval_abs(x);
 			else
 			{
@@ -650,7 +634,7 @@ namespace muu
 		{
 			static_assert(is_floating_point<T>);
 
-			if (MUU_INTELLISENSE || !build::supports_is_constant_evaluated || is_constant_evaluated())
+			if (!build::supports_is_constant_evaluated || is_constant_evaluated())
 				return consteval_floor(x);
 			else
 			{
@@ -780,7 +764,7 @@ namespace muu
 		{
 			static_assert(is_floating_point<T>);
 
-			if (MUU_INTELLISENSE || !build::supports_is_constant_evaluated || is_constant_evaluated())
+			if (!build::supports_is_constant_evaluated || is_constant_evaluated())
 				return consteval_ceil(x);
 			else
 			{
@@ -1018,7 +1002,7 @@ namespace muu
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
-			if constexpr (MUU_INTELLISENSE || build::supports_is_constant_evaluated)
+			if constexpr (build::supports_is_constant_evaluated)
 			{
 				if (is_constant_evaluated())
 				{
@@ -1173,22 +1157,23 @@ namespace muu
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
-			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			if constexpr (build::supports_is_constant_evaluated)
 			{
-				using type = highest_ranked<T, long double>;
-				return static_cast<T>(consteval_cos(static_cast<type>(x)));
+				if (is_constant_evaluated())
+				{
+					using type = highest_ranked<T, long double>;
+					return static_cast<T>(consteval_cos(static_cast<type>(x)));
+				}
 			}
-			else
-			{
-				if constexpr (is_standard_arithmetic<T>)
-					return std::cos(x);
+
+			if constexpr (is_standard_arithmetic<T>)
+				return std::cos(x);
 	#if MUU_HAS_QUADMATH
-				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::cosq(x);
+			else if constexpr (std::is_same_v<float128_t, T>)
+				return ::cosq(x);
 	#endif
-				else
-					return static_cast<T>(std::cos(static_cast<clamp_to_standard_float<T>>(x)));
-			}
+			else
+				return static_cast<T>(std::cos(static_cast<clamp_to_standard_float<T>>(x)));
 		}
 	}
 	/// \endcond
@@ -1322,22 +1307,23 @@ namespace muu
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
-			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			if constexpr (build::supports_is_constant_evaluated)
 			{
-				using type = highest_ranked<T, long double>;
-				return static_cast<T>(consteval_sin(static_cast<type>(x)));
+				if (is_constant_evaluated())
+				{
+					using type = highest_ranked<T, long double>;
+					return static_cast<T>(consteval_sin(static_cast<type>(x)));
+				}
 			}
-			else
-			{
-				if constexpr (is_standard_arithmetic<T>)
-					return std::sin(x);
+
+			if constexpr (is_standard_arithmetic<T>)
+				return std::sin(x);
 	#if MUU_HAS_QUADMATH
-				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::sinq(x);
+			else if constexpr (std::is_same_v<float128_t, T>)
+				return ::sinq(x);
 	#endif
-				else
-					return static_cast<T>(std::sin(static_cast<clamp_to_standard_float<T>>(x)));
-			}
+			else
+				return static_cast<T>(std::sin(static_cast<clamp_to_standard_float<T>>(x)));
 		}
 	}
 	/// \endcond
@@ -1462,22 +1448,23 @@ namespace muu
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
-			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			if constexpr (build::supports_is_constant_evaluated)
 			{
-				using type = highest_ranked<T, long double>;
-				return static_cast<T>(consteval_tan(static_cast<type>(x)));
+				if (is_constant_evaluated())
+				{
+					using type = highest_ranked<T, long double>;
+					return static_cast<T>(consteval_tan(static_cast<type>(x)));
+				}
 			}
-			else
-			{
-				if constexpr (is_standard_arithmetic<T>)
-					return std::tan(x);
+
+			if constexpr (is_standard_arithmetic<T>)
+				return std::tan(x);
 	#if MUU_HAS_QUADMATH
-				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::tanq(x);
+			else if constexpr (std::is_same_v<float128_t, T>)
+				return ::tanq(x);
 	#endif
-				else
-					return static_cast<T>(std::tan(static_cast<clamp_to_standard_float<T>>(x)));
-			}
+			else
+				return static_cast<T>(std::tan(static_cast<clamp_to_standard_float<T>>(x)));
 		}
 	}
 	/// \endcond
@@ -1597,22 +1584,23 @@ namespace muu
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
-			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			if constexpr (build::supports_is_constant_evaluated)
 			{
-				using type = highest_ranked<T, long double>;
-				return static_cast<T>(consteval_acos(static_cast<type>(x)));
+				if (is_constant_evaluated())
+				{
+					using type = highest_ranked<T, long double>;
+					return static_cast<T>(consteval_acos(static_cast<type>(x)));
+				}
 			}
-			else
-			{
-				if constexpr (is_standard_arithmetic<T>)
-					return std::acos(x);
+
+			if constexpr (is_standard_arithmetic<T>)
+				return std::acos(x);
 	#if MUU_HAS_QUADMATH
-				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::acosq(x);
+			else if constexpr (std::is_same_v<float128_t, T>)
+				return ::acosq(x);
 	#endif
-				else
-					return static_cast<T>(std::acos(static_cast<clamp_to_standard_float<T>>(x)));
-			}
+			else
+				return static_cast<T>(std::acos(static_cast<clamp_to_standard_float<T>>(x)));
 		}
 	}
 	/// \endcond
@@ -1745,22 +1733,23 @@ namespace muu
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
-			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			if constexpr (build::supports_is_constant_evaluated)
 			{
-				using type = highest_ranked<T, long double>;
-				return static_cast<T>(consteval_asin(static_cast<type>(x)));
+				if (is_constant_evaluated())
+				{
+					using type = highest_ranked<T, long double>;
+					return static_cast<T>(consteval_asin(static_cast<type>(x)));
+				}
 			}
-			else
-			{
-				if constexpr (is_standard_arithmetic<T>)
-					return std::asin(x);
+
+			if constexpr (is_standard_arithmetic<T>)
+				return std::asin(x);
 	#if MUU_HAS_QUADMATH
-				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::asinq(x);
+			else if constexpr (std::is_same_v<float128_t, T>)
+				return ::asinq(x);
 	#endif
-				else
-					return static_cast<T>(std::asin(static_cast<clamp_to_standard_float<T>>(x)));
-			}
+			else
+				return static_cast<T>(std::asin(static_cast<clamp_to_standard_float<T>>(x)));
 		}
 	}
 	/// \endcond
@@ -1892,22 +1881,23 @@ namespace muu
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
-			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			if constexpr (build::supports_is_constant_evaluated)
 			{
-				using type = highest_ranked<T, long double>;
-				return static_cast<T>(consteval_atan(static_cast<type>(x)));
+				if (is_constant_evaluated())
+				{
+					using type = highest_ranked<T, long double>;
+					return static_cast<T>(consteval_atan(static_cast<type>(x)));
+				}
 			}
-			else
-			{
-				if constexpr (is_standard_arithmetic<T>)
-					return std::atan(x);
+
+			if constexpr (is_standard_arithmetic<T>)
+				return std::atan(x);
 	#if MUU_HAS_QUADMATH
-				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::atanq(x);
+			else if constexpr (std::is_same_v<float128_t, T>)
+				return ::atanq(x);
 	#endif
-				else
-					return static_cast<T>(std::atan(static_cast<clamp_to_standard_float<T>>(x)));
-			}
+			else
+				return static_cast<T>(std::atan(static_cast<clamp_to_standard_float<T>>(x)));
 		}
 	}
 	/// \endcond
@@ -2027,24 +2017,25 @@ namespace muu
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
 
-			if (MUU_INTELLISENSE || (build::supports_is_constant_evaluated && is_constant_evaluated()))
+			if constexpr (build::supports_is_constant_evaluated)
 			{
-				using type = highest_ranked<T, long double>;
-				return static_cast<T>(consteval_atan2(static_cast<type>(y), static_cast<type>(x)));
+				if (is_constant_evaluated())
+				{
+					using type = highest_ranked<T, long double>;
+					return static_cast<T>(consteval_atan2(static_cast<type>(y), static_cast<type>(x)));
+				}
 			}
+
+			if constexpr (is_standard_arithmetic<T>)
+				return std::atan2(y, x);
+	#if MUU_HAS_QUADMATH
+			else if constexpr (std::is_same_v<float128_t, T>)
+				return ::atan2q(y, x);
+	#endif
 			else
 			{
-				if constexpr (is_standard_arithmetic<T>)
-					return std::atan2(y, x);
-	#if MUU_HAS_QUADMATH
-				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::atan2q(y, x);
-	#endif
-				else
-				{
-					using type = clamp_to_standard_float<T>;
-					return static_cast<T>(std::atan2(static_cast<type>(y), static_cast<type>(x)));
-				}
+				using type = clamp_to_standard_float<T>;
+				return static_cast<T>(std::atan2(static_cast<type>(y), static_cast<type>(x)));
 			}
 		}
 	}

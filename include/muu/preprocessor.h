@@ -1383,7 +1383,8 @@ namespace muu::impl
 /// \brief `1` when targeting any flavour of ARM, otherwise `0`.
 ///
 /// \def MUU_ARCH_BITNESS
-/// \brief The 'bitness' of the current architecture (e.g. `64` on AMD64).
+/// \brief The 'bitness' of the target architecture (e.g. `64` on AMD64).
+/// \see build::bitness
 ///
 /// \def MUU_ARCH_X64
 /// \brief `1` when targeting any 64-bit architecture, otherwise `0`.
@@ -1435,17 +1436,21 @@ namespace muu::impl
 /// \brief `1` when the code being compiled by an IDE's 'intellisense' compiler, otherwise `0`.
 ///
 /// \def MUU_HAS_EXCEPTIONS
-/// \brief `1` when support for C++ exceptions is enabled, otherwise `0`.
+/// \brief `1` when C++ exceptions are supported, otherwise `0`.
+/// \see build::supports_exceptions
 ///
 /// \def MUU_HAS_RTTI
-/// \brief `1` when support for C++ run-time type identification (RTTI) is enabled, otherwise `0`.
+/// \brief `1` when C++ run-time type identification (RTTI) is supported, otherwise `0`.
+/// \see build::supports_rtti
 ///
 /// \def MUU_LITTLE_ENDIAN
 /// \brief `1` when the target environment is little-endian, otherwise `0`.
+/// \see build::is_little_endian
 ///
 /// \def MUU_BIG_ENDIAN
 /// \brief `1` when the target environment is big-endian, otherwise `0`.
-///
+/// \see build::is_big_endian
+/// 
 /// \def MUU_CPP
 /// \brief The currently-targeted C++ standard. `17` for C++17, `20` for C++20, etc.
 ///

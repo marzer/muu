@@ -19,6 +19,9 @@ MUU_ENABLE_WARNINGS;
 #include "impl/header_start.h"
 MUU_PRAGMA_MSVC(warning(disable : 4296)) // condition always true/false
 
+#define MUU_ANY_VARIADIC_T(trait) (false || ... || trait<T>)
+#define MUU_ALL_VARIADIC_T(trait) ((sizeof...(T) > 0) && ... && trait<T>)
+
 namespace muu
 {
 	/// \addtogroup		meta
@@ -41,10 +44,10 @@ namespace muu
 	/// \brief	Evaluates to false but with delayed, type-dependent evaluation.
 	/// \details Allows you to do things like this:
 	/// \cpp
-	/// if constexpr (is_some_fancy_type<T>)
+	/// if constexpr (is_fancy_type<T>)
 	///		// ...
 	/// else
-	///		static_assert(always_false<T>, "Oh no, T was bad!");
+	///		static_assert(always_false<T>, "Oh no, T wasn't fancy enough!");
 	/// \ecpp
 	template <typename T>
 	inline constexpr bool always_false = false;
@@ -946,12 +949,12 @@ namespace muu
 	using remove_rvalue_reference = typename impl::remove_rvalue_reference_<T>::type;
 
 	/// \brief The largest type from a set of types.
-	template <typename... T>
-	using largest = typename impl::largest_<T...>::type;
+	template <typename T, typename... U>
+	using largest = typename impl::largest_<T, U...>::type;
 
 	/// \brief The smallest type from a set of types.
-	template <typename... T>
-	using smallest = typename impl::smallest_<T...>::type;
+	template <typename T, typename... U>
+	using smallest = typename impl::smallest_<T, U...>::type;
 
 	/// \brief The sum of `sizeof()` for all of the types named by T.
 	template <typename... T>
@@ -964,27 +967,27 @@ namespace muu
 
 	/// \brief The type with the largest alignment (i.e. having the largest value for `alignment_of<T>`) from a set of types.
 	/// \remarks Treats `void` and functions as having an alignment of `1`.
-	template <typename... T>
-	using most_aligned = typename impl::most_aligned_<T...>::type;
+	template <typename T, typename... U>
+	using most_aligned = typename impl::most_aligned_<T, U...>::type;
 
 	/// \brief The type with the smallest alignment (i.e. having the smallest value for `alignment_of<T>`) from a set of types.
 	/// \remarks Treats `void` and functions as having an alignment of `1`.
-	template <typename... T>
-	using least_aligned = typename impl::least_aligned_<T...>::type;
+	template <typename T, typename... U>
+	using least_aligned = typename impl::least_aligned_<T, U...>::type;
 
 	/// \brief	True if T is exactly the same as one or more of the types named by U.
 	/// \remark This equivalent to `(std::is_same_v<T, U1> || std::is_same_v<T, U2> || ...)`.
 	template <typename T, typename... U>
 	inline constexpr bool any_same = (false || ... || std::is_same_v<T, U>);
 
-	/// \brief	True if all the types named by T and U are exactly the same.
+	/// \brief	True if all the named types are exactly the same.
 	/// \remark This equivalent to `(std::is_same_v<T, U1> && std::is_same_v<T, U2> && ...)`.
 	template <typename T, typename... U>
-	inline constexpr bool all_same = (sizeof...(U) > 0) && (true && ... && std::is_same_v<T, U>);
+	inline constexpr bool all_same = (true && ... && std::is_same_v<T, U>);
 
-	/// \brief	Returns the index of the first appearance of the type T in the type list U.
-	template <typename T, typename... U>
-	inline constexpr size_t index_of_type = impl::index_of_type_<T, 0, U...>::value;
+	/// \brief	The index of the first appearance of the type T in the type list [U, V...].
+	template <typename T, typename U, typename... V>
+	inline constexpr size_t index_of_type = impl::index_of_type_<T, 0, U, V...>::value;
 
 	/// \brief	True if `From` is implicitly convertible to `To`.
 	template <typename From, typename To>
@@ -996,13 +999,13 @@ namespace muu
 
 	/// \brief	True if `From` is implicitly convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_implicitly_convertible_to_all = (sizeof...(To) > 0)
-														  && (true && ... && is_implicitly_convertible<From, To>);
+	inline constexpr bool is_implicitly_convertible_to_all = ((sizeof...(To) > 0) && ...
+															  && is_implicitly_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are implicitly convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_implicitly_convertible_to = (sizeof...(From) > 0)
-													   && (true && ... && is_implicitly_convertible<From, To>);
+	inline constexpr bool all_implicitly_convertible_to = ((sizeof...(From) > 0) && ...
+														   && is_implicitly_convertible<From, To>);
 
 	/// \brief	True if `From` is explicitly convertible to `To`.
 	template <typename From, typename To>
@@ -1015,13 +1018,13 @@ namespace muu
 
 	/// \brief	True if `From` is explicitly convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_explicitly_convertible_to_all = (sizeof...(To) > 0)
-														  && (true && ... && is_explicitly_convertible<From, To>);
+	inline constexpr bool is_explicitly_convertible_to_all = ((sizeof...(To) > 0) && ...
+															  && is_explicitly_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are explicitly convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_explicitly_convertible_to = (sizeof...(From) > 0)
-													   && (true && ... && is_explicitly_convertible<From, To>);
+	inline constexpr bool all_explicitly_convertible_to = ((sizeof...(From) > 0) && ...
+														   && is_explicitly_convertible<From, To>);
 
 	/// \brief	True if `From` is implicitly _or_ explicitly convertible to `To`.
 	template <typename From, typename To>
@@ -1033,11 +1036,11 @@ namespace muu
 
 	/// \brief	True if `From` is implicitly _or_ explicitly convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_convertible_to_all = (sizeof...(To) > 0) && (true && ... && is_convertible<From, To>);
+	inline constexpr bool is_convertible_to_all = ((sizeof...(To) > 0) && ... && is_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are implicitly _or_ explicitly convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_convertible_to = (sizeof...(From) > 0) && (true && ... && is_convertible<From, To>);
+	inline constexpr bool all_convertible_to = ((sizeof...(From) > 0) && ... && is_convertible<From, To>);
 
 	/// \brief	True if `From` is implicitly nothrow-convertible to `To`.
 	template <typename From, typename To>
@@ -1050,14 +1053,12 @@ namespace muu
 
 	/// \brief	True if `From` is implicitly nothrow-convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_implicitly_nothrow_convertible_to_all = (sizeof...(To) > 0)
-																  && (true && ...
+	inline constexpr bool is_implicitly_nothrow_convertible_to_all = ((sizeof...(To) > 0) && ...
 																	  && is_implicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are implicitly nothrow-convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_implicitly_nothrow_convertible_to = (sizeof...(From) > 0)
-															   && (true && ...
+	inline constexpr bool all_implicitly_nothrow_convertible_to = ((sizeof...(From) > 0) && ...
 																   && is_implicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if `From` is explicitly nothrow-convertible to `To`.
@@ -1072,14 +1073,12 @@ namespace muu
 
 	/// \brief	True if `From` is explicitly nothrow-convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_explicitly_nothrow_convertible_to_all = (sizeof...(To) > 0)
-																  && (true && ...
+	inline constexpr bool is_explicitly_nothrow_convertible_to_all = ((sizeof...(To) > 0) && ...
 																	  && is_explicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are explicitly nothrow-convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_explicitly_nothrow_convertible_to = (sizeof...(From) > 0)
-															   && (true && ...
+	inline constexpr bool all_explicitly_nothrow_convertible_to = ((sizeof...(From) > 0) && ...
 																   && is_explicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if `From` is implicitly _or_ explicitly nothrow-convertible to `To`.
@@ -1093,35 +1092,51 @@ namespace muu
 
 	/// \brief	True if `From` is implicitly _or_ explicitly nothrow-convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_nothrow_convertible_to_all = (sizeof...(To) > 0)
-													   && (true && ... && is_nothrow_convertible<From, To>);
+	inline constexpr bool is_nothrow_convertible_to_all = ((sizeof...(To) > 0) && ...
+														   && is_nothrow_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are implicitly _or_ explicitly nothrow-convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_nothrow_convertible_to = (sizeof...(From) > 0)
-													&& (true && ... && is_nothrow_convertible<From, To>);
+	inline constexpr bool all_nothrow_convertible_to = ((sizeof...(From) > 0) && ...
+														&& is_nothrow_convertible<From, To>);
 
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>
 	inline constexpr bool is_enum = std::is_enum_v<std::remove_reference_t<T>>;
 
 	/// \brief Are any of the named types enums or reference-to-enum?
-	template <typename T, typename... U>
-	inline constexpr bool any_enum = (is_enum<T> || ... || is_enum<U>);
+	template <typename... T>
+	inline constexpr bool any_enum = MUU_ANY_VARIADIC_T(is_enum);
 
 	/// \brief Are all of the named types enums or reference-to-enum?
-	template <typename T, typename... U>
-	inline constexpr bool all_enum = (is_enum<T> && ... && is_enum<U>);
+	template <typename... T>
+	inline constexpr bool all_enum = MUU_ALL_VARIADIC_T(is_enum);
 
 	/// \brief Is a type a C++11 scoped enum class, or reference to one?
 	template <typename T>
 	inline constexpr bool is_scoped_enum =
 		is_enum<T> && !std::is_convertible_v<remove_cvref<T>, remove_enum<remove_cvref<T>>>;
 
+	/// \brief Are any of the named types C++11 scoped enum classes, or references to one?
+	template <typename... T>
+	inline constexpr bool any_scoped_enum = MUU_ANY_VARIADIC_T(is_scoped_enum);
+
+	/// \brief Are all of the named types C++11 scoped enum classes, or references to one?
+	template <typename... T>
+	inline constexpr bool all_scoped_enum = MUU_ALL_VARIADIC_T(is_scoped_enum);
+
 	/// \brief Is a type a pre-C++11 unscoped enum, or reference to one?
 	template <typename T>
 	inline constexpr bool is_legacy_enum =
 		is_enum<T>&& std::is_convertible_v<remove_cvref<T>, remove_enum<remove_cvref<T>>>;
+
+	/// \brief Are any of the named types pre-C++11 unscoped enums, or references to one?
+	template <typename... T>
+	inline constexpr bool any_legacy_enum = MUU_ANY_VARIADIC_T(is_legacy_enum);
+
+	/// \brief Are all of the named types pre-C++11 unscoped enums, or references to one?
+	template <typename... T>
+	inline constexpr bool all_legacy_enum = MUU_ALL_VARIADIC_T(is_legacy_enum);
 
 	/// \brief Is a type unsigned or reference-to-unsigned?
 	/// \remarks True for enums backed by unsigned integers.
@@ -1135,13 +1150,13 @@ namespace muu
 
 	/// \brief Are any of the named types unsigned or reference-to-unsigned?
 	/// \remarks True for enums backed by unsigned integers.
-	template <typename T, typename... U>
-	inline constexpr bool any_unsigned = (is_unsigned<T> || ... || is_unsigned<U>);
+	template <typename... T>
+	inline constexpr bool any_unsigned = MUU_ANY_VARIADIC_T(is_unsigned);
 
 	/// \brief Are all of the named types unsigned or reference-to-unsigned?
 	/// \remarks True for enums backed by unsigned integers.
-	template <typename T, typename... U>
-	inline constexpr bool all_unsigned = (is_unsigned<T> && ... && is_unsigned<U>);
+	template <typename... T>
+	inline constexpr bool all_unsigned = MUU_ALL_VARIADIC_T(is_unsigned);
 
 	/// \brief Is a type signed or reference-to-signed?
 	/// \remarks True for enums backed by signed integers.
@@ -1166,13 +1181,13 @@ namespace muu
 
 	/// \brief Are any of the named types signed or reference-to-signed?
 	/// \remarks True for enums backed by signed integers.
-	template <typename T, typename... U>
-	inline constexpr bool any_signed = (is_signed<T> || ... || is_signed<U>);
+	template <typename... T>
+	inline constexpr bool any_signed = MUU_ANY_VARIADIC_T(is_signed);
 
 	/// \brief Are all of the named types signed or reference-to-signed?
 	/// \remarks True for enums backed by signed integers.
-	template <typename T, typename... U>
-	inline constexpr bool all_signed = (is_signed<T> && ... && is_signed<U>);
+	template <typename... T>
+	inline constexpr bool all_signed = MUU_ALL_VARIADIC_T(is_signed);
 
 	/// \brief Is a type an integral type or a reference to an integral type?
 	/// \remarks True for enums.
@@ -1187,14 +1202,14 @@ namespace muu
 	/// \brief Are any of the named types integral or reference-to-integral?
 	/// \remarks True for enums.
 	/// \remarks True for #int128_t and #uint128_t (where supported).
-	template <typename T, typename... U>
-	inline constexpr bool any_integral = (is_integral<T> || ... || is_integral<U>);
+	template <typename... T>
+	inline constexpr bool any_integral = MUU_ANY_VARIADIC_T(is_integral);
 
 	/// \brief Are all of the named types integral or reference-to-integral?
 	/// \remarks True for enums.
 	/// \remarks True for #int128_t and #uint128_t (where supported).
-	template <typename T, typename... U>
-	inline constexpr bool all_integral = (is_integral<T> && ... && is_integral<U>);
+	template <typename... T>
+	inline constexpr bool all_integral = MUU_ALL_VARIADIC_T(is_integral);
 
 	/// \brief Is a type an arithmetic integer type, or reference to one?
 	/// \remarks True for #int128_t and #uint128_t (where supported).
@@ -1219,14 +1234,14 @@ namespace muu
 	/// \brief Are any of the named types arithmetic integers, or reference to them?
 	/// \remarks True for #int128_t and #uint128_t (where supported).
 	/// \remarks False for enums, booleans, and character types.
-	template <typename T, typename... U>
-	inline constexpr bool any_integer = (is_integer<T> || ... || is_integer<U>);
+	template <typename... T>
+	inline constexpr bool any_integer = MUU_ANY_VARIADIC_T(is_integer);
 
 	/// \brief Are all of the named types arithmetic integers, or reference to them?
 	/// \remarks True for #int128_t and #uint128_t (where supported).
 	/// \remarks False for enums, booleans, and character types.
-	template <typename T, typename... U>
-	inline constexpr bool all_integer = (is_integer<T> && ... && is_integer<U>);
+	template <typename... T>
+	inline constexpr bool all_integer = MUU_ALL_VARIADIC_T(is_integer);
 
 	/// \brief Is a type a floating-point or reference-to-floating-point?
 	/// \remarks True for muu::half.
@@ -1249,14 +1264,14 @@ namespace muu
 	/// \brief Are any of the named types floating-point or reference-to-floating-point?
 	/// \remarks True for muu::half.
 	/// \remarks True for _Float16 and #float128_t (where supported).
-	template <typename T, typename... U>
-	inline constexpr bool any_floating_point = (is_floating_point<T> || ... || is_floating_point<U>);
+	template <typename... T>
+	inline constexpr bool any_floating_point = MUU_ANY_VARIADIC_T(is_floating_point);
 
 	/// \brief Are all of the named types floating-point or reference-to-floating-point?
 	/// \remarks True for muu::half.
 	/// \remarks True for _Float16 and #float128_t (where supported).
-	template <typename T, typename... U>
-	inline constexpr bool all_floating_point = (is_floating_point<T> && ... && is_floating_point<U>);
+	template <typename... T>
+	inline constexpr bool all_floating_point = MUU_ALL_VARIADIC_T(is_floating_point);
 
 	/// \brief Is a type one of the standard c++ arithmetic types, or a reference to one?
 	template <typename T>
@@ -1291,26 +1306,26 @@ namespace muu
 	/// \brief Are any of the named types arithmetic or reference-to-arithmetic?
 	/// \remarks True for muu::half.
 	/// \remarks True for #int128_t, #uint128_t, _Float16 and #float128_t (where supported).
-	template <typename T, typename... U>
-	inline constexpr bool any_arithmetic = (is_arithmetic<T> || ... || is_arithmetic<U>);
+	template <typename... T>
+	inline constexpr bool any_arithmetic = MUU_ANY_VARIADIC_T(is_arithmetic);
 
 	/// \brief Are all of the named types arithmetic or reference-to-arithmetic?
 	/// \remarks True for muu::half.
 	/// \remarks True for #int128_t, #uint128_t, _Float16 and #float128_t (where supported).
-	template <typename T, typename... U>
-	inline constexpr bool all_arithmetic = (is_arithmetic<T> && ... && is_arithmetic<U>);
+	template <typename... T>
+	inline constexpr bool all_arithmetic = MUU_ALL_VARIADIC_T(is_arithmetic);
 
 	/// \brief Is a type const or reference-to-const?
 	template <typename T>
 	inline constexpr bool is_const = std::is_const_v<std::remove_reference_t<T>>;
 
 	/// \brief Are any of the named types const or reference-to-const?
-	template <typename T, typename... U>
-	inline constexpr bool any_const = (is_const<T> || ... || is_const<U>);
+	template <typename... T>
+	inline constexpr bool any_const = MUU_ANY_VARIADIC_T(is_const);
 
 	/// \brief Are all of the named types const or reference-to-const?
-	template <typename T, typename... U>
-	inline constexpr bool all_const = (is_const<T> && ... && is_const<U>);
+	template <typename... T>
+	inline constexpr bool all_const = MUU_ALL_VARIADIC_T(is_const);
 
 	/// \brief Adds a const qualifier to a type or reference.
 	template <typename T>
@@ -1337,12 +1352,12 @@ namespace muu
 	inline constexpr bool is_volatile = std::is_volatile_v<std::remove_reference_t<T>>;
 
 	/// \brief Are any of the named types volatile or reference-to-volatile?
-	template <typename T, typename... U>
-	inline constexpr bool any_volatile = (is_volatile<T> || ... || is_volatile<U>);
+	template <typename... T>
+	inline constexpr bool any_volatile = MUU_ANY_VARIADIC_T(is_volatile);
 
 	/// \brief Are all of the named types volatile or reference-to-volatile?
-	template <typename T, typename... U>
-	inline constexpr bool all_volatile = (is_volatile<T> && ... && is_volatile<U>);
+	template <typename... T>
+	inline constexpr bool all_volatile = MUU_ALL_VARIADIC_T(is_volatile);
 
 	/// \brief Adds a volatile qualifier to a type or reference.
 	template <typename T>
@@ -1391,24 +1406,24 @@ namespace muu
 	inline constexpr bool is_cv = std::is_const_v<T> || std::is_volatile_v<T>;
 
 	/// \brief Are any of the named types const and/or volatile-qualified, or references to const and/or volatile-qualified?
-	template <typename T, typename... U>
-	inline constexpr bool any_cv = (is_cv<T> || ... || is_cv<U>);
+	template <typename... T>
+	inline constexpr bool any_cv = MUU_ANY_VARIADIC_T(is_cv);
 
 	/// \brief Are all of the named types const and/or volatile-qualified, or references to const and/or volatile-qualified?
-	template <typename T, typename... U>
-	inline constexpr bool all_cv = (is_cv<T> && ... && is_cv<U>);
+	template <typename... T>
+	inline constexpr bool all_cv = MUU_ALL_VARIADIC_T(is_cv);
 
 	/// \brief Is a type const, volatile, or a reference?
 	template <typename T>
 	inline constexpr bool is_cvref = std::is_const_v<T> || std::is_volatile_v<T> || std::is_reference_v<T>;
 
 	/// \brief Are any of the named types const, volatile, or a reference?
-	template <typename T, typename... U>
-	inline constexpr bool any_cvref = (is_cvref<T> || ... || is_cvref<U>);
+	template <typename... T>
+	inline constexpr bool any_cvref = MUU_ANY_VARIADIC_T(is_cvref);
 
 	/// \brief Are all of the named types const, volatile, or a reference?
-	template <typename T, typename... U>
-	inline constexpr bool all_cvref = (is_cvref<T> && ... && is_cvref<U>);
+	template <typename... T>
+	inline constexpr bool all_cvref = MUU_ALL_VARIADIC_T(is_cvref);
 
 	/// \brief Removes any `noexcept` specifier from a functional type.
 	template <typename T>
@@ -1423,14 +1438,13 @@ namespace muu
 
 	/// \brief Does Child inherit from any of the types named by Parent?
 	/// \remarks This does _not_ consider `Child == Parent` as being an "inherits from" relationship, unlike std::is_base_of.
-	template <typename Child, typename... Parents>
-	inline constexpr bool inherits_from_any = (false || ... || inherits_from<Child, Parents>);
+	template <typename Child, typename Parent, typename... Parents>
+	inline constexpr bool inherits_from_any = (inherits_from<Child, Parent> || ... || inherits_from<Child, Parents>);
 
 	/// \brief Does Child inherit from all of the types named by Parent?
 	/// \remarks This does _not_ consider `Child == Parent` as being an "inherits from" relationship, unlike std::is_base_of.
-	template <typename Child, typename... Parents>
-	inline constexpr bool inherits_from_all = (sizeof...(Parents) > 0)
-										   && (true && ... && inherits_from<Child, Parents>);
+	template <typename Child, typename Parent, typename... Parents>
+	inline constexpr bool inherits_from_all = (inherits_from<Child, Parent> && ... && inherits_from<Child, Parents>);
 
 	/// \brief	Rebases a pointer, preserving the const and volatile qualification of the pointed type.
 	template <typename Ptr, typename NewBase>
@@ -1506,12 +1520,12 @@ namespace muu
 	inline constexpr bool is_unbounded_array = impl::is_unbounded_array_<std::remove_reference_t<T>>::value;
 
 	/// \brief Are any of the named types an unbounded array (`T[]`), or a reference to one?
-	template <typename T, typename... U>
-	inline constexpr bool any_unbounded_array = (is_unbounded_array<T> || ... || is_unbounded_array<U>);
+	template <typename... T>
+	inline constexpr bool any_unbounded_array = MUU_ANY_VARIADIC_T(is_unbounded_array);
 
 	/// \brief Are all of the named types an unbounded array (`T[]`), or a reference to one?
-	template <typename T, typename... U>
-	inline constexpr bool all_unbounded_array = (is_unbounded_array<T> && ... && is_unbounded_array<U>);
+	template <typename... T>
+	inline constexpr bool all_unbounded_array = MUU_ALL_VARIADIC_T(is_unbounded_array);
 
 	/// \brief Is a type a bounded array (`T[N]`), or reference to one?
 	/// \remark This is similar to C++20's std::is_bounded_array.
@@ -1519,24 +1533,24 @@ namespace muu
 	inline constexpr bool is_bounded_array = impl::is_bounded_array_<std::remove_reference_t<T>>::value;
 
 	/// \brief Are any of the named types a bounded array (`T[N]`), or a reference to one?
-	template <typename T, typename... U>
-	inline constexpr bool any_bounded_array = (is_bounded_array<T> || ... || is_bounded_array<U>);
+	template <typename... T>
+	inline constexpr bool any_bounded_array = MUU_ANY_VARIADIC_T(is_bounded_array);
 
 	/// \brief Are all of the named types a bounded array (`T[N]`), or a reference to one?
-	template <typename T, typename... U>
-	inline constexpr bool all_bounded_array = (is_bounded_array<T> && ... && is_bounded_array<U>);
+	template <typename... T>
+	inline constexpr bool all_bounded_array = MUU_ALL_VARIADIC_T(is_bounded_array);
 
 	/// \brief Is a type an array, or reference to one?
 	template <typename T>
 	inline constexpr bool is_array = is_unbounded_array<T> || is_bounded_array<T>;
 
 	/// \brief Are any of the named types arrays, or references to arrays?
-	template <typename T, typename... U>
-	inline constexpr bool any_array = (is_array<T> || ... || is_array<U>);
+	template <typename... T>
+	inline constexpr bool any_array = MUU_ANY_VARIADIC_T(is_array);
 
 	/// \brief Are all of the named types arrays, or references to arrays?
-	template <typename T, typename... U>
-	inline constexpr bool all_array = (is_array<T> && ... && is_array<U>);
+	template <typename... T>
+	inline constexpr bool all_array = MUU_ALL_VARIADIC_T(is_array);
 
 	/// \cond
 	namespace impl
@@ -1849,7 +1863,7 @@ namespace muu
 											 && is_extended_arithmetic<T>;
 
 		template <typename... T>
-		inline constexpr bool any_small_float_ = (false || ... || is_small_float_<T>);
+		inline constexpr bool any_small_float_ = MUU_ANY_VARIADIC_T(is_small_float_);
 
 		template <typename T>
 		inline constexpr bool is_large_float_ = is_floating_point<T> && sizeof(T) >= sizeof(long double)
@@ -2023,10 +2037,10 @@ namespace muu
 				&& (0 + ... + hva_member_<Members>::arity) <= 4
 
 				// all members the same type
-				&& (sizeof...(Members) == 1 || all_same<typename hva_member_<Members>::type...>)
+				&& all_same<typename hva_member_<Members>::type...>
 
 				// no padding
-				&&(sizeof(T) == (0u + ... + sizeof(Members)))
+				&& sizeof(T) == (0u + ... + sizeof(Members))
 
 				// alignment matches member type
 				&& alignof(T) == alignof(most_aligned<typename hva_member_<Members>::type...>);
@@ -2163,15 +2177,13 @@ namespace muu
 		using vectorcall_param = typename vectorcall_param_<T>::type;
 
 		template <typename... T>
-		inline constexpr bool pass_readonly_by_reference = sizeof...(T) == 0
-														|| (std::is_reference_v<readonly_param<T>> || ...);
+		inline constexpr bool pass_readonly_by_reference = (true || ... || std::is_reference_v<readonly_param<T>>);
 
 		template <typename... T>
 		inline constexpr bool pass_readonly_by_value = !pass_readonly_by_reference<T...>;
 
 		template <typename... T>
-		inline constexpr bool pass_vectorcall_by_reference = sizeof...(T) == 0
-														  || (std::is_reference_v<vectorcall_param<T>> || ...);
+		inline constexpr bool pass_vectorcall_by_reference = (true || ... || std::is_reference_v<vectorcall_param<T>>);
 
 		template <typename... T>
 		inline constexpr bool pass_vectorcall_by_value = !pass_vectorcall_by_reference<T...>;
@@ -2218,5 +2230,8 @@ namespace muu
 #endif
 	/// \endcond
 }
+
+#undef MUU_ANY_VARIADIC_T
+#undef MUU_ALL_VARIADIC_T
 
 #include "impl/header_end.h"

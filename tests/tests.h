@@ -374,8 +374,14 @@ namespace muu
 	{
 		if constexpr (is_floating_point<T>)
 		{
-			using fp = impl::highest_ranked<T, float>;
-			return static_cast<T>(random<fp>() * static_cast<fp>(max_));
+			T val;
+			do
+			{
+				using fp = impl::highest_ranked<T, float>;
+				val		 = static_cast<T>(random<fp>() * static_cast<fp>(max_));
+			}
+			while (infinity_or_nan(val));
+			return val;
 		}
 		else
 			return static_cast<T>(random<double>() * static_cast<double>(max_));
@@ -385,7 +391,20 @@ namespace muu
 	MUU_NODISCARD
 	inline T random(Min min_, Max max_) noexcept
 	{
-		return static_cast<T>(static_cast<T>(min_) + random<T>(static_cast<T>(max_) - static_cast<T>(min_)));
+		if constexpr (is_floating_point<T>)
+		{
+			T val;
+			do
+			{
+				val = static_cast<T>(static_cast<T>(min_) + random<T>(static_cast<T>(max_) - static_cast<T>(min_)));
+			}
+			while (infinity_or_nan(val));
+			return val;
+		}
+		else
+		{
+			return static_cast<T>(static_cast<T>(min_) + random<T>(static_cast<T>(max_) - static_cast<T>(min_)));
+		}
 	}
 
 	template <typename T, size_t Num, typename Min, typename Max>
