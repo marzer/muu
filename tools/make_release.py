@@ -311,25 +311,27 @@ def main():
 		default='avx',
 		help='Sets the min instruction set to target. (default: %(default)s)'
 	)
+	default_toolsets = ['142', '143']
+	supported_toolsets = ['142', '143']
 	args.add_argument(
 		'--toolsets',
 		type=str,
 		action='extend',
 		nargs='+',
-		help='Lists the VS toolsets to use, separated by spaces. (default: 142 143)'
+		help=rf"Lists the VS toolsets to target, separated by spaces. (default: {' '.join(default_toolsets)})"
 	)
 	args = args.parse_args()
 	__verbose = args.verbose
 
 	# process toolsets arg
 	if not args.toolsets:
-		args.toolsets = ['142', '143']
+		args.toolsets = default_toolsets
 	args.toolsets = [ts.strip(' ,v') for ts in args.toolsets]
 	args.toolsets = [ts for ts in args.toolsets if ts]
 	for ts in args.toolsets:
-		if ts not in ('141','142','143'):
-			print(rf"unknown or unsupported VS toolset version '{ts}' - supported values are 141, 142 and 143", file=sys.stderr)
-			return -1
+		if ts not in supported_toolsets:
+			print(rf"unknown or unsupported VS toolset version '{ts}' - must be one of: {' '.join(supported_toolsets)}", file=sys.stderr)
+			return 1
 
 	# collapse some invariants here to make the run routine easier to reason about
 	if args.stale:

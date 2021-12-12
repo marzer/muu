@@ -185,6 +185,7 @@
     <None Include="tools\utils.py" />
     <None Include=".runsettings" />
     <None Include="muu.props" />
+    <None Include="tools\vcvars.bat" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="muu.natvis" />

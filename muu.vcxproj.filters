@@ -309,6 +309,9 @@
     <None Include="tools\clang_format.bat">
       <Filter>tools</Filter>
     </None>
+    <None Include="tools\vcvars.bat">
+      <Filter>tools</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include=".circleci">
