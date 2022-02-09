@@ -384,18 +384,18 @@ BATCHED_TEST_CASE("matrix accessors", common_matrices<ALL_ARITHMETIC>)
 		{
 			CHECK(&mat.template column<0>() == &mat.m[0]);
 			CHECK(&mat.template column<1>() == &mat.m[1]);
-			CHECK(&mat.x_axis() == &mat.m[0]);
-			CHECK(&mat.y_axis() == &mat.m[1]);
+			CHECK(&mat.x_column() == &mat.m[0]);
+			CHECK(&mat.y_column() == &mat.m[1]);
 		}
 		if constexpr (matrix_t::columns >= 3)
 		{
 			CHECK(&mat.template column<2>() == &mat.m[2]);
-			CHECK(&mat.z_axis() == &mat.m[2]);
+			CHECK(&mat.z_column() == &mat.m[2]);
 		}
 		if constexpr (matrix_t::columns >= 4)
 		{
 			CHECK(&mat.template column<3>() == &mat.m[3]);
-			CHECK(&mat.w_axis() == &mat.m[3]);
+			CHECK(&mat.w_column() == &mat.m[3]);
 		}
 	}
 
@@ -405,19 +405,25 @@ BATCHED_TEST_CASE("matrix accessors", common_matrices<ALL_ARITHMETIC>)
 		{
 			CHECK(&mat_const.template column<0>() == &mat_const.m[0]);
 			CHECK(&mat_const.template column<1>() == &mat_const.m[1]);
-			CHECK(&mat_const.x_axis() == &mat_const.m[0]);
-			CHECK(&mat_const.y_axis() == &mat_const.m[1]);
+			CHECK(&mat_const.x_column() == &mat_const.m[0]);
+			CHECK(&mat_const.y_column() == &mat_const.m[1]);
 		}
 		if constexpr (matrix_t::columns >= 3)
 		{
 			CHECK(&mat_const.template column<2>() == &mat_const.m[2]);
-			CHECK(&mat_const.z_axis() == &mat_const.m[2]);
+			CHECK(&mat_const.z_column() == &mat_const.m[2]);
 		}
 		if constexpr (matrix_t::columns >= 4)
 		{
 			CHECK(&mat_const.template column<3>() == &mat_const.m[3]);
-			CHECK(&mat_const.w_axis() == &mat_const.m[3]);
+			CHECK(&mat_const.w_column() == &mat_const.m[3]);
 		}
+	}
+
+	BATCHED_SECTION("data()")
+	{
+		CHECK(reinterpret_cast<uintptr_t>(mat.data()) == reinterpret_cast<uintptr_t>(&mat));
+		CHECK(reinterpret_cast<uintptr_t>(mat_const.data()) == reinterpret_cast<uintptr_t>(&mat_const));
 	}
 }
 
@@ -1203,7 +1209,8 @@ BATCHED_TEST_CASE("matrix translation and rotation", common_matrices<ALL_ARITHME
 			}
 		}
 
-		rot = matrix_t::from_axes(vector<T, 2>{ rotation_source.x_axis() }, vector<T, 2>{ rotation_source.y_axis() });
+		rot =
+			matrix_t::from_axes(vector<T, 2>{ rotation_source.x_column() }, vector<T, 2>{ rotation_source.y_column() });
 		CHECK(rot(0, 0) == T{ 0 });
 		CHECK(rot(0, 1) == T{ 1 });
 		CHECK(rot(1, 0) == T{ 4 });
@@ -1268,9 +1275,9 @@ BATCHED_TEST_CASE("matrix translation and rotation", common_matrices<ALL_ARITHME
 			}
 		}
 
-		rot = matrix_t::from_axes(vector<T, 3>{ rotation_source.x_axis() },
-								  vector<T, 3>{ rotation_source.y_axis() },
-								  vector<T, 3>{ rotation_source.z_axis() });
+		rot = matrix_t::from_axes(vector<T, 3>{ rotation_source.x_column() },
+								  vector<T, 3>{ rotation_source.y_column() },
+								  vector<T, 3>{ rotation_source.z_column() });
 		CHECK(rot(0, 0) == T{ 0 });
 		CHECK(rot(0, 1) == T{ 1 });
 		CHECK(rot(0, 2) == T{ 2 });

@@ -339,6 +339,8 @@ namespace muu
 	class scope_fail;
 	template <typename>
 	class scope_success;
+	template <typename, typename, typename...>
+	struct strong_typedef;
 	template <typename, size_t>
 	class tagged_ptr;
 

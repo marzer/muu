@@ -265,6 +265,25 @@ namespace muu
 			return static_cast<bool>(obj.infinity_or_nan());
 	}
 
+	/// \brief	Returns true if any value in array is infinity or NaN.
+	template <typename T, size_t N>
+	MUU_NODISCARD
+	constexpr bool infinity_or_nan(const T (&vals)[N]) noexcept
+	{
+		for (const auto& val : vals)
+			if (infinity_or_nan(val))
+				return true;
+		return false;
+	}
+
+	/// \brief	Returns true if any value of the given values is infinity or NaN.
+	template <typename T, typename U, typename... V>
+	MUU_NODISCARD
+	constexpr bool infinity_or_nan(const T& val1, const U& val2, const V&... vals) noexcept
+	{
+		return ((infinity_or_nan(val1) || infinity_or_nan(val2)) || ... || infinity_or_nan(vals));
+	}
+
 	/** @} */ // math::infinity_or_nan
 	/** @} */ // math
 

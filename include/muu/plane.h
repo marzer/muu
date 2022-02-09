@@ -53,7 +53,7 @@ namespace muu
 
 		using planes			 = impl::planes_common<Scalar>;
 		using triangles			 = impl::triangles_common<Scalar>;
-		using collision			 = impl::collision_common<Scalar>;
+		using aabbs				 = impl::aabb_common<Scalar>;
 		using intermediate_float = promote_if_small_float<scalar_type>;
 		static_assert(is_floating_point<intermediate_float>);
 
@@ -94,16 +94,29 @@ namespace muu
 			: base{ direction, -vector_type::dot(position, direction) }
 		{}
 
-		/// \brief	Constructs a plane from three points.
-		MUU_NODISCARD_CTOR
-		constexpr plane(const vector_type& p1, const vector_type& p2, const vector_type& p3) noexcept //
-			: plane{ p1, triangles::normal(p1, p2, p3) }
-		{}
+		/// \brief	Constructs a plane from a triangle.
+		MUU_PURE_GETTER
+		static constexpr plane MUU_VECTORCALL from_triangle(MUU_VC_PARAM(vector_type) p0,
+															MUU_VC_PARAM(vector_type) p1,
+															MUU_VC_PARAM(vector_type) p2) noexcept
+		{
+			return plane{ p0, triangles::normal(p0, p1, p2) };
+		}
 
 		/// \brief	Constructs a plane from a triangle.
 		MUU_NODISCARD_CTOR
-		explicit constexpr plane(MUU_GEOM_PARAM(triangle) tri) noexcept //
-			: plane{ tri.points[0], triangles::normal(tri) }
+		constexpr plane(const vector_type& p0, const vector_type& p1, const vector_type& p2) noexcept //
+			: plane{ from_triangle(p0, p1, p2) }
+		{}
+
+		/// \brief	Constructs a plane from a triangle.
+		MUU_PURE_GETTER
+		static constexpr plane MUU_VECTORCALL from_triangle(MUU_VC_PARAM(triangle<scalar_type>) tri) noexcept;
+
+		/// \brief	Constructs a plane from a triangle.
+		MUU_NODISCARD_CTOR
+		explicit constexpr plane(const triangle<scalar_type>& tri) noexcept //
+			: plane{ from_triangle(tri) }
 		{}
 
 		/// \brief	Converting constructor.
@@ -124,14 +137,35 @@ namespace muu
 		constexpr plane(const T& blittable) noexcept //
 			: base{ muu::bit_cast<base>(blittable) }
 		{
-			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size as the plane");
+			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size");
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
 		}
 
 	#endif // constructors
 
-	#if 1 // equality --------------------------------------------------------------------------------------------------
-		/// \name Equality
+	#if 1 // scalar accessors ------------------------------------------------------------------------------------------
+		/// \name Scalar accessors
+		/// @{
+
+		/// \brief Returns a pointer to the first scalar component in the plane.
+		MUU_PURE_INLINE_GETTER
+		constexpr scalar_type* data() noexcept
+		{
+			return base::n.data();
+		}
+
+		/// \brief Returns a pointer to the first scalar component in the plane.
+		MUU_PURE_INLINE_GETTER
+		constexpr const scalar_type* data() const noexcept
+		{
+			return base::n.data();
+		}
+
+			/// @}
+	#endif // scalar accessors
+
+	#if 1 // equality (exact) ------------------------------------------------------------------------------------------
+		/// \name Equality (exact)
 		/// @{
 
 		/// \brief		Returns true if two planes are exactly equal.
@@ -190,9 +224,12 @@ namespace muu
 			return infinity_or_nan(*this);
 		}
 
-	#endif // equality
+			/// @}
+	#endif // equality (exact)
 
-	#if 1 // approx_equal ----------------------------------------------------------------------------------------------
+	#if 1 // equality (approx) -----------------------------------------------------------------------------------------
+		  /// \name Equality (approximate)
+		  /// @{
 
 		/// \brief	Returns true if two planes are approximately equal.
 		template <typename T>
@@ -246,7 +283,7 @@ namespace muu
 		}
 
 			/// @}
-	#endif // approx_equal
+	#endif // equality (approx)
 
 	#if 1 // normalization --------------------------------------------------------------------------------------------
 		/// \name Normalization
@@ -350,28 +387,26 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(plane) p, MUU_VC_PARAM(vector_type) point) noexcept
 		{
-			return collision::plane_contains_point(p.n, p.d, point);
+			return planes::contains_point(p.n, p.d, point);
 		}
 
 		/// \brief	Returns true if the plane contains a point.
 		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(vector_type) point) const noexcept
 		{
-			return collision::plane_contains_point(base::n, base::d, point);
+			return contains(*this, point);
 		}
 
 		/// \brief	Returns true if a plane intersects a bounding box.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(plane) p, MUU_GEOM_PARAM(bounding_box) bb) noexcept
-		{
-			return collision::aabb_intersects_plane(bb.center, bb.extents, p.n, p.d);
-		}
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(plane) p,
+														MUU_VC_PARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if the plane intersects a bounding box.
 		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_GEOM_PARAM(bounding_box) bb) const noexcept
+		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box<scalar_type>) bb) const noexcept
 		{
-			return collision::aabb_intersects_plane(bb.center, bb.extents, base::n, base::d);
+			return intersects(*this, bb);
 		}
 
 			/// @}
@@ -383,7 +418,9 @@ namespace muu
 		template <typename Char, typename Traits>
 		friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& os, const plane& p)
 		{
-			impl::print_compound_vector(os, &p.n.x, 3_sz, true, &p.d, 1_sz, false);
+			const impl::compound_vector_elem<Scalar> elems[]{ { &p.n.x, 3 }, //
+															  { &p.d, 1 } };
+			impl::print_compound_vector(os, elems);
 			return os;
 		}
 
@@ -520,3 +557,8 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
+
+/// \cond
+#include "impl/plane_x_bounding_box.h"
+#include "impl/plane_x_triangle.h"
+/// \endcond

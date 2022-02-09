@@ -41,6 +41,7 @@
 #define MUU_DISABLE_SUGGEST_WARNINGS		static_assert(true)
 #define MUU_DISABLE_SWITCH_WARNINGS			static_assert(true)
 #define MUU_DISABLE_WARNINGS				static_assert(true)
+#define MUU_DOXYGEN_ONLY(...)
 #define MUU_EMPTY_BASES
 #define MUU_ENABLE_IF(...)
 #define MUU_ENABLE_WARNINGS					static_assert(true)
@@ -55,8 +56,8 @@
 #define MUU_HAS_INT128						0
 #define MUU_HAS_RTTI						1
 #define MUU_HAS_VECTORCALL					0
-#define MUU_HIDDEN(...)
-#define MUU_HIDDEN_BASE(...)
+#define MUU_HIDDEN(...)						__VA_ARGS__
+#define MUU_HIDDEN_BASE(...)				: __VA_ARGS__
 #define MUU_HIDDEN_PARAM(...)
 #define MUU_LEGACY_REQUIRES(...)
 #define MUU_LITTLE_ENDIAN					1
@@ -89,8 +90,6 @@
 #define MUU_UNALIASED_ALLOC
 #define MUU_UNUSED(...)						static_assert(true)
 #define MUU_VC_PARAM(...)					const __VA_ARGS__&
-#define MUU_VC_BASE_PARAM(T)				const T&
-#define MUU_VC_BASE_T_PARAM(T, ...)			const T<__VA_ARGS__>&
 #define MUU_VECTORCALL
 
 #define POXY_IMPLEMENTATION_DETAIL(...)		__VA_ARGS__

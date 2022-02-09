@@ -12,6 +12,20 @@
 
 namespace
 {
+	// i know this seems dumb. it's because fp16's go denormal/NaN easily.
+	template <typename T, bool = is_floating_point<T>>
+	struct small_upper_bound_
+	{
+		static constexpr auto value = constants<T>::one;
+	};
+	template <typename T>
+	struct small_upper_bound_<T, false>
+	{
+		static constexpr auto value = constants<T>::five;
+	};
+	template <typename T>
+	inline constexpr T small_upper_bound = small_upper_bound_<T>::value;
+
 	template <typename T, size_t Dimensions, size_t NUM>
 	static void vector_construction_test_from_scalars() noexcept
 	{
@@ -368,6 +382,12 @@ BATCHED_TEST_CASE("vector accessors", vectors<ALL_ARITHMETIC>)
 	vector_t vec{ x };
 	const vector_t& vec_const = vec;
 
+	BATCHED_SECTION("data()")
+	{
+		CHECK(reinterpret_cast<uintptr_t>(vec.data()) == reinterpret_cast<uintptr_t>(&vec));
+		CHECK(reinterpret_cast<uintptr_t>(vec_const.data()) == reinterpret_cast<uintptr_t>(&vec_const));
+	}
+
 	BATCHED_SECTION("operator[]")
 	{
 		for (size_t i = 0; i < vector_t::dimensions; i++)
@@ -644,8 +664,8 @@ BATCHED_TEST_CASE("vector dot", vectors<ALL_ARITHMETIC>)
 
 	RANDOM_ITERATIONS
 	{
-		const auto x1 = random_array<T, vector_t::dimensions>(0, 5);
-		const auto x2 = random_array<T, vector_t::dimensions>(0, 5);
+		const auto x1 = random_array<T, vector_t::dimensions>(0, small_upper_bound<T>);
+		const auto x2 = random_array<T, vector_t::dimensions>(0, small_upper_bound<T>);
 		const vector_t vector1{ x1 }, vector2{ x2 };
 
 		// note: obviously i could use the loop case for all sizes but this manual unrolling mimicks
@@ -749,8 +769,8 @@ BATCHED_TEST_CASE("vector addition", vectors<ALL_ARITHMETIC>)
 	using T		   = typename vector_t::scalar_type;
 	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
 
-	const auto x1 = random_array<T, vector_t::dimensions>(0, 5);
-	const auto x2 = random_array<T, vector_t::dimensions>(0, 5);
+	const auto x1 = random_array<T, vector_t::dimensions>(0, small_upper_bound<T>);
+	const auto x2 = random_array<T, vector_t::dimensions>(0, small_upper_bound<T>);
 	const vector_t vector1{ x1 }, vector2{ x2 };
 
 	BATCHED_SECTION("vector + vector")
@@ -782,12 +802,15 @@ BATCHED_TEST_CASE("vector sum", vectors<ALL_ARITHMETIC>)
 
 	RANDOM_ITERATIONS
 	{
-		const auto x = random_array<T, vector_t::dimensions>(0, 5);
+		const auto x = random_array<T, vector_t::dimensions>(0, small_upper_bound<T>);
 		const vector_t vec{ x };
 
 		arith_type expected = x[0];
 		for (size_t i = 1; i < vector_t::dimensions; i++)
 			expected += static_cast<arith_type>(x[i]);
+
+		if constexpr (impl::is_small_float_<T>)
+			SKIP_INF_NAN(static_cast<T>(expected));
 
 		CHECK_APPROX_EQUAL(vec.sum(), static_cast<T>(expected));
 	}
@@ -806,12 +829,15 @@ BATCHED_TEST_CASE("vector product", vectors<ALL_ARITHMETIC>)
 
 	RANDOM_ITERATIONS
 	{
-		const auto x = random_array<T, vector_t::dimensions>(0, 5);
+		const auto x = random_array<T, vector_t::dimensions>(0, small_upper_bound<T>);
 		const vector_t vec{ x };
 
 		arith_type expected = x[0];
 		for (size_t i = 1; i < vector_t::dimensions; i++)
 			expected *= static_cast<arith_type>(x[i]);
+
+		if constexpr (impl::is_small_float_<T>)
+			SKIP_INF_NAN(static_cast<T>(expected));
 
 		CHECK_APPROX_EQUAL(vec.product(), static_cast<T>(expected));
 	}
@@ -862,9 +888,9 @@ BATCHED_TEST_CASE("vector multiplication", vectors<ALL_ARITHMETIC>)
 
 	RANDOM_ITERATIONS
 	{
-		const auto scalar = random<T>(1, 5);
-		const auto x1	  = random_array<T, vector_t::dimensions>(1, 5);
-		const auto x2	  = random_array<T, vector_t::dimensions>(1, 5);
+		const auto scalar = random<T>(0, small_upper_bound<T>);
+		const auto x1	  = random_array<T, vector_t::dimensions>(0, small_upper_bound<T>);
+		const auto x2	  = random_array<T, vector_t::dimensions>(0, small_upper_bound<T>);
 		const vector_t vector1{ x1 }, vector2{ x2 };
 
 		if constexpr (impl::is_small_float_<T>)
@@ -1427,7 +1453,7 @@ BATCHED_TEST_CASE("vector accumulator", vectors<ALL_ARITHMETIC>)
 	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
 
 	static constexpr size_t vectors = 100;
-	const auto values				= random_array<T, vectors * vector_t::dimensions>(1, 10);
+	const auto values				= random_array<T, vectors * vector_t::dimensions>(0, small_upper_bound<T>);
 	muu::accumulator<T> scalar_accumulators[vector_t::dimensions];
 	muu::accumulator<vector<T, vector_t::dimensions>> vector_accumulator;
 	for (size_t i = 0; i < values.size(); i += vector_t::dimensions)

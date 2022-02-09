@@ -2,7 +2,7 @@ project(
 	'muu',
 	'cpp',
 	version : '0.1.0',
-	meson_version : '>=0.54.0',
+	meson_version : '>=0.60.0',
 	license : 'MIT',
 	default_options : [ # https://mesonbuild.com/Builtin-options.html
 		# core options
@@ -59,18 +59,8 @@ message('has_exceptions: @0@'.format(has_exceptions))
 
 # GCC or Clang
 if is_gcc or is_clang
-	add_project_arguments(
-		'-march=native',
-		'-fvisibility=hidden',
-		'-fvisibility-inlines-hidden',
-		language : 'cpp'
-	)
 	if is_release
 		add_project_arguments(
-			'-fdata-sections',
-			'-ffunction-sections',
-			'-Wl,--gc-sections',
-			'-Wl,-s',
 			'-mfma',
 			language : 'cpp'
 		)
@@ -123,14 +113,13 @@ if is_gcc
 			'-Wmissing-noreturn',
 			language : 'cpp'
 		)
-	endif
-	if is_release
-		add_project_arguments(
-			'-fmerge-constants',
-			'-Wsuggest-attribute=const',
-			'-Wsuggest-attribute=pure',
-			language : 'cpp'
-		)
+		if is_release
+			add_project_arguments(
+				'-Wsuggest-attribute=const',
+				'-Wsuggest-attribute=pure',
+				language : 'cpp'
+			)
+		endif
 	endif
 endif
 
@@ -225,13 +214,6 @@ endif
 
 # windows stuff
 if is_windows
-	add_project_arguments(
-		'-D_ITERATOR_DEBUG_LEVEL=0',
-		'-D_WINSOCK_DEPRECATED_NO_WARNINGS',
-		'-D_SCL_SECURE_NO_WARNINGS',
-		'-D_CRT_SECURE_NO_WARNINGS',
-		language : 'cpp'
-	)
 	add_project_arguments(has_exceptions ? '-D_HAS_EXCEPTIONS=1' : '-D_HAS_EXCEPTIONS=0', language : 'cpp')
 	add_project_arguments(get_option('default_library') == 'shared' ? '-DMUU_DLL=1' : '-DMUU_DLL=0', language : 'cpp')
 else

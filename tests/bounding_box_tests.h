@@ -7,11 +7,12 @@
 #include "tests.h"
 #include "batching.h"
 #include "../include/muu/bounding_box.h"
+#include "../include/muu/triangle.h"
 
 namespace
 {
 	template <typename T, typename Func>
-	static void aabb_for_each(T& bb, Func&& func) noexcept
+	static void aabb_for_each(T& bb, Func&& func)
 	{
 		static_cast<Func&&>(func)(bb.center.x, 0_sz);
 		static_cast<Func&&>(func)(bb.center.y, 1_sz);
@@ -22,7 +23,7 @@ namespace
 	}
 
 	template <typename T, typename U, typename Func>
-	static void aabb_for_each(T& bb1, U& bb2, Func&& func) noexcept
+	static void aabb_for_each(T& bb1, U& bb2, Func&& func)
 	{
 		static_cast<Func&&>(func)(bb1.center.x, bb2.center.x, 0_sz);
 		static_cast<Func&&>(func)(bb1.center.y, bb2.center.y, 1_sz);
@@ -180,6 +181,14 @@ BATCHED_TEST_CASE("bounding_box constructors", bounding_boxes<ALL_FLOATS>)
 		aabb_for_each(bb1, [](auto& s1, size_t) { s1 = random<T>(); });
 		aabb bb2{ bb1 };
 		aabb_for_each(bb1, bb2, [](auto s1, auto s2, size_t) { CHECK(s1 == s2); });
+	}
+
+	BATCHED_SECTION("data()")
+	{
+		auto bb				 = aabb{};
+		const auto& bb_const = bb;
+		CHECK(reinterpret_cast<uintptr_t>(bb.data()) == reinterpret_cast<uintptr_t>(&bb));
+		CHECK(reinterpret_cast<uintptr_t>(bb_const.data()) == reinterpret_cast<uintptr_t>(&bb_const));
 	}
 }
 
@@ -377,9 +386,15 @@ BATCHED_TEST_CASE("bounding_box intersections", bounding_boxes<ALL_FLOATS>)
 	{
 #define CHECK_INTERSECTION(box, expected, x0, y0, z0, x1, y1, z1, x2, y2, z2)                                          \
 	CHECK(expected                                                                                                     \
-		  == box.intersects_triangle(vec3{ static_cast<T>(x0), static_cast<T>(y0), static_cast<T>(z0) },               \
-									 vec3{ static_cast<T>(x1), static_cast<T>(y1), static_cast<T>(z1) },               \
-									 vec3{ static_cast<T>(x2), static_cast<T>(y2), static_cast<T>(z2) }))
+		  == box.intersects(triangle{ static_cast<T>(x0),                                                              \
+									  static_cast<T>(y0),                                                              \
+									  static_cast<T>(z0),                                                              \
+									  static_cast<T>(x1),                                                              \
+									  static_cast<T>(y1),                                                              \
+									  static_cast<T>(z1),                                                              \
+									  static_cast<T>(x2),                                                              \
+									  static_cast<T>(y2),                                                              \
+									  static_cast<T>(z2) }))
 
 		CHECK_INTERSECTION(unit_box, true, -2, 0, 2, 2, 0, 2, -2, 0, -2);
 		CHECK_INTERSECTION(unit_box, true, -3, -1, 1, 0, -1, 3, 0, 1, 0);

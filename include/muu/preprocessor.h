@@ -957,14 +957,10 @@ MUU_ENABLE_WARNINGS;
 #ifdef MUU_VECTORCALL
 	#define MUU_HAS_VECTORCALL	1
 	#define MUU_VC_PARAM(...)			::muu::impl::vectorcall_param<__VA_ARGS__>
-	#define MUU_VC_BASE_PARAM(T)		MUU_VC_PARAM(::muu::impl::MUU_CONCAT(T, _))
-	#define MUU_VC_BASE_T_PARAM(T, ...)	MUU_VC_PARAM(::muu::impl::MUU_CONCAT(T, _)<__VA_ARGS__>)
 #else
 	#define MUU_HAS_VECTORCALL 0
 	#define MUU_VECTORCALL
 	#define MUU_VC_PARAM(...)			const __VA_ARGS__&
-	#define MUU_VC_BASE_PARAM(T)		const T&
-	#define MUU_VC_BASE_T_PARAM(T, ...)	const T<__VA_ARGS__>&
 #endif
 
 #if defined(__cpp_consteval) && __cpp_consteval >= 201811 && !defined(_MSC_VER)

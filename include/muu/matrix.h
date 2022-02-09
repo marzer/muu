@@ -23,93 +23,93 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 
 namespace muu::impl
 {
-	//--- x + y axis column getters ------------------------------------------------------------------------------------
+	//--- x + y column getters -----------------------------------------------------------------------------------------
 
 	template <typename Derived, bool = is_matrix_<Derived, 1, 2>>
-	struct matrix_get_xy_axis
+	struct matrix_get_xy_column
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct matrix_get_xy_axis<matrix<Scalar, Rows, Columns>, true>
+	struct matrix_get_xy_column<matrix<Scalar, Rows, Columns>, true>
 	{
 		using column_type = vector<Scalar, Rows>;
 
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
-		constexpr column_type& x_axis() noexcept
+		constexpr column_type& x_column() noexcept
 		{
 			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<0>();
 		}
 
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
-		constexpr const column_type& x_axis() const noexcept
+		constexpr const column_type& x_column() const noexcept
 		{
 			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<0>();
 		}
 
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
-		constexpr column_type& y_axis() noexcept
+		constexpr column_type& y_column() noexcept
 		{
 			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<1>();
 		}
 
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
-		constexpr const column_type& y_axis() const noexcept
+		constexpr const column_type& y_column() const noexcept
 		{
 			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<1>();
 		}
 	};
 
-	//--- z axis column getter -----------------------------------------------------------------------------------------
+	//--- z column getter ----------------------------------------------------------------------------------------------
 
 	template <typename Derived, bool = is_matrix_<Derived, 1, 3>>
-	struct matrix_get_z_axis
+	struct matrix_get_z_column
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct matrix_get_z_axis<matrix<Scalar, Rows, Columns>, true>
+	struct matrix_get_z_column<matrix<Scalar, Rows, Columns>, true>
 	{
 		using column_type = vector<Scalar, Rows>;
 
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
-		constexpr column_type& z_axis() noexcept
+		constexpr column_type& z_column() noexcept
 		{
 			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<2>();
 		}
 
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
-		constexpr const column_type& z_axis() const noexcept
+		constexpr const column_type& z_column() const noexcept
 		{
 			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<2>();
 		}
 	};
 
-	//--- w axis column getter -----------------------------------------------------------------------------------------
+	//--- w column getter ----------------------------------------------------------------------------------------------
 
 	template <typename Derived, bool = is_matrix_<Derived, 1, 4>>
-	struct matrix_get_w_axis
+	struct matrix_get_w_column
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct matrix_get_w_axis<matrix<Scalar, Rows, Columns>, true>
+	struct matrix_get_w_column<matrix<Scalar, Rows, Columns>, true>
 	{
 		using column_type = vector<Scalar, Rows>;
 
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
-		constexpr column_type& w_axis() noexcept
+		constexpr column_type& w_column() noexcept
 		{
 			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<3>();
 		}
 
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
-		constexpr const column_type& w_axis() const noexcept
+		constexpr const column_type& w_column() const noexcept
 		{
 			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<3>();
 		}
@@ -128,14 +128,14 @@ namespace muu::impl
 
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
-		constexpr column_type& translation() noexcept
+		constexpr column_type& translation_column() noexcept
 		{
 			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<Columns - 1u>();
 		}
 
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
-		constexpr const column_type& translation() const noexcept
+		constexpr const column_type& translation_column() const noexcept
 		{
 			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<Columns - 1u>();
 		}
@@ -228,9 +228,9 @@ namespace muu::impl
 
 			auto m = out_type::constants::identity;
 			if constexpr (Rows == 3)
-				m.translation() = vector<Scalar, Rows>{ x, y, Scalar{ 1 } };
+				m.translation_column() = vector<Scalar, Rows>{ x, y, Scalar{ 1 } };
 			else
-				m.translation() = vector<Scalar, Rows>{ x, y };
+				m.translation_column() = vector<Scalar, Rows>{ x, y };
 			return m;
 		}
 
@@ -271,9 +271,9 @@ namespace muu::impl
 
 			auto m = out_type::constants::identity;
 			if constexpr (Rows == 4)
-				m.translation() = vector<Scalar, Rows>{ x, y, z, Scalar{ 1 } };
+				m.translation_column() = vector<Scalar, Rows>{ x, y, z, Scalar{ 1 } };
 			else
-				m.translation() = vector<Scalar, Rows>{ x, y, z };
+				m.translation_column() = vector<Scalar, Rows>{ x, y, z };
 			return m;
 		}
 
@@ -335,7 +335,7 @@ namespace muu::impl
 				out_type out{ rot };
 
 				if constexpr (C >= 3u && Columns == 3u)
-					out.translation() = vector<Scalar, Rows>{};
+					out.translation_column() = vector<Scalar, Rows>{};
 				if constexpr (R >= 3u && Rows == 3u)
 				{
 					out.template get<2, 0>() = Scalar{};
@@ -376,7 +376,7 @@ namespace muu::impl
 				out_type out{ rot };
 
 				if constexpr (C >= 4u && Columns == 4u)
-					out.translation() = vector<Scalar, Rows>{};
+					out.translation_column() = vector<Scalar, Rows>{};
 				if constexpr (R >= 4u && Rows == 4u)
 				{
 					out.template get<3, 0>() = Scalar{};
@@ -657,9 +657,9 @@ namespace muu
 	struct MUU_EMPTY_BASES MUU_TRIVIAL_ABI matrix //
 		MUU_HIDDEN_BASE(
 			impl::matrix_<Scalar, Rows, Columns>,
-			impl::matrix_get_xy_axis<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_get_z_axis<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_get_w_axis<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_get_xy_column<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_get_z_column<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_get_w_column<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_get_translation<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_translations_2d<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_translations_3d<matrix<Scalar, Rows, Columns>>,
@@ -967,7 +967,7 @@ namespace muu
 		constexpr matrix(const T& blittable) noexcept //
 			: base{ muu::bit_cast<base>(blittable) }
 		{
-			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size as the matrix");
+			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size");
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
 		}
 
@@ -1249,55 +1249,55 @@ namespace muu
 
 	#ifdef DOXYGEN
 
-		/// \brief Returns a reference to the X axis column (column 0).
+		/// \brief Returns a reference to the X column (column 0).
 		///
 		/// \availability	This function is only available when the matrix has at least two columns.
-		constexpr column_type& x_axis() noexcept;
+		constexpr column_type& x_column() noexcept;
 
 		/// \brief Returns a const reference to the X axis column (column 0).
 		///
 		/// \availability	This function is only available when the matrix has at least two columns.
-		constexpr const column_type& x_axis() const noexcept;
+		constexpr const column_type& x_column() const noexcept;
 
-		/// \brief Returns a reference to the Y axis column (column 1).
+		/// \brief Returns a reference to the Y column (column 1).
 		///
 		/// \availability	This function is only available when the matrix has at least two columns.
-		constexpr column_type& y_axis() noexcept;
+		constexpr column_type& y_column() noexcept;
 
-		/// \brief Returns a const reference to the Y axis column (column 1).
+		/// \brief Returns a const reference to the Y column (column 1).
 		///
 		/// \availability	This function is only available when the matrix has at least two columns.
-		constexpr const column_type& y_axis() const noexcept;
+		constexpr const column_type& y_column() const noexcept;
 
-		/// \brief Returns a reference to the Z axis column (column 2).
+		/// \brief Returns a reference to the Z column (column 2).
 		///
 		/// \availability	This function is only available when the matrix has at least three columns.
-		constexpr column_type& z_axis() noexcept;
+		constexpr column_type& z_column() noexcept;
 
-		/// \brief Returns a const reference to the Z axis column (column 2).
+		/// \brief Returns a const reference to the Z column (column 2).
 		///
 		/// \availability	This function is only available when the matrix has at least three columns.
-		constexpr const column_type& z_axis() const noexcept;
+		constexpr const column_type& z_column() const noexcept;
 
-		/// \brief Returns a reference to the W axis column (column 3).
+		/// \brief Returns a reference to the W column (column 3).
 		///
 		/// \availability	This function is only available when the matrix has at least four columns.
-		constexpr column_type& w_axis() noexcept;
+		constexpr column_type& w_column() noexcept;
 
-		/// \brief Returns a const reference to the W axis column (column 3).
+		/// \brief Returns a const reference to the W column (column 3).
 		///
 		/// \availability	This function is only available when the matrix has at least four columns.
-		constexpr const column_type& w_axis() const noexcept;
+		constexpr const column_type& w_column() const noexcept;
 
 		/// \brief Returns a reference to the Translation column.
 		///
 		/// \availability	This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.
-		constexpr column_type& translation() noexcept;
+		constexpr column_type& translation_column() noexcept;
 
 		/// \brief Returns a const reference to the Translation column.
 		///
 		/// \availability	This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.
-		constexpr const column_type& translation() const noexcept;
+		constexpr const column_type& translation_column() const noexcept;
 
 	#endif
 

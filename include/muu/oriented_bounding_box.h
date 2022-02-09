@@ -55,7 +55,7 @@ namespace muu
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2 + sizeof(axes_type)),
 					  "Oriented bounding boxes should not have padding");
 
-		using boxes				 = impl::boxes_common<Scalar>;
+		using obbs				 = impl::obb_common<Scalar>;
 		using intermediate_float = promote_if_small_float<scalar_type>;
 		static_assert(is_floating_point<intermediate_float>);
 
@@ -201,12 +201,32 @@ namespace muu
 		constexpr oriented_bounding_box(const T& blittable) noexcept //
 			: base{ muu::bit_cast<base>(blittable) }
 		{
-			static_assert(sizeof(T) == sizeof(base),
-						  "Bit-castable types must be the same size as the oriented bounding box");
+			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size");
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
 		}
 
 	#endif // constructors
+
+	#if 1 // scalar accessors ------------------------------------------------------------------------------------------
+		/// \name Scalar accessors
+		/// @{
+
+		/// \brief Returns a pointer to the first scalar component in the bounding box.
+		MUU_PURE_INLINE_GETTER
+		constexpr scalar_type* data() noexcept
+		{
+			return base::center.data();
+		}
+
+		/// \brief Returns a pointer to the first scalar component in the bounding box.
+		MUU_PURE_INLINE_GETTER
+		constexpr const scalar_type* data() const noexcept
+		{
+			return base::center.data();
+		}
+
+			/// @}
+	#endif // scalar accessors
 
 	#if 1 // geometric properties --------------------------------------------------------------------------------------
 		/// \name Geometric properties
@@ -216,106 +236,106 @@ namespace muu
 		MUU_PURE_GETTER
 		constexpr scalar_type width() const noexcept
 		{
-			return boxes::width(base::extents);
+			return obbs::width(base::extents);
 		}
 
 		/// \brief	Returns the height of the box (y-axis).
 		MUU_PURE_GETTER
 		constexpr scalar_type height() const noexcept
 		{
-			return boxes::height(base::extents);
+			return obbs::height(base::extents);
 		}
 
 		/// \brief	Returns the depth of the box (z-axis).
 		MUU_PURE_GETTER
 		constexpr scalar_type depth() const noexcept
 		{
-			return boxes::depth(base::extents);
+			return obbs::depth(base::extents);
 		}
 
 		/// \brief	Calculates the length of the line connecting the min and max points.
 		MUU_PURE_GETTER
 		constexpr scalar_type diagonal() const noexcept
 		{
-			return boxes::diagonal(base::extents);
+			return obbs::diagonal(base::extents);
 		}
 
 		/// \brief	Returns the shortest of the box's three extents.
 		MUU_PURE_GETTER
 		constexpr scalar_type& shortest_extent() noexcept
 		{
-			return boxes::shortest_extent(base::extents);
+			return obbs::shortest_extent(base::extents);
 		}
 
 		/// \brief	Returns the longest of the box's three extents.
 		MUU_PURE_GETTER
 		constexpr scalar_type& longest_extent() noexcept
 		{
-			return boxes::longest_extent(base::extents);
+			return obbs::longest_extent(base::extents);
 		}
 
 		/// \brief	Returns the shortest of the box's three extents (const overload).
 		MUU_PURE_GETTER
 		constexpr const scalar_type& shortest_extent() const noexcept
 		{
-			return boxes::shortest_extent(base::extents);
+			return obbs::shortest_extent(base::extents);
 		}
 
 		/// \brief	Returns the longest of the box's three extents (const overload).
 		MUU_PURE_GETTER
 		constexpr const scalar_type& longest_extent() const noexcept
 		{
-			return boxes::longest_extent(base::extents);
+			return obbs::longest_extent(base::extents);
 		}
 
 		/// \brief	Returns the length of the shortest of the box's three sides.
 		MUU_PURE_GETTER
 		constexpr scalar_type shortest_side() const noexcept
 		{
-			return boxes::longest_side(base::extents);
+			return obbs::longest_side(base::extents);
 		}
 
 		/// \brief	Returns the length of the longest of the box's three sides.
 		MUU_PURE_GETTER
 		constexpr scalar_type longest_side() const noexcept
 		{
-			return boxes::longest_side(base::extents);
+			return obbs::longest_side(base::extents);
 		}
 
 		/// \brief	Calculates the volume of this bounding box.
 		MUU_PURE_GETTER
 		constexpr scalar_type volume() const noexcept
 		{
-			return boxes::volume(base::extents);
+			return obbs::volume(base::extents);
 		}
 
 		/// \brief	Calculates the mass of this box if it had a given density.
 		MUU_PURE_GETTER
 		constexpr scalar_type MUU_VECTORCALL mass(scalar_type density) const noexcept
 		{
-			return boxes::mass(base::extents, density);
+			return obbs::mass(base::extents, density);
 		}
 
 		/// \brief	Calculates the density of this box if it had a given mass.
 		MUU_PURE_GETTER
 		constexpr scalar_type MUU_VECTORCALL density(scalar_type mass) const noexcept
 		{
-			return boxes::density(base::extents, mass);
+			return obbs::density(base::extents, mass);
 		}
 
 		/// \brief	Returns true if the box is degenerate (i.e. any of its extents are less than or equal to zero).
 		MUU_PURE_GETTER
 		constexpr bool degenerate() const noexcept
 		{
-			return boxes::degenerate(base::extents);
+			return obbs::degenerate(base::extents);
 		}
 
 			/// @}
 	#endif // geometric properties
 
-	#if 1 // equality --------------------------------------------------------------------------------------------------
-		/// \name Equality
-		/// @{
+	#if 1 // equality (exact) ------------------------------------------------------------------------------------------
+		  /// \name Equality (exact)
+		  /// @{
 
 		/// \brief		Returns true if two oriented bounding boxes are exactly equal.
 		///
@@ -396,9 +416,12 @@ namespace muu
 			return infinity_or_nan(*this);
 		}
 
-	#endif // equality
+			/// @}
+	#endif // equality (exact)
 
-	#if 1 // approx_equal ----------------------------------------------------------------------------------------------
+	#if 1 // equality (approx) -----------------------------------------------------------------------------------------
+		  /// \name Equality (approximate)
+		  /// @{
 
 		/// \brief	Returns true if two oriented bounding boxes are approximately equal.
 		template <typename T>
@@ -457,7 +480,7 @@ namespace muu
 		}
 
 			/// @}
-	#endif // approx_equal
+	#endif // equality (approx)
 
 	#if 1 // corners ---------------------------------------------------------------------------------------------------
 		/// \name Corners
@@ -468,7 +491,7 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
 		{
-			return boxes::template corner<Corner>(bb.center, bb.extents, bb.axes);
+			return obbs::template corner<Corner>(bb.center, bb.extents, bb.axes);
 		}
 
 		/// \brief	Returns a specific corner of the oriented bounding box.
@@ -476,7 +499,7 @@ namespace muu
 		MUU_PURE_GETTER
 		constexpr vector_type corner() const noexcept
 		{
-			return boxes::template corner<Corner>(base::center, base::extents, base::axes);
+			return obbs::template corner<Corner>(base::center, base::extents, base::axes);
 		}
 
 		/// \brief	Returns a specific corner of an oriented bounding box.
@@ -484,42 +507,42 @@ namespace muu
 		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(oriented_bounding_box) bb,
 														   box_corners which) noexcept
 		{
-			return boxes::corner(bb.center, bb.extents, bb.axes, which);
+			return obbs::corner(bb.center, bb.extents, bb.axes, which);
 		}
 
 		/// \brief	Returns a specific corner of the oriented bounding box.
 		MUU_PURE_GETTER
 		constexpr vector_type corner(box_corners which) const noexcept
 		{
-			return boxes::corner(base::center, base::extents, base::axes, which);
+			return obbs::corner(base::center, base::extents, base::axes, which);
 		}
 
 		/// \brief	Returns the 'min' corner of an oriented bounding box.
 		MUU_PURE_GETTER
 		static constexpr vector_type MUU_VECTORCALL min_corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
 		{
-			return boxes::template corner<box_corners::min>(bb.center, bb.extents, bb.axes);
+			return obbs::template corner<box_corners::min>(bb.center, bb.extents, bb.axes);
 		}
 
 		/// \brief	Returns the 'min' corner of the oriented bounding box.
 		MUU_PURE_GETTER
 		constexpr vector_type min_corner() const noexcept
 		{
-			return boxes::template corner<box_corners::min>(base::center, base::extents, base::axes);
+			return obbs::template corner<box_corners::min>(base::center, base::extents, base::axes);
 		}
 
 		/// \brief	Returns the 'max' corner of an oriented bounding box.
 		MUU_PURE_GETTER
 		static constexpr vector_type MUU_VECTORCALL max_corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
 		{
-			return boxes::template corner<box_corners::max>(bb.center, bb.extents, bb.axes);
+			return obbs::template corner<box_corners::max>(bb.center, bb.extents, bb.axes);
 		}
 
 		/// \brief	Returns the 'max' corner of the oriented bounding box.
 		MUU_PURE_GETTER
 		constexpr vector_type max_corner() const noexcept
 		{
-			return boxes::template corner<box_corners::max>(base::center, base::extents, base::axes);
+			return obbs::template corner<box_corners::max>(base::center, base::extents, base::axes);
 		}
 
 			/// @}
@@ -690,3 +713,7 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
+
+/// \cond
+#include "impl/bounding_box_x_oriented_bounding_box.h"
+/// \endcond

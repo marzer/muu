@@ -178,9 +178,6 @@ StatementMacros:
 TabWidth:        4
 TypenameMacros:
   - MUU_VC_PARAM
-  - MUU_VC_BASE_PARAM
-  - MUU_VC_BASE_T_PARAM
-  - MUU_GEOM_PARAM
   - MUU_IDENTITY
 UseCRLF:         false
 UseTab:          Always
@@ -198,10 +195,7 @@ WhitespaceSensitiveMacros:
   - MUU_PRAGMA_GCC
   - MUU_PRAGMA_MSVC
   - MUU_UNLIKELY
-  - MUU_GEOM_PARAM
   - MUU_VC_PARAM
-  - MUU_VC_BASE_PARAM
-  - MUU_VC_BASE_T_PARAM
   - MUU_HIDDEN_BASE
 ...
 

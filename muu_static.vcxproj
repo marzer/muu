@@ -86,6 +86,8 @@
     <ClInclude Include="include\muu\bounding_box.h" />
     <ClInclude Include="include\muu\chars.h" />
     <ClInclude Include="include\muu\compressed_pair.h" />
+    <ClInclude Include="include\muu\impl\bounding_box_x_oriented_bounding_box.h" />
+    <ClInclude Include="include\muu\impl\bounding_box_x_triangle.h" />
     <ClInclude Include="include\muu\impl\core_build.h" />
     <ClInclude Include="include\muu\impl\bit_cast.h" />
     <ClInclude Include="include\muu\impl\core_utils.h" />
@@ -104,8 +106,11 @@
     <ClInclude Include="include\muu\impl\header_start.h" />
     <ClInclude Include="include\muu\impl\is_constant_evaluated.h" />
     <ClInclude Include="include\muu\impl\matrix_base.h" />
+    <ClInclude Include="include\muu\impl\plane_x_bounding_box.h" />
+    <ClInclude Include="include\muu\impl\plane_x_triangle.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
     <ClInclude Include="include\muu\impl\quaternion_x_matrix.h" />
+    <ClInclude Include="include\muu\impl\std_compare.h" />
     <ClInclude Include="include\muu\impl\std_initializer_list.h" />
     <ClInclude Include="include\muu\impl\std_tuple.h" />
     <ClInclude Include="include\muu\impl\thread_name.h" />
@@ -146,8 +151,10 @@
     <ClInclude Include="include\muu\static_string.h" />
     <ClInclude Include="include\muu\strings.h" />
     <ClInclude Include="include\muu\string_param.h" />
+    <ClInclude Include="include\muu\strong_typedef.h" />
     <ClInclude Include="include\muu\tagged_ptr.h" />
     <ClInclude Include="include\muu\thread_pool.h" />
+    <ClInclude Include="include\muu\triangle.h" />
     <ClInclude Include="include\muu\type_list.h" />
     <ClInclude Include="include\muu\type_name.h" />
     <ClInclude Include="include\muu\uuid.h" />
@@ -185,6 +192,7 @@
     <None Include="tools\utils.py" />
     <None Include=".runsettings" />
     <None Include="muu.props" />
+    <None Include="tools\vcvars.bat" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="muu.natvis" />

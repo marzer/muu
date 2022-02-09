@@ -173,7 +173,7 @@ namespace muu
 	MAKE_PRINTER_TAG(object_close);
 	MAKE_PRINTER_TAG(next_list_item);
 	MAKE_PRINTER_TAG(breaking_list_item);
-	MAKE_PRINTER_TAG(list);
+	MAKE_PRINTER_TAG(list_item);
 
 	template <typename Char>
 	struct stream_printer // a wrapper around ostreams to make them less stupid
@@ -392,7 +392,7 @@ namespace muu
 		}
 
 		template <typename T>
-		stream_printer& operator()(list_tag, const T* x, size_t num)
+		stream_printer& operator()(list_item_tag, const T* x, size_t num)
 		{
 			for (size_t i = 0; i < num; i++)
 			{

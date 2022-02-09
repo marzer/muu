@@ -16,7 +16,7 @@
 namespace
 {
 	template <typename T, typename Func>
-	static void quat_for_each(T& q, Func&& func) noexcept
+	static void quat_for_each(T& q, Func&& func)
 	{
 		static_cast<Func&&>(func)(q.s, 0_sz);
 		static_cast<Func&&>(func)(q.v.x, 1_sz);
@@ -25,7 +25,7 @@ namespace
 	}
 
 	template <typename T, typename U, typename Func>
-	static void quat_for_each(T& q1, U& q2, Func&& func) noexcept
+	static void quat_for_each(T& q1, U& q2, Func&& func)
 	{
 		static_cast<Func&&>(func)(q1.s, q2.s, 0_sz);
 		static_cast<Func&&>(func)(q1.v.x, q2.v.x, 1_sz);
@@ -117,6 +117,14 @@ BATCHED_TEST_CASE("quaternion constructors", all_quaternions)
 		CHECK(q1.v[0] == q2.v[0]);
 		CHECK(q1.v[1] == q2.v[1]);
 		CHECK(q1.v[2] == q2.v[2]);
+	}
+
+	BATCHED_SECTION("data()")
+	{
+		auto q				= quat_t{};
+		const auto& q_const = q;
+		CHECK(reinterpret_cast<uintptr_t>(q.data()) == reinterpret_cast<uintptr_t>(&q));
+		CHECK(reinterpret_cast<uintptr_t>(q_const.data()) == reinterpret_cast<uintptr_t>(&q_const));
 	}
 }
 

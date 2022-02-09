@@ -503,7 +503,7 @@ namespace muu
 		constexpr vector(const T& bitcastable) noexcept //
 			: base{ muu::bit_cast<base>(bitcastable) }
 		{
-			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size as the vector");
+			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size");
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
 		}
 

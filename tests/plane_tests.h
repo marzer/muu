@@ -11,7 +11,7 @@
 namespace
 {
 	template <typename T, typename Func>
-	static void plane_for_each(T&& p, Func&& func) noexcept
+	static void plane_for_each(T&& p, Func&& func)
 	{
 		static_cast<Func&&>(func)(p.n.x, 0_sz);
 		static_cast<Func&&>(func)(p.n.y, 1_sz);
@@ -20,7 +20,7 @@ namespace
 	}
 
 	template <typename T, typename U, typename Func>
-	static void plane_for_each(T&& p1, U&& p2, Func&& func) noexcept
+	static void plane_for_each(T&& p1, U&& p2, Func&& func)
 	{
 		static_cast<Func&&>(func)(p1.n.x, p2.n.x, 0_sz);
 		static_cast<Func&&>(func)(p1.n.y, p2.n.y, 1_sz);
@@ -120,6 +120,14 @@ BATCHED_TEST_CASE("plane constructors", tested_planes)
 		plane_for_each(p1, [](auto& s1, size_t) { s1 = random<T>(); });
 		plane p2{ p1 };
 		plane_for_each(p1, p2, [](auto s1, auto s2, size_t) { CHECK(s1 == s2); });
+	}
+
+	BATCHED_SECTION("data()")
+	{
+		auto p				= plane{};
+		const auto& p_const = p;
+		CHECK(reinterpret_cast<uintptr_t>(p.data()) == reinterpret_cast<uintptr_t>(&p));
+		CHECK(reinterpret_cast<uintptr_t>(p_const.data()) == reinterpret_cast<uintptr_t>(&p_const));
 	}
 }
 

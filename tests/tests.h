@@ -292,7 +292,7 @@ MUU_ENABLE_WARNINGS;
 #define RANDOM_ITERATIONS for (size_t ri_iteration = 0; ri_iteration < 1000_sz; ri_iteration++)
 
 #define SKIP_INF_NAN(...)                                                                                              \
-	if (any_infinity_or_nan(__VA_ARGS__))                                                                              \
+	if (muu::infinity_or_nan(__VA_ARGS__))                                                                             \
 	continue
 
 // nameof
@@ -447,13 +447,6 @@ namespace muu
 	inline T&& approx(T&& val) noexcept
 	{
 		return static_cast<T&&>(val);
-	}
-
-	template <typename... T>
-	MUU_CONST_GETTER
-	constexpr bool any_infinity_or_nan(const T&... vals) noexcept
-	{
-		return (false || ... || infinity_or_nan(vals));
 	}
 
 	template <typename T>

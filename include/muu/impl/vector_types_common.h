@@ -225,321 +225,120 @@ namespace muu::impl
 	void MUU_CALLCONV print_matrix(std::wostream& stream, const uint128_t*, size_t, size_t);
 #endif
 
+	template <typename T>
+	struct compound_vector_elem
+	{
+		const T* start;
+		size_t count;
+	};
+
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream, const half*, size_t, bool, const half*, size_t, bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<half>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const float*,
-											size_t,
-											bool,
-											const float*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<float>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const double*,
-											size_t,
-											bool,
-											const double*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const long double*,
-											size_t,
-											bool,
-											const long double*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const signed char*,
-											size_t,
-											bool,
-											const signed char*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const signed short*,
-											size_t,
-											bool,
-											const signed short*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const signed int*,
-											size_t,
-											bool,
-											const signed int*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const signed long*,
-											size_t,
-											bool,
-											const signed long*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const signed long long*,
-											size_t,
-											bool,
-											const signed long long*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const unsigned char*,
-											size_t,
-											bool,
-											const unsigned char*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const unsigned short*,
-											size_t,
-											bool,
-											const unsigned short*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const unsigned int*,
-											size_t,
-											bool,
-											const unsigned int*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const unsigned long*,
-											size_t,
-											bool,
-											const unsigned long*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const unsigned long long*,
-											size_t,
-											bool,
-											const unsigned long long*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<double>*, size_t);
+
 #if MUU_HAS_FLOAT16
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const _Float16*,
-											size_t,
-											bool,
-											const _Float16*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<_Float16>*, size_t);
 #endif
 #if MUU_HAS_FP16
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const __fp16*,
-											size_t,
-											bool,
-											const __fp16*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<__fp16>*, size_t);
 #endif
 #if MUU_HAS_FLOAT128
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const float128_t*,
-											size_t,
-											bool,
-											const float128_t*,
-											size_t,
-											bool);
-#endif
-#if MUU_HAS_INT128
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const int128_t*,
-											size_t,
-											bool,
-											const int128_t*,
-											size_t,
-											bool);
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream& stream,
-											const uint128_t*,
-											size_t,
-											bool,
-											const uint128_t*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<float128_t>*, size_t);
 #endif
 
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const half*,
-											size_t,
-											bool,
-											const half*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<long double>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const float*,
-											size_t,
-											bool,
-											const float*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<signed char>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const double*,
-											size_t,
-											bool,
-											const double*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<signed short>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const long double*,
-											size_t,
-											bool,
-											const long double*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<signed int>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const signed char*,
-											size_t,
-											bool,
-											const signed char*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<signed long>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const signed short*,
-											size_t,
-											bool,
-											const signed short*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<signed long long>*, size_t);
+
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const signed int*,
-											size_t,
-											bool,
-											const signed int*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<unsigned char>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const signed long*,
-											size_t,
-											bool,
-											const signed long*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<unsigned short>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const signed long long*,
-											size_t,
-											bool,
-											const signed long long*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<unsigned int>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const unsigned char*,
-											size_t,
-											bool,
-											const unsigned char*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<unsigned long>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const unsigned short*,
-											size_t,
-											bool,
-											const unsigned short*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<unsigned long long>*, size_t);
+
+#if MUU_HAS_INT128
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const unsigned int*,
-											size_t,
-											bool,
-											const unsigned int*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<int128_t>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const unsigned long*,
-											size_t,
-											bool,
-											const unsigned long*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<uint128_t>*, size_t);
+#endif
+
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const unsigned long long*,
-											size_t,
-											bool,
-											const unsigned long long*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<half>*, size_t);
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<float>*, size_t);
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<double>*, size_t);
+
 #if MUU_HAS_FLOAT16
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const _Float16*,
-											size_t,
-											bool,
-											const _Float16*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<_Float16>*, size_t);
 #endif
 #if MUU_HAS_FP16
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const __fp16*,
-											size_t,
-											bool,
-											const __fp16*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<__fp16>*, size_t);
 #endif
 #if MUU_HAS_FLOAT128
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const float128_t*,
-											size_t,
-											bool,
-											const float128_t*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<float128_t>*, size_t);
 #endif
+
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<long double>*, size_t);
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<signed char>*, size_t);
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<signed short>*, size_t);
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<signed int>*, size_t);
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<signed long>*, size_t);
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<signed long long>*, size_t);
+
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<unsigned char>*, size_t);
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<unsigned short>*, size_t);
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<unsigned int>*, size_t);
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<unsigned long>*, size_t);
+	MUU_API
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<unsigned long long>*, size_t);
+
 #if MUU_HAS_INT128
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const int128_t*,
-											size_t,
-											bool,
-											const int128_t*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<int128_t>*, size_t);
 	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream& stream,
-											const uint128_t*,
-											size_t,
-											bool,
-											const uint128_t*,
-											size_t,
-											bool);
+	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<uint128_t>*, size_t);
 #endif
+
+	template <typename Char, typename T, size_t N>
+	inline void print_compound_vector(std::basic_ostream<Char>& os, const compound_vector_elem<T> (&elems)[N])
+	{
+		print_compound_vector(os, elems, N);
+	}
 }
 
 #include "header_end.h"

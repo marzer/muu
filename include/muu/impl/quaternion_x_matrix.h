@@ -17,7 +17,7 @@ namespace muu
 	{
 		template <typename Scalar, size_t R, size_t C>
 		MUU_PURE_GETTER
-		static constexpr quaternion<Scalar> MUU_VECTORCALL quat_from_rotation_matrix(
+		inline constexpr quaternion<Scalar> MUU_VECTORCALL quat_from_rotation_matrix(
 			MUU_VC_PARAM(matrix<Scalar, R, C>) rot) noexcept
 		{
 #define MAT_GET(r, c) rot.m[c].template get<r>()

@@ -207,7 +207,7 @@ namespace muu
 		constexpr quaternion(const T& blittable) noexcept //
 			: base{ muu::bit_cast<base>(blittable) }
 		{
-			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size as the quaternion");
+			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size");
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
 		}
 
@@ -966,7 +966,9 @@ namespace muu
 		template <typename Char, typename Traits>
 		friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& os, const quaternion& q)
 		{
-			impl::print_compound_vector(os, &q.s, 1_sz, false, &q.v.x, 3_sz, true);
+			const impl::compound_vector_elem<Scalar> elems[]{ { &q.s, 1 }, //
+															  { &q.v.x, 3 } };
+			impl::print_compound_vector(os, elems);
 			return os;
 		}
 

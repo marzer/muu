@@ -53,6 +53,10 @@ test_sources += [
 	'strings.cpp',
 	'tagged_ptr.cpp',
 	'thread_pool.cpp',
+	'triangle_0.cpp',
+	'triangle_1.cpp',
+	'triangle_2.cpp',
+	'triangle_3.cpp',
 	'type_list.cpp',
 	'type_name.cpp',
 	'unicode_char.cpp',
@@ -213,5 +217,5 @@ foreach cpp20 : cpp20_modes
 endforeach # cpp20
 
 foreach executable : test_executables
-	test(executable[0], executable[1], workdir : meson.source_root() / 'tests')
+	test(executable[0], executable[1], workdir : meson.project_source_root() / 'tests')
 endforeach

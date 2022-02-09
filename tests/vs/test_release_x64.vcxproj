@@ -162,6 +162,10 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\thread_pool.cpp" />
+    <ClCompile Include="..\triangle_0.cpp" />
+    <ClCompile Include="..\triangle_1.cpp" />
+    <ClCompile Include="..\triangle_2.cpp" />
+    <ClCompile Include="..\triangle_3.cpp" />
     <ClCompile Include="..\type_list.cpp" />
     <ClCompile Include="..\type_name.cpp" />
     <ClCompile Include="..\unicode_char.cpp" />
@@ -195,6 +199,7 @@
     <ClInclude Include="..\quaternion_tests.h" />
     <ClInclude Include="..\settings.h" />
     <ClInclude Include="..\tests.h" />
+    <ClInclude Include="..\triangle_tests.h" />
     <ClInclude Include="..\unicode.h" />
     <ClInclude Include="..\vector_tests.h" />
   </ItemGroup>

@@ -223,14 +223,14 @@ namespace muu
 		MUU_PURE_GETTER
 		constexpr bool intersects(const integer_range& other) const noexcept
 		{
-			return !(s >= other.e || other.s >= e);
+			return e > other.s && other.e > s;
 		}
 
 		/// \brief Returns true if the range intersects or is adjacent to another range.
 		MUU_PURE_GETTER
 		constexpr bool intersects_or_adjacent(const integer_range& other) const noexcept
 		{
-			return !(s > other.e || other.s > e);
+			return e >= other.s && other.e >= s;
 		}
 
 		/// \brief Returns the union of this range and another range.

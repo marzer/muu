@@ -11,7 +11,7 @@
 namespace
 {
 	template <typename T, typename Func>
-	static void obb_for_each(T& bb, Func&& func) noexcept
+	static void obb_for_each(T& bb, Func&& func)
 	{
 		size_t idx{};
 		for (size_t i = 0; i < 3; i++)
@@ -24,7 +24,7 @@ namespace
 	}
 
 	template <typename T, typename U, typename Func>
-	static void obb_for_each(T& bb1, U& bb2, Func&& func) noexcept
+	static void obb_for_each(T& bb1, U& bb2, Func&& func)
 	{
 		size_t idx{};
 		for (size_t i = 0; i < 3; i++)
@@ -193,6 +193,14 @@ BATCHED_TEST_CASE("oriented_bounding_box constructors", oriented_bounding_boxes<
 		obb_for_each(bb1, [](auto& s1, size_t) { s1 = random<T>(); });
 		obb bb2{ bb1 };
 		obb_for_each(bb1, bb2, [](auto s1, auto s2, size_t) { CHECK(s1 == s2); });
+	}
+
+	BATCHED_SECTION("data()")
+	{
+		auto bb				 = obb{};
+		const auto& bb_const = bb;
+		CHECK(reinterpret_cast<uintptr_t>(bb.data()) == reinterpret_cast<uintptr_t>(&bb));
+		CHECK(reinterpret_cast<uintptr_t>(bb_const.data()) == reinterpret_cast<uintptr_t>(&bb_const));
 	}
 }
 

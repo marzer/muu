@@ -36,7 +36,7 @@ namespace
 		printer(object_open);
 
 		// ", <scalar>"
-		printer(list, x, dims);
+		printer(list_item, x, dims);
 
 		// " }"
 		printer(object_close);
@@ -525,13 +525,12 @@ namespace
 {
 	template <typename Char, typename T>
 	static void print_compound_vector(std::basic_ostream<Char>& os,
-									  const T* vals1,
-									  size_t num1,
-									  bool is_vec1,
-									  const T* vals2,
-									  size_t num2,
-									  bool is_vec2) noexcept
+									  const impl::compound_vector_elem<T>* elem,
+									  size_t count) noexcept
 	{
+		MUU_ASSERT(elem);
+		MUU_ASSERT(count);
+
 		auto saver	= stream_saver{ os }; // restores flags, precision, width and fill
 		saver.width = 0;				  // operator<< consumes width
 
@@ -549,22 +548,22 @@ namespace
 		// "{ "
 		printer(object_open);
 
-		// "<first vector or list>"
-		if (is_vec1)
-			printer(object_open);
-		printer(list, vals1, num1);
-		if (is_vec1)
-			printer(object_close);
+		for (auto start = elem, end = elem + count; elem != end; elem++)
+		{
+			// ", "
+			if (elem != start)
+				printer(next_list_item);
 
-		// ", "
-		printer(next_list_item);
+			// "{ "
+			if (elem->count > 1u)
+				printer(object_open);
 
-		// "<second vector or list>"
-		if (is_vec2)
-			printer(object_open);
-		printer(list, vals2, num2);
-		if (is_vec2)
-			printer(object_close);
+			printer(list_item, elem->start, elem->count);
+
+			// "} "
+			if (elem->count > 1u)
+				printer(object_close);
+		}
 
 		// " }"
 		printer(object_close);
@@ -573,437 +572,269 @@ namespace
 
 namespace muu::impl
 {
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const half* vals1,
-											size_t num1,
-											bool is_vec1,
-											const half* vals2,
-											size_t num2,
-											bool is_vec2)
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os, const compound_vector_elem<half>* elems, size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const float* vals1,
-											size_t num1,
-											bool is_vec1,
-											const float* vals2,
-											size_t num2,
-											bool is_vec2)
+	void MUU_CALLCONV print_compound_vector(std::ostream& os, const compound_vector_elem<float>* elems, size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const double* vals1,
-											size_t num1,
-											bool is_vec1,
-											const double* vals2,
-											size_t num2,
-											bool is_vec2)
+	void MUU_CALLCONV print_compound_vector(std::ostream& os, const compound_vector_elem<double>* elems, size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const long double* vals1,
-											size_t num1,
-											bool is_vec1,
-											const long double* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const signed char* vals1,
-											size_t num1,
-											bool is_vec1,
-											const signed char* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const signed short* vals1,
-											size_t num1,
-											bool is_vec1,
-											const signed short* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const signed int* vals1,
-											size_t num1,
-											bool is_vec1,
-											const signed int* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const signed long* vals1,
-											size_t num1,
-											bool is_vec1,
-											const signed long* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const signed long long* vals1,
-											size_t num1,
-											bool is_vec1,
-											const signed long long* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const unsigned char* vals1,
-											size_t num1,
-											bool is_vec1,
-											const unsigned char* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const unsigned short* vals1,
-											size_t num1,
-											bool is_vec1,
-											const unsigned short* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const unsigned int* vals1,
-											size_t num1,
-											bool is_vec1,
-											const unsigned int* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const unsigned long* vals1,
-											size_t num1,
-											bool is_vec1,
-											const unsigned long* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const unsigned long long* vals1,
-											size_t num1,
-											bool is_vec1,
-											const unsigned long long* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 
 #if MUU_HAS_FLOAT16
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const _Float16* vals1,
-											size_t num1,
-											bool is_vec1,
-											const _Float16* vals2,
-											size_t num2,
-											bool is_vec2)
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os, const compound_vector_elem<_Float16>* elems, size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 #endif
-
 #if MUU_HAS_FP16
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const __fp16* vals1,
-											size_t num1,
-											bool is_vec1,
-											const __fp16* vals2,
-											size_t num2,
-											bool is_vec2)
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os, const compound_vector_elem<__fp16>* elems, size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
+	}
+#endif
+#if MUU_HAS_FLOAT128
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
+											const compound_vector_elem<float128_t>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
 	}
 #endif
 
-#if MUU_HAS_FLOAT128
 	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const float128_t* vals1,
-											size_t num1,
-											bool is_vec1,
-											const float128_t* vals2,
-											size_t num2,
-											bool is_vec2)
+											const compound_vector_elem<long double>* elems,
+											size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
-#endif
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
+											const compound_vector_elem<signed char>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
+											const compound_vector_elem<signed short>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
+											const compound_vector_elem<signed int>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
+											const compound_vector_elem<signed long>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
+											const compound_vector_elem<signed long long>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
+											const compound_vector_elem<unsigned char>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
+											const compound_vector_elem<unsigned short>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
+											const compound_vector_elem<unsigned int>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
+											const compound_vector_elem<unsigned long>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os,
+											const compound_vector_elem<unsigned long long>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
 
 #if MUU_HAS_INT128
-	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const int128_t* vals1,
-											size_t num1,
-											bool is_vec1,
-											const int128_t* vals2,
-											size_t num2,
-											bool is_vec2)
+
+	void MUU_CALLCONV print_compound_vector(std::ostream& os, const compound_vector_elem<int128_t>* elems, size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 
 	void MUU_CALLCONV print_compound_vector(std::ostream& os,
-											const uint128_t* vals1,
-											size_t num1,
-											bool is_vec1,
-											const uint128_t* vals2,
-											size_t num2,
-											bool is_vec2)
+											const compound_vector_elem<uint128_t>* elems,
+											size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 #endif
 
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const half* vals1,
-											size_t num1,
-											bool is_vec1,
-											const half* vals2,
-											size_t num2,
-											bool is_vec2)
+	void MUU_CALLCONV print_compound_vector(std::wostream& os, const compound_vector_elem<half>* elems, size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const float* vals1,
-											size_t num1,
-											bool is_vec1,
-											const float* vals2,
-											size_t num2,
-											bool is_vec2)
+	void MUU_CALLCONV print_compound_vector(std::wostream& os, const compound_vector_elem<float>* elems, size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const double* vals1,
-											size_t num1,
-											bool is_vec1,
-											const double* vals2,
-											size_t num2,
-											bool is_vec2)
+	void MUU_CALLCONV print_compound_vector(std::wostream& os, const compound_vector_elem<double>* elems, size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const long double* vals1,
-											size_t num1,
-											bool is_vec1,
-											const long double* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const signed char* vals1,
-											size_t num1,
-											bool is_vec1,
-											const signed char* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const signed short* vals1,
-											size_t num1,
-											bool is_vec1,
-											const signed short* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const signed int* vals1,
-											size_t num1,
-											bool is_vec1,
-											const signed int* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const signed long* vals1,
-											size_t num1,
-											bool is_vec1,
-											const signed long* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const signed long long* vals1,
-											size_t num1,
-											bool is_vec1,
-											const signed long long* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const unsigned char* vals1,
-											size_t num1,
-											bool is_vec1,
-											const unsigned char* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const unsigned short* vals1,
-											size_t num1,
-											bool is_vec1,
-											const unsigned short* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const unsigned int* vals1,
-											size_t num1,
-											bool is_vec1,
-											const unsigned int* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const unsigned long* vals1,
-											size_t num1,
-											bool is_vec1,
-											const unsigned long* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
-	}
-
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const unsigned long long* vals1,
-											size_t num1,
-											bool is_vec1,
-											const unsigned long long* vals2,
-											size_t num2,
-											bool is_vec2)
-	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 
 #if MUU_HAS_FLOAT16
+
 	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const _Float16* vals1,
-											size_t num1,
-											bool is_vec1,
-											const _Float16* vals2,
-											size_t num2,
-											bool is_vec2)
+											const compound_vector_elem<_Float16>* elems,
+											size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 #endif
-
 #if MUU_HAS_FP16
-	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const __fp16* vals1,
-											size_t num1,
-											bool is_vec1,
-											const __fp16* vals2,
-											size_t num2,
-											bool is_vec2)
+
+	void MUU_CALLCONV print_compound_vector(std::wostream& os, const compound_vector_elem<__fp16>* elems, size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
+	}
+#endif
+#if MUU_HAS_FLOAT128
+
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
+											const compound_vector_elem<float128_t>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
 	}
 #endif
 
-#if MUU_HAS_FLOAT128
 	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const float128_t* vals1,
-											size_t num1,
-											bool is_vec1,
-											const float128_t* vals2,
-											size_t num2,
-											bool is_vec2)
+											const compound_vector_elem<long double>* elems,
+											size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
-#endif
+
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
+											const compound_vector_elem<signed char>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
+											const compound_vector_elem<signed short>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
+											const compound_vector_elem<signed int>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
+											const compound_vector_elem<signed long>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
+											const compound_vector_elem<signed long long>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
+											const compound_vector_elem<unsigned char>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
+											const compound_vector_elem<unsigned short>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
+											const compound_vector_elem<unsigned int>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
+											const compound_vector_elem<unsigned long>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
+
+	void MUU_CALLCONV print_compound_vector(std::wostream& os,
+											const compound_vector_elem<unsigned long long>* elems,
+											size_t count)
+	{
+		return ::print_compound_vector(os, elems, count);
+	}
 
 #if MUU_HAS_INT128
+
 	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const int128_t* vals1,
-											size_t num1,
-											bool is_vec1,
-											const int128_t* vals2,
-											size_t num2,
-											bool is_vec2)
+											const compound_vector_elem<int128_t>* elems,
+											size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 
 	void MUU_CALLCONV print_compound_vector(std::wostream& os,
-											const uint128_t* vals1,
-											size_t num1,
-											bool is_vec1,
-											const uint128_t* vals2,
-											size_t num2,
-											bool is_vec2)
+											const compound_vector_elem<uint128_t>* elems,
+											size_t count)
 	{
-		::print_compound_vector(os, vals1, num1, is_vec1, vals2, num2, is_vec2);
+		return ::print_compound_vector(os, elems, count);
 	}
 #endif
 }

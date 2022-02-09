@@ -1432,9 +1432,8 @@ namespace muu
 	/// \brief Does Child inherit from Parent?
 	/// \remarks This does _not_ consider `Child == Parent` as being an "inherits from" relationship, unlike std::is_base_of.
 	template <typename Child, typename Parent>
-	inline constexpr bool inherits_from =
-		std::is_base_of_v<remove_cvref<Parent>,
-						  remove_cvref<Child>> && !std::is_same_v<remove_cvref<Parent>, remove_cvref<Child>>;
+	inline constexpr bool inherits_from = std::is_base_of_v<remove_cvref<Parent>, remove_cvref<Child>> //
+									   && !std::is_same_v<remove_cvref<Parent>, remove_cvref<Child>>;
 
 	/// \brief Does Child inherit from any of the types named by Parent?
 	/// \remarks This does _not_ consider `Child == Parent` as being an "inherits from" relationship, unlike std::is_base_of.
@@ -1625,6 +1624,16 @@ namespace muu
 		template <typename T, typename U>
 		using has_inequality_operator_ = decltype(std::declval<T>() != std::declval<U>());
 
+		template <typename T, typename U>
+		using has_less_than_operator_ = decltype(std::declval<T>() < std::declval<U>());
+		template <typename T, typename U>
+		using has_less_than_or_equal_operator_ = decltype(std::declval<T>() <= std::declval<U>());
+
+		template <typename T, typename U>
+		using has_greater_than_operator_ = decltype(std::declval<T>() > std::declval<U>());
+		template <typename T, typename U>
+		using has_greater_than_or_equal_operator_ = decltype(std::declval<T>() >= std::declval<U>());
+
 		template <typename T>
 		using has_pre_increment_operator_ = decltype(++std::declval<T>());
 		template <typename T>
@@ -1812,6 +1821,23 @@ namespace muu
 	/// \brief True if a pair of types has an inequality operator (`T != U`).
 	template <typename T, typename U = T>
 	inline constexpr bool has_inequality_operator = is_detected<impl::has_inequality_operator_, T, U>;
+
+	/// \brief True if a pair of types has a less-than operator (`T < U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_less_than_operator = is_detected<impl::has_less_than_operator_, T, U>;
+
+	/// \brief True if a pair of types has a less-than-or-equal operator (`T <= U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_less_than_or_equal_operator = is_detected<impl::has_less_than_or_equal_operator_, T, U>;
+
+	/// \brief True if a pair of types has a greater-than operator (`T > U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_greater_than_operator = is_detected<impl::has_greater_than_operator_, T, U>;
+
+	/// \brief True if a pair of types has a greater-than-or-equal operator (`T >= U`).
+	template <typename T, typename U = T>
+	inline constexpr bool has_greater_than_or_equal_operator =
+		is_detected<impl::has_greater_than_or_equal_operator_, T, U>;
 
 	/// \brief True if a type has a pre-increment operator (`++T`).
 	template <typename T>
@@ -2215,20 +2241,6 @@ namespace muu
 	inline constexpr bool decays_to_function_pointer_by_unary_plus = impl::decays_to_function_pointer_by_unary_plus_<T>;
 
 	/** @} */ // meta
-
-	/// \cond
-	// deprecations
-#if !MUU_INTELLISENSE
-	template <typename T, typename CopyFrom>
-	using match_const = copy_const<T, CopyFrom>;
-	template <typename T, typename CopyFrom>
-	using match_volatile = copy_volatile<T, CopyFrom>;
-	template <typename T, typename CopyFrom>
-	using match_cv = copy_cv<T, CopyFrom>;
-	template <typename T, typename... U>
-	inline constexpr bool is_same_as_any = any_same<T, U...>;
-#endif
-	/// \endcond
 }
 
 #undef MUU_ANY_VARIADIC_T

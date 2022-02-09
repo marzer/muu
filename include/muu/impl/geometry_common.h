@@ -141,12 +141,267 @@ namespace muu::impl
 										const oriented_bounding_box<Scalar>&>;
 	};
 
-	template <typename T>
-	using has_axes_member_impl_ = decltype(std::declval<T>().axes);
-	template <typename T, bool = is_detected<has_axes_member_impl_, T>>
-	inline constexpr bool has_axes_member_ = is_matrix_<remove_cvref<decltype(std::declval<T>().axes)>>;
-	template <typename T>
-	inline constexpr bool has_axes_member_<T, false> = false;
+	template <typename Scalar>
+	struct sat_tester
+	{
+		using scalar_type  = Scalar;
+		using vector_type  = vector<scalar_type, 3>;
+		using vector_param = vectorcall_param<vector_type>;
+
+		scalar_type min = constants<scalar_type>::highest;
+		scalar_type max = constants<scalar_type>::lowest;
+
+		constexpr void MUU_VECTORCALL operator()(vector_param axis, vector_param point) noexcept
+		{
+			const auto proj = vector_type::dot(axis, point);
+			min				= muu::min(proj, min);
+			max				= muu::max(proj, max);
+		}
+
+		template <size_t N>
+		constexpr void MUU_VECTORCALL operator()(vector_param axis, const vector_type (&points)[N]) noexcept
+		{
+			for (const auto p : points)
+				(*this)(axis, p);
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(scalar_type threshold) noexcept
+		{
+			return max >= threshold && min <= threshold;
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(scalar_type min_threshold, scalar_type max_threshold) noexcept
+		{
+			return max >= min_threshold && min <= max_threshold;
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(const sat_tester& other) noexcept
+		{
+			return max >= other.min && min <= other.max;
+		}
+	};
+
+	template <typename Scalar>
+	struct planes_common
+	{
+		using scalar_type  = Scalar;
+		using vector_type  = vector<scalar_type, 3>;
+		using vector_param = vectorcall_param<vector_type>;
+
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL signed_distance(vector_param normal,
+																	scalar_type d,
+																	vector_param point) noexcept
+		{
+			return vector_type::dot(normal, point) + d;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL unsigned_distance(vector_param normal,
+																	  scalar_type d,
+																	  vector_param point) noexcept
+		{
+			return muu::abs(signed_distance(normal, d, point));
+		}
+
+		MUU_PURE_INLINE_GETTER
+		static constexpr vector_type MUU_VECTORCALL project_with_signed_distance(vector_param normal,
+																				 vector_param point,
+																				 scalar_type signed_dist) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			return point - normal * signed_dist;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr vector_type MUU_VECTORCALL project(vector_param normal,
+															scalar_type d,
+															vector_param point) noexcept
+		{
+			return project_with_signed_distance(normal, point, signed_distance(normal, d, point));
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains_point(vector_param normal,
+															scalar_type d,
+															vector_param point) noexcept
+		{
+			return muu::approx_zero(signed_distance(normal, d, point));
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects_plane(vector_param normal1, vector_param normal2) noexcept
+		{
+			return muu::approx_zero(vector_type::length_squared(vector_type::cross(normal1, normal2)));
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects_line_segment(vector_param normal,
+																	 scalar_type d,
+																	 vector_param start,
+																	 vector_param end) noexcept
+		{
+			return signed_distance(normal, d, start) * signed_distance(normal, d, end) >= scalar_type{};
+		}
+	};
+
+	template <typename Scalar>
+	struct triangles_common
+	{
+		using scalar_type	 = Scalar;
+		using vector_type	 = vector<scalar_type, 3>;
+		using vector_param	 = vectorcall_param<vector_type>;
+		using triangle_param = vectorcall_param<triangle_<scalar_type>>;
+
+		MUU_PURE_GETTER
+		static constexpr vector_type MUU_VECTORCALL normal(vector_param p0, vector_param p1, vector_param p2) noexcept
+		{
+			return vector_type::normalize(vector_type::cross(p1 - p0, p2 - p0));
+		}
+
+		MUU_PURE_INLINE_GETTER
+		static constexpr vector_type MUU_VECTORCALL centroid(vector_param p0, vector_param p1, vector_param p2) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			return (p0 + p1 + p2) / scalar_type{ 3 };
+		}
+
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL perimeter(vector_param p0,
+															  vector_param p1,
+															  vector_param p2) noexcept
+		{
+			return vector_type::distance(p0, p1) //
+				 + vector_type::distance(p1, p2) //
+				 + vector_type::distance(p2, p0);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL area(vector_param p0, vector_param p1, vector_param p2) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			const auto a = vector_type::distance(p0, p1);
+			const auto b = vector_type::distance(p1, p2);
+			const auto c = vector_type::distance(p2, p0);
+			const auto s = (a + b + c) / scalar_type{ 2 };
+			return muu::sqrt(s * (s - a) * (s - b) * (s - c)); // heron's formula
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL degenerate(vector_param p0, vector_param p1, vector_param p2) noexcept
+		{
+			return p0 == p1 || p0 == p2 || p1 == p2;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL coplanar(vector_param p0,
+													  vector_param p1,
+													  vector_param p2,
+													  vector_param point) noexcept
+		{
+			return muu::approx_zero(vector_type::dot(point - p0, normal(p0, p1, p2)));
+		}
+
+		MUU_PURE_GETTER
+		static constexpr vector_type MUU_VECTORCALL barycentric(vector_param p0,
+																vector_param p1,
+																vector_param p2,
+																vector_param point) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			const auto v0	 = p1 - p0;
+			const auto v1	 = p2 - p0;
+			const auto d00	 = vector_type::dot(v0, v0);
+			const auto d01	 = vector_type::dot(v0, v1);
+			const auto d11	 = vector_type::dot(v1, v1);
+			const auto denom = scalar_type{ 1 } / (d00 * d11 - d01 * d01);
+
+			const auto v2  = point - p0;
+			const auto d20 = vector_type::dot(v2, v0);
+			const auto d21 = vector_type::dot(v2, v1);
+
+			vector_type out{ scalar_type{ 1 }, //
+							 (d11 * d20 - d01 * d21) * denom,
+							 (d00 * d21 - d01 * d20) * denom };
+			out.x -= out.y + out.z;
+			return out;
+		}
+
+		class MUU_TRIVIAL_ABI barycentric_generator
+		{
+		  private:
+			vector_type p;
+			vector_type v0;
+			vector_type v1;
+			scalar_type d00;
+			scalar_type d01;
+			scalar_type d11;
+			scalar_type denom;
+
+		  public:
+			MUU_NODISCARD_CTOR
+			constexpr barycentric_generator(const vector_type& p0,
+											const vector_type& p1,
+											const vector_type& p2) noexcept
+				: p{ p0 },
+				  v0{ p1 - p0 },
+				  v1{ p2 - p0 },
+				  d00{ vector_type::dot(v0, v0) },
+				  d01{ vector_type::dot(v0, v1) },
+				  d11{ vector_type::dot(v1, v1) },
+				  denom{ scalar_type{ 1 } / (d00 * d11 - d01 * d01) }
+			{}
+
+			MUU_PURE_GETTER
+			constexpr vector_type MUU_VECTORCALL operator()(vector_param point) const noexcept
+			{
+				MUU_FMA_BLOCK;
+
+				const auto v2  = point - p;
+				const auto d20 = vector_type::dot(v2, v0);
+				const auto d21 = vector_type::dot(v2, v1);
+
+				vector_type out{ scalar_type{ 1 }, //
+								 (d11 * d20 - d01 * d21) * denom,
+								 (d00 * d21 - d01 * d20) * denom };
+				out.x -= out.y + out.z;
+				return out;
+			}
+		};
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains_coplanar_point(vector_param p0,
+																	 vector_param p1,
+																	 vector_param p2,
+																	 vector_param point) noexcept
+		{
+			const auto a = p0 - point;
+			const auto b = p1 - point;
+			const auto c = p2 - point;
+
+			const auto u = vector_type::cross(b, c);
+			const auto v = vector_type::cross(c, a);
+			const auto w = vector_type::cross(a, b);
+
+			return vector_type::dot(u, v) >= scalar_type{} && vector_type::dot(u, w) >= scalar_type{};
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains_point(vector_param p0,
+															vector_param p1,
+															vector_param p2,
+															vector_param point) noexcept
+		{
+			return coplanar(p0, p1, p2, point) && contains_coplanar_point(p0, p1, p2, point);
+		}
+	};
 
 	template <typename Scalar>
 	struct boxes_common
@@ -206,13 +461,13 @@ namespace muu::impl
 		MUU_PURE_GETTER
 		static constexpr scalar_type& shortest_extent(vector_type& extents) noexcept
 		{
-			return min(extents.x, min(extents.y, extents.z));
+			return const_cast<scalar_type&>(shortest_extent(static_cast<const vector_type&>(extents)));
 		}
 
 		MUU_PURE_GETTER
 		static constexpr scalar_type& longest_extent(vector_type& extents) noexcept
 		{
-			return max(extents.x, max(extents.y, extents.z));
+			return const_cast<scalar_type&>(longest_extent(static_cast<const vector_type&>(extents)));
 		}
 
 		MUU_PURE_GETTER
@@ -303,16 +558,6 @@ namespace muu::impl
 			return center + boxes_common::template corner_offset<Corner>(extents);
 		}
 
-		template <box_corners Corner>
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
-														   vector_param extents,
-														   const matrix<scalar_type, 3, 3>& axes) noexcept
-		{
-			const auto offset = boxes_common::template corner_offset<Corner>(extents);
-			return center + offset.x * axes.m[0] + offset.y * axes.m[1] + offset.z * axes.m[2];
-		}
-
 		MUU_PURE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
 														   vector_param extents,
@@ -320,297 +565,22 @@ namespace muu::impl
 		{
 			return center + corner_offset(extents, which);
 		}
-
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
-														   vector_param extents,
-														   const matrix<scalar_type, 3, 3>& axes,
-														   box_corners which) noexcept
-		{
-			const auto offset = corner_offset(extents, which);
-			return center + offset.x * axes.m[0] + offset.y * axes.m[1] + offset.z * axes.m[2];
-		}
-
-		template <box_corners Corner, typename T>
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(const T& box) noexcept
-		{
-			if constexpr (has_axes_member_<T>)
-				return boxes_common::template corner<Corner>(box.center, box.extents, box.axes);
-			else
-				return boxes_common::template corner<Corner>(box.center, box.extents);
-		}
 	};
 
 	template <typename Scalar>
-	struct planes_common
+	struct aabb_common : boxes_common<Scalar>
 	{
 		using scalar_type  = Scalar;
 		using vector_type  = vector<scalar_type, 3>;
 		using vector_param = vectorcall_param<vector_type>;
+		using boxes		   = boxes_common<Scalar>;
+		using planes	   = planes_common<Scalar>;
+		using triangles	   = triangles_common<Scalar>;
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL signed_distance(vector_param normal,
-																	scalar_type d,
-																	vector_param point) noexcept
-		{
-			return vector_type::dot(normal, point) + d;
-		}
-
-		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL unsigned_distance(vector_param normal,
-																	  scalar_type d,
-																	  vector_param point) noexcept
-		{
-			return muu::abs(signed_distance(normal, d, point));
-		}
-
-		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL project_with_signed_distance(vector_param normal,
-																				 vector_param point,
-																				 scalar_type signed_dist) noexcept
-		{
-			MUU_FMA_BLOCK;
-
-			return point - normal * signed_dist;
-		}
-
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL project(vector_param normal,
-															scalar_type d,
+		static constexpr bool MUU_VECTORCALL contains_point(vector_param center,
+															vector_param extents,
 															vector_param point) noexcept
-		{
-			return project_with_signed_distance(normal, point, signed_distance(normal, d, point));
-		}
-	};
-
-	template <typename Scalar>
-	struct triangles_common
-	{
-		using scalar_type	 = Scalar;
-		using vector_type	 = vector<scalar_type, 3>;
-		using vector_param	 = vectorcall_param<vector_type>;
-		using triangle_param = vectorcall_param<triangle_<scalar_type>>;
-
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL normal(vector_param p0, vector_param p1, vector_param p2) noexcept
-		{
-			return vector_type::normalize(vector_type::cross(p1 - p0, p2 - p0));
-		}
-
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL normal(triangle_param tri) noexcept
-		{
-			return vector_type::normalize(
-				vector_type::cross(tri.points[1] - tri.points[0], tri.points[2] - tri.points[0]));
-		}
-
-		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL center(vector_param p0, vector_param p1, vector_param p2) noexcept
-		{
-			MUU_FMA_BLOCK;
-
-			return (p0 + p1 + p2) / scalar_type{ 3 };
-		}
-
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL center(triangle_param tri) noexcept
-		{
-			MUU_FMA_BLOCK;
-
-			return (tri.points[0] + tri.points[1] + tri.points[2]) / scalar_type{ 3 };
-		}
-
-		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL perimeter(vector_param p0,
-															  vector_param p1,
-															  vector_param p2) noexcept
-		{
-			return vector_param::distance(p0, p1) //
-				 + vector_param::distance(p1, p2) //
-				 + vector_param::distance(p2, p0);
-		}
-
-		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL perimeter(triangle_param tri) noexcept
-		{
-			return vector_param::distance(tri.points[0], tri.points[1]) //
-				 + vector_param::distance(tri.points[1], tri.points[2]) //
-				 + vector_param::distance(tri.points[2], tri.points[0]);
-		}
-
-		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL area(vector_param p0, vector_param p1, vector_param p2) noexcept
-		{
-			MUU_FMA_BLOCK;
-
-			const auto a = vector_param::distance(p0, p1);
-			const auto b = vector_param::distance(p1, p2);
-			const auto c = vector_param::distance(p2, p0);
-			const auto s = (a + b + c) / scalar_type{ 2 };
-			return muu::sqrt(s * (s - a) * (s - b) * (s - c)); // heron's formula
-		}
-
-		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL area(triangle_param tri) noexcept
-		{
-			return area(tri.points[0], tri.points[1], tri.points[2]);
-		}
-
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL barycentric(vector_param p0,
-																vector_param p1,
-																vector_param p2,
-																vector_param point) noexcept
-		{
-			MUU_FMA_BLOCK;
-
-			const auto v0	 = p1 - p0;
-			const auto v1	 = p2 - p0;
-			const auto d00	 = vector_type::dot(v0, v0);
-			const auto d01	 = vector_type::dot(v0, v1);
-			const auto d11	 = vector_type::dot(v1, v1);
-			const auto denom = scalar_type{ 1 } / (d00 * d11 - d01 * d01);
-
-			const auto v2  = point - p0;
-			const auto d20 = vector_type::dot(v2, v0);
-			const auto d21 = vector_type::dot(v2, v1);
-
-			vector_type out{ scalar_type{ 1 }, //
-							 (d11 * d20 - d01 * d21) * denom,
-							 (d00 * d21 - d01 * d20) * denom };
-			out.x -= out.y + out.z;
-			return out;
-		}
-
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL barycentric(triangle_param tri, vector_param point) noexcept
-		{
-			return barycentric(tri.points[0], tri.points[1], tri.points[2], point);
-		}
-
-		struct MUU_TRIVIAL_ABI memoized_barycentric
-		{
-			vector_type p;
-			vector_type v0;
-			vector_type v1;
-			scalar_type d00;
-			scalar_type d01;
-			scalar_type d11;
-			scalar_type denom;
-
-			MUU_NODISCARD_CTOR
-			constexpr memoized_barycentric(const vector_type& p0, const vector_type& p1, const vector_type& p2) noexcept
-				: p{ p0 },
-				  v0{ p1 - p0 },
-				  v1{ p2 - p0 },
-				  d00{ vector_type::dot(v0, v0) },
-				  d01{ vector_type::dot(v0, v1) },
-				  d11{ vector_type::dot(v1, v1) },
-				  denom{ scalar_type{ 1 } / (d00 * d11 - d01 * d01) }
-			{}
-
-			MUU_NODISCARD_CTOR
-			constexpr memoized_barycentric(const triangle_param& tri) noexcept
-				: memoized_barycentric{ tri.points[0], tri.points[1], tri.points[2] }
-			{}
-
-			MUU_PURE_GETTER
-			constexpr vector_type MUU_VECTORCALL operator()(vector_param point) const noexcept
-			{
-				MUU_FMA_BLOCK;
-
-				const auto v2  = point - p;
-				const auto d20 = vector_type::dot(v2, v0);
-				const auto d21 = vector_type::dot(v2, v1);
-
-				vector_type out{ scalar_type{ 1 }, //
-								 (d11 * d20 - d01 * d21) * denom,
-								 (d00 * d21 - d01 * d20) * denom };
-				out.x -= out.y + out.z;
-				return out;
-			}
-		};
-	};
-
-	template <typename Scalar>
-	struct collision_common
-	{
-		using scalar_type = Scalar;
-		using vector_type = vector<scalar_type, 3>;
-
-		using vector_param	 = vectorcall_param<vector_type>;
-		using triangle_param = vectorcall_param<triangle_<scalar_type>>;
-
-		using planes	= planes_common<Scalar>;
-		using boxes		= boxes_common<Scalar>;
-		using triangles = triangles_common<Scalar>;
-
-		struct sat_tester
-		{
-			scalar_type min = constants<scalar_type>::highest;
-			scalar_type max = constants<scalar_type>::lowest;
-
-			constexpr void MUU_VECTORCALL operator()(vector_param axis, vector_param point) noexcept
-			{
-				const auto proj = vector_type::dot(axis, point);
-				min				= muu::min(proj, min);
-				max				= muu::max(proj, max);
-			}
-
-			template <size_t N>
-			constexpr void MUU_VECTORCALL operator()(vector_param axis, const vector_type (&points)[N]) noexcept
-			{
-				for (const auto p : points)
-					(*this)(axis, p);
-			}
-
-			MUU_PURE_INLINE_GETTER
-			constexpr bool MUU_VECTORCALL operator()(scalar_type threshold) noexcept
-			{
-				return max >= threshold && min <= threshold;
-			}
-
-			MUU_PURE_INLINE_GETTER
-			constexpr bool MUU_VECTORCALL operator()(scalar_type min_threshold, scalar_type max_threshold) noexcept
-			{
-				return max >= min_threshold && min <= max_threshold;
-			}
-
-			MUU_PURE_INLINE_GETTER
-			constexpr bool MUU_VECTORCALL operator()(const sat_tester& other) noexcept
-			{
-				return max >= other.min && min <= other.max;
-			}
-		};
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL plane_contains_point(vector_param normal,
-																  scalar_type d,
-																  vector_param point) noexcept
-		{
-			return muu::approx_zero(planes::signed_distance(normal, d, point));
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL plane_intersects_plane(vector_param normal1, vector_param normal2) noexcept
-		{
-			return muu::approx_zero(vector_type::length_squared(vector_type::cross(normal1, normal2)));
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL plane_intersects_line_segment(vector_param normal,
-																		   scalar_type d,
-																		   vector_param start,
-																		   vector_param end) noexcept
-		{
-			return planes::signed_distance(normal, d, start) * planes::signed_distance(normal, d, end) >= scalar_type{};
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL aabb_contains_point(vector_param center,
-																 vector_param extents,
-																 vector_param point) noexcept
 		{
 			const auto adj = vector_type::abs(point - center);
 			return adj.x <= extents.x //
@@ -619,10 +589,10 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL aabb_intersects_aabb_minmax(vector_param min1,
-																		 vector_param max1,
-																		 vector_param min2,
-																		 vector_param max2) noexcept
+		static constexpr bool MUU_VECTORCALL intersects_aabb_minmax(vector_param min1,
+																	vector_param max1,
+																	vector_param min2,
+																	vector_param max2) noexcept
 		{
 			return max1.x >= min2.x //
 				&& min1.x <= max2.x //
@@ -633,44 +603,44 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL aabb_intersects_aabb(vector_param center1,
-																  vector_param extents1,
-																  vector_param center2,
-																  vector_param extents2) noexcept
+		static constexpr bool MUU_VECTORCALL intersects_aabb(vector_param center1,
+															 vector_param extents1,
+															 vector_param center2,
+															 vector_param extents2) noexcept
 		{
-			return aabb_intersects_aabb_minmax(center1 - extents1,
-											   center1 + extents1,
-											   center2 - extents2,
-											   center2 + extents2);
+			return intersects_aabb_minmax(center1 - extents1,
+										  center1 + extents1,
+										  center2 - extents2,
+										  center2 + extents2);
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL aabb_intersects_sphere_minmax(vector_param min,
-																		   vector_param max,
-																		   vector_param sphere_center,
-																		   scalar_type sphere_radius) noexcept
+		static constexpr bool MUU_VECTORCALL intersects_sphere_minmax(vector_param min,
+																	  vector_param max,
+																	  vector_param sphere_center,
+																	  scalar_type sphere_radius) noexcept
 		{
 			return vector_type::distance_squared(vector_type::clamp(sphere_center, min, max), sphere_center)
 				<= sphere_radius;
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL aabb_intersects_sphere(vector_param center,
-																	vector_param extents,
-																	vector_param sphere_center,
-																	scalar_type sphere_radius) noexcept
+		static constexpr bool MUU_VECTORCALL intersects_sphere(vector_param center,
+															   vector_param extents,
+															   vector_param sphere_center,
+															   scalar_type sphere_radius) noexcept
 		{
-			return aabb_intersects_sphere_minmax(center - extents, //
-												 center + extents, //
-												 sphere_center,	   //
-												 sphere_radius);
+			return intersects_sphere_minmax(center - extents, //
+											center + extents, //
+											sphere_center,	  //
+											sphere_radius);
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL aabb_intersects_line_segment(vector_param center,
-																		  vector_param extents,
-																		  vector_param start,
-																		  vector_param end) noexcept
+		static constexpr bool MUU_VECTORCALL intersects_line_segment(vector_param center,
+																	 vector_param extents,
+																	 vector_param start,
+																	 vector_param end) noexcept
 		{
 			MUU_FMA_BLOCK;
 
@@ -695,20 +665,20 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL aabb_intersects_plane(vector_param center,
-																   vector_param extents,
-																   vector_param normal,
-																   scalar_type d) noexcept
+		static constexpr bool MUU_VECTORCALL intersects_plane(vector_param center,
+															  vector_param extents,
+															  vector_param normal,
+															  scalar_type d) noexcept
 		{
 			return planes::unsigned_distance(normal, d, center) <= vector_type::dot(extents, vector_type::abs(normal));
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL aabb_intersects_triangle(vector_param center,
-																	  vector_param extents,
-																	  vector_param p0,
-																	  vector_param p1,
-																	  vector_param p2) noexcept
+		static constexpr bool MUU_VECTORCALL intersects_triangle(vector_param center,
+																 vector_param extents,
+																 vector_param p0,
+																 vector_param p1,
+																 vector_param p2) noexcept
 		{
 			MUU_FMA_BLOCK;
 
@@ -723,7 +693,7 @@ namespace muu::impl
 													vector_type::constants::z_axis };
 			for (size_t i = 0; i < 3_sz; i++)
 			{
-				sat_tester sat;
+				sat_tester<scalar_type> sat;
 				sat(box_normals[i], p0);
 				sat(box_normals[i], p1);
 				sat(box_normals[i], p2);
@@ -742,7 +712,7 @@ namespace muu::impl
 											  aabb_max };
 			{
 				const auto axis = triangles::normal(p0, p1, p2);
-				sat_tester sat;
+				sat_tester<scalar_type> sat;
 				sat(axis, box_verts);
 				if (!sat(vector_type::dot(axis, p0)))
 					return false;
@@ -756,10 +726,10 @@ namespace muu::impl
 				{
 					const auto axis = vector_type::cross(tri_edges[i], box_normals[j]);
 
-					sat_tester box_sat;
+					sat_tester<scalar_type> box_sat;
 					box_sat(axis, box_verts);
 
-					sat_tester tri_sat;
+					sat_tester<scalar_type> tri_sat;
 					tri_sat(axis, p0);
 					tri_sat(axis, p1);
 					tri_sat(axis, p2);
@@ -771,13 +741,34 @@ namespace muu::impl
 
 			return true;
 		}
+	};
+
+	template <typename Scalar>
+	struct obb_common : boxes_common<Scalar>
+	{
+		using scalar_type  = Scalar;
+		using vector_type  = vector<scalar_type, 3>;
+		using vector_param = vectorcall_param<vector_type>;
+		using boxes		   = boxes_common<Scalar>;
+
+		template <box_corners Corner>
+		MUU_PURE_GETTER
+		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
+														   vector_param extents,
+														   const matrix<scalar_type, 3, 3>& axes) noexcept
+		{
+			const auto offset = boxes::template corner_offset<Corner>(extents);
+			return center + offset.x * axes.m[0] + offset.y * axes.m[1] + offset.z * axes.m[2];
+		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL aabb_intersects_triangle(vector_param center,
-																	  vector_param extents,
-																	  triangle_param tri) noexcept
+		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
+														   vector_param extents,
+														   const matrix<scalar_type, 3, 3>& axes,
+														   box_corners which) noexcept
 		{
-			return aabb_intersects_triangle(center, extents, tri.points[0], tri.points[1], tri.points[2]);
+			const auto offset = boxes::corner_offset(extents, which);
+			return center + offset.x * axes.m[0] + offset.y * axes.m[1] + offset.z * axes.m[2];
 		}
 	};
 }
@@ -806,8 +797,6 @@ namespace muu
 }
 
 /// \endcond
-
-#define MUU_GEOM_PARAM(T) MUU_VC_BASE_T_PARAM(T, scalar_type)
 
 MUU_PRAGMA_MSVC(inline_recursion(off))
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

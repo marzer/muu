@@ -20,6 +20,9 @@ if is_windows
 		endif
 	endif
 endif
+if is_gcc or is_clang
+	muu_lib_args += [ '-fvisibility=hidden', '-fvisibility-inlines-hidden' ]
+endif
 
 muu_lib_overrides = []
 muu_lib_overrides +=  overrides

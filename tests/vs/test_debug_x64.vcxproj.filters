@@ -164,6 +164,18 @@
       <Filter>packed_unit_vector</Filter>
     </ClCompile>
     <ClCompile Include="..\meta.cpp" />
+    <ClCompile Include="..\triangle_0.cpp">
+      <Filter>triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\triangle_1.cpp">
+      <Filter>triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\triangle_2.cpp">
+      <Filter>triangle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\triangle_3.cpp">
+      <Filter>triangle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />
@@ -197,6 +209,9 @@
     </ClInclude>
     <ClInclude Include="..\packed_unit_vector_tests.h">
       <Filter>packed_unit_vector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\triangle_tests.h">
+      <Filter>triangle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +250,9 @@
     </Filter>
     <Filter Include="packed_unit_vector">
       <UniqueIdentifier>{96481ffd-eae4-4770-8c72-301ac108db97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="triangle">
+      <UniqueIdentifier>{3804ec94-91fe-4a76-be9d-483c76fad019}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

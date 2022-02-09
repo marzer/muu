@@ -70,6 +70,8 @@
     <ClInclude Include="$(SolutionDir)include\muu\bounding_box.h" />
     <ClInclude Include="$(SolutionDir)include\muu\chars.h" />
     <ClInclude Include="$(SolutionDir)include\muu\compressed_pair.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_box_x_oriented_bounding_box.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_box_x_triangle.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_build.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\bit_cast.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_utils.h" />
@@ -88,8 +90,11 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_start.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\is_constant_evaluated.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\matrix_base.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\plane_x_bounding_box.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\plane_x_triangle.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_for_each.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\quaternion_x_matrix.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_compare.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_initializer_list.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_tuple.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\thread_name.h" />
@@ -130,8 +135,10 @@
     <ClInclude Include="$(SolutionDir)include\muu\static_string.h" />
     <ClInclude Include="$(SolutionDir)include\muu\strings.h" />
     <ClInclude Include="$(SolutionDir)include\muu\string_param.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\strong_typedef.h" />
     <ClInclude Include="$(SolutionDir)include\muu\tagged_ptr.h" />
     <ClInclude Include="$(SolutionDir)include\muu\thread_pool.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\triangle.h" />
     <ClInclude Include="$(SolutionDir)include\muu\type_list.h" />
     <ClInclude Include="$(SolutionDir)include\muu\type_name.h" />
     <ClInclude Include="$(SolutionDir)include\muu\uuid.h" />
