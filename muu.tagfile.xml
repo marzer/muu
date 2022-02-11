@@ -12180,17 +12180,17 @@
       <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static constexpr vector_type</type>
+      <type>static constexpr scalar_type</type>
       <name>perimeter</name>
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>affce8bc29777bf61bb804d62029dea3b</anchor>
+      <anchor>aaf2b896a14372d47161001869ef88b81</anchor>
       <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static constexpr vector_type</type>
+      <type>static constexpr scalar_type</type>
       <name>area</name>
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>ab99f6494352d90c06d86900364e6c752</anchor>
+      <anchor>a018ca567841827cc01ddcc4384bb631b</anchor>
       <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
