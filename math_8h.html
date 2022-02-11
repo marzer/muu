@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.2" name="generator"/>
+  <meta content="Poxy v0.5.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.2.css" rel="stylesheet"/>
-  <link href="poxy-0.5.2-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.2.js"></script>
+  <link href="poxy-0.5.3.css" rel="stylesheet"/>
+  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -498,6 +498,18 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga7165ec00307546834b2cfec5dcd18920">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; obj) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Checks if an object is infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gac83f0d0b00f182e5cfa6ae4dfa9ad12c">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T(&amp;vals)[N]) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any value in array is infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U, typename... V&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga0f071cb7be895ff5f3176182306cb1a9">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const U&amp; val2,
+              const V&amp;... vals) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any value of the given values is infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U, typename... V&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__math.html#ga747762e03956634201248a153ce0ce5e">lcm</a>(</span><span class="m-doc-wrap">T val1,

@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.2" name="generator"/>
+  <meta content="Poxy v0.5.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.2.css" rel="stylesheet"/>
-  <link href="poxy-0.5.2-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.2.js"></script>
+  <link href="poxy-0.5.3.css" rel="stylesheet"/>
+  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -87,7 +87,7 @@
             </dt>
             <dd>A read-only <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/named_req/ForwardIterator" target="_blank">LegacyForwardIterator</a> for iterating over the range.</dd>
             <dt id="a81522912bd850afc4f36134273938636">
-              using <a class="m-doc-self" href="#a81522912bd850afc4f36134273938636">size_type</a> = <a class="m-doc" href="group__meta.html#ga7c930af45d2e06539c2a3dfcc908a854">muu::<wbr/>largest</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>, <a class="m-doc" href="group__meta.html#ga5f3932e1b40c23bd953e0444340aa1bf">muu::<wbr/>make_unsigned</a>&lt;T&gt;&gt;
+              using <a class="m-doc-self" href="#a81522912bd850afc4f36134273938636">size_type</a> = <a class="m-doc" href="group__meta.html#ga66c7ac2c2ba5ae0358a9c398ca1a5fa3">muu::<wbr/>largest</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>, <a class="m-doc" href="group__meta.html#ga5f3932e1b40c23bd953e0444340aa1bf">muu::<wbr/>make_unsigned</a>&lt;T&gt;&gt;
             </dt>
             <dd>An unsigned integer type big enough to store the result of <code>e - s</code>.</dd>
             <dt id="abf2c4e015550e033bf6b0bbca9638e90">
@@ -181,12 +181,12 @@
           <dl class="m-doc">
             <dt id="aa9d70b879cfc5fe3ab16d7c9a1daabb2">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa9d70b879cfc5fe3ab16d7c9a1daabb2">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&amp; lhs,
-              const <a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              const <a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two ranges are not equal.</dd>
             <dt id="a7201e16e150f251045888d1b61142d92">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7201e16e150f251045888d1b61142d92">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&amp; lhs,
-              const <a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              const <a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two ranges are equal.</dd>
           </dl>
@@ -208,11 +208,11 @@
           <h2><a href="#iterators-adl">Iterators (ADL)</a></h2>
           <dl class="m-doc">
             <dt id="aa48edbf1eeeeeccd2248bc1823c7fef7">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa48edbf1eeeeeccd2248bc1823c7fef7">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&amp; range) -&gt; friend <a class="m-doc" href="structmuu_1_1integer__range.html#ae006bafe7698420938fe3d19883124b8">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa48edbf1eeeeeccd2248bc1823c7fef7">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&amp; range) -&gt; <a class="m-doc" href="structmuu_1_1integer__range.html#ae006bafe7698420938fe3d19883124b8">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an iterator to the start of the range.</dd>
             <dt id="adcbe271add3d3d69f107ac124811a1a7">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adcbe271add3d3d69f107ac124811a1a7">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&amp; range) -&gt; friend <a class="m-doc" href="structmuu_1_1integer__range.html#ae006bafe7698420938fe3d19883124b8">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adcbe271add3d3d69f107ac124811a1a7">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&amp; range) -&gt; <a class="m-doc" href="structmuu_1_1integer__range.html#ae006bafe7698420938fe3d19883124b8">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an iterator to the end of the range.</dd>
           </dl>

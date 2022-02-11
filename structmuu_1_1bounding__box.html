@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.2" name="generator"/>
+  <meta content="Poxy v0.5.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.2.css" rel="stylesheet"/>
-  <link href="poxy-0.5.2-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.2.js"></script>
+  <link href="poxy-0.5.3.css" rel="stylesheet"/>
+  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -85,9 +85,11 @@
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
                 <li><a href="#corners">Corners</a></li>
-                <li><a href="#equality">Equality</a></li>
+                <li><a href="#equality-approximate">Equality (approximate)</a></li>
+                <li><a href="#equality-exact">Equality (exact)</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
                 <li><a href="#intersection-and-containment">Intersection and containment</a></li>
+                <li><a href="#scalar-accessors">Scalar accessors</a></li>
                 <li><a href="#transformation-translation-and-scaling">Transformation, translation and scaling</a></li>
                 <li><a href="#friends">Friends</a></li>
                 <li><a href="#related">Related</a></li>
@@ -282,8 +284,8 @@
             <dd>Returns the 'min' corner of the bounding box.</dd>
           </dl>
         </section>
-        <section id="equality">
-          <h2><a href="#equality">Equality</a></h2>
+        <section id="equality-approximate">
+          <h2><a href="#equality-approximate">Equality (approximate)</a></h2>
           <dl class="m-doc">
             <dt id="ad685f7bed0f4cb45b261ad352df1fd50">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad685f7bed0f4cb45b261ad352df1fd50">approx_empty</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
@@ -302,18 +304,6 @@
               <a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components in a bounding box are approximately equal to zero.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a2199168765d5aa7fbe9422a95c2f86a7">empty</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a bounding box has exactly zero volume.</dd>
-            <dt id="a92b22cd71d3af75776a4203e7c6e1f8d">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a92b22cd71d3af75776a4203e7c6e1f8d">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if any of the scalar components of a bounding box are infinity or NaN.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ac882057d370ad876fcb33e3424b96610">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if all the scalar components of a bounding box are exactly zero.</dd>
             <dt id="a5d0a02735010b277966b8ba2646f43c5">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5d0a02735010b277966b8ba2646f43c5">approx_empty</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -328,6 +318,23 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aeb4a6a0b0ea64d3539a0e91a16bbfdda">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components in the bounding box are approximately equal to zero.</dd>
+          </dl>
+        </section>
+        <section id="equality-exact">
+          <h2><a href="#equality-exact">Equality (exact)</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a2199168765d5aa7fbe9422a95c2f86a7">empty</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a bounding box has exactly zero volume.</dd>
+            <dt id="a92b22cd71d3af75776a4203e7c6e1f8d">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a92b22cd71d3af75776a4203e7c6e1f8d">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalar components of a bounding box are infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ac882057d370ad876fcb33e3424b96610">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components of a bounding box are exactly zero.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a407269fa61e8f0edde097ccb7fa2f118">empty</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -343,13 +350,13 @@
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aed7dc7fd597a6824f90000873ad87e28">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; lhs,
-              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;T&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two bounding boxes are not exactly equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#acbfecef565d1d2899692dccb4c1a8eb0">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; lhs,
-              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;T&gt;&amp; rhs) -&gt; friend bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two bounding boxes are exactly equal.</dd>
           </dl>
@@ -435,14 +442,7 @@
             <dd>Returns true if a bounding box intersects a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
             <dt id="a53aaa74149026b6c347d182d232c33d2">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a53aaa74149026b6c347d182d232c33d2">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
-              const triangle&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a bounding box intersects a triangle.</dd>
-            <dt id="ad99bb78151bab1bd6552724e10e8d820">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad99bb78151bab1bd6552724e10e8d820">intersects_triangle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
-              const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; p0,
-              const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; p1,
-              const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; p2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a bounding box intersects a triangle.</dd>
             <dt id="afd5ecc1f6389e35561f56b1e74677b52">
@@ -458,15 +458,22 @@
             </dt>
             <dd>Returns true if the bounding box intersects a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
             <dt id="ad32e8d2c31361c262ad9fec27d4a5f12">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad32e8d2c31361c262ad9fec27d4a5f12">intersects</a>(</span><span class="m-doc-wrap">const triangle&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; tri) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad32e8d2c31361c262ad9fec27d4a5f12">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; tri) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the bounding box intersects a triangle.</dd>
-            <dt id="a050dd305a87fb68273eb92a74fe4c8ad">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a050dd305a87fb68273eb92a74fe4c8ad">intersects_triangle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; p0,
-              const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; p1,
-              const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; p2) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+          </dl>
+        </section>
+        <section id="scalar-accessors">
+          <h2><a href="#scalar-accessors">Scalar accessors</a></h2>
+          <dl class="m-doc">
+            <dt id="a5a2b2d0be190bc38f6a83154713a30cb">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5a2b2d0be190bc38f6a83154713a30cb">data</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if the bounding box intersects a triangle.</dd>
+            <dd>Returns a pointer to the first scalar component in the bounding box.</dd>
+            <dt id="a38f96ca4c0bbffb61a15fc880152bc34">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a38f96ca4c0bbffb61a15fc880152bc34">data</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a pointer to the first scalar component in the bounding box.</dd>
           </dl>
         </section>
         <section id="transformation-translation-and-scaling">
@@ -810,7 +817,7 @@ template&lt;typename T&gt;
                 template&lt;typename Scalar&gt;<br/>
 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">friend bool muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aed7dc7fd597a6824f90000873ad87e28">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aed7dc7fd597a6824f90000873ad87e28">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two bounding boxes are not exactly equal.</p>
@@ -822,7 +829,7 @@ template&lt;typename T&gt;
                 template&lt;typename Scalar&gt;<br/>
 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">friend bool muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#acbfecef565d1d2899692dccb4c1a8eb0">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#acbfecef565d1d2899692dccb4c1a8eb0">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two bounding boxes are exactly equal.</p>

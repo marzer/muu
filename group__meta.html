@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.2" name="generator"/>
+  <meta content="Poxy v0.5.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.2.css" rel="stylesheet"/>
-  <link href="poxy-0.5.2-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.2.js"></script>
+  <link href="poxy-0.5.3.css" rel="stylesheet"/>
+  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -163,13 +163,13 @@
             </dt>
             <dd>A tag type for encoding/parameterizing a single index.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              using <a class="m-doc" href="#ga7c930af45d2e06539c2a3dfcc908a854">largest</a> = typename impl::largest_&lt;T...&gt;::type
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              using <a class="m-doc" href="#ga66c7ac2c2ba5ae0358a9c398ca1a5fa3">largest</a> = typename impl::largest_&lt;T, U...&gt;::type
             </dt>
             <dd>The largest type from a set of types.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              using <a class="m-doc" href="#gaeb94aca04351ff030dae9dff706fe05c">least_aligned</a> = typename impl::least_aligned_&lt;T...&gt;::type
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              using <a class="m-doc" href="#ga14d4e47d4a3ee4bcae55745a917343e3">least_aligned</a> = typename impl::least_aligned_&lt;T, U...&gt;::type
             </dt>
             <dd>The type with the smallest alignment (i.e. having the smallest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
             <dt>
@@ -183,8 +183,8 @@
             </dt>
             <dd>Converts a numeric type to the unsigned equivalent with the same rank.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              using <a class="m-doc" href="#ga62680f064b38d875edbcb08604a2736d">most_aligned</a> = typename impl::most_aligned_&lt;T...&gt;::type
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              using <a class="m-doc" href="#ga412a873e98a67c58f4bcb71bb8c23ddb">most_aligned</a> = typename impl::most_aligned_&lt;T, U...&gt;::type
             </dt>
             <dd>The type with the largest alignment (i.e. having the largest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
             <dt>
@@ -273,8 +273,8 @@
             </dt>
             <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              using <a class="m-doc" href="#ga9cd7c756a0397747aa065ac54ddbf46b">smallest</a> = typename impl::smallest_&lt;T...&gt;::type
+              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              using <a class="m-doc" href="#ga7b0e548ad93b4b2fabc3c38eadd456c5">smallest</a> = typename impl::smallest_&lt;T, U...&gt;::type
             </dt>
             <dd>The smallest type from a set of types.</dd>
             <dt>
@@ -302,23 +302,23 @@
             </dt>
             <dd>The default alignment of a type.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gaccb79366bc73cbc96f8a6317fead16f1">all_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga3e1129e045b70c2af6a5d50b1017662c">all_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types arithmetic or reference-to-arithmetic?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga10598e51bcfe8c2a8261c6617990eaea">all_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga3e77e037d2b8f336651ae4f06fead98d">all_array</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types arrays, or references to arrays?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gae22dfc906ab84c2a644d7f635b00bf5d">all_bounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga2b5c53a174d76fc6d6dde73a999753ff">all_bounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types a bounded array (<code>T[N]</code>), or a reference to one?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga1fce0d7c8fa9515365a671bdee77f722">all_const</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gadf6a0fd43aef7bad2aa5b1061ca76909">all_const</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types const or reference-to-const?</dd>
             <dt>
@@ -327,18 +327,18 @@
             </dt>
             <dd>True if all of the types named by <code>From</code> are implicitly <em>or</em> explicitly convertible to <code>To</code>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga31a739e7f932a7386e9779e05c65e1ba">all_cv</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga604b58afd51f22c514b3642e06984660">all_cv</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types const and/or volatile-qualified, or references to const and/or volatile-qualified?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gaf3bb0d8c33afd87750a47cb200a5ef57">all_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gaf373c7ded4ff3f304e087d9311e012f9">all_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types const, volatile, or a reference?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gafaa3803206e27df19fde422d3b1eb540">all_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga38cc1e5109a701b7c609faf614ad75f7">all_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types enums or reference-to-enum?</dd>
             <dt>
@@ -352,8 +352,8 @@
             </dt>
             <dd>True if all of the types named by <code>From</code> are explicitly nothrow-convertible to <code>To</code>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gad2165666bd79caf59277b9c4488a1bde">all_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga66729838c230dc7bb06574460d0d8c3d">all_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types floating-point or reference-to-floating-point?</dd>
             <dt>
@@ -367,15 +367,20 @@
             </dt>
             <dd>True if all of the types named by <code>From</code> are implicitly nothrow-convertible to <code>To</code>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga891ba12282ff535141b2e581867518fe">all_integer</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gac4750ab546ab72009c9c73407016f0f7">all_integer</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types arithmetic integers, or reference to them?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga02060371498ff52c8d225e379fe00975">all_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga113302a3a1ac13b36caa7f1baaf7a191">all_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types integral or reference-to-integral?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga0b19c96f2fd22318ff9434cecb8e4ecc">all_legacy_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types pre-C++11 unscoped enums, or references to one?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename To, typename... From&gt;</div>
               bool <a class="m-doc" href="#ga465e6a6c912b71ca29cf4abf4575bf4f">all_nothrow_convertible_to</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -385,25 +390,30 @@
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#ga9c2b21ea2cf57533a5dcf264d0e906e8">all_same</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>True if all the types named by T and U are exactly the same.</dd>
+            <dd>True if all the named types are exactly the same.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gaa7a73625bc705a9021924a54729c192e">all_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gac742ec408e961ab3cdfcba8b59fc043f">all_scoped_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types C++11 scoped enum classes, or references to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gad0e4bc930ad4094734715f7b5b116c15">all_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types signed or reference-to-signed?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gaa45d5a8ac607de08c4d7f2b1d275dc3d">all_unbounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gaf8727f2300cefe6944088ab53b9c9d59">all_unbounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types an unbounded array (<code>T[]</code>), or a reference to one?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gaa29a6fbd7e596e20dd8769aefc3cd51e">all_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gaa71f70dfddfb9f29ed162014c6020672">all_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types unsigned or reference-to-unsigned?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gaabe1f5048446fbf9280d63fbb3f3d440">all_volatile</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gadca3d0c318c62cf67f0e711cddc3ed92">all_volatile</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are all of the named types volatile or reference-to-volatile?</dd>
             <dt>
@@ -417,78 +427,88 @@
             </dt>
             <dd>Evaluates to false but with delayed, type-dependent evaluation.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gad067ec94bd319f3cd1b8406d5d208701">any_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga4cdccad554e7b4964b66449794c488ce">any_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types arithmetic or reference-to-arithmetic?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gaa6e6a09626366fea9202ecaa1f42f414">any_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gae48b7c7d5e58e9c43b47386ec34c2a55">any_array</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types arrays, or references to arrays?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga62dc66d47da5a1d4420082e8c29bf978">any_bounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga41e64183a2500e39947132b435ff13d8">any_bounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types a bounded array (<code>T[N]</code>), or a reference to one?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga8790fee03d9e3fe2dd3b1d126b08a2ce">any_const</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga586bfe745dfc478bb12c62911c5ec7d2">any_const</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types const or reference-to-const?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga0901c12d4271170dee63a201878f49d5">any_cv</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gaac432f658a461422891106bb6f8d0125">any_cv</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types const and/or volatile-qualified, or references to const and/or volatile-qualified?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga3957082e3d9c3d7225b7f7f852afa357">any_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga2142c726fa120091603f69a4f88800b9">any_cvref</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types const, volatile, or a reference?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gabc989dd91eaeb76cf275afe1e1de94bf">any_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga5654c62084cb368c8d754ef2391188f1">any_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types enums or reference-to-enum?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gadcd85258054ff54b7d0dd7f875185bf0">any_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gaa4cc5ffaa2d70d40b668c54f1e8ec303">any_floating_point</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types floating-point or reference-to-floating-point?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga3660079b9cf5bd6f01ef9f5322c235f7">any_integer</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga93df7f38a0b30c68c6138780d55885fb">any_integer</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types arithmetic integers, or reference to them?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga531166c296beeb911cb00d6ce826d3e8">any_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga1a551403c0c337deb10ceb0dc7718fc1">any_integral</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types integral or reference-to-integral?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga61a1919e5b9db8752915c52166418e35">any_legacy_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types pre-C++11 unscoped enums, or references to one?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               bool <a class="m-doc" href="#gaed6f4fa9f355d5e882000e65dc7cd0b2">any_same</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if T is exactly the same as one or more of the types named by U.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga68d2257a9ace0f37200d05117931baed">any_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gac4960dd74a53e778d606c67b17b898fc">any_scoped_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types C++11 scoped enum classes, or references to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga8db6d992e6f39f91948ea80dff4e1025">any_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types signed or reference-to-signed?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga0f5de953c30ac2d5aa79ccece0f5681a">any_unbounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gaa1efb75d54e410227ee2cd1448d72d41">any_unbounded_array</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types an unbounded array (<code>T[]</code>), or a reference to one?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#ga3bb31ded23944badda78774761206c09">any_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#gab947cfb735e87e9394420be39d9f0279">any_unsigned</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types unsigned or reference-to-unsigned?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              bool <a class="m-doc" href="#gaef99eced8c220aaf5875212fdccd6fe2">any_volatile</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="#ga33f32f81af61846324b24c96d22fb855">any_volatile</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types volatile or reference-to-volatile?</dd>
             <dt>
@@ -557,6 +577,16 @@
             </dt>
             <dd>True if a pair of types has an equality operator (<code>T == U</code>).</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
+              bool <a class="m-doc" href="#ga2a09893087420eca324aa878466b1323">has_greater_than_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a pair of types has a greater-than operator (<code>T &gt; U</code>).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
+              bool <a class="m-doc" href="#gaf0114bddef2099828f5c428dafb0da3d">has_greater_than_or_equal_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a pair of types has a greater-than-or-equal operator (<code>T &gt;= U</code>).</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#ga7ce806883528834c0b156cf9d150f8b6">has_indirection_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -566,6 +596,16 @@
               bool <a class="m-doc" href="#gac7b4aeab35fd101dabb265d96ac907cf">has_inequality_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if a pair of types has an inequality operator (<code>T != U</code>).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
+              bool <a class="m-doc" href="#ga8174e2a93bd7baef51f9c4ffd3d7206d">has_less_than_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a pair of types has a less-than operator (<code>T &lt; U</code>).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
+              bool <a class="m-doc" href="#ga2bcea1936abb6634724460d9b60b1523">has_less_than_or_equal_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a pair of types has a less-than-or-equal operator (<code>T &lt;= U</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U = T&gt;</div>
               bool <a class="m-doc" href="#ga127032392bbc1f2ce60436c441eafa21">has_logical_and_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -637,22 +677,22 @@
             </dt>
             <dd>True if a type has a unary plus operator (<code>+T</code>).</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ga27d95776f3cf0c19b01db50c4373fb63">index_of_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename T, typename U, typename... V&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ga91356a65708493c6fbc993024894c901">index_of_type</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Returns the index of the first appearance of the type T in the type list U.</dd>
+            <dd>The index of the first appearance of the type T in the type list [U, V...].</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Child, typename Parent&gt;</div>
               bool <a class="m-doc" href="#gad99449272de65874d3b7569d9eb9e805">inherits_from</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Does Child inherit from Parent?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Child, typename... Parents&gt;</div>
-              bool <a class="m-doc" href="#gaadc58b7614ccb6f2626162c71fd204c9">inherits_from_all</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename Child, typename Parent, typename... Parents&gt;</div>
+              bool <a class="m-doc" href="#gafb8004fa9a10a8e6d4ae98a8d8a797b5">inherits_from_all</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Does Child inherit from all of the types named by Parent?</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Child, typename... Parents&gt;</div>
-              bool <a class="m-doc" href="#gadd83c88c9a60057f0d637c083772bedb">inherits_from_any</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template&lt;typename Child, typename Parent, typename... Parents&gt;</div>
+              bool <a class="m-doc" href="#ga49aa08768876bf7322df7d9b27eac4bf">inherits_from_any</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Does Child inherit from any of the types named by Parent?</dd>
             <dt>
@@ -1037,23 +1077,23 @@
             </h3>
             <p>A tag type for encoding/parameterizing a single index.</p>
           </div></section>
-          <section class="m-doc-details" id="ga7c930af45d2e06539c2a3dfcc908a854"><div>
+          <section class="m-doc-details" id="ga66c7ac2c2ba5ae0358a9c398ca1a5fa3"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename... T&gt;
+                template&lt;typename T, typename... U&gt;
               </div>
-              using <a class="m-doc-self" href="#ga7c930af45d2e06539c2a3dfcc908a854">largest</a> = typename impl::largest_&lt;T...&gt;::type
+              using <a class="m-doc-self" href="#ga66c7ac2c2ba5ae0358a9c398ca1a5fa3">largest</a> = typename impl::largest_&lt;T, U...&gt;::type
             </h3>
             <p>The largest type from a set of types.</p>
           </div></section>
-          <section class="m-doc-details" id="gaeb94aca04351ff030dae9dff706fe05c"><div>
+          <section class="m-doc-details" id="ga14d4e47d4a3ee4bcae55745a917343e3"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename... T&gt;
+                template&lt;typename T, typename... U&gt;
               </div>
-              using <a class="m-doc-self" href="#gaeb94aca04351ff030dae9dff706fe05c">least_aligned</a> = typename impl::least_aligned_&lt;T...&gt;::type
+              using <a class="m-doc-self" href="#ga14d4e47d4a3ee4bcae55745a917343e3">least_aligned</a> = typename impl::least_aligned_&lt;T, U...&gt;::type
             </h3>
             <p>The type with the smallest alignment (i.e. having the smallest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Treats <code>void</code> and functions as having an alignment of <code>1</code>.</p></aside>
@@ -1080,13 +1120,13 @@
             <p>Converts a numeric type to the unsigned equivalent with the same rank.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>CV qualifiers and reference categories are preserved.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga62680f064b38d875edbcb08604a2736d"><div>
+          <section class="m-doc-details" id="ga412a873e98a67c58f4bcb71bb8c23ddb"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename... T&gt;
+                template&lt;typename T, typename... U&gt;
               </div>
-              using <a class="m-doc-self" href="#ga62680f064b38d875edbcb08604a2736d">most_aligned</a> = typename impl::most_aligned_&lt;T...&gt;::type
+              using <a class="m-doc-self" href="#ga412a873e98a67c58f4bcb71bb8c23ddb">most_aligned</a> = typename impl::most_aligned_&lt;T, U...&gt;::type
             </h3>
             <p>The type with the largest alignment (i.e. having the largest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Treats <code>void</code> and functions as having an alignment of <code>1</code>.</p></aside>
@@ -1263,13 +1303,13 @@
             </h3>
             <p>Gets the signed integer type with a specific number of bits for the target platform.</p>
           </div></section>
-          <section class="m-doc-details" id="ga9cd7c756a0397747aa065ac54ddbf46b"><div>
+          <section class="m-doc-details" id="ga7b0e548ad93b4b2fabc3c38eadd456c5"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename... T&gt;
+                template&lt;typename T, typename... U&gt;
               </div>
-              using <a class="m-doc-self" href="#ga9cd7c756a0397747aa065ac54ddbf46b">smallest</a> = typename impl::smallest_&lt;T...&gt;::type
+              using <a class="m-doc-self" href="#ga7b0e548ad93b4b2fabc3c38eadd456c5">smallest</a> = typename impl::smallest_&lt;T, U...&gt;::type
             </h3>
             <p>The smallest type from a set of types.</p>
           </div></section>
@@ -1316,44 +1356,44 @@
             <p>The default alignment of a type.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Treats <code>void</code> and functions as having an alignment of <code>1</code>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gaccb79366bc73cbc96f8a6317fead16f1"><div>
+          <section class="m-doc-details" id="ga3e1129e045b70c2af6a5d50b1017662c"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gaccb79366bc73cbc96f8a6317fead16f1">all_arithmetic</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga3e1129e045b70c2af6a5d50b1017662c">all_arithmetic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types arithmetic or reference-to-arithmetic?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc poxy-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc poxy-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga10598e51bcfe8c2a8261c6617990eaea"><div>
+          <section class="m-doc-details" id="ga3e77e037d2b8f336651ae4f06fead98d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga10598e51bcfe8c2a8261c6617990eaea">all_array</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga3e77e037d2b8f336651ae4f06fead98d">all_array</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types arrays, or references to arrays?</p>
           </div></section>
-          <section class="m-doc-details" id="gae22dfc906ab84c2a644d7f635b00bf5d"><div>
+          <section class="m-doc-details" id="ga2b5c53a174d76fc6d6dde73a999753ff"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gae22dfc906ab84c2a644d7f635b00bf5d">all_bounded_array</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga2b5c53a174d76fc6d6dde73a999753ff">all_bounded_array</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types a bounded array (<code>T[N]</code>), or a reference to one?</p>
           </div></section>
-          <section class="m-doc-details" id="ga1fce0d7c8fa9515365a671bdee77f722"><div>
+          <section class="m-doc-details" id="gadf6a0fd43aef7bad2aa5b1061ca76909"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga1fce0d7c8fa9515365a671bdee77f722">all_const</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gadf6a0fd43aef7bad2aa5b1061ca76909">all_const</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types const or reference-to-const?</p>
           </div></section>
@@ -1367,33 +1407,33 @@
             </h3>
             <p>True if all of the types named by <code>From</code> are implicitly <em>or</em> explicitly convertible to <code>To</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga31a739e7f932a7386e9779e05c65e1ba"><div>
+          <section class="m-doc-details" id="ga604b58afd51f22c514b3642e06984660"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga31a739e7f932a7386e9779e05c65e1ba">all_cv</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga604b58afd51f22c514b3642e06984660">all_cv</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types const and/or volatile-qualified, or references to const and/or volatile-qualified?</p>
           </div></section>
-          <section class="m-doc-details" id="gaf3bb0d8c33afd87750a47cb200a5ef57"><div>
+          <section class="m-doc-details" id="gaf373c7ded4ff3f304e087d9311e012f9"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gaf3bb0d8c33afd87750a47cb200a5ef57">all_cvref</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gaf373c7ded4ff3f304e087d9311e012f9">all_cvref</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types const, volatile, or a reference?</p>
           </div></section>
-          <section class="m-doc-details" id="gafaa3803206e27df19fde422d3b1eb540"><div>
+          <section class="m-doc-details" id="ga38cc1e5109a701b7c609faf614ad75f7"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gafaa3803206e27df19fde422d3b1eb540">all_enum</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga38cc1e5109a701b7c609faf614ad75f7">all_enum</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types enums or reference-to-enum?</p>
           </div></section>
@@ -1417,13 +1457,13 @@
             </h3>
             <p>True if all of the types named by <code>From</code> are explicitly nothrow-convertible to <code>To</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="gad2165666bd79caf59277b9c4488a1bde"><div>
+          <section class="m-doc-details" id="ga66729838c230dc7bb06574460d0d8c3d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gad2165666bd79caf59277b9c4488a1bde">all_floating_point</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga66729838c230dc7bb06574460d0d8c3d">all_floating_point</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types floating-point or reference-to-floating-point?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
@@ -1448,27 +1488,37 @@
             </h3>
             <p>True if all of the types named by <code>From</code> are implicitly nothrow-convertible to <code>To</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga891ba12282ff535141b2e581867518fe"><div>
+          <section class="m-doc-details" id="gac4750ab546ab72009c9c73407016f0f7"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga891ba12282ff535141b2e581867518fe">all_integer</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gac4750ab546ab72009c9c73407016f0f7">all_integer</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types arithmetic integers, or reference to them?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc poxy-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc poxy-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p><p>False for enums, booleans, and character types.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga02060371498ff52c8d225e379fe00975"><div>
+          <section class="m-doc-details" id="ga113302a3a1ac13b36caa7f1baaf7a191"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga02060371498ff52c8d225e379fe00975">all_integral</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga113302a3a1ac13b36caa7f1baaf7a191">all_integral</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types integral or reference-to-integral?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for enums.</p><p>True for <a class="m-doc poxy-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc poxy-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga0b19c96f2fd22318ff9434cecb8e4ecc"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga0b19c96f2fd22318ff9434cecb8e4ecc">all_legacy_enum</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are all of the named types pre-C++11 unscoped enums, or references to one?</p>
           </div></section>
           <section class="m-doc-details" id="ga465e6a6c912b71ca29cf4abf4575bf4f"><div>
             <h3>
@@ -1488,48 +1538,58 @@
               </div>
               bool <a class="m-doc-self" href="#ga9c2b21ea2cf57533a5dcf264d0e906e8">all_same</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>True if all the types named by T and U are exactly the same.</p>
+            <p>True if all the named types are exactly the same.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; &amp;&amp; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; &amp;&amp; ...)</code>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gaa7a73625bc705a9021924a54729c192e"><div>
+          <section class="m-doc-details" id="gac742ec408e961ab3cdfcba8b59fc043f"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gaa7a73625bc705a9021924a54729c192e">all_signed</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gac742ec408e961ab3cdfcba8b59fc043f">all_scoped_enum</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are all of the named types C++11 scoped enum classes, or references to one?</p>
+          </div></section>
+          <section class="m-doc-details" id="gad0e4bc930ad4094734715f7b5b116c15"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gad0e4bc930ad4094734715f7b5b116c15">all_signed</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types signed or reference-to-signed?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for enums backed by signed integers.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gaa45d5a8ac607de08c4d7f2b1d275dc3d"><div>
+          <section class="m-doc-details" id="gaf8727f2300cefe6944088ab53b9c9d59"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gaa45d5a8ac607de08c4d7f2b1d275dc3d">all_unbounded_array</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gaf8727f2300cefe6944088ab53b9c9d59">all_unbounded_array</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types an unbounded array (<code>T[]</code>), or a reference to one?</p>
           </div></section>
-          <section class="m-doc-details" id="gaa29a6fbd7e596e20dd8769aefc3cd51e"><div>
+          <section class="m-doc-details" id="gaa71f70dfddfb9f29ed162014c6020672"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gaa29a6fbd7e596e20dd8769aefc3cd51e">all_unsigned</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gaa71f70dfddfb9f29ed162014c6020672">all_unsigned</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types unsigned or reference-to-unsigned?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for enums backed by unsigned integers.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gaabe1f5048446fbf9280d63fbb3f3d440"><div>
+          <section class="m-doc-details" id="gadca3d0c318c62cf67f0e711cddc3ed92"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gaabe1f5048446fbf9280d63fbb3f3d440">all_volatile</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gadca3d0c318c62cf67f0e711cddc3ed92">all_volatile</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are all of the named types volatile or reference-to-volatile?</p>
           </div></section>
@@ -1583,114 +1643,124 @@
               bool <a class="m-doc-self" href="#gaa4c92e65e153e9a6c9ac01ba3bd653e5">always_false</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Evaluates to false but with delayed, type-dependent evaluation.</p>
-<p>Allows you to do things like this:</p><pre class="m-code"><span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="ut">is_some_fancy_type</span><span class="o">&lt;</span><span class="ut">T</span><span class="o">&gt;</span><span class="p">)</span>
+<p>Allows you to do things like this:</p><pre class="m-code"><span class="k">if</span> <span class="k">constexpr</span> <span class="p">(</span><span class="ut">is_fancy_type</span><span class="o">&lt;</span><span class="ut">T</span><span class="o">&gt;</span><span class="p">)</span>
     <span class="c1">// ...</span>
 <span class="k">else</span>
-    <span class="k">static_assert</span><span class="p">(</span><span class="n">always_false</span><span class="o">&lt;</span><span class="ut">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="s">"Oh no, T was bad!"</span><span class="p">);</span></pre>
+    <span class="k">static_assert</span><span class="p">(</span><span class="n">always_false</span><span class="o">&lt;</span><span class="ut">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="s">"Oh no, T wasn't fancy enough!"</span><span class="p">);</span></pre>
           </div></section>
-          <section class="m-doc-details" id="gad067ec94bd319f3cd1b8406d5d208701"><div>
+          <section class="m-doc-details" id="ga4cdccad554e7b4964b66449794c488ce"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gad067ec94bd319f3cd1b8406d5d208701">any_arithmetic</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga4cdccad554e7b4964b66449794c488ce">any_arithmetic</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types arithmetic or reference-to-arithmetic?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc poxy-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a>, <a class="m-doc poxy-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gaa6e6a09626366fea9202ecaa1f42f414"><div>
+          <section class="m-doc-details" id="gae48b7c7d5e58e9c43b47386ec34c2a55"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gaa6e6a09626366fea9202ecaa1f42f414">any_array</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gae48b7c7d5e58e9c43b47386ec34c2a55">any_array</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types arrays, or references to arrays?</p>
           </div></section>
-          <section class="m-doc-details" id="ga62dc66d47da5a1d4420082e8c29bf978"><div>
+          <section class="m-doc-details" id="ga41e64183a2500e39947132b435ff13d8"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga62dc66d47da5a1d4420082e8c29bf978">any_bounded_array</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga41e64183a2500e39947132b435ff13d8">any_bounded_array</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types a bounded array (<code>T[N]</code>), or a reference to one?</p>
           </div></section>
-          <section class="m-doc-details" id="ga8790fee03d9e3fe2dd3b1d126b08a2ce"><div>
+          <section class="m-doc-details" id="ga586bfe745dfc478bb12c62911c5ec7d2"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga8790fee03d9e3fe2dd3b1d126b08a2ce">any_const</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga586bfe745dfc478bb12c62911c5ec7d2">any_const</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types const or reference-to-const?</p>
           </div></section>
-          <section class="m-doc-details" id="ga0901c12d4271170dee63a201878f49d5"><div>
+          <section class="m-doc-details" id="gaac432f658a461422891106bb6f8d0125"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga0901c12d4271170dee63a201878f49d5">any_cv</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gaac432f658a461422891106bb6f8d0125">any_cv</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types const and/or volatile-qualified, or references to const and/or volatile-qualified?</p>
           </div></section>
-          <section class="m-doc-details" id="ga3957082e3d9c3d7225b7f7f852afa357"><div>
+          <section class="m-doc-details" id="ga2142c726fa120091603f69a4f88800b9"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga3957082e3d9c3d7225b7f7f852afa357">any_cvref</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga2142c726fa120091603f69a4f88800b9">any_cvref</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types const, volatile, or a reference?</p>
           </div></section>
-          <section class="m-doc-details" id="gabc989dd91eaeb76cf275afe1e1de94bf"><div>
+          <section class="m-doc-details" id="ga5654c62084cb368c8d754ef2391188f1"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gabc989dd91eaeb76cf275afe1e1de94bf">any_enum</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga5654c62084cb368c8d754ef2391188f1">any_enum</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types enums or reference-to-enum?</p>
           </div></section>
-          <section class="m-doc-details" id="gadcd85258054ff54b7d0dd7f875185bf0"><div>
+          <section class="m-doc-details" id="gaa4cc5ffaa2d70d40b668c54f1e8ec303"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gadcd85258054ff54b7d0dd7f875185bf0">any_floating_point</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gaa4cc5ffaa2d70d40b668c54f1e8ec303">any_floating_point</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types floating-point or reference-to-floating-point?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>.</p><p>True for <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> and <a class="m-doc poxy-injected" href="group__core.html#ga74a70ec9e3331f37ebbc3e875e183861">float128_<wbr/>t</a> (where supported).</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga3660079b9cf5bd6f01ef9f5322c235f7"><div>
+          <section class="m-doc-details" id="ga93df7f38a0b30c68c6138780d55885fb"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga3660079b9cf5bd6f01ef9f5322c235f7">any_integer</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga93df7f38a0b30c68c6138780d55885fb">any_integer</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types arithmetic integers, or reference to them?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for <a class="m-doc poxy-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc poxy-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p><p>False for enums, booleans, and character types.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga531166c296beeb911cb00d6ce826d3e8"><div>
+          <section class="m-doc-details" id="ga1a551403c0c337deb10ceb0dc7718fc1"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga531166c296beeb911cb00d6ce826d3e8">any_integral</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga1a551403c0c337deb10ceb0dc7718fc1">any_integral</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types integral or reference-to-integral?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for enums.</p><p>True for <a class="m-doc poxy-injected" href="group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c">int128_<wbr/>t</a> and <a class="m-doc poxy-injected" href="group__core.html#gaa82164a62949a1b029695dff5441d577">uint128_<wbr/>t</a> (where supported).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga61a1919e5b9db8752915c52166418e35"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga61a1919e5b9db8752915c52166418e35">any_legacy_enum</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are any of the named types pre-C++11 unscoped enums, or references to one?</p>
           </div></section>
           <section class="m-doc-details" id="gaed6f4fa9f355d5e882000e65dc7cd0b2"><div>
             <h3>
@@ -1703,45 +1773,55 @@
             <p>True if T is exactly the same as one or more of the types named by U.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This equivalent to <code>(<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U1&gt; || <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_same" target="_blank">std::is_same_v</a>&lt;T, U2&gt; || ...)</code>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga68d2257a9ace0f37200d05117931baed"><div>
+          <section class="m-doc-details" id="gac4960dd74a53e778d606c67b17b898fc"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga68d2257a9ace0f37200d05117931baed">any_signed</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gac4960dd74a53e778d606c67b17b898fc">any_scoped_enum</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>Are any of the named types C++11 scoped enum classes, or references to one?</p>
+          </div></section>
+          <section class="m-doc-details" id="ga8db6d992e6f39f91948ea80dff4e1025"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga8db6d992e6f39f91948ea80dff4e1025">any_signed</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types signed or reference-to-signed?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for enums backed by signed integers.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga0f5de953c30ac2d5aa79ccece0f5681a"><div>
+          <section class="m-doc-details" id="gaa1efb75d54e410227ee2cd1448d72d41"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga0f5de953c30ac2d5aa79ccece0f5681a">any_unbounded_array</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gaa1efb75d54e410227ee2cd1448d72d41">any_unbounded_array</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types an unbounded array (<code>T[]</code>), or a reference to one?</p>
           </div></section>
-          <section class="m-doc-details" id="ga3bb31ded23944badda78774761206c09"><div>
+          <section class="m-doc-details" id="gab947cfb735e87e9394420be39d9f0279"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#ga3bb31ded23944badda78774761206c09">any_unsigned</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gab947cfb735e87e9394420be39d9f0279">any_unsigned</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types unsigned or reference-to-unsigned?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>True for enums backed by unsigned integers.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gaef99eced8c220aaf5875212fdccd6fe2"><div>
+          <section class="m-doc-details" id="ga33f32f81af61846324b24c96d22fb855"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
+                template&lt;typename... T&gt;
               </div>
-              bool <a class="m-doc-self" href="#gaef99eced8c220aaf5875212fdccd6fe2">any_volatile</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga33f32f81af61846324b24c96d22fb855">any_volatile</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Are any of the named types volatile or reference-to-volatile?</p>
           </div></section>
@@ -1875,6 +1955,26 @@
             </h3>
             <p>True if a pair of types has an equality operator (<code>T == U</code>).</p>
           </div></section>
+          <section class="m-doc-details" id="ga2a09893087420eca324aa878466b1323"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename U = T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga2a09893087420eca324aa878466b1323">has_greater_than_operator</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if a pair of types has a greater-than operator (<code>T &gt; U</code>).</p>
+          </div></section>
+          <section class="m-doc-details" id="gaf0114bddef2099828f5c428dafb0da3d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename U = T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#gaf0114bddef2099828f5c428dafb0da3d">has_greater_than_or_equal_operator</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if a pair of types has a greater-than-or-equal operator (<code>T &gt;= U</code>).</p>
+          </div></section>
           <section class="m-doc-details" id="ga7ce806883528834c0b156cf9d150f8b6"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
@@ -1894,6 +1994,26 @@
               bool <a class="m-doc-self" href="#gac7b4aeab35fd101dabb265d96ac907cf">has_inequality_operator</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>True if a pair of types has an inequality operator (<code>T != U</code>).</p>
+          </div></section>
+          <section class="m-doc-details" id="ga8174e2a93bd7baef51f9c4ffd3d7206d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename U = T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga8174e2a93bd7baef51f9c4ffd3d7206d">has_less_than_operator</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if a pair of types has a less-than operator (<code>T &lt; U</code>).</p>
+          </div></section>
+          <section class="m-doc-details" id="ga2bcea1936abb6634724460d9b60b1523"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename U = T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga2bcea1936abb6634724460d9b60b1523">has_less_than_or_equal_operator</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if a pair of types has a less-than-or-equal operator (<code>T &lt;= U</code>).</p>
           </div></section>
           <section class="m-doc-details" id="ga127032392bbc1f2ce60436c441eafa21"><div>
             <h3>
@@ -2034,14 +2154,14 @@
             </h3>
             <p>True if a type has a unary plus operator (<code>+T</code>).</p>
           </div></section>
-          <section class="m-doc-details" id="ga27d95776f3cf0c19b01db50c4373fb63"><div>
+          <section class="m-doc-details" id="ga91356a65708493c6fbc993024894c901"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename... U&gt;
-              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ga27d95776f3cf0c19b01db50c4373fb63">index_of_type</a> <span class="m-label m-primary">constexpr</span>
+                template&lt;typename T, typename U, typename... V&gt;
+              </div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ga91356a65708493c6fbc993024894c901">index_of_type</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>Returns the index of the first appearance of the type T in the type list U.</p>
+            <p>The index of the first appearance of the type T in the type list [U, V...].</p>
           </div></section>
           <section class="m-doc-details" id="gad99449272de65874d3b7569d9eb9e805"><div>
             <h3>
@@ -2054,24 +2174,24 @@
             <p>Does Child inherit from Parent?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This does <em>not</em> consider <code>Child == Parent</code> as being an "inherits from" relationship, unlike <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/is_base_of.html" target="_blank">std::<wbr/>is_base_of</a>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gaadc58b7614ccb6f2626162c71fd204c9"><div>
+          <section class="m-doc-details" id="gafb8004fa9a10a8e6d4ae98a8d8a797b5"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename Child, typename... Parents&gt;
+                template&lt;typename Child, typename Parent, typename... Parents&gt;
               </div>
-              bool <a class="m-doc-self" href="#gaadc58b7614ccb6f2626162c71fd204c9">inherits_from_all</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#gafb8004fa9a10a8e6d4ae98a8d8a797b5">inherits_from_all</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Does Child inherit from all of the types named by Parent?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This does <em>not</em> consider <code>Child == Parent</code> as being an "inherits from" relationship, unlike <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/is_base_of.html" target="_blank">std::<wbr/>is_base_of</a>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="gadd83c88c9a60057f0d637c083772bedb"><div>
+          <section class="m-doc-details" id="ga49aa08768876bf7322df7d9b27eac4bf"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename Child, typename... Parents&gt;
+                template&lt;typename Child, typename Parent, typename... Parents&gt;
               </div>
-              bool <a class="m-doc-self" href="#gadd83c88c9a60057f0d637c083772bedb">inherits_from_any</a> <span class="m-label m-primary">constexpr</span>
+              bool <a class="m-doc-self" href="#ga49aa08768876bf7322df7d9b27eac4bf">inherits_from_any</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Does Child inherit from any of the types named by Parent?</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This does <em>not</em> consider <code>Child == Parent</code> as being an "inherits from" relationship, unlike <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/is_base_of.html" target="_blank">std::<wbr/>is_base_of</a>.</p></aside>

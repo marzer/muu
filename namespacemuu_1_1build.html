@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.2" name="generator"/>
+  <meta content="Poxy v0.5.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.2.css" rel="stylesheet"/>
-  <link href="poxy-0.5.2-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.2.js"></script>
+  <link href="poxy-0.5.3.css" rel="stylesheet"/>
+  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -76,7 +76,7 @@
           <dl class="m-doc">
             <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#a059f47a1fea406df07928d18ba89e7c7">bitness</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>The bitness of the current architecture.</dd>
+            <dd>The 'bitness' of the target architecture (e.g. <code>64</code> on AMD64).</dd>
             <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#ac1422aad32070ebc2bdba6500e87bc6c">bits_per_byte</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The number of bits in a byte (aka CHAR_BIT).</dd>
@@ -86,14 +86,6 @@
             <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a8d9bd9685ff101794faacdc43206d662">day</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current day of the month (1-31).</dd>
-            <dt>
-              bool <a class="m-doc" href="#a94df782020722e17c9d359931c92134e">has_exceptions</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>True if exceptions are enabled.</dd>
-            <dt>
-              bool <a class="m-doc" href="#ae2ac1a89ce5084508f06a8fc3046dfb6">has_rtti</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>True if run-time type identification (RTTI) is enabled.</dd>
             <dt> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> <a class="m-doc" href="#a3a236f2f2246b352c3d0fddb6f898307">hour</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>The current hour of the day (0-23).</dd>
@@ -134,9 +126,17 @@
             </dt>
             <dd>True if some math functions (sin, cos, sqrt etc.) can be used in constexpr contexts on this compiler.</dd>
             <dt>
+              bool <a class="m-doc" href="#a1cc9e6160fa6088fa7b763d5eba09aee">supports_exceptions</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if exceptions are supported.</dd>
+            <dt>
               bool <a class="m-doc" href="#a8398d41dfdf02da1234b776f754bbb3d">supports_is_constant_evaluated</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">is_<wbr/>constant_<wbr/>evaluated()</a> is properly supported on this compiler.</dd>
+            <dt>
+              bool <a class="m-doc" href="#a564c99820bacd7c3cc5bc2bc1ab5e0ee">supports_rtti</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if run-time type identification (RTTI) is enabled.</dd>
             <dt>
               bool <a class="m-doc" href="#ad135127eb0889116bcc2d4db72f41673">supports_static_string_literals</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -156,7 +156,7 @@
             <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a059f47a1fea406df07928d18ba89e7c7">bitness</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
-            <p>The bitness of the current architecture.</p>
+            <p>The 'bitness' of the target architecture (e.g. <code>64</code> on AMD64).</p>
           </div></section>
           <section class="m-doc-details" id="ac1422aad32070ebc2bdba6500e87bc6c"><div>
             <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ac1422aad32070ebc2bdba6500e87bc6c">bits_per_byte</a> <span class="m-label m-primary">constexpr</span>
@@ -175,20 +175,6 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
             </h3>
             <p>The current day of the month (1-31).</p>
-          </div></section>
-          <section class="m-doc-details" id="a94df782020722e17c9d359931c92134e"><div>
-            <h3>
-              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a94df782020722e17c9d359931c92134e">has_exceptions</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>True if exceptions are enabled.</p>
-          </div></section>
-          <section class="m-doc-details" id="ae2ac1a89ce5084508f06a8fc3046dfb6"><div>
-            <h3>
-              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#ae2ac1a89ce5084508f06a8fc3046dfb6">has_rtti</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
-            </h3>
-            <p>True if run-time type identification (RTTI) is enabled.</p>
           </div></section>
           <section class="m-doc-details" id="a3a236f2f2246b352c3d0fddb6f898307"><div>
             <h3> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint32_t</a> muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a3a236f2f2246b352c3d0fddb6f898307">hour</a> <span class="m-label m-primary">constexpr</span>
@@ -262,12 +248,26 @@
             </h3>
             <p>True if some math functions (sin, cos, sqrt etc.) can be used in constexpr contexts on this compiler.</p>
           </div></section>
+          <section class="m-doc-details" id="a1cc9e6160fa6088fa7b763d5eba09aee"><div>
+            <h3>
+              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a1cc9e6160fa6088fa7b763d5eba09aee">supports_exceptions</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>True if exceptions are supported.</p>
+          </div></section>
           <section class="m-doc-details" id="a8398d41dfdf02da1234b776f754bbb3d"><div>
             <h3>
               bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a8398d41dfdf02da1234b776f754bbb3d">supports_is_constant_evaluated</a> <span class="m-label m-primary">constexpr</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
             </h3>
             <p>True if <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">is_<wbr/>constant_<wbr/>evaluated()</a> is properly supported on this compiler.</p>
+          </div></section>
+          <section class="m-doc-details" id="a564c99820bacd7c3cc5bc2bc1ab5e0ee"><div>
+            <h3>
+              bool muu::<wbr/>build::<wbr/><a class="m-doc-self" href="#a564c99820bacd7c3cc5bc2bc1ab5e0ee">supports_rtti</a> <span class="m-label m-primary">constexpr</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+            </h3>
+            <p>True if run-time type identification (RTTI) is enabled.</p>
           </div></section>
           <section class="m-doc-details" id="ad135127eb0889116bcc2d4db72f41673"><div>
             <h3>

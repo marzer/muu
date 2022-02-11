@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.2" name="generator"/>
+  <meta content="Poxy v0.5.3" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.2.css" rel="stylesheet"/>
-  <link href="poxy-0.5.2-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.2.js"></script>
+  <link href="poxy-0.5.3.css" rel="stylesheet"/>
+  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.3.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -119,6 +119,18 @@
             </dt>
             <dd>Checks if an object is infinity or NaN.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac83f0d0b00f182e5cfa6ae4dfa9ad12c">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T(&amp;vals)[N]) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any value in array is infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U, typename... V&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0f071cb7be895ff5f3176182306cb1a9">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const U&amp; val2,
+              const V&amp;... vals) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any value of the given values is infinity or NaN.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -138,6 +150,11 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a> are infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga73ae74e7ab9484fb2ee90a67e91c1b08">infinity_or_nan</a>(</span><span class="m-doc-wrap">const triangle&lt;S&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the points in a triangle are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga302affada638f7a69a77c925b1f38d93">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -247,10 +264,31 @@
               <tfoot>
                 <tr>
                   <th>Returns</th>
-                  <td>The result <code>T::infinity_or_nan(obj)</code> or <code><a class="m-doc" href="group__infinity__or__nan.html#ga7165ec00307546834b2cfec5dcd18920">obj.infinity_<wbr/>or_<wbr/>nan()</a></code> (coerced to bool).</td>
+                  <td>The result <code>T::infinity_or_nan(obj)</code> or <code><a class="m-doc" href="group__infinity__or__nan.html#ga0f071cb7be895ff5f3176182306cb1a9">obj.infinity_<wbr/>or_<wbr/>nan()</a></code> (coerced to bool).</td>
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+          <section class="m-doc-details" id="gac83f0d0b00f182e5cfa6ae4dfa9ad12c"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac83f0d0b00f182e5cfa6ae4dfa9ad12c">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T(&amp;vals)[N]) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if any value in array is infinity or NaN.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga0f071cb7be895ff5f3176182306cb1a9"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename U, typename... V&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0f071cb7be895ff5f3176182306cb1a9">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const U&amp; val2,
+              const V&amp;... vals) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if any value of the given values is infinity or NaN.</p>
           </div></section>
           <section class="m-doc-details" id="ga1f57b7af70f0235ad644486a5943e582"><div>
             <h3>
@@ -290,6 +328,16 @@
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a> are infinity or NaN.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga73ae74e7ab9484fb2ee90a67e91c1b08"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="triangle_8h.html">&lt;muu/triangle.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename S&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga73ae74e7ab9484fb2ee90a67e91c1b08">infinity_or_nan</a>(</span><span class="m-doc-wrap">const triangle&lt;S&gt;&amp; tri) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if any of the points in a triangle are infinity or NaN.</p>
           </div></section>
           <section class="m-doc-details" id="ga302affada638f7a69a77c925b1f38d93"><div>
             <h3>

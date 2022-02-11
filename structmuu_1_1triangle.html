@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8"/>
+  <title>muu::triangle struct | muu Miscellaneous useful utilities for C++</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
+  <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
+  <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="#22272e" name="theme-color"/>
+  <meta content="muu" name="twitter:title"/>
+  <meta content="muu" property="og:title"/>
+  <meta content="muu" itemprop="name"/>
+  <meta content="Miscellaneous useful utilities for C++" name="description"/>
+  <meta content="Miscellaneous useful utilities for C++" name="twitter:description"/>
+  <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
+  <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
+  <meta content="telephone=no" name="format-detection"/>
+  <meta content="Poxy v0.5.3" name="generator"/>
+  <meta content="no-referrer-when-downgrade" name="referrer"/>
+  <link href="poxy-0.5.3.css" rel="stylesheet"/>
+  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.3.js"></script>
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Miscellaneous useful utilities for C++</span></a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
+        </svg></a>
+        <a href="#navigation" id="m-navbar-show" title="Show navigation"></a>
+        <a href="#" id="m-navbar-hide" title="Hide navigation"></a>
+      </div>
+      <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="files.html">Files</a></li>
+            <li><a href="modules.html">Modules</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="4">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path"></use>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="triangle_8h.html">&lt;muu/triangle.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>triangle <span class="m-thin">struct</span>
+        </h1>
+        <p>A triangle.</p>
+        <table class="m-table m-fullwidth m-flat">
+          <thead>
+            <tr><th colspan="2">Template parameters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 1%">Scalar</td>
+              <td>The triangle's scalar component type. Must be a floating-point type.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="m-block m-default poxy-toc">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#barycentric-coordinates">Barycentric coordinates</a></li>
+                <li><a href="#equality-approximate">Equality (approximate)</a></li>
+                <li><a href="#equality-exact">Equality (exact)</a></li>
+                <li><a href="#geometric-properties">Geometric properties</a></li>
+                <li><a href="#intersection-and-containment">Intersection and containment</a></li>
+                <li><a href="#iterators">Iterators</a></li>
+                <li><a href="#iterators-adl">Iterators (ADL)</a></li>
+                <li><a href="#point-accessors">Point accessors</a></li>
+                <li><a href="#scalar-accessors">Scalar accessors</a></li>
+                <li><a href="#friends">Friends</a></li>
+                <li><a href="#related">Related</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="ad18c1105a14dc95ddab17d76c969870d">
+              using <a class="m-doc-self" href="#ad18c1105a14dc95ddab17d76c969870d">const_iterator</a> = const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>*
+            </dt>
+            <dd>A const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator" target="_blank">LegacyRandomAccessIterator</a> for the points in the triangle.</dd>
+            <dt id="affe3f9bb91c0cb68f01221dd24d4d647">
+              using <a class="m-doc-self" href="#affe3f9bb91c0cb68f01221dd24d4d647">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&gt;
+            </dt>
+            <dd>Compile-time triangle constants.</dd>
+            <dt id="a54f5077477478a20758652b65750b0ef">
+              using <a class="m-doc-self" href="#a54f5077477478a20758652b65750b0ef">iterator</a> = <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>*
+            </dt>
+            <dd>A <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator" target="_blank">LegacyRandomAccessIterator</a> for the points in the triangle.</dd>
+            <dt id="a6f139156800ade1637a72ba97c96d732">
+              using <a class="m-doc-self" href="#a6f139156800ade1637a72ba97c96d732">scalar_type</a> = Scalar
+            </dt>
+            <dd>The triangle's scalar type.</dd>
+            <dt id="a4f332b7b6aca26c58fd69ac540ced5ff">
+              using <a class="m-doc-self" href="#a4f332b7b6aca26c58fd69ac540ced5ff">vector_type</a> = <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>, 3&gt;
+            </dt>
+            <dd>The three-dimensional <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a> with the same <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> as the triangle.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="a008badd21dc32e07c6d0100741a5df57">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a008badd21dc32e07c6d0100741a5df57">triangle</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Default constructor. Values are not initialized.</dd>
+            <dt id="a784f45cef96310d107477a54cb120107">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a784f45cef96310d107477a54cb120107">triangle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy constructor.</dd>
+            <dt id="a53d1b3e41e7bbf89565eccbb5691a082">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a53d1b3e41e7bbf89565eccbb5691a082">triangle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a triangle from three points.</dd>
+            <dt id="a34a188e18bf0de3a44d0d5a575e4673d">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a34a188e18bf0de3a44d0d5a575e4673d">triangle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>(&amp;points)[3]) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a triangle from three points.</dd>
+            <dt id="ab661d9e40c80b577251b9dbdc88d6a5a">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab661d9e40c80b577251b9dbdc88d6a5a">triangle</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> p0_x,
+              <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> p0_y,
+              <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> p0_z,
+              <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> p1_x,
+              <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> p1_y,
+              <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> p1_z,
+              <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> p2_x,
+              <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> p2_y,
+              <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> p2_z) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a triangle from three points (in scalar form).</dd>
+            <dt id="af4b31ca78425c0908348d90eaeb52d83">
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af4b31ca78425c0908348d90eaeb52d83">triangle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converting constructor.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a362a7c6b0042a437d03d81548eee7b06">triangle</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a triangle from an implicitly bit-castable type.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a380e4bcba5e09675ce293ddf46ac3cf4">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a380e4bcba5e09675ce293ddf46ac3cf4">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy-assigment operator.</dd>
+          </dl>
+        </section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a87225c94bf34d036b961fc51504b2586">
+              <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <a class="m-doc-self" href="#a87225c94bf34d036b961fc51504b2586">points</a>
+            </dt>
+            <dd>the points in the triangle.</dd>
+          </dl>
+        </section>
+        <section id="barycentric-coordinates">
+          <h2><a href="#barycentric-coordinates">Barycentric coordinates</a></h2>
+          <dl class="m-doc">
+            <dt id="a6cb7995e188a6636f73bdd48a9c162e3">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a6cb7995e188a6636f73bdd48a9c162e3">barycentric</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the barycentric coordinates of a point within a triangle.</dd>
+            <dt id="a7778dfe5fdefea10456a1fef8a63f14c">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a7778dfe5fdefea10456a1fef8a63f14c">barycentric_generator</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a generator for calculating multiple barycentric coordinates from the same triangle.</dd>
+            <dt id="a21acec5bbcaa2d28cb74ea96056f9502">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a21acec5bbcaa2d28cb74ea96056f9502">barycentric</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) const -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the barycentric coordinates of a point within the triangle.</dd>
+            <dt id="a5917ff6a72c46204b658e8c8217f255e">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5917ff6a72c46204b658e8c8217f255e">barycentric_generator</a>(</span><span class="m-doc-wrap">) const -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a generator for calculating multiple barycentric coordinates from the triangle.</dd>
+          </dl>
+        </section>
+        <section id="equality-approximate">
+          <h2><a href="#equality-approximate">Equality (approximate)</a></h2>
+          <dl class="m-doc">
+            <dt id="a6f36d3a5fe42c3b59a8c90e81e89c6b5">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a6f36d3a5fe42c3b59a8c90e81e89c6b5">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;T&gt;&amp; tri2,
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two triangles are approximately equal.</dd>
+            <dt id="a088b7e68956e8d3bf98cd0aaf524230a">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a088b7e68956e8d3bf98cd0aaf524230a">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri,
+              <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components in a triangle are approximately equal to zero.</dd>
+            <dt id="ad89d0fb8bf5bdcf44159547f83653971">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad89d0fb8bf5bdcf44159547f83653971">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;T&gt;&amp; tri,
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>, T&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the triangle is approximately equal to another.</dd>
+            <dt id="a3684bf95361a50f5d1a26e6809296cb3">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3684bf95361a50f5d1a26e6809296cb3">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components in the triangle are approximately equal to zero.</dd>
+          </dl>
+        </section>
+        <section id="equality-exact">
+          <h2><a href="#equality-exact">Equality (exact)</a></h2>
+          <dl class="m-doc">
+            <dt id="aa6dd25aeeba2dbb7a0237688c5ba554e">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aa6dd25aeeba2dbb7a0237688c5ba554e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the points of a triangle are infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a8ba2ece2bafc08a34d60b4a5128ac278">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the points of a triangle are exactly zero.</dd>
+            <dt id="ab98d85af8f104aebbe9a0e5040d30cc8">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab98d85af8f104aebbe9a0e5040d30cc8">infinity_or_nan</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the points in the triangle are infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad4a210ccd0cbf81ef9c80cd1e6734a56">zero</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the points of the triangle are exactly zero.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a89f9fb5ac5be6311bd9e90e350163ffa">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two triangles are not exactly equal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a2243c114d58c6b5b5def0436770dfaf2">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two triangles are exactly equal.</dd>
+          </dl>
+        </section>
+        <section id="geometric-properties">
+          <h2><a href="#geometric-properties">Geometric properties</a></h2>
+          <dl class="m-doc">
+            <dt id="ab99f6494352d90c06d86900364e6c752">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab99f6494352d90c06d86900364e6c752">area</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the area of a triangle.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#afa1dcf5b1ad93222c73fb448cd2fd71c">centroid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a triangle's centroid point.</dd>
+            <dt id="ac891350e77133647bb9b9c3800564ba6">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ac891350e77133647bb9b9c3800564ba6">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle is degenerate (i.e. two or more of its points are coincident).</dd>
+            <dt id="a43dfb7e83c3b43c58d00f74b707e2862">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a43dfb7e83c3b43c58d00f74b707e2862">normal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the normal of a triangle's <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
+            <dt id="affce8bc29777bf61bb804d62029dea3b">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#affce8bc29777bf61bb804d62029dea3b">perimeter</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the length of a triangle's perimeter.</dd>
+            <dt id="acdbb5300f7faeb424d1cab2a2b89c87f">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#acdbb5300f7faeb424d1cab2a2b89c87f">plane</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) -&gt; <a class="m-doc" href="structmuu_1_1plane.html">muu::<wbr/>plane</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a> on which a triangle lies.</dd>
+            <dt id="a67cc766e93450deb63f5f84a0088fc93">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a67cc766e93450deb63f5f84a0088fc93">area</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the area of the triangle.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ac45d0c9a3993bb80460c1e06628583ea">centroid</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the triangle's centroid point.</dd>
+            <dt id="af9075d4c90279701a3e2208a1f180435">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af9075d4c90279701a3e2208a1f180435">degenerate</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the triangle is degenerate (i.e. two or more of its points are coincident).</dd>
+            <dt id="a53dd160e37e290a66d6062105e849daf">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a53dd160e37e290a66d6062105e849daf">normal</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the normal of the triangle's <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
+            <dt id="a2d68c3966ea99611e279433b186a89ed">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a2d68c3966ea99611e279433b186a89ed">operator muu::plane&lt;scalar_type&gt;</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a> on which the triangle lies.</dd>
+            <dt id="a05605becf5039f2d39118971123ed937">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a05605becf5039f2d39118971123ed937">perimeter</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the length of the triangle's perimeter.</dd>
+            <dt id="a17e6e99aae779335c52378ff8b3b0c26">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a17e6e99aae779335c52378ff8b3b0c26">plane</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1plane.html">muu::<wbr/>plane</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a> on which the triangle lies.</dd>
+          </dl>
+        </section>
+        <section id="intersection-and-containment">
+          <h2><a href="#intersection-and-containment">Intersection and containment</a></h2>
+          <dl class="m-doc">
+            <dt id="afd20f1a4bad93eaae90b6b4870956d82">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#afd20f1a4bad93eaae90b6b4870956d82">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle contains a point.</dd>
+            <dt id="ae5b331c44513becdc04ca36fbc23c0d3">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ae5b331c44513becdc04ca36fbc23c0d3">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle contains a point.</dd>
+            <dt id="af1c8179a45b0f04460b2783fd62c77c0">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#af1c8179a45b0f04460b2783fd62c77c0">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle and a point are coplanar.</dd>
+            <dt id="a9b02d704299c7fdf472cedf9e8561b73">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a9b02d704299c7fdf472cedf9e8561b73">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle and a point are coplanar.</dd>
+            <dt id="ae4d9e12c3f98e4dd427974a65c78d797">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ae4d9e12c3f98e4dd427974a65c78d797">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle intersects a bounding box.</dd>
+            <dt id="af266c2c8468e08e18fb8394aee9c2567">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#af266c2c8468e08e18fb8394aee9c2567">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle intersects a bounding box.</dd>
+            <dt id="ad667f1f626714fc800e8c06fb0cf7b9a">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad667f1f626714fc800e8c06fb0cf7b9a">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the triangle contains a point.</dd>
+            <dt id="a3d8f835445e079d196746f6eb215adf5">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3d8f835445e079d196746f6eb215adf5">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the triangle and a point are coplanar.</dd>
+            <dt id="ad9f77091ab2178fa24ca801f00effaf5">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad9f77091ab2178fa24ca801f00effaf5">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>&gt;&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the triangle intersects a bounding box.</dd>
+          </dl>
+        </section>
+        <section id="iterators">
+          <h2><a href="#iterators">Iterators</a></h2>
+          <dl class="m-doc">
+            <dt id="af6d5d3bd123107dbca91f50582112157">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af6d5d3bd123107dbca91f50582112157">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a54f5077477478a20758652b65750b0ef">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the first point in the triangle.</dd>
+            <dt id="a4a00085611ed4674a724eb7c5908681f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4a00085611ed4674a724eb7c5908681f">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#ad18c1105a14dc95ddab17d76c969870d">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first point in the triangle.</dd>
+            <dt id="a47852d1960a08501209441c1346f7fc4">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a47852d1960a08501209441c1346f7fc4">cbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#ad18c1105a14dc95ddab17d76c969870d">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first point in the triangle.</dd>
+            <dt id="aa917bc386bdb4b0e722ecf483a2c1b2c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa917bc386bdb4b0e722ecf483a2c1b2c">cend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#ad18c1105a14dc95ddab17d76c969870d">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last point in the triangle.</dd>
+            <dt id="a780dfd6db11f243a60fb3852111acf14">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a780dfd6db11f243a60fb3852111acf14">end</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a54f5077477478a20758652b65750b0ef">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the one-past-the-last point in the triangle.</dd>
+            <dt id="a73f0d9f0ce0be43675b8d4d6fc4edfb1">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a73f0d9f0ce0be43675b8d4d6fc4edfb1">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#ad18c1105a14dc95ddab17d76c969870d">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last point in the triangle.</dd>
+          </dl>
+        </section>
+        <section id="iterators-adl">
+          <h2><a href="#iterators-adl">Iterators (ADL)</a></h2>
+          <dl class="m-doc">
+            <dt id="ab20f39e79ec6b7069a1508fdaccc98f3">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab20f39e79ec6b7069a1508fdaccc98f3">begin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a54f5077477478a20758652b65750b0ef">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the first point in a triangle.</dd>
+            <dt id="ab1b94510289ecccc9fe7db29bb17c6e7">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab1b94510289ecccc9fe7db29bb17c6e7">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#ad18c1105a14dc95ddab17d76c969870d">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first point in a triangle.</dd>
+            <dt id="aaac9b81160367ccc61e7ae5613ae8e99">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aaac9b81160367ccc61e7ae5613ae8e99">cbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#ad18c1105a14dc95ddab17d76c969870d">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first point in a triangle.</dd>
+            <dt id="ac2071249ae10c9da3baf1964101a48c2">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac2071249ae10c9da3baf1964101a48c2">cend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#ad18c1105a14dc95ddab17d76c969870d">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last point in a triangle.</dd>
+            <dt id="aee32a2e84d4f19948c75880fde35a1b2">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aee32a2e84d4f19948c75880fde35a1b2">end</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a54f5077477478a20758652b65750b0ef">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the one-past-the-last point in a triangle.</dd>
+            <dt id="a75490ffaaf4ce267d7c2aa27872079cd">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a75490ffaaf4ce267d7c2aa27872079cd">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#ad18c1105a14dc95ddab17d76c969870d">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last point in a triangle.</dd>
+          </dl>
+        </section>
+        <section id="point-accessors">
+          <h2><a href="#point-accessors">Point accessors</a></h2>
+          <dl class="m-doc">
+            <dt id="a06895e28a2c8fa354b815dc653b43727">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> P&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a06895e28a2c8fa354b815dc653b43727">get</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to one of the triangle's points.</dd>
+            <dt id="abf1991e4c407566a7a38b1d57a5257c5">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> P&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#abf1991e4c407566a7a38b1d57a5257c5">get</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to one of the triangle's points.</dd>
+            <dt id="adf5b83643bb7bd06861117c6fd432beb">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#adf5b83643bb7bd06861117c6fd432beb">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> p) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to one of the triangle's points.</dd>
+            <dt id="a93ee7fa50f820c250e1fe0139d020ffa">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a93ee7fa50f820c250e1fe0139d020ffa">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> p) const -&gt; const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to one of the triangle's points.</dd>
+          </dl>
+        </section>
+        <section id="scalar-accessors">
+          <h2><a href="#scalar-accessors">Scalar accessors</a></h2>
+          <dl class="m-doc">
+            <dt id="aa6f1637afb3cee7f659f8b030b14d62e">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa6f1637afb3cee7f659f8b030b14d62e">data</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a pointer to the first scalar component in the triangle.</dd>
+            <dt id="aad93246a4e021e8baf3138ccdd193f2f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aad93246a4e021e8baf3138ccdd193f2f">data</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a pointer to the first scalar component in the triangle.</dd>
+          </dl>
+        </section>
+        <section id="friends">
+          <h2><a href="#friends">Friends</a></h2>
+          <dl class="m-doc">
+            <dt id="a0e1e0cde0ea112747041cb27cf8919c4">
+              <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0e1e0cde0ea112747041cb27cf8919c4">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+            </dt>
+            <dd>Writes a triangle out to a text stream.</dd>
+          </dl>
+        </section>
+        <section id="related">
+          <h2><a href="#related">Related</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga2881bac8c2bf5248013bbc7d94867005">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;T&gt;&amp; tri2,
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two triangles are approximately equal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga634f1c2a41e507ca065b3783a0401c3c">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri,
+              S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the points in triangle are approximately equal to zero.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga73ae74e7ab9484fb2ee90a67e91c1b08">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the points in a triangle are infinity or NaN.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a362a7c6b0042a437d03d81548eee7b06"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>triangle&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a362a7c6b0042a437d03d81548eee7b06">triangle</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a triangle from an implicitly bit-castable type.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>A bit-castable type.</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">muu::<wbr/>allow_implicit_bit_cast</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a8ba2ece2bafc08a34d60b4a5128ac278"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static bool muu::<wbr/>triangle&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8ba2ece2bafc08a34d60b4a5128ac278">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the points of a triangle are exactly zero.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1triangle.html#a088b7e68956e8d3bf98cd0aaf524230a">approx_<wbr/>zero()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ad4a210ccd0cbf81ef9c80cd1e6734a56"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>triangle&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad4a210ccd0cbf81ef9c80cd1e6734a56">zero</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the points of the triangle are exactly zero.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1triangle.html#a6f36d3a5fe42c3b59a8c90e81e89c6b5">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a89f9fb5ac5be6311bd9e90e350163ffa"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>triangle&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a89f9fb5ac5be6311bd9e90e350163ffa">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if two triangles are not exactly equal.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1triangle.html#a6f36d3a5fe42c3b59a8c90e81e89c6b5">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a2243c114d58c6b5b5def0436770dfaf2"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>triangle&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a2243c114d58c6b5b5def0436770dfaf2">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if two triangles are exactly equal.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1triangle.html#a6f36d3a5fe42c3b59a8c90e81e89c6b5">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="afa1dcf5b1ad93222c73fb448cd2fd71c"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> muu::<wbr/>triangle&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afa1dcf5b1ad93222c73fb448cd2fd71c">centroid</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns a triangle's centroid point.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.wikipedia.org/wiki/Centroid" target="_blank">https:/<wbr/>/<wbr/>en.wikipedia.org/<wbr/>wiki/<wbr/>Centroid</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ac45d0c9a3993bb80460c1e06628583ea"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> muu::<wbr/>triangle&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac45d0c9a3993bb80460c1e06628583ea">centroid</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the triangle's centroid point.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.wikipedia.org/wiki/Centroid" target="_blank">https:/<wbr/>/<wbr/>en.wikipedia.org/<wbr/>wiki/<wbr/>Centroid</a></p></aside>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">…</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input autocomplete="off" autofocus="autofocus" disabled="disabled" id="search-input" name="q" placeholder="Loading …" spellcheck="false" type="search"/>
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div class="m-text m-dim m-text-center" id="search-help">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">↓</span>
+            / <span class="m-label m-dim">↑</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div class="m-text m-warning m-text-center" id="search-notfound">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script async="async" src="searchdata-v1.js"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        
+    <a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report an issue</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
+     • <a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen tagfile</a>
+    <br/><br/>
+    Site generated using <a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">Poxy</a>
+
+      </div>
+    </div>
+  </div>
+</nav></footer>
+
+
+</body></html>

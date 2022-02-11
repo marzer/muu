@@ -38,8 +38,10 @@
     <includes id="static__string_8h" name="static_string.h" local="yes" imported="no">static_string.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
     <includes id="strings_8h" name="strings.h" local="yes" imported="no">strings.h</includes>
+    <includes id="strong__typedef_8h" name="strong_typedef.h" local="yes" imported="no">strong_typedef.h</includes>
     <includes id="tagged__ptr_8h" name="tagged_ptr.h" local="yes" imported="no">tagged_ptr.h</includes>
     <includes id="thread__pool_8h" name="thread_pool.h" local="yes" imported="no">thread_pool.h</includes>
+    <includes id="triangle_8h" name="triangle.h" local="yes" imported="no">triangle.h</includes>
     <includes id="type__list_8h" name="type_list.h" local="yes" imported="no">type_list.h</includes>
     <includes id="type__name_8h" name="type_name.h" local="yes" imported="no">type_name.h</includes>
     <includes id="uuid_8h" name="uuid.h" local="yes" imported="no">uuid.h</includes>
@@ -620,6 +622,20 @@
       <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>ga7165ec00307546834b2cfec5dcd18920</anchor>
       <arglist>(const T &amp;obj) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gac83f0d0b00f182e5cfa6ae4dfa9ad12c</anchor>
+      <arglist>(const T(&amp;vals)[N]) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga0f071cb7be895ff5f3176182306cb1a9</anchor>
+      <arglist>(const T &amp;val1, const U &amp;val2, const V &amp;... vals) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr float</type>
@@ -1620,31 +1636,31 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::largest_&lt; T... &gt;::type</type>
+      <type>typename impl::largest_&lt; T, U... &gt;::type</type>
       <name>largest</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7c930af45d2e06539c2a3dfcc908a854</anchor>
+      <anchor>ga66c7ac2c2ba5ae0358a9c398ca1a5fa3</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::smallest_&lt; T... &gt;::type</type>
+      <type>typename impl::smallest_&lt; T, U... &gt;::type</type>
       <name>smallest</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga9cd7c756a0397747aa065ac54ddbf46b</anchor>
+      <anchor>ga7b0e548ad93b4b2fabc3c38eadd456c5</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::most_aligned_&lt; T... &gt;::type</type>
+      <type>typename impl::most_aligned_&lt; T, U... &gt;::type</type>
       <name>most_aligned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga62680f064b38d875edbcb08604a2736d</anchor>
+      <anchor>ga412a873e98a67c58f4bcb71bb8c23ddb</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::least_aligned_&lt; T... &gt;::type</type>
+      <type>typename impl::least_aligned_&lt; T, U... &gt;::type</type>
       <name>least_aligned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaeb94aca04351ff030dae9dff706fe05c</anchor>
+      <anchor>ga14d4e47d4a3ee4bcae55745a917343e3</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -1910,7 +1926,7 @@
       <type>constexpr size_t</type>
       <name>index_of_type</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga27d95776f3cf0c19b01db50c4373fb63</anchor>
+      <anchor>ga91356a65708493c6fbc993024894c901</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2092,14 +2108,14 @@
       <type>constexpr bool</type>
       <name>any_enum</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gabc989dd91eaeb76cf275afe1e1de94bf</anchor>
+      <anchor>ga5654c62084cb368c8d754ef2391188f1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_enum</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gafaa3803206e27df19fde422d3b1eb540</anchor>
+      <anchor>ga38cc1e5109a701b7c609faf614ad75f7</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2111,9 +2127,37 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>any_scoped_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac4960dd74a53e778d606c67b17b898fc</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_scoped_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac742ec408e961ab3cdfcba8b59fc043f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_legacy_enum</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga0ad880900bc41c21a698d9114f333e3d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_legacy_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga61a1919e5b9db8752915c52166418e35</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_legacy_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga0b19c96f2fd22318ff9434cecb8e4ecc</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2127,14 +2171,14 @@
       <type>constexpr bool</type>
       <name>any_unsigned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3bb31ded23944badda78774761206c09</anchor>
+      <anchor>gab947cfb735e87e9394420be39d9f0279</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_unsigned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa29a6fbd7e596e20dd8769aefc3cd51e</anchor>
+      <anchor>gaa71f70dfddfb9f29ed162014c6020672</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2148,14 +2192,14 @@
       <type>constexpr bool</type>
       <name>any_signed</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga68d2257a9ace0f37200d05117931baed</anchor>
+      <anchor>ga8db6d992e6f39f91948ea80dff4e1025</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_signed</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa7a73625bc705a9021924a54729c192e</anchor>
+      <anchor>gad0e4bc930ad4094734715f7b5b116c15</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2169,14 +2213,14 @@
       <type>constexpr bool</type>
       <name>any_integral</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga531166c296beeb911cb00d6ce826d3e8</anchor>
+      <anchor>ga1a551403c0c337deb10ceb0dc7718fc1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_integral</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga02060371498ff52c8d225e379fe00975</anchor>
+      <anchor>ga113302a3a1ac13b36caa7f1baaf7a191</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2190,14 +2234,14 @@
       <type>constexpr bool</type>
       <name>any_integer</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3660079b9cf5bd6f01ef9f5322c235f7</anchor>
+      <anchor>ga93df7f38a0b30c68c6138780d55885fb</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_integer</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga891ba12282ff535141b2e581867518fe</anchor>
+      <anchor>gac4750ab546ab72009c9c73407016f0f7</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2211,14 +2255,14 @@
       <type>constexpr bool</type>
       <name>any_floating_point</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gadcd85258054ff54b7d0dd7f875185bf0</anchor>
+      <anchor>gaa4cc5ffaa2d70d40b668c54f1e8ec303</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_floating_point</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gad2165666bd79caf59277b9c4488a1bde</anchor>
+      <anchor>ga66729838c230dc7bb06574460d0d8c3d</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2246,14 +2290,14 @@
       <type>constexpr bool</type>
       <name>any_arithmetic</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gad067ec94bd319f3cd1b8406d5d208701</anchor>
+      <anchor>ga4cdccad554e7b4964b66449794c488ce</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_arithmetic</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaccb79366bc73cbc96f8a6317fead16f1</anchor>
+      <anchor>ga3e1129e045b70c2af6a5d50b1017662c</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2267,14 +2311,14 @@
       <type>constexpr bool</type>
       <name>any_const</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga8790fee03d9e3fe2dd3b1d126b08a2ce</anchor>
+      <anchor>ga586bfe745dfc478bb12c62911c5ec7d2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_const</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga1fce0d7c8fa9515365a671bdee77f722</anchor>
+      <anchor>gadf6a0fd43aef7bad2aa5b1061ca76909</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2288,14 +2332,14 @@
       <type>constexpr bool</type>
       <name>any_volatile</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaef99eced8c220aaf5875212fdccd6fe2</anchor>
+      <anchor>ga33f32f81af61846324b24c96d22fb855</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_volatile</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaabe1f5048446fbf9280d63fbb3f3d440</anchor>
+      <anchor>gadca3d0c318c62cf67f0e711cddc3ed92</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2309,14 +2353,14 @@
       <type>constexpr bool</type>
       <name>any_cv</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga0901c12d4271170dee63a201878f49d5</anchor>
+      <anchor>gaac432f658a461422891106bb6f8d0125</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_cv</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga31a739e7f932a7386e9779e05c65e1ba</anchor>
+      <anchor>ga604b58afd51f22c514b3642e06984660</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2330,14 +2374,14 @@
       <type>constexpr bool</type>
       <name>any_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3957082e3d9c3d7225b7f7f852afa357</anchor>
+      <anchor>ga2142c726fa120091603f69a4f88800b9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaf3bb0d8c33afd87750a47cb200a5ef57</anchor>
+      <anchor>gaf373c7ded4ff3f304e087d9311e012f9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2351,14 +2395,14 @@
       <type>constexpr bool</type>
       <name>inherits_from_any</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gadd83c88c9a60057f0d637c083772bedb</anchor>
+      <anchor>ga49aa08768876bf7322df7d9b27eac4bf</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>inherits_from_all</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaadc58b7614ccb6f2626162c71fd204c9</anchor>
+      <anchor>gafb8004fa9a10a8e6d4ae98a8d8a797b5</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2393,14 +2437,14 @@
       <type>constexpr bool</type>
       <name>any_unbounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga0f5de953c30ac2d5aa79ccece0f5681a</anchor>
+      <anchor>gaa1efb75d54e410227ee2cd1448d72d41</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_unbounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa45d5a8ac607de08c4d7f2b1d275dc3d</anchor>
+      <anchor>gaf8727f2300cefe6944088ab53b9c9d59</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2414,14 +2458,14 @@
       <type>constexpr bool</type>
       <name>any_bounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga62dc66d47da5a1d4420082e8c29bf978</anchor>
+      <anchor>ga41e64183a2500e39947132b435ff13d8</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_bounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gae22dfc906ab84c2a644d7f635b00bf5d</anchor>
+      <anchor>ga2b5c53a174d76fc6d6dde73a999753ff</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2435,14 +2479,14 @@
       <type>constexpr bool</type>
       <name>any_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa6e6a09626366fea9202ecaa1f42f414</anchor>
+      <anchor>gae48b7c7d5e58e9c43b47386ec34c2a55</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga10598e51bcfe8c2a8261c6617990eaea</anchor>
+      <anchor>ga3e77e037d2b8f336651ae4f06fead98d</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -2597,6 +2641,34 @@
       <name>has_inequality_operator</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gac7b4aeab35fd101dabb265d96ac907cf</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_less_than_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga8174e2a93bd7baef51f9c4ffd3d7206d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_less_than_or_equal_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2bcea1936abb6634724460d9b60b1523</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_greater_than_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2a09893087420eca324aa878466b1323</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_greater_than_or_equal_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaf0114bddef2099828f5c428dafb0da3d</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -3710,6 +3782,14 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>strong_typedef.h</name>
+    <path>/root/project/include/muu/</path>
+    <filename>strong__typedef_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <class kind="struct">muu::strong_typedef</class>
+    <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
     <name>tagged_ptr.h</name>
     <path>/root/project/include/muu/</path>
     <filename>tagged__ptr_8h.html</filename>
@@ -3729,6 +3809,37 @@
     <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
     <class kind="class">muu::thread_pool</class>
     <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
+    <name>triangle.h</name>
+    <path>/root/project/include/muu/</path>
+    <filename>triangle_8h.html</filename>
+    <class kind="struct">muu::triangle</class>
+    <class kind="struct">std::tuple_size&lt; muu::triangle&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">std::tuple_element&lt; P, muu::triangle&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">muu::constants&lt; triangle&lt; Scalar &gt; &gt;</class>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga73ae74e7ab9484fb2ee90a67e91c1b08</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga2881bac8c2bf5248013bbc7d94867005</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri1, const triangle&lt; T &gt; &amp;tri2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga634f1c2a41e507ca065b3783a0401c3c</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>type_list.h</name>
@@ -4479,6 +4590,20 @@
       <arglist>(const oriented_bounding_box&lt; scalar_type &gt; &amp;obb) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a5a2b2d0be190bc38f6a83154713a30cb</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a38f96ca4c0bbffb61a15fc880152bc34</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr scalar_type</type>
       <name>width</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
@@ -4633,6 +4758,20 @@
       <arglist>(const bounding_box&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a5a2b2d0be190bc38f6a83154713a30cb</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a38f96ca4c0bbffb61a15fc880152bc34</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr scalar_type</type>
       <name>width</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
@@ -4751,6 +4890,41 @@
       <anchor>ac035c212c1647ba186fb7aaf72a8b553</anchor>
       <arglist>() const noexcept</arglist>
     </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>ac882057d370ad876fcb33e3424b96610</anchor>
+      <arglist>(const bounding_box &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>empty</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a2199168765d5aa7fbe9422a95c2f86a7</anchor>
+      <arglist>(const bounding_box &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a92b22cd71d3af75776a4203e7c6e1f8d</anchor>
+      <arglist>(const bounding_box &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>acbfecef565d1d2899692dccb4c1a8eb0</anchor>
+      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>aed7dc7fd597a6824f90000873ad87e28</anchor>
+      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>approx_equal</name>
@@ -4774,27 +4948,6 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
-      <name>zero</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>ac882057d370ad876fcb33e3424b96610</anchor>
-      <arglist>(const bounding_box &amp;bb) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>empty</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a2199168765d5aa7fbe9422a95c2f86a7</anchor>
-      <arglist>(const bounding_box &amp;bb) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a92b22cd71d3af75776a4203e7c6e1f8d</anchor>
-      <arglist>(const bounding_box &amp;bb) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
       <name>approx_equal</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a703fe448a9dae36255a64829f6e538ca</anchor>
@@ -4813,20 +4966,6 @@
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>ad685f7bed0f4cb45b261ad352df1fd50</anchor>
       <arglist>(const bounding_box &amp;bb, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator==</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>acbfecef565d1d2899692dccb4c1a8eb0</anchor>
-      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator!=</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>aed7dc7fd597a6824f90000873ad87e28</anchor>
-      <arglist>(const bounding_box &amp;lhs, const bounding_box&lt; T &gt; &amp;rhs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector_type</type>
@@ -4954,13 +5093,6 @@
       <anchor>ad32e8d2c31361c262ad9fec27d4a5f12</anchor>
       <arglist>(const triangle&lt; scalar_type &gt; &amp;tri) const noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>intersects_triangle</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a050dd305a87fb68273eb92a74fe4c8ad</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) const noexcept</arglist>
-    </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>contains</name>
@@ -4988,13 +5120,6 @@
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a53aaa74149026b6c347d182d232c33d2</anchor>
       <arglist>(const bounding_box &amp;bb, const triangle&lt; scalar_type &gt; &amp;tri) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>intersects_triangle</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>ad99bb78151bab1bd6552724e10e8d820</anchor>
-      <arglist>(const bounding_box &amp;bb, const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -5469,6 +5594,18 @@
   <compound kind="struct">
     <name>muu::constants&lt; signed short &gt;</name>
     <filename>structmuu_1_1constants_3_01signed_01short_01_4.html</filename>
+  </compound>
+  <compound kind="struct">
+    <name>muu::constants&lt; triangle&lt; Scalar &gt; &gt;</name>
+    <filename>structmuu_1_1constants_3_01triangle_3_01_scalar_01_4_01_4.html</filename>
+    <templarg>typename Scalar</templarg>
+    <member kind="variable" static="yes">
+      <type>static constexpr triangle&lt; Scalar &gt;</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1constants_3_01triangle_3_01_scalar_01_4_01_4.html</anchorfile>
+      <anchor>a2692660b32d2c57e79a38d631705b60a</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="struct">
     <name>muu::constants&lt; uint128_t &gt;</name>
@@ -6741,72 +6878,72 @@
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
-      <name>x_axis</name>
+      <name>x_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>abeac22655489f329fc4d5a72b1bf23f7</anchor>
+      <anchor>a973dcfb9d6a8667f0242308b3dbd8db4</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const column_type &amp;</type>
-      <name>x_axis</name>
+      <name>x_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a802a5105263b94104eb838f01c00737b</anchor>
+      <anchor>a8db9524d09c97f22c78882b2323eb412</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
-      <name>y_axis</name>
+      <name>y_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa18fcf39a8d13b7c5ad02276d0902733</anchor>
+      <anchor>add3322f88733938713e6ce883b2ba4ec</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const column_type &amp;</type>
-      <name>y_axis</name>
+      <name>y_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a6bf1dcdeb6a7b79fcbefcef609c38c36</anchor>
+      <anchor>a66498727d9194f1cbcc5c22cccb3d19b</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
-      <name>z_axis</name>
+      <name>z_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ae399deb6c4263207910cb02ac47ad2f3</anchor>
+      <anchor>a517f86b423e8095316e78f94373f7130</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const column_type &amp;</type>
-      <name>z_axis</name>
+      <name>z_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a08c59d77f88e64b2577039e5587d6887</anchor>
+      <anchor>ac77afff8fbc85634fc0e207edf659862</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
-      <name>w_axis</name>
+      <name>w_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a8d2b4b7572e55d34d78f6c19f1a7acb2</anchor>
+      <anchor>a0a194fe3adaa8d988c4a8d31a7ad79cd</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const column_type &amp;</type>
-      <name>w_axis</name>
+      <name>w_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a5a07c610f03088775a3840dd5fbe3bf5</anchor>
+      <anchor>a79d0605e8be194ef3b26562b4b8835d0</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
-      <name>translation</name>
+      <name>translation_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a5fd652f800999c8c34c78e017727516a</anchor>
+      <anchor>a17995bc0f6d6951175c213946ae50527</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const column_type &amp;</type>
-      <name>translation</name>
+      <name>translation_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a571819cbfaddc5dc2932baf547eacfb6</anchor>
+      <anchor>a5751eb43ab506f1701e72b50859daef3</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
@@ -7126,72 +7263,72 @@
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
-      <name>x_axis</name>
+      <name>x_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>abeac22655489f329fc4d5a72b1bf23f7</anchor>
+      <anchor>a973dcfb9d6a8667f0242308b3dbd8db4</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const column_type &amp;</type>
-      <name>x_axis</name>
+      <name>x_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a802a5105263b94104eb838f01c00737b</anchor>
+      <anchor>a8db9524d09c97f22c78882b2323eb412</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
-      <name>y_axis</name>
+      <name>y_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa18fcf39a8d13b7c5ad02276d0902733</anchor>
+      <anchor>add3322f88733938713e6ce883b2ba4ec</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const column_type &amp;</type>
-      <name>y_axis</name>
+      <name>y_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a6bf1dcdeb6a7b79fcbefcef609c38c36</anchor>
+      <anchor>a66498727d9194f1cbcc5c22cccb3d19b</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
-      <name>z_axis</name>
+      <name>z_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ae399deb6c4263207910cb02ac47ad2f3</anchor>
+      <anchor>a517f86b423e8095316e78f94373f7130</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const column_type &amp;</type>
-      <name>z_axis</name>
+      <name>z_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a08c59d77f88e64b2577039e5587d6887</anchor>
+      <anchor>ac77afff8fbc85634fc0e207edf659862</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
-      <name>w_axis</name>
+      <name>w_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a8d2b4b7572e55d34d78f6c19f1a7acb2</anchor>
+      <anchor>a0a194fe3adaa8d988c4a8d31a7ad79cd</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const column_type &amp;</type>
-      <name>w_axis</name>
+      <name>w_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a5a07c610f03088775a3840dd5fbe3bf5</anchor>
+      <anchor>a79d0605e8be194ef3b26562b4b8835d0</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
-      <name>translation</name>
+      <name>translation_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a5fd652f800999c8c34c78e017727516a</anchor>
+      <anchor>a17995bc0f6d6951175c213946ae50527</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const column_type &amp;</type>
-      <name>translation</name>
+      <name>translation_column</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a571819cbfaddc5dc2932baf547eacfb6</anchor>
+      <anchor>a5751eb43ab506f1701e72b50859daef3</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
@@ -7771,6 +7908,20 @@
       <arglist>(const T &amp;blittable) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>ab691724ec6d1b40c1bddeb3cc32d7194</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a7057976f5c6b8bbbea89afb75953e9f1</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr scalar_type</type>
       <name>width</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
@@ -7911,6 +8062,20 @@
       <arglist>(const oriented_bounding_box&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>ab691724ec6d1b40c1bddeb3cc32d7194</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a7057976f5c6b8bbbea89afb75953e9f1</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr scalar_type</type>
       <name>width</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
@@ -8029,27 +8194,6 @@
       <anchor>a70e3d89d9a50eee55ae7e6caad33ec7f</anchor>
       <arglist>() const noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a036da045eaa42924a49db5069de765d9</anchor>
-      <arglist>(const oriented_bounding_box&lt; T &gt; &amp;bb, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a8c691d72ed53ee9abd25d8a8292e8be5</anchor>
-      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_empty</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>ac0ea263ca8231e840c6d869b1963b6c8</anchor>
-      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
-    </member>
     <member kind="friend">
       <type>constexpr friend bool</type>
       <name>operator==</name>
@@ -8084,6 +8228,27 @@
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
       <anchor>abbade33e83f93e4ef7989a789465c98a</anchor>
       <arglist>(const oriented_bounding_box &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a036da045eaa42924a49db5069de765d9</anchor>
+      <arglist>(const oriented_bounding_box&lt; T &gt; &amp;bb, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>a8c691d72ed53ee9abd25d8a8292e8be5</anchor>
+      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_empty</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>ac0ea263ca8231e840c6d869b1963b6c8</anchor>
+      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
@@ -8359,8 +8524,8 @@
       <type>constexpr</type>
       <name>plane</name>
       <anchorfile>structmuu_1_1plane.html</anchorfile>
-      <anchor>a8ccde408f77d190bbc7b1f96beb978bd</anchor>
-      <arglist>(const vector_type &amp;p1, const vector_type &amp;p2, const vector_type &amp;p3) noexcept</arglist>
+      <anchor>ab5188313e156faee8bfbf82181926923</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
@@ -8382,6 +8547,34 @@
       <anchorfile>structmuu_1_1plane.html</anchorfile>
       <anchor>aa021fffd4654f4bc1f44303f41ac6997</anchor>
       <arglist>(const T &amp;blittable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a92d0c6b24eaa9efa73f56763c6c3d1e8</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a5ffa8874106cdb9e7ce97e29b909ec01</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr plane</type>
+      <name>from_triangle</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a06b4f8ddd080f7f1dcf7b6bbfe381a29</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr plane</type>
+      <name>from_triangle</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>ad16ba39b12add75a71091c9f2d2304d7</anchor>
+      <arglist>(const triangle&lt; scalar_type &gt; &amp;tri) noexcept</arglist>
     </member>
     <member kind="variable">
       <type>vector_type</type>
@@ -8433,6 +8626,20 @@
       <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a92d0c6b24eaa9efa73f56763c6c3d1e8</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a5ffa8874106cdb9e7ce97e29b909ec01</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr bool</type>
       <name>zero</name>
       <anchorfile>structmuu_1_1plane.html</anchorfile>
@@ -8445,6 +8652,34 @@
       <anchorfile>structmuu_1_1plane.html</anchorfile>
       <anchor>a733c81629d2c92b37e84528847431308</anchor>
       <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>aec8b3a9016fcb4680d4967454dc1b0c7</anchor>
+      <arglist>(const plane &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>af1923ff478b5291f13138eca16c2baf8</anchor>
+      <arglist>(const plane &amp;p) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a0fb8c8305c60c530f4875c966707fe4e</anchor>
+      <arglist>(const plane &amp;lhs, const plane&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a295e8990c6ede4cec00b3255b7a190ba</anchor>
+      <arglist>(const plane &amp;lhs, const plane&lt; T &gt; &amp;rhs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -8466,34 +8701,6 @@
       <anchorfile>structmuu_1_1plane.html</anchorfile>
       <anchor>a3bf25ef232d42cec5734dc6e7f60643b</anchor>
       <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator==</name>
-      <anchorfile>structmuu_1_1plane.html</anchorfile>
-      <anchor>a0fb8c8305c60c530f4875c966707fe4e</anchor>
-      <arglist>(const plane &amp;lhs, const plane&lt; T &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="friend">
-      <type>constexpr friend bool</type>
-      <name>operator!=</name>
-      <anchorfile>structmuu_1_1plane.html</anchorfile>
-      <anchor>a295e8990c6ede4cec00b3255b7a190ba</anchor>
-      <arglist>(const plane &amp;lhs, const plane&lt; T &gt; &amp;rhs) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>zero</name>
-      <anchorfile>structmuu_1_1plane.html</anchorfile>
-      <anchor>aec8b3a9016fcb4680d4967454dc1b0c7</anchor>
-      <arglist>(const plane &amp;p) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>structmuu_1_1plane.html</anchorfile>
-      <anchor>af1923ff478b5291f13138eca16c2baf8</anchor>
-      <arglist>(const plane &amp;p) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
@@ -9134,6 +9341,13 @@
       <anchor>a4247d44d5ad613d6fb362532b83161e5</anchor>
       <arglist>() noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>dismissed</name>
+      <anchorfile>classmuu_1_1scope__fail.html</anchorfile>
+      <anchor>abc9fd59bd235069a7464955b292fe243</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>muu::scope_guard</name>
@@ -9153,6 +9367,13 @@
       <anchor>a44879b040554411653acd5b47b57de96</anchor>
       <arglist>() noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>dismissed</name>
+      <anchorfile>classmuu_1_1scope__guard.html</anchorfile>
+      <anchor>ad0ec67f5b252e11dd2e7c0c68b5620ca</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>muu::scope_success</name>
@@ -9171,6 +9392,13 @@
       <anchorfile>classmuu_1_1scope__success.html</anchorfile>
       <anchor>a37f89b718e115d959e72d3903038574b</anchor>
       <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>dismissed</name>
+      <anchorfile>classmuu_1_1scope__success.html</anchorfile>
+      <anchor>a0ad4eaad61953aafcb0ad3506518f238</anchor>
+      <arglist>() const noexcept</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -11153,6 +11381,83 @@
       <arglist>() &amp;&amp;noexcept</arglist>
     </member>
   </compound>
+  <compound kind="struct">
+    <name>muu::strong_typedef</name>
+    <filename>structmuu_1_1strong__typedef.html</filename>
+    <templarg>typename ValueType</templarg>
+    <templarg>typename Tag</templarg>
+    <templarg>typename... Mixins</templarg>
+    <member kind="typedef">
+      <type>ValueType</type>
+      <name>value_type</name>
+      <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
+      <anchor>af62b3bc43d83a5f1dffdfa86a53afa0d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>strong_typedef</name>
+      <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
+      <anchor>aa46343fd32f4c5b6edd66afe672fb934</anchor>
+      <arglist>()=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>strong_typedef</name>
+      <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
+      <anchor>a042d06865f22a97ca7a3266d40214f2d</anchor>
+      <arglist>(const strong_typedef &amp;)=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>strong_typedef</name>
+      <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
+      <anchor>aa62b8919cfb675d952cdca1412c920b0</anchor>
+      <arglist>(strong_typedef &amp;&amp;)=default</arglist>
+    </member>
+    <member kind="function">
+      <type>strong_typedef &amp;</type>
+      <name>operator=</name>
+      <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
+      <anchor>a5f294e025fdc2427df4851c5484707e0</anchor>
+      <arglist>(const strong_typedef &amp;)=default</arglist>
+    </member>
+    <member kind="function">
+      <type>strong_typedef &amp;</type>
+      <name>operator=</name>
+      <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
+      <anchor>a9973edc162334dd37de47d1032457077</anchor>
+      <arglist>(strong_typedef &amp;&amp;)=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>strong_typedef</name>
+      <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
+      <anchor>a8c5a65c6ffa51e805908e9216dc43236</anchor>
+      <arglist>(const value_type &amp;val) noexcept(std::is_nothrow_copy_constructible_v&lt; value_type &gt;)</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>strong_typedef</name>
+      <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
+      <anchor>a638cd538826000b8bf7811013c6e6563</anchor>
+      <arglist>(value_type &amp;&amp;val) noexcept(std::is_nothrow_move_constructible_v&lt; value_type &gt;)</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>strong_typedef</name>
+      <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
+      <anchor>af46c74f39b0d125c8b647ae6e101ae91</anchor>
+      <arglist>(value_type val) noexcept</arglist>
+    </member>
+    <member kind="variable">
+      <type>value_type</type>
+      <name>value</name>
+      <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
+      <anchor>ace7268948f4d2254f455fbff8989dbf5</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
   <compound kind="class">
     <name>muu::tagged_ptr</name>
     <filename>classmuu_1_1tagged__ptr.html</filename>
@@ -11514,6 +11819,641 @@
     </member>
   </compound>
   <compound kind="struct">
+    <name>muu::triangle</name>
+    <filename>structmuu_1_1triangle.html</filename>
+    <templarg>typename Scalar</templarg>
+    <member kind="typedef">
+      <type>Scalar</type>
+      <name>scalar_type</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a6f139156800ade1637a72ba97c96d732</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>vector&lt; scalar_type, 3 &gt;</type>
+      <name>vector_type</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a4f332b7b6aca26c58fd69ac540ced5ff</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::constants&lt; triangle &gt;</type>
+      <name>constants</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>affe3f9bb91c0cb68f01221dd24d4d647</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>vector_type *</type>
+      <name>iterator</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a54f5077477478a20758652b65750b0ef</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>const vector_type *</type>
+      <name>const_iterator</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ad18c1105a14dc95ddab17d76c969870d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>triangle</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a008badd21dc32e07c6d0100741a5df57</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>triangle</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a784f45cef96310d107477a54cb120107</anchor>
+      <arglist>(const triangle &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr triangle &amp;</type>
+      <name>operator=</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a380e4bcba5e09675ce293ddf46ac3cf4</anchor>
+      <arglist>(const triangle &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>triangle</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a53d1b3e41e7bbf89565eccbb5691a082</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>triangle</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a34a188e18bf0de3a44d0d5a575e4673d</anchor>
+      <arglist>(const vector_type(&amp;points)[3]) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>triangle</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ab661d9e40c80b577251b9dbdc88d6a5a</anchor>
+      <arglist>(scalar_type p0_x, scalar_type p0_y, scalar_type p0_z, scalar_type p1_x, scalar_type p1_y, scalar_type p1_z, scalar_type p2_x, scalar_type p2_y, scalar_type p2_z) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>triangle</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>af4b31ca78425c0908348d90eaeb52d83</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>triangle</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a362a7c6b0042a437d03d81548eee7b06</anchor>
+      <arglist>(const T &amp;blittable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type &amp;</type>
+      <name>get</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a06895e28a2c8fa354b815dc653b43727</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const vector_type &amp;</type>
+      <name>get</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>abf1991e4c407566a7a38b1d57a5257c5</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type &amp;</type>
+      <name>operator[]</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>adf5b83643bb7bd06861117c6fd432beb</anchor>
+      <arglist>(size_t p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const vector_type &amp;</type>
+      <name>operator[]</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a93ee7fa50f820c250e1fe0139d020ffa</anchor>
+      <arglist>(size_t p) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>aa6f1637afb3cee7f659f8b030b14d62e</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>aad93246a4e021e8baf3138ccdd193f2f</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>af6d5d3bd123107dbca91f50582112157</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a780dfd6db11f243a60fb3852111acf14</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a4a00085611ed4674a724eb7c5908681f</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a73f0d9f0ce0be43675b8d4d6fc4edfb1</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a47852d1960a08501209441c1346f7fc4</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>aa917bc386bdb4b0e722ecf483a2c1b2c</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="variable">
+      <type>vector_type</type>
+      <name>points</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a87225c94bf34d036b961fc51504b2586</anchor>
+      <arglist>[3]</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
+      <name>operator&lt;&lt;</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a0e1e0cde0ea112747041cb27cf8919c4</anchor>
+      <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const triangle &amp;tri)</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ab20f39e79ec6b7069a1508fdaccc98f3</anchor>
+      <arglist>(triangle &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>aee32a2e84d4f19948c75880fde35a1b2</anchor>
+      <arglist>(triangle &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ab1b94510289ecccc9fe7db29bb17c6e7</anchor>
+      <arglist>(const triangle &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a75490ffaaf4ce267d7c2aa27872079cd</anchor>
+      <arglist>(const triangle &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>aaac9b81160367ccc61e7ae5613ae8e99</anchor>
+      <arglist>(const triangle &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ac2071249ae10c9da3baf1964101a48c2</anchor>
+      <arglist>(const triangle &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga73ae74e7ab9484fb2ee90a67e91c1b08</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga2881bac8c2bf5248013bbc7d94867005</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri1, const triangle&lt; T &gt; &amp;tri2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga634f1c2a41e507ca065b3783a0401c3c</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type &amp;</type>
+      <name>get</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a06895e28a2c8fa354b815dc653b43727</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const vector_type &amp;</type>
+      <name>get</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>abf1991e4c407566a7a38b1d57a5257c5</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type &amp;</type>
+      <name>operator[]</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>adf5b83643bb7bd06861117c6fd432beb</anchor>
+      <arglist>(size_t p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const vector_type &amp;</type>
+      <name>operator[]</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a93ee7fa50f820c250e1fe0139d020ffa</anchor>
+      <arglist>(size_t p) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>aa6f1637afb3cee7f659f8b030b14d62e</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>aad93246a4e021e8baf3138ccdd193f2f</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>normal</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a53dd160e37e290a66d6062105e849daf</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>centroid</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ac45d0c9a3993bb80460c1e06628583ea</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>perimeter</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a05605becf5039f2d39118971123ed937</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>area</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a67cc766e93450deb63f5f84a0088fc93</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>af9075d4c90279701a3e2208a1f180435</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr muu::plane&lt; scalar_type &gt;</type>
+      <name>plane</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a17e6e99aae779335c52378ff8b3b0c26</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>operator muu::plane&lt; scalar_type &gt;</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a2d68c3966ea99611e279433b186a89ed</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>normal</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a43dfb7e83c3b43c58d00f74b707e2862</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>centroid</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>afa1dcf5b1ad93222c73fb448cd2fd71c</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>perimeter</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>affce8bc29777bf61bb804d62029dea3b</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>area</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ab99f6494352d90c06d86900364e6c752</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ac891350e77133647bb9b9c3800564ba6</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr muu::plane&lt; scalar_type &gt;</type>
+      <name>plane</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>acdbb5300f7faeb424d1cab2a2b89c87f</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ad4a210ccd0cbf81ef9c80cd1e6734a56</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ab98d85af8f104aebbe9a0e5040d30cc8</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a8ba2ece2bafc08a34d60b4a5128ac278</anchor>
+      <arglist>(const triangle &amp;tri) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>aa6dd25aeeba2dbb7a0237688c5ba554e</anchor>
+      <arglist>(const triangle &amp;tri) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a2243c114d58c6b5b5def0436770dfaf2</anchor>
+      <arglist>(const triangle &amp;lhs, const triangle&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a89f9fb5ac5be6311bd9e90e350163ffa</anchor>
+      <arglist>(const triangle &amp;lhs, const triangle&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ad89d0fb8bf5bdcf44159547f83653971</anchor>
+      <arglist>(const triangle&lt; T &gt; &amp;tri, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a3684bf95361a50f5d1a26e6809296cb3</anchor>
+      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a6f36d3a5fe42c3b59a8c90e81e89c6b5</anchor>
+      <arglist>(const triangle &amp;tri1, const triangle&lt; T &gt; &amp;tri2, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a088b7e68956e8d3bf98cd0aaf524230a</anchor>
+      <arglist>(const triangle &amp;tri, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>coplanar</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a3d8f835445e079d196746f6eb215adf5</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ad667f1f626714fc800e8c06fb0cf7b9a</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ad9f77091ab2178fa24ca801f00effaf5</anchor>
+      <arglist>(const bounding_box&lt; scalar_type &gt; &amp;bb) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>coplanar</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>af1c8179a45b0f04460b2783fd62c77c0</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>coplanar</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a9b02d704299c7fdf472cedf9e8561b73</anchor>
+      <arglist>(const triangle &amp;tri, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>afd20f1a4bad93eaae90b6b4870956d82</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ae5b331c44513becdc04ca36fbc23c0d3</anchor>
+      <arglist>(const triangle &amp;tri, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ae4d9e12c3f98e4dd427974a65c78d797</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2, const bounding_box&lt; scalar_type &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>af266c2c8468e08e18fb8394aee9c2567</anchor>
+      <arglist>(const triangle &amp;tri, const bounding_box&lt; scalar_type &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>barycentric</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a21acec5bbcaa2d28cb74ea96056f9502</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>barycentric_generator</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a5917ff6a72c46204b658e8c8217f255e</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>barycentric</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a6cb7995e188a6636f73bdd48a9c162e3</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr auto</type>
+      <name>barycentric_generator</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a7778dfe5fdefea10456a1fef8a63f14c</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>af6d5d3bd123107dbca91f50582112157</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a780dfd6db11f243a60fb3852111acf14</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a4a00085611ed4674a724eb7c5908681f</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a73f0d9f0ce0be43675b8d4d6fc4edfb1</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a47852d1960a08501209441c1346f7fc4</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>aa917bc386bdb4b0e722ecf483a2c1b2c</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ab20f39e79ec6b7069a1508fdaccc98f3</anchor>
+      <arglist>(triangle &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>aee32a2e84d4f19948c75880fde35a1b2</anchor>
+      <arglist>(triangle &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ab1b94510289ecccc9fe7db29bb17c6e7</anchor>
+      <arglist>(const triangle &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a75490ffaaf4ce267d7c2aa27872079cd</anchor>
+      <arglist>(const triangle &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>aaac9b81160367ccc61e7ae5613ae8e99</anchor>
+      <arglist>(const triangle &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ac2071249ae10c9da3baf1964101a48c2</anchor>
+      <arglist>(const triangle &amp;v) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
     <name>std::tuple_element&lt; I, muu::bounding_box&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__element_3_01_i_00_01muu_1_1bounding__box_3_01_scalar_01_4_01_4.html</filename>
     <templarg>size_t I</templarg>
@@ -11552,6 +12492,12 @@
     <templarg>size_t Dimensions</templarg>
   </compound>
   <compound kind="struct">
+    <name>std::tuple_element&lt; P, muu::triangle&lt; Scalar &gt; &gt;</name>
+    <filename>structstd_1_1tuple__element_3_01_p_00_01muu_1_1triangle_3_01_scalar_01_4_01_4.html</filename>
+    <templarg>size_t P</templarg>
+    <templarg>typename Scalar</templarg>
+  </compound>
+  <compound kind="struct">
     <name>std::tuple_size&lt; muu::bounding_box&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__size_3_01muu_1_1bounding__box_3_01_scalar_01_4_01_4.html</filename>
     <templarg>typename Scalar</templarg>
@@ -11575,6 +12521,11 @@
   <compound kind="struct">
     <name>std::tuple_size&lt; muu::quaternion&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__size_3_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html</filename>
+    <templarg>typename Scalar</templarg>
+  </compound>
+  <compound kind="struct">
+    <name>std::tuple_size&lt; muu::triangle&lt; Scalar &gt; &gt;</name>
+    <filename>structstd_1_1tuple__size_3_01muu_1_1triangle_3_01_scalar_01_4_01_4.html</filename>
     <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
@@ -12759,12 +13710,26 @@
       <anchor>a002ce4751b12edcefd80a5451e71f0cb</anchor>
       <arglist>() const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>sum</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a38152f13dcda92e4c1528f2266ab4778</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
     <member kind="friend">
       <type>constexpr friend vector</type>
       <name>operator+</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
       <anchor>a4b54abe8bbd52a16bb64d13bfbb28484</anchor>
       <arglist>(const vector &amp;lhs, const vector &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr scalar_type</type>
+      <name>sum</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a9c646c7e05a22fa464669487703f80fd</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector &amp;</type>
@@ -12801,6 +13766,13 @@
       <anchor>ae6da16a9c85f3da2b57bcde4ccecd99d</anchor>
       <arglist>(scalar_type rhs) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>product</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a2027697a8ab331b0c178ee092c9007b7</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
     <member kind="friend">
       <type>constexpr friend vector</type>
       <name>operator*</name>
@@ -12821,6 +13793,13 @@
       <anchorfile>structmuu_1_1vector.html</anchorfile>
       <anchor>afabbdaf1a0e26c72658c2811e03cbbab</anchor>
       <arglist>(scalar_type lhs, const vector &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr scalar_type</type>
+      <name>product</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>a9b6539edd89f0d4640eae20569161a53</anchor>
+      <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector &amp;</type>
@@ -13230,8 +14209,11 @@
     <class kind="class">muu::span</class>
     <class kind="class">muu::static_string</class>
     <class kind="class">muu::string_param</class>
+    <class kind="struct">muu::strong_typedef</class>
     <class kind="class">muu::tagged_ptr</class>
     <class kind="class">muu::thread_pool</class>
+    <class kind="struct">muu::triangle</class>
+    <class kind="struct">muu::constants&lt; triangle&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::type_list</class>
     <class kind="struct">muu::uuid</class>
     <class kind="struct">muu::constants&lt; uuid &gt;</class>
@@ -13331,31 +14313,31 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::largest_&lt; T... &gt;::type</type>
+      <type>typename impl::largest_&lt; T, U... &gt;::type</type>
       <name>largest</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7c930af45d2e06539c2a3dfcc908a854</anchor>
+      <anchor>ga66c7ac2c2ba5ae0358a9c398ca1a5fa3</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::smallest_&lt; T... &gt;::type</type>
+      <type>typename impl::smallest_&lt; T, U... &gt;::type</type>
       <name>smallest</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga9cd7c756a0397747aa065ac54ddbf46b</anchor>
+      <anchor>ga7b0e548ad93b4b2fabc3c38eadd456c5</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::most_aligned_&lt; T... &gt;::type</type>
+      <type>typename impl::most_aligned_&lt; T, U... &gt;::type</type>
       <name>most_aligned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga62680f064b38d875edbcb08604a2736d</anchor>
+      <anchor>ga412a873e98a67c58f4bcb71bb8c23ddb</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::least_aligned_&lt; T... &gt;::type</type>
+      <type>typename impl::least_aligned_&lt; T, U... &gt;::type</type>
       <name>least_aligned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaeb94aca04351ff030dae9dff706fe05c</anchor>
+      <anchor>ga14d4e47d4a3ee4bcae55745a917343e3</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -13987,6 +14969,20 @@
       <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>ga7165ec00307546834b2cfec5dcd18920</anchor>
       <arglist>(const T &amp;obj) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gac83f0d0b00f182e5cfa6ae4dfa9ad12c</anchor>
+      <arglist>(const T(&amp;vals)[N]) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga0f071cb7be895ff5f3176182306cb1a9</anchor>
+      <arglist>(const T &amp;val1, const U &amp;val2, const V &amp;... vals) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr float</type>
@@ -15177,6 +16173,27 @@
       <anchorfile>group__transcode.html</anchorfile>
       <anchor>ga6de085cbec631f5bb8c79c432749185a</anchor>
       <arglist>(std::u8string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga73ae74e7ab9484fb2ee90a67e91c1b08</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga2881bac8c2bf5248013bbc7d94867005</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri1, const triangle&lt; T &gt; &amp;tri2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga634f1c2a41e507ca065b3783a0401c3c</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -16925,7 +17942,7 @@
       <type>constexpr size_t</type>
       <name>index_of_type</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga27d95776f3cf0c19b01db50c4373fb63</anchor>
+      <anchor>ga91356a65708493c6fbc993024894c901</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17107,14 +18124,14 @@
       <type>constexpr bool</type>
       <name>any_enum</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gabc989dd91eaeb76cf275afe1e1de94bf</anchor>
+      <anchor>ga5654c62084cb368c8d754ef2391188f1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_enum</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gafaa3803206e27df19fde422d3b1eb540</anchor>
+      <anchor>ga38cc1e5109a701b7c609faf614ad75f7</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17126,9 +18143,37 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>any_scoped_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac4960dd74a53e778d606c67b17b898fc</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_scoped_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac742ec408e961ab3cdfcba8b59fc043f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_legacy_enum</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga0ad880900bc41c21a698d9114f333e3d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_legacy_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga61a1919e5b9db8752915c52166418e35</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_legacy_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga0b19c96f2fd22318ff9434cecb8e4ecc</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17142,14 +18187,14 @@
       <type>constexpr bool</type>
       <name>any_unsigned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3bb31ded23944badda78774761206c09</anchor>
+      <anchor>gab947cfb735e87e9394420be39d9f0279</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_unsigned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa29a6fbd7e596e20dd8769aefc3cd51e</anchor>
+      <anchor>gaa71f70dfddfb9f29ed162014c6020672</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17163,14 +18208,14 @@
       <type>constexpr bool</type>
       <name>any_signed</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga68d2257a9ace0f37200d05117931baed</anchor>
+      <anchor>ga8db6d992e6f39f91948ea80dff4e1025</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_signed</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa7a73625bc705a9021924a54729c192e</anchor>
+      <anchor>gad0e4bc930ad4094734715f7b5b116c15</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17184,14 +18229,14 @@
       <type>constexpr bool</type>
       <name>any_integral</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga531166c296beeb911cb00d6ce826d3e8</anchor>
+      <anchor>ga1a551403c0c337deb10ceb0dc7718fc1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_integral</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga02060371498ff52c8d225e379fe00975</anchor>
+      <anchor>ga113302a3a1ac13b36caa7f1baaf7a191</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17205,14 +18250,14 @@
       <type>constexpr bool</type>
       <name>any_integer</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3660079b9cf5bd6f01ef9f5322c235f7</anchor>
+      <anchor>ga93df7f38a0b30c68c6138780d55885fb</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_integer</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga891ba12282ff535141b2e581867518fe</anchor>
+      <anchor>gac4750ab546ab72009c9c73407016f0f7</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17226,14 +18271,14 @@
       <type>constexpr bool</type>
       <name>any_floating_point</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gadcd85258054ff54b7d0dd7f875185bf0</anchor>
+      <anchor>gaa4cc5ffaa2d70d40b668c54f1e8ec303</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_floating_point</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gad2165666bd79caf59277b9c4488a1bde</anchor>
+      <anchor>ga66729838c230dc7bb06574460d0d8c3d</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17261,14 +18306,14 @@
       <type>constexpr bool</type>
       <name>any_arithmetic</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gad067ec94bd319f3cd1b8406d5d208701</anchor>
+      <anchor>ga4cdccad554e7b4964b66449794c488ce</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_arithmetic</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaccb79366bc73cbc96f8a6317fead16f1</anchor>
+      <anchor>ga3e1129e045b70c2af6a5d50b1017662c</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17282,14 +18327,14 @@
       <type>constexpr bool</type>
       <name>any_const</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga8790fee03d9e3fe2dd3b1d126b08a2ce</anchor>
+      <anchor>ga586bfe745dfc478bb12c62911c5ec7d2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_const</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga1fce0d7c8fa9515365a671bdee77f722</anchor>
+      <anchor>gadf6a0fd43aef7bad2aa5b1061ca76909</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17303,14 +18348,14 @@
       <type>constexpr bool</type>
       <name>any_volatile</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaef99eced8c220aaf5875212fdccd6fe2</anchor>
+      <anchor>ga33f32f81af61846324b24c96d22fb855</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_volatile</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaabe1f5048446fbf9280d63fbb3f3d440</anchor>
+      <anchor>gadca3d0c318c62cf67f0e711cddc3ed92</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17324,14 +18369,14 @@
       <type>constexpr bool</type>
       <name>any_cv</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga0901c12d4271170dee63a201878f49d5</anchor>
+      <anchor>gaac432f658a461422891106bb6f8d0125</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_cv</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga31a739e7f932a7386e9779e05c65e1ba</anchor>
+      <anchor>ga604b58afd51f22c514b3642e06984660</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17345,14 +18390,14 @@
       <type>constexpr bool</type>
       <name>any_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3957082e3d9c3d7225b7f7f852afa357</anchor>
+      <anchor>ga2142c726fa120091603f69a4f88800b9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaf3bb0d8c33afd87750a47cb200a5ef57</anchor>
+      <anchor>gaf373c7ded4ff3f304e087d9311e012f9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17366,14 +18411,14 @@
       <type>constexpr bool</type>
       <name>inherits_from_any</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gadd83c88c9a60057f0d637c083772bedb</anchor>
+      <anchor>ga49aa08768876bf7322df7d9b27eac4bf</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>inherits_from_all</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaadc58b7614ccb6f2626162c71fd204c9</anchor>
+      <anchor>gafb8004fa9a10a8e6d4ae98a8d8a797b5</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17408,14 +18453,14 @@
       <type>constexpr bool</type>
       <name>any_unbounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga0f5de953c30ac2d5aa79ccece0f5681a</anchor>
+      <anchor>gaa1efb75d54e410227ee2cd1448d72d41</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_unbounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa45d5a8ac607de08c4d7f2b1d275dc3d</anchor>
+      <anchor>gaf8727f2300cefe6944088ab53b9c9d59</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17429,14 +18474,14 @@
       <type>constexpr bool</type>
       <name>any_bounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga62dc66d47da5a1d4420082e8c29bf978</anchor>
+      <anchor>ga41e64183a2500e39947132b435ff13d8</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_bounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gae22dfc906ab84c2a644d7f635b00bf5d</anchor>
+      <anchor>ga2b5c53a174d76fc6d6dde73a999753ff</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17450,14 +18495,14 @@
       <type>constexpr bool</type>
       <name>any_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa6e6a09626366fea9202ecaa1f42f414</anchor>
+      <anchor>gae48b7c7d5e58e9c43b47386ec34c2a55</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga10598e51bcfe8c2a8261c6617990eaea</anchor>
+      <anchor>ga3e77e037d2b8f336651ae4f06fead98d</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17612,6 +18657,34 @@
       <name>has_inequality_operator</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gac7b4aeab35fd101dabb265d96ac907cf</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_less_than_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga8174e2a93bd7baef51f9c4ffd3d7206d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_less_than_or_equal_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2bcea1936abb6634724460d9b60b1523</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_greater_than_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2a09893087420eca324aa878466b1323</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_greater_than_or_equal_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaf0114bddef2099828f5c428dafb0da3d</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -17830,16 +18903,16 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>has_exceptions</name>
+      <name>supports_exceptions</name>
       <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a94df782020722e17c9d359931c92134e</anchor>
+      <anchor>a1cc9e6160fa6088fa7b763d5eba09aee</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>has_rtti</name>
+      <name>supports_rtti</name>
       <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ae2ac1a89ce5084508f06a8fc3046dfb6</anchor>
+      <anchor>a564c99820bacd7c3cc5bc2bc1ab5e0ee</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -18058,6 +19131,7 @@
     <class kind="struct">muu::constants&lt; packed_unit_vector&lt; Integer, Dimensions &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; plane&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; quaternion&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">muu::constants&lt; triangle&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; uuid &gt;</class>
     <class kind="struct">muu::constants&lt; vector&lt; Scalar, Dimensions &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; float &gt;</class>
@@ -18096,6 +19170,7 @@
     <class kind="class">muu::scope_fail</class>
     <class kind="class">muu::scope_success</class>
     <class kind="class">muu::span</class>
+    <class kind="struct">muu::strong_typedef</class>
     <class kind="class">muu::tagged_ptr</class>
     <class kind="struct">muu::uuid</class>
     <member kind="typedef">
@@ -18451,6 +19526,7 @@
     <class kind="struct">muu::oriented_bounding_box</class>
     <class kind="struct">muu::plane</class>
     <class kind="struct">muu::quaternion</class>
+    <class kind="struct">muu::triangle</class>
     <class kind="struct">muu::vector</class>
     <member kind="enumeration">
       <type></type>
@@ -18587,31 +19663,31 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::largest_&lt; T... &gt;::type</type>
+      <type>typename impl::largest_&lt; T, U... &gt;::type</type>
       <name>largest</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7c930af45d2e06539c2a3dfcc908a854</anchor>
+      <anchor>ga66c7ac2c2ba5ae0358a9c398ca1a5fa3</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::smallest_&lt; T... &gt;::type</type>
+      <type>typename impl::smallest_&lt; T, U... &gt;::type</type>
       <name>smallest</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga9cd7c756a0397747aa065ac54ddbf46b</anchor>
+      <anchor>ga7b0e548ad93b4b2fabc3c38eadd456c5</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::most_aligned_&lt; T... &gt;::type</type>
+      <type>typename impl::most_aligned_&lt; T, U... &gt;::type</type>
       <name>most_aligned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga62680f064b38d875edbcb08604a2736d</anchor>
+      <anchor>ga412a873e98a67c58f4bcb71bb8c23ddb</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::least_aligned_&lt; T... &gt;::type</type>
+      <type>typename impl::least_aligned_&lt; T, U... &gt;::type</type>
       <name>least_aligned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaeb94aca04351ff030dae9dff706fe05c</anchor>
+      <anchor>ga14d4e47d4a3ee4bcae55745a917343e3</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -18891,7 +19967,7 @@
       <type>constexpr size_t</type>
       <name>index_of_type</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga27d95776f3cf0c19b01db50c4373fb63</anchor>
+      <anchor>ga91356a65708493c6fbc993024894c901</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19073,14 +20149,14 @@
       <type>constexpr bool</type>
       <name>any_enum</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gabc989dd91eaeb76cf275afe1e1de94bf</anchor>
+      <anchor>ga5654c62084cb368c8d754ef2391188f1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_enum</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gafaa3803206e27df19fde422d3b1eb540</anchor>
+      <anchor>ga38cc1e5109a701b7c609faf614ad75f7</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19092,9 +20168,37 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>any_scoped_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac4960dd74a53e778d606c67b17b898fc</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_scoped_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac742ec408e961ab3cdfcba8b59fc043f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>is_legacy_enum</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga0ad880900bc41c21a698d9114f333e3d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_legacy_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga61a1919e5b9db8752915c52166418e35</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_legacy_enum</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga0b19c96f2fd22318ff9434cecb8e4ecc</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19108,14 +20212,14 @@
       <type>constexpr bool</type>
       <name>any_unsigned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3bb31ded23944badda78774761206c09</anchor>
+      <anchor>gab947cfb735e87e9394420be39d9f0279</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_unsigned</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa29a6fbd7e596e20dd8769aefc3cd51e</anchor>
+      <anchor>gaa71f70dfddfb9f29ed162014c6020672</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19129,14 +20233,14 @@
       <type>constexpr bool</type>
       <name>any_signed</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga68d2257a9ace0f37200d05117931baed</anchor>
+      <anchor>ga8db6d992e6f39f91948ea80dff4e1025</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_signed</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa7a73625bc705a9021924a54729c192e</anchor>
+      <anchor>gad0e4bc930ad4094734715f7b5b116c15</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19150,14 +20254,14 @@
       <type>constexpr bool</type>
       <name>any_integral</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga531166c296beeb911cb00d6ce826d3e8</anchor>
+      <anchor>ga1a551403c0c337deb10ceb0dc7718fc1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_integral</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga02060371498ff52c8d225e379fe00975</anchor>
+      <anchor>ga113302a3a1ac13b36caa7f1baaf7a191</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19171,14 +20275,14 @@
       <type>constexpr bool</type>
       <name>any_integer</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3660079b9cf5bd6f01ef9f5322c235f7</anchor>
+      <anchor>ga93df7f38a0b30c68c6138780d55885fb</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_integer</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga891ba12282ff535141b2e581867518fe</anchor>
+      <anchor>gac4750ab546ab72009c9c73407016f0f7</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19192,14 +20296,14 @@
       <type>constexpr bool</type>
       <name>any_floating_point</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gadcd85258054ff54b7d0dd7f875185bf0</anchor>
+      <anchor>gaa4cc5ffaa2d70d40b668c54f1e8ec303</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_floating_point</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gad2165666bd79caf59277b9c4488a1bde</anchor>
+      <anchor>ga66729838c230dc7bb06574460d0d8c3d</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19227,14 +20331,14 @@
       <type>constexpr bool</type>
       <name>any_arithmetic</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gad067ec94bd319f3cd1b8406d5d208701</anchor>
+      <anchor>ga4cdccad554e7b4964b66449794c488ce</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_arithmetic</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaccb79366bc73cbc96f8a6317fead16f1</anchor>
+      <anchor>ga3e1129e045b70c2af6a5d50b1017662c</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19248,14 +20352,14 @@
       <type>constexpr bool</type>
       <name>any_const</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga8790fee03d9e3fe2dd3b1d126b08a2ce</anchor>
+      <anchor>ga586bfe745dfc478bb12c62911c5ec7d2</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_const</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga1fce0d7c8fa9515365a671bdee77f722</anchor>
+      <anchor>gadf6a0fd43aef7bad2aa5b1061ca76909</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19269,14 +20373,14 @@
       <type>constexpr bool</type>
       <name>any_volatile</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaef99eced8c220aaf5875212fdccd6fe2</anchor>
+      <anchor>ga33f32f81af61846324b24c96d22fb855</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_volatile</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaabe1f5048446fbf9280d63fbb3f3d440</anchor>
+      <anchor>gadca3d0c318c62cf67f0e711cddc3ed92</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19290,14 +20394,14 @@
       <type>constexpr bool</type>
       <name>any_cv</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga0901c12d4271170dee63a201878f49d5</anchor>
+      <anchor>gaac432f658a461422891106bb6f8d0125</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_cv</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga31a739e7f932a7386e9779e05c65e1ba</anchor>
+      <anchor>ga604b58afd51f22c514b3642e06984660</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19311,14 +20415,14 @@
       <type>constexpr bool</type>
       <name>any_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga3957082e3d9c3d7225b7f7f852afa357</anchor>
+      <anchor>ga2142c726fa120091603f69a4f88800b9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaf3bb0d8c33afd87750a47cb200a5ef57</anchor>
+      <anchor>gaf373c7ded4ff3f304e087d9311e012f9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19332,14 +20436,14 @@
       <type>constexpr bool</type>
       <name>inherits_from_any</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gadd83c88c9a60057f0d637c083772bedb</anchor>
+      <anchor>ga49aa08768876bf7322df7d9b27eac4bf</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>inherits_from_all</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaadc58b7614ccb6f2626162c71fd204c9</anchor>
+      <anchor>gafb8004fa9a10a8e6d4ae98a8d8a797b5</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19374,14 +20478,14 @@
       <type>constexpr bool</type>
       <name>any_unbounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga0f5de953c30ac2d5aa79ccece0f5681a</anchor>
+      <anchor>gaa1efb75d54e410227ee2cd1448d72d41</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_unbounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa45d5a8ac607de08c4d7f2b1d275dc3d</anchor>
+      <anchor>gaf8727f2300cefe6944088ab53b9c9d59</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19395,14 +20499,14 @@
       <type>constexpr bool</type>
       <name>any_bounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga62dc66d47da5a1d4420082e8c29bf978</anchor>
+      <anchor>ga41e64183a2500e39947132b435ff13d8</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_bounded_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gae22dfc906ab84c2a644d7f635b00bf5d</anchor>
+      <anchor>ga2b5c53a174d76fc6d6dde73a999753ff</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19416,14 +20520,14 @@
       <type>constexpr bool</type>
       <name>any_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaa6e6a09626366fea9202ecaa1f42f414</anchor>
+      <anchor>gae48b7c7d5e58e9c43b47386ec34c2a55</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>all_array</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga10598e51bcfe8c2a8261c6617990eaea</anchor>
+      <anchor>ga3e77e037d2b8f336651ae4f06fead98d</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -19578,6 +20682,34 @@
       <name>has_inequality_operator</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gac7b4aeab35fd101dabb265d96ac907cf</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_less_than_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga8174e2a93bd7baef51f9c4ffd3d7206d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_less_than_or_equal_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2bcea1936abb6634724460d9b60b1523</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_greater_than_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2a09893087420eca324aa878466b1323</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>has_greater_than_or_equal_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaf0114bddef2099828f5c428dafb0da3d</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -20617,6 +21749,13 @@
       <type>constexpr bool</type>
       <name>approx_equal</name>
       <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga2881bac8c2bf5248013bbc7d94867005</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri1, const triangle&lt; T &gt; &amp;tri2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
       <anchor>ga5d86e15710b89e3c79399cd98f597efe</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v1, const vector&lt; T, D &gt; &amp;v2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
     </member>
@@ -20661,6 +21800,13 @@
       <anchorfile>group__approx__equal.html</anchorfile>
       <anchor>ga6b8d6921c4f39c5881a7ea6f95f33392</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q1, const quaternion&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga2881bac8c2bf5248013bbc7d94867005</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri1, const triangle&lt; T &gt; &amp;tri2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -20769,6 +21915,13 @@
       <type>constexpr bool</type>
       <name>approx_zero</name>
       <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga634f1c2a41e507ca065b3783a0401c3c</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
       <anchor>gaa7e15ecff78c10af4eaa5b463eee9ca6</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
@@ -20813,6 +21966,13 @@
       <anchorfile>group__approx__zero.html</anchorfile>
       <anchor>ga04dec66856dc79915e9130ef3693e9f2</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>ga634f1c2a41e507ca065b3783a0401c3c</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -21404,6 +22564,20 @@
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gac83f0d0b00f182e5cfa6ae4dfa9ad12c</anchor>
+      <arglist>(const T(&amp;vals)[N]) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga0f071cb7be895ff5f3176182306cb1a9</anchor>
+      <arglist>(const T &amp;val1, const U &amp;val2, const V &amp;... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>ga1f57b7af70f0235ad644486a5943e582</anchor>
       <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
     </member>
@@ -21427,6 +22601,13 @@
       <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>gaffcaea7f39fc17894285d8221923387e</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga73ae74e7ab9484fb2ee90a67e91c1b08</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -21476,6 +22657,13 @@
       <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>gaffcaea7f39fc17894285d8221923387e</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga73ae74e7ab9484fb2ee90a67e91c1b08</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
