@@ -104,6 +104,7 @@
                 <li><a href="#scalar-accessors">Scalar accessors</a></li>
                 <li><a href="#scaling">Scaling</a></li>
                 <li><a href="#subtraction">Subtraction</a></li>
+                <li><a href="#transformation">Transformation</a></li>
                 <li><a href="#translation">Translation</a></li>
                 <li><a href="#transposition">Transposition</a></li>
                 <li><a href="#friends">Friends</a></li>
@@ -554,35 +555,46 @@
         </section>
         <section id="scaling">
           <h2><a href="#scaling">Scaling</a></h2>
-<aside class="m-block m-special"><h4>Conditional availability </h4><p>These functions are only available when the matrix is a typical 2D or 3D scale matrix (i.e. one of 2x2, 2x3, 3x3, 3x4 or 4x4).</p></aside>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>These functions are only available when the matrix is a typical 2D or 3D scale matrix (i.e. one of 2x2, 2x3 or 3x3, 3x4 or 4x4).</p></aside>
           <dl class="m-doc">
             <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#afbc4fb2cc7d63d5acbd8282a60592af2">from_2d_scale</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a scale matrix from x and y scalar components.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#abf5338743171ffedff7d4a0fa41a7435">from_2d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, D&gt;&amp; xlat) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a9447164cfaca5292944a957ce441070a">from_2d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, D&gt;&amp; scale) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a scale matrix from the x and y components of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> of arbitrary size.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a95ed73fc1c29b007ef46655a18f22c1b">from_3d_scale</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> z = Scalar{ 1 }) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a scale matrix from x, y and z scalar components.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a69c9b9e850fe425749ddd2f5451a3d22">from_3d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, D&gt;&amp; xlat) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a9ef96911ddef1c529535caf0584af52d">from_3d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, D&gt;&amp; scale) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a scale matrix from the x, y and z components of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> of arbitrary size.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aa233b035a7a473fb2a49c47dd9d64905">from_scale</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a scale matrix from x and y scalars.</dd>
+            <dd>Creates a scale matrix from x and y scalar components.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a9412c966c1869fb76186c71038c12c54">from_scale</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y,
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> z) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a scale matrix from x, y and z scalars.</dd>
+            <dd>Creates a scale matrix from x, y and z scalar components.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#adeca6ff4be53fa9aa47b996dc1b4b066">from_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt;&amp; xlat) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a33b51a4ca9c06d88eb76b509db588c85">from_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt;&amp; scale) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a scale matrix from a 2D <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aa56fc0bfb5df69bc69a9c30ffa93048e">from_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; xlat) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aeaa03691413769c8860f572c5b2c37bd">from_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; scale) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a scale matrix from a 3D <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
           </dl>
@@ -605,15 +617,71 @@
             <dd>Returns the componentwise subtraction of two matrices.</dd>
           </dl>
         </section>
+        <section id="transformation">
+          <h2><a href="#transformation">Transformation</a></h2>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>These functions are only available when the matrix is a typical 2D or 3D transformation matrix (i.e. one of 2x2, 2x3, 3x3, 3x4 or 4x4) and has a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a96fad04de29aa0e77caf017b1e502de2">extract_2d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; mat) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Extracts the scale from a 2D transform matrix.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aed72dba01ce627ca56635813c2c189c9">extract_3d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; mat) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Extracts the scale from a 3D transform matrix.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aadde62cb9f7d7c6e320c89bdd6a91e9a">transform_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Applies a matrix's 3d transformation to the given direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a97e61f752b68c1fd0b42bc3cbcc26f2f">transform_position</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; pos) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Applies a matrix's 3d transformation to the given <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#abd506f0334c547b376c4327603477e7c">extract_2d_scale</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Extracts the scale from a 2D transform matrix.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ab1875ad3f3b9ffd74ca16e0888a46719">extract_3d_scale</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Extracts the scale from a 3D transform matrix.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3754be9bee88e3a7b2da6d1c907ab2e0">transform_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Applies a matrix's 3d transformation to the given direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a623d1033a19402df8871e74615d6ef55">transform_position</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; pos) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Applies the matrix's 3d transformation to the given <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6bb6e8d6c8f41487f87a5a4b14719498">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; pos) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Applies the matrix's 3d transformation to the given <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
+          </dl>
+        </section>
         <section id="translation">
           <h2><a href="#translation">Translation</a></h2>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>These functions are only available when the matrix is a typical 2D or 3D translation matrix (i.e. one of 2x3, 3x3, 3x4 or 4x4).</p></aside>
           <dl class="m-doc">
             <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a023095e602661eedb3fa46fbd269fd22">from_2d_translation</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a translation matrix from x and y scalar components.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a5eba87c8e3e7b71783c32f84fc8de985">from_2d_translation</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, D&gt;&amp; xlat) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a translation matrix from the x and y components of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> of arbitrary size.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#af229a405edb9f64dc5f13fbc51259b24">from_3d_translation</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> z = Scalar{}) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a translation matrix from x, y and z scalar components.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a269bb0036126025f9b52714cd1cbe575">from_3d_translation</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, D&gt;&amp; xlat) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -623,13 +691,13 @@
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aede0d6b7e4e6281e99500f37ea367644">from_translation</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a translation matrix from x and y offsets.</dd>
+            <dd>Creates a translation matrix from x and y scalar components.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ad3eb3a4138b27d456efd5a8475e21c4e">from_translation</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ab265d92bd7f7317ae21de6ea1c7c7ea5">from_translation</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y,
-              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> z = 0) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> z) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Creates a translation matrix from x, y and z offsets.</dd>
+            <dd>Creates a translation matrix from x, y and z scalar components.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a4993af9ea11ca906acef27d2a91e3070">from_translation</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt;&amp; xlat) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -1503,20 +1571,41 @@ template&lt;typename T&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="abf5338743171ffedff7d4a0fa41a7435"><div>
+          <section class="m-doc-details" id="afbc4fb2cc7d63d5acbd8282a60592af2"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afbc4fb2cc7d63d5acbd8282a60592af2">from_2d_scale</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a scale matrix from x and y scalar components.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a9447164cfaca5292944a957ce441070a"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abf5338743171ffedff7d4a0fa41a7435">from_2d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, D&gt;&amp; xlat) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9447164cfaca5292944a957ce441070a">from_2d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, D&gt;&amp; scale) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Creates a scale matrix from the x and y components of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> of arbitrary size.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a69c9b9e850fe425749ddd2f5451a3d22"><div>
+          <section class="m-doc-details" id="a95ed73fc1c29b007ef46655a18f22c1b"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a95ed73fc1c29b007ef46655a18f22c1b">from_3d_scale</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> z = Scalar{ 1 }) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a scale matrix from x, y and z scalar components.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 3x3, 3x4 or 4x4.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a9ef96911ddef1c529535caf0584af52d"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a69c9b9e850fe425749ddd2f5451a3d22">from_3d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, D&gt;&amp; xlat) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9ef96911ddef1c529535caf0584af52d">from_3d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, D&gt;&amp; scale) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Creates a scale matrix from the x, y and z components of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> of arbitrary size.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 3x3, 3x4 or 4x4.</p></aside>
@@ -1528,8 +1617,8 @@ template&lt;typename T&gt;
               <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa233b035a7a473fb2a49c47dd9d64905">from_scale</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Creates a scale matrix from x and y scalars.</p>
-<aside class="m-block m-special"><h4>Conditional availability </h4><p>This overload is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.</p></aside>
+            <p>Creates a scale matrix from x and y scalar components.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a9412c966c1869fb76186c71038c12c54"><div>
             <h3>
@@ -1539,26 +1628,160 @@ template&lt;typename T&gt;
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y,
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> z) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Creates a scale matrix from x, y and z scalars.</p>
-<aside class="m-block m-special"><h4>Conditional availability </h4><p>This overload is only available when the matrix is 3x3, 3x4 or 4x4.</p></aside>
+            <p>Creates a scale matrix from x, y and z scalar components.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 3x3, 3x4 or 4x4.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="adeca6ff4be53fa9aa47b996dc1b4b066"><div>
+          <section class="m-doc-details" id="a33b51a4ca9c06d88eb76b509db588c85"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#adeca6ff4be53fa9aa47b996dc1b4b066">from_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt;&amp; xlat) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a33b51a4ca9c06d88eb76b509db588c85">from_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt;&amp; scale) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Creates a scale matrix from a 2D <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This overload is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aa56fc0bfb5df69bc69a9c30ffa93048e"><div>
+          <section class="m-doc-details" id="aeaa03691413769c8860f572c5b2c37bd"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa56fc0bfb5df69bc69a9c30ffa93048e">from_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; xlat) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aeaa03691413769c8860f572c5b2c37bd">from_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; scale) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Creates a scale matrix from a 3D <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This overload is only available when the matrix is 3x3, 3x4 or 4x4.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a96fad04de29aa0e77caf017b1e502de2"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a96fad04de29aa0e77caf017b1e502de2">extract_2d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; mat) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Extracts the scale from a 2D transform matrix.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This overload is only available when the matrix is 2x2, 2x3 or 3x3 with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aed72dba01ce627ca56635813c2c189c9"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aed72dba01ce627ca56635813c2c189c9">extract_3d_scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; mat) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Extracts the scale from a 3D transform matrix.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This overload is only available when the matrix is 3x3, 3x4 or 4x4 with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aadde62cb9f7d7c6e320c89bdd6a91e9a"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aadde62cb9f7d7c6e320c89bdd6a91e9a">transform_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Applies a matrix's 3d transformation to the given direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>The result of transforming the 3D direction by the matrix.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is only available for 3x4 and 4x4 matrices with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a97e61f752b68c1fd0b42bc3cbcc26f2f"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a97e61f752b68c1fd0b42bc3cbcc26f2f">transform_position</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; pos) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Applies a matrix's 3d transformation to the given <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>The result of transforming the 3D position by the matrix.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is only available for 3x4 and 4x4 matrices with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="abd506f0334c547b376c4327603477e7c"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abd506f0334c547b376c4327603477e7c">extract_2d_scale</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Extracts the scale from a 2D transform matrix.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This overload is only available when the matrix is 2x2, 2x3 or 3x3 with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ab1875ad3f3b9ffd74ca16e0888a46719"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab1875ad3f3b9ffd74ca16e0888a46719">extract_3d_scale</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Extracts the scale from a 3D transform matrix.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This overload is only available when the matrix is 3x3, 3x4 or 4x4 with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a3754be9bee88e3a7b2da6d1c907ab2e0"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3754be9bee88e3a7b2da6d1c907ab2e0">transform_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Applies a matrix's 3d transformation to the given direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>The result of transforming the 3D direction by the matrix.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is only available for 3x4 and 4x4 matrices with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a623d1033a19402df8871e74615d6ef55"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a623d1033a19402df8871e74615d6ef55">transform_position</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; pos) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Applies the matrix's 3d transformation to the given <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>The result of transforming the 3D position by the matrix.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is only available for 3x4 and 4x4 matrices with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a6bb6e8d6c8f41487f87a5a4b14719498"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6bb6e8d6c8f41487f87a5a4b14719498">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; pos) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Applies the matrix's 3d transformation to the given <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>The result of transforming the 3D position by the matrix.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is only available for 3x4 and 4x4 matrices with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="structmuu_1_1matrix.html#a97e61f752b68c1fd0b42bc3cbcc26f2f">transform_<wbr/>position()</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a023095e602661eedb3fa46fbd269fd22"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a023095e602661eedb3fa46fbd269fd22">from_2d_translation</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a translation matrix from x and y scalar components.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a5eba87c8e3e7b71783c32f84fc8de985"><div>
             <h3>
@@ -1568,6 +1791,17 @@ template&lt;typename T&gt;
             </h3>
             <p>Creates a translation matrix from the x and y components of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> of arbitrary size.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="af229a405edb9f64dc5f13fbc51259b24"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af229a405edb9f64dc5f13fbc51259b24">from_3d_translation</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> z = Scalar{}) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a translation matrix from x, y and z scalar components.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 3x4 or 4x4.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a269bb0036126025f9b52714cd1cbe575"><div>
             <h3>
@@ -1585,19 +1819,19 @@ template&lt;typename T&gt;
               <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aede0d6b7e4e6281e99500f37ea367644">from_translation</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Creates a translation matrix from x and y offsets.</p>
-<aside class="m-block m-special"><h4>Conditional availability </h4><p>This overload is only available when the matrix is 2x3 or 3x3.</p></aside>
+            <p>Creates a translation matrix from x and y scalar components.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ad3eb3a4138b27d456efd5a8475e21c4e"><div>
+          <section class="m-doc-details" id="ab265d92bd7f7317ae21de6ea1c7c7ea5"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad3eb3a4138b27d456efd5a8475e21c4e">from_translation</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab265d92bd7f7317ae21de6ea1c7c7ea5">from_translation</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> x,
               <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> y,
-              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> z = 0) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> z) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Creates a translation matrix from x, y and z offsets.</p>
-<aside class="m-block m-special"><h4>Conditional availability </h4><p>This overload is only available when the matrix is 3x4 or 4x4.</p></aside>
+            <p>Creates a translation matrix from x, y and z scalar components.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 3x4 or 4x4.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a4993af9ea11ca906acef27d2a91e3070"><div>
             <h3>
@@ -1615,7 +1849,7 @@ template&lt;typename T&gt;
               <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afcf61d031627037a510b480bec8ecb08">from_translation</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; xlat) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Creates a translation matrix from a 3D <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</p>
-<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 3x4 or 4x4.</p></aside>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This overload is only available when the matrix is 3x4 or 4x4.</p></aside>
           </div></section>
           <section class="m-doc-details" id="abdf68e567d61b72c9b2273bdaad7eb4d"><div>
             <h3>

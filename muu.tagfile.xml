@@ -6990,6 +6990,90 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
+      <name>from_2d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>afbc4fb2cc7d63d5acbd8282a60592af2</anchor>
+      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a9447164cfaca5292944a957ce441070a</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;scale) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a95ed73fc1c29b007ef46655a18f22c1b</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z=Scalar{ 1 }) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a9ef96911ddef1c529535caf0584af52d</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;scale) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa233b035a7a473fb2a49c47dd9d64905</anchor>
+      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a9412c966c1869fb76186c71038c12c54</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a33b51a4ca9c06d88eb76b509db588c85</anchor>
+      <arglist>(const vector&lt; scalar_type, 2 &gt; &amp;scale) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aeaa03691413769c8860f572c5b2c37bd</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;scale) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a023095e602661eedb3fa46fbd269fd22</anchor>
+      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a5eba87c8e3e7b71783c32f84fc8de985</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>af229a405edb9f64dc5f13fbc51259b24</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z=Scalar{}) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a269bb0036126025f9b52714cd1cbe575</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
       <name>from_translation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>aede0d6b7e4e6281e99500f37ea367644</anchor>
@@ -6999,8 +7083,8 @@
       <type>static constexpr matrix</type>
       <name>from_translation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ad3eb3a4138b27d456efd5a8475e21c4e</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z=0) noexcept</arglist>
+      <anchor>ab265d92bd7f7317ae21de6ea1c7c7ea5</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
@@ -7015,20 +7099,6 @@
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>afcf61d031627037a510b480bec8ecb08</anchor>
       <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_2d_translation</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a5eba87c8e3e7b71783c32f84fc8de985</anchor>
-      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_3d_translation</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a269bb0036126025f9b52714cd1cbe575</anchor>
-      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
@@ -7127,48 +7197,6 @@
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>a12bf6878e3127cf38cd120afe71e153e</anchor>
       <arglist>(const vector&lt; Scalar, 3 &gt; &amp;x, const vector&lt; Scalar, 3 &gt; &amp;y, const vector&lt; Scalar, 3 &gt; &amp;z) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa233b035a7a473fb2a49c47dd9d64905</anchor>
-      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a9412c966c1869fb76186c71038c12c54</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>adeca6ff4be53fa9aa47b996dc1b4b066</anchor>
-      <arglist>(const vector&lt; scalar_type, 2 &gt; &amp;xlat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa56fc0bfb5df69bc69a9c30ffa93048e</anchor>
-      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_2d_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>abf5338743171ffedff7d4a0fa41a7435</anchor>
-      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_3d_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a69c9b9e850fe425749ddd2f5451a3d22</anchor>
-      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
     </member>
     <member kind="variable">
       <type>column_type</type>
@@ -7604,6 +7632,153 @@
       <anchor>a90d37bc49d8d5a35e8c415400c47d4e7</anchor>
       <arglist>(const matrix &amp;m) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr vector&lt; scalar_type, 3 &gt;</type>
+      <name>transform_position</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a623d1033a19402df8871e74615d6ef55</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;pos) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; scalar_type, 3 &gt;</type>
+      <name>transform_direction</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a3754be9bee88e3a7b2da6d1c907ab2e0</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;dir) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; scalar_type, 2 &gt;</type>
+      <name>extract_2d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>abd506f0334c547b376c4327603477e7c</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector&lt; scalar_type, 3 &gt;</type>
+      <name>extract_3d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>ab1875ad3f3b9ffd74ca16e0888a46719</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector&lt; scalar_type, 3 &gt;</type>
+      <name>transform_position</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a97e61f752b68c1fd0b42bc3cbcc26f2f</anchor>
+      <arglist>(const matrix &amp;xform, const vector&lt; scalar_type, 3 &gt; &amp;pos) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector&lt; scalar_type, 3 &gt;</type>
+      <name>transform_direction</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aadde62cb9f7d7c6e320c89bdd6a91e9a</anchor>
+      <arglist>(const matrix &amp;xform, const vector&lt; scalar_type, 3 &gt; &amp;dir) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector&lt; scalar_type, 2 &gt;</type>
+      <name>extract_2d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a96fad04de29aa0e77caf017b1e502de2</anchor>
+      <arglist>(const matrix &amp;mat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector&lt; scalar_type, 3 &gt;</type>
+      <name>extract_3d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aed72dba01ce627ca56635813c2c189c9</anchor>
+      <arglist>(const matrix &amp;mat) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend vector&lt; scalar_type, 3 &gt;</type>
+      <name>operator*</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a6bb6e8d6c8f41487f87a5a4b14719498</anchor>
+      <arglist>(const matrix &amp;xform, const vector&lt; scalar_type, 3 &gt; &amp;pos) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>afbc4fb2cc7d63d5acbd8282a60592af2</anchor>
+      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a9447164cfaca5292944a957ce441070a</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;scale) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a95ed73fc1c29b007ef46655a18f22c1b</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z=Scalar{ 1 }) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a9ef96911ddef1c529535caf0584af52d</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;scale) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa233b035a7a473fb2a49c47dd9d64905</anchor>
+      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a9412c966c1869fb76186c71038c12c54</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a33b51a4ca9c06d88eb76b509db588c85</anchor>
+      <arglist>(const vector&lt; scalar_type, 2 &gt; &amp;scale) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_scale</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aeaa03691413769c8860f572c5b2c37bd</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;scale) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a023095e602661eedb3fa46fbd269fd22</anchor>
+      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_2d_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a5eba87c8e3e7b71783c32f84fc8de985</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>af229a405edb9f64dc5f13fbc51259b24</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z=Scalar{}) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_translation</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a269bb0036126025f9b52714cd1cbe575</anchor>
+      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
       <name>from_translation</name>
@@ -7615,8 +7790,8 @@
       <type>static constexpr matrix</type>
       <name>from_translation</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ad3eb3a4138b27d456efd5a8475e21c4e</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z=0) noexcept</arglist>
+      <anchor>ab265d92bd7f7317ae21de6ea1c7c7ea5</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
@@ -7631,20 +7806,6 @@
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>afcf61d031627037a510b480bec8ecb08</anchor>
       <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_2d_translation</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a5eba87c8e3e7b71783c32f84fc8de985</anchor>
-      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_3d_translation</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a269bb0036126025f9b52714cd1cbe575</anchor>
-      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
@@ -7743,48 +7904,6 @@
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>a12bf6878e3127cf38cd120afe71e153e</anchor>
       <arglist>(const vector&lt; Scalar, 3 &gt; &amp;x, const vector&lt; Scalar, 3 &gt; &amp;y, const vector&lt; Scalar, 3 &gt; &amp;z) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa233b035a7a473fb2a49c47dd9d64905</anchor>
-      <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a9412c966c1869fb76186c71038c12c54</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>adeca6ff4be53fa9aa47b996dc1b4b066</anchor>
-      <arglist>(const vector&lt; scalar_type, 2 &gt; &amp;xlat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa56fc0bfb5df69bc69a9c30ffa93048e</anchor>
-      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_2d_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>abf5338743171ffedff7d4a0fa41a7435</anchor>
-      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_3d_scale</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a69c9b9e850fe425749ddd2f5451a3d22</anchor>
-      <arglist>(const vector&lt; scalar_type, D &gt; &amp;xlat) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
