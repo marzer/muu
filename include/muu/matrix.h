@@ -118,11 +118,11 @@ namespace muu::impl
 	//--- translation column getter ------------------------------------------------------------------------------------
 
 	template <typename Derived, bool = is_translation_matrix_<Derived>>
-	struct matrix_get_translation
+	struct matrix_get_translation_column
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct matrix_get_translation<matrix<Scalar, Rows, Columns>, true>
+	struct matrix_get_translation_column<matrix<Scalar, Rows, Columns>, true>
 	{
 		using column_type = vector<Scalar, Rows>;
 
@@ -141,20 +141,17 @@ namespace muu::impl
 		}
 	};
 
-	//--- scale matrices -----------------------------------------------------------------------------------------------
+	//--- from_2d_scale() -----------------------------------------------------------------------------------------
 
 	template <typename Derived, bool = is_scale_matrix_<Derived>>
-	struct matrix_scales
+	struct matrix_from_2d_scale
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct matrix_scales<matrix<Scalar, Rows, Columns>, true>
+	struct matrix_from_2d_scale<matrix<Scalar, Rows, Columns>, true>
 	{
-		static_assert(Rows >= 2 || Rows <= 4);
-		static_assert(Columns >= 2 || Columns <= 4);
-
 		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(Scalar x, Scalar y) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_scale(Scalar x, Scalar y) noexcept
 		{
 			using out_type = matrix<Scalar, Rows, Columns>;
 
@@ -164,24 +161,31 @@ namespace muu::impl
 			return out;
 		}
 
-		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(
-			const vector<Scalar, 2>& scale) noexcept
-		{
-			return from_scale(scale.x, scale.y);
-		}
-
-		MUU_CONSTRAINED_TEMPLATE(D >= 2, size_t D)
-		MUU_PURE_GETTER
+		template <size_t D>
+		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_scale(
 			const vector<Scalar, D>& scale) noexcept
 		{
-			return from_scale_impl(scale.template get<0>(), scale.template get<1>());
+			if constexpr (D == 1)
+				return from_2d_scale(scale.x, Scalar{ 1 });
+			else
+				return from_2d_scale(scale.template get<0>(), scale.template get<1>());
 		}
+	};
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_scale_matrix_<matrix<Scalar, Rows, Columns>>)
+	//--- from_3d_scale() -----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_3d_scale_matrix_<Derived>>
+	struct matrix_from_3d_scale
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_from_3d_scale<matrix<Scalar, Rows, Columns>, true>
+	{
 		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(Scalar x, Scalar y, Scalar z) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_3d_scale(Scalar x,
+																					Scalar y,
+																					Scalar z = Scalar{ 1 }) noexcept
 		{
 			using out_type = matrix<Scalar, Rows, Columns>;
 
@@ -192,119 +196,169 @@ namespace muu::impl
 			return out;
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_scale_matrix_<matrix<Scalar, Rows, Columns>>)
-		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(
-			const vector<Scalar, 3>& scale) noexcept
-		{
-			return from_scale(scale.x, scale.y, scale.z);
-		}
-
-		MUU_CONSTRAINED_TEMPLATE((D >= 3 && is_3d_scale_matrix_<matrix<Scalar, Rows, Columns>>), size_t D)
-		MUU_PURE_GETTER
+		template <size_t D>
+		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_3d_scale(
-			const vector<Scalar, D>& xlat) noexcept
+			const vector<Scalar, D>& scale) noexcept
 		{
-			return from_scale_impl(xlat.template get<0>(), xlat.template get<1>(), xlat.template get<2>());
+			if constexpr (D == 1)
+				return from_3d_scale(scale.x, Scalar{ 1 });
+			else if constexpr (D == 2)
+				return from_3d_scale(scale.x, scale.y);
+			else
+				return from_3d_scale(scale.template get<0>(), scale.template get<1>(), scale.template get<2>());
 		}
 	};
 
-	//--- 2d translation matrices --------------------------------------------------------------------------------------
+	//--- from_scale() -----------------------------------------------------------------------------------------
 
-	template <typename Derived, bool = is_2d_translation_matrix_<Derived>>
-	struct matrix_translations_2d
+	template <typename Derived, bool = is_scale_matrix_<Derived>>
+	struct matrix_from_scale
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct matrix_translations_2d<matrix<Scalar, Rows, Columns>, true>
+	struct matrix_from_scale<matrix<Scalar, Rows, Columns>, true>
 	{
-		static_assert(Rows == 2 || Rows == 3);
-		static_assert(Columns == 3);
-
-		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(Scalar x, Scalar y) noexcept
+		MUU_PURE_INLINE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(Scalar x, Scalar y) noexcept
 		{
-			using out_type = matrix<Scalar, Rows, Columns>;
-
-			auto m = out_type::constants::identity;
-			if constexpr (Rows == 3)
-				m.translation_column() = vector<Scalar, Rows>{ x, y, Scalar{ 1 } };
-			else
-				m.translation_column() = vector<Scalar, Rows>{ x, y };
-			return m;
+			return matrix<Scalar, Rows, Columns>::from_2d_scale(x, y);
 		}
 
-		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(
-			const vector<Scalar, 2>& xlat) noexcept
+		MUU_PURE_INLINE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(
+			MUU_VC_PARAM(vector<Scalar, 2>) scale) noexcept
 		{
-			return from_translation(xlat.x, xlat.y);
+			return matrix<Scalar, Rows, Columns>::from_2d_scale(scale);
 		}
 
-		MUU_CONSTRAINED_TEMPLATE(D >= 2, size_t D)
-		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_translation(
-			const vector<Scalar, D>& xlat) noexcept
+		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_scale_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_PURE_INLINE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(Scalar x, Scalar y, Scalar z) noexcept
 		{
-			return from_translation(xlat.template get<0>(), xlat.template get<1>());
+			return matrix<Scalar, Rows, Columns>::from_3d_scale(x, y, z);
+		}
+
+		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_scale_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_PURE_INLINE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(
+			MUU_VC_PARAM(vector<Scalar, 3>) scale) noexcept
+		{
+			return matrix<Scalar, Rows, Columns>::from_3d_scale(scale);
 		}
 	};
 
-	//--- 3d translation matrices --------------------------------------------------------------------------------------
+	//--- from_2d_translation() ----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_translation_matrix_<Derived>>
+	struct matrix_from_2d_translation
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_from_2d_translation<matrix<Scalar, Rows, Columns>, true>
+	{
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_translation(Scalar x, Scalar y) noexcept
+		{
+			using out_type = matrix<Scalar, Rows, Columns>;
+
+			auto m									 = out_type::constants::identity;
+			m.translation_column().template get<0>() = x;
+			m.translation_column().template get<1>() = y;
+			return m;
+		}
+
+		template <size_t D>
+		MUU_PURE_INLINE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_translation(
+			const vector<Scalar, D>& xlat) noexcept
+		{
+			if constexpr (D == 1)
+				return from_2d_translation(xlat.x, Scalar{});
+			else
+				return from_2d_translation(xlat.template get<0>(), xlat.template get<1>());
+		}
+	};
+
+	//--- from_3d_translation() ----------------------------------------------------------------------------------------
 
 	template <typename Derived, bool = is_3d_translation_matrix_<Derived>>
-	struct matrix_translations_3d
+	struct matrix_from_3d_translation
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct matrix_translations_3d<matrix<Scalar, Rows, Columns>, true>
+	struct matrix_from_3d_translation<matrix<Scalar, Rows, Columns>, true>
 	{
-		static_assert(Rows == 3 || Rows == 4);
-		static_assert(Columns == 4);
-
 		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(Scalar x,
-																					   Scalar y,
-																					   Scalar z = Scalar{}) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_3d_translation(Scalar x,
+																						  Scalar y,
+																						  Scalar z = Scalar{}) noexcept
 		{
 			using out_type = matrix<Scalar, Rows, Columns>;
 
-			auto m = out_type::constants::identity;
-			if constexpr (Rows == 4)
-				m.translation_column() = vector<Scalar, Rows>{ x, y, z, Scalar{ 1 } };
-			else
-				m.translation_column() = vector<Scalar, Rows>{ x, y, z };
+			auto m									 = out_type::constants::identity;
+			m.translation_column().template get<0>() = x;
+			m.translation_column().template get<1>() = y;
+			m.translation_column().template get<2>() = z;
 			return m;
 		}
 
-		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(
-			const vector<Scalar, 2>& xlat) noexcept
-		{
-			return from_translation(xlat.x, xlat.y);
-		}
-
-		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(
-			const vector<Scalar, 3>& xlat) noexcept
-		{
-			return from_translation(xlat.x, xlat.y, xlat.z);
-		}
-
-		MUU_CONSTRAINED_TEMPLATE(D >= 2, size_t D)
-		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_2d_translation(
-			const vector<Scalar, D>& xlat) noexcept
-		{
-			return from_translation(xlat.template get<0>(), xlat.template get<1>());
-		}
-
-		MUU_CONSTRAINED_TEMPLATE(D >= 3, size_t D)
-		MUU_PURE_GETTER
+		template <size_t D>
+		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_3d_translation(
 			const vector<Scalar, D>& xlat) noexcept
 		{
-			return from_translation(xlat.template get<0>(), xlat.template get<1>(), xlat.template get<2>());
+			if constexpr (D == 1)
+				return from_3d_translation(xlat.x, Scalar{});
+			else if constexpr (D == 2)
+				return from_3d_translation(xlat.x, xlat.y);
+			else
+				return from_3d_translation(xlat.template get<0>(), xlat.template get<1>(), xlat.template get<2>());
+		}
+	};
+
+	//--- from_translation() ----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_translation_matrix_<Derived>>
+	struct matrix_from_translation
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_from_translation<matrix<Scalar, Rows, Columns>, true>
+	{
+		MUU_PURE_INLINE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(Scalar x, Scalar y) noexcept
+		{
+			if constexpr (is_2d_translation_matrix_<matrix<Scalar, Rows, Columns>>)
+				return matrix<Scalar, Rows, Columns>::from_2d_translation(x, y);
+			else if constexpr (is_3d_translation_matrix_<matrix<Scalar, Rows, Columns>>)
+				return matrix<Scalar, Rows, Columns>::from_3d_translation(x, y);
+			else
+				static_assert(always_false<Scalar>, "evaluated unreachable branch!");
+		}
+
+		MUU_PURE_INLINE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(
+			MUU_VC_PARAM(vector<Scalar, 2>) xlat) noexcept
+		{
+			return matrix<Scalar, Rows, Columns>::from_2d_translation(xlat);
+		}
+
+		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_translation_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_PURE_INLINE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(Scalar x,
+																					   Scalar y,
+																					   Scalar z) noexcept
+		{
+			return matrix<Scalar, Rows, Columns>::from_3d_translation(x, y, z);
+		}
+
+		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_translation_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_PURE_INLINE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(
+			MUU_VC_PARAM(vector<Scalar, 3>) xlat) noexcept
+		{
+			return matrix<Scalar, Rows, Columns>::from_3d_translation(xlat);
 		}
 	};
 
@@ -491,14 +545,14 @@ namespace muu::impl
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct MUU_EMPTY_BASES matrix_rotations<matrix<Scalar, Rows, Columns>, true>
+	struct matrix_rotations<matrix<Scalar, Rows, Columns>, true>
 	{
 		static_assert(Rows >= 2 && Columns >= 2);
 		static_assert(Rows <= 4 && Columns <= 4);
 		static_assert(is_floating_point<Scalar>);
 
 		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_2d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
 			const matrix<Scalar, 2, 2>& rot) noexcept
 		{
@@ -506,7 +560,7 @@ namespace muu::impl
 		}
 
 		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_2d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
 			const matrix<Scalar, 2, 3>& rot) noexcept
 		{
@@ -532,7 +586,7 @@ namespace muu::impl
 		}
 
 		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
 			const matrix<Scalar, 3, 3>& rot) noexcept
 		{
@@ -540,7 +594,7 @@ namespace muu::impl
 		}
 
 		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
 			const matrix<Scalar, 3, 4>& rot) noexcept
 		{
@@ -548,7 +602,7 @@ namespace muu::impl
 		}
 
 		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
 			const matrix<Scalar, 4, 4>& rot) noexcept
 		{
@@ -570,6 +624,184 @@ namespace muu::impl
 				out.template get<3, 3>() = Scalar{ 1 };
 
 			return out;
+		}
+	};
+
+	//--- transform_position() ----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_3d_transform_matrix_<Derived>>
+	struct matrix_transform_position
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_transform_position<matrix<Scalar, Rows, Columns>, true>
+	{
+		static_assert(Rows == 3 || Rows == 4);
+		static_assert(Columns == 3 || Columns == 4);
+
+		MUU_PURE_GETTER
+		static constexpr vector<Scalar, 3> MUU_VECTORCALL transform_position(
+			MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) xform,
+			MUU_VC_PARAM(vector<Scalar, 3>) pos) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			if constexpr (Columns == 3)
+			{
+				static_assert(Rows == 3); // a plain ol' 3x3 rotation matrix.
+
+				return xform * pos;
+			}
+			else
+			{
+				auto inv_w = Scalar{ 1 };
+				if constexpr (Rows == 4)
+				{
+					inv_w /= (xform.template get<3, 0>() * pos.x   //
+							  + xform.template get<3, 1>() * pos.y //
+							  + xform.template get<3, 2>() * pos.z //
+							  + xform.template get<3, 3>());
+				}
+
+				return { inv_w
+							 * (xform.template get<0, 0>() * pos.x	 //
+								+ xform.template get<0, 1>() * pos.y //
+								+ xform.template get<0, 2>() * pos.z //
+								+ xform.template get<0, 3>()),
+
+						 inv_w
+							 * (xform.template get<1, 0>() * pos.x	 //
+								+ xform.template get<1, 1>() * pos.y //
+								+ xform.template get<1, 2>() * pos.z //
+								+ xform.template get<1, 3>()),
+
+						 inv_w
+							 * (xform.template get<2, 0>() * pos.x	 //
+								+ xform.template get<2, 1>() * pos.y //
+								+ xform.template get<2, 2>() * pos.z //
+								+ xform.template get<2, 3>()) };
+			}
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr vector<Scalar, 3> MUU_VECTORCALL transform_position(
+			MUU_VC_PARAM(vector<Scalar, 3>) pos) const noexcept
+		{
+			return transform_position(static_cast<const matrix<Scalar, Rows, Columns>&>(*this), pos);
+		}
+	};
+
+	template <typename Derived, bool = (is_3d_transform_matrix_<Derived> && !is_matrix_<Derived, 3, 3, 3, 3>)>
+	struct matrix_transform_position_operator
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_transform_position_operator<matrix<Scalar, Rows, Columns>, true>
+	{
+		static_assert(Rows == 3 || Rows == 4);
+		static_assert(Columns == 3 || Columns == 4);
+		static_assert(Rows != Columns || Rows != 3); // should not be instantiated for 3x3 matrices since that's already
+													 // handled by the generalized mat * vec operator
+
+		MUU_PURE_INLINE_GETTER
+		friend constexpr vector<Scalar, 3> MUU_VECTORCALL operator*(MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) xform,
+																	MUU_VC_PARAM(vector<Scalar, 3>) pos) noexcept
+		{
+			return matrix<Scalar, Rows, Columns>::transform_position(xform, pos);
+		}
+	};
+
+	//--- transform_direction() ----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_3d_transform_matrix_<Derived>>
+	struct matrix_transform_direction
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_transform_direction<matrix<Scalar, Rows, Columns>, true>
+	{
+		static_assert(Rows == 3 || Rows == 4);
+		static_assert(Columns == 3 || Columns == 4);
+
+		MUU_PURE_GETTER
+		static constexpr vector<Scalar, 3> MUU_VECTORCALL transform_direction(
+			MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) xform,
+			MUU_VC_PARAM(vector<Scalar, 3>) dir) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			// an unrolling of matrix<T, 3, 3>{ mat } * v
+
+			return { xform.template get<0, 0>() * dir.x		  //
+						 + xform.template get<0, 1>() * dir.y //
+						 + xform.template get<0, 2>() * dir.z,
+
+					 xform.template get<1, 0>() * dir.x		  //
+						 + xform.template get<1, 1>() * dir.y //
+						 + xform.template get<1, 2>() * dir.z,
+
+					 xform.template get<2, 0>() * dir.x		  //
+						 + xform.template get<2, 1>() * dir.y //
+						 + xform.template get<2, 2>() * dir.z };
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr vector<Scalar, 3> MUU_VECTORCALL transform_direction(
+			MUU_VC_PARAM(vector<Scalar, 3>) dir) const noexcept
+		{
+			return transform_direction(static_cast<const matrix<Scalar, Rows, Columns>&>(*this), dir);
+		}
+	};
+
+	//--- extract_2d_scale() -----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_2d_transform_matrix_<Derived>>
+	struct matrix_extract_2d_scale
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_extract_2d_scale<matrix<Scalar, Rows, Columns>, true>
+	{
+		MUU_PURE_GETTER
+		static constexpr vector<Scalar, 2> MUU_VECTORCALL extract_2d_scale(
+			MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) mat) noexcept
+		{
+			return { vector<Scalar, 2>{ mat.template get<0, 0>(), mat.template get<1, 0>() }.length(),
+					 vector<Scalar, 2>{ mat.template get<0, 1>(), mat.template get<1, 1>() }.length() };
+		}
+
+		MUU_PURE_GETTER
+		constexpr vector<Scalar, 2> extract_2d_scale() const noexcept
+		{
+			return extract_2d_scale(static_cast<const matrix<Scalar, Rows, Columns>&>(*this));
+		}
+	};
+
+	//--- extract_3d_scale() -----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_3d_transform_matrix_<Derived>>
+	struct matrix_extract_3d_scale
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_extract_3d_scale<matrix<Scalar, Rows, Columns>, true>
+	{
+		MUU_PURE_GETTER
+		static constexpr vector<Scalar, 3> MUU_VECTORCALL extract_3d_scale(
+			MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) mat) noexcept
+		{
+			return { vector<Scalar, 3>{ mat.template get<0, 0>(), mat.template get<1, 0>(), mat.template get<2, 0>() }
+						 .length(),
+					 vector<Scalar, 3>{ mat.template get<0, 1>(), mat.template get<1, 1>(), mat.template get<2, 1>() }
+						 .length(),
+					 vector<Scalar, 3>{ mat.template get<0, 2>(), mat.template get<1, 2>(), mat.template get<2, 2>() }
+						 .length() };
+		}
+
+		MUU_PURE_GETTER
+		constexpr vector<Scalar, 3> extract_3d_scale() const noexcept
+		{
+			return extract_3d_scale(static_cast<const matrix<Scalar, Rows, Columns>&>(*this));
 		}
 	};
 
@@ -660,13 +892,21 @@ namespace muu
 			impl::matrix_get_xy_column<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_get_z_column<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_get_w_column<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_get_translation<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_translations_2d<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_translations_3d<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_get_translation_column<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_from_2d_scale<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_from_3d_scale<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_from_scale<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_from_2d_translation<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_from_3d_translation<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_from_translation<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_rotations_2d<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_rotations_3d<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_rotations<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_scales<matrix<Scalar, Rows, Columns>>
+			impl::matrix_transform_position<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_transform_position_operator<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_transform_direction<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_extract_2d_scale<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_extract_3d_scale<matrix<Scalar, Rows, Columns>>
 		)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Matrix scalar type cannot be a reference");
@@ -1032,6 +1272,61 @@ namespace muu
 
 #endif // constructors
 
+#if 1	// scaling ----------------------------------------------------------------------------------------------
+		/// \name Scaling
+		/// \availability	These functions are only available when the matrix is a typical 2D or 3D scale matrix
+		///					(i.e. one of 2x2, 2x3 or 3x3, 3x4 or 4x4).
+		/// @{
+
+	#ifdef DOXYGEN
+
+		/// \brief Creates a scale matrix from x and y scalar components.
+		///
+		/// \availability	This function is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.
+		static constexpr matrix from_2d_scale(scalar_type x, scalar_type y) noexcept;
+
+		/// \brief Creates a scale matrix from the x and y components of a vector of arbitrary size.
+		///
+		/// \availability	This function is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.
+		template <size_t D>
+		static constexpr matrix from_2d_scale(const vector<scalar_type, D>& scale) noexcept;
+
+		/// \brief Creates a scale matrix from x, y and z scalar components.
+		///
+		/// \availability	This function is only available when the matrix is 3x3, 3x4 or 4x4.
+		static constexpr matrix from_3d_scale(scalar_type x, scalar_type y, scalar_type z = Scalar{ 1 }) noexcept;
+
+		/// \brief Creates a scale matrix from the x, y and z components of a vector of arbitrary size.
+		///
+		/// \availability	This function is only available when the matrix is 3x3, 3x4 or 4x4.
+		template <size_t D>
+		static constexpr matrix from_3d_scale(const vector<scalar_type, D>& scale) noexcept;
+
+		/// \brief Creates a scale matrix from x and y scalar components.
+		///
+		/// \availability	This function is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.
+		static constexpr matrix from_scale(scalar_type x, scalar_type y) noexcept;
+
+		/// \brief Creates a scale matrix from x, y and z scalar components.
+		///
+		/// \availability	This function is only available when the matrix is 3x3, 3x4 or 4x4.
+		static constexpr matrix from_scale(scalar_type x, scalar_type y, scalar_type z) noexcept;
+
+		/// \brief Creates a scale matrix from a 2D vector.
+		///
+		/// \availability	This overload is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.
+		static constexpr matrix from_scale(const vector<scalar_type, 2>& scale) noexcept;
+
+		/// \brief Creates a scale matrix from a 3D vector.
+		///
+		/// \availability	This overload is only available when the matrix is 3x3, 3x4 or 4x4.
+		static constexpr matrix from_scale(const vector<scalar_type, 3>& scale) noexcept;
+
+	#endif // DOXYGEN
+
+		/// @}
+#endif // scaling
+
 #if 1	// translation ----------------------------------------------------------------------------------------------
 		/// \name Translation
 		/// \availability	These functions are only available when the matrix is a typical 2D or 3D translation
@@ -1040,15 +1335,37 @@ namespace muu
 
 	#ifdef DOXYGEN
 
-		/// \brief Creates a translation matrix from x and y offsets.
+		/// \brief Creates a translation matrix from x and y scalar components.
 		///
-		/// \availability	This overload is only available when the matrix is 2x3 or 3x3.
+		/// \availability	This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.
+		static constexpr matrix from_2d_translation(scalar_type x, scalar_type y) noexcept;
+
+		/// \brief Creates a translation matrix from the x and y components of a vector of arbitrary size.
+		///
+		/// \availability	This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.
+		template <size_t D>
+		static constexpr matrix from_2d_translation(const vector<scalar_type, D>& xlat) noexcept;
+
+		/// \brief Creates a translation matrix from x, y and z scalar components.
+		///
+		/// \availability	This function is only available when the matrix is 3x4 or 4x4.
+		static constexpr matrix from_3d_translation(scalar_type x, scalar_type y, scalar_type z = Scalar{}) noexcept;
+
+		/// \brief Creates a translation matrix from the x, y and z components of a vector of arbitrary size.
+		///
+		/// \availability	This function is only available when the matrix is 3x4 or 4x4.
+		template <size_t D>
+		static constexpr matrix from_3d_translation(const vector<scalar_type, D>& xlat) noexcept;
+
+		/// \brief Creates a translation matrix from x and y scalar components.
+		///
+		/// \availability	This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.
 		static constexpr matrix from_translation(scalar_type x, scalar_type y) noexcept;
 
-		/// \brief Creates a translation matrix from x, y and z offsets.
+		/// \brief Creates a translation matrix from x, y and z scalar components.
 		///
-		/// \availability	This overload is only available when the matrix is 3x4 or 4x4.
-		static constexpr matrix from_translation(scalar_type x, scalar_type y, scalar_type z = 0) noexcept;
+		/// \availability	This function is only available when the matrix is 3x4 or 4x4.
+		static constexpr matrix from_translation(scalar_type x, scalar_type y, scalar_type z) noexcept;
 
 		/// \brief Creates a translation matrix from a 2D vector.
 		///
@@ -1057,20 +1374,8 @@ namespace muu
 
 		/// \brief Creates a translation matrix from a 3D vector.
 		///
-		/// \availability	This function is only available when the matrix is 3x4 or 4x4.
+		/// \availability	This overload is only available when the matrix is 3x4 or 4x4.
 		static constexpr matrix from_translation(const vector<scalar_type, 3>& xlat) noexcept;
-
-		/// \brief Creates a translation matrix from the x and y components of a vector of arbitrary size.
-		///
-		/// \availability	This function is only available when the matrix is 2x3, 3x3, 3x4 or 4x4.
-		template <size_t D>
-		static constexpr matrix from_2d_translation(const vector<scalar_type, D>& xlat) noexcept;
-
-		/// \brief Creates a translation matrix from the x, y and z components of a vector of arbitrary size.
-		///
-		/// \availability	This function is only available when the matrix is 3x4 or 4x4.
-		template <size_t D>
-		static constexpr matrix from_3d_translation(const vector<scalar_type, D>& xlat) noexcept;
 
 	#endif // DOXYGEN
 
@@ -1177,51 +1482,6 @@ namespace muu
 
 		/// @}
 #endif // rotation
-
-#if 1	// scaling ----------------------------------------------------------------------------------------------
-		/// \name Scaling
-		/// \availability	These functions are only available when the matrix is a typical 2D or 3D scale matrix
-		///					(i.e. one of 2x2, 2x3, 3x3, 3x4 or 4x4).
-		/// @{
-
-	#ifdef DOXYGEN
-
-		/// \brief Creates a scale matrix from x and y scalars.
-		///
-		/// \availability	This overload is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.
-		static constexpr matrix from_scale(scalar_type x, scalar_type y) noexcept;
-
-		/// \brief Creates a scale matrix from x, y and z scalars.
-		///
-		/// \availability	This overload is only available when the matrix is 3x3, 3x4 or 4x4.
-		static constexpr matrix from_scale(scalar_type x, scalar_type y, scalar_type z) noexcept;
-
-		/// \brief Creates a scale matrix from a 2D vector.
-		///
-		/// \availability	This overload is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.
-		static constexpr matrix from_scale(const vector<scalar_type, 2>& xlat) noexcept;
-
-		/// \brief Creates a scale matrix from a 3D vector.
-		///
-		/// \availability	This overload is only available when the matrix is 3x3, 3x4 or 4x4.
-		static constexpr matrix from_scale(const vector<scalar_type, 3>& xlat) noexcept;
-
-		/// \brief Creates a scale matrix from the x and y components of a vector of arbitrary size.
-		///
-		/// \availability	This function is only available when the matrix is 2x2, 2x3, 3x3, 3x4 or 4x4.
-		template <size_t D>
-		static constexpr matrix from_2d_scale(const vector<scalar_type, D>& xlat) noexcept;
-
-		/// \brief Creates a scale matrix from the x, y and z components of a vector of arbitrary size.
-		///
-		/// \availability	This function is only available when the matrix is 3x3, 3x4 or 4x4.
-		template <size_t D>
-		static constexpr matrix from_3d_scale(const vector<scalar_type, D>& xlat) noexcept;
-
-	#endif // DOXYGEN
-
-		/// @}
-#endif // scaling
 
 #if 1 // column accessors ------------------------------------------------------------------------------------------
 		/// \name Column accessors
@@ -2322,6 +2582,79 @@ namespace muu
 
 		/// @}
 #endif // orthonormalize
+
+#if 1	// transformation ----------------------------------------------------------------------------------------
+		/// \name Transformation
+		/// \availability	These functions are only available when the matrix is a typical 2D or 3D transformation matrix
+		///					(i.e. one of 2x2, 2x3, 3x3, 3x4 or 4x4) and has a floating-point #scalar_type.
+		/// @{
+
+	#ifdef DOXYGEN
+
+		/// \brief Applies a matrix's 3d transformation to the given vector.
+		///
+		/// \availability This operator is only available for 3x4 and 4x4 matrices with a floating-point #scalar_type.
+		///
+		/// \return The result of transforming the 3D position by the matrix.
+		static constexpr vector<scalar_type, 3> transform_position(const matrix& xform,
+																   const vector<scalar_type, 3>& pos) noexcept;
+
+		/// \brief Applies the matrix's 3d transformation to the given vector.
+		///
+		/// \availability This operator is only available for 3x4 and 4x4 matrices with a floating-point #scalar_type.
+		///
+		/// \return The result of transforming the 3D position by the matrix.
+		constexpr vector<scalar_type, 3> transform_position(const vector<scalar_type, 3>& pos) const noexcept;
+
+		/// \brief Applies the matrix's 3d transformation to the given vector.
+		///
+		/// \availability This operator is only available for 3x4 and 4x4 matrices with a floating-point #scalar_type.
+		///
+		/// \return The result of transforming the 3D position by the matrix.
+		///
+		/// \see #transform_position()
+		friend constexpr vector<scalar_type, 3> operator*(const matrix& xform,
+														  const vector<scalar_type, 3>& pos) noexcept;
+
+		/// \brief Applies a matrix's 3d transformation to the given direction vector, ignorning translation.
+		///
+		/// \availability This operator is only available for 3x4 and 4x4 matrices with a floating-point #scalar_type.
+		///
+		/// \return The result of transforming the 3D direction by the matrix.
+		static constexpr vector<scalar_type, 3> transform_direction(const matrix& xform,
+																	const vector<scalar_type, 3>& dir) noexcept;
+
+		/// \brief Applies a matrix's 3d transformation to the given direction vector, ignorning translation.
+		///
+		/// \availability This operator is only available for 3x4 and 4x4 matrices with a floating-point #scalar_type.
+		///
+		/// \return The result of transforming the 3D direction by the matrix.
+		constexpr vector<scalar_type, 3> transform_direction(const vector<scalar_type, 3>& dir) const noexcept;
+
+		/// \brief Extracts the scale from a 2D transform matrix.
+		///
+		/// \availability	This overload is only available when the matrix is 2x2, 2x3 or 3x3 with a floating-point #scalar_type.
+		static constexpr vector<scalar_type, 2> extract_2d_scale(const matrix& mat) noexcept;
+
+		/// \brief Extracts the scale from a 2D transform matrix.
+		///
+		/// \availability	This overload is only available when the matrix is 2x2, 2x3 or 3x3 with a floating-point #scalar_type.
+		constexpr vector<scalar_type, 2> extract_2d_scale() const noexcept;
+
+		/// \brief Extracts the scale from a 3D transform matrix.
+		///
+		/// \availability	This overload is only available when the matrix is 3x3, 3x4 or 4x4 with a floating-point #scalar_type.
+		static constexpr vector<scalar_type, 3> extract_3d_scale(const matrix& mat) noexcept;
+
+		/// \brief Extracts the scale from a 3D transform matrix.
+		///
+		/// \availability	This overload is only available when the matrix is 3x3, 3x4 or 4x4 with a floating-point #scalar_type.
+		constexpr vector<scalar_type, 3> extract_3d_scale() const noexcept;
+
+	#endif
+
+		/// @}
+#endif // transformation
 
 #if 1 // misc ------------------------------------------------------------------------------------------------------
 

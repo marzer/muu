@@ -214,6 +214,12 @@ namespace muu::impl
 
 	//--- matrix classification  ---------------------------------------------------------------------------------------
 
+	template <typename T>
+	inline constexpr bool is_floating_point_matrix_ = false;
+	template <template <typename, size_t, size_t> typename Matrix, typename T, size_t R, size_t C>
+	inline constexpr bool is_floating_point_matrix_<Matrix<T, R, C>> = is_matrix_<Matrix<T, R, C>> //
+		&& is_floating_point<T>;
+
 	// "common matrix" == a matrix which is of a common size (has special constructor overloads)
 	template <typename T>
 	inline constexpr bool is_common_matrix_ = false;
@@ -298,6 +304,25 @@ namespace muu::impl
 	template <typename T>
 	inline constexpr bool is_translation_matrix_ = is_2d_translation_matrix_<T> //
 												|| is_3d_translation_matrix_<T>;
+
+	// "2d transform matrix" == a matrix which satisfies any of the is_2d_ constraints and has floating-point scalars
+	template <typename T>
+	inline constexpr bool is_2d_transform_matrix_ = is_floating_point_matrix_<T>	 //
+												 && (is_2d_scale_matrix_<T>			 //
+													 || is_2d_translation_matrix_<T> //
+													 || is_2d_rotation_matrix_<T>);
+
+	// "3d transform matrix" == a matrix which satisfies any of the is_3d_ constraints and has floating-point scalars
+	template <typename T>
+	inline constexpr bool is_3d_transform_matrix_ = is_floating_point_matrix_<T>	 //
+												 && (is_3d_scale_matrix_<T>			 //
+													 || is_3d_translation_matrix_<T> //
+													 || is_3d_rotation_matrix_<T>);
+
+	// "transform matrix" == a matrix which satisfies is_3d_transform_matrix_ or is_3d_transform_matrix_
+	template <typename T>
+	inline constexpr bool is_transform_matrix_ = is_2d_transform_matrix_<T> //
+											  || is_3d_transform_matrix_<T>;
 }
 
 namespace muu
