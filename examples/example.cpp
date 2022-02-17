@@ -9,7 +9,7 @@
 
 #include <muu/hashing.h>
 #include <muu/matrix.h>
-#include <muu/static_string.h>
+#include <muu/strong_typedef.h>
 
 using namespace std::string_view_literals;
 

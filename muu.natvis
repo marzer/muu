@@ -398,5 +398,11 @@
 		</Expand>
 	</Type>
 
+	<Type Name="muu::strong_typedef&lt;*&gt;">
+		<DisplayString>{value}</DisplayString>
+		<Expand>
+			<Item Name="value">value</Item>
+		</Expand>
+	</Type>
 
 </AutoVisualizer>

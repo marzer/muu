@@ -13,47 +13,30 @@
 namespace muu
 {
 	/// \cond
-	template <typename, typename, typename...>
+	template <typename, typename, template <typename> typename...>
 	struct strong_typedef;
 
 	namespace impl
 	{
 		template <typename>
-		struct stypedef_traits
-		{
-			using value_type = void;
-		};
+		struct stypedef_value_typedefs;
 
-		template <typename ValueType, typename Tag, typename... Mixins>
-		struct stypedef_traits<strong_typedef<ValueType, Tag, Mixins...>>
+		template <typename ValueType, typename Tag, template <typename> typename... Traits>
+		struct stypedef_value_typedefs<strong_typedef<ValueType, Tag, Traits...>>
 		{
 			using value_type		= ValueType;
 			using lvalue_type		= std::add_lvalue_reference_t<std::remove_reference_t<ValueType>>;
 			using const_lvalue_type = std::add_lvalue_reference_t<std::add_const_t<std::remove_reference_t<ValueType>>>;
-			using rvalue_type		= std::add_rvalue_reference_t<std::remove_reference_t<ValueType>>;
-			using const_rvalue_type = std::add_rvalue_reference_t<std::add_const_t<std::remove_reference_t<ValueType>>>;
-
-			static constexpr bool is_reference = std::is_reference_v<value_type>;
-			static constexpr bool is_const	   = muu::is_const<value_type>;
-			static constexpr bool is_volatile  = muu::is_volatile<value_type>;
-
-			static_assert(!(is_const || is_volatile) || is_reference); // plain values may not be cv-qualified
 		};
 
 		template <typename T>
-		using stypedef_value = typename stypedef_traits<T>::value_type;
+		using stypedef_value = typename stypedef_value_typedefs<T>::value_type;
 
 		template <typename T>
-		using stypedef_lvalue = typename stypedef_traits<T>::lvalue_type;
+		using stypedef_lvalue = typename stypedef_value_typedefs<T>::lvalue_type;
 
 		template <typename T>
-		using stypedef_const_lvalue = typename stypedef_traits<T>::const_lvalue_type;
-
-		template <typename T>
-		using stypedef_rvalue = typename stypedef_traits<T>::rvalue_type;
-
-		template <typename T>
-		using stypedef_const_rvalue = typename stypedef_traits<T>::const_rvalue_type;
+		using stypedef_const_lvalue = typename stypedef_value_typedefs<T>::const_lvalue_type;
 
 		//--- equality -------------------
 
@@ -65,6 +48,7 @@ namespace muu
 		struct stypedef_equality<T, true>
 		{
 			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
 			friend constexpr decltype(auto) operator==(const T& lhs, const T& rhs) //
 				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() == std::declval<stypedef_const_lvalue<T>>()))
 			{
@@ -84,6 +68,7 @@ namespace muu
 		struct stypedef_inequality<T, true, Eq> // has !=
 		{
 			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
 			friend constexpr decltype(auto) operator!=(const T& lhs, const T& rhs) //
 				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() != std::declval<stypedef_const_lvalue<T>>()))
 			{
@@ -95,6 +80,7 @@ namespace muu
 		struct stypedef_inequality<T, false, true> // doesn't have !=, but has ==
 		{
 			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
 			friend constexpr decltype(auto) operator!=(const T& lhs, const T& rhs) //
 				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() == std::declval<stypedef_const_lvalue<T>>()))
 			{
@@ -112,6 +98,7 @@ namespace muu
 		struct stypedef_less_than<T, true>
 		{
 			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
 			friend constexpr decltype(auto) operator<(const T& lhs, const T& rhs) //
 				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() < std::declval<stypedef_const_lvalue<T>>()))
 			{
@@ -129,6 +116,7 @@ namespace muu
 		struct stypedef_less_than_or_equal<T, true>
 		{
 			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
 			friend constexpr decltype(auto) operator<=(const T& lhs, const T& rhs) //
 				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() <= std::declval<stypedef_const_lvalue<T>>()))
 			{
@@ -146,6 +134,7 @@ namespace muu
 		struct stypedef_greater_than<T, true>
 		{
 			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
 			friend constexpr decltype(auto) operator>(const T& lhs, const T& rhs) //
 				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() > std::declval<stypedef_const_lvalue<T>>()))
 			{
@@ -163,6 +152,7 @@ namespace muu
 		struct stypedef_greater_than_or_equal<T, true>
 		{
 			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
 			friend constexpr decltype(auto) operator>=(const T& lhs, const T& rhs) //
 				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() >= std::declval<stypedef_const_lvalue<T>>()))
 			{
@@ -170,16 +160,48 @@ namespace muu
 			}
 		};
 
-		//--- logical not -------------------
+		//--- comparable -------------------
 
-		template <typename T, bool = has_logical_not_operator<stypedef_const_lvalue<T>>>
-		struct stypedef_logical_not
+		template <typename T>
+		struct MUU_EMPTY_BASES stypedef_comparable : stypedef_equality<T>,
+													 stypedef_inequality<T>,
+													 stypedef_less_than<T>,
+													 stypedef_less_than_or_equal<T>,
+													 stypedef_greater_than<T>,
+													 stypedef_greater_than_or_equal<T>
+		{};
+
+		//--- boolean conversion -------------------
+
+		template <typename T, bool = is_convertible<stypedef_const_lvalue<T>, bool>>
+		struct stypedef_boolean_conversion
 		{};
 
 		template <typename T>
-		struct stypedef_logical_not<T, true>
+		struct stypedef_boolean_conversion<T, true>
 		{
 			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			explicit constexpr operator bool() const
+				noexcept(noexcept(static_cast<bool>(std::declval<stypedef_const_lvalue<T>>())))
+			{
+				return static_cast<bool>(static_cast<const T&>(*this).value);
+			}
+		};
+
+		//--- logical not -------------------
+
+		template <typename T,
+				  bool = has_logical_not_operator<stypedef_const_lvalue<T>>,
+				  bool = is_convertible<stypedef_const_lvalue<T>, bool>>
+		struct stypedef_logical_not
+		{};
+
+		template <typename T, bool Conv>
+		struct stypedef_logical_not<T, true, Conv> // has a ! operator
+		{
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
 			friend constexpr decltype(auto) operator!(const T& rhs) //
 				noexcept(noexcept(!std::declval<stypedef_const_lvalue<T>>()))
 			{
@@ -187,74 +209,315 @@ namespace muu
 			}
 		};
 
-		//--- explicit value conversion  -------------------
-
-		template <typename T, bool = std::is_copy_constructible_v<remove_cvref<stypedef_value<T>>>>
-		struct stypedef_value_operator
-		{};
-
 		template <typename T>
-		struct stypedef_value_operator<T, true>
+		struct stypedef_logical_not<T, false, true> // doesn't have ! operator but is convertible to bool
 		{
-			// todo
-			//
-			// MUU_NODISCARD
-			// explicit constexpr operator remove_cvref<stypedef_value<T>>() const // value_type
-			//	noexcept(std::is_nothrow_copy_constructible_v<remove_cvref<stypedef_value<T>>>)
-			//{
-			//	using raw_type = remove_cvref<stypedef_value<T>>;
-			//	if constexpr (std::is_aggregate_v<raw_type>)
-			//		return raw_type{ static_cast<const T&>(*this).value };
-			//	else
-			//		return raw_type(static_cast<const T&>(*this).value);
-			//}
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr bool operator!(const T& rhs) //
+				noexcept(noexcept(static_cast<bool>(std::declval<stypedef_const_lvalue<T>>())))
+			{
+				return !static_cast<bool>(rhs.value);
+			}
 		};
 
-		//--- explicit lvalue & rvalue ref conversions -------------------
+		//--- boolean -------------------
 
-		template <typename T, bool = (!stypedef_traits<T>::is_reference || !stypedef_traits<T>::is_const)>
+		template <typename T>
+		struct MUU_EMPTY_BASES stypedef_boolean : stypedef_boolean_conversion<T>, stypedef_logical_not<T>
+		{};
+
+		//--- ref conversions -------------------
+
+		template <typename T, bool = std::is_same_v<stypedef_lvalue<T>, stypedef_const_lvalue<T>>>
 		struct stypedef_ref_operators
 		{
 			MUU_PURE_INLINE_GETTER
 			explicit constexpr operator stypedef_lvalue<T>() noexcept // value_type&
 			{
-				return static_cast<T&>(*this).value;
-			}
-
-			MUU_PURE_INLINE_GETTER
-			explicit constexpr operator stypedef_rvalue<T>() noexcept // value_type&&
-			{
-				return static_cast<stypedef_rvalue<T>>(static_cast<T&&>(*this).value);
+				return static_cast<stypedef_lvalue<T>>(static_cast<T&>(*this).value);
 			}
 
 			MUU_PURE_INLINE_GETTER
 			explicit constexpr operator stypedef_const_lvalue<T>() const noexcept // const value_type&
 			{
-				return static_cast<const T&>(*this).value;
-			}
-
-			MUU_PURE_INLINE_GETTER
-			explicit constexpr operator stypedef_const_rvalue<T>() const noexcept // const value_type&&
-			{
-				return static_cast<stypedef_const_rvalue<T>>(static_cast<const T&&>(*this).value);
+				return static_cast<stypedef_const_lvalue<T>>(static_cast<const T&>(*this).value);
 			}
 		};
 
 		template <typename T>
-		struct stypedef_ref_operators<T, false>
+		struct stypedef_ref_operators<T, true>
 		{
 			MUU_PURE_INLINE_GETTER
 			explicit constexpr operator stypedef_const_lvalue<T>() const noexcept // const value_type&
 			{
-				return static_cast<const T&>(*this).value;
-			}
-
-			MUU_PURE_INLINE_GETTER
-			explicit constexpr operator stypedef_const_rvalue<T>() const noexcept // const value_type&&
-			{
-				return static_cast<stypedef_const_rvalue<T>>(static_cast<const T&&>(*this).value);
+				return static_cast<stypedef_const_lvalue<T>>(static_cast<const T&>(*this).value);
 			}
 		};
+
+		//--- pointer arithmetic -------------------
+
+		struct tag_type_just_for_pointer_tests
+		{};
+
+		template <typename T, bool = has_addition_operator<tag_type_just_for_pointer_tests*, stypedef_const_lvalue<T>>>
+		struct stypedef_pointer_arith_add_left
+		{};
+
+		template <typename T>
+		struct stypedef_pointer_arith_add_left<T, true>
+		{
+			template <typename U>
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr decltype(auto) operator+(U* lhs, const T& rhs) //
+				noexcept(noexcept(static_cast<U*>(nullptr) + std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return lhs + rhs.value;
+			}
+		};
+
+		template <typename T, bool = has_addition_operator<stypedef_const_lvalue<T>, tag_type_just_for_pointer_tests*>>
+		struct stypedef_pointer_arith_add_right
+		{};
+
+		template <typename T>
+		struct stypedef_pointer_arith_add_right<T, true>
+		{
+			template <typename U>
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr decltype(auto) operator+(const T& lhs, U* rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() + static_cast<U*>(nullptr)))
+			{
+				return lhs.value + rhs;
+			}
+		};
+
+		template <typename T,
+				  bool = has_subtraction_operator<tag_type_just_for_pointer_tests*, stypedef_const_lvalue<T>>>
+		struct stypedef_pointer_arith_sub_left
+		{};
+
+		template <typename T>
+		struct stypedef_pointer_arith_sub_left<T, true>
+		{
+			template <typename U>
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr decltype(auto) operator-(U* lhs, const T& rhs) //
+				noexcept(noexcept(static_cast<U*>(nullptr) - std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return lhs - rhs.value;
+			}
+		};
+
+		template <typename T,
+				  bool = has_subtraction_operator<stypedef_const_lvalue<T>, tag_type_just_for_pointer_tests*>>
+		struct stypedef_pointer_arith_sub_right
+		{};
+
+		template <typename T>
+		struct stypedef_pointer_arith_sub_right<T, true>
+		{
+			template <typename U>
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr decltype(auto) operator-(const T& lhs, U* rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() - static_cast<U*>(nullptr)))
+			{
+				return lhs.value - rhs;
+			}
+		};
+
+		template <typename T>
+		struct MUU_EMPTY_BASES stypedef_pointer_arithmetic : stypedef_pointer_arith_add_left<T>,
+															 stypedef_pointer_arith_add_right<T>,
+															 stypedef_pointer_arith_sub_left<T>,
+															 stypedef_pointer_arith_sub_right<T>
+		{};
+
+		//--- addable -------------------
+
+		template <typename T, bool = has_addition_operator<stypedef_const_lvalue<T>, stypedef_const_lvalue<T>>>
+		struct stypedef_binary_plus
+		{};
+
+		template <typename T>
+		struct stypedef_binary_plus<T, true>
+		{
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr T operator+(const T& lhs, const T& rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() + std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return T{ lhs.value + rhs.value };
+			}
+		};
+
+		template <typename T, bool = has_unary_plus_operator<stypedef_const_lvalue<T>>>
+		struct stypedef_unary_plus
+		{};
+
+		template <typename T>
+		struct stypedef_unary_plus<T, true>
+		{
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr T operator+(const T& lhs) //
+				noexcept(noexcept(+std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return T{ +lhs.value };
+			}
+		};
+
+		template <typename T>
+		struct MUU_EMPTY_BASES stypedef_addable : stypedef_binary_plus<T>, stypedef_unary_plus<T>
+		{};
+
+		//--- subtractable -------------------
+
+		template <typename T, bool = has_subtraction_operator<stypedef_const_lvalue<T>, stypedef_const_lvalue<T>>>
+		struct stypedef_binary_minus
+		{};
+
+		template <typename T>
+		struct stypedef_binary_minus<T, true>
+		{
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr T operator-(const T& lhs, const T& rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() - std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return T{ lhs.value - rhs.value };
+			}
+		};
+
+		template <typename T, bool = has_unary_minus_operator<stypedef_const_lvalue<T>>>
+		struct stypedef_unary_minus
+		{};
+
+		template <typename T>
+		struct stypedef_unary_minus<T, true>
+		{
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr T operator-(const T& lhs) //
+				noexcept(noexcept(-std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return T{ -lhs.value };
+			}
+		};
+
+		template <typename T>
+		struct MUU_EMPTY_BASES stypedef_subtractable : stypedef_binary_minus<T>, stypedef_unary_minus<T>
+		{};
+
+		//--- incrementable -------------------
+
+		template <typename T, bool = has_pre_increment_operator<stypedef_lvalue<T>>>
+		struct stypedef_pre_increment
+		{};
+
+		template <typename T>
+		struct stypedef_pre_increment<T, true>
+		{
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr T& operator++(T& lhs) //
+				noexcept(noexcept(++std::declval<stypedef_lvalue<T>>()))
+			{
+				++lhs.value;
+				return lhs;
+			}
+		};
+
+		template <typename T, bool = has_post_increment_operator<stypedef_lvalue<T>>>
+		struct stypedef_post_increment
+		{};
+
+		template <typename T>
+		struct stypedef_post_increment<T, true>
+		{
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr T operator++(T& lhs, int) //
+				noexcept(noexcept(std::declval<stypedef_lvalue<T>>()++))
+			{
+				return T{ lhs.value++ };
+			}
+		};
+
+		template <typename T>
+		struct MUU_EMPTY_BASES stypedef_incrementable : stypedef_pre_increment<T>, stypedef_post_increment<T>
+		{};
+
+		//--- decrementable -------------------
+
+		template <typename T, bool = has_pre_decrement_operator<stypedef_lvalue<T>>>
+		struct stypedef_pre_decrement
+		{};
+
+		template <typename T>
+		struct stypedef_pre_decrement<T, true>
+		{
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr T& operator--(T& lhs) //
+				noexcept(noexcept(--std::declval<stypedef_lvalue<T>>()))
+			{
+				--lhs.value;
+				return lhs;
+			}
+		};
+
+		template <typename T, bool = has_post_decrement_operator<stypedef_lvalue<T>>>
+		struct stypedef_post_decrement
+		{};
+
+		template <typename T>
+		struct stypedef_post_decrement<T, true>
+		{
+			MUU_NODISCARD
+			MUU_ALWAYS_INLINE
+			friend constexpr T operator--(T& lhs, int) //
+				noexcept(noexcept(std::declval<stypedef_lvalue<T>>()--))
+			{
+				return T{ lhs.value-- };
+			}
+		};
+
+		template <typename T>
+		struct MUU_EMPTY_BASES stypedef_decrementable : stypedef_pre_decrement<T>, stypedef_post_decrement<T>
+		{};
+
+		//--- callable -------------------
+
+		template <typename T>
+		struct stypedef_callable
+		{
+			MUU_CONSTRAINED_TEMPLATE((std::is_invocable_v<stypedef_lvalue<T>, Args&&...>), typename... Args)
+			MUU_ALWAYS_INLINE
+			constexpr decltype(auto) operator()(Args&&... args) //
+				noexcept(std::is_nothrow_invocable_v<stypedef_lvalue<T>, Args&&...>)
+			{
+				return static_cast<T&>(*this).value(static_cast<Args&&>(args)...);
+			}
+
+			MUU_CONSTRAINED_TEMPLATE((std::is_invocable_v<stypedef_const_lvalue<T>, Args&&...>), typename... Args)
+			MUU_ALWAYS_INLINE
+			constexpr decltype(auto) operator()(Args&&... args) const //
+				noexcept(std::is_nothrow_invocable_v<stypedef_const_lvalue<T>, Args&&...>)
+			{
+				return static_cast<const T&>(*this).value(static_cast<Args&&>(args)...);
+			}
+		};
+
+		//--- should the constructor take the init argument by value? -------------------
+
+		// note that "by value" here just means "don't add any ref qualifiers".
+		// strong typedefs with ref-qualified value_types are considered "by value" for these purposes since the
+		// bare value_type will already have the correct ref qualifier.
 
 		template <typename ValueType>
 		inline constexpr bool stypedef_init_with_value_semantics = std::is_reference_v<ValueType>	//
@@ -265,58 +528,131 @@ namespace muu
 	}
 	/// \endcond
 
+	/// \brief CRTP-based 'mixin' traits for strong typedefs.
+	/// \see #muu::strong_typedef
+	namespace strong_typedef_traits
+	{
+		/// \brief Imbues a #muu::strong_typedef with pointer arithmetic operators.
+		///
+		/// \availability Arithmetic with arbitrary pointers must be supported by the underlying value type.
+		template <typename T>
+		using pointer_arithmetic = muu::impl::stypedef_pointer_arithmetic<T>;
+
+		/// \brief Imbues a #muu::strong_typedef with addition operators (`x + x`, `+x`)
+		///
+		/// \availability Addition must be supported by the underlying value type.
+		template <typename T>
+		using addable = muu::impl::stypedef_addable<T>;
+
+		/// \brief Imbues a #muu::strong_typedef with subtraction operators  (`x - x`, `-x`)
+		///
+		/// \availability Subtraction must be supported by the underlying value type.
+		template <typename T>
+		using subtractable = muu::impl::stypedef_subtractable<T>;
+
+		/// \brief Imbues a #muu::strong_typedef with pre- and post-increment operators (`++`).
+		///
+		/// \availability Incrementing must be supported by the underlying value type.
+		template <typename T>
+		using incrementable = muu::impl::stypedef_incrementable<T>;
+
+		/// \brief Imbues a #muu::strong_typedef with pre- and post-decrement operators (`--`).
+		///
+		/// \availability Decrementing must be supported by the underlying value type.
+		template <typename T>
+		using decrementable = muu::impl::stypedef_decrementable<T>;
+
+		/// \brief Imbues a #muu::strong_typedef with comparison operators (`==`, `!=`, `<`, `<=`, `>`, `>=`).
+		///
+		/// \availability The operators must be supported by the underlying value type. Any not supported will be omitted.
+		template <typename T>
+		using comparable = muu::impl::stypedef_comparable<T>;
+
+		/// \brief Imbues a #muu::strong_typedef with explicit boolean conversion and unary logical not operator.
+		///
+		/// \availability The underlying value type must be convertible to bool.
+		template <typename T>
+		using boolean = muu::impl::stypedef_boolean<T>;
+
+		/// \brief Imbues a #muu::strong_typedef with function-call operator overloads (`x()`).
+		///
+		/// \availability The underlying value type must be a callable type (function pointer, lambda, etc).
+		template <typename T>
+		using callable = muu::impl::stypedef_callable<T>;
+	}
+
 	/// \brief A utility class for creating 'strong typedefs'.
 	/// \ingroup core
 	///
 	/// \tparam ValueType	The underlying value type held by the typedef object. May be a reference.
 	///						May not be cv-qualified unless it is also a reference.
-	/// \tparam	Tag			The tag type necessary to uniquely identify this typedef.
-	/// \tparam Mixins		Additional CTRP-based mixins for adding custom functionality.
+	/// \tparam	Tag			The tag type necessary to uniquely identify this typedef. May be an incomplete type.
+	/// \tparam Traits		Additional CRTP-based 'traits' for adding custom functionality.
 	///
 	/// \detail		Strong typedefs use the C++ type system to create compile-time guarantees for values that
 	///				otherwise might only be represented by regular typedefs, and thus lose their semantic meaning when
 	///				passed to the compiler. Doing so prevents an entire class of bugs where incompatible values can be
-	///				accidentally used interchangeably because they were of same/convertible type, e.g. a non-sequential
-	///				ID `thing_id` being mistakenly used instead of `thing_index` when indexing into an array,
-	///				because they both happened to be aliases of `int`:
+	///				accidentally used interchangeably because they were of same/convertible type:
 	///
 	///				\cpp
 	///
-	///				using thing_id = muu::strong_typedef<int, struct thing_id_tag>;
+	///				#ifdef DO_BAD_STUFF
+	///				using thing_id    = int;
+	///				using thing_index = int;
+	///				#else
+	///				using thing_id    = muu::strong_typedef<int, struct thing_id_tag>;
 	///				using thing_index = muu::strong_typedef<int, struct thing_index_tag>;
+	///				#endif
 	///
 	///				void do_important_stuff(thing_id id)
 	///				{
 	///					//
 	///				}
 	///
-	///				void this_function_is_broken(thing_index index)
+	///				void this_function_does_bad_stuff(thing_index index)
 	///				{
-	///					do_important_stuff(index); // an obvious error that won't compile with strong typedefs
+	///					do_important_stuff(index); // won't compile with strong typedefs
 	///				}
 	///
 	///				\ecpp
 	///
-	///				This implementation will automatically provide a number of operators if they are supported by
-	///				the wrapped type: `==`, `!=`, `<`, `<=`, `>`, `>=` and `!` (unary logical not). Additional
-	///				functionality can be added by adding CTRP-based 'mixins'.
+	///				By default the only operations provided are:
+	///					- explicit construction with an initializer
+	///					- default construction (if supported by the value type)
+	///					- copy construction + assignment (if supported by the value type)
+	///					- move construction + assignment (if supported by the value type)
+	///					- explicit casts to references of the underlying value type
+	///
+	///				\cpp
+	///
+	///				using strong_string = muu::strong_typedef<std::string, struct strong_string_tag>;
+	///
+	///				strong_string s{ "my string could beat up your string"s };
+	///				auto& ref = static_cast<std::string&>(s);
+	///
+	///				\ecpp
+	///
+	///				Additional operations can be added using CRTP-based 'traits':
+	///
+	///				\cpp
+	///
+	///				using thing_index = muu::strong_typedef<int, struct thing_index_tag,
+	///					muu::strong_typedef_traits::incrementable, // adds ++
+	///					muu::strong_typedef_traits::decrementable, // adds --
+	///					muu::strong_typedef_traits::comparable     // adds ==, !=, <, <=, >, >=
+	///				>;
+	///
+	///				\ecpp
 	///
 	///
-	/// \see [Strong typedefs](https://www.jambit.com/en/latest-info/toilet-papers/strong-typedefs/)
-	template <typename ValueType, typename Tag, typename... Mixins>
+	/// \see
+	///		- [Strong typedefs](https://www.jambit.com/en/latest-info/toilet-papers/strong-typedefs/)
+	///		- #muu::strong_typedef_traits
+	template <typename ValueType, typename Tag, template <typename> typename... Traits>
 	struct MUU_EMPTY_BASES strong_typedef //
-		: public Mixins...
 #ifndef DOXYGEN
-		,
-		  public impl::stypedef_equality<strong_typedef<ValueType, Tag, Mixins...>>,
-		  public impl::stypedef_inequality<strong_typedef<ValueType, Tag, Mixins...>>,
-		  public impl::stypedef_less_than<strong_typedef<ValueType, Tag, Mixins...>>,
-		  public impl::stypedef_less_than_or_equal<strong_typedef<ValueType, Tag, Mixins...>>,
-		  public impl::stypedef_greater_than<strong_typedef<ValueType, Tag, Mixins...>>,
-		  public impl::stypedef_greater_than_or_equal<strong_typedef<ValueType, Tag, Mixins...>>,
-		  public impl::stypedef_logical_not<strong_typedef<ValueType, Tag, Mixins...>>,
-		  public impl::stypedef_value_operator<strong_typedef<ValueType, Tag, Mixins...>>,
-		  public impl::stypedef_ref_operators<strong_typedef<ValueType, Tag, Mixins...>>
+		: impl::stypedef_ref_operators<strong_typedef<ValueType, Tag, Traits...>>,
+		  Traits<strong_typedef<ValueType, Tag, Traits...>>...
 #endif
 	{
 		static_assert(!is_cv<ValueType> || std::is_reference_v<ValueType>,
@@ -344,7 +680,6 @@ namespace muu
 		strong_typedef& operator=(strong_typedef&&) = default;
 
 		/// \brief Value copy constructor.
-		/// \availability This constructor is only available when `value_type` is not a reference and is copy-constructible.
 		MUU_LEGACY_REQUIRES(!impl::stypedef_init_with_value_semantics<T> && std::is_copy_constructible_v<T>,
 							typename T = value_type)
 		explicit constexpr strong_typedef(const value_type& val) //
@@ -353,7 +688,6 @@ namespace muu
 		{}
 
 		/// \brief Value move constructor.
-		/// \availability This constructor is only available when `value_type` is not a reference and is move-constructible.
 		MUU_LEGACY_REQUIRES(!impl::stypedef_init_with_value_semantics<T> && std::is_move_constructible_v<T>,
 							typename T = value_type)
 		explicit constexpr strong_typedef(value_type&& val) //
@@ -362,11 +696,44 @@ namespace muu
 		{}
 
 		/// \brief Value constructor.
-		/// \availability This constructor is only available when `value_type` is a reference.
 		MUU_LEGACY_REQUIRES(impl::stypedef_init_with_value_semantics<T>, typename T = value_type)
 		explicit constexpr strong_typedef(value_type val) noexcept
 			: value{ static_cast<value_type>(val) } // in case value_type is an rvalue reference
 		{}
+	};
+}
+
+namespace std
+{
+	/// \brief Specialization of std::tuple_size for muu::strong_typedef.
+	template <typename ValueType, typename Tag, template <typename> typename... Traits>
+	struct tuple_size<muu::strong_typedef<ValueType, Tag, Traits...>>
+	{
+		static constexpr size_t value = 1;
+	};
+
+	/// \brief Specialization of std::tuple_element for muu::strong_typedef.
+	template <size_t Index, typename ValueType, typename Tag, template <typename> typename... Traits>
+	struct tuple_element<Index, muu::strong_typedef<ValueType, Tag, Traits...>>
+	{
+		static_assert(Index == 0);
+
+		using type = ValueType;
+	};
+
+	/// \brief Specialization of std::hash for muu::strong_typedef.
+	template <typename ValueType, typename Tag, template <typename> typename... Traits>
+	struct hash<muu::strong_typedef<ValueType, Tag, Traits...>>
+	{
+		using value_type = muu::remove_cvref<ValueType>;
+		using hash_type	 = std::hash<value_type>;
+
+		MUU_ALWAYS_INLINE
+		constexpr decltype(auto) operator()(const muu::strong_typedef<ValueType, Tag, Traits...>& val) const
+			noexcept(std::is_nothrow_invocable_v<hash_type, const value_type&>)
+		{
+			return hash_type{}(val.value);
+		}
 	};
 }
 

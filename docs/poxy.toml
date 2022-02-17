@@ -44,7 +44,9 @@ types = [
     'empty_parent',
     'nonempty_child',
     'immovable',
-    'uncopyable'
+    'uncopyable',
+    'thing_id',
+    'thing_index',
 ]
 macros = [ 'MUU_[A-Z0-9_]+?' ]
 string_literals = [ '_uuid' ]
@@ -106,3 +108,5 @@ numeric_literals = [
 '(?:muu::)?planes?' = 'structmuu_1_1plane.html'
 '(?:muu::)?quaternions?' = 'structmuu_1_1quaternion.html'
 '(?:muu::)?vectors?' = 'structmuu_1_1vector.html'
+'(?:muu::)?strong[ _]typedef[ _]trait(?:s)?' = 'namespacemuu_1_1strong__typedef__traits.html'
+'(?:muu::)?strong[ _]typedef(?:s)?' = 'structmuu_1_1strong__typedef.html'
