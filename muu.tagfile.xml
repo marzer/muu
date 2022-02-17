@@ -3787,7 +3787,67 @@
     <filename>strong__typedef_8h.html</filename>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
     <class kind="struct">muu::strong_typedef</class>
+    <class kind="struct">std::tuple_size&lt; muu::strong_typedef&lt; ValueType, Tag, Traits... &gt; &gt;</class>
+    <class kind="struct">std::tuple_element&lt; Index, muu::strong_typedef&lt; ValueType, Tag, Traits... &gt; &gt;</class>
+    <class kind="struct">std::hash&lt; muu::strong_typedef&lt; ValueType, Tag, Traits... &gt; &gt;</class>
     <namespace>muu</namespace>
+    <namespace>muu::strong_typedef_traits</namespace>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_pointer_arithmetic&lt; T &gt;</type>
+      <name>pointer_arithmetic</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>a27ab93e18c0889307ef3195193475bb5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_addable&lt; T &gt;</type>
+      <name>addable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>aad28a479b8849a2994bfc78556e902df</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_subtractable&lt; T &gt;</type>
+      <name>subtractable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>a728caf6f550246e511ebc1402b705e07</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_incrementable&lt; T &gt;</type>
+      <name>incrementable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>adc83021f06cc113f94143d246e06ab9b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_decrementable&lt; T &gt;</type>
+      <name>decrementable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>a7cd603015fe6e4c83c1beb0bf0edfc55</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_comparable&lt; T &gt;</type>
+      <name>comparable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>a2d1347756ab6dded8a9d5a01ba7aaf89</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_boolean&lt; T &gt;</type>
+      <name>boolean</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>a5b5321ca5a3e1dd0face3ffb2f468869</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_callable&lt; T &gt;</type>
+      <name>callable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>ad655de826e397423b7dfb7360c3816c7</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>tagged_ptr.h</name>
@@ -6498,6 +6558,13 @@
       <anchor>ga7569b01664a740bf2ecc532e22c3b487</anchor>
       <arglist>(half x) noexcept</arglist>
     </member>
+  </compound>
+  <compound kind="struct">
+    <name>std::hash&lt; muu::strong_typedef&lt; ValueType, Tag, Traits... &gt; &gt;</name>
+    <filename>structstd_1_1hash_3_01muu_1_1strong__typedef_3_01_value_type_00_01_tag_00_01_traits_8_8_8_01_4_01_4.html</filename>
+    <templarg>typename ValueType</templarg>
+    <templarg>typename Tag</templarg>
+    <templarg>template&lt; typename &gt; typename... Traits</templarg>
   </compound>
   <compound kind="struct">
     <name>std::hash&lt; muu::uuid &gt;</name>
@@ -11505,75 +11572,75 @@
     <filename>structmuu_1_1strong__typedef.html</filename>
     <templarg>typename ValueType</templarg>
     <templarg>typename Tag</templarg>
-    <templarg>typename... Mixins</templarg>
+    <templarg>template&lt; typename &gt; typename... Traits</templarg>
     <member kind="typedef">
       <type>ValueType</type>
       <name>value_type</name>
       <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
-      <anchor>af62b3bc43d83a5f1dffdfa86a53afa0d</anchor>
+      <anchor>a26c7bd7a2caf1f43d72a55bf2c6fec4a</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>strong_typedef</name>
       <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
-      <anchor>aa46343fd32f4c5b6edd66afe672fb934</anchor>
+      <anchor>ad0712871a5e6ee370d0629de1dfdb487</anchor>
       <arglist>()=default</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>strong_typedef</name>
       <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
-      <anchor>a042d06865f22a97ca7a3266d40214f2d</anchor>
+      <anchor>a1e8459918ead7bb4391c8fcf789fce85</anchor>
       <arglist>(const strong_typedef &amp;)=default</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>strong_typedef</name>
       <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
-      <anchor>aa62b8919cfb675d952cdca1412c920b0</anchor>
+      <anchor>a09a80bbb74fd34ab3267d3d8830fc2d5</anchor>
       <arglist>(strong_typedef &amp;&amp;)=default</arglist>
     </member>
     <member kind="function">
       <type>strong_typedef &amp;</type>
       <name>operator=</name>
       <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
-      <anchor>a5f294e025fdc2427df4851c5484707e0</anchor>
+      <anchor>a45ec076a4caa9598ee7841948b5baf5c</anchor>
       <arglist>(const strong_typedef &amp;)=default</arglist>
     </member>
     <member kind="function">
       <type>strong_typedef &amp;</type>
       <name>operator=</name>
       <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
-      <anchor>a9973edc162334dd37de47d1032457077</anchor>
+      <anchor>a0ff05ef3e1cc407b2a7f76eb3c400f34</anchor>
       <arglist>(strong_typedef &amp;&amp;)=default</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>strong_typedef</name>
       <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
-      <anchor>a8c5a65c6ffa51e805908e9216dc43236</anchor>
+      <anchor>a5fb7e66378666e345675dbbde2b33f14</anchor>
       <arglist>(const value_type &amp;val) noexcept(std::is_nothrow_copy_constructible_v&lt; value_type &gt;)</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>strong_typedef</name>
       <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
-      <anchor>a638cd538826000b8bf7811013c6e6563</anchor>
+      <anchor>a794bef4669d3e752742a663ba118547f</anchor>
       <arglist>(value_type &amp;&amp;val) noexcept(std::is_nothrow_move_constructible_v&lt; value_type &gt;)</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>strong_typedef</name>
       <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
-      <anchor>af46c74f39b0d125c8b647ae6e101ae91</anchor>
+      <anchor>a995a04e4a8782bfced69213258d89354</anchor>
       <arglist>(value_type val) noexcept</arglist>
     </member>
     <member kind="variable">
       <type>value_type</type>
       <name>value</name>
       <anchorfile>structmuu_1_1strong__typedef.html</anchorfile>
-      <anchor>ace7268948f4d2254f455fbff8989dbf5</anchor>
+      <anchor>a278bfc333850d5f772308cc2faf71150</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -12611,6 +12678,14 @@
     <templarg>size_t Dimensions</templarg>
   </compound>
   <compound kind="struct">
+    <name>std::tuple_element&lt; Index, muu::strong_typedef&lt; ValueType, Tag, Traits... &gt; &gt;</name>
+    <filename>structstd_1_1tuple__element_3_01_index_00_01muu_1_1strong__typedef_3_01_value_type_00_01_tag_00_01_traits_8_8_8_01_4_01_4.html</filename>
+    <templarg>size_t Index</templarg>
+    <templarg>typename ValueType</templarg>
+    <templarg>typename Tag</templarg>
+    <templarg>template&lt; typename &gt; typename... Traits</templarg>
+  </compound>
+  <compound kind="struct">
     <name>std::tuple_element&lt; P, muu::triangle&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__element_3_01_p_00_01muu_1_1triangle_3_01_scalar_01_4_01_4.html</filename>
     <templarg>size_t P</templarg>
@@ -12641,6 +12716,13 @@
     <name>std::tuple_size&lt; muu::quaternion&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__size_3_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html</filename>
     <templarg>typename Scalar</templarg>
+  </compound>
+  <compound kind="struct">
+    <name>std::tuple_size&lt; muu::strong_typedef&lt; ValueType, Tag, Traits... &gt; &gt;</name>
+    <filename>structstd_1_1tuple__size_3_01muu_1_1strong__typedef_3_01_value_type_00_01_tag_00_01_traits_8_8_8_01_4_01_4.html</filename>
+    <templarg>typename ValueType</templarg>
+    <templarg>typename Tag</templarg>
+    <templarg>template&lt; typename &gt; typename... Traits</templarg>
   </compound>
   <compound kind="struct">
     <name>std::tuple_size&lt; muu::triangle&lt; Scalar &gt; &gt;</name>
@@ -14297,6 +14379,7 @@
     <filename>namespacemuu.html</filename>
     <namespace>muu::build</namespace>
     <namespace>muu::literals</namespace>
+    <namespace>muu::strong_typedef_traits</namespace>
     <class kind="class">muu::accumulator</class>
     <class kind="struct">muu::axis_angle</class>
     <class kind="class">muu::blob</class>
@@ -19198,6 +19281,66 @@
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
       <anchor>a9e8a35fefddabd1aa96c32f7d22061ea</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="namespace">
+    <name>muu::strong_typedef_traits</name>
+    <filename>namespacemuu_1_1strong__typedef__traits.html</filename>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_pointer_arithmetic&lt; T &gt;</type>
+      <name>pointer_arithmetic</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>a27ab93e18c0889307ef3195193475bb5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_addable&lt; T &gt;</type>
+      <name>addable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>aad28a479b8849a2994bfc78556e902df</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_subtractable&lt; T &gt;</type>
+      <name>subtractable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>a728caf6f550246e511ebc1402b705e07</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_incrementable&lt; T &gt;</type>
+      <name>incrementable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>adc83021f06cc113f94143d246e06ab9b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_decrementable&lt; T &gt;</type>
+      <name>decrementable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>a7cd603015fe6e4c83c1beb0bf0edfc55</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_comparable&lt; T &gt;</type>
+      <name>comparable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>a2d1347756ab6dded8a9d5a01ba7aaf89</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_boolean&lt; T &gt;</type>
+      <name>boolean</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>a5b5321ca5a3e1dd0face3ffb2f468869</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::impl::stypedef_callable&lt; T &gt;</type>
+      <name>callable</name>
+      <anchorfile>namespacemuu_1_1strong__typedef__traits.html</anchorfile>
+      <anchor>ad655de826e397423b7dfb7360c3816c7</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="group">

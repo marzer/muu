@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/strong_typedef.h file | muu Miscellaneous useful utilities for C++</title>
+  <title>muu::strong_typedef_traits namespace | muu Miscellaneous useful utilities for C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -57,100 +57,149 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span><a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong_typedef</a>.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>strong_typedef_traits <span class="m-thin">namespace</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="strong__typedef_8h.html">&lt;muu/strong_typedef.h&gt;</a></div>
         </h1>
-        <p>Contains the definition of <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a>.</p>
+        <p>CRTP-based 'mixin' traits for <a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong typedefs</a>.</p>
         <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
                 <li><a href="#typedef-members">Typedefs</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
-          <dl class="m-doc">
-            <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
-            <dd>The root namespace for all muu functions and types.</dd>
-            <dt>namespace <a class="m-doc" href="namespacemuu_1_1strong__typedef__traits.html">muu::strong_typedef_traits</a></dt>
-            <dd>CRTP-based 'mixin' traits for <a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong typedefs</a>.</dd>
-          </dl>
-        </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename ValueType, typename Tag, template&lt;typename&gt; typename... Traits&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::strong_typedef</a>
-            </dt>
-            <dd>A utility class for creating '<a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong typedefs</a>'.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename ValueType, typename Tag, template&lt;typename&gt; typename... Traits&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1strong__typedef_3_01_value_type_00_01_tag_00_01_traits_8_8_8_01_4_01_4.html">std::tuple_size&lt;muu::strong_typedef&lt;ValueType, Tag, Traits...&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size</a> for <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/size_t.html" target="_blank">size_<wbr/>t</a> Index, typename ValueType, typename Tag, template&lt;typename&gt; typename... Traits&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1tuple__element_3_01_index_00_01muu_1_1strong__typedef_3_01_value_type_00_01_tag_00_01_traits_8_8_8_01_4_01_4.html">std::tuple_element&lt;Index, muu::strong_typedef&lt;ValueType, Tag, Traits...&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_element" target="_blank">std::tuple_element</a> for <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a>.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename ValueType, typename Tag, template&lt;typename&gt; typename... Traits&gt;</div>
-              struct <a class="m-doc" href="structstd_1_1hash_3_01muu_1_1strong__typedef_3_01_value_type_00_01_tag_00_01_traits_8_8_8_01_4_01_4.html">std::hash&lt;muu::strong_typedef&lt;ValueType, Tag, Traits...&gt;&gt;</a>
-            </dt>
-            <dd>Specialization of <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/hash.html" target="_blank">std::<wbr/>hash</a> for <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a>.</dd>
-          </dl>
-        </section>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a></p></aside>
         <section id="typedef-members">
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="namespacemuu_1_1strong__typedef__traits.html#aad28a479b8849a2994bfc78556e902df">addable</a> = muu::impl::stypedef_addable&lt;T&gt;
+              using <a class="m-doc" href="#aad28a479b8849a2994bfc78556e902df">addable</a> = muu::impl::stypedef_addable&lt;T&gt;
             </dt>
             <dd>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with addition operators (<code>x + x</code>, <code>+x</code>)</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="namespacemuu_1_1strong__typedef__traits.html#a5b5321ca5a3e1dd0face3ffb2f468869">boolean</a> = muu::impl::stypedef_boolean&lt;T&gt;
+              using <a class="m-doc" href="#a5b5321ca5a3e1dd0face3ffb2f468869">boolean</a> = muu::impl::stypedef_boolean&lt;T&gt;
             </dt>
             <dd>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with explicit boolean conversion and unary logical not operator.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="namespacemuu_1_1strong__typedef__traits.html#ad655de826e397423b7dfb7360c3816c7">callable</a> = muu::impl::stypedef_callable&lt;T&gt;
+              using <a class="m-doc" href="#ad655de826e397423b7dfb7360c3816c7">callable</a> = muu::impl::stypedef_callable&lt;T&gt;
             </dt>
             <dd>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with function-call operator overloads (<code>x()</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="namespacemuu_1_1strong__typedef__traits.html#a2d1347756ab6dded8a9d5a01ba7aaf89">comparable</a> = muu::impl::stypedef_comparable&lt;T&gt;
+              using <a class="m-doc" href="#a2d1347756ab6dded8a9d5a01ba7aaf89">comparable</a> = muu::impl::stypedef_comparable&lt;T&gt;
             </dt>
             <dd>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with comparison operators (<code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="namespacemuu_1_1strong__typedef__traits.html#a7cd603015fe6e4c83c1beb0bf0edfc55">decrementable</a> = muu::impl::stypedef_decrementable&lt;T&gt;
+              using <a class="m-doc" href="#a7cd603015fe6e4c83c1beb0bf0edfc55">decrementable</a> = muu::impl::stypedef_decrementable&lt;T&gt;
             </dt>
             <dd>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with pre- and post-decrement operators (<code>--</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="namespacemuu_1_1strong__typedef__traits.html#adc83021f06cc113f94143d246e06ab9b">incrementable</a> = muu::impl::stypedef_incrementable&lt;T&gt;
+              using <a class="m-doc" href="#adc83021f06cc113f94143d246e06ab9b">incrementable</a> = muu::impl::stypedef_incrementable&lt;T&gt;
             </dt>
             <dd>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with pre- and post-increment operators (<code>++</code>).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="namespacemuu_1_1strong__typedef__traits.html#a27ab93e18c0889307ef3195193475bb5">pointer_arithmetic</a> = muu::impl::stypedef_pointer_arithmetic&lt;T&gt;
+              using <a class="m-doc" href="#a27ab93e18c0889307ef3195193475bb5">pointer_arithmetic</a> = muu::impl::stypedef_pointer_arithmetic&lt;T&gt;
             </dt>
             <dd>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with pointer arithmetic operators.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="namespacemuu_1_1strong__typedef__traits.html#a728caf6f550246e511ebc1402b705e07">subtractable</a> = muu::impl::stypedef_subtractable&lt;T&gt;
+              using <a class="m-doc" href="#a728caf6f550246e511ebc1402b705e07">subtractable</a> = muu::impl::stypedef_subtractable&lt;T&gt;
             </dt>
             <dd>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with subtraction operators (<code>x - x</code>, <code>-x</code>)</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Typedef documentation</h2>
+          <section class="m-doc-details" id="aad28a479b8849a2994bfc78556e902df"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using muu::<wbr/>strong_typedef_traits::<wbr/><a class="m-doc-self" href="#aad28a479b8849a2994bfc78556e902df">addable</a> = muu::impl::stypedef_addable&lt;T&gt;
+            </h3>
+            <p>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with addition operators (<code>x + x</code>, <code>+x</code>)</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>Addition must be supported by the underlying value type.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a5b5321ca5a3e1dd0face3ffb2f468869"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using muu::<wbr/>strong_typedef_traits::<wbr/><a class="m-doc-self" href="#a5b5321ca5a3e1dd0face3ffb2f468869">boolean</a> = muu::impl::stypedef_boolean&lt;T&gt;
+            </h3>
+            <p>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with explicit boolean conversion and unary logical not operator.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>The underlying value type must be convertible to bool.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ad655de826e397423b7dfb7360c3816c7"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using muu::<wbr/>strong_typedef_traits::<wbr/><a class="m-doc-self" href="#ad655de826e397423b7dfb7360c3816c7">callable</a> = muu::impl::stypedef_callable&lt;T&gt;
+            </h3>
+            <p>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with function-call operator overloads (<code>x()</code>).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>The underlying value type must be a callable type (function pointer, lambda, etc).</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a2d1347756ab6dded8a9d5a01ba7aaf89"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using muu::<wbr/>strong_typedef_traits::<wbr/><a class="m-doc-self" href="#a2d1347756ab6dded8a9d5a01ba7aaf89">comparable</a> = muu::impl::stypedef_comparable&lt;T&gt;
+            </h3>
+            <p>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with comparison operators (<code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>The operators must be supported by the underlying value type. Any not supported will be omitted.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a7cd603015fe6e4c83c1beb0bf0edfc55"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using muu::<wbr/>strong_typedef_traits::<wbr/><a class="m-doc-self" href="#a7cd603015fe6e4c83c1beb0bf0edfc55">decrementable</a> = muu::impl::stypedef_decrementable&lt;T&gt;
+            </h3>
+            <p>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with pre- and post-decrement operators (<code>--</code>).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>Decrementing must be supported by the underlying value type.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="adc83021f06cc113f94143d246e06ab9b"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using muu::<wbr/>strong_typedef_traits::<wbr/><a class="m-doc-self" href="#adc83021f06cc113f94143d246e06ab9b">incrementable</a> = muu::impl::stypedef_incrementable&lt;T&gt;
+            </h3>
+            <p>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with pre- and post-increment operators (<code>++</code>).</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>Incrementing must be supported by the underlying value type.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a27ab93e18c0889307ef3195193475bb5"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using muu::<wbr/>strong_typedef_traits::<wbr/><a class="m-doc-self" href="#a27ab93e18c0889307ef3195193475bb5">pointer_arithmetic</a> = muu::impl::stypedef_pointer_arithmetic&lt;T&gt;
+            </h3>
+            <p>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with pointer arithmetic operators.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>Arithmetic with arbitrary pointers must be supported by the underlying value type.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a728caf6f550246e511ebc1402b705e07"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using muu::<wbr/>strong_typedef_traits::<wbr/><a class="m-doc-self" href="#a728caf6f550246e511ebc1402b705e07">subtractable</a> = muu::impl::stypedef_subtractable&lt;T&gt;
+            </h3>
+            <p>Imbues a <a class="m-doc" href="structmuu_1_1strong__typedef.html">muu::<wbr/>strong_typedef</a> with subtraction operators (<code>x - x</code>, <code>-x</code>)</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>Subtraction must be supported by the underlying value type.</p></aside>
+          </div></section>
         </section>
       </div>
     </div>

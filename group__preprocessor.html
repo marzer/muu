@@ -1235,11 +1235,11 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Marks a simple type which might otherwise be considered non-trivial as being trivial over ABI boundaries.</p>
-<p>This is useful for simple wrappers and 'strong typedef' types, e.g.:</p><pre class="m-code"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="m">MUU_TRIVIAL_ABI</span> <span class="ut">strong_typedef</span>
+<p>This is useful for simple wrappers and '<a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong typedef</a>' types, e.g.:</p><pre class="m-code"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="m">MUU_TRIVIAL_ABI</span> <span class="ut"><a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong_typedef</a></span>
 <span class="p">{</span>
     <span class="ut">T</span> <span class="n">value</span><span class="p">;</span>
-    <span class="o">~</span><span class="ut">strong_typedef</span><span class="p">()</span> <span class="k">noexcept</span>
+    <span class="o">~</span><span class="ut"><a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong_typedef</a></span><span class="p">()</span> <span class="k">noexcept</span>
     <span class="p">{</span>
         <span class="c1">// non-trivial for some reason, maybe debug checks</span>
     <span class="p">}</span>

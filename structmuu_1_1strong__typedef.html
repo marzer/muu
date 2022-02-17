@@ -58,7 +58,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="strong__typedef_8h.html">&lt;muu/strong_typedef.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename ValueType, typename Tag, typename... Mixins&gt;</div>
+          <div class="m-doc-template">template&lt;typename ValueType, typename Tag, template&lt;typename&gt; typename... Traits&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>strong_typedef <span class="m-thin">struct</span>
         </h1>
         <p>A utility class for creating 'strong typedefs'.</p>
@@ -73,11 +73,11 @@
             </tr>
             <tr>
               <td>Tag</td>
-              <td>The tag type necessary to uniquely identify this typedef.</td>
+              <td>The tag type necessary to uniquely identify this typedef. May be an incomplete type.</td>
             </tr>
             <tr>
-              <td>Mixins</td>
-              <td>Additional CTRP-based mixins for adding custom functionality.</td>
+              <td>Traits</td>
+              <td>Additional CRTP-based 'traits' for adding custom functionality.</td>
             </tr>
           </tbody>
         </table>
@@ -95,23 +95,35 @@
             </li>
           </ul>
         </div>
-<p>Strong typedefs use the C++ type system to create compile-time guarantees for values that otherwise might only be represented by regular typedefs, and thus lose their semantic meaning when passed to the compiler. Doing so prevents an entire class of bugs where incompatible values can be accidentally used interchangeably because they were of same/convertible type, e.g. a non-sequential ID <code>thing_id</code> being mistakenly used instead of <code>thing_index</code> when indexing into an array, because they both happened to be aliases of <code>int</code>:</p><pre class="m-code"><span class="k">using</span> <span class="ut">thing_id</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">strong_typedef</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">struct</span> <span class="nc">thing_id_tag</span><span class="o">&gt;</span><span class="p">;</span>
+<p>Strong typedefs use the C++ type system to create compile-time guarantees for values that otherwise might only be represented by regular typedefs, and thus lose their semantic meaning when passed to the compiler. Doing so prevents an entire class of bugs where incompatible values can be accidentally used interchangeably because they were of same/convertible type:</p><pre class="m-code"><span class="cp">#ifdef DO_BAD_STUFF</span>
+<span class="k">using</span> <span class="ut">thing_id</span>    <span class="o">=</span> <span class="k">int</span><span class="p">;</span>
+<span class="k">using</span> <span class="ut">thing_index</span> <span class="o">=</span> <span class="k">int</span><span class="p">;</span>
+<span class="cp">#else</span>
+<span class="k">using</span> <span class="ut">thing_id</span>    <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">strong_typedef</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">struct</span> <span class="nc">thing_id_tag</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="k">using</span> <span class="ut">thing_index</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">strong_typedef</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">struct</span> <span class="nc">thing_index_tag</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="cp">#endif</span>
 
-<span class="k">void</span> <span class="nf">do_important_stuff</span><span class="p">(</span><span class="n">thing_id</span> <span class="n">id</span><span class="p">)</span>
+<span class="k">void</span> <span class="nf">do_important_stuff</span><span class="p">(</span><span class="ut">thing_id</span> <span class="n">id</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="c1">//</span>
 <span class="p">}</span>
 
-<span class="k">void</span> <span class="nf">this_function_is_broken</span><span class="p">(</span><span class="n">thing_index</span> <span class="n">index</span><span class="p">)</span>
+<span class="k">void</span> <span class="nf">this_function_does_bad_stuff</span><span class="p">(</span><span class="ut">thing_index</span> <span class="n">index</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="n">do_important_stuff</span><span class="p">(</span><span class="n">index</span><span class="p">);</span> <span class="c1">// an obvious error that won't compile with strong typedefs</span>
-<span class="p">}</span></pre><p>This implementation will automatically provide a number of operators if they are supported by the wrapped type: <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code> and <code>!</code> (unary logical not). Additional functionality can be added by adding CTRP-based 'mixins'.</p><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://www.jambit.com/en/latest-info/toilet-papers/strong-typedefs/" target="_blank">Strong typedefs</a></p></aside>
+    <span class="n">do_important_stuff</span><span class="p">(</span><span class="n">index</span><span class="p">);</span> <span class="c1">// won't compile with strong typedefs</span>
+<span class="p">}</span></pre><p>By default the only operations provided are:</p><ul><li>explicit construction with an initializer</li><li>default construction (if supported by the value type)</li><li>copy construction + assignment (if supported by the value type)</li><li>move construction + assignment (if supported by the value type)</li><li>explicit casts to references of the underlying value type</li></ul><pre class="m-code"><span class="k">using</span> <span class="ut">strong_string</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">strong_typedef</span><span class="o">&lt;</span><span class="ns">std</span><span class="o">::</span><span class="ut">string</span><span class="p">,</span> <span class="k">struct</span> <span class="nc">strong_string_tag</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="n">strong_string</span> <span class="n">s</span><span class="p">{</span> <span class="s">"my string could beat up your string"</span><span class="sa">s</span> <span class="p">};</span>
+<span class="k">auto</span><span class="o">&amp;</span> <span class="n">ref</span> <span class="o">=</span> <span class="k"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></span><span class="o">&lt;</span><span class="ns">std</span><span class="o">::</span><span class="ut">string</span><span class="o">&amp;&gt;</span><span class="p">(</span><span class="n">s</span><span class="p">);</span></pre><p>Additional operations can be added using CRTP-based 'traits':</p><pre class="m-code"><span class="k">using</span> <span class="ut">thing_index</span> <span class="o">=</span> <span class="ns">muu</span><span class="o">::</span><span class="ut">strong_typedef</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">struct</span> <span class="nc">thing_index_tag</span><span class="p">,</span>
+    <span class="ns"><a class="m-doc poxy-injected" href="namespacemuu_1_1strong__typedef__traits.html">muu::strong_typedef_traits</a></span><span class="o">::</span><span class="ut">incrementable</span><span class="p">,</span> <span class="c1">// adds ++</span>
+    <span class="ns"><a class="m-doc poxy-injected" href="namespacemuu_1_1strong__typedef__traits.html">muu::strong_typedef_traits</a></span><span class="o">::</span><span class="ut">decrementable</span><span class="p">,</span> <span class="c1">// adds --</span>
+    <span class="ns"><a class="m-doc poxy-injected" href="namespacemuu_1_1strong__typedef__traits.html">muu::strong_typedef_traits</a></span><span class="o">::</span><span class="ut">comparable</span>     <span class="c1">// adds ==, !=, &lt;, &lt;=, &gt;, &gt;=</span>
+<span class="o">&gt;</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="poxy-external" href="https://www.jambit.com/en/latest-info/toilet-papers/strong-typedefs/" target="_blank">Strong typedefs</a></li><li><a class="m-doc" href="namespacemuu_1_1strong__typedef__traits.html">muu::<wbr/>strong_typedef_traits</a></li></ul></aside>
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt id="af62b3bc43d83a5f1dffdfa86a53afa0d">
-              using <a class="m-doc-self" href="#af62b3bc43d83a5f1dffdfa86a53afa0d">value_type</a> = ValueType
+            <dt id="a26c7bd7a2caf1f43d72a55bf2c6fec4a">
+              using <a class="m-doc-self" href="#a26c7bd7a2caf1f43d72a55bf2c6fec4a">value_type</a> = ValueType
             </dt>
             <dd>The typedef's underlying value type.</dd>
           </dl>
@@ -119,28 +131,28 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="aa46343fd32f4c5b6edd66afe672fb934">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa46343fd32f4c5b6edd66afe672fb934">strong_typedef</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span></span>
+            <dt id="ad0712871a5e6ee370d0629de1dfdb487">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad0712871a5e6ee370d0629de1dfdb487">strong_typedef</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span></span>
             </dt>
             <dd>Default constructor.</dd>
-            <dt id="a042d06865f22a97ca7a3266d40214f2d">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a042d06865f22a97ca7a3266d40214f2d">strong_typedef</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span></span>
+            <dt id="a1e8459918ead7bb4391c8fcf789fce85">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1e8459918ead7bb4391c8fcf789fce85">strong_typedef</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
             <dd>Copy constructor.</dd>
-            <dt id="aa62b8919cfb675d952cdca1412c920b0">
-              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa62b8919cfb675d952cdca1412c920b0">strong_typedef</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span></span>
+            <dt id="a09a80bbb74fd34ab3267d3d8830fc2d5">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a09a80bbb74fd34ab3267d3d8830fc2d5">strong_typedef</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
             <dd>Move constructor.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a8c5a65c6ffa51e805908e9216dc43236">strong_typedef</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1strong__typedef.html#af62b3bc43d83a5f1dffdfa86a53afa0d">value_<wbr/>type</a>&amp; val) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+            <dt id="a5fb7e66378666e345675dbbde2b33f14">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5fb7e66378666e345675dbbde2b33f14">strong_typedef</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1strong__typedef.html#a26c7bd7a2caf1f43d72a55bf2c6fec4a">value_<wbr/>type</a>&amp; val) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
             <dd>Value copy constructor.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a638cd538826000b8bf7811013c6e6563">strong_typedef</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html#af62b3bc43d83a5f1dffdfa86a53afa0d">value_<wbr/>type</a>&amp;&amp; val) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
+            <dt id="a794bef4669d3e752742a663ba118547f">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a794bef4669d3e752742a663ba118547f">strong_typedef</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html#a26c7bd7a2caf1f43d72a55bf2c6fec4a">value_<wbr/>type</a>&amp;&amp; val) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
             <dd>Value move constructor.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#af46c74f39b0d125c8b647ae6e101ae91">strong_typedef</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html#af62b3bc43d83a5f1dffdfa86a53afa0d">value_<wbr/>type</a> val) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a995a04e4a8782bfced69213258d89354">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a995a04e4a8782bfced69213258d89354">strong_typedef</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html#a26c7bd7a2caf1f43d72a55bf2c6fec4a">value_<wbr/>type</a> val) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Value constructor.</dd>
           </dl>
@@ -148,12 +160,12 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a5f294e025fdc2427df4851c5484707e0">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5f294e025fdc2427df4851c5484707e0">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
+            <dt id="a45ec076a4caa9598ee7841948b5baf5c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a45ec076a4caa9598ee7841948b5baf5c">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
             </dt>
             <dd>Copy-assignment operator.</dd>
-            <dt id="a9973edc162334dd37de47d1032457077">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9973edc162334dd37de47d1032457077">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;&amp;) -&gt; <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
+            <dt id="a0ff05ef3e1cc407b2a7f76eb3c400f34">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0ff05ef3e1cc407b2a7f76eb3c400f34">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;&amp;) -&gt; <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
             </dt>
             <dd>Move-assignment operator.</dd>
           </dl>
@@ -161,44 +173,11 @@
         <section id="pub-attribs">
           <h2><a href="#pub-attribs">Public variables</a></h2>
           <dl class="m-doc">
-            <dt id="ace7268948f4d2254f455fbff8989dbf5">
-              <a class="m-doc" href="structmuu_1_1strong__typedef.html#af62b3bc43d83a5f1dffdfa86a53afa0d">value_<wbr/>type</a> <a class="m-doc-self" href="#ace7268948f4d2254f455fbff8989dbf5">value</a>
+            <dt id="a278bfc333850d5f772308cc2faf71150">
+              <a class="m-doc" href="structmuu_1_1strong__typedef.html#a26c7bd7a2caf1f43d72a55bf2c6fec4a">value_<wbr/>type</a> <a class="m-doc-self" href="#a278bfc333850d5f772308cc2faf71150">value</a>
             </dt>
             <dd>The underlying value stored in the typedef.</dd>
           </dl>
-        </section>
-        <section>
-          <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a8c5a65c6ffa51e805908e9216dc43236"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename ValueType, typename Tag, typename... Mixins&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>strong_typedef&lt;ValueType, Tag, Mixins&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8c5a65c6ffa51e805908e9216dc43236">strong_typedef</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1strong__typedef.html#af62b3bc43d83a5f1dffdfa86a53afa0d">value_<wbr/>type</a>&amp; val) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
-            </h3>
-            <p>Value copy constructor.</p>
-<aside class="m-block m-special"><h4>Conditional availability </h4><p>This constructor is only available when <code>value_type</code> is not a reference and is copy-constructible.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="a638cd538826000b8bf7811013c6e6563"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename ValueType, typename Tag, typename... Mixins&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>strong_typedef&lt;ValueType, Tag, Mixins&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a638cd538826000b8bf7811013c6e6563">strong_typedef</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html#af62b3bc43d83a5f1dffdfa86a53afa0d">value_<wbr/>type</a>&amp;&amp; val) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept(…)</span></span></span>
-            </h3>
-            <p>Value move constructor.</p>
-<aside class="m-block m-special"><h4>Conditional availability </h4><p>This constructor is only available when <code>value_type</code> is not a reference and is move-constructible.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="af46c74f39b0d125c8b647ae6e101ae91"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename ValueType, typename Tag, typename... Mixins&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>strong_typedef&lt;ValueType, Tag, Mixins&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af46c74f39b0d125c8b647ae6e101ae91">strong_typedef</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html#af62b3bc43d83a5f1dffdfa86a53afa0d">value_<wbr/>type</a> val) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Value constructor.</p>
-<aside class="m-block m-special"><h4>Conditional availability </h4><p>This constructor is only available when <code>value_type</code> is a reference.</p></aside>
-          </div></section>
         </section>
       </div>
     </div>
