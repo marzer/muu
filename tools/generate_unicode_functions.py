@@ -27,7 +27,7 @@ class G: # G for Globals
 	depth_limit					= 0
 	word_size					= 64
 	compound_boolean_limit		= 3
-	expression_ids				= False
+	codegen_debugging			= False
 	doxygen						= True
 	asserts						= False
 	tomlplusplus_funcs			= False
@@ -36,7 +36,7 @@ class G: # G for Globals
 
 
 def exid(id):
-	if G.expression_ids:
+	if G.codegen_debugging:
 		return f' /* exid({id}) */'
 	return ''
 
@@ -63,7 +63,7 @@ def make_bitmask_index_test_expression(index, bitmask, index_offset = 0, bits = 
 	suffix = 'ull' if bits >= 64 else 'u'
 	s = f'static_cast<uint_least{bits}_t>({index})' if cast else str(index)
 	if index_offset != 0:
-		s = '({} {} 0x{:X}u)'.format(s, '-' if index_offset < 0 else '+', abs(index_offset))
+		s = '({} {} 0x{:X}{})'.format(s, '-' if index_offset < 0 else '+', abs(index_offset), suffix)
 	return '(1{} << {}) & {}'.format(suffix, s, make_bitmask_literal(bitmask, bits))
 
 
@@ -891,7 +891,11 @@ class CodepointChunk:
 		if self.has_expression():
 			return 'return {};'.format(strip_brackets(self.expression(self.root())))
 		else:
-			s = ''
+			s = "// {} code units from {} ranges (spanning a search area of {})\n\n".format(
+				len(self),
+				self.range().sparse_value_count() + self.range().contiguous_subrange_count(),
+				(self.last() - self.first()) + 1
+			)
 			exclusions = []
 			assumptions = []
 			if self.span_first() < self.first():
@@ -909,12 +913,6 @@ class CodepointChunk:
 				s += '\n'
 			if exclusions or assumptions:
 				s += '\n'
-
-			summary = "// {} code units from {} ranges (spanning a search area of {})".format(
-				len(self),
-				self.range().sparse_value_count() + self.range().contiguous_subrange_count(),
-				(self.last() - self.first()) + 1
-			)
 
 			if (self.makes_bitmask_table()):
 				table_name = 'bitmask_table_' + str(self.level())
@@ -946,7 +944,7 @@ class CodepointChunk:
 					make_bitmask_literal(1, G.word_size),
 					strip_brackets(bit_selector)
 				)
-				s += '\n' + summary
+				s += '\n'
 				return s
 
 			always_true = []
@@ -1003,7 +1001,7 @@ class CodepointChunk:
 				if ((always_true_selector and child.always_returns_true())
 					or (always_false_selector and child.always_returns_false())):
 					continue
-				if (default_check and default_check(child)):
+				if (default_check is not None and default_check(child)):
 					defaulted += 1
 					continue
 				emittables.append((i, child))
@@ -1016,11 +1014,37 @@ class CodepointChunk:
 				default = None
 
 			selector = self.child_selector()
-			selector_name = 'child_index_{}'.format(self.level())
+			selector_name = rf'child_index_{self.level()}'
 			if selector_references > 1:
-				s += 'const auto {} = {};\n'.format(selector_name, selector)
+				s += f'const auto {selector_name} = {selector}{exid(26)};\n'
+			replace_selector = lambda s_: s_.replace('@@SELECTOR@@', selector_name if selector_references > 1 else strip_brackets(selector))
 
 			requires_switch = len(emittables_other) > 1 or not emittables_all_have_expressions
+
+			# if we don't require a switch and we have a default we can take some shortcuts here
+			if not requires_switch and default is not None and 0 <= len(emittables_other) <= 1:
+				if len(emittables_other) == 0:
+					s += f'return {str(default).lower()}{exid(27)};\n'
+				else:
+					assert len(emittables_other) == 1
+					if default is True:
+						s += 'return ((@@SELECTOR@@) != {}{})\n\t|| ({}){};'.format(
+							emittables_other[0][0],
+							'ull' if G.word_size >= 64 else 'u',
+							strip_brackets(emittables_other[0][1].expression()),
+							exid(28)
+						)
+					else:
+						assert default is False
+						s += 'return ((@@SELECTOR@@) == {}{})\n\t&& ({}){};'.format(
+							emittables_other[0][0],
+							'ull' if G.word_size >= 64 else 'u',
+							strip_brackets(emittables_other[0][1].expression()),
+							exid(29)
+						)
+				
+				return replace_selector(s)
+
 			return_trues = []
 			if always_true_selector:
 				return_trues.append(always_true_selector)
@@ -1051,18 +1075,29 @@ class CodepointChunk:
 					)
 
 			if (return_trues and return_falses) or requires_switch or default is not None:
+				if G.codegen_debugging:
+					s += f'''/*
+	return_trues: {len(return_trues)}
+	return_falses: {len(return_falses)}
+	requires_switch: {requires_switch}
+	default: {default}
+*/
+'''
 				if len(emittables_other) == 0 and default is not None:
-					s += 'return {}{};\n'.format(str(default).lower(), exid(12))
+					s += f'return {str(default).lower()}{exid(12)};\n'
 				elif not requires_switch:
+					assert len(emittables_other) == 1
 					if default is True:
-						s += 'return ((@@SELECTOR@@) != {})\n\t|| ({}){};'.format(
+						s += 'return ((@@SELECTOR@@) != {}{})\n\t|| ({}){};'.format(
 							emittables_other[0][0],
+							'ull' if G.word_size >= 64 else 'u',
 							strip_brackets(emittables_other[0][1].expression()),
 							exid(13)
 						)
 					elif default is False:
-						s += 'return ((@@SELECTOR@@) == {})\n\t&& ({}){};'.format(
+						s += 'return ((@@SELECTOR@@) == {}{})\n\t&& ({}){};'.format(
 							emittables_other[0][0],
+							'ull' if G.word_size >= 64 else 'u',
 							strip_brackets(emittables_other[0][1].expression()),
 							exid(14)
 						)
@@ -1085,15 +1120,13 @@ class CodepointChunk:
 					s += "}"
 					if (emitted <= 1):
 							s += "\n/* FIX ME: switch has only {} case{}! */".format(emitted, 's' if emitted > 1 else '')
-					s += '\n' + summary
+					s += '\n'
 					if G.asserts:
 						s += f'\n{G.macro_prefix}CONSTEXPR_SAFE_ASSERT(false && "unreachable!");'
 					else:
 						s += f'\n{G.macro_prefix}UNREACHABLE;'
 
-			if selector_references > 0:
-				s = s.replace('@@SELECTOR@@', selector_name if selector_references > 1 else strip_brackets(selector))
-			return s
+			return replace_selector(s)
 
 
 
@@ -1621,7 +1654,7 @@ def write_header(folders, code_unit):
 		tests_file = None
 		t = None
 		both = None
-		if code_unit.typename != 'wchar_t':
+		if G.generate_tests and code_unit.typename != 'wchar_t':
 			print("Writing to {}".format(tests_path))
 			tests_file = open(tests_path, 'w', encoding='utf-8', newline='\n')
 			t = lambda txt='',end='\n': print(txt, file=tests_file, end=end)
@@ -1955,13 +1988,18 @@ def write_header(folders, code_unit):
 
 		if G.tomlplusplus_funcs:
 
+			h('	//')
+			h('	// toml++ functions:')
+			h('	//')
+			h('')
+
 			write_identification_function(files, code_unit,
-				'is_ascii_horizontal_whitespace', "",
+				'is_ascii_horizontal_whitespace', '',
 				value_ranges=('\t', ' ')
 			)
 
 			write_identification_function(files, code_unit,
-				'is_non_ascii_horizontal_whitespace', "",
+				'is_non_ascii_horizontal_whitespace', '',
 				value_ranges=(160, 5760, 6158, (8192, 8203), 8239, 8287, 8288, 12288, 65279)
 			)
 
@@ -1970,14 +2008,20 @@ def write_header(folders, code_unit):
 				'is_ascii_horizontal_whitespace(c)', 'is_non_ascii_horizontal_whitespace(c)'
 			)
 
+
 			write_identification_function(files, code_unit,
-				'is_vertical_whitespace', "",
-				value_ranges=((10, 13), 133, 8232, 8233)
+				'is_ascii_vertical_whitespace', '',
+				value_ranges=((10, 13),)
 			)
 
 			write_identification_function(files, code_unit,
-				'is_vertical_whitespace_excl_cr', "",
-				value_ranges=((10, 12), 133, 8232, 8233)
+				'is_non_ascii_vertical_whitespace', '',
+				value_ranges=(133, 8232, 8233)
+			)
+
+			write_compound_boolean_function(files, code_unit,
+				'is_vertical_whitespace', '',
+				'is_ascii_vertical_whitespace(c)', 'is_non_ascii_vertical_whitespace(c)'
 			)
 
 			write_compound_boolean_function(files, code_unit,
@@ -1986,13 +2030,13 @@ def write_header(folders, code_unit):
 			)
 
 			write_identification_function(files, code_unit,
-				'is_ascii_bare_key_character', f"",
+				'is_ascii_bare_key_character', '',
 				value_ranges=(('a', 'z'), ('A', 'Z'), ('0', '9'), '-', '_')
 			)
 
-			write_identification_function(files, code_unit,
-				'is_value_prefix', f"",
-				value_ranges=('[', '{', '.', '"', "'", 't', 'f', 'T', 'F', 'i', 'I', 'n', 'N',)
+			write_compound_boolean_function(files, code_unit,
+				'is_non_ascii_bare_key_character', '',
+				'is_non_ascii_letter(c)', 'is_non_ascii_number(c)', 'is_combining_mark(c)'
 			)
 
 		# finish up header
@@ -2044,7 +2088,8 @@ def main():
 	# G.subdivision_allowed = False
 	# G.word_size = 32
 	# G.compound_boolean_limit = 4
-	# G.expression_ids = True
+	# G.codegen_debugging = True
+	# G.tomlplusplus_funcs = True
 
 	if G.tomlplusplus_funcs:
 		G.generate_tests			= False
@@ -2054,7 +2099,6 @@ def main():
 		G.depth_limit				= 0
 		G.word_size					= 64
 		G.compound_boolean_limit	= 3
-		G.expression_ids			= False
 		G.doxygen					= False
 		G.asserts					= False
 		G.macro_prefix				= 'TOML_'

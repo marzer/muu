@@ -127,6 +127,8 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_hyphen(char16_t c) noexcept
 	{
+		// 10 code units from 9 ranges (spanning a search area of 65209)
+		
 		if (c < u'\xAD' || c > u'\uFF65')
 			return false;
 		
@@ -141,7 +143,7 @@ namespace muu
 			case 0x3F: return c == u'\uFE63' || c == u'\uFF0D' || c == u'\uFF65';
 			default: MUU_UNREACHABLE;
 		}
-		// 10 code units from 9 ranges (spanning a search area of 65209)
+		
 		MUU_UNREACHABLE;
 	}
 
@@ -154,6 +156,8 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_letter(char16_t c) noexcept
 	{
+		// 48913 code units from 378 ranges (spanning a search area of 65331)
+		
 		if (c < u'\xAA' || c > u'\uFFDC')
 			return false;
 		
@@ -166,6 +170,8 @@ namespace muu
 		{
 			case 0x00: // [0] 00AA - 04A6
 			{
+				// 822 code units from 21 ranges (spanning a search area of 1021)
+				
 				MUU_ASSUME(c >= u'\xAA' && c <= u'\u04A6');
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -177,10 +183,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xAAull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xAAull) % 0x40ull));
-				// 822 code units from 21 ranges (spanning a search area of 1021)
+				
 			}
 			case 0x01: // [1] 04A7 - 08A3
 			{
+				// 653 code units from 30 ranges (spanning a search area of 1021)
+				
 				MUU_ASSUME(c >= u'\u04A7' && c <= u'\u08A3');
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -192,10 +200,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x4A7ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x4A7ull) % 0x40ull));
-				// 653 code units from 30 ranges (spanning a search area of 1021)
+				
 			}
 			case 0x02: // [2] 08A4 - 0CA0
 			{
+				// 452 code units from 71 ranges (spanning a search area of 1021)
+				
 				MUU_ASSUME(c >= u'\u08A4' && c <= u'\u0CA0');
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -207,10 +217,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x8A4ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x8A4ull) % 0x40ull));
-				// 452 code units from 71 ranges (spanning a search area of 1021)
+				
 			}
 			case 0x03: // [3] 0CA1 - 109D
 			{
+				// 393 code units from 47 ranges (spanning a search area of 1006)
+				
 				if (c > u'\u108E')
 					return false;
 				MUU_ASSUME(c >= u'\u0CA1');
@@ -224,10 +236,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xCA1ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xCA1ull) % 0x40ull));
-				// 393 code units from 47 ranges (spanning a search area of 1006)
+				
 			}
 			case 0x04: // [4] 109E - 149A
 			{
+				// 931 code units from 24 ranges (spanning a search area of 1019)
+				
 				if (c < u'\u10A0')
 					return false;
 				MUU_ASSUME(c <= u'\u149A');
@@ -241,10 +255,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x10A0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x10A0ull) % 0x40ull));
-				// 931 code units from 24 ranges (spanning a search area of 1019)
+				
 			}
 			case 0x05: // [5] 149B - 1897
 			{
+				// 828 code units from 16 ranges (spanning a search area of 1021)
+				
 				MUU_ASSUME(c >= u'\u149B' && c <= u'\u1897');
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -256,10 +272,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x149Bull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x149Bull) % 0x40ull));
-				// 828 code units from 16 ranges (spanning a search area of 1021)
+				
 			}
 			case 0x06: // [6] 1898 - 1C94
 			{
+				// 521 code units from 21 ranges (spanning a search area of 1021)
+				
 				MUU_ASSUME(c >= u'\u1898' && c <= u'\u1C94');
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -271,10 +289,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1898ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1898ull) % 0x40ull));
-				// 521 code units from 21 ranges (spanning a search area of 1021)
+				
 			}
 			case 0x07: // [7] 1C95 - 2091
 			{
+				// 724 code units from 29 ranges (spanning a search area of 1021)
+				
 				MUU_ASSUME(c >= u'\u1C95' && c <= u'\u2091');
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -286,10 +306,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1C95ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1C95ull) % 0x40ull));
-				// 724 code units from 29 ranges (spanning a search area of 1021)
+				
 			}
 			case 0x08: // [8] 2092 - 248E
 			{
+				// 59 code units from 15 ranges (spanning a search area of 243)
+				
 				if (c > u'\u2184')
 					return false;
 				MUU_ASSUME(c >= u'\u2092');
@@ -298,16 +320,18 @@ namespace muu
 				{
 					case 0x00: return c <= u'\u209C';
 					case 0x01: return c >= u'\u2102' && (1u << (static_cast<uint_least32_t>(c) - 0x2102u)) & 0xFF21u;
-					case 0x02: return c <= u'\u214E' && (1ull << (static_cast<uint_least64_t>(c) - 0x2112u)) & 0x10F83CFFEF540F8Bull;
+					case 0x02: return c <= u'\u214E' && (1ull << (static_cast<uint_least64_t>(c) - 0x2112ull)) & 0x10F83CFFEF540F8Bull;
 					case 0x03: return c >= u'\u2183';
 					default: MUU_UNREACHABLE;
 				}
-				// 59 code units from 15 ranges (spanning a search area of 243)
+				
 				MUU_UNREACHABLE;
 			}
 			case 0x0A: return c >= u'\u2C00';
 			case 0x0B: // [11] 2C89 - 3085
 			{
+				// 353 code units from 22 ranges (spanning a search area of 1021)
+				
 				MUU_ASSUME(c >= u'\u2C89' && c <= u'\u3085');
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -319,10 +343,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x2C89ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x2C89ull) % 0x40ull));
-				// 353 code units from 22 ranges (spanning a search area of 1021)
+				
 			}
 			case 0x0C: // [12] 3086 - 3482
 			{
+				// 430 code units from 9 ranges (spanning a search area of 1021)
+				
 				MUU_ASSUME(c >= u'\u3086' && c <= u'\u3482');
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -334,11 +360,13 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x3086ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x3086ull) % 0x40ull));
-				// 430 code units from 9 ranges (spanning a search area of 1021)
+				
 			}
 			case 0x13: return c <= u'\u4DBF' || u'\u4E00' <= c;
 			case 0x29: // [41] A42F - A82B
 			{
+				// 805 code units from 18 ranges (spanning a search area of 1012)
+				
 				if (c > u'\uA822')
 					return false;
 				MUU_ASSUME(c >= u'\uA42F');
@@ -352,10 +380,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA42Full) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA42Full) % 0x40ull));
-				// 805 code units from 18 ranges (spanning a search area of 1012)
+				
 			}
 			case 0x2A: // [42] A82C - AC28
 			{
+				// 657 code units from 36 ranges (spanning a search area of 1001)
+				
 				if (c < u'\uA840')
 					return false;
 				MUU_ASSUME(c <= u'\uAC28');
@@ -369,11 +399,13 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA840ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 657 code units from 36 ranges (spanning a search area of 1001)
+				
 			}
 			case 0x35: return c <= u'\uD7A3' || (u'\uD7B0' <= c && c <= u'\uD7C6') || (u'\uD7CB' <= c && c <= u'\uD7FB');
 			case 0x3E: // [62] F7F0 - FBEC
 			{
+				// 652 code units from 13 ranges (spanning a search area of 749)
+				
 				if (c < u'\uF900')
 					return false;
 				MUU_ASSUME(c <= u'\uFBEC');
@@ -386,10 +418,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xF900ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 652 code units from 13 ranges (spanning a search area of 749)
+				
 			}
 			case 0x3F: // [63] FBED - FFDC
 			{
+				// 769 code units from 13 ranges (spanning a search area of 1008)
+				
 				MUU_ASSUME(c >= u'\uFBED' && c <= u'\uFFDC');
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -401,11 +435,11 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xFBEDull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xFBEDull) % 0x40ull));
-				// 769 code units from 13 ranges (spanning a search area of 1008)
+				
 			}
 			default: MUU_UNREACHABLE;
 		}
-		// 48913 code units from 378 ranges (spanning a search area of 65331)
+		
 		MUU_UNREACHABLE;
 	}
 
@@ -418,6 +452,8 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_lowercase(char16_t c) noexcept
 	{
+		// 1608 code units from 623 ranges (spanning a search area of 65201)
+		
 		if (c < u'\xAA' || c > u'\uFF5A')
 			return false;
 		
@@ -428,6 +464,8 @@ namespace muu
 		{
 			case 0x00: // [0] 00AA - 04A4
 			{
+				// 454 code units from 204 ranges (spanning a search area of 1018)
+				
 				if (c > u'\u04A3')
 					return false;
 				MUU_ASSUME(c >= u'\xAA');
@@ -441,28 +479,32 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xAAull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xAAull) % 0x40ull));
-				// 454 code units from 204 ranges (spanning a search area of 1018)
+				
 			}
 			case 0x01: // [1] 04A5 - 089F
 			{
+				// 111 code units from 70 ranges (spanning a search area of 228)
+				
 				if (c > u'\u0588')
 					return false;
 				MUU_ASSUME(c >= u'\u04A5');
 				
 				switch ((static_cast<uint_least64_t>(c) - 0x4A5ull) / 0x40ull)
 				{
-					case 0x00: return c <= u'\u04E3' && (1ull << (static_cast<uint_least64_t>(c) - 0x4A5u)) & 0x555556AAA5555555ull;
+					case 0x00: return c <= u'\u04E3' && (1ull << (static_cast<uint_least64_t>(c) - 0x4A5ull)) & 0x555556AAA5555555ull;
 					case 0x01: return c <= u'\u0523' && ((static_cast<uint_least32_t>(c) + 1u) % 2u) == 0u;
-					case 0x02: return (1ull << (static_cast<uint_least64_t>(c) - 0x525u)) & 0xF800000000000555ull;
+					case 0x02: return (1ull << (static_cast<uint_least64_t>(c) - 0x525ull)) & 0xF800000000000555ull;
 					default: return true;
 				}
-				// 111 code units from 70 ranges (spanning a search area of 228)
+				
 				MUU_UNREACHABLE;
 			}
 			case 0x04: return (u'\u10D0' <= c && c <= u'\u10FA') || (u'\u10FD' <= c && c <= u'\u10FF') || (u'\u13F8' <= c && c <= u'\u13FD');
 			case 0x06: return c >= u'\u1C80';
 			case 0x07: // [7] 1C87 - 2081
 			{
+				// 450 code units from 148 ranges (spanning a search area of 1017)
+				
 				if (c > u'\u207F')
 					return false;
 				MUU_ASSUME(c >= u'\u1C87');
@@ -476,10 +518,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1C87ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1C87ull) % 0x40ull));
-				// 450 code units from 148 ranges (spanning a search area of 1017)
+				
 			}
 			case 0x08: // [8] 2082 - 247C
 			{
+				// 44 code units from 12 ranges (spanning a search area of 245)
+				
 				if (c < u'\u2090' || c > u'\u2184')
 					return false;
 				
@@ -488,40 +532,46 @@ namespace muu
 					case 0x00: return c <= u'\u209C';
 					case 0x01: return c >= u'\u210A' && (1u << (static_cast<uint_least32_t>(c) - 0x210Au)) & 0x31u;
 					case 0x02: return c >= u'\u2113' && c <= u'\u214E'
-						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2113u)) & 0x878064210000001ull;
+						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2113ull)) & 0x878064210000001ull;
 					case 0x03: return (u'\u2170' <= c && c <= u'\u217F') || c == u'\u2184';
 					default: MUU_UNREACHABLE;
 				}
-				// 44 code units from 12 ranges (spanning a search area of 245)
+				
 				MUU_UNREACHABLE;
 			}
 			case 0x09: return c >= u'\u24D0' && c <= u'\u24E9';
 			case 0x0A: // [10] 2878 - 2C72
 			{
+				// 55 code units from 7 ranges (spanning a search area of 66)
+				
 				if (c < u'\u2C30' || c > u'\u2C71')
 					return false;
 				
 				return c == u'\u2C71'
-					|| (c <= u'\u2C6C' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C30u)) & 0x1562FFFFFFFFFFFFull);
+					|| (c <= u'\u2C6C' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C30ull)) & 0x1562FFFFFFFFFFFFull);
 			}
 			case 0x0B: // [11] 2C73 - 306D
 			{
+				// 104 code units from 58 ranges (spanning a search area of 187)
+				
 				if (c > u'\u2D2D')
 					return false;
 				MUU_ASSUME(c >= u'\u2C73');
 				
 				switch ((static_cast<uint_least64_t>(c) - 0x2C73ull) / 0x40ull)
 				{
-					case 0x00: return c <= u'\u2CB1' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C73u)) & 0x55555555555547FBull;
-					case 0x01: return c <= u'\u2CEE' && (1ull << (static_cast<uint_least64_t>(c) - 0x2CB3u)) & 0xA03555555555555ull;
+					case 0x00: return c <= u'\u2CB1' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C73ull)) & 0x55555555555547FBull;
+					case 0x01: return c <= u'\u2CEE' && (1ull << (static_cast<uint_least64_t>(c) - 0x2CB3ull)) & 0xA03555555555555ull;
 					case 0x02: return (u'\u2D00' <= c && c <= u'\u2D25') || c == u'\u2CF3' || c == u'\u2D27' || c == u'\u2D2D';
 					default: MUU_UNREACHABLE;
 				}
-				// 104 code units from 58 ranges (spanning a search area of 187)
+				
 				MUU_UNREACHABLE;
 			}
 			case 0x29: // [41] A3DD - A7D7
 			{
+				// 126 code units from 111 ranges (spanning a search area of 407)
+				
 				if (c < u'\uA641')
 					return false;
 				MUU_ASSUME(c <= u'\uA7D7');
@@ -533,10 +583,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA641ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA641ull) % 0x40ull));
-				// 126 code units from 111 ranges (spanning a search area of 407)
+				
 			}
 			case 0x2A: // [42] A7D8 - ABD2
 			{
+				// 141 code units from 6 ranges (spanning a search area of 999)
+				
 				if (c < u'\uA7D9' || c > u'\uABBF')
 					return false;
 				
@@ -549,13 +601,13 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA7D9ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA7D9ull) % 0x40ull));
-				// 141 code units from 6 ranges (spanning a search area of 999)
+				
 			}
 			case 0x3E: return c >= u'\uFB00' && c <= u'\uFB17' && (1u << (static_cast<uint_least32_t>(c) - 0xFB00u)) & 0xF8007Fu;
 			case 0x3F: return c >= u'\uFF41';
 			default: MUU_UNREACHABLE;
 		}
-		// 1608 code units from 623 ranges (spanning a search area of 65201)
+		
 		MUU_UNREACHABLE;
 	}
 
@@ -568,6 +620,8 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_number(char16_t c) noexcept
 	{
+		// 425 code units from 43 ranges (spanning a search area of 63674)
+		
 		if (c < u'\u0660' || c > u'\uFF19')
 			return false;
 		
@@ -578,6 +632,8 @@ namespace muu
 		{
 			case 0x00: // [0] 0660 - 0A42
 			{
+				// 50 code units from 5 ranges (spanning a search area of 912)
+				
 				if (c > u'\u09EF')
 					return false;
 				MUU_ASSUME(c >= u'\u0660');
@@ -591,10 +647,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x660ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x660ull) % 0x40ull));
-				// 50 code units from 5 ranges (spanning a search area of 912)
+				
 			}
 			case 0x01: // [1] 0A43 - 0E25
 			{
+				// 80 code units from 8 ranges (spanning a search area of 906)
+				
 				if (c < u'\u0A66' || c > u'\u0DEF')
 					return false;
 				
@@ -607,10 +665,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA66ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA66ull) % 0x40ull));
-				// 80 code units from 8 ranges (spanning a search area of 906)
+				
 			}
 			case 0x02: // [2] 0E26 - 1208
 			{
+				// 50 code units from 5 ranges (spanning a search area of 586)
+				
 				if (c < u'\u0E50' || c > u'\u1099')
 					return false;
 				
@@ -622,10 +682,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xE50ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xE50ull) % 0x40ull));
-				// 50 code units from 5 ranges (spanning a search area of 586)
+				
 			}
 			case 0x04: // [4] 15EC - 19CE
 			{
+				// 33 code units from 4 ranges (spanning a search area of 610)
+				
 				if (c < u'\u16EE' || c > u'\u194F')
 					return false;
 				
@@ -637,10 +699,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x16EEull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x16EEull) % 0x40ull));
-				// 33 code units from 4 ranges (spanning a search area of 610)
+				
 			}
 			case 0x05: // [5] 19CF - 1DB1
 			{
+				// 70 code units from 7 ranges (spanning a search area of 650)
+				
 				if (c < u'\u19D0' || c > u'\u1C59')
 					return false;
 				
@@ -652,12 +716,14 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x19D0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x19D0ull) % 0x40ull));
-				// 70 code units from 7 ranges (spanning a search area of 650)
+				
 			}
-			case 0x06: return c >= u'\u2160' && c <= u'\u2188' && (1ull << (static_cast<uint_least64_t>(c) - 0x2160u)) & 0x1E7FFFFFFFFull;
-			case 0x0A: return c >= u'\u3007' && c <= u'\u303A' && (1ull << (static_cast<uint_least64_t>(c) - 0x3007u)) & 0xE0007FC000001ull;
+			case 0x06: return c >= u'\u2160' && c <= u'\u2188' && (1ull << (static_cast<uint_least64_t>(c) - 0x2160ull)) & 0x1E7FFFFFFFFull;
+			case 0x0A: return c >= u'\u3007' && c <= u'\u303A' && (1ull << (static_cast<uint_least64_t>(c) - 0x3007ull)) & 0xE0007FC000001ull;
 			case 0x29: // [41] A5BB - A99D
 			{
+				// 40 code units from 4 ranges (spanning a search area of 746)
+				
 				if (c < u'\uA620' || c > u'\uA909')
 					return false;
 				
@@ -669,10 +735,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA620ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA620ull) % 0x40ull));
-				// 40 code units from 4 ranges (spanning a search area of 746)
+				
 			}
 			case 0x2A: // [42] A99E - AD80
 			{
+				// 40 code units from 4 ranges (spanning a search area of 554)
+				
 				if (c < u'\uA9D0' || c > u'\uABF9')
 					return false;
 				
@@ -684,12 +752,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA9D0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA9D0ull) % 0x40ull));
-				// 40 code units from 4 ranges (spanning a search area of 554)
+				
 			}
 			case 0x3F: return c >= u'\uFF10';
 			default: MUU_UNREACHABLE;
 		}
-		// 425 code units from 43 ranges (spanning a search area of 63674)
+		
 		MUU_UNREACHABLE;
 	}
 
@@ -702,6 +770,8 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_uppercase(char16_t c) noexcept
 	{
+		// 1143 code units from 606 ranges (spanning a search area of 65147)
+		
 		if (c < u'\xC0' || c > u'\uFF3A')
 			return false;
 		
@@ -712,6 +782,8 @@ namespace muu
 		{
 			case 0x00: // [0] 00C0 - 04B9
 			{
+				// 345 code units from 212 ranges (spanning a search area of 1017)
+				
 				if (c > u'\u04B8')
 					return false;
 				MUU_ASSUME(c >= u'\xC0');
@@ -725,26 +797,30 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xC0ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 345 code units from 212 ranges (spanning a search area of 1017)
+				
 			}
 			case 0x01: // [1] 04BA - 08B3
 			{
+				// 97 code units from 59 ranges (spanning a search area of 157)
+				
 				if (c > u'\u0556')
 					return false;
 				MUU_ASSUME(c >= u'\u04BA');
 				
 				switch ((static_cast<uint_least64_t>(c) - 0x4BAull) / 0x40ull)
 				{
-					case 0x00: return c <= u'\u04F8' && (1ull << (static_cast<uint_least64_t>(c) - 0x4BAu)) & 0x55555555554AAAD5ull;
-					case 0x01: return (1ull << (static_cast<uint_least64_t>(c) - 0x4FAu)) & 0xFF95555555555555ull;
+					case 0x00: return c <= u'\u04F8' && (1ull << (static_cast<uint_least64_t>(c) - 0x4BAull)) & 0x55555555554AAAD5ull;
+					case 0x01: return (1ull << (static_cast<uint_least64_t>(c) - 0x4FAull)) & 0xFF95555555555555ull;
 					default: return true;
 				}
-				// 97 code units from 59 ranges (spanning a search area of 157)
+				
 				MUU_UNREACHABLE;
 			}
 			case 0x03: return c >= u'\u10A0';
 			case 0x04: // [4] 10A8 - 14A1
 			{
+				// 118 code units from 4 ranges (spanning a search area of 846)
+				
 				if (c > u'\u13F5')
 					return false;
 				MUU_ASSUME(c >= u'\u10A8');
@@ -758,11 +834,13 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x10A8ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x10A8ull) % 0x40ull));
-				// 118 code units from 4 ranges (spanning a search area of 846)
+				
 			}
 			case 0x06: return c >= u'\u1C90';
 			case 0x07: // [7] 1C96 - 208F
 			{
+				// 233 code units from 141 ranges (spanning a search area of 870)
+				
 				if (c > u'\u1FFB')
 					return false;
 				MUU_ASSUME(c >= u'\u1C96');
@@ -776,10 +854,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1C96ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1C96ull) % 0x40ull));
-				// 233 code units from 141 ranges (spanning a search area of 870)
+				
 			}
 			case 0x08: // [8] 2090 - 2489
 			{
+				// 45 code units from 15 ranges (spanning a search area of 130)
+				
 				if (c < u'\u2102' || c > u'\u2183')
 					return false;
 				
@@ -787,17 +867,19 @@ namespace muu
 					return true;
 				switch ((static_cast<uint_least64_t>(c) - 0x2102ull) / 0x40ull)
 				{
-					case 0x00: return c <= u'\u213F' && (1ull << (static_cast<uint_least64_t>(c) - 0x2102u)) & 0x3003CF540F89CE21ull;
+					case 0x00: return c <= u'\u213F' && (1ull << (static_cast<uint_least64_t>(c) - 0x2102ull)) & 0x3003CF540F89CE21ull;
 					case 0x01: return c >= u'\u2145' && c <= u'\u216F'
-						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2145u)) & 0x7FFF8000001ull;
+						&& (1ull << (static_cast<uint_least64_t>(c) - 0x2145ull)) & 0x7FFF8000001ull;
 					default: MUU_UNREACHABLE;
 				}
-				// 45 code units from 15 ranges (spanning a search area of 130)
+				
 				MUU_UNREACHABLE;
 			}
 			case 0x09: return c >= u'\u24B6' && c <= u'\u24CF';
 			case 0x0A: // [10] 2884 - 2C7D
 			{
+				// 61 code units from 9 ranges (spanning a search area of 118)
+				
 				if (c < u'\u2C00' || c > u'\u2C75')
 					return false;
 				
@@ -807,26 +889,30 @@ namespace muu
 					case 0x01: return c >= u'\u2C60' && (1u << (static_cast<uint_least32_t>(c) - 0x2C60u)) & 0x25EA9Du;
 					default: MUU_UNREACHABLE;
 				}
-				// 61 code units from 9 ranges (spanning a search area of 118)
+				
 				MUU_UNREACHABLE;
 			}
 			case 0x0B: // [11] 2C7E - 3077
 			{
+				// 55 code units from 53 ranges (spanning a search area of 117)
+				
 				if (c > u'\u2CF2')
 					return false;
 				MUU_ASSUME(c >= u'\u2C7E');
 				
 				switch ((static_cast<uint_least64_t>(c) - 0x2C7Eull) / 0x40ull)
 				{
-					case 0x00: return c <= u'\u2CBC' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C7Eu)) & 0x5555555555555557ull;
-					case 0x01: return (1ull << (static_cast<uint_least64_t>(c) - 0x2CBEu)) & 0x10A01555555555ull;
+					case 0x00: return c <= u'\u2CBC' && (1ull << (static_cast<uint_least64_t>(c) - 0x2C7Eull)) & 0x5555555555555557ull;
+					case 0x01: return (1ull << (static_cast<uint_least64_t>(c) - 0x2CBEull)) & 0x10A01555555555ull;
 					default: MUU_UNREACHABLE;
 				}
-				// 55 code units from 53 ranges (spanning a search area of 117)
+				
 				MUU_UNREACHABLE;
 			}
 			case 0x29: // [41] A3CA - A7C3
 			{
+				// 114 code units from 105 ranges (spanning a search area of 387)
+				
 				if (c < u'\uA640' || c > u'\uA7C2')
 					return false;
 				
@@ -837,13 +923,13 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA640ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 114 code units from 105 ranges (spanning a search area of 387)
+				
 			}
-			case 0x2A: return c <= u'\uA7F5' && (1ull << (static_cast<uint_least64_t>(c) - 0xA7C4u)) & 0x200000014102Full;
+			case 0x2A: return c <= u'\uA7F5' && (1ull << (static_cast<uint_least64_t>(c) - 0xA7C4ull)) & 0x200000014102Full;
 			case 0x3F: return c >= u'\uFF21';
 			default: MUU_UNREACHABLE;
 		}
-		// 1143 code units from 606 ranges (spanning a search area of 65147)
+		
 		MUU_UNREACHABLE;
 	}
 
@@ -856,6 +942,8 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr bool is_non_ascii_whitespace(char16_t c) noexcept
 	{
+		// 19 code units from 8 ranges (spanning a search area of 12156)
+		
 		if (c < u'\x85' || c > u'\u3000')
 			return false;
 		
@@ -869,15 +957,17 @@ namespace muu
 			case 0x00: return c == u'\x85' || c == u'\xA0';
 			case 0x2A: // [42] 1FB1 - 206E
 			{
+				// 15 code units from 4 ranges (spanning a search area of 96)
+				
 				if (c < u'\u2000' || c > u'\u205F')
 					return false;
 				
 				return c == u'\u205F'
-					|| (c <= u'\u202F' && (1ull << (static_cast<uint_least64_t>(c) - 0x2000u)) & 0x8300000007FFull);
+					|| (c <= u'\u202F' && (1ull << (static_cast<uint_least64_t>(c) - 0x2000ull)) & 0x8300000007FFull);
 			}
 			default: MUU_UNREACHABLE;
 		}
-		// 19 code units from 8 ranges (spanning a search area of 12156)
+		
 		MUU_UNREACHABLE;
 	}
 
@@ -998,6 +1088,8 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr bool is_combining_mark(char16_t c) noexcept
 	{
+		// 1323 code units from 192 ranges (spanning a search area of 64304)
+		
 		if (c < u'\u0300' || c > u'\uFE2F')
 			return false;
 		
@@ -1008,6 +1100,8 @@ namespace muu
 		{
 			case 0x00: // [0] 0300 - 06EC
 			{
+				// 219 code units from 14 ranges (spanning a search area of 1005)
+				
 				MUU_ASSUME(c >= u'\u0300' && c <= u'\u06EC');
 				
 				constexpr uint_least64_t bitmask_table_1[] = 
@@ -1019,10 +1113,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x300ull) / 0x40ull]
 					& (0x1ull << (static_cast<uint_least64_t>(c) % 0x40ull));
-				// 219 code units from 14 ranges (spanning a search area of 1005)
+				
 			}
 			case 0x01: // [1] 06ED - 0AD9
 			{
+				// 225 code units from 39 ranges (spanning a search area of 993)
+				
 				if (c > u'\u0ACD')
 					return false;
 				MUU_ASSUME(c >= u'\u06ED');
@@ -1036,10 +1132,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x6EDull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x6EDull) % 0x40ull));
-				// 225 code units from 39 ranges (spanning a search area of 993)
+				
 			}
 			case 0x02: // [2] 0ADA - 0EC6
 			{
+				// 159 code units from 46 ranges (spanning a search area of 987)
+				
 				if (c < u'\u0AE2' || c > u'\u0EBC')
 					return false;
 				
@@ -1052,10 +1150,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xAE2ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xAE2ull) % 0x40ull));
-				// 159 code units from 46 ranges (spanning a search area of 987)
+				
 			}
 			case 0x03: // [3] 0EC7 - 12B3
 			{
+				// 141 code units from 20 ranges (spanning a search area of 470)
+				
 				if (c < u'\u0EC8' || c > u'\u109D')
 					return false;
 				
@@ -1066,11 +1166,13 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xEC8ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xEC8ull) % 0x40ull));
-				// 141 code units from 20 ranges (spanning a search area of 470)
+				
 			}
 			case 0x04: return c >= u'\u135D' && c <= u'\u135F';
 			case 0x05: // [5] 16A1 - 1A8D
 			{
+				// 120 code units from 16 ranges (spanning a search area of 878)
+				
 				if (c < u'\u1712' || c > u'\u1A7F')
 					return false;
 				
@@ -1083,10 +1185,12 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1712ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1712ull) % 0x40ull));
-				// 120 code units from 16 ranges (spanning a search area of 878)
+				
 			}
 			case 0x06: // [6] 1A8E - 1E7A
 			{
+				// 204 code units from 15 ranges (spanning a search area of 848)
+				
 				if (c < u'\u1AB0' || c > u'\u1DFF')
 					return false;
 				
@@ -1099,27 +1203,31 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0x1AB0ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0x1AB0ull) % 0x40ull));
-				// 204 code units from 15 ranges (spanning a search area of 848)
+				
 			}
-			case 0x07: return c >= u'\u20D0' && c <= u'\u20F0' && (1ull << (static_cast<uint_least64_t>(c) - 0x20D0u)) & 0x1FFE21FFFull;
+			case 0x07: return c >= u'\u20D0' && c <= u'\u20F0' && (1ull << (static_cast<uint_least64_t>(c) - 0x20D0ull)) & 0x1FFE21FFFull;
 			case 0x0A: return (u'\u2CEF' <= c && c <= u'\u2CF1') || (u'\u2DE0' <= c && c <= u'\u2DFF') || c == u'\u2D7F';
 			case 0x0B: return (u'\u302A' <= c && c <= u'\u302F') || (u'\u3099' <= c && c <= u'\u309A');
 			case 0x29: // [41] A3F5 - A7E1
 			{
+				// 15 code units from 4 ranges (spanning a search area of 131)
+				
 				if (c < u'\uA66F' || c > u'\uA6F1')
 					return false;
 				
 				switch ((static_cast<uint_least64_t>(c) - 0xA66Full) / 0x40ull)
 				{
-					case 0x00: return c <= u'\uA69F' && (1ull << (static_cast<uint_least64_t>(c) - 0xA66Fu)) & 0x1800000007FE1ull;
+					case 0x00: return c <= u'\uA69F' && (1ull << (static_cast<uint_least64_t>(c) - 0xA66Full)) & 0x1800000007FE1ull;
 					case 0x02: return c != u'\uA6EF';
 					default: return false;
 				}
-				// 15 code units from 4 ranges (spanning a search area of 131)
+				
 				MUU_UNREACHABLE;
 			}
 			case 0x2A: // [42] A7E2 - ABCE
 			{
+				// 124 code units from 25 ranges (spanning a search area of 757)
+				
 				if (c < u'\uA802' || c > u'\uAAF6')
 					return false;
 				
@@ -1131,13 +1239,13 @@ namespace muu
 				};
 				return bitmask_table_1[(static_cast<uint_least64_t>(c) - 0xA802ull) / 0x40ull]
 					& (0x1ull << ((static_cast<uint_least64_t>(c) - 0xA802ull) % 0x40ull));
-				// 124 code units from 25 ranges (spanning a search area of 757)
+				
 			}
 			case 0x2B: return c >= u'\uABE3' && c <= u'\uABED' && (1u << (static_cast<uint_least32_t>(c) - 0xABE3u)) & 0x6FFu;
 			case 0x3F: return (u'\uFE00' <= c && c <= u'\uFE0F') || u'\uFE20' <= c || c == u'\uFB1E';
 			default: MUU_UNREACHABLE;
 		}
-		// 1323 code units from 192 ranges (spanning a search area of 64304)
+		
 		MUU_UNREACHABLE;
 	}
 
@@ -1162,7 +1270,7 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr bool is_hexadecimal_digit(char16_t c) noexcept
 	{
-		return c >= u'0' && c <= u'f' && (1ull << (static_cast<uint_least64_t>(c) - 0x30u)) & 0x7E0000007E03FFull;
+		return c >= u'0' && c <= u'f' && (1ull << (static_cast<uint_least64_t>(c) - 0x30ull)) & 0x7E0000007E03FFull;
 	}
 
 	/// @}
@@ -1260,4 +1368,3 @@ namespace muu
 #endif
 #include "header_end.h"
 // clang-format on
-

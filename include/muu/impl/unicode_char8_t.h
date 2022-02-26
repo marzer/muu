@@ -339,7 +339,7 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr bool is_hexadecimal_digit(char8_t c) noexcept
 	{
-		return c >= u8'0' && c <= u8'f' && (1ull << (static_cast<uint_least64_t>(c) - 0x30u)) & 0x7E0000007E03FFull;
+		return c >= u8'0' && c <= u8'f' && (1ull << (static_cast<uint_least64_t>(c) - 0x30ull)) & 0x7E0000007E03FFull;
 	}
 
 	/// @}
@@ -437,4 +437,3 @@ namespace muu
 #endif
 #include "header_end.h"
 // clang-format on
-
