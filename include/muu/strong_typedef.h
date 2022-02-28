@@ -38,17 +38,34 @@ namespace muu
 		template <typename T>
 		using stypedef_const_lvalue = typename stypedef_value_typedefs<T>::const_lvalue_type;
 
+		template <typename T>
+		inline constexpr bool stypedef_pure_ops = std::is_scalar_v<remove_cvref<stypedef_value<T>>>		 //
+											   || std::is_fundamental_v<remove_cvref<stypedef_value<T>>> //
+											   || is_arithmetic<remove_cvref<stypedef_value<T>>>		 //
+											   || is_integral<remove_cvref<stypedef_value<T>>>;
+
 		//--- equality -------------------
 
-		template <typename T, bool = has_equality_operator<stypedef_const_lvalue<T>>>
+		template <typename T, bool = has_equality_operator<stypedef_const_lvalue<T>>, bool = stypedef_pure_ops<T>>
 		struct stypedef_equality
 		{};
 
 		template <typename T>
-		struct stypedef_equality<T, true>
+		struct stypedef_equality<T, true, false> // impure ops
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
+			friend constexpr decltype(auto) operator==(const T& lhs, const T& rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() == std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return lhs.value == rhs.value;
+			}
+		};
+
+		template <typename T>
+		struct stypedef_equality<T, true, true> // pure ops
+		{
+			MUU_PURE_INLINE_GETTER
 			friend constexpr decltype(auto) operator==(const T& lhs, const T& rhs) //
 				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() == std::declval<stypedef_const_lvalue<T>>()))
 			{
@@ -60,12 +77,13 @@ namespace muu
 
 		template <typename T,
 				  bool = has_inequality_operator<stypedef_const_lvalue<T>>, //
-				  bool = has_equality_operator<stypedef_const_lvalue<T>>>
+				  bool = has_equality_operator<stypedef_const_lvalue<T>>,
+				  bool = stypedef_pure_ops<T>>
 		struct stypedef_inequality
 		{};
 
 		template <typename T, bool Eq>
-		struct stypedef_inequality<T, true, Eq> // has !=
+		struct stypedef_inequality<T, true, Eq, false> // has !=; impure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
@@ -76,8 +94,19 @@ namespace muu
 			}
 		};
 
+		template <typename T, bool Eq>
+		struct stypedef_inequality<T, true, Eq, true> // has !=; pure
+		{
+			MUU_PURE_INLINE_GETTER
+			friend constexpr decltype(auto) operator!=(const T& lhs, const T& rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() != std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return lhs.value != rhs.value;
+			}
+		};
+
 		template <typename T>
-		struct stypedef_inequality<T, false, true> // doesn't have !=, but has ==
+		struct stypedef_inequality<T, false, true, false> // doesn't have !=, but has ==; impure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
@@ -88,14 +117,25 @@ namespace muu
 			}
 		};
 
+		template <typename T>
+		struct stypedef_inequality<T, false, true, true> // doesn't have !=, but has ==; pure
+		{
+			MUU_PURE_INLINE_GETTER
+			friend constexpr decltype(auto) operator!=(const T& lhs, const T& rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() == std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return !(lhs.value == rhs.value);
+			}
+		};
+
 		//--- less-than -------------------
 
-		template <typename T, bool = has_less_than_operator<stypedef_const_lvalue<T>>>
+		template <typename T, bool = has_less_than_operator<stypedef_const_lvalue<T>>, bool = stypedef_pure_ops<T>>
 		struct stypedef_less_than
 		{};
 
 		template <typename T>
-		struct stypedef_less_than<T, true>
+		struct stypedef_less_than<T, true, false> // impure ops
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
@@ -106,14 +146,27 @@ namespace muu
 			}
 		};
 
+		template <typename T>
+		struct stypedef_less_than<T, true, true> // pure ops
+		{
+			MUU_PURE_INLINE_GETTER
+			friend constexpr decltype(auto) operator<(const T& lhs, const T& rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() < std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return lhs.value < rhs.value;
+			}
+		};
+
 		//--- less-than-or-equal -------------------
 
-		template <typename T, bool = has_less_than_or_equal_operator<stypedef_const_lvalue<T>>>
+		template <typename T,
+				  bool = has_less_than_or_equal_operator<stypedef_const_lvalue<T>>,
+				  bool = stypedef_pure_ops<T>>
 		struct stypedef_less_than_or_equal
 		{};
 
 		template <typename T>
-		struct stypedef_less_than_or_equal<T, true>
+		struct stypedef_less_than_or_equal<T, true, false> // impure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
@@ -124,14 +177,25 @@ namespace muu
 			}
 		};
 
+		template <typename T>
+		struct stypedef_less_than_or_equal<T, true, true> // pure
+		{
+			MUU_PURE_INLINE_GETTER
+			friend constexpr decltype(auto) operator<=(const T& lhs, const T& rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() <= std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return lhs.value <= rhs.value;
+			}
+		};
+
 		//--- greater-than -------------------
 
-		template <typename T, bool = has_greater_than_operator<stypedef_const_lvalue<T>>>
+		template <typename T, bool = has_greater_than_operator<stypedef_const_lvalue<T>>, bool = stypedef_pure_ops<T>>
 		struct stypedef_greater_than
 		{};
 
 		template <typename T>
-		struct stypedef_greater_than<T, true>
+		struct stypedef_greater_than<T, true, false> // impure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
@@ -142,17 +206,41 @@ namespace muu
 			}
 		};
 
+		template <typename T>
+		struct stypedef_greater_than<T, true, true> // pure
+		{
+			MUU_PURE_INLINE_GETTER
+			friend constexpr decltype(auto) operator>(const T& lhs, const T& rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() > std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return lhs.value > rhs.value;
+			}
+		};
+
 		//--- greater-than-or-equal -------------------
 
-		template <typename T, bool = has_greater_than_or_equal_operator<stypedef_const_lvalue<T>>>
+		template <typename T,
+				  bool = has_greater_than_or_equal_operator<stypedef_const_lvalue<T>>,
+				  bool = stypedef_pure_ops<T>>
 		struct stypedef_greater_than_or_equal
 		{};
 
 		template <typename T>
-		struct stypedef_greater_than_or_equal<T, true>
+		struct stypedef_greater_than_or_equal<T, true, false> // impure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
+			friend constexpr decltype(auto) operator>=(const T& lhs, const T& rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() >= std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return lhs.value >= rhs.value;
+			}
+		};
+
+		template <typename T>
+		struct stypedef_greater_than_or_equal<T, true, true> // pure
+		{
+			MUU_PURE_INLINE_GETTER
 			friend constexpr decltype(auto) operator>=(const T& lhs, const T& rhs) //
 				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() >= std::declval<stypedef_const_lvalue<T>>()))
 			{
@@ -173,15 +261,26 @@ namespace muu
 
 		//--- boolean conversion -------------------
 
-		template <typename T, bool = is_convertible<stypedef_const_lvalue<T>, bool>>
+		template <typename T, bool = is_convertible<stypedef_const_lvalue<T>, bool>, bool = stypedef_pure_ops<T>>
 		struct stypedef_boolean_conversion
 		{};
 
 		template <typename T>
-		struct stypedef_boolean_conversion<T, true>
+		struct stypedef_boolean_conversion<T, true, false> // impure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
+			explicit constexpr operator bool() const
+				noexcept(noexcept(static_cast<bool>(std::declval<stypedef_const_lvalue<T>>())))
+			{
+				return static_cast<bool>(static_cast<const T&>(*this).value);
+			}
+		};
+
+		template <typename T>
+		struct stypedef_boolean_conversion<T, true, true> // pure
+		{
+			MUU_PURE_INLINE_GETTER
 			explicit constexpr operator bool() const
 				noexcept(noexcept(static_cast<bool>(std::declval<stypedef_const_lvalue<T>>())))
 			{
@@ -193,12 +292,13 @@ namespace muu
 
 		template <typename T,
 				  bool = has_logical_not_operator<stypedef_const_lvalue<T>>,
-				  bool = is_convertible<stypedef_const_lvalue<T>, bool>>
+				  bool = is_convertible<stypedef_const_lvalue<T>, bool>,
+				  bool = stypedef_pure_ops<T>>
 		struct stypedef_logical_not
 		{};
 
 		template <typename T, bool Conv>
-		struct stypedef_logical_not<T, true, Conv> // has a ! operator
+		struct stypedef_logical_not<T, true, Conv, false> // has a ! operator; impure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
@@ -209,11 +309,33 @@ namespace muu
 			}
 		};
 
+		template <typename T, bool Conv>
+		struct stypedef_logical_not<T, true, Conv, true> // has a ! operator; pure
+		{
+			MUU_PURE_INLINE_GETTER
+			friend constexpr decltype(auto) operator!(const T& rhs) //
+				noexcept(noexcept(!std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return !rhs.value;
+			}
+		};
+
 		template <typename T>
-		struct stypedef_logical_not<T, false, true> // doesn't have ! operator but is convertible to bool
+		struct stypedef_logical_not<T, false, true, false> // doesn't have ! operator but is convertible to bool; impure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
+			friend constexpr bool operator!(const T& rhs) //
+				noexcept(noexcept(static_cast<bool>(std::declval<stypedef_const_lvalue<T>>())))
+			{
+				return !static_cast<bool>(rhs.value);
+			}
+		};
+
+		template <typename T>
+		struct stypedef_logical_not<T, false, true, true> // doesn't have ! operator but is convertible to bool; impure
+		{
+			MUU_PURE_INLINE_GETTER
 			friend constexpr bool operator!(const T& rhs) //
 				noexcept(noexcept(static_cast<bool>(std::declval<stypedef_const_lvalue<T>>())))
 			{
@@ -260,12 +382,14 @@ namespace muu
 		struct tag_type_just_for_pointer_tests
 		{};
 
-		template <typename T, bool = has_addition_operator<tag_type_just_for_pointer_tests*, stypedef_const_lvalue<T>>>
+		template <typename T,
+				  bool = has_addition_operator<tag_type_just_for_pointer_tests*, stypedef_const_lvalue<T>>,
+				  bool = stypedef_pure_ops<T>>
 		struct stypedef_pointer_arith_add_left
 		{};
 
 		template <typename T>
-		struct stypedef_pointer_arith_add_left<T, true>
+		struct stypedef_pointer_arith_add_left<T, true, false> // impure
 		{
 			template <typename U>
 			MUU_NODISCARD
@@ -277,12 +401,26 @@ namespace muu
 			}
 		};
 
-		template <typename T, bool = has_addition_operator<stypedef_const_lvalue<T>, tag_type_just_for_pointer_tests*>>
+		template <typename T>
+		struct stypedef_pointer_arith_add_left<T, true, true> // pure
+		{
+			template <typename U>
+			MUU_PURE_INLINE_GETTER
+			friend constexpr decltype(auto) operator+(U* lhs, const T& rhs) //
+				noexcept(noexcept(static_cast<U*>(nullptr) + std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return lhs + rhs.value;
+			}
+		};
+
+		template <typename T,
+				  bool = has_addition_operator<stypedef_const_lvalue<T>, tag_type_just_for_pointer_tests*>,
+				  bool = stypedef_pure_ops<T>>
 		struct stypedef_pointer_arith_add_right
 		{};
 
 		template <typename T>
-		struct stypedef_pointer_arith_add_right<T, true>
+		struct stypedef_pointer_arith_add_right<T, true, false> // impure
 		{
 			template <typename U>
 			MUU_NODISCARD
@@ -294,13 +432,26 @@ namespace muu
 			}
 		};
 
+		template <typename T>
+		struct stypedef_pointer_arith_add_right<T, true, true> // pure
+		{
+			template <typename U>
+			MUU_PURE_INLINE_GETTER
+			friend constexpr decltype(auto) operator+(const T& lhs, U* rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() + static_cast<U*>(nullptr)))
+			{
+				return lhs.value + rhs;
+			}
+		};
+
 		template <typename T,
-				  bool = has_subtraction_operator<tag_type_just_for_pointer_tests*, stypedef_const_lvalue<T>>>
+				  bool = has_subtraction_operator<tag_type_just_for_pointer_tests*, stypedef_const_lvalue<T>>,
+				  bool = stypedef_pure_ops<T>>
 		struct stypedef_pointer_arith_sub_left
 		{};
 
 		template <typename T>
-		struct stypedef_pointer_arith_sub_left<T, true>
+		struct stypedef_pointer_arith_sub_left<T, true, false> // impure
 		{
 			template <typename U>
 			MUU_NODISCARD
@@ -312,17 +463,42 @@ namespace muu
 			}
 		};
 
+		template <typename T>
+		struct stypedef_pointer_arith_sub_left<T, true, true> // pure
+		{
+			template <typename U>
+			MUU_PURE_INLINE_GETTER
+			friend constexpr decltype(auto) operator-(U* lhs, const T& rhs) //
+				noexcept(noexcept(static_cast<U*>(nullptr) - std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return lhs - rhs.value;
+			}
+		};
+
 		template <typename T,
-				  bool = has_subtraction_operator<stypedef_const_lvalue<T>, tag_type_just_for_pointer_tests*>>
+				  bool = has_subtraction_operator<stypedef_const_lvalue<T>, tag_type_just_for_pointer_tests*>,
+				  bool = stypedef_pure_ops<T>>
 		struct stypedef_pointer_arith_sub_right
 		{};
 
 		template <typename T>
-		struct stypedef_pointer_arith_sub_right<T, true>
+		struct stypedef_pointer_arith_sub_right<T, true, false> // impure
 		{
 			template <typename U>
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
+			friend constexpr decltype(auto) operator-(const T& lhs, U* rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() - static_cast<U*>(nullptr)))
+			{
+				return lhs.value - rhs;
+			}
+		};
+
+		template <typename T>
+		struct stypedef_pointer_arith_sub_right<T, true, true> // pure
+		{
+			template <typename U>
+			MUU_PURE_INLINE_GETTER
 			friend constexpr decltype(auto) operator-(const T& lhs, U* rhs) //
 				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() - static_cast<U*>(nullptr)))
 			{
@@ -339,12 +515,14 @@ namespace muu
 
 		//--- addable -------------------
 
-		template <typename T, bool = has_addition_operator<stypedef_const_lvalue<T>, stypedef_const_lvalue<T>>>
+		template <typename T,
+				  bool = has_addition_operator<stypedef_const_lvalue<T>, stypedef_const_lvalue<T>>,
+				  bool = stypedef_pure_ops<T>>
 		struct stypedef_binary_plus
 		{};
 
 		template <typename T>
-		struct stypedef_binary_plus<T, true>
+		struct stypedef_binary_plus<T, true, false> // impure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
@@ -355,15 +533,37 @@ namespace muu
 			}
 		};
 
-		template <typename T, bool = has_unary_plus_operator<stypedef_const_lvalue<T>>>
+		template <typename T>
+		struct stypedef_binary_plus<T, true, true> // pure
+		{
+			MUU_PURE_INLINE_GETTER
+			friend constexpr T operator+(const T& lhs, const T& rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() + std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return T{ lhs.value + rhs.value };
+			}
+		};
+
+		template <typename T, bool = has_unary_plus_operator<stypedef_const_lvalue<T>>, bool = stypedef_pure_ops<T>>
 		struct stypedef_unary_plus
 		{};
 
 		template <typename T>
-		struct stypedef_unary_plus<T, true>
+		struct stypedef_unary_plus<T, true, false> // impure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
+			friend constexpr T operator+(const T& lhs) //
+				noexcept(noexcept(+std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return T{ +lhs.value };
+			}
+		};
+
+		template <typename T>
+		struct stypedef_unary_plus<T, true, true> // pure
+		{
+			MUU_PURE_INLINE_GETTER
 			friend constexpr T operator+(const T& lhs) //
 				noexcept(noexcept(+std::declval<stypedef_const_lvalue<T>>()))
 			{
@@ -377,12 +577,14 @@ namespace muu
 
 		//--- subtractable -------------------
 
-		template <typename T, bool = has_subtraction_operator<stypedef_const_lvalue<T>, stypedef_const_lvalue<T>>>
+		template <typename T,
+				  bool = has_subtraction_operator<stypedef_const_lvalue<T>, stypedef_const_lvalue<T>>,
+				  bool = stypedef_pure_ops<T>>
 		struct stypedef_binary_minus
 		{};
 
 		template <typename T>
-		struct stypedef_binary_minus<T, true>
+		struct stypedef_binary_minus<T, true, false> // impure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
@@ -393,15 +595,37 @@ namespace muu
 			}
 		};
 
-		template <typename T, bool = has_unary_minus_operator<stypedef_const_lvalue<T>>>
+		template <typename T>
+		struct stypedef_binary_minus<T, true, true> // pure
+		{
+			MUU_PURE_INLINE_GETTER
+			friend constexpr T operator-(const T& lhs, const T& rhs) //
+				noexcept(noexcept(std::declval<stypedef_const_lvalue<T>>() - std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return T{ lhs.value - rhs.value };
+			}
+		};
+
+		template <typename T, bool = has_unary_minus_operator<stypedef_const_lvalue<T>>, bool = stypedef_pure_ops<T>>
 		struct stypedef_unary_minus
 		{};
 
 		template <typename T>
-		struct stypedef_unary_minus<T, true>
+		struct stypedef_unary_minus<T, true, false> // pure
 		{
 			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
+			friend constexpr T operator-(const T& lhs) //
+				noexcept(noexcept(-std::declval<stypedef_const_lvalue<T>>()))
+			{
+				return T{ -lhs.value };
+			}
+		};
+
+		template <typename T>
+		struct stypedef_unary_minus<T, true, true> // pure
+		{
+			MUU_PURE_INLINE_GETTER
 			friend constexpr T operator-(const T& lhs) //
 				noexcept(noexcept(-std::declval<stypedef_const_lvalue<T>>()))
 			{
