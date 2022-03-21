@@ -292,7 +292,7 @@ namespace muu
 		MUU_PURE_GETTER
 		constexpr scalar_type shortest_side() const noexcept
 		{
-			return obbs::longest_side(base::extents);
+			return obbs::shortest_side(base::extents);
 		}
 
 		/// \brief	Returns the length of the longest of the box's three sides.
