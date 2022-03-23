@@ -179,7 +179,7 @@ namespace muu
 		/// \param 	func	The callable to view/invoke.
 		template <typename U>
 		MUU_NODISCARD_CTOR
-		explicit constexpr function_view(U&& func) noexcept //
+		/* implicit */ constexpr function_view(U&& func) noexcept //
 			: base{ static_cast<U&&>(func) }
 		{}
 
