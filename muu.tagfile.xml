@@ -3746,38 +3746,38 @@
       <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga5dec4ffe8de81e035e5544470a2cf1ed</anchor>
+      <anchor>ga410a285aafea5eff602d2b95626b7b3d</anchor>
       <arglist>(std::string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga76335a665c97d34bc0412a84f977d58c</anchor>
+      <anchor>ga4b033339ba2cec62aba96a5ec7f3261c</anchor>
       <arglist>(std::wstring_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga3c14a4e4c56a73e95d3beee23a97ea27</anchor>
+      <anchor>gaf51112f9bc5c2f25bcdfe34f6b902e7e</anchor>
       <arglist>(std::u16string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac78370b750780a4e30154361eefab901</anchor>
+      <anchor>ga08c5dabffb22594f3b2589551b5875e4</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac657a849373a2eff5f7b5cac4ff16ff6</anchor>
+      <anchor>ga6de085cbec631f5bb8c79c432749185a</anchor>
       <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
   </compound>
@@ -16342,38 +16342,38 @@
       <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga5dec4ffe8de81e035e5544470a2cf1ed</anchor>
+      <anchor>ga410a285aafea5eff602d2b95626b7b3d</anchor>
       <arglist>(std::string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga76335a665c97d34bc0412a84f977d58c</anchor>
+      <anchor>ga4b033339ba2cec62aba96a5ec7f3261c</anchor>
       <arglist>(std::wstring_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga3c14a4e4c56a73e95d3beee23a97ea27</anchor>
+      <anchor>gaf51112f9bc5c2f25bcdfe34f6b902e7e</anchor>
       <arglist>(std::u16string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac78370b750780a4e30154361eefab901</anchor>
+      <anchor>ga08c5dabffb22594f3b2589551b5875e4</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac657a849373a2eff5f7b5cac4ff16ff6</anchor>
+      <anchor>ga6de085cbec631f5bb8c79c432749185a</anchor>
       <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
@@ -24913,38 +24913,38 @@
     <title>transcode()</title>
     <filename>group__transcode.html</filename>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga5dec4ffe8de81e035e5544470a2cf1ed</anchor>
+      <anchor>ga410a285aafea5eff602d2b95626b7b3d</anchor>
       <arglist>(std::string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga76335a665c97d34bc0412a84f977d58c</anchor>
+      <anchor>ga4b033339ba2cec62aba96a5ec7f3261c</anchor>
       <arglist>(std::wstring_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga3c14a4e4c56a73e95d3beee23a97ea27</anchor>
+      <anchor>gaf51112f9bc5c2f25bcdfe34f6b902e7e</anchor>
       <arglist>(std::u16string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac78370b750780a4e30154361eefab901</anchor>
+      <anchor>ga08c5dabffb22594f3b2589551b5875e4</anchor>
       <arglist>(std::u32string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>MUU_CONSTEXPR_STD_STRING std::basic_string&lt; Char &gt;</type>
+      <type>std::basic_string&lt; Char &gt;</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gac657a849373a2eff5f7b5cac4ff16ff6</anchor>
+      <anchor>ga6de085cbec631f5bb8c79c432749185a</anchor>
       <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
   </compound>
