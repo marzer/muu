@@ -308,7 +308,7 @@ namespace muu
 		};
 
 		template <typename T>
-		struct type_name_<T(&&)[]>
+		struct type_name_<T (&&)[]>
 		{
 			static constexpr auto value = type_name<T> + static_string{ "(&&)[]" };
 		};
@@ -397,7 +397,7 @@ namespace muu
 		};
 
 		template <typename T, size_t N>
-		struct type_name_<T(&&)[N]>
+		struct type_name_<T (&&)[N]>
 		{
 			static constexpr auto value = type_name<T> + static_string{ "(&&)[" } + type_name_int_to_str<N> + ']';
 		};

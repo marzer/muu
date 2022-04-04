@@ -91,11 +91,11 @@ namespace muu
 		/// \brief	Constructs a plane from a position and normal direction.
 		MUU_NODISCARD_CTOR
 		constexpr plane(const vector_type& position, const vector_type& direction) noexcept //
-			: base{ direction, -vector_type::dot(position, direction) }
+			: base{ direction, planes::d_term(position, direction) }
 		{}
 
 		/// \brief	Constructs a plane from a triangle.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr plane MUU_VECTORCALL from_triangle(MUU_VC_PARAM(vector_type) p0,
 															MUU_VC_PARAM(vector_type) p1,
 															MUU_VC_PARAM(vector_type) p2) noexcept
@@ -110,7 +110,7 @@ namespace muu
 		{}
 
 		/// \brief	Constructs a plane from a triangle.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr plane MUU_VECTORCALL from_triangle(MUU_VC_PARAM(triangle<scalar_type>) tri) noexcept;
 
 		/// \brief	Constructs a plane from a triangle.
@@ -311,14 +311,14 @@ namespace muu
 		}
 
 		/// \brief Returns true if a plane is normalized.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL normalized(MUU_VC_PARAM(plane) p) noexcept
 		{
 			return vector_type::normalized(p.n);
 		}
 
 		/// \brief Returns true if the plane is normalized.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool normalized() const noexcept
 		{
 			return vector_type::normalized(base::n);
@@ -332,7 +332,7 @@ namespace muu
 		/// @{
 
 		/// \brief	Returns the signed distance of a point from a plane.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL signed_distance(MUU_VC_PARAM(plane) p,
 																	MUU_VC_PARAM(vector_type) point) noexcept
 		{
@@ -340,14 +340,14 @@ namespace muu
 		}
 
 		/// \brief	Returns the signed distance of a point from the plane.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type MUU_VECTORCALL signed_distance(MUU_VC_PARAM(vector_type) point) const noexcept
 		{
 			return planes::signed_distance(base::n, base::d, point);
 		}
 
 		/// \brief	Returns the unsigned distance of a point from a plane.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(plane) p,
 															 MUU_VC_PARAM(vector_type) point) noexcept
 		{
@@ -355,14 +355,14 @@ namespace muu
 		}
 
 		/// \brief	Returns the unsigned distance of a point from the plane.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector_type) point) const noexcept
 		{
 			return planes::unsigned_distance(base::n, base::d, point);
 		}
 
 		/// \brief	Returns the projection of a point onto a plane.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL project(MUU_VC_PARAM(plane) p,
 															MUU_VC_PARAM(vector_type) point) noexcept
 		{
@@ -370,7 +370,7 @@ namespace muu
 		}
 
 		/// \brief	Returns the projection of a point onto the plane.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr vector_type MUU_VECTORCALL project(MUU_VC_PARAM(vector_type) point) const noexcept
 		{
 			return planes::project(base::n, base::d, point);
@@ -384,30 +384,36 @@ namespace muu
 		/// @{
 
 		/// \brief	Returns true if a plane contains a point.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(plane) p, MUU_VC_PARAM(vector_type) point) noexcept
 		{
 			return planes::contains_point(p.n, p.d, point);
 		}
 
 		/// \brief	Returns true if the plane contains a point.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(vector_type) point) const noexcept
 		{
 			return contains(*this, point);
 		}
 
+		/// \brief	Returns true if a plane intersects a line segment.
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(plane) p,
+														MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept;
+
+		/// \brief	Returns true if the plane intersects a line segment.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(line_segment<scalar_type>) seg) const noexcept;
+
 		/// \brief	Returns true if a plane intersects a bounding box.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(plane) p,
 														MUU_VC_PARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if the plane intersects a bounding box.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box<scalar_type>) bb) const noexcept
-		{
-			return intersects(*this, bb);
-		}
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box<scalar_type>) bb) const noexcept;
 
 			/// @}
 	#endif // intersection and containment
@@ -559,6 +565,7 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
 
 /// \cond
-#include "impl/plane_x_bounding_box.h"
+#include "impl/bounding_box_x_plane.h"
 #include "impl/plane_x_triangle.h"
+#include "impl/plane_x_line_segment.h"
 /// \endcond

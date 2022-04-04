@@ -23,6 +23,7 @@
 #include "hashing.h"
 #include "integer_range.h"
 #include "iterators.h"
+#include "line_segment.h"
 #include "math.h"
 #include "matrix.h"
 #include "meta.h"

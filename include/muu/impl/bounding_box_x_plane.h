@@ -12,32 +12,46 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 
 //----------------------------------------------------------------------------------------------------------------------
-// plane.h implementations
-//----------------------------------------------------------------------------------------------------------------------
-
-namespace muu
-{
-	template <typename Scalar>
-	MUU_PURE_GETTER
-	inline constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VC_PARAM(plane) p,
-																   MUU_VC_PARAM(bounding_box<Scalar>) bb) noexcept
-	{
-		return aabbs::intersects_plane(bb.center, bb.extents, p.n, p.d);
-	}
-}
-
-//----------------------------------------------------------------------------------------------------------------------
 // bounding_box.h implementations
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace muu
 {
 	template <typename Scalar>
-	MUU_PURE_GETTER
-	inline constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VC_PARAM(bounding_box) bb,
-																		  MUU_VC_PARAM(plane<Scalar>) p) noexcept
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VC_PARAM(bounding_box) bb,
+																   MUU_VC_PARAM(plane<Scalar>) p) noexcept
 	{
 		return aabbs::intersects_plane(bb.center, bb.extents, p.n, p.d);
+	}
+
+	template <typename Scalar>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VC_PARAM(plane<scalar_type>) p) const noexcept
+	{
+		return aabbs::intersects_plane(base::center, base::extents, p.n, p.d);
+	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// plane.h implementations
+//----------------------------------------------------------------------------------------------------------------------
+
+namespace muu
+{
+	template <typename Scalar>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VC_PARAM(plane) p,
+															MUU_VC_PARAM(bounding_box<Scalar>) bb) noexcept
+	{
+		return aabbs::intersects_plane(bb.center, bb.extents, p.n, p.d);
+	}
+
+	template <typename Scalar>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VC_PARAM(bounding_box<scalar_type>) bb) const noexcept
+	{
+		return aabbs::intersects_plane(bb.center, bb.extents, base::n, base::d);
 	}
 }
 

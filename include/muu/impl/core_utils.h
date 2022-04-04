@@ -429,7 +429,7 @@ namespace muu
 	MUU_NODISCARD
 	MUU_ALWAYS_INLINE
 	MUU_ATTR(flatten)
-	constexpr To pointer_cast(From(&&arr)[N]) noexcept
+	constexpr To pointer_cast(From (&&arr)[N]) noexcept
 	{
 		return pointer_cast<To, From*>(arr);
 	}

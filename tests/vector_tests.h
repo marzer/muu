@@ -110,14 +110,16 @@ namespace
 					CHECK(vec[i] == T{});
 			}
 
-			BATCHED_SECTION("pointer to scalars")
 			if constexpr (Dimensions == NUM)
 			{
-				auto vec = vector_t{ arr.data() };
-				for (size_t i = 0; i < NUM; i++)
-					CHECK(vec[i] == arr[i]);
-				for (size_t i = NUM; i < vector_t::dimensions; i++)
-					CHECK(vec[i] == T{});
+				BATCHED_SECTION("pointer to scalars")
+				{
+					auto vec = vector_t{ arr.data() };
+					for (size_t i = 0; i < NUM; i++)
+						CHECK(vec[i] == arr[i]);
+					for (size_t i = NUM; i < vector_t::dimensions; i++)
+						CHECK(vec[i] == T{});
+				}
 			}
 
 			BATCHED_SECTION("statically-sized span")

@@ -6,7 +6,7 @@
 /// \cond
 
 #include "../bounding_box.h"
-#include "../triangle.h"
+#include "../line_segment.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
@@ -20,50 +20,49 @@ namespace muu
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VC_PARAM(bounding_box) bb,
-																   MUU_VC_PARAM(triangle<Scalar>) tri) noexcept
+																   MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept
 	{
-		return aabbs::intersects_triangle(bb.center, bb.extents, tri.points[0], tri.points[1], tri.points[2]);
+		return aabbs::intersects_line_segment(bb.center, bb.extents, seg.points[0], seg.points[1]);
 	}
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(
-		MUU_VC_PARAM(triangle<scalar_type>) tri) const noexcept
+		MUU_VC_PARAM(line_segment<scalar_type>) seg) const noexcept
 	{
-		return aabbs::intersects_triangle(base::center, base::extents, tri.points[0], tri.points[1], tri.points[2]);
+		return aabbs::intersects_line_segment(base::center, base::extents, seg.points[0], seg.points[1]);
 	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
-// triangle.h implementations
+// line_segment.h implementations
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL triangle<Scalar>::intersects(MUU_VC_PARAM(vector_type) p0,
-															   MUU_VC_PARAM(vector_type) p1,
-															   MUU_VC_PARAM(vector_type) p2,
-															   MUU_VC_PARAM(bounding_box<scalar_type>) bb) noexcept
+	constexpr bool MUU_VECTORCALL line_segment<Scalar>::intersects(MUU_VC_PARAM(vector_type) p0,
+																   MUU_VC_PARAM(vector_type) p1,
+																   MUU_VC_PARAM(bounding_box<scalar_type>) bb) noexcept
 	{
-		return aabbs::intersects_triangle(bb.center, bb.extents, p0, p1, p2);
+		return aabbs::intersects_line_segment(bb.center, bb.extents, p0, p1);
 	}
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL triangle<Scalar>::intersects(MUU_VC_PARAM(triangle) tri,
-															   MUU_VC_PARAM(bounding_box<scalar_type>) bb) noexcept
+	constexpr bool MUU_VECTORCALL line_segment<Scalar>::intersects(MUU_VC_PARAM(line_segment) seg,
+																   MUU_VC_PARAM(bounding_box<scalar_type>) bb) noexcept
 	{
-		return aabbs::intersects_triangle(bb.center, bb.extents, tri.points[0], tri.points[1], tri.points[2]);
+		return aabbs::intersects_line_segment(bb.center, bb.extents, seg.points[0], seg.points[1]);
 	}
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL triangle<Scalar>::intersects(
+	constexpr bool MUU_VECTORCALL line_segment<Scalar>::intersects(
 		MUU_VC_PARAM(bounding_box<scalar_type>) bb) const noexcept
 	{
-		return aabbs::intersects_triangle(base::points[0], base::points[1], base::points[2], bb.center, bb.extents);
+		return aabbs::intersects_line_segment(bb.center, bb.extents, base::points[0], base::points[1]);
 	}
 }
 

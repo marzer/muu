@@ -17,7 +17,7 @@
 #include "impl/header_start.h"
 
 #if MUU_HAS_THREE_WAY_COMPARISON && defined(__cpp_nontype_template_args) && __cpp_nontype_template_args >= 201911      \
-	&& (!MUU_MSVC || MUU_MSVC > 1931)
+	&& (!MUU_MSVC || MUU_MSVC > 1932)
 	#define MUU_HAS_STATIC_STRING_LITERALS 1
 #else
 	#define MUU_HAS_STATIC_STRING_LITERALS 0

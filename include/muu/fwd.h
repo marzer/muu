@@ -284,6 +284,8 @@ namespace muu
 		template <typename>
 		struct plane_;
 		template <typename>
+		struct line_segment_;
+		template <typename>
 		struct triangle_;
 		template <typename>
 		struct bounding_sphere_;
@@ -304,6 +306,8 @@ namespace muu
 	struct matrix;
 	template <typename>
 	struct plane;
+	template <typename>
+	struct line_segment;
 	template <typename>
 	struct triangle;
 	template <typename>

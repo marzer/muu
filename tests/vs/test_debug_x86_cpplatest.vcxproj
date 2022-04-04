@@ -115,6 +115,10 @@
     <ClCompile Include="..\compressed_pair.cpp" />
     <ClCompile Include="..\bit.cpp" />
     <ClCompile Include="..\core_other.cpp" />
+    <ClCompile Include="..\line_segment_0.cpp" />
+    <ClCompile Include="..\line_segment_1.cpp" />
+    <ClCompile Include="..\line_segment_2.cpp" />
+    <ClCompile Include="..\line_segment_3.cpp" />
     <ClCompile Include="..\meta.cpp" />
     <ClCompile Include="..\function_view.cpp" />
     <ClCompile Include="..\half.cpp" />
@@ -191,6 +195,7 @@
     <ClInclude Include="..\bounding_box_tests.h" />
     <ClInclude Include="..\catch2.h" />
     <ClInclude Include="..\float_test_data.h" />
+    <ClInclude Include="..\line_segment_tests.h" />
     <ClInclude Include="..\packed_unit_vector_tests.h" />
     <ClInclude Include="..\infinity_or_nan_tests.h" />
     <ClInclude Include="..\matrix_tests.h" />

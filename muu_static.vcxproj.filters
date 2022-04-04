@@ -253,7 +253,7 @@
     <ClInclude Include="include\muu\impl\std_compare.h">
       <Filter>include\impl</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\plane_x_bounding_box.h">
+    <ClInclude Include="include\muu\impl\bounding_box_x_plane.h">
       <Filter>include\impl</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\triangle.h">
@@ -270,6 +270,15 @@
     </ClInclude>
     <ClInclude Include="include\muu\strong_typedef.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\line_segment.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\bounding_box_x_line_segment.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\plane_x_line_segment.h">
+      <Filter>include\impl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

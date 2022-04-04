@@ -176,6 +176,18 @@
     <ClCompile Include="..\triangle_3.cpp">
       <Filter>triangle</Filter>
     </ClCompile>
+    <ClCompile Include="..\line_segment_0.cpp">
+      <Filter>line_segment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\line_segment_1.cpp">
+      <Filter>line_segment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\line_segment_2.cpp">
+      <Filter>line_segment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\line_segment_3.cpp">
+      <Filter>line_segment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />
@@ -212,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="..\triangle_tests.h">
       <Filter>triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\line_segment_tests.h">
+      <Filter>line_segment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +268,9 @@
     </Filter>
     <Filter Include="triangle">
       <UniqueIdentifier>{3804ec94-91fe-4a76-be9d-483c76fad019}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="line_segment">
+      <UniqueIdentifier>{999a25f1-1bd9-4084-817e-ff154b94d2c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

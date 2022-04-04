@@ -85,6 +85,7 @@
     <ClInclude Include="include\muu\bounding_box.h" />
     <ClInclude Include="include\muu\chars.h" />
     <ClInclude Include="include\muu\compressed_pair.h" />
+    <ClInclude Include="include\muu\impl\bounding_box_x_line_segment.h" />
     <ClInclude Include="include\muu\impl\bounding_box_x_oriented_bounding_box.h" />
     <ClInclude Include="include\muu\impl\bounding_box_x_triangle.h" />
     <ClInclude Include="include\muu\impl\core_build.h" />
@@ -105,7 +106,8 @@
     <ClInclude Include="include\muu\impl\header_start.h" />
     <ClInclude Include="include\muu\impl\is_constant_evaluated.h" />
     <ClInclude Include="include\muu\impl\matrix_base.h" />
-    <ClInclude Include="include\muu\impl\plane_x_bounding_box.h" />
+    <ClInclude Include="include\muu\impl\bounding_box_x_plane.h" />
+    <ClInclude Include="include\muu\impl\plane_x_line_segment.h" />
     <ClInclude Include="include\muu\impl\plane_x_triangle.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
     <ClInclude Include="include\muu\impl\quaternion_x_matrix.h" />
@@ -134,6 +136,7 @@
     <ClInclude Include="include\muu\impl\unicode_unsigned_char.h" />
     <ClInclude Include="include\muu\impl\unicode_wchar_t.h" />
     <ClInclude Include="include\muu\iterators.h" />
+    <ClInclude Include="include\muu\line_segment.h" />
     <ClInclude Include="include\muu\math.h" />
     <ClInclude Include="include\muu\matrix.h" />
     <ClInclude Include="include\muu\meta.h" />

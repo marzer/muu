@@ -278,98 +278,98 @@ namespace muu
 		/// @{
 
 		/// \brief	Returns the width of the box (x-axis).
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type width() const noexcept
 		{
 			return aabbs::width(base::extents);
 		}
 
 		/// \brief	Returns the height of the box (y-axis).
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type height() const noexcept
 		{
 			return aabbs::height(base::extents);
 		}
 
 		/// \brief	Returns the depth of the box (z-axis).
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type depth() const noexcept
 		{
 			return aabbs::depth(base::extents);
 		}
 
 		/// \brief	Calculates the length of the line connecting the min and max points.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type diagonal() const noexcept
 		{
 			return aabbs::diagonal(base::extents);
 		}
 
 		/// \brief	Returns the shortest of the box's three extents.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type& shortest_extent() noexcept
 		{
 			return aabbs::shortest_extent(base::extents);
 		}
 
 		/// \brief	Returns the longest of the box's three extents.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type& longest_extent() noexcept
 		{
 			return aabbs::longest_extent(base::extents);
 		}
 
 		/// \brief	Returns the shortest of the box's three extents (const overload).
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr const scalar_type& shortest_extent() const noexcept
 		{
 			return aabbs::shortest_extent(base::extents);
 		}
 
 		/// \brief	Returns the longest of the box's three extents (const overload).
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr const scalar_type& longest_extent() const noexcept
 		{
 			return aabbs::longest_extent(base::extents);
 		}
 
 		/// \brief	Returns the length of the shortest of the box's three sides.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type shortest_side() const noexcept
 		{
 			return aabbs::shortest_side(base::extents);
 		}
 
 		/// \brief	Returns the length of the longest of the box's three sides.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type longest_side() const noexcept
 		{
 			return aabbs::longest_side(base::extents);
 		}
 
 		/// \brief	Calculates the volume of this bounding box.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type volume() const noexcept
 		{
 			return aabbs::volume(base::extents);
 		}
 
 		/// \brief	Calculates the mass of this box if it had a given density.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type MUU_VECTORCALL mass(scalar_type density) const noexcept
 		{
 			return aabbs::mass(base::extents, density);
 		}
 
 		/// \brief	Calculates the density of this box if it had a given mass.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type MUU_VECTORCALL density(scalar_type mass) const noexcept
 		{
 			return aabbs::density(base::extents, mass);
 		}
 
 		/// \brief	Returns true if the box is degenerate (i.e. any of its extents are less than or equal to zero).
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool degenerate() const noexcept
 		{
 			return aabbs::degenerate(base::extents);
@@ -420,7 +420,7 @@ namespace muu
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool zero() const noexcept
 		{
 			return zero(*this);
@@ -430,7 +430,7 @@ namespace muu
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_empty() if you want an epsilon-based "near-enough" check.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL empty(MUU_VC_PARAM(bounding_box) bb) noexcept
 		{
 			return vector_type::zero(bb.extents);
@@ -440,7 +440,7 @@ namespace muu
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_empty() if you want an epsilon-based "near-enough" check.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool empty() const noexcept
 		{
 			return vector_type::zero(base::extents);
@@ -454,7 +454,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if any of the scalar components of the bounding box are infinity or NaN.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool infinity_or_nan() const noexcept
 		{
 			return infinity_or_nan(*this);
@@ -481,7 +481,7 @@ namespace muu
 
 		/// \brief	Returns true if the bounding box is approximately equal to another.
 		template <typename T>
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL approx_equal(
 			const bounding_box<T>& bb,
 			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
@@ -498,14 +498,14 @@ namespace muu
 		}
 
 		/// \brief	Returns true if all the scalar components in the bounding box are approximately equal to zero.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
 			return approx_zero(*this, epsilon);
 		}
 
 		/// \brief	Returns true if a bounding box has approximately zero volume.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_empty(MUU_VC_PARAM(bounding_box) bb,
 														  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
@@ -513,7 +513,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if the bounding box has approximately zero volume.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL approx_empty(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
 			return vector_type::approx_zero(base::extents, epsilon);
@@ -528,7 +528,7 @@ namespace muu
 
 		/// \brief	Returns a specific corner of a bounding box.
 		template <box_corners Corner>
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(bounding_box) bb) noexcept
 		{
 			return aabbs::template corner<Corner>(bb.center, bb.extents);
@@ -536,49 +536,49 @@ namespace muu
 
 		/// \brief	Returns a specific corner of the bounding box.
 		template <box_corners Corner>
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr vector_type corner() const noexcept
 		{
 			return aabbs::template corner<Corner>(base::center, base::extents);
 		}
 
 		/// \brief	Returns a specific corner of a bounding box.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(bounding_box) bb, box_corners which) noexcept
 		{
 			return aabbs::corner(bb.center, bb.extents, which);
 		}
 
 		/// \brief	Returns a specific corner of the bounding box.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr vector_type corner(box_corners which) const noexcept
 		{
 			return aabbs::corner(base::center, base::extents, which);
 		}
 
 		/// \brief	Returns the 'min' corner of a bounding box.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL min_corner(MUU_VC_PARAM(bounding_box) bb) noexcept
 		{
 			return aabbs::template corner<box_corners::min>(bb.center, bb.extents);
 		}
 
 		/// \brief	Returns the 'min' corner of the bounding box.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr vector_type min_corner() const noexcept
 		{
 			return aabbs::template corner<box_corners::min>(base::center, base::extents);
 		}
 
 		/// \brief	Returns the 'max' corner of a bounding box.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL max_corner(MUU_VC_PARAM(bounding_box) bb) noexcept
 		{
 			return aabbs::template corner<box_corners::max>(bb.center, bb.extents);
 		}
 
 		/// \brief	Returns the 'max' corner of the bounding box.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr vector_type max_corner() const noexcept
 		{
 			return aabbs::template corner<box_corners::max>(base::center, base::extents);
@@ -686,7 +686,7 @@ namespace muu
 		/// @{
 
 		/// \brief	Returns true if a bounding box contains a point.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(bounding_box) bb,
 													  MUU_VC_PARAM(vector_type) point) noexcept
 		{
@@ -694,14 +694,14 @@ namespace muu
 		}
 
 		/// \brief	Returns true if the bounding box contains a point.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(vector_type) point) const noexcept
 		{
 			return contains(*this, point);
 		}
 
 		/// \brief	Returns true if two bounding boxes intersect.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb1,
 														MUU_VC_PARAM(bounding_box) bb2) noexcept
 		{
@@ -709,54 +709,38 @@ namespace muu
 		}
 
 		/// \brief	Returns true if two bounding boxes intersect.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb) const noexcept
 		{
 			return intersects(*this, bb);
 		}
 
 		/// \brief	Returns true if a bounding box intersects a plane.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb,
 														MUU_VC_PARAM(plane<scalar_type>) p) noexcept;
 
 		/// \brief	Returns true if the bounding box intersects a plane.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(plane<scalar_type>) p) const noexcept
-		{
-			return intersects(*this, p);
-		}
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(plane<scalar_type>) p) const noexcept;
 
 		/// \brief	Returns true if a bounding box intersects a triangle.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb,
 														MUU_VC_PARAM(triangle<scalar_type>) tri) noexcept;
 
 		/// \brief	Returns true if the bounding box intersects a triangle.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(triangle<scalar_type>) tri) const noexcept
-		{
-			return intersects(*this, tri);
-		}
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(triangle<scalar_type>) tri) const noexcept;
 
-		/// \cond
+		/// \brief	Returns true if a bounding box intersects a line segment.
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb,
+														MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept;
 
-		[[deprecated]] static constexpr bool MUU_VECTORCALL intersects_triangle(MUU_VC_PARAM(bounding_box) bb,
-																				MUU_VC_PARAM(vector_type) p0,
-																				MUU_VC_PARAM(vector_type) p1,
-																				MUU_VC_PARAM(vector_type) p2) noexcept
-		{
-			return aabbs::intersects_triangle(bb.center, bb.extents, p0, p1, p2);
-		}
-
-		[[deprecated]] constexpr bool MUU_VECTORCALL intersects_triangle(MUU_VC_PARAM(vector_type) p0,
-																		 MUU_VC_PARAM(vector_type) p1,
-																		 MUU_VC_PARAM(vector_type) p2) const noexcept
-		{
-			return intersects_triangle(*this, p0, p1, p2);
-		}
-
-			/// \endcond
+		/// \brief	Returns true if the bounding box intersects a line segment.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(line_segment<scalar_type>) seg) const noexcept;
 
 			/// @}
 	#endif // intersection and containment
@@ -887,5 +871,6 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 /// \cond
 #include "impl/bounding_box_x_oriented_bounding_box.h"
 #include "impl/bounding_box_x_triangle.h"
-#include "impl/plane_x_bounding_box.h"
+#include "impl/bounding_box_x_line_segment.h"
+#include "impl/bounding_box_x_plane.h"
 /// \endcond

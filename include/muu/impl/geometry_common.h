@@ -38,39 +38,13 @@ namespace muu
 
 namespace muu::impl
 {
+	// ---- plane -----------------------------------
+
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI plane_
 	{
 		vector<Scalar, 3> n;
 		Scalar d;
-	};
-
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI triangle_
-	{
-		vector<Scalar, 3> points[3];
-	};
-
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI bounding_sphere_
-	{
-		vector<Scalar, 3> center;
-		Scalar radius;
-	};
-
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI bounding_box_
-	{
-		vector<Scalar, 3> center;
-		vector<Scalar, 3> extents;
-	};
-
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI oriented_bounding_box_
-	{
-		vector<Scalar, 3> center;
-		vector<Scalar, 3> extents;
-		matrix<Scalar, 3, 3> axes;
 	};
 
 	template <typename Scalar>
@@ -85,6 +59,36 @@ namespace muu::impl
 		using type = std::conditional_t<pass_vectorcall_by_value<plane_<Scalar>>, plane<Scalar>, const plane<Scalar>&>;
 	};
 
+	// ---- line_segment -----------------------------------
+
+	template <typename Scalar>
+	struct MUU_TRIVIAL_ABI line_segment_
+	{
+		vector<Scalar, 3> points[2];
+	};
+
+	template <typename Scalar>
+	inline constexpr bool is_hva<line_segment_<Scalar>> = can_be_hva_of<Scalar, line_segment_<Scalar>>;
+
+	template <typename Scalar>
+	inline constexpr bool is_hva<line_segment<Scalar>> = is_hva<line_segment_<Scalar>>;
+
+	template <typename Scalar>
+	struct vectorcall_param_<line_segment<Scalar>>
+	{
+		using type = std::conditional_t<pass_vectorcall_by_value<line_segment_<Scalar>>,
+										line_segment<Scalar>,
+										const line_segment<Scalar>&>;
+	};
+
+	// ---- triangle -----------------------------------
+
+	template <typename Scalar>
+	struct MUU_TRIVIAL_ABI triangle_
+	{
+		vector<Scalar, 3> points[3];
+	};
+
 	template <typename Scalar>
 	inline constexpr bool is_hva<triangle_<Scalar>> = can_be_hva_of<Scalar, triangle_<Scalar>>;
 
@@ -96,6 +100,15 @@ namespace muu::impl
 	{
 		using type =
 			std::conditional_t<pass_vectorcall_by_value<triangle_<Scalar>>, triangle<Scalar>, const triangle<Scalar>&>;
+	};
+
+	// ---- bounding_sphere -----------------------------------
+
+	template <typename Scalar>
+	struct MUU_TRIVIAL_ABI bounding_sphere_
+	{
+		vector<Scalar, 3> center;
+		Scalar radius;
 	};
 
 	template <typename Scalar>
@@ -112,6 +125,15 @@ namespace muu::impl
 										const bounding_sphere<Scalar>&>;
 	};
 
+	// ---- bounding_box -----------------------------------
+
+	template <typename Scalar>
+	struct MUU_TRIVIAL_ABI bounding_box_
+	{
+		vector<Scalar, 3> center;
+		vector<Scalar, 3> extents;
+	};
+
 	template <typename Scalar>
 	inline constexpr bool is_hva<bounding_box_<Scalar>> = can_be_hva_of<Scalar, bounding_box_<Scalar>>;
 
@@ -124,6 +146,16 @@ namespace muu::impl
 		using type = std::conditional_t<pass_vectorcall_by_value<bounding_box_<Scalar>>,
 										bounding_box<Scalar>,
 										const bounding_box<Scalar>&>;
+	};
+
+	// ---- oriented_bounding_box -----------------------------------
+
+	template <typename Scalar>
+	struct MUU_TRIVIAL_ABI oriented_bounding_box_
+	{
+		vector<Scalar, 3> center;
+		vector<Scalar, 3> extents;
+		matrix<Scalar, 3, 3> axes;
 	};
 
 	template <typename Scalar>
@@ -140,6 +172,8 @@ namespace muu::impl
 										oriented_bounding_box<Scalar>,
 										const oriented_bounding_box<Scalar>&>;
 	};
+
+	// ---- separating-axis tester -----------------------------------
 
 	template <typename Scalar>
 	struct sat_tester
@@ -184,6 +218,83 @@ namespace muu::impl
 		}
 	};
 
+	// ---- base/helper types -----------------------------------
+
+	template <typename Scalar>
+	struct lines_common
+	{
+		using scalar_type  = Scalar;
+		using vector_type  = vector<scalar_type, 3>;
+		using vector_param = vectorcall_param<vector_type>;
+
+		MUU_PURE_INLINE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL project_distance(vector_param line_origin,
+																	 vector_param line_dir,
+																	 vector_param point) noexcept
+		{
+			return vector_type::dot(point - line_origin, line_dir);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL project(vector_param line_origin,
+															vector_param line_dir,
+															vector_param point) noexcept
+		{
+			return line_origin + line_dir * project_distance(line_origin, line_dir, point);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL distance_squared(vector_param line_origin,
+																	 vector_param line_dir,
+																	 vector_param point) noexcept
+		{
+			return vector_type::distance_squared(point, project(line_origin, line_dir, point));
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains_point(vector_param line_origin,
+															vector_param line_dir,
+															vector_param point) noexcept
+		{
+			return muu::approx_zero(distance_squared(line_origin, line_dir, point));
+		}
+	};
+
+	template <typename Scalar>
+	struct line_segments_common
+	{
+		using scalar_type  = Scalar;
+		using vector_type  = vector<scalar_type, 3>;
+		using vector_param = vectorcall_param<vector_type>;
+		using lines		   = lines_common<Scalar>;
+
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL nearest_point(vector_param seg0, // aka clamped_project()
+																  vector_param seg1,
+																  vector_param point) noexcept
+		{
+			scalar_type seg_len{};
+			const auto seg_dir = vector_type::direction(seg0, seg1, seg_len);
+			return seg0 + seg_dir * muu::clamp(lines::project_distance(seg0, seg_dir, point), scalar_type{}, seg_len);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL distance_squared(vector_param seg0,
+																	 vector_param seg1,
+																	 vector_param point) noexcept
+		{
+			return vector_type::distance_squared(point, nearest_point(seg0, seg1, point));
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains_point(vector_param seg0,
+															vector_param seg1,
+															vector_param point) noexcept
+		{
+			return muu::approx_zero(distance_squared(seg0, seg1, point));
+		}
+	};
+
 	template <typename Scalar>
 	struct planes_common
 	{
@@ -191,7 +302,13 @@ namespace muu::impl
 		using vector_type  = vector<scalar_type, 3>;
 		using vector_param = vectorcall_param<vector_type>;
 
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL d_term(vector_param pos, vector_param dir) noexcept
+		{
+			return -vector_type::dot(pos, dir);
+		}
+
+		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL signed_distance(vector_param normal,
 																	scalar_type d,
 																	vector_param point) noexcept

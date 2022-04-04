@@ -36,6 +36,7 @@ MUU_ENABLE_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(warning(disable : 26110)) // core guidelines: Caller failing to hold lock (false-positive)
 MUU_PRAGMA_MSVC(warning(disable : 26495)) // core guidelines: uninitialized member
+MUU_PRAGMA_MSVC(warning(disable : 4305))  // truncation from size_t to bool (false-positive)
 
 using namespace std::chrono_literals;
 using namespace std::string_literals;

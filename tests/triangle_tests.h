@@ -72,6 +72,7 @@ BATCHED_TEST_CASE("triangle constructors", tested_triangles)
 	static_assert(std::is_trivially_move_assignable_v<triangle>);
 	static_assert(std::is_trivially_destructible_v<triangle>);
 	static_assert(std::is_nothrow_constructible_v<triangle, vec3, vec3, vec3>);
+	static_assert(std::is_nothrow_constructible_v<triangle, const vec3(&)[3]>);
 	static_assert(std::is_nothrow_constructible_v<triangle, T, T, T, T, T, T, T, T, T>);
 
 	BATCHED_SECTION("zero-initialization")
@@ -91,6 +92,18 @@ BATCHED_TEST_CASE("triangle constructors", tested_triangles)
 		CHECK(tri[0] == p0);
 		CHECK(tri[1] == p1);
 		CHECK(tri[2] == p2);
+	}
+
+	BATCHED_SECTION("array constructor")
+	{
+		const vec3 points[3] = { vec3{ random_array<T, 3>() },
+								 vec3{ random_array<T, 3>() },
+								 vec3{ random_array<T, 3>() } };
+		const auto tri		 = triangle{ points };
+		TEST_INFO("tri: "sv << tri);
+		CHECK(tri[0] == points[0]);
+		CHECK(tri[1] == points[1]);
+		CHECK(tri[2] == points[2]);
 	}
 
 	BATCHED_SECTION("copy constructor")

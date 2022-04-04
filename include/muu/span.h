@@ -518,7 +518,7 @@ namespace muu
 	template <typename T, size_t N>
 	span(T (&)[N]) -> span<T, N>;
 	template <typename T, size_t N>
-	span(T(&&)[N]) -> span<T, N>;
+	span(T (&&)[N]) -> span<T, N>;
 	template <typename T, size_t N>
 	span(std::array<T, N>&) -> span<T, N>;
 	template <typename T, size_t N>

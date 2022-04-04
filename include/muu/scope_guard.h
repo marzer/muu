@@ -81,7 +81,7 @@ namespace muu
 
 			scope_guard_move& operator=(scope_guard_move&& rhs) noexcept(std::is_nothrow_move_assignable_v<base>)
 			{
-				base::operator					 =(static_cast<base&&>(rhs));
+				base::operator=(static_cast<base&&>(rhs));
 				rhs.func_and_dismissed_.second() = true;
 				return *this;
 			}
