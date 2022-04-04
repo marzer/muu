@@ -27,6 +27,7 @@
     <includes id="hashing_8h" name="hashing.h" local="yes" imported="no">hashing.h</includes>
     <includes id="integer__range_8h" name="integer_range.h" local="yes" imported="no">integer_range.h</includes>
     <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
+    <includes id="line__segment_8h" name="line_segment.h" local="yes" imported="no">line_segment.h</includes>
     <includes id="math_8h" name="math.h" local="yes" imported="no">math.h</includes>
     <includes id="matrix_8h" name="matrix.h" local="yes" imported="no">matrix.h</includes>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
@@ -557,6 +558,15 @@
       <anchor>ga005a07ba4450155afd1ef02e317a9d9b</anchor>
       <arglist>(B begin, E end) noexcept</arglist>
     </member>
+  </compound>
+  <compound kind="file">
+    <name>line_segment.h</name>
+    <path>/root/project/include/muu/</path>
+    <filename>line__segment_8h.html</filename>
+    <class kind="struct">muu::line_segment</class>
+    <class kind="struct">std::tuple_size&lt; muu::line_segment&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">std::tuple_element&lt; P, muu::line_segment&lt; Scalar &gt; &gt;</class>
+    <namespace>muu</namespace>
   </compound>
   <compound kind="file">
     <name>math.h</name>
@@ -5153,6 +5163,13 @@
       <anchor>ad32e8d2c31361c262ad9fec27d4a5f12</anchor>
       <arglist>(const triangle&lt; scalar_type &gt; &amp;tri) const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>afed6c15c4df6806f09770073ed1bb487</anchor>
+      <arglist>(const line_segment&lt; scalar_type &gt; &amp;seg) const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>contains</name>
@@ -5180,6 +5197,13 @@
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a53aaa74149026b6c347d182d232c33d2</anchor>
       <arglist>(const bounding_box &amp;bb, const triangle&lt; scalar_type &gt; &amp;tri) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a7ce5ba519ae3bed600f07ba1cd2fbb95</anchor>
+      <arglist>(const bounding_box &amp;bb, const line_segment&lt; scalar_type &gt; &amp;seg) noexcept</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -6795,6 +6819,627 @@
       <anchorfile>structmuu_1_1integer__range.html</anchorfile>
       <anchor>adcbe271add3d3d69f107ac124811a1a7</anchor>
       <arglist>(const integer_range &amp;range) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>muu::line_segment</name>
+    <filename>structmuu_1_1line__segment.html</filename>
+    <templarg>typename Scalar</templarg>
+    <member kind="typedef">
+      <type>Scalar</type>
+      <name>scalar_type</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ac0b55997c99143b722bbc3e4f9ba9f5d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>vector&lt; scalar_type, 3 &gt;</type>
+      <name>vector_type</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a80b86b159e42a6335287f4ff583486b8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::constants&lt; line_segment &gt;</type>
+      <name>constants</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a26c4417a7cb099c4cfc8d5a8ce6bc163</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>vector_type *</type>
+      <name>iterator</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>adf8ec88e83a94706a0140a810aa83c6f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>const vector_type *</type>
+      <name>const_iterator</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a1927992db4fc09eefcd39b567b3a99da</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>line_segment</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aab7c54ac4048f2ede0c620c79234fe88</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>line_segment</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ac45f0e47103f4d7177bd92a30231311b</anchor>
+      <arglist>(const line_segment &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr line_segment &amp;</type>
+      <name>operator=</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>af3ac58c9e569ae862b3a792a7b99dc2c</anchor>
+      <arglist>(const line_segment &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>line_segment</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ac6eaf729afc0d6da17069fe01396c9e5</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>line_segment</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>af6c95b0cc1d6d4be59499a56b7d852ce</anchor>
+      <arglist>(const vector_type(&amp;points)[2]) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>line_segment</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aba6b50d93efbcbf3f8a433e1ca5fcb5d</anchor>
+      <arglist>(scalar_type p0_x, scalar_type p0_y, scalar_type p0_z, scalar_type p1_x, scalar_type p1_y, scalar_type p1_z) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>line_segment</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a26521510fcd3bff3a1529e6376cb1f02</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>line_segment</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>af2771c5118f6a44c5d4663e65e0cdbdc</anchor>
+      <arglist>(const T &amp;blittable) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type &amp;</type>
+      <name>get</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a9f23d13abc8711f38c4e1f2846db5fd5</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const vector_type &amp;</type>
+      <name>get</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a85575bff56bf1a4b50a3a968cf5a1ad8</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type &amp;</type>
+      <name>operator[]</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aa1cfb69d1487748a905ed55781cddf87</anchor>
+      <arglist>(size_t p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const vector_type &amp;</type>
+      <name>operator[]</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aa045504ef62427faa0b1a50263dafdd3</anchor>
+      <arglist>(size_t p) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a236113cca24c7d1f4d735dee0f53635b</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a22ca62f28b9de1426132251cd2d0aac6</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ad318f02fb1d1961996426099534c6a15</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aac13a05ddbc6188af378951594906bc6</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a16c3541e8b76b22213bac7325fbc10f5</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a17e15ac6c3d42a6e4f52c971ffef9e60</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>abab1072bf6117744227b717b3cc85ce0</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a49ae7fbd53bd6ef443521ac0a344c45f</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="variable">
+      <type>vector_type</type>
+      <name>points</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a2156330bc7c31a1fbbd4984b779c24cf</anchor>
+      <arglist>[2]</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
+      <name>operator&lt;&lt;</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>af0dbe18d87aa08d0193466ba384828d8</anchor>
+      <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const line_segment &amp;seg)</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aa8300fa061ba07aa720c23c2b7c930c6</anchor>
+      <arglist>(line_segment &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a9b8847db1eab17efc3fc7d65031895b2</anchor>
+      <arglist>(line_segment &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a26918eb6e2561a9cdc90a96461ff417c</anchor>
+      <arglist>(const line_segment &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ac82e233c6d3a5e39184f790797bb99a2</anchor>
+      <arglist>(const line_segment &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aa34e1e4fc00d1685fce84ff7191698be</anchor>
+      <arglist>(const line_segment &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a36dc3de74ba10e5d62a2f52fe39301fc</anchor>
+      <arglist>(const line_segment &amp;v) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type &amp;</type>
+      <name>get</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a9f23d13abc8711f38c4e1f2846db5fd5</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const vector_type &amp;</type>
+      <name>get</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a85575bff56bf1a4b50a3a968cf5a1ad8</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type &amp;</type>
+      <name>operator[]</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aa1cfb69d1487748a905ed55781cddf87</anchor>
+      <arglist>(size_t p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const vector_type &amp;</type>
+      <name>operator[]</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aa045504ef62427faa0b1a50263dafdd3</anchor>
+      <arglist>(size_t p) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a236113cca24c7d1f4d735dee0f53635b</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const scalar_type *</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a22ca62f28b9de1426132251cd2d0aac6</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>direction</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a0119355a5234186d377e56d9da7f0065</anchor>
+      <arglist>(scalar_type &amp;length_out) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>direction</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a8c5e3fb8ef958798b91bb47f0ea1eb1d</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>midpoint</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a9419eb973d274819f1af82858832553e</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>length_squared</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a63db9af5c343e923d51e11df2e97dd4f</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr scalar_type</type>
+      <name>length</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a32c22db30d44b3ad0dd6b7663d754135</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a2293e254b7a4c9e841dcef108c274ca5</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>direction</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a120308bcb2e629a65759f0c080e3f560</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, scalar_type &amp;length_out) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>direction</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a791d522aacf2ce2d044cda5ba42464a0</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>midpoint</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ae488a17b5e5cbec7e6f9a55f1cfdbbae</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr scalar_type</type>
+      <name>length_squared</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aa353b5d6731db8c91581b9b59f159aa3</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr scalar_type</type>
+      <name>length</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a32da956bf703886a1edbba0b6d8ad5fb</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aad6a85beb30d4f105430803680893105</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>afd7da2af5abf2abcc04e1c8896f1f038</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a57b0cb28fbdab9ae1ef095919c9d1647</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a78b7742abe2c6e2f9f61367668630b23</anchor>
+      <arglist>(const line_segment &amp;seg) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a3658396761ffd2fb51652e7f026b654f</anchor>
+      <arglist>(const line_segment &amp;seg) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ad488efb18123198f7f0684a23da880fd</anchor>
+      <arglist>(const line_segment &amp;lhs, const line_segment&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a2c5d54d42db6135d41d732f1a4fca9ff</anchor>
+      <arglist>(const line_segment &amp;lhs, const line_segment&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>af82499d51c74452b53f94b727bdd1824</anchor>
+      <arglist>(const line_segment&lt; T &gt; &amp;seg, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>acd8d0eb4a6fff4438027e674b42b3542</anchor>
+      <arglist>(scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ad1c8ad5ecf9b298ba0f15a052078b925</anchor>
+      <arglist>(const line_segment &amp;seg1, const line_segment&lt; T &gt; &amp;seg2, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>afc321c5898d8d4cdcdcfcf2ed183ecd4</anchor>
+      <arglist>(const line_segment &amp;seg, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>colinear</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ae469021ff1f58f496bf64770f733e02c</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a2ab9c728b6da26f35b30deb9c9576a97</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>coplanar</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a5600811621ae527a84706789ec9032ca</anchor>
+      <arglist>(const line_segment &amp;seg) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a2699867786d45f90b8a559a5ace80216</anchor>
+      <arglist>(const bounding_box&lt; scalar_type &gt; &amp;bb) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a3cc873954b4e12f43cee793d33b8a6fd</anchor>
+      <arglist>(const plane&lt; scalar_type &gt; &amp;p) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>colinear</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a9cfa951653d051e9466d707c313b6581</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>colinear</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a38e1915a867390d9d4e06daeca01a39d</anchor>
+      <arglist>(const line_segment &amp;seg, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aeea24b5e4a7adef63c6ebdda9a7e7b9e</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ad5422045e8f9686039e45fd521c7bdf0</anchor>
+      <arglist>(const line_segment &amp;seg, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>coplanar</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ae4f47703e012ded06e3f7561a90b7c1a</anchor>
+      <arglist>(const vector_type &amp;a0, const vector_type &amp;a1, const vector_type &amp;b0, const vector_type &amp;b1) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>coplanar</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a4d74cc1f64459f2b60782fbfcb0bea70</anchor>
+      <arglist>(const line_segment &amp;seg1, const line_segment &amp;seg2) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>acaaef13d7795285afed3eb72851b414f</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const bounding_box&lt; scalar_type &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a4d442030860090f4479d36450a3a8a86</anchor>
+      <arglist>(const line_segment &amp;seg, const bounding_box&lt; scalar_type &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a81232e30e1e5c07aeff2360727c12b7d</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const plane&lt; scalar_type &gt; &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a07c1a3ae275e14c6381e3f3e5a732307</anchor>
+      <arglist>(const line_segment &amp;seg, const plane&lt; scalar_type &gt; &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ad318f02fb1d1961996426099534c6a15</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aac13a05ddbc6188af378951594906bc6</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a16c3541e8b76b22213bac7325fbc10f5</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a17e15ac6c3d42a6e4f52c971ffef9e60</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>abab1072bf6117744227b717b3cc85ce0</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a49ae7fbd53bd6ef443521ac0a344c45f</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aa8300fa061ba07aa720c23c2b7c930c6</anchor>
+      <arglist>(line_segment &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a9b8847db1eab17efc3fc7d65031895b2</anchor>
+      <arglist>(line_segment &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a26918eb6e2561a9cdc90a96461ff417c</anchor>
+      <arglist>(const line_segment &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>ac82e233c6d3a5e39184f790797bb99a2</anchor>
+      <arglist>(const line_segment &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>aa34e1e4fc00d1685fce84ff7191698be</anchor>
+      <arglist>(const line_segment &amp;v) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>constexpr friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a36dc3de74ba10e5d62a2f52fe39301fc</anchor>
+      <arglist>(const line_segment &amp;v) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -8990,6 +9635,13 @@
       <type>constexpr bool</type>
       <name>intersects</name>
       <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a4030a437b43210003cd9e6b7a5bf0746</anchor>
+      <arglist>(const line_segment&lt; scalar_type &gt; &amp;seg) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
       <anchor>a1d71a75ce5543a0a4a5abc8d258c1ef9</anchor>
       <arglist>(const bounding_box&lt; scalar_type &gt; &amp;bb) const noexcept</arglist>
     </member>
@@ -8999,6 +9651,13 @@
       <anchorfile>structmuu_1_1plane.html</anchorfile>
       <anchor>a7317470da577b714f161efd8b77538de</anchor>
       <arglist>(const plane &amp;p, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>ae8557edd5d516b5ef10cc79f8954b82b</anchor>
+      <arglist>(const plane &amp;p, const line_segment&lt; scalar_type &gt; &amp;seg) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
@@ -12686,6 +13345,12 @@
     <templarg>template&lt; typename &gt; typename... Traits</templarg>
   </compound>
   <compound kind="struct">
+    <name>std::tuple_element&lt; P, muu::line_segment&lt; Scalar &gt; &gt;</name>
+    <filename>structstd_1_1tuple__element_3_01_p_00_01muu_1_1line__segment_3_01_scalar_01_4_01_4.html</filename>
+    <templarg>size_t P</templarg>
+    <templarg>typename Scalar</templarg>
+  </compound>
+  <compound kind="struct">
     <name>std::tuple_element&lt; P, muu::triangle&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__element_3_01_p_00_01muu_1_1triangle_3_01_scalar_01_4_01_4.html</filename>
     <templarg>size_t P</templarg>
@@ -12701,6 +13366,11 @@
     <filename>structstd_1_1tuple__size_3_01muu_1_1compressed__pair_3_01_first_00_01_second_01_4_01_4.html</filename>
     <templarg>typename First</templarg>
     <templarg>typename Second</templarg>
+  </compound>
+  <compound kind="struct">
+    <name>std::tuple_size&lt; muu::line_segment&lt; Scalar &gt; &gt;</name>
+    <filename>structstd_1_1tuple__size_3_01muu_1_1line__segment_3_01_scalar_01_4_01_4.html</filename>
+    <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
     <name>std::tuple_size&lt; muu::oriented_bounding_box&lt; Scalar &gt; &gt;</name>
@@ -14396,6 +15066,7 @@
     <class kind="class">muu::fnv1a</class>
     <class kind="class">muu::sha1</class>
     <class kind="struct">muu::integer_range</class>
+    <class kind="struct">muu::line_segment</class>
     <class kind="struct">muu::matrix</class>
     <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
     <class kind="struct">muu::oriented_bounding_box</class>
@@ -19784,6 +20455,7 @@
     <class kind="struct">muu::axis_angle</class>
     <class kind="struct">muu::bounding_box</class>
     <class kind="struct">muu::euler_angles</class>
+    <class kind="struct">muu::line_segment</class>
     <class kind="struct">muu::matrix</class>
     <class kind="struct">muu::oriented_bounding_box</class>
     <class kind="struct">muu::plane</class>

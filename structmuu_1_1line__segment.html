@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8"/>
+  <title>muu::line_segment struct | muu Miscellaneous useful utilities for C++</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
+  <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
+  <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="#22272e" name="theme-color"/>
+  <meta content="muu" name="twitter:title"/>
+  <meta content="muu" property="og:title"/>
+  <meta content="muu" itemprop="name"/>
+  <meta content="Miscellaneous useful utilities for C++" name="description"/>
+  <meta content="Miscellaneous useful utilities for C++" name="twitter:description"/>
+  <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
+  <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
+  <meta content="telephone=no" name="format-detection"/>
+  <meta content="Poxy v0.5.3" name="generator"/>
+  <meta content="no-referrer-when-downgrade" name="referrer"/>
+  <link href="poxy-0.5.3.css" rel="stylesheet"/>
+  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.3.js"></script>
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Miscellaneous useful utilities for C++</span></a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
+        </svg></a>
+        <a href="#navigation" id="m-navbar-show" title="Show navigation"></a>
+        <a href="#" id="m-navbar-hide" title="Hide navigation"></a>
+      </div>
+      <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="files.html">Files</a></li>
+            <li><a href="modules.html">Modules</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="4">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path"></use>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="line__segment_8h.html">&lt;muu/line_segment.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>line_segment <span class="m-thin">struct</span>
+        </h1>
+        <p>A line segment.</p>
+        <table class="m-table m-fullwidth m-flat">
+          <thead>
+            <tr><th colspan="2">Template parameters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 1%">Scalar</td>
+              <td>The line segment's scalar component type. Must be a floating-point type.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="m-block m-default poxy-toc">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#equality-approximate">Equality (approximate)</a></li>
+                <li><a href="#equality-exact">Equality (exact)</a></li>
+                <li><a href="#geometric-properties">Geometric properties</a></li>
+                <li><a href="#intersection-and-containment">Intersection and containment</a></li>
+                <li><a href="#iterators">Iterators</a></li>
+                <li><a href="#iterators-adl">Iterators (ADL)</a></li>
+                <li><a href="#point-accessors">Point accessors</a></li>
+                <li><a href="#scalar-accessors">Scalar accessors</a></li>
+                <li><a href="#friends">Friends</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="a1927992db4fc09eefcd39b567b3a99da">
+              using <a class="m-doc-self" href="#a1927992db4fc09eefcd39b567b3a99da">const_iterator</a> = const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>*
+            </dt>
+            <dd>A const <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator" target="_blank">LegacyRandomAccessIterator</a> for the points in the line segment.</dd>
+            <dt id="a26c4417a7cb099c4cfc8d5a8ce6bc163">
+              using <a class="m-doc-self" href="#a26c4417a7cb099c4cfc8d5a8ce6bc163">constants</a> = <a class="m-doc" href="structmuu_1_1constants.html">muu::<wbr/>constants</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&gt;
+            </dt>
+            <dd>Compile-time line segment constants.</dd>
+            <dt id="adf8ec88e83a94706a0140a810aa83c6f">
+              using <a class="m-doc-self" href="#adf8ec88e83a94706a0140a810aa83c6f">iterator</a> = <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>*
+            </dt>
+            <dd>A <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator" target="_blank">LegacyRandomAccessIterator</a> for the points in the line segment.</dd>
+            <dt id="ac0b55997c99143b722bbc3e4f9ba9f5d">
+              using <a class="m-doc-self" href="#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_type</a> = Scalar
+            </dt>
+            <dd>The line segment's scalar type.</dd>
+            <dt id="a80b86b159e42a6335287f4ff583486b8">
+              using <a class="m-doc-self" href="#a80b86b159e42a6335287f4ff583486b8">vector_type</a> = <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>, 3&gt;
+            </dt>
+            <dd>The three-dimensional <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a> with the same <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> as the line segment.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="aab7c54ac4048f2ede0c620c79234fe88">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aab7c54ac4048f2ede0c620c79234fe88">line_segment</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Default constructor. Values are not initialized.</dd>
+            <dt id="ac45f0e47103f4d7177bd92a30231311b">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac45f0e47103f4d7177bd92a30231311b">line_segment</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp;) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy constructor.</dd>
+            <dt id="ac6eaf729afc0d6da17069fe01396c9e5">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac6eaf729afc0d6da17069fe01396c9e5">line_segment</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p1) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a line segment from two points.</dd>
+            <dt id="af6c95b0cc1d6d4be59499a56b7d852ce">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af6c95b0cc1d6d4be59499a56b7d852ce">line_segment</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>(&amp;points)[2]) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a line segment from two points.</dd>
+            <dt id="aba6b50d93efbcbf3f8a433e1ca5fcb5d">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aba6b50d93efbcbf3f8a433e1ca5fcb5d">line_segment</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> p0_x,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> p0_y,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> p0_z,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> p1_x,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> p1_y,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> p1_z) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a line segment from two points (in scalar form).</dd>
+            <dt id="a26521510fcd3bff3a1529e6376cb1f02">
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a26521510fcd3bff3a1529e6376cb1f02">line_segment</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converting constructor.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#af2771c5118f6a44c5d4663e65e0cdbdc">line_segment</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a line segment from an implicitly bit-castable type.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="af3ac58c9e569ae862b3a792a7b99dc2c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af3ac58c9e569ae862b3a792a7b99dc2c">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Copy-assigment operator.</dd>
+          </dl>
+        </section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a2156330bc7c31a1fbbd4984b779c24cf">
+              <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <a class="m-doc-self" href="#a2156330bc7c31a1fbbd4984b779c24cf">points</a>
+            </dt>
+            <dd>the points in the line segment.</dd>
+          </dl>
+        </section>
+        <section id="equality-approximate">
+          <h2><a href="#equality-approximate">Equality (approximate)</a></h2>
+          <dl class="m-doc">
+            <dt id="ad1c8ad5ecf9b298ba0f15a052078b925">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad1c8ad5ecf9b298ba0f15a052078b925">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg1,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; seg2,
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two line segments are approximately equal.</dd>
+            <dt id="afc321c5898d8d4cdcdcfcf2ed183ecd4">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#afc321c5898d8d4cdcdcfcf2ed183ecd4">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components in a line segment are approximately equal to zero.</dd>
+            <dt id="af82499d51c74452b53f94b727bdd1824">
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af82499d51c74452b53f94b727bdd1824">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; seg,
+              <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>, T&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the line segment is approximately equal to another.</dd>
+            <dt id="acd8d0eb4a6fff4438027e674b42b3542">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#acd8d0eb4a6fff4438027e674b42b3542">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the scalar components in the line segment are approximately equal to zero.</dd>
+          </dl>
+        </section>
+        <section id="equality-exact">
+          <h2><a href="#equality-exact">Equality (exact)</a></h2>
+          <dl class="m-doc">
+            <dt id="a3658396761ffd2fb51652e7f026b654f">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a3658396761ffd2fb51652e7f026b654f">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the points of a line segment are infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a78b7742abe2c6e2f9f61367668630b23">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the points of a line segment are exactly zero.</dd>
+            <dt id="a57b0cb28fbdab9ae1ef095919c9d1647">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a57b0cb28fbdab9ae1ef095919c9d1647">infinity_or_nan</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the points in the line segment are infinity or NaN.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#afd7da2af5abf2abcc04e1c8896f1f038">zero</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the points of the line segment are exactly zero.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a2c5d54d42db6135d41d732f1a4fca9ff">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two line segments are not exactly equal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad488efb18123198f7f0684a23da880fd">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two line segments are exactly equal.</dd>
+          </dl>
+        </section>
+        <section id="geometric-properties">
+          <h2><a href="#geometric-properties">Geometric properties</a></h2>
+          <dl class="m-doc">
+            <dt id="aad6a85beb30d4f105430803680893105">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aad6a85beb30d4f105430803680893105">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p1) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment is degenerate (i.e. its points are coincident).</dd>
+            <dt id="a120308bcb2e629a65759f0c080e3f560">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a120308bcb2e629a65759f0c080e3f560">direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p1,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&amp; length_out) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the direction of a line segment (from point 0 to point 1).</dd>
+            <dt id="a791d522aacf2ce2d044cda5ba42464a0">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a791d522aacf2ce2d044cda5ba42464a0">direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p1) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the direction of a line segment (from point 0 to point 1).</dd>
+            <dt id="a32da956bf703886a1edbba0b6d8ad5fb">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a32da956bf703886a1edbba0b6d8ad5fb">length</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p1) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the length of a line segment.</dd>
+            <dt id="aa353b5d6731db8c91581b9b59f159aa3">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aa353b5d6731db8c91581b9b59f159aa3">length_squared</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p1) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the squared length of a line segment.</dd>
+            <dt id="ae488a17b5e5cbec7e6f9a55f1cfdbbae">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ae488a17b5e5cbec7e6f9a55f1cfdbbae">midpoint</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p1) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a line segment's midpoint.</dd>
+            <dt id="a2293e254b7a4c9e841dcef108c274ca5">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2293e254b7a4c9e841dcef108c274ca5">degenerate</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment is degenerate (i.e. its points are coincident).</dd>
+            <dt id="a0119355a5234186d377e56d9da7f0065">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0119355a5234186d377e56d9da7f0065">direction</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&amp; length_out) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the direction of the line segment (from point 0 to point 1).</dd>
+            <dt id="a8c5e3fb8ef958798b91bb47f0ea1eb1d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a8c5e3fb8ef958798b91bb47f0ea1eb1d">direction</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the direction of the line segment (from point 0 to point 1).</dd>
+            <dt id="a32c22db30d44b3ad0dd6b7663d754135">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a32c22db30d44b3ad0dd6b7663d754135">length</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the length of a line segment.</dd>
+            <dt id="a63db9af5c343e923d51e11df2e97dd4f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a63db9af5c343e923d51e11df2e97dd4f">length_squared</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the squared length of a line segment.</dd>
+            <dt id="a9419eb973d274819f1af82858832553e">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9419eb973d274819f1af82858832553e">midpoint</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the line segment's midpoint.</dd>
+          </dl>
+        </section>
+        <section id="intersection-and-containment">
+          <h2><a href="#intersection-and-containment">Intersection and containment</a></h2>
+          <dl class="m-doc">
+            <dt id="a9cfa951653d051e9466d707c313b6581">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a9cfa951653d051e9466d707c313b6581">colinear</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment and a point are colinear (i.e. they lie on the same infinite line).</dd>
+            <dt id="a38e1915a867390d9d4e06daeca01a39d">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a38e1915a867390d9d4e06daeca01a39d">colinear</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment and a point are colinear (i.e. they lie on the same infinite line).</dd>
+            <dt id="aeea24b5e4a7adef63c6ebdda9a7e7b9e">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aeea24b5e4a7adef63c6ebdda9a7e7b9e">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a point lies on a line segment.</dd>
+            <dt id="ad5422045e8f9686039e45fd521c7bdf0">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad5422045e8f9686039e45fd521c7bdf0">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a point lies on a line segment.</dd>
+            <dt id="ae4f47703e012ded06e3f7561a90b7c1a">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ae4f47703e012ded06e3f7561a90b7c1a">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; a0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; a1,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; b0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; b1) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two line segments are coplanar.</dd>
+            <dt id="a4d74cc1f64459f2b60782fbfcb0bea70">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4d74cc1f64459f2b60782fbfcb0bea70">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg1,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two line segments are coplanar.</dd>
+            <dt id="acaaef13d7795285afed3eb72851b414f">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#acaaef13d7795285afed3eb72851b414f">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment intersects a bounding box.</dd>
+            <dt id="a4d442030860090f4479d36450a3a8a86">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4d442030860090f4479d36450a3a8a86">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment intersects a bounding box.</dd>
+            <dt id="a81232e30e1e5c07aeff2360727c12b7d">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a81232e30e1e5c07aeff2360727c12b7d">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment intersects a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
+            <dt id="a07c1a3ae275e14c6381e3f3e5a732307">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a07c1a3ae275e14c6381e3f3e5a732307">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
+              const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment intersects a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
+            <dt id="ae469021ff1f58f496bf64770f733e02c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae469021ff1f58f496bf64770f733e02c">colinear</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment and a point are colinear (i.e. they lie on the same infinite line).</dd>
+            <dt id="a2ab9c728b6da26f35b30deb9c9576a97">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2ab9c728b6da26f35b30deb9c9576a97">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a point lies on a line segment.</dd>
+            <dt id="a5600811621ae527a84706789ec9032ca">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5600811621ae527a84706789ec9032ca">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two line segments are coplanar.</dd>
+            <dt id="a2699867786d45f90b8a559a5ace80216">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2699867786d45f90b8a559a5ace80216">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment intersects a bounding box.</dd>
+            <dt id="a3cc873954b4e12f43cee793d33b8a6fd">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3cc873954b4e12f43cee793d33b8a6fd">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;&amp; p) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment intersects a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
+          </dl>
+        </section>
+        <section id="iterators">
+          <h2><a href="#iterators">Iterators</a></h2>
+          <dl class="m-doc">
+            <dt id="ad318f02fb1d1961996426099534c6a15">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad318f02fb1d1961996426099534c6a15">begin</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#adf8ec88e83a94706a0140a810aa83c6f">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the first point in the line segment.</dd>
+            <dt id="a16c3541e8b76b22213bac7325fbc10f5">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a16c3541e8b76b22213bac7325fbc10f5">begin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a1927992db4fc09eefcd39b567b3a99da">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first point in the line segment.</dd>
+            <dt id="abab1072bf6117744227b717b3cc85ce0">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#abab1072bf6117744227b717b3cc85ce0">cbegin</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a1927992db4fc09eefcd39b567b3a99da">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first point in the line segment.</dd>
+            <dt id="a49ae7fbd53bd6ef443521ac0a344c45f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a49ae7fbd53bd6ef443521ac0a344c45f">cend</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a1927992db4fc09eefcd39b567b3a99da">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last point in the line segment.</dd>
+            <dt id="aac13a05ddbc6188af378951594906bc6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aac13a05ddbc6188af378951594906bc6">end</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#adf8ec88e83a94706a0140a810aa83c6f">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the one-past-the-last point in the line segment.</dd>
+            <dt id="a17e15ac6c3d42a6e4f52c971ffef9e60">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a17e15ac6c3d42a6e4f52c971ffef9e60">end</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a1927992db4fc09eefcd39b567b3a99da">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last point in the line segment.</dd>
+          </dl>
+        </section>
+        <section id="iterators-adl">
+          <h2><a href="#iterators-adl">Iterators (ADL)</a></h2>
+          <dl class="m-doc">
+            <dt id="aa8300fa061ba07aa720c23c2b7c930c6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa8300fa061ba07aa720c23c2b7c930c6">begin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#adf8ec88e83a94706a0140a810aa83c6f">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the first point in a line segment.</dd>
+            <dt id="a26918eb6e2561a9cdc90a96461ff417c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a26918eb6e2561a9cdc90a96461ff417c">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a1927992db4fc09eefcd39b567b3a99da">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first point in a line segment.</dd>
+            <dt id="aa34e1e4fc00d1685fce84ff7191698be">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa34e1e4fc00d1685fce84ff7191698be">cbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a1927992db4fc09eefcd39b567b3a99da">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the first point in a line segment.</dd>
+            <dt id="a36dc3de74ba10e5d62a2f52fe39301fc">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a36dc3de74ba10e5d62a2f52fe39301fc">cend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a1927992db4fc09eefcd39b567b3a99da">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last point in a line segment.</dd>
+            <dt id="a9b8847db1eab17efc3fc7d65031895b2">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9b8847db1eab17efc3fc7d65031895b2">end</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#adf8ec88e83a94706a0140a810aa83c6f">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns an iterator to the one-past-the-last point in a line segment.</dd>
+            <dt id="ac82e233c6d3a5e39184f790797bb99a2">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac82e233c6d3a5e39184f790797bb99a2">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a1927992db4fc09eefcd39b567b3a99da">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a const iterator to the one-past-the-last point in a line segment.</dd>
+          </dl>
+        </section>
+        <section id="point-accessors">
+          <h2><a href="#point-accessors">Point accessors</a></h2>
+          <dl class="m-doc">
+            <dt id="a9f23d13abc8711f38c4e1f2846db5fd5">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> P&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9f23d13abc8711f38c4e1f2846db5fd5">get</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to one of the line segment's points.</dd>
+            <dt id="a85575bff56bf1a4b50a3a968cf5a1ad8">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> P&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a85575bff56bf1a4b50a3a968cf5a1ad8">get</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to one of the line segment's points.</dd>
+            <dt id="aa1cfb69d1487748a905ed55781cddf87">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa1cfb69d1487748a905ed55781cddf87">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> p) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to one of the line segment's points.</dd>
+            <dt id="aa045504ef62427faa0b1a50263dafdd3">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa045504ef62427faa0b1a50263dafdd3">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> p) const -&gt; const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a reference to one of the line segment's points.</dd>
+          </dl>
+        </section>
+        <section id="scalar-accessors">
+          <h2><a href="#scalar-accessors">Scalar accessors</a></h2>
+          <dl class="m-doc">
+            <dt id="a236113cca24c7d1f4d735dee0f53635b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a236113cca24c7d1f4d735dee0f53635b">data</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a pointer to the first scalar component in the line segment.</dd>
+            <dt id="a22ca62f28b9de1426132251cd2d0aac6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a22ca62f28b9de1426132251cd2d0aac6">data</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns a pointer to the first scalar component in the line segment.</dd>
+          </dl>
+        </section>
+        <section id="friends">
+          <h2><a href="#friends">Friends</a></h2>
+          <dl class="m-doc">
+            <dt id="af0dbe18d87aa08d0193466ba384828d8">
+              <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af0dbe18d87aa08d0193466ba384828d8">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+            </dt>
+            <dd>Writes a line segment out to a text stream.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="af2771c5118f6a44c5d4663e65e0cdbdc"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>line_segment&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af2771c5118f6a44c5d4663e65e0cdbdc">line_segment</a>(</span><span class="m-doc-wrap">const T&amp; blittable) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs a line segment from an implicitly bit-castable type.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>A bit-castable type.</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">muu::<wbr/>allow_implicit_bit_cast</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a78b7742abe2c6e2f9f61367668630b23"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static bool muu::<wbr/>line_segment&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a78b7742abe2c6e2f9f61367668630b23">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the points of a line segment are exactly zero.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1line__segment.html#afc321c5898d8d4cdcdcfcf2ed183ecd4">approx_<wbr/>zero()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="afd7da2af5abf2abcc04e1c8896f1f038"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>line_segment&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afd7da2af5abf2abcc04e1c8896f1f038">zero</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the points of the line segment are exactly zero.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1line__segment.html#ad1c8ad5ecf9b298ba0f15a052078b925">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a2c5d54d42db6135d41d732f1a4fca9ff"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>line_segment&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a2c5d54d42db6135d41d732f1a4fca9ff">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if two line segments are not exactly equal.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1line__segment.html#ad1c8ad5ecf9b298ba0f15a052078b925">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ad488efb18123198f7f0684a23da880fd"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>line_segment&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad488efb18123198f7f0684a23da880fd">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; lhs,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if two line segments are exactly equal.</p>
+<aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1line__segment.html#ad1c8ad5ecf9b298ba0f15a052078b925">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">…</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input autocomplete="off" autofocus="autofocus" disabled="disabled" id="search-input" name="q" placeholder="Loading …" spellcheck="false" type="search"/>
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div class="m-text m-dim m-text-center" id="search-help">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">↓</span>
+            / <span class="m-label m-dim">↑</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div class="m-text m-warning m-text-center" id="search-notfound">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script async="async" src="searchdata-v1.js"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        
+    <a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report an issue</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
+     • <a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen tagfile</a>
+    <br/><br/>
+    Site generated using <a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">Poxy</a>
+
+      </div>
+    </div>
+  </div>
+</nav></footer>
+
+
+</body></html>
