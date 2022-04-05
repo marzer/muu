@@ -517,7 +517,7 @@ namespace muu
 	///
 	/// \brief	Returns true if any of the scalar components of a plane are infinity or NaN.
 	template <typename S>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool infinity_or_nan(const plane<S>& p) noexcept
 	{
 		return plane<S>::infinity_or_nan(p);
@@ -528,7 +528,7 @@ namespace muu
 	///
 	/// \brief		Returns true if two planes are approximately equal.
 	template <typename S, typename T>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(const plane<S>& p1,
 											   const plane<T>& p2,
 											   epsilon_type<S, T> epsilon = default_epsilon<S, T>) noexcept
@@ -541,7 +541,7 @@ namespace muu
 	///
 	/// \brief		Returns true if all the scalar components of a plane are approximately equal to zero.
 	template <typename S>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(const plane<S>& p, S epsilon = default_epsilon<S>) noexcept
 	{
 		return plane<S>::approx_zero(p, epsilon);
@@ -552,7 +552,7 @@ namespace muu
 	///
 	/// \brief Returns true if a plane is normalized.
 	template <typename S>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool normalized(const plane<S>& p) noexcept
 	{
 		return plane<S>::normalized(p);

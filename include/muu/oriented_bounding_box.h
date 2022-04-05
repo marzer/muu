@@ -676,7 +676,7 @@ namespace muu
 	///
 	/// \brief	Returns true if any of the scalar components of an oriented_bounding_box are infinity or NaN.
 	template <typename S>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool infinity_or_nan(const oriented_bounding_box<S>& q) noexcept
 	{
 		return oriented_bounding_box<S>::infinity_or_nan(q);
@@ -687,7 +687,7 @@ namespace muu
 	///
 	/// \brief		Returns true if two oriented bounding boxes are approximately equal.
 	template <typename S, typename T>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(const oriented_bounding_box<S>& q1,
 											   const oriented_bounding_box<T>& q2,
 											   epsilon_type<S, T> epsilon = default_epsilon<S, T>) noexcept
@@ -701,7 +701,7 @@ namespace muu
 	/// \brief		Returns true if all the scalar components of an oriented_bounding_box are approximately equal to
 	/// zero.
 	template <typename S>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(const oriented_bounding_box<S>& q,
 											  S epsilon = default_epsilon<S>) noexcept
 	{

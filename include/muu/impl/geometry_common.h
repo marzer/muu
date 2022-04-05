@@ -236,7 +236,7 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL project(vector_param line_origin,
+		static constexpr vector_type MUU_VECTORCALL project(vector_param line_origin,
 															vector_param line_dir,
 															vector_param point) noexcept
 		{
@@ -269,7 +269,7 @@ namespace muu::impl
 		using lines		   = lines_common<Scalar>;
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL nearest_point(vector_param seg0, // aka clamped_project()
+		static constexpr vector_type MUU_VECTORCALL nearest_point(vector_param seg0, // aka clamped_project()
 																  vector_param seg1,
 																  vector_param point) noexcept
 		{
@@ -706,6 +706,32 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains_aabb_minmax(vector_param outer_min,
+																  vector_param outer_max,
+																  vector_param inner_min,
+																  vector_param inner_max) noexcept
+		{
+			return outer_min.x <= inner_min.x //
+				&& outer_max.x >= inner_max.x //
+				&& outer_min.y <= inner_min.y //
+				&& outer_max.y >= inner_max.y //
+				&& outer_min.z <= inner_min.z //
+				&& outer_max.z >= inner_max.z;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains_aabb(vector_param outer_center,
+														   vector_param outer_extents,
+														   vector_param inner_center,
+														   vector_param inner_exents) noexcept
+		{
+			return contains_aabb_minmax(outer_center - outer_extents, //
+										outer_center + outer_extents, //
+										inner_center - inner_exents,  //
+										inner_center + inner_exents);
+		}
+
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects_aabb_minmax(vector_param min1,
 																	vector_param max1,
 																	vector_param min2,
@@ -725,9 +751,9 @@ namespace muu::impl
 															 vector_param center2,
 															 vector_param extents2) noexcept
 		{
-			return intersects_aabb_minmax(center1 - extents1,
-										  center1 + extents1,
-										  center2 - extents2,
+			return intersects_aabb_minmax(center1 - extents1, //
+										  center1 + extents1, //
+										  center2 - extents2, //
 										  center2 + extents2);
 		}
 

@@ -700,6 +700,21 @@ namespace muu
 			return contains(*this, point);
 		}
 
+		/// \brief	Returns true if a bounding box contains all the points of another boudning box.
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(bounding_box) outer_bb,
+													  MUU_VC_PARAM(bounding_box) inner_bb) noexcept
+		{
+			return aabbs::contains_aabb(outer_bb.center, outer_bb.extents, inner_bb.center, inner_bb.extents);
+		}
+
+		/// \brief	Returns true if a bounding box contains all the points of another boudning box.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(bounding_box) bb) const noexcept
+		{
+			return contains(*this, bb);
+		}
+
 		/// \brief	Returns true if two bounding boxes intersect.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb1,
@@ -832,7 +847,7 @@ namespace muu
 	///
 	/// \brief	Returns true if any of the scalar components of a bounding_box are infinity or NaN.
 	template <typename S>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool infinity_or_nan(const bounding_box<S>& q) noexcept
 	{
 		return bounding_box<S>::infinity_or_nan(q);
@@ -843,7 +858,7 @@ namespace muu
 	///
 	/// \brief		Returns true if two bounding_boxes are approximately equal.
 	template <typename S, typename T>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(const bounding_box<S>& q1,
 											   const bounding_box<T>& q2,
 											   epsilon_type<S, T> epsilon = default_epsilon<S, T>) noexcept
@@ -856,7 +871,7 @@ namespace muu
 	///
 	/// \brief		Returns true if all the scalar components of a bounding_box are approximately equal to zero.
 	template <typename S>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(const bounding_box<S>& q, S epsilon = default_epsilon<S>) noexcept
 	{
 		return bounding_box<S>::approx_zero(q, epsilon);

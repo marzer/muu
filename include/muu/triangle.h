@@ -736,7 +736,7 @@ namespace muu
 	///
 	/// \brief	Returns true if any of the points in a triangle are infinity or NaN.
 	template <typename S>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool infinity_or_nan(const triangle<S>& tri) noexcept
 	{
 		return triangle<S>::infinity_or_nan(tri);
@@ -747,7 +747,7 @@ namespace muu
 	///
 	/// \brief		Returns true if two triangles are approximately equal.
 	template <typename S, typename T>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(const triangle<S>& tri1,
 											   const triangle<T>& tri2,
 											   epsilon_type<S, T> epsilon = default_epsilon<S, T>) noexcept
@@ -760,7 +760,7 @@ namespace muu
 	///
 	/// \brief		Returns true if all the points in triangle are approximately equal to zero.
 	template <typename S>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(const triangle<S>& tri, S epsilon = default_epsilon<S>) noexcept
 	{
 		return triangle<S>::approx_zero(tri, epsilon);
