@@ -566,7 +566,29 @@
     <class kind="struct">muu::line_segment</class>
     <class kind="struct">std::tuple_size&lt; muu::line_segment&lt; Scalar &gt; &gt;</class>
     <class kind="struct">std::tuple_element&lt; P, muu::line_segment&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">muu::constants&lt; line_segment&lt; Scalar &gt; &gt;</class>
     <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gafe018cc9e24195a2edf98017340c2263</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga9feb4d4d3c2c67ad383254a73fdeff52</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg1, const line_segment&lt; T &gt; &amp;seg2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gac5e6b9f30f0e565a9893ba7c7fea821b</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>math.h</name>
@@ -5144,6 +5166,13 @@
     </member>
     <member kind="function">
       <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a7261a775662b1205754636f6d17bada9</anchor>
+      <arglist>(const bounding_box &amp;bb) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
       <name>intersects</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a8b6752cb23ed16b834f8bdd0b9e7b2b0</anchor>
@@ -5176,6 +5205,13 @@
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a0da4d9f89c8e92dd96891a67146f2ab6</anchor>
       <arglist>(const bounding_box &amp;bb, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a83f57efd52e4ca85711d02e84d0140bd</anchor>
+      <arglist>(const bounding_box &amp;outer_bb, const bounding_box &amp;inner_bb) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
@@ -5400,6 +5436,18 @@
   <compound kind="struct">
     <name>muu::constants&lt; int128_t &gt;</name>
     <filename>structmuu_1_1constants_3_01int128__t_01_4.html</filename>
+  </compound>
+  <compound kind="struct">
+    <name>muu::constants&lt; line_segment&lt; Scalar &gt; &gt;</name>
+    <filename>structmuu_1_1constants_3_01line__segment_3_01_scalar_01_4_01_4.html</filename>
+    <templarg>typename Scalar</templarg>
+    <member kind="variable" static="yes">
+      <type>static constexpr line_segment&lt; Scalar &gt;</type>
+      <name>zero</name>
+      <anchorfile>structmuu_1_1constants_3_01line__segment_3_01_scalar_01_4_01_4.html</anchorfile>
+      <anchor>ac8faa5200206f1155b371d2bd9d08328</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="struct">
     <name>muu::constants&lt; long double &gt;</name>
@@ -7057,6 +7105,27 @@
       <arglist>(const line_segment &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gafe018cc9e24195a2edf98017340c2263</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga9feb4d4d3c2c67ad383254a73fdeff52</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg1, const line_segment&lt; T &gt; &amp;seg2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gac5e6b9f30f0e565a9893ba7c7fea821b</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr vector_type &amp;</type>
       <name>get</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
@@ -7144,43 +7213,43 @@
       <type>static constexpr vector_type</type>
       <name>direction</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>a120308bcb2e629a65759f0c080e3f560</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, scalar_type &amp;length_out) noexcept</arglist>
+      <anchor>a1a64ae1471c34f5c8e61f6a96c0a8e09</anchor>
+      <arglist>(const line_segment &amp;seg, scalar_type &amp;length_out) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr vector_type</type>
       <name>direction</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>a791d522aacf2ce2d044cda5ba42464a0</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1) noexcept</arglist>
+      <anchor>adf2fe253c77ffedffdb2a9393e72dcf3</anchor>
+      <arglist>(const line_segment &amp;seg) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr vector_type</type>
       <name>midpoint</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>ae488a17b5e5cbec7e6f9a55f1cfdbbae</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1) noexcept</arglist>
+      <anchor>a483eca88f4f25c77674e35d6de3f09b5</anchor>
+      <arglist>(const line_segment &amp;seg) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr scalar_type</type>
       <name>length_squared</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>aa353b5d6731db8c91581b9b59f159aa3</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1) noexcept</arglist>
+      <anchor>a5957753238f54765a531f31070cbde5a</anchor>
+      <arglist>(const line_segment &amp;seg) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr scalar_type</type>
       <name>length</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>a32da956bf703886a1edbba0b6d8ad5fb</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1) noexcept</arglist>
+      <anchor>ab70641900a7848972e1ad313dcf3bf6a</anchor>
+      <arglist>(const line_segment &amp;seg) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>degenerate</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>aad6a85beb30d4f105430803680893105</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1) noexcept</arglist>
+      <anchor>aa2dc1ee9a89725fae385509e4c0b876c</anchor>
+      <arglist>(const line_segment &amp;seg) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -7261,6 +7330,13 @@
     </member>
     <member kind="function">
       <type>constexpr bool</type>
+      <name>colinear</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>abb350c5f8d1683830857ced542c77fea</anchor>
+      <arglist>(const line_segment &amp;seg) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
       <name>contains</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
       <anchor>a2ab9c728b6da26f35b30deb9c9576a97</anchor>
@@ -7291,22 +7367,15 @@
       <type>static constexpr bool</type>
       <name>colinear</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>a9cfa951653d051e9466d707c313b6581</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;point) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>colinear</name>
-      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
       <anchor>a38e1915a867390d9d4e06daeca01a39d</anchor>
       <arglist>(const line_segment &amp;seg, const vector_type &amp;point) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
-      <name>contains</name>
+      <name>colinear</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>aeea24b5e4a7adef63c6ebdda9a7e7b9e</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;point) noexcept</arglist>
+      <anchor>ad710a8560034362be71a6c20c2b9d910</anchor>
+      <arglist>(const line_segment &amp;seg1, const line_segment &amp;seg2) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
@@ -7319,22 +7388,8 @@
       <type>static constexpr bool</type>
       <name>coplanar</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>ae4f47703e012ded06e3f7561a90b7c1a</anchor>
-      <arglist>(const vector_type &amp;a0, const vector_type &amp;a1, const vector_type &amp;b0, const vector_type &amp;b1) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>coplanar</name>
-      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
       <anchor>a4d74cc1f64459f2b60782fbfcb0bea70</anchor>
       <arglist>(const line_segment &amp;seg1, const line_segment &amp;seg2) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>intersects</name>
-      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>acaaef13d7795285afed3eb72851b414f</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const bounding_box&lt; scalar_type &gt; &amp;bb) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
@@ -7347,15 +7402,22 @@
       <type>static constexpr bool</type>
       <name>intersects</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>a81232e30e1e5c07aeff2360727c12b7d</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const plane&lt; scalar_type &gt; &amp;p) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>intersects</name>
-      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
       <anchor>a07c1a3ae275e14c6381e3f3e5a732307</anchor>
       <arglist>(const line_segment &amp;seg, const plane&lt; scalar_type &gt; &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr line_segment &amp;</type>
+      <name>reverse</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>acd1d493e6742744f5caee1fadc6a56a3</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr line_segment</type>
+      <name>reverse</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a7f285a0c418bc42d387c5d176e9853a1</anchor>
+      <arglist>(const line_segment &amp;seg) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr iterator</type>
@@ -15067,6 +15129,7 @@
     <class kind="class">muu::sha1</class>
     <class kind="struct">muu::integer_range</class>
     <class kind="struct">muu::line_segment</class>
+    <class kind="struct">muu::constants&lt; line_segment&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::matrix</class>
     <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
     <class kind="struct">muu::oriented_bounding_box</class>
@@ -15786,6 +15849,27 @@
       <anchorfile>group__iterators.html</anchorfile>
       <anchor>ga005a07ba4450155afd1ef02e317a9d9b</anchor>
       <arglist>(B begin, E end) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gafe018cc9e24195a2edf98017340c2263</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga9feb4d4d3c2c67ad383254a73fdeff52</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg1, const line_segment&lt; T &gt; &amp;seg2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gac5e6b9f30f0e565a9893ba7c7fea821b</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -20060,6 +20144,7 @@
     <class kind="struct">muu::constants</class>
     <class kind="struct">muu::constants&lt; half &gt;</class>
     <class kind="struct">std::numeric_limits&lt; muu::half &gt;</class>
+    <class kind="struct">muu::constants&lt; line_segment&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; packed_unit_vector&lt; Integer, Dimensions &gt; &gt;</class>
     <class kind="struct">muu::constants&lt; plane&lt; Scalar &gt; &gt;</class>
@@ -22606,6 +22691,13 @@
       <type>constexpr bool</type>
       <name>approx_equal</name>
       <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga9feb4d4d3c2c67ad383254a73fdeff52</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg1, const line_segment&lt; T &gt; &amp;seg2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
       <anchor>gaec4759ac5b40da6afc50eb0b3585f0fe</anchor>
       <arglist>(float a, float b, float epsilon=default_epsilon&lt; float &gt;) noexcept</arglist>
     </member>
@@ -22711,6 +22803,13 @@
       <type>constexpr bool</type>
       <name>approx_equal</name>
       <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga9feb4d4d3c2c67ad383254a73fdeff52</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg1, const line_segment&lt; T &gt; &amp;seg2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
       <anchor>gac9148a5c5b63c63d14ca506aee43484e</anchor>
       <arglist>(const matrix&lt; S, R, C &gt; &amp;m1, const matrix&lt; T, R, C &gt; &amp;m2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
     </member>
@@ -22767,6 +22866,13 @@
       <anchorfile>group__approx__zero.html</anchorfile>
       <anchor>ga5df3be4319d056f5a12b082177b1f8dd</anchor>
       <arglist>(half x, half epsilon=constants&lt; half &gt;::default_epsilon) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gac5e6b9f30f0e565a9893ba7c7fea821b</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -22872,6 +22978,13 @@
       <anchorfile>group__approx__zero.html</anchorfile>
       <anchor>ga5df3be4319d056f5a12b082177b1f8dd</anchor>
       <arglist>(half x, half epsilon=constants&lt; half &gt;::default_epsilon) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gac5e6b9f30f0e565a9893ba7c7fea821b</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -23442,6 +23555,13 @@
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gafe018cc9e24195a2edf98017340c2263</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>ga244d41fcb34e53c950eddd916a6d5396</anchor>
       <arglist>(float x) noexcept</arglist>
     </member>
@@ -23563,6 +23683,13 @@
       <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>gafea7a631de7f6399fb55e1dffbe79c00</anchor>
       <arglist>(half x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gafe018cc9e24195a2edf98017340c2263</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
