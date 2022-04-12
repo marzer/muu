@@ -84,13 +84,16 @@
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#appending">Appending</a></li>
                 <li><a href="#corners">Corners</a></li>
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
                 <li><a href="#intersection-and-containment">Intersection and containment</a></li>
                 <li><a href="#scalar-accessors">Scalar accessors</a></li>
-                <li><a href="#transformation-translation-and-scaling">Transformation, translation and scaling</a></li>
+                <li><a href="#scaling">Scaling</a></li>
+                <li><a href="#transformation">Transformation</a></li>
+                <li><a href="#translation">Translation</a></li>
                 <li><a href="#friends">Friends</a></li>
                 <li><a href="#related">Related</a></li>
               </ul>
@@ -118,10 +121,22 @@
         <section id="pub-static-methods">
           <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-doc">
+            <dt id="a554c4ba76c8cdc56a893ff03db4954fd">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a554c4ba76c8cdc56a893ff03db4954fd">from_min_max</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; min_,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; max_) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box from min and max corners.</dd>
             <dt id="a2094b559aef1b8f3096b2618ad7520ef">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a2094b559aef1b8f3096b2618ad7520ef">from_obb</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; obb) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a bounding box completely containing an oriented bounding-box.</dd>
+            <dt id="aada75c0a990df1de266feffd77d12220">
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aada75c0a990df1de266feffd77d12220">from_points</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; pt0,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; pt1,
+              const T&amp;... pts) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box fitting two or more points.</dd>
             <dt id="a666740f4ae71bc658b8372d12a3f8f41">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a666740f4ae71bc658b8372d12a3f8f41">from_points</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>* begin,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>* end) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -242,6 +257,29 @@
               <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a> <a class="m-doc-self" href="#a3c2eb9e9617b2d6f626beaf95ddf2da5">extents</a>
             </dt>
             <dd>The half-lengths of box (i.e. distances from the center to the sides).</dd>
+          </dl>
+        </section>
+        <section id="appending">
+          <h2><a href="#appending">Appending</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a23345930ea0ff499aa8deb749c6a176c">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; pt) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Adds a point to a bounding box, expanding the bounded region to contain it if necessary.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a10ae937d9f9f3bc8085f6c8cd4faeb5c">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; seg) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Adds a line segment to a bounding box, expanding the bounded region to contain it if necessary.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8ad4803d77b297e1febf1d2d6eade112">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; pt) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Adds a point to the bounding box (in-place), expanding the bounded region to contain it if necessary.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a74ac77d9285cd7d4bcb74838cd0c4aeb">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; seg) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Adds a line segment to the bounding box (in-place), expanding the bounded region to contain it if necessary.</dd>
           </dl>
         </section>
         <section id="corners">
@@ -494,8 +532,8 @@
             <dd>Returns a pointer to the first scalar component in the bounding box.</dd>
           </dl>
         </section>
-        <section id="transformation-translation-and-scaling">
-          <h2><a href="#transformation-translation-and-scaling">Transformation, translation and scaling</a></h2>
+        <section id="scaling">
+          <h2><a href="#scaling">Scaling</a></h2>
           <dl class="m-doc">
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a14c9253d3c66190db9d2a9465feec95a">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
@@ -503,23 +541,33 @@
             </dt>
             <dd>Scales a bounding box.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6398c383f0469873d05a622fea380485">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; scale_) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Scales the bounding box (in-place).</dd>
+          </dl>
+        </section>
+        <section id="transformation">
+          <h2><a href="#transformation">Transformation</a></h2>
+          <dl class="m-doc">
+            <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a57bf42343c6cc8a2aea761344d3e11ef">transform</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
               const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>, 4, 4&gt;&amp; tx) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Transforms an axis-aligned bounding box from one coordinate space to another.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a69afca0f99f923e0df1acba8806c7623">transform</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>, 4, 4&gt;&amp; tx) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Transforms the axis-aligned bounding box from one coordinate space to another (in-place).</dd>
+          </dl>
+        </section>
+        <section id="translation">
+          <h2><a href="#translation">Translation</a></h2>
+          <dl class="m-doc">
+            <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a12ac48d7e775195150e4af3facfb7aab">translate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; offset) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Translates a bounding box.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6398c383f0469873d05a622fea380485">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; scale_) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Scales the bounding box (in-place).</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a69afca0f99f923e0df1acba8806c7623">transform</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>, 4, 4&gt;&amp; tx) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Transforms the axis-aligned bounding box from one coordinate space to another (in-place).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ab91bcae10186e49385d03565acdd53eb">translate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; offset) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -789,6 +837,120 @@ template&lt;typename T&gt;
             </table>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">muu::<wbr/>allow_implicit_bit_cast</a></p></aside>
           </div></section>
+          <section class="m-doc-details" id="a23345930ea0ff499aa8deb749c6a176c"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a23345930ea0ff499aa8deb749c6a176c">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; pt) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Adds a point to a bounding box, expanding the bounded region to contain it if necessary.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">bb</td>
+                  <td>The bounding box to append to.</td>
+                </tr>
+                <tr>
+                  <td>pt</td>
+                  <td>The point being added to the box's volume.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Returns an axis-aligned bounding box containing all the points of the input bounding box as well as the new point.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a10ae937d9f9f3bc8085f6c8cd4faeb5c"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a10ae937d9f9f3bc8085f6c8cd4faeb5c">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; seg) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Adds a line segment to a bounding box, expanding the bounded region to contain it if necessary.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">bb</td>
+                  <td>The bounding box to append to.</td>
+                </tr>
+                <tr>
+                  <td>seg</td>
+                  <td>The line segment being added to the box's volume.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Returns an axis-aligned bounding box containing all the points of the input bounding box as well as the line segment.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a8ad4803d77b297e1febf1d2d6eade112"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8ad4803d77b297e1febf1d2d6eade112">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; pt) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Adds a point to the bounding box (in-place), expanding the bounded region to contain it if necessary.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">pt</td>
+                  <td>The point being added to the box's volume.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A reference to the box.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a74ac77d9285cd7d4bcb74838cd0c4aeb"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a74ac77d9285cd7d4bcb74838cd0c4aeb">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; seg) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Adds a line segment to the bounding box (in-place), expanding the bounded region to contain it if necessary.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">seg</td>
+                  <td>The line segment being added to the box's volume.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A reference to the box.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
           <section class="m-doc-details" id="a2199168765d5aa7fbe9422a95c2f86a7"><div>
             <h3>
               <div class="m-doc-template">
@@ -884,6 +1046,32 @@ template&lt;typename T&gt;
               </tfoot>
             </table>
           </div></section>
+          <section class="m-doc-details" id="a6398c383f0469873d05a622fea380485"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6398c383f0469873d05a622fea380485">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; scale_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Scales the bounding box (in-place).</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">scale_</td>
+                  <td>The amount to scale the box extents by on each axis.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A reference to the box.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
           <section class="m-doc-details" id="a57bf42343c6cc8a2aea761344d3e11ef"><div>
             <h3>
               <div class="m-doc-template">
@@ -915,6 +1103,32 @@ template&lt;typename T&gt;
               </tfoot>
             </table>
           </div></section>
+          <section class="m-doc-details" id="a69afca0f99f923e0df1acba8806c7623"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a69afca0f99f923e0df1acba8806c7623">transform</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>, 4, 4&gt;&amp; tx) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Transforms the axis-aligned bounding box from one coordinate space to another (in-place).</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">tx</td>
+                  <td>The transform to apply.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A reference to the box.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
           <section class="m-doc-details" id="a12ac48d7e775195150e4af3facfb7aab"><div>
             <h3>
               <div class="m-doc-template">
@@ -942,58 +1156,6 @@ template&lt;typename T&gt;
                 <tr>
                   <th>Returns</th>
                   <td>A copy of the input box translated by the given offset.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a6398c383f0469873d05a622fea380485"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename Scalar&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6398c383f0469873d05a622fea380485">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; scale_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Scales the bounding box (in-place).</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">scale_</td>
-                  <td>The amount to scale the box extents by on each axis.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>A reference to the box.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a69afca0f99f923e0df1acba8806c7623"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename Scalar&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a69afca0f99f923e0df1acba8806c7623">transform</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>, 4, 4&gt;&amp; tx) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Transforms the axis-aligned bounding box from one coordinate space to another (in-place).</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">tx</td>
-                  <td>The transform to apply.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>A reference to the box.</td>
                 </tr>
               </tfoot>
             </table>

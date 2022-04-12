@@ -4795,6 +4795,20 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bounding_box</type>
+      <name>from_min_max</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a554c4ba76c8cdc56a893ff03db4954fd</anchor>
+      <arglist>(const vector_type &amp;min_, const vector_type &amp;max_) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bounding_box</type>
+      <name>from_points</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>aada75c0a990df1de266feffd77d12220</anchor>
+      <arglist>(const vector_type &amp;pt0, const vector_type &amp;pt1, const T &amp;... pts) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bounding_box</type>
       <name>from_points</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a666740f4ae71bc658b8372d12a3f8f41</anchor>
@@ -5122,12 +5136,26 @@
       <anchor>ab91bcae10186e49385d03565acdd53eb</anchor>
       <arglist>(const vector_type &amp;offset) noexcept</arglist>
     </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bounding_box</type>
+      <name>translate</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a12ac48d7e775195150e4af3facfb7aab</anchor>
+      <arglist>(const bounding_box &amp;bb, const vector_type &amp;offset) noexcept</arglist>
+    </member>
     <member kind="function">
       <type>constexpr bounding_box &amp;</type>
       <name>scale</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a6398c383f0469873d05a622fea380485</anchor>
       <arglist>(const vector_type &amp;scale_) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bounding_box</type>
+      <name>scale</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a14c9253d3c66190db9d2a9465feec95a</anchor>
+      <arglist>(const bounding_box &amp;bb, const vector_type &amp;scale_) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bounding_box &amp;</type>
@@ -5138,24 +5166,38 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bounding_box</type>
-      <name>translate</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a12ac48d7e775195150e4af3facfb7aab</anchor>
-      <arglist>(const bounding_box &amp;bb, const vector_type &amp;offset) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bounding_box</type>
-      <name>scale</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a14c9253d3c66190db9d2a9465feec95a</anchor>
-      <arglist>(const bounding_box &amp;bb, const vector_type &amp;scale_) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bounding_box</type>
       <name>transform</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a57bf42343c6cc8a2aea761344d3e11ef</anchor>
       <arglist>(const bounding_box &amp;bb, const matrix&lt; scalar_type, 4, 4 &gt; &amp;tx) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bounding_box &amp;</type>
+      <name>append</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a8ad4803d77b297e1febf1d2d6eade112</anchor>
+      <arglist>(const vector_type &amp;pt) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bounding_box &amp;</type>
+      <name>append</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a74ac77d9285cd7d4bcb74838cd0c4aeb</anchor>
+      <arglist>(const line_segment&lt; scalar_type &gt; &amp;seg) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bounding_box</type>
+      <name>append</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a23345930ea0ff499aa8deb749c6a176c</anchor>
+      <arglist>(const bounding_box &amp;bb, const vector_type &amp;pt) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bounding_box</type>
+      <name>append</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a10ae937d9f9f3bc8085f6c8cd4faeb5c</anchor>
+      <arglist>(const bounding_box &amp;bb, const line_segment&lt; scalar_type &gt; &amp;seg) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -9227,19 +9269,19 @@
       <anchor>aebff1db2fb7a0ed35c4f07f68405a792</anchor>
       <arglist>(const vector_type &amp;offset) noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr oriented_bounding_box &amp;</type>
-      <name>scale</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>abce84ebbd395a20132fa2ba5a30fe210</anchor>
-      <arglist>(const vector_type &amp;scale_) noexcept</arglist>
-    </member>
     <member kind="function" static="yes">
       <type>static constexpr oriented_bounding_box</type>
       <name>translate</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
       <anchor>a3e2fd19ae31e7fbd5d8c93b7b8d897dc</anchor>
       <arglist>(const oriented_bounding_box &amp;bb, const vector_type &amp;offset) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr oriented_bounding_box &amp;</type>
+      <name>scale</name>
+      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
+      <anchor>abce84ebbd395a20132fa2ba5a30fe210</anchor>
+      <arglist>(const vector_type &amp;scale_) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr oriented_bounding_box</type>

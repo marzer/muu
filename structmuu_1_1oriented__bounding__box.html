@@ -88,7 +88,8 @@
                 <li><a href="#equality-exact">Equality (exact)</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
                 <li><a href="#scalar-accessors">Scalar accessors</a></li>
-                <li><a href="#translation-and-scaling">Translation and scaling</a></li>
+                <li><a href="#translation">Translation</a></li>
+                <li><a href="#scaling">scaling</a></li>
                 <li><a href="#related">Related</a></li>
               </ul>
             </li>
@@ -404,8 +405,22 @@
             <dd>Returns a pointer to the first scalar component in the bounding box.</dd>
           </dl>
         </section>
-        <section id="translation-and-scaling">
-          <h2><a href="#translation-and-scaling">Translation and scaling</a></h2>
+        <section id="translation">
+          <h2><a href="#translation">Translation</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a3e2fd19ae31e7fbd5d8c93b7b8d897dc">translate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; offset) -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Translates an oriented bounding box.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aebff1db2fb7a0ed35c4f07f68405a792">translate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; offset) -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Translates the oriented bounding box (in-place).</dd>
+          </dl>
+        </section>
+        <section id="scaling">
+          <h2><a href="#scaling">scaling</a></h2>
           <dl class="m-doc">
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#adba7fd88ffaa708f3366fb1b48b68352">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
@@ -413,18 +428,9 @@
             </dt>
             <dd>Scales an oriented bounding box.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a3e2fd19ae31e7fbd5d8c93b7b8d897dc">translate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
-              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; offset) -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Translates an oriented bounding box.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#abce84ebbd395a20132fa2ba5a30fe210">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; scale_) -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Scales the oriented bounding box (in-place).</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aebff1db2fb7a0ed35c4f07f68405a792">translate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; offset) -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Translates the oriented bounding box (in-place).</dd>
           </dl>
         </section>
         <section id="related">
@@ -778,37 +784,6 @@ template&lt;typename T&gt;
             <p>Returns true if two oriented bounding boxes are exactly equal.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a068191ce40cda58a5c698dd85dc24d41">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="adba7fd88ffaa708f3366fb1b48b68352"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename Scalar&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#adba7fd88ffaa708f3366fb1b48b68352">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
-              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; scale_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Scales an oriented bounding box.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">bb</td>
-                  <td>The oriented bounding box to scale.</td>
-                </tr>
-                <tr>
-                  <td>scale_</td>
-                  <td>The amount to scale the box extents by on each axis.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>A copy of the input box scaled by the given amounts.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="a3e2fd19ae31e7fbd5d8c93b7b8d897dc"><div>
             <h3>
               <div class="m-doc-template">
@@ -840,32 +815,6 @@ template&lt;typename T&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="abce84ebbd395a20132fa2ba5a30fe210"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename Scalar&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abce84ebbd395a20132fa2ba5a30fe210">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; scale_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Scales the oriented bounding box (in-place).</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">scale_</td>
-                  <td>The amount to scale the box extents by on each axis.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>A reference to the box_.</td>
-                </tr>
-              </tfoot>
-            </table>
-          </div></section>
           <section class="m-doc-details" id="aebff1db2fb7a0ed35c4f07f68405a792"><div>
             <h3>
               <div class="m-doc-template">
@@ -882,6 +831,63 @@ template&lt;typename T&gt;
                 <tr>
                   <td style="width: 1%">offset</td>
                   <td>An offset to add to the box's center position.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A reference to the box_.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="adba7fd88ffaa708f3366fb1b48b68352"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#adba7fd88ffaa708f3366fb1b48b68352">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; scale_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Scales an oriented bounding box.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">bb</td>
+                  <td>The oriented bounding box to scale.</td>
+                </tr>
+                <tr>
+                  <td>scale_</td>
+                  <td>The amount to scale the box extents by on each axis.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A copy of the input box scaled by the given amounts.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="abce84ebbd395a20132fa2ba5a30fe210"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abce84ebbd395a20132fa2ba5a30fe210">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; scale_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Scales the oriented bounding box (in-place).</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">scale_</td>
+                  <td>The amount to scale the box extents by on each axis.</td>
                 </tr>
               </tbody>
               <tfoot>
