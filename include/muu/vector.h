@@ -2306,11 +2306,14 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr vector MUU_VECTORCALL min(const vector* begin_, const vector* end_) noexcept
 		{
+			if (begin_ == end_)
+				return vector{};
+
 			MUU_ASSUME(begin_ != nullptr);
 			MUU_ASSUME(end_ != nullptr);
 
 			vector out = *begin_;
-			for (auto v = begin_ + 1u, e = end_; v != e; v++)
+			for (auto v = begin_ + 1u; v != end_; v++)
 				out = vector::min(out, *v);
 			return out;
 		}
@@ -2353,11 +2356,14 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr vector MUU_VECTORCALL max(const vector* begin_, const vector* end_) noexcept
 		{
+			if (begin_ == end_)
+				return vector{};
+
 			MUU_ASSUME(begin_ != nullptr);
 			MUU_ASSUME(end_ != nullptr);
 
 			vector out = *begin_;
-			for (auto v = begin_ + 1u, e = end_; v != e; v++)
+			for (auto v = begin_ + 1u; v != end_; v++)
 				out = vector::max(out, *v);
 			return out;
 		}

@@ -548,8 +548,8 @@ namespace muu
 			/// @}
 	#endif // corners
 
-	#if 1 // translation and scaling -----------------------------------------------------------------------------------
-		/// \name Translation and scaling
+	#if 1 // translation -----------------------------------------------------------------------------------
+		/// \name Translation
 		/// @{
 
 		/// \brief	Translates an oriented bounding box.
@@ -576,6 +576,13 @@ namespace muu
 			return *this;
 		}
 
+			/// @}
+	#endif // translation
+
+	#if 1 // scaling -----------------------------------------------------------------------------------
+		  /// \name scaling
+		  /// @{
+
 		/// \brief	Scales an oriented bounding box.
 		///
 		/// \param	bb		The oriented bounding box to scale.
@@ -601,7 +608,7 @@ namespace muu
 		}
 
 			/// @}
-	#endif // translation and scaling
+	#endif // scaling
 	};
 
 	/// \cond

@@ -52,10 +52,13 @@ namespace muu
 		using base = impl::bounding_box_<Scalar>;
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2), "Bounding boxes should not have padding");
 
-		using boxes				 = impl::boxes_common<Scalar>;
-		using aabbs				 = impl::aabb_common<Scalar>;
-		using intermediate_float = promote_if_small_float<scalar_type>;
-		static_assert(is_floating_point<intermediate_float>);
+		using boxes = impl::boxes_common<Scalar>;
+		using aabbs = impl::aabb_common<Scalar>;
+
+		using promoted_scalar					 = promote_if_small_float<scalar_type>;
+		using promoted_vec3						 = vector<promoted_scalar, 3>;
+		using promoted_box						 = bounding_box<promoted_scalar>;
+		static constexpr bool requires_promotion = impl::is_small_float_<scalar_type>;
 
 		/// \endcond
 
@@ -178,6 +181,40 @@ namespace muu
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
 		}
 
+		/// \brief	Constructs a bounding box from min and max corners.
+		MUU_PURE_GETTER
+		static constexpr bounding_box MUU_VECTORCALL from_min_max(MUU_VC_PARAM(vector_type) min_,
+																  MUU_VC_PARAM(vector_type) max_) noexcept
+		{
+			if constexpr (requires_promotion)
+			{
+				return bounding_box{
+					promoted_box::from_min_max(promoted_vec3{ min_ }, promoted_vec3{ max_ }),
+				};
+			}
+			else
+			{
+				return bounding_box{ aabbs::center(min_, max_), aabbs::extents(min_, max_) };
+			}
+		}
+
+		/// \brief	Constructs a bounding box fitting two or more points.
+		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, T...>), typename... T)
+		MUU_PURE_GETTER
+		static constexpr bounding_box MUU_VECTORCALL from_points(MUU_VC_PARAM(vector_type) pt0,
+																 MUU_VC_PARAM(vector_type) pt1,
+																 const T&... pts) noexcept
+		{
+			if constexpr (sizeof...(T) && !all_same<vector_type, remove_cvref<T>...>)
+			{
+				return from_points(pt0, pt1, static_cast<vector_type>(pts)...);
+			}
+			else
+			{
+				return from_min_max(vector_type::min(pt0, pt1, pts...), vector_type::max(pt0, pt1, pts...));
+			}
+		}
+
 		/// \brief	Constructs a bounding box fitting a range of points.
 		MUU_PURE_GETTER
 		MUU_ATTR(nonnull)
@@ -185,23 +222,9 @@ namespace muu
 																 const vector_type* end) noexcept
 		{
 			if MUU_UNLIKELY(begin == end)
-				return bounding_box{ *begin, vector_type{} };
+				return bounding_box{};
 
-			if constexpr (std::is_same_v<scalar_type, intermediate_float>)
-			{
-				const auto min = vector_type::min(begin, end);
-				const auto max = vector_type::max(begin, end);
-				return bounding_box{ aabbs::center(min, max), aabbs::extents(min, max) };
-			}
-			else
-			{
-				using ivec3	   = vector<intermediate_float, 3>;
-				const auto min = ivec3{ vector_type::min(begin, end) };
-				const auto max = ivec3{ vector_type::max(begin, end) };
-
-				return bounding_box{ vector_type{ impl::aabb_common<intermediate_float>::center(min, max) },
-									 vector_type{ impl::aabb_common<intermediate_float>::extents(min, max) } };
-			}
+			return from_min_max(vector_type::min(begin, end), vector_type::max(begin, end));
 		}
 
 		/// \brief	Constructs a bounding box fitting a range of points.
@@ -587,8 +610,8 @@ namespace muu
 			/// @}
 	#endif // corners
 
-	#if 1 // transformation, translation and scaling -------------------------------------------------------------------
-		/// \name Transformation, translation and scaling
+	#if 1 // translation -------------------------------------------------------------------
+		/// \name Translation
 		/// @{
 
 		/// \brief	Translates a bounding box.
@@ -615,6 +638,13 @@ namespace muu
 			return *this;
 		}
 
+			/// @}
+	#endif // translation
+
+	#if 1 // scaling -------------------------------------------------------------------
+		  /// \name Scaling
+		  /// @{
+
 		/// \brief	Scales a bounding box.
 		///
 		/// \param	bb		The bounding box to scale.
@@ -639,6 +669,13 @@ namespace muu
 			return *this;
 		}
 
+			/// @}
+	#endif // scaling
+
+	#if 1 // transformation -------------------------------------------------------------------
+		  /// \name Transformation
+		  /// @{
+
 		/// \brief Transforms an axis-aligned bounding box from one coordinate space to another.
 		///
 		/// \param	bb		The bounding box to transform.
@@ -650,22 +687,29 @@ namespace muu
 		static constexpr bounding_box MUU_VECTORCALL transform(MUU_VC_PARAM(bounding_box) bb,
 															   MUU_VC_PARAM(matrix<scalar_type, 4, 4>) tx) noexcept
 		{
-			// http://dev.theomader.com/transform-bounding-boxes/
+			if constexpr (requires_promotion)
+			{
+				return bounding_box{ promoted_box::transform(promoted_box{ bb }, matrix<promoted_scalar, 4, 4>{ tx }) };
+			}
+			else
+			{
+				// http://dev.theomader.com/transform-bounding-boxes/
 
-			MUU_FMA_BLOCK;
+				MUU_FMA_BLOCK;
 
-			auto min	  = bb.center - bb.extents;
-			auto max	  = bb.center + bb.extents;
-			const auto xa = vector_type{ tx.m[0] } * min.x;
-			const auto xb = vector_type{ tx.m[0] } * max.x;
-			const auto ya = vector_type{ tx.m[1] } * min.y;
-			const auto yb = vector_type{ tx.m[1] } * max.y;
-			const auto za = vector_type{ tx.m[2] } * min.z;
-			const auto zb = vector_type{ tx.m[2] } * max.z;
-			min			  = muu::min(xa, xb) + muu::min(ya, yb) + muu::min(za, zb);
-			max			  = muu::max(xa, xb) + muu::max(ya, yb) + muu::max(za, zb);
-			max			  = (max - min) / scalar_type{ 2 }; // extents
-			return { min + max + vector_type{ tx.m[3] }, max };
+				auto min	  = bb.center - bb.extents;
+				auto max	  = bb.center + bb.extents;
+				const auto xa = vector_type{ tx.m[0] } * min.x;
+				const auto xb = vector_type{ tx.m[0] } * max.x;
+				const auto ya = vector_type{ tx.m[1] } * min.y;
+				const auto yb = vector_type{ tx.m[1] } * max.y;
+				const auto za = vector_type{ tx.m[2] } * min.z;
+				const auto zb = vector_type{ tx.m[2] } * max.z;
+				min			  = muu::min(xa, xb) + muu::min(ya, yb) + muu::min(za, zb);
+				max			  = muu::max(xa, xb) + muu::max(ya, yb) + muu::max(za, zb);
+				max			  = (max - min) / scalar_type{ 2 }; // extents
+				return { min + max + vector_type{ tx.m[3] }, max };
+			}
 		}
 
 		/// \brief Transforms the axis-aligned bounding box from one coordinate space to another (in-place).
@@ -679,7 +723,64 @@ namespace muu
 		}
 
 			/// @}
-	#endif // transformation, translation and scaling
+	#endif // transformation
+
+	#if 1 // appending -------------------------------------------------------------------
+		  /// \name Appending
+		  /// @{
+
+		/// \brief Adds a point to a bounding box, expanding the bounded region to contain it if necessary.
+		///
+		/// \param	bb		The bounding box to append to.
+		/// \param	pt		The point being added to the box's volume.
+		///
+		/// \return	Returns an axis-aligned bounding box containing all the points of the
+		///			input bounding box as well as the new point.
+		MUU_PURE_GETTER
+		static constexpr bounding_box MUU_VECTORCALL append(MUU_VC_PARAM(bounding_box) bb,
+															MUU_VC_PARAM(vector_type) pt) noexcept
+		{
+			if constexpr (requires_promotion)
+			{
+				return bounding_box{ promoted_box::append(promoted_box{ bb }, promoted_vec3{ pt }) };
+			}
+			else
+			{
+				return from_min_max(vector_type::min(bounding_box::min_corner(bb), pt),
+									vector_type::max(bounding_box::max_corner(bb), pt));
+			}
+		}
+
+		/// \brief Adds a point to the bounding box (in-place), expanding the bounded region to contain it if necessary.
+		///
+		/// \param	pt		The point being added to the box's volume.
+		///
+		/// \return	A reference to the box.
+		constexpr bounding_box& append(MUU_VC_PARAM(vector_type) pt) noexcept
+		{
+			return *this = append(*this, pt);
+		}
+
+		/// \brief Adds a line segment to a bounding box, expanding the bounded region to contain it if necessary.
+		///
+		/// \param	bb		The bounding box to append to.
+		/// \param	seg		The line segment being added to the box's volume.
+		///
+		/// \return	Returns an axis-aligned bounding box containing all the points of the
+		///			input bounding box as well as the line segment.
+		MUU_PURE_GETTER
+		static constexpr bounding_box MUU_VECTORCALL append(MUU_VC_PARAM(bounding_box) bb,
+															MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept;
+
+		/// \brief Adds a line segment to the bounding box (in-place), expanding the bounded region to contain it if necessary.
+		///
+		/// \param	seg		The line segment being added to the box's volume.
+		///
+		/// \return	A reference to the box.
+		constexpr bounding_box& append(MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept;
+
+	/// @}
+	#endif // appending
 
 	#if 1 // intersection and containment ------------------------------------------------------------------------------
 		/// \name Intersection and containment
@@ -760,7 +861,7 @@ namespace muu
 			/// @}
 	#endif // intersection and containment
 
-	#if 1 // misc ------------------------------------------------------------------------------------------------------
+	#if 1 // misc ---------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a vector out to a text stream.
 		template <typename Char, typename Traits>
