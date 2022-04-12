@@ -469,6 +469,8 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(float a, float b, float epsilon = default_epsilon<float>) noexcept
 	{
+		MUU_ASSUME(epsilon >= 0.0f);
+
 		return abs(b - a) < epsilon;
 	}
 
@@ -476,6 +478,8 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(double a, double b, double epsilon = default_epsilon<double>) noexcept
 	{
+		MUU_ASSUME(epsilon >= 0.0);
+
 		return abs(b - a) < epsilon;
 	}
 
@@ -485,6 +489,8 @@ namespace muu
 											   long double b,
 											   long double epsilon = default_epsilon<long double>) noexcept
 	{
+		MUU_ASSUME(epsilon >= 0.0L);
+
 		return abs(b - a) < epsilon;
 	}
 
@@ -496,6 +502,8 @@ namespace muu
 											   float128_t b,
 											   float128_t epsilon = default_epsilon<float128_t>) noexcept
 	{
+		MUU_ASSUME(epsilon >= float128_t{});
+
 		return abs(b - a) < epsilon;
 	}
 
@@ -509,6 +517,8 @@ namespace muu
 											   _Float16 b,
 											   _Float16 epsilon = default_epsilon<_Float16>) noexcept
 	{
+		MUU_ASSUME(epsilon >= _Float16{});
+
 		return abs(b - a) < epsilon;
 	}
 
@@ -520,6 +530,8 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(__fp16 a, __fp16 b, __fp16 epsilon = default_epsilon<__fp16>) noexcept
 	{
+		MUU_ASSUME(epsilon >= __fp16{});
+
 		return abs(b - a) < epsilon;
 	}
 

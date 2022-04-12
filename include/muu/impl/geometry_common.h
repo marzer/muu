@@ -254,9 +254,10 @@ namespace muu::impl
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL contains_point(vector_param line_origin,
 															vector_param line_dir,
-															vector_param point) noexcept
+															vector_param point,
+															scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-			return muu::approx_zero(distance_squared(line_origin, line_dir, point));
+			return muu::approx_zero(distance_squared(line_origin, line_dir, point), epsilon);
 		}
 	};
 
@@ -289,9 +290,10 @@ namespace muu::impl
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL contains_point(vector_param seg0,
 															vector_param seg1,
-															vector_param point) noexcept
+															vector_param point,
+															scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-			return muu::approx_zero(distance_squared(seg0, seg1, point));
+			return muu::approx_zero(distance_squared(seg0, seg1, point), epsilon);
 		}
 	};
 
@@ -345,9 +347,10 @@ namespace muu::impl
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL contains_point(vector_param normal,
 															scalar_type d,
-															vector_param point) noexcept
+															vector_param point,
+															scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-			return muu::approx_zero(signed_distance(normal, d, point));
+			return muu::approx_zero(signed_distance(normal, d, point), epsilon);
 		}
 
 		MUU_PURE_GETTER
