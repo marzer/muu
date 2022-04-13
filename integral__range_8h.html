@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/integer_range.h file | muu Miscellaneous useful utilities for C++</title>
+  <title>muu/integral_range.h file | muu Miscellaneous useful utilities for C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -57,9 +57,9 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>integer_range.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>integral_range.h <span class="m-thin">file</span>
         </h1>
-        <p>Contains the definition of <a class="m-doc" href="structmuu_1_1integer__range.html">muu::<wbr/>integer_range</a>.</p>
+        <p>Contains the definition of <a class="m-doc" href="structmuu_1_1integral__range.html">muu::<wbr/>integral_range</a>.</p>
         <div class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
@@ -85,26 +85,30 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              struct <a class="m-doc" href="structmuu_1_1integer__range.html">muu::integer_range</a>
+              struct <a class="m-doc" href="structmuu_1_1integral__range.html">muu::integral_range</a>
             </dt>
-            <dd>A half-open integer range.</dd>
+            <dd>A half-open range of integral values (ints, enums, pointers).</dd>
           </dl>
         </section>
         <section id="typedef-members">
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
             <dt>
-              using <a class="m-doc" href="group__core.html#gad6daee286a5a7777b0c500e93c4a69be">index_range</a> = integer_range&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;
+              using <a class="m-doc" href="group__core.html#gab0ee666138056710136d9532965d1565">byteptr_range</a> = integral_range&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>*&gt;
             </dt>
-            <dd>Convenience alias for <code><a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;</code>.</dd>
+            <dd>Convenience alias for <code><a class="m-doc" href="structmuu_1_1integral__range.html">integral_<wbr/>range</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>*&gt;</code>.</dd>
             <dt>
-              using <a class="m-doc" href="group__core.html#gaad46bb6f921dfdd035dac41370bc5a38">intptr_range</a> = integer_range&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a>&gt;
+              using <a class="m-doc" href="group__core.html#ga5e513b55fd7079d1be1debe2962fdd20">index_range</a> = integral_range&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;
             </dt>
-            <dd>Convenience alias for <code><a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a>&gt;</code>.</dd>
+            <dd>Convenience alias for <code><a class="m-doc" href="structmuu_1_1integral__range.html">integral_<wbr/>range</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>&gt;</code>.</dd>
             <dt>
-              using <a class="m-doc" href="group__core.html#gad56e54580ed5000385ebbf2cdef6d99b">uintptr_range</a> = integer_range&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uintptr_t</a>&gt;
+              using <a class="m-doc" href="group__core.html#gaa28ee361f8507f8ed4615cc8f0c28354">intptr_range</a> = integral_range&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a>&gt;
             </dt>
-            <dd>Convenience alias for <code><a class="m-doc" href="structmuu_1_1integer__range.html">integer_<wbr/>range</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uintptr_t</a>&gt;</code>.</dd>
+            <dd>Convenience alias for <code><a class="m-doc" href="structmuu_1_1integral__range.html">integral_<wbr/>range</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">intptr_t</a>&gt;</code>.</dd>
+            <dt>
+              using <a class="m-doc" href="group__core.html#ga981c7cbd101c1e1a282d7e89eef00965">uintptr_range</a> = integral_range&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uintptr_t</a>&gt;
+            </dt>
+            <dd>Convenience alias for <code><a class="m-doc" href="structmuu_1_1integral__range.html">integral_<wbr/>range</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uintptr_t</a>&gt;</code>.</dd>
           </dl>
         </section>
       </div>

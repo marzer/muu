@@ -25,7 +25,7 @@
     <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <includes id="half_8h" name="half.h" local="yes" imported="no">half.h</includes>
     <includes id="hashing_8h" name="hashing.h" local="yes" imported="no">hashing.h</includes>
-    <includes id="integer__range_8h" name="integer_range.h" local="yes" imported="no">integer_range.h</includes>
+    <includes id="integral__range_8h" name="integral_range.h" local="yes" imported="no">integral_range.h</includes>
     <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
     <includes id="line__segment_8h" name="line_segment.h" local="yes" imported="no">line_segment.h</includes>
     <includes id="math_8h" name="math.h" local="yes" imported="no">math.h</includes>
@@ -502,32 +502,39 @@
     </member>
   </compound>
   <compound kind="file">
-    <name>integer_range.h</name>
+    <name>integral_range.h</name>
     <path>/root/project/include/muu/</path>
-    <filename>integer__range_8h.html</filename>
+    <filename>integral__range_8h.html</filename>
     <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
-    <class kind="struct">muu::integer_range</class>
+    <class kind="struct">muu::integral_range</class>
     <namespace>muu</namespace>
     <member kind="typedef">
-      <type>integer_range&lt; size_t &gt;</type>
+      <type>integral_range&lt; size_t &gt;</type>
       <name>index_range</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gad6daee286a5a7777b0c500e93c4a69be</anchor>
+      <anchor>ga5e513b55fd7079d1be1debe2962fdd20</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>integer_range&lt; uintptr_t &gt;</type>
+      <type>integral_range&lt; uintptr_t &gt;</type>
       <name>uintptr_range</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gad56e54580ed5000385ebbf2cdef6d99b</anchor>
+      <anchor>ga981c7cbd101c1e1a282d7e89eef00965</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>integer_range&lt; intptr_t &gt;</type>
+      <type>integral_range&lt; intptr_t &gt;</type>
       <name>intptr_range</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gaad46bb6f921dfdd035dac41370bc5a38</anchor>
+      <anchor>gaa28ee361f8507f8ed4615cc8f0c28354</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>integral_range&lt; std::byte * &gt;</type>
+      <name>byteptr_range</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab0ee666138056710136d9532965d1565</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -6690,225 +6697,225 @@
     <templarg>size_t Bits</templarg>
   </compound>
   <compound kind="struct">
-    <name>muu::integer_range</name>
-    <filename>structmuu_1_1integer__range.html</filename>
+    <name>muu::integral_range</name>
+    <filename>structmuu_1_1integral__range.html</filename>
     <templarg>typename T</templarg>
     <member kind="typedef">
       <type>T</type>
       <name>value_type</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>abf2c4e015550e033bf6b0bbca9638e90</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>ae3553810ee9fa0085de37996470aace0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>muu::largest&lt; size_t, muu::make_unsigned&lt; T &gt; &gt;</type>
+      <type>POXY_IMPLEMENTATION_DETAIL_IMPL</type>
       <name>size_type</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a81522912bd850afc4f36134273938636</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a6202bbb59a4af7512f46b163f0c008f4</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>impl::integer_range_iterator&lt; value_type &gt;</type>
+      <type>POXY_IMPLEMENTATION_DETAIL_IMPL</type>
       <name>iterator</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>ae006bafe7698420938fe3d19883124b8</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a8c433ba48c87aa7fc19973b46ccb0343</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type></type>
-      <name>integer_range</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>aa7aca82e88c08236c271156752a7f31a</anchor>
+      <name>integral_range</name>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>af3b09ae8e529fa98c6543b199de2900c</anchor>
       <arglist>() noexcept=default</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
-      <name>integer_range</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a2f3308df01bb620569f0ce812929546e</anchor>
+      <name>integral_range</name>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a194c54dda08c3e49af416f3e6c85d136</anchor>
       <arglist>(value_type end_) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
-      <name>integer_range</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>af8528f1660059b9d49816ff37228cf1e</anchor>
+      <name>integral_range</name>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a24035a217a61e3dee3305c4ae30cd534</anchor>
       <arglist>(value_type start_, value_type end_) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>operator bool</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>adce8a50633dfe3051425561b625b4c77</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a4040679116c8e170b091e35b42c3d599</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>empty</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>ad246939d05b1d8878fb1f03b210257f8</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a9b77365e2a495808b94c58dde6441088</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr size_type</type>
       <name>size</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>acbb488ee509790a911cbad59ef180990</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a3a1ca272fed885429003851fb4bc0bd8</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr value_type</type>
       <name>first</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a7813e3562381e0c47462995ee27adcdb</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a93f49da0031942a121562baba044606d</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr value_type</type>
       <name>last</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>abf2bef1863ab4f01c26fb21a5d733211</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>aa1d1e005aaaa9b20684d3853a8ca4c69</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>contains</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a57a9ee2273e7f791c8abcde0020b5d9a</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>ab943d7f5cc1a0effa8d38f0d161866a0</anchor>
       <arglist>(value_type val) const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>contains</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a6f454817266709d54d2f8ba289c78b88</anchor>
-      <arglist>(const integer_range &amp;other) const noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a5140e7231b19d04d02d2f4f25c0891e0</anchor>
+      <arglist>(const integral_range &amp;other) const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>adjacent</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a9c2ffe3e376a50542220d90c160a7790</anchor>
-      <arglist>(const integer_range &amp;other) const noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>afaf845c7da7202d2d63f2b012eb4ad71</anchor>
+      <arglist>(const integral_range &amp;other) const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>intersects</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>ab8f30a0dcb32281c1abe3221deab0623</anchor>
-      <arglist>(const integer_range &amp;other) const noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a50b6f153600c77780c0642cfe87cf153</anchor>
+      <arglist>(const integral_range &amp;other) const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>intersects_or_adjacent</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>ac73ca86cfc5b807805e9d1486de22790</anchor>
-      <arglist>(const integer_range &amp;other) const noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a2d270e3a06b82e230e4823aa836899f8</anchor>
+      <arglist>(const integral_range &amp;other) const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr integer_range</type>
+      <type>constexpr integral_range</type>
       <name>union_with</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a860695f33d5529a850611461b89d7468</anchor>
-      <arglist>(const integer_range &amp;other) const noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>ae03858876a744c6f51b0209c32935ddf</anchor>
+      <arglist>(const integral_range &amp;other) const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr iterator</type>
       <name>begin</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a4d8be4a058cca60b792b9ac9ae7044d4</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a4c7ad1113c95fea9548d5e45a79f5482</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr iterator</type>
       <name>end</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a339745f686ed50700ea841f983aeb1c5</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a322cb68187dc067d130e08e9d38c5f83</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="variable">
       <type>value_type</type>
       <name>s</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a93ccc26587e3d02506ecf0a361f893fe</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a3e95c9d1fdacaa9ff5e47d7a8c963dbf</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>value_type</type>
       <name>e</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a0331f0012352265aaabec434fe60d528</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>ad0f3f7c01b3b8f704c1290f108c4ea53</anchor>
       <arglist></arglist>
     </member>
     <member kind="friend">
       <type>constexpr friend bool</type>
       <name>operator==</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a7201e16e150f251045888d1b61142d92</anchor>
-      <arglist>(const integer_range &amp;lhs, const integer_range &amp;rhs) noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a070868c8d1d333395a12038dea5d6ddf</anchor>
+      <arglist>(const integral_range &amp;lhs, const integral_range &amp;rhs) noexcept</arglist>
     </member>
     <member kind="friend">
       <type>constexpr friend bool</type>
       <name>operator!=</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>aa9d70b879cfc5fe3ab16d7c9a1daabb2</anchor>
-      <arglist>(const integer_range &amp;lhs, const integer_range &amp;rhs) noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a1c2b9095767755d3033a7a4992e7c5dc</anchor>
+      <arglist>(const integral_range &amp;lhs, const integral_range &amp;rhs) noexcept</arglist>
     </member>
     <member kind="friend">
       <type>constexpr friend iterator</type>
       <name>begin</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>aa48edbf1eeeeeccd2248bc1823c7fef7</anchor>
-      <arglist>(const integer_range &amp;range) noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a6d7ca9a825f8862720f7146a1e4aa86d</anchor>
+      <arglist>(const integral_range &amp;range) noexcept</arglist>
     </member>
     <member kind="friend">
       <type>constexpr friend iterator</type>
       <name>end</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>adcbe271add3d3d69f107ac124811a1a7</anchor>
-      <arglist>(const integer_range &amp;range) noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>aa18c7c05848712fa64faac8a2599f297</anchor>
+      <arglist>(const integral_range &amp;range) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr iterator</type>
       <name>begin</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a4d8be4a058cca60b792b9ac9ae7044d4</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a4c7ad1113c95fea9548d5e45a79f5482</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr iterator</type>
       <name>end</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a339745f686ed50700ea841f983aeb1c5</anchor>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a322cb68187dc067d130e08e9d38c5f83</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="friend">
       <type>constexpr friend bool</type>
       <name>operator==</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>a7201e16e150f251045888d1b61142d92</anchor>
-      <arglist>(const integer_range &amp;lhs, const integer_range &amp;rhs) noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a070868c8d1d333395a12038dea5d6ddf</anchor>
+      <arglist>(const integral_range &amp;lhs, const integral_range &amp;rhs) noexcept</arglist>
     </member>
     <member kind="friend">
       <type>constexpr friend bool</type>
       <name>operator!=</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>aa9d70b879cfc5fe3ab16d7c9a1daabb2</anchor>
-      <arglist>(const integer_range &amp;lhs, const integer_range &amp;rhs) noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a1c2b9095767755d3033a7a4992e7c5dc</anchor>
+      <arglist>(const integral_range &amp;lhs, const integral_range &amp;rhs) noexcept</arglist>
     </member>
     <member kind="friend">
       <type>constexpr friend iterator</type>
       <name>begin</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>aa48edbf1eeeeeccd2248bc1823c7fef7</anchor>
-      <arglist>(const integer_range &amp;range) noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>a6d7ca9a825f8862720f7146a1e4aa86d</anchor>
+      <arglist>(const integral_range &amp;range) noexcept</arglist>
     </member>
     <member kind="friend">
       <type>constexpr friend iterator</type>
       <name>end</name>
-      <anchorfile>structmuu_1_1integer__range.html</anchorfile>
-      <anchor>adcbe271add3d3d69f107ac124811a1a7</anchor>
-      <arglist>(const integer_range &amp;range) noexcept</arglist>
+      <anchorfile>structmuu_1_1integral__range.html</anchorfile>
+      <anchor>aa18c7c05848712fa64faac8a2599f297</anchor>
+      <arglist>(const integral_range &amp;range) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -15169,7 +15176,7 @@
     <class kind="class">muu::hash_combiner</class>
     <class kind="class">muu::fnv1a</class>
     <class kind="class">muu::sha1</class>
-    <class kind="struct">muu::integer_range</class>
+    <class kind="struct">muu::integral_range</class>
     <class kind="struct">muu::line_segment</class>
     <class kind="struct">muu::constants&lt; line_segment&lt; Scalar &gt; &gt;</class>
     <class kind="struct">muu::matrix</class>
@@ -15242,24 +15249,31 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>integer_range&lt; size_t &gt;</type>
+      <type>integral_range&lt; size_t &gt;</type>
       <name>index_range</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gad6daee286a5a7777b0c500e93c4a69be</anchor>
+      <anchor>ga5e513b55fd7079d1be1debe2962fdd20</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>integer_range&lt; uintptr_t &gt;</type>
+      <type>integral_range&lt; uintptr_t &gt;</type>
       <name>uintptr_range</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gad56e54580ed5000385ebbf2cdef6d99b</anchor>
+      <anchor>ga981c7cbd101c1e1a282d7e89eef00965</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>integer_range&lt; intptr_t &gt;</type>
+      <type>integral_range&lt; intptr_t &gt;</type>
       <name>intptr_range</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gaad46bb6f921dfdd035dac41370bc5a38</anchor>
+      <anchor>gaa28ee361f8507f8ed4615cc8f0c28354</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>integral_range&lt; std::byte * &gt;</type>
+      <name>byteptr_range</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab0ee666138056710136d9532965d1565</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -20225,7 +20239,7 @@
     <subgroup>meta</subgroup>
     <class kind="class">muu::compressed_pair</class>
     <class kind="struct">muu::half</class>
-    <class kind="struct">muu::integer_range</class>
+    <class kind="struct">muu::integral_range</class>
     <class kind="class">muu::scope_guard</class>
     <class kind="class">muu::scope_fail</class>
     <class kind="class">muu::scope_success</class>
@@ -20255,24 +20269,31 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>integer_range&lt; size_t &gt;</type>
+      <type>integral_range&lt; size_t &gt;</type>
       <name>index_range</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gad6daee286a5a7777b0c500e93c4a69be</anchor>
+      <anchor>ga5e513b55fd7079d1be1debe2962fdd20</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>integer_range&lt; uintptr_t &gt;</type>
+      <type>integral_range&lt; uintptr_t &gt;</type>
       <name>uintptr_range</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gad56e54580ed5000385ebbf2cdef6d99b</anchor>
+      <anchor>ga981c7cbd101c1e1a282d7e89eef00965</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>integer_range&lt; intptr_t &gt;</type>
+      <type>integral_range&lt; intptr_t &gt;</type>
       <name>intptr_range</name>
       <anchorfile>group__core.html</anchorfile>
-      <anchor>gaad46bb6f921dfdd035dac41370bc5a38</anchor>
+      <anchor>gaa28ee361f8507f8ed4615cc8f0c28354</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>integral_range&lt; std::byte * &gt;</type>
+      <name>byteptr_range</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab0ee666138056710136d9532965d1565</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
