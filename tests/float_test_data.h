@@ -13,6 +13,9 @@ MUU_DISABLE_WARNINGS;
 #include <array>
 MUU_ENABLE_WARNINGS;
 
+MUU_PUSH_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
+
 #if MUU_GCC && MUU_HAS_FLOAT128
 	#pragma GCC system_header
 #endif
@@ -1105,3 +1108,5 @@ namespace muu
 	struct float_test_data : float_test_data_by_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits>
 	{};
 }
+
+MUU_POP_WARNINGS;

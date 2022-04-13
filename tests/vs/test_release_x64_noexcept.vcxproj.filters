@@ -149,7 +149,7 @@
     <ClCompile Include="..\static_string.cpp" />
     <ClCompile Include="..\type_name.cpp" />
     <ClCompile Include="..\bit.cpp" />
-    <ClCompile Include="..\integer_range.cpp" />
+    <ClCompile Include="..\integral_range.cpp" />
     <ClCompile Include="..\type_list.cpp" />
     <ClCompile Include="..\packed_unit_vector_0.cpp">
       <Filter>packed_unit_vector</Filter>

@@ -13,7 +13,7 @@
     <ClInclude Include="include\muu\concatenate.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\integer_range.h">
+    <ClInclude Include="include\muu\integral_range.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\uuid.h">

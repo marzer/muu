@@ -57,7 +57,7 @@ def run(args):
 	garbage = shutil.ignore_patterns(*garbage)
 
 	# read version number
-	pp_h = utils.read_all_text_from_file(Path(include_dir, 'muu/preprocessor.h'))
+	pp_h = utils.read_all_text_from_file(Path(include_dir, 'muu/preprocessor.h'), logger=True)
 	match = re.search(
 			r'#\s*define\s+MUU_VERSION_MAJOR\s+([0-9]+)[^0-9].*'
 			+ r'#\s*define\s+MUU_VERSION_MINOR\s+([0-9]+)[^0-9].*'
@@ -133,6 +133,16 @@ def run(args):
 	# write COMMIT
 	with open_text_file_for_writing(out_dir, 'COMMIT') as f:
 		print(git_commit_hash, file=f, end='')
+
+	# write BREADCRUMB
+	with open_text_file_for_writing(out_dir, 'BREADCRUMB') as f:
+		s = ''
+		for arg in sys.argv:
+			if re.search(r'\s', arg) is not None:
+				s += rf'"{arg}" '
+			else:
+				s += rf'{arg} '
+		print(s.strip(), file=f, end='')
 
 	# pull submodules
 	if not args.nosubmodules:

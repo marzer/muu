@@ -454,11 +454,18 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr T* apply_offset(T* ptr, Offset offset) noexcept
 	{
-		using char_ptr = rebase_pointer<T*, unsigned char>;
-		if constexpr (std::is_void_v<T>)
-			return static_cast<T*>(static_cast<char_ptr>(ptr) + offset);
+		if constexpr (any_same<remove_cv<T>, char, signed char, unsigned char, std::byte>)
+		{
+			return ptr + offset;
+		}
 		else
-			return reinterpret_cast<T*>(reinterpret_cast<char_ptr>(ptr) + offset);
+		{
+			using char_ptr = rebase_pointer<T*, unsigned char>;
+			if constexpr (std::is_void_v<T>)
+				return static_cast<T*>(static_cast<char_ptr>(ptr) + offset);
+			else
+				return reinterpret_cast<T*>(reinterpret_cast<char_ptr>(ptr) + offset);
+		}
 	}
 
 	/// \cond

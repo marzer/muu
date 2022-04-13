@@ -21,7 +21,7 @@
 #include "generic_allocator.h"
 #include "half.h"
 #include "hashing.h"
-#include "integer_range.h"
+#include "integral_range.h"
 #include "iterators.h"
 #include "line_segment.h"
 #include "math.h"

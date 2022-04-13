@@ -356,15 +356,16 @@ namespace muu
 	using const_byte_span = span<const std::byte>;
 
 	template <typename>
-	struct integer_range;
-	using index_range	= integer_range<size_t>;
-	using uintptr_range = integer_range<uintptr_t>;
-	using intptr_range	= integer_range<intptr_t>;
+	struct integral_range;
+	using index_range	= integral_range<size_t>;
+	using uintptr_range = integral_range<uintptr_t>;
+	using intptr_range	= integral_range<intptr_t>;
+	using byteptr_range = integral_range<std::byte*>;
 
 	namespace impl
 	{
 		template <typename>
-		struct integer_range_iterator;
+		struct integral_range_iterator;
 
 		template <typename>
 		struct basic_accumulator;

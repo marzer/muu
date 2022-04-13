@@ -529,6 +529,9 @@ def main():
 		write('#include <array>')
 		write('MUU_ENABLE_WARNINGS;')
 		write('')
+		write('MUU_PUSH_WARNINGS;')
+		write('MUU_DISABLE_SPAM_WARNINGS;')
+		write('')
 		write('#if MUU_GCC && MUU_HAS_FLOAT128')
 		write('\t#pragma GCC system_header')
 		write('#endif')
@@ -570,6 +573,9 @@ def main():
 
 		indent = indent - 1 
 		write('}')
+
+		write('')
+		write('MUU_POP_WARNINGS;')
 		
 
 if __name__ == '__main__':
