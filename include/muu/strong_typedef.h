@@ -646,7 +646,6 @@ namespace muu
 		template <typename T>
 		struct stypedef_pre_increment<T, true>
 		{
-			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			friend constexpr T& operator++(T& lhs) //
 				noexcept(noexcept(++std::declval<stypedef_lvalue<T>>()))
@@ -663,7 +662,6 @@ namespace muu
 		template <typename T>
 		struct stypedef_post_increment<T, true>
 		{
-			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			friend constexpr T operator++(T& lhs, int) //
 				noexcept(noexcept(std::declval<stypedef_lvalue<T>>()++))
@@ -685,7 +683,6 @@ namespace muu
 		template <typename T>
 		struct stypedef_pre_decrement<T, true>
 		{
-			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			friend constexpr T& operator--(T& lhs) //
 				noexcept(noexcept(--std::declval<stypedef_lvalue<T>>()))
@@ -702,7 +699,6 @@ namespace muu
 		template <typename T>
 		struct stypedef_post_decrement<T, true>
 		{
-			MUU_NODISCARD
 			MUU_ALWAYS_INLINE
 			friend constexpr T operator--(T& lhs, int) //
 				noexcept(noexcept(std::declval<stypedef_lvalue<T>>()--))

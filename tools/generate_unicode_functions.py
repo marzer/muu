@@ -13,6 +13,7 @@ import math
 import bisect
 import json
 from pathlib import Path
+from argparse import ArgumentParser
 
 
 #### SETTINGS / MISC ##################################################################################################
@@ -2003,12 +2004,6 @@ def write_header(folders, code_unit):
 				value_ranges=(160, 5760, 6158, (8192, 8203), 8239, 8287, 8288, 12288, 65279)
 			)
 
-			write_compound_boolean_function(files, code_unit,
-				'is_horizontal_whitespace', '',
-				'is_ascii_horizontal_whitespace(c)', 'is_non_ascii_horizontal_whitespace(c)'
-			)
-
-
 			write_identification_function(files, code_unit,
 				'is_ascii_vertical_whitespace', '',
 				value_ranges=((10, 13),)
@@ -2019,24 +2014,34 @@ def write_header(folders, code_unit):
 				value_ranges=(133, 8232, 8233)
 			)
 
-			write_compound_boolean_function(files, code_unit,
-				'is_vertical_whitespace', '',
-				'is_ascii_vertical_whitespace(c)', 'is_non_ascii_vertical_whitespace(c)'
-			)
-
-			write_compound_boolean_function(files, code_unit,
-				'is_whitespace', '',
-				'is_horizontal_whitespace(c)', 'is_vertical_whitespace(c)'
-			)
-
 			write_identification_function(files, code_unit,
 				'is_ascii_bare_key_character', '',
 				value_ranges=(('a', 'z'), ('A', 'Z'), ('0', '9'), '-', '_')
 			)
 
-			write_compound_boolean_function(files, code_unit,
+			write_identification_function(files, code_unit,
 				'is_non_ascii_bare_key_character', '',
-				'is_non_ascii_letter(c)', 'is_non_ascii_number(c)', 'is_combining_mark(c)'
+				value_ranges=(
+					 0x00B2,
+					 0x00B3,
+					 0x00B9,
+					(0x00BC,  0x00BE),
+					(0x00C0,  0x00D6),
+					(0x00D8,  0x00F6),
+					(0x00F8,  0x037D),
+					(0x037F,  0x1FFF),
+					 0x200C,
+					 0x200D,
+					 0x203F,
+					 0x2040,
+					(0x2070,  0x218F),
+					(0x2460,  0x24FF),
+					(0x2C00,  0x2FEF),
+					(0x3001,  0xD7FF),
+					(0xF900,  0xFDCF),
+					(0xFDF0,  0xFFFD),
+					(0x10000, 0xEFFFF)
+				)
 			)
 
 		# finish up header
@@ -2081,6 +2086,11 @@ def write_header(folders, code_unit):
 
 
 def main():
+
+	args = ArgumentParser(description=r"Regenerates the library's unicode functions. ")
+	args.add_argument('--tomlpp', action='store_true')
+	args = args.parse_args()
+
 	header_folder = Path(utils.entry_script_dir(), '..', 'include', 'muu', 'impl').resolve()
 	tests_folder = Path(utils.entry_script_dir(), '..', 'tests').resolve()
 	ucd() # force generation first
@@ -2091,6 +2101,7 @@ def main():
 	# G.codegen_debugging = True
 	# G.tomlplusplus_funcs = True
 
+	G.tomlplusplus_funcs = args.tomlpp
 	if G.tomlplusplus_funcs:
 		G.generate_tests			= False
 		G.hoist_constant_children	= True
