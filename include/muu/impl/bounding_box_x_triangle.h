@@ -32,6 +32,13 @@ namespace muu
 	{
 		return aabbs::intersects_triangle(base::center, base::extents, tri.points[0], tri.points[1], tri.points[2]);
 	}
+
+	template <typename Scalar>
+	constexpr bounding_box<Scalar>& MUU_VECTORCALL bounding_box<Scalar>::append(
+		MUU_VC_PARAM(triangle<scalar_type>) tri) noexcept
+	{
+		return append(tri.points[0], tri.points[1], tri.points[2]);
+	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------

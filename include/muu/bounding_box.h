@@ -729,55 +729,76 @@ namespace muu
 		  /// \name Appending
 		  /// @{
 
-		/// \brief Adds a point to a bounding box, expanding the bounded region to contain it if necessary.
-		///
-		/// \param	bb		The bounding box to append to.
-		/// \param	pt		The point being added to the box's volume.
-		///
-		/// \return	Returns an axis-aligned bounding box containing all the points of the
-		///			input bounding box as well as the new point.
-		MUU_PURE_GETTER
-		static constexpr bounding_box MUU_VECTORCALL append(MUU_VC_PARAM(bounding_box) bb,
-															MUU_VC_PARAM(vector_type) pt) noexcept
-		{
-			if constexpr (requires_promotion)
-			{
-				return bounding_box{ promoted_box::append(promoted_box{ bb }, promoted_vec3{ pt }) };
-			}
-			else
-			{
-				return from_min_max(vector_type::min(bounding_box::min_corner(bb), pt),
-									vector_type::max(bounding_box::max_corner(bb), pt));
-			}
-		}
-
 		/// \brief Adds a point to the bounding box (in-place), expanding the bounded region to contain it if necessary.
 		///
 		/// \param	pt		The point being added to the box's volume.
 		///
 		/// \return	A reference to the box.
-		constexpr bounding_box& append(MUU_VC_PARAM(vector_type) pt) noexcept
+		constexpr bounding_box& MUU_VECTORCALL append(MUU_VC_PARAM(vector_type) pt) noexcept
 		{
-			return *this = append(*this, pt);
+			if constexpr (requires_promotion)
+			{
+				return *this = bounding_box{ promoted_box{ *this }.append(promoted_vec3{ pt }) };
+			}
+			else
+			{
+				return *this = from_min_max(vector_type::min(min_corner(*this), pt),
+											vector_type::max(max_corner(*this), pt));
+			}
 		}
 
-		/// \brief Adds a line segment to a bounding box, expanding the bounded region to contain it if necessary.
+		/// \brief Adds two or more points to the bounding box (in-place), expanding the bounded region to contain them if necessary.
 		///
-		/// \param	bb		The bounding box to append to.
-		/// \param	seg		The line segment being added to the box's volume.
+		/// \param	pt1		The first point being added to the box's volume.
+		/// \param	pt2		The second point being added to the box's volume.
+		/// \param	pts		The remaining points being added to the box's volume.
 		///
-		/// \return	Returns an axis-aligned bounding box containing all the points of the
-		///			input bounding box as well as the line segment.
-		MUU_PURE_GETTER
-		static constexpr bounding_box MUU_VECTORCALL append(MUU_VC_PARAM(bounding_box) bb,
-															MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept;
+		/// \return	A reference to the box.
+		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, T...>), typename... T)
+		constexpr bounding_box& MUU_VECTORCALL append(MUU_VC_PARAM(vector_type) pt1,
+													  MUU_VC_PARAM(vector_type) pt2,
+													  const T&... pts) noexcept
+		{
+			if constexpr (sizeof...(T) && !all_same<vector_type, remove_cvref<T>...>)
+			{
+				return append(pt1, pt2, static_cast<vector_type>(pts)...);
+			}
+			else if constexpr (requires_promotion)
+			{
+				return *this = bounding_box{
+					promoted_box{ *this }.append(promoted_vec3{ pt1 }, promoted_vec3{ pt2 }, promoted_vec3{ pts }...)
+				};
+			}
+			else
+			{
+				return *this = from_min_max(vector_type::min(min_corner(*this), pt1, pt2, pts...),
+											vector_type::max(max_corner(*this), pt1, pt2, pts...));
+			}
+		}
+
+		/// \brief Adds another box to the bounding box (in-place), expanding the bounded region to contain it if necessary.
+		///
+		/// \param	bb		The bounding box being added to the box's volume.
+		///
+		/// \return	A reference to the box.
+		constexpr bounding_box& MUU_VECTORCALL append(MUU_VC_PARAM(bounding_box) bb) noexcept
+		{
+			return append(min_corner(bb), max_corner(bb));
+		}
 
 		/// \brief Adds a line segment to the bounding box (in-place), expanding the bounded region to contain it if necessary.
 		///
 		/// \param	seg		The line segment being added to the box's volume.
 		///
 		/// \return	A reference to the box.
-		constexpr bounding_box& append(MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept;
+		constexpr bounding_box& MUU_VECTORCALL append(MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept;
+
+		/// \brief Adds a triangle to the bounding box (in-place), expanding the bounded region to contain it if necessary.
+		///
+		/// \param	tri		The triangle being added to the box's volume.
+		///
+		/// \return	A reference to the box.
+		constexpr bounding_box& MUU_VECTORCALL append(MUU_VC_PARAM(triangle<scalar_type>) tri) noexcept;
 
 	/// @}
 	#endif // appending

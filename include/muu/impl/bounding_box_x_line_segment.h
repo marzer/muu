@@ -34,26 +34,10 @@ namespace muu
 	}
 
 	template <typename Scalar>
-	MUU_PURE_GETTER
-	constexpr bounding_box<Scalar> MUU_VECTORCALL bounding_box<Scalar>::append(
-		MUU_VC_PARAM(bounding_box) bb,
+	constexpr bounding_box<Scalar>& MUU_VECTORCALL bounding_box<Scalar>::append(
 		MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept
 	{
-		if constexpr (requires_promotion)
-		{
-			return bounding_box{ promoted_box::append(promoted_box{ bb }, line_segment<promoted_scalar>{ seg }) };
-		}
-		else
-		{
-			return from_points(vector_type::min(bounding_box::min_corner(bb), seg.points[0], seg.points[1]),
-							   vector_type::max(bounding_box::max_corner(bb), seg.points[0], seg.points[1]));
-		}
-	}
-
-	template <typename Scalar>
-	constexpr bounding_box<Scalar>& bounding_box<Scalar>::append(MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept
-	{
-		return *this = append(*this, seg);
+		return append(seg.points[0], seg.points[1]);
 	}
 
 }
