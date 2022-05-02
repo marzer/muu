@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.3" name="generator"/>
+  <meta content="Poxy v0.5.5" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.3.css" rel="stylesheet"/>
-  <link href="poxy-0.5.3-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.3.js"></script>
+  <link href="poxy-0.5.5.css" rel="stylesheet"/>
+  <link href="poxy-0.5.5-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.5.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -81,7 +81,7 @@
             </tr>
           </tbody>
         </table>
-        <div class="m-block m-default poxy-toc">
+        <nav class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
             <li>
@@ -94,7 +94,7 @@
               </ul>
             </li>
           </ul>
-        </div>
+        </nav>
 <p>Strong typedefs use the C++ type system to create compile-time guarantees for values that otherwise might only be represented by regular typedefs, and thus lose their semantic meaning when passed to the compiler. Doing so prevents an entire class of bugs where incompatible values can be accidentally used interchangeably because they were of same/convertible type:</p><pre class="m-code"><span class="cp">#ifdef DO_BAD_STUFF</span>
 <span class="k">using</span> <span class="ut">thing_id</span>    <span class="o">=</span> <span class="k">int</span><span class="p">;</span>
 <span class="k">using</span> <span class="ut">thing_index</span> <span class="o">=</span> <span class="k">int</span><span class="p">;</span>
@@ -217,8 +217,8 @@
     </div>
   </div>
 </div>
-<script src="search-v1.js"></script>
-<script async="async" src="searchdata-v1.js"></script>
+<script src="search-v2.js"></script>
+<script async="async" src="searchdata-v2.js"></script>
 <footer><nav>
   <div class="m-container">
     <div class="m-row">
