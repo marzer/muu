@@ -51,13 +51,15 @@ namespace muu
 		using base = impl::plane_<Scalar>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * 4), "Planes should not have padding");
 
-		using planes			 = impl::planes_common<Scalar>;
-		using triangles			 = impl::triangles_common<Scalar>;
-		using aabbs				 = impl::aabb_common<Scalar>;
-		using intermediate_float = promote_if_small_float<scalar_type>;
-		static_assert(is_floating_point<intermediate_float>);
-
+		using planes		   = impl::planes_common<Scalar>;
+		using triangles		   = impl::triangles_common<Scalar>;
+		using aabbs			   = impl::aabb_common<Scalar>;
 		using scalar_constants = muu::constants<scalar_type>;
+
+		using promoted_scalar				 = promote_if_small_float<scalar_type>;
+		using promoted_vec					 = vector<promoted_scalar, 3>;
+		using promoted_plane				 = plane<promoted_scalar>;
+		static constexpr bool is_small_float = impl::is_small_float_<scalar_type>;
 
 	  public:
 	#ifdef DOXYGEN
@@ -297,9 +299,15 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr plane MUU_VECTORCALL normalize(MUU_VC_PARAM(plane) p) noexcept
 		{
-			const intermediate_float inv_length = intermediate_float{ 1 } / vector_type::raw_length(p.n);
-			return plane{ vector_type::raw_multiply_scalar(p.n, inv_length),
-						  static_cast<scalar_type>(p.d * inv_length) };
+			if constexpr (is_small_float)
+			{
+				return plane{ promoted_plane::normalize(promoted_plane{ p }) };
+			}
+			else
+			{
+				const auto inv_len = scalar_type{ 1 } / vector_type::length(p.n);
+				return plane{ p.n * inv_len, p.d * inv_len };
+			}
 		}
 
 		/// \brief		Normalizes the plane (in-place).
