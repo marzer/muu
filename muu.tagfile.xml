@@ -7965,6 +7965,97 @@
       <anchor>afcf61d031627037a510b480bec8ecb08</anchor>
       <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
     </member>
+    <member kind="variable">
+      <type>column_type</type>
+      <name>m</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa9374ff95558bb843c99282aa7335224</anchor>
+      <arglist>[columns]</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr size_t</type>
+      <name>rows</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a228170eec0384c3a2f974a9defe4e628</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr size_t</type>
+      <name>columns</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a9e484f8d23156004ee20bf7249105d01</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
+      <name>operator&lt;&lt;</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa58692cee8066ae4618735b5fa13cd2f</anchor>
+      <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const matrix &amp;m)</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>ga1f57b7af70f0235ad644486a5943e582</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>gac9148a5c5b63c63d14ca506aee43484e</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m1, const matrix&lt; T, R, C &gt; &amp;m2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_zero</name>
+      <anchorfile>group__approx__zero.html</anchorfile>
+      <anchor>gae6774c12326004b4e421e554a35afe8b</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr matrix&lt; S, C, R &gt;</type>
+      <name>transpose</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a4d11bad2718bdbb090fb73ab6c5def00</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr determinant_type</type>
+      <name>determinant</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a4cb7a56d0f2260af3ceb0b0c5204ed0b</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr inverse_type</type>
+      <name>invert</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a279539802143d8a8227c503be45aa972</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr matrix&lt; S, R, C &gt;</type>
+      <name>orthonormalize</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>abe6723009e315776a0868a4062e4537b</anchor>
+      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>has_2d_shear</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a629ba64ede6c8f9161e387fb14472c33</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>has_3d_shear</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a5e37b9c72e81e94988ef4c6d9a9d0dfe</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
       <name>from_2d_rotation</name>
@@ -8062,83 +8153,6 @@
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>a12bf6878e3127cf38cd120afe71e153e</anchor>
       <arglist>(const vector&lt; Scalar, 3 &gt; &amp;x, const vector&lt; Scalar, 3 &gt; &amp;y, const vector&lt; Scalar, 3 &gt; &amp;z) noexcept</arglist>
-    </member>
-    <member kind="variable">
-      <type>column_type</type>
-      <name>m</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa9374ff95558bb843c99282aa7335224</anchor>
-      <arglist>[columns]</arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static constexpr size_t</type>
-      <name>rows</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a228170eec0384c3a2f974a9defe4e628</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" static="yes">
-      <type>static constexpr size_t</type>
-      <name>columns</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a9e484f8d23156004ee20bf7249105d01</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="friend">
-      <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
-      <name>operator&lt;&lt;</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa58692cee8066ae4618735b5fa13cd2f</anchor>
-      <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const matrix &amp;m)</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga1f57b7af70f0235ad644486a5943e582</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_equal</name>
-      <anchorfile>group__approx__equal.html</anchorfile>
-      <anchor>gac9148a5c5b63c63d14ca506aee43484e</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m1, const matrix&lt; T, R, C &gt; &amp;m2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>approx_zero</name>
-      <anchorfile>group__approx__zero.html</anchorfile>
-      <anchor>gae6774c12326004b4e421e554a35afe8b</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m, S epsilon=default_epsilon&lt; S &gt;) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix&lt; S, C, R &gt;</type>
-      <name>transpose</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a4d11bad2718bdbb090fb73ab6c5def00</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr determinant_type</type>
-      <name>determinant</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a4cb7a56d0f2260af3ceb0b0c5204ed0b</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr inverse_type</type>
-      <name>invert</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a279539802143d8a8227c503be45aa972</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr matrix&lt; S, R, C &gt;</type>
-      <name>orthonormalize</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>abe6723009e315776a0868a4062e4537b</anchor>
-      <arglist>(const matrix&lt; S, R, C &gt; &amp;m) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr column_type &amp;</type>
@@ -8671,104 +8685,6 @@
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>afcf61d031627037a510b480bec8ecb08</anchor>
       <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_2d_rotation</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ac253df72b0a6090ea245617ff6928f75</anchor>
-      <arglist>(const matrix&lt; scalar_type, R, C &gt; &amp;rot) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_rotation</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aa746d6f50050ec632cdea5d278339fc3</anchor>
-      <arglist>(const matrix&lt; scalar_type, 2, 2 &gt; &amp;rot) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_rotation</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a21140aa6625cfd0f231d35316db36a6e</anchor>
-      <arglist>(const matrix&lt; scalar_type, 2, 3 &gt; &amp;rot) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_3d_rotation</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aaeeed3324aeac34a0b04d20928c52d01</anchor>
-      <arglist>(const matrix&lt; scalar_type, R, C &gt; &amp;rot) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_rotation</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a90f9a29776928b16711dd4da9787bb12</anchor>
-      <arglist>(const matrix&lt; scalar_type, 3, 3 &gt; &amp;rot) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_rotation</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a787e7a744d2be98100fc2c8617d57504</anchor>
-      <arglist>(const matrix&lt; scalar_type, 3, 4 &gt; &amp;rot) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_rotation</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a00dc717aef6ab590262d271310dcf63f</anchor>
-      <arglist>(const matrix&lt; scalar_type, 4, 4 &gt; &amp;rot) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_quaternion</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>adf8d5bcc6abeb0a00716928a6f796489</anchor>
-      <arglist>(const quaternion_type &amp;quat) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_axis_angle</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>ad64e9541ec96188c0b22b6a4383b93ac</anchor>
-      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;axis, scalar_type angle) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_axis_angle</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a94f32de9a1014a6cfb2776a5165a17d7</anchor>
-      <arglist>(const axis_angle_type &amp;aa) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_euler</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aac9b759c67f7bdcc288f45c1b167defd</anchor>
-      <arglist>(scalar_type yaw, scalar_type pitch, scalar_type roll) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_euler</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>aafc872b6f752d975a75f6e95227bc4aa</anchor>
-      <arglist>(const euler_type &amp;angles) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_axes</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a6adee52c61eae0ad9d4f81346ff281db</anchor>
-      <arglist>(const vector&lt; Scalar, 2 &gt; &amp;x, const vector&lt; Scalar, 2 &gt; &amp;y) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr matrix</type>
-      <name>from_axes</name>
-      <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a12bf6878e3127cf38cd120afe71e153e</anchor>
-      <arglist>(const vector&lt; Scalar, 3 &gt; &amp;x, const vector&lt; Scalar, 3 &gt; &amp;y, const vector&lt; Scalar, 3 &gt; &amp;z) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
