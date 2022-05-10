@@ -401,6 +401,20 @@ namespace muu::impl
 				return out;
 			}
 		}
+
+		MUU_PURE_GETTER
+		constexpr bool has_2d_shear() const noexcept
+		{
+			using matrix_type = matrix<Scalar, Rows, Columns>;
+			using dir_type	  = vector<Scalar, 2>;
+
+			const auto x = dir_type::normalize(dir_type{ static_cast<const matrix_type&>(*this).x_column() });
+			const auto y = dir_type::normalize(dir_type{ static_cast<const matrix_type&>(*this).y_column() });
+
+			constexpr auto eps = Scalar{ 0.001 };
+
+			return !approx_equal(dir_type::dot(x, y), Scalar{}, eps);
+		}
 	};
 
 	//--- 3d rotation matrices -----------------------------------------------------------------------------------------
@@ -535,6 +549,23 @@ namespace muu::impl
 			MUU_VC_PARAM(euler_angles<Scalar>) angles) noexcept
 		{
 			return from_euler(angles.yaw, angles.pitch, angles.roll);
+		}
+
+		MUU_PURE_GETTER
+		constexpr bool has_3d_shear() const noexcept
+		{
+			using matrix_type = matrix<Scalar, Rows, Columns>;
+			using dir_type	  = vector<Scalar, 3>;
+
+			const auto x = dir_type::normalize(dir_type{ static_cast<const matrix_type&>(*this).x_column() });
+			const auto y = dir_type::normalize(dir_type{ static_cast<const matrix_type&>(*this).y_column() });
+			const auto z = dir_type::normalize(dir_type{ static_cast<const matrix_type&>(*this).z_column() });
+
+			constexpr auto eps = Scalar{ 0.001 };
+
+			return !approx_equal(dir_type::dot(x, y), Scalar{}, eps) //
+				|| !approx_equal(dir_type::dot(x, z), Scalar{}, eps) //
+				|| !approx_equal(dir_type::dot(y, z), Scalar{}, eps);
 		}
 	};
 
@@ -1477,6 +1508,18 @@ namespace muu
 		static constexpr matrix from_axes(const vector<Scalar, 3>& x,
 										  const vector<Scalar, 3>& y,
 										  const vector<Scalar, 3>& z) noexcept;
+
+		/// \brief Returns true if a 2D rotation matrix contains shear.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 2x2, 2x3 or 3x3.
+		constexpr bool has_2d_shear() const noexcept;
+
+		/// \brief Returns true if a 3D rotation matrix contains shear.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 3x3, 3x4 or 4x4.
+		constexpr bool has_3d_shear() const noexcept;
 
 	#endif // DOXYGEN
 
