@@ -36,267 +36,50 @@ namespace muu
 
 /// \cond
 
+#define MUU_GEOMETRY_BASE_BOILERPLATE(T)                                                                               \
+	namespace impl                                                                                                     \
+	{                                                                                                                  \
+		template <typename Scalar>                                                                                     \
+		inline constexpr bool is_hva<T##_<Scalar>> = can_be_hva_of<Scalar, T##_<Scalar>>;                              \
+                                                                                                                       \
+		template <typename Scalar>                                                                                     \
+		inline constexpr bool is_hva<muu::T<Scalar>> = is_hva<T##_<Scalar>>;                                           \
+                                                                                                                       \
+		template <typename Scalar>                                                                                     \
+		struct vectorcall_param_<muu::T<Scalar>>                                                                       \
+		{                                                                                                              \
+			using type =                                                                                               \
+				std::conditional_t<pass_vectorcall_by_value<T##_<Scalar>>, muu::T<Scalar>, const muu::T<Scalar>&>;     \
+		};                                                                                                             \
+	}                                                                                                                  \
+                                                                                                                       \
+	template <typename From, typename Scalar>                                                                          \
+	inline constexpr bool allow_implicit_bit_cast<From, impl::T##_<Scalar>> =                                          \
+		allow_implicit_bit_cast<From, muu::T<Scalar>>;                                                                 \
+                                                                                                                       \
+	static_assert(true)
+
+//======================================================================================================================
+// planes
+//======================================================================================================================
+
+namespace muu
+{
+	namespace impl
+	{
+		template <typename Scalar>
+		struct MUU_TRIVIAL_ABI plane_
+		{
+			vector<Scalar, 3> n;
+			Scalar d;
+		};
+	}
+
+	MUU_GEOMETRY_BASE_BOILERPLATE(plane);
+}
+
 namespace muu::impl
 {
-	// ---- plane -----------------------------------
-
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI plane_
-	{
-		vector<Scalar, 3> n;
-		Scalar d;
-	};
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<plane_<Scalar>> = can_be_hva_of<Scalar, plane_<Scalar>>;
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<plane<Scalar>> = is_hva<plane_<Scalar>>;
-
-	template <typename Scalar>
-	struct vectorcall_param_<plane<Scalar>>
-	{
-		using type = std::conditional_t<pass_vectorcall_by_value<plane_<Scalar>>, plane<Scalar>, const plane<Scalar>&>;
-	};
-
-	// ---- line_segment -----------------------------------
-
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI line_segment_
-	{
-		vector<Scalar, 3> points[2];
-	};
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<line_segment_<Scalar>> = can_be_hva_of<Scalar, line_segment_<Scalar>>;
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<line_segment<Scalar>> = is_hva<line_segment_<Scalar>>;
-
-	template <typename Scalar>
-	struct vectorcall_param_<line_segment<Scalar>>
-	{
-		using type = std::conditional_t<pass_vectorcall_by_value<line_segment_<Scalar>>,
-										line_segment<Scalar>,
-										const line_segment<Scalar>&>;
-	};
-
-	// ---- triangle -----------------------------------
-
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI triangle_
-	{
-		vector<Scalar, 3> points[3];
-	};
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<triangle_<Scalar>> = can_be_hva_of<Scalar, triangle_<Scalar>>;
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<triangle<Scalar>> = is_hva<triangle_<Scalar>>;
-
-	template <typename Scalar>
-	struct vectorcall_param_<triangle<Scalar>>
-	{
-		using type =
-			std::conditional_t<pass_vectorcall_by_value<triangle_<Scalar>>, triangle<Scalar>, const triangle<Scalar>&>;
-	};
-
-	// ---- bounding_sphere -----------------------------------
-
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI bounding_sphere_
-	{
-		vector<Scalar, 3> center;
-		Scalar radius;
-	};
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<bounding_sphere_<Scalar>> = can_be_hva_of<Scalar, bounding_sphere_<Scalar>>;
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<bounding_sphere<Scalar>> = is_hva<bounding_sphere_<Scalar>>;
-
-	template <typename Scalar>
-	struct vectorcall_param_<bounding_sphere<Scalar>>
-	{
-		using type = std::conditional_t<pass_vectorcall_by_value<bounding_sphere_<Scalar>>,
-										bounding_sphere<Scalar>,
-										const bounding_sphere<Scalar>&>;
-	};
-
-	// ---- bounding_box -----------------------------------
-
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI bounding_box_
-	{
-		vector<Scalar, 3> center;
-		vector<Scalar, 3> extents;
-	};
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<bounding_box_<Scalar>> = can_be_hva_of<Scalar, bounding_box_<Scalar>>;
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<bounding_box<Scalar>> = is_hva<bounding_box_<Scalar>>;
-
-	template <typename Scalar>
-	struct vectorcall_param_<bounding_box<Scalar>>
-	{
-		using type = std::conditional_t<pass_vectorcall_by_value<bounding_box_<Scalar>>,
-										bounding_box<Scalar>,
-										const bounding_box<Scalar>&>;
-	};
-
-	// ---- oriented_bounding_box -----------------------------------
-
-	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI oriented_bounding_box_
-	{
-		vector<Scalar, 3> center;
-		vector<Scalar, 3> extents;
-		matrix<Scalar, 3, 3> axes;
-	};
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<oriented_bounding_box_<Scalar>> =
-		can_be_hva_of<Scalar, oriented_bounding_box_<Scalar>>;
-
-	template <typename Scalar>
-	inline constexpr bool is_hva<oriented_bounding_box<Scalar>> = is_hva<oriented_bounding_box_<Scalar>>;
-
-	template <typename Scalar>
-	struct vectorcall_param_<oriented_bounding_box<Scalar>>
-	{
-		using type = std::conditional_t<pass_vectorcall_by_value<oriented_bounding_box_<Scalar>>,
-										oriented_bounding_box<Scalar>,
-										const oriented_bounding_box<Scalar>&>;
-	};
-
-	// ---- separating-axis tester -----------------------------------
-
-	template <typename Scalar>
-	struct sat_tester
-	{
-		using scalar_type  = Scalar;
-		using vector_type  = vector<scalar_type, 3>;
-		using vector_param = vectorcall_param<vector_type>;
-
-		scalar_type min = constants<scalar_type>::highest;
-		scalar_type max = constants<scalar_type>::lowest;
-
-		constexpr void MUU_VECTORCALL operator()(vector_param axis, vector_param point) noexcept
-		{
-			const auto proj = vector_type::dot(axis, point);
-			min				= muu::min(proj, min);
-			max				= muu::max(proj, max);
-		}
-
-		template <size_t N>
-		constexpr void MUU_VECTORCALL operator()(vector_param axis, const vector_type (&points)[N]) noexcept
-		{
-			for (const auto p : points)
-				(*this)(axis, p);
-		}
-
-		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL operator()(scalar_type threshold) noexcept
-		{
-			return max >= threshold && min <= threshold;
-		}
-
-		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL operator()(scalar_type min_threshold, scalar_type max_threshold) noexcept
-		{
-			return max >= min_threshold && min <= max_threshold;
-		}
-
-		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL operator()(const sat_tester& other) noexcept
-		{
-			return max >= other.min && min <= other.max;
-		}
-	};
-
-	// ---- base/helper types -----------------------------------
-
-	template <typename Scalar>
-	struct lines_common
-	{
-		using scalar_type  = Scalar;
-		using vector_type  = vector<scalar_type, 3>;
-		using vector_param = vectorcall_param<vector_type>;
-
-		MUU_PURE_INLINE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL project_distance(vector_param line_origin,
-																	 vector_param line_dir,
-																	 vector_param point) noexcept
-		{
-			return vector_type::dot(point - line_origin, line_dir);
-		}
-
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL project(vector_param line_origin,
-															vector_param line_dir,
-															vector_param point) noexcept
-		{
-			return line_origin + line_dir * project_distance(line_origin, line_dir, point);
-		}
-
-		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL distance_squared(vector_param line_origin,
-																	 vector_param line_dir,
-																	 vector_param point) noexcept
-		{
-			return vector_type::distance_squared(point, project(line_origin, line_dir, point));
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains_point(vector_param line_origin,
-															vector_param line_dir,
-															vector_param point,
-															scalar_type epsilon = default_epsilon<scalar_type>) noexcept
-		{
-			return muu::approx_zero(distance_squared(line_origin, line_dir, point), epsilon);
-		}
-	};
-
-	template <typename Scalar>
-	struct line_segments_common
-	{
-		using scalar_type  = Scalar;
-		using vector_type  = vector<scalar_type, 3>;
-		using vector_param = vectorcall_param<vector_type>;
-		using lines		   = lines_common<Scalar>;
-
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL nearest_point(vector_param seg0, // aka clamped_project()
-																  vector_param seg1,
-																  vector_param point) noexcept
-		{
-			scalar_type seg_len{};
-			const auto seg_dir = vector_type::direction(seg0, seg1, seg_len);
-			return seg0 + seg_dir * muu::clamp(lines::project_distance(seg0, seg_dir, point), scalar_type{}, seg_len);
-		}
-
-		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL distance_squared(vector_param seg0,
-																	 vector_param seg1,
-																	 vector_param point) noexcept
-		{
-			return vector_type::distance_squared(point, nearest_point(seg0, seg1, point));
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains_point(vector_param seg0,
-															vector_param seg1,
-															vector_param point,
-															scalar_type epsilon = default_epsilon<scalar_type>) noexcept
-		{
-			return muu::approx_zero(distance_squared(seg0, seg1, point), epsilon);
-		}
-	};
-
 	template <typename Scalar>
 	struct planes_common
 	{
@@ -368,7 +151,133 @@ namespace muu::impl
 			return signed_distance(normal, d, start) * signed_distance(normal, d, end) >= scalar_type{};
 		}
 	};
+}
 
+//======================================================================================================================
+// lines
+//======================================================================================================================
+
+namespace muu::impl
+{
+	template <typename Scalar>
+	struct lines_common
+	{
+		using scalar_type  = Scalar;
+		using vector_type  = vector<scalar_type, 3>;
+		using vector_param = vectorcall_param<vector_type>;
+
+		MUU_PURE_INLINE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL project_distance(vector_param line_origin,
+																	 vector_param line_dir,
+																	 vector_param point) noexcept
+		{
+			return vector_type::dot(point - line_origin, line_dir);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr vector_type MUU_VECTORCALL project(vector_param line_origin,
+															vector_param line_dir,
+															vector_param point) noexcept
+		{
+			return line_origin + line_dir * project_distance(line_origin, line_dir, point);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL distance_squared(vector_param line_origin,
+																	 vector_param line_dir,
+																	 vector_param point) noexcept
+		{
+			return vector_type::distance_squared(point, project(line_origin, line_dir, point));
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains_point(vector_param line_origin,
+															vector_param line_dir,
+															vector_param point,
+															scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		{
+			return muu::approx_zero(distance_squared(line_origin, line_dir, point), epsilon);
+		}
+	};
+}
+
+//======================================================================================================================
+// line segments
+//======================================================================================================================
+
+namespace muu
+{
+	namespace impl
+	{
+		template <typename Scalar>
+		struct MUU_TRIVIAL_ABI line_segment_
+		{
+			vector<Scalar, 3> points[2];
+		};
+	}
+
+	MUU_GEOMETRY_BASE_BOILERPLATE(line_segment);
+}
+
+namespace muu::impl
+{
+	template <typename Scalar>
+	struct line_segments_common
+	{
+		using scalar_type  = Scalar;
+		using vector_type  = vector<scalar_type, 3>;
+		using vector_param = vectorcall_param<vector_type>;
+		using lines		   = lines_common<Scalar>;
+
+		MUU_PURE_GETTER
+		static constexpr vector_type MUU_VECTORCALL nearest_point(vector_param seg0, // aka clamped_project()
+																  vector_param seg1,
+																  vector_param point) noexcept
+		{
+			scalar_type seg_len{};
+			const auto seg_dir = vector_type::direction(seg0, seg1, seg_len);
+			return seg0 + seg_dir * muu::clamp(lines::project_distance(seg0, seg_dir, point), scalar_type{}, seg_len);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL distance_squared(vector_param seg0,
+																	 vector_param seg1,
+																	 vector_param point) noexcept
+		{
+			return vector_type::distance_squared(point, nearest_point(seg0, seg1, point));
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains_point(vector_param seg0,
+															vector_param seg1,
+															vector_param point,
+															scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		{
+			return muu::approx_zero(distance_squared(seg0, seg1, point), epsilon);
+		}
+	};
+}
+
+//======================================================================================================================
+// triangles
+//======================================================================================================================
+
+namespace muu
+{
+	namespace impl
+	{
+		template <typename Scalar>
+		struct MUU_TRIVIAL_ABI triangle_
+		{
+			vector<Scalar, 3> points[3];
+		};
+	}
+
+	MUU_GEOMETRY_BASE_BOILERPLATE(triangle);
+}
+
+namespace muu::impl
+{
 	template <typename Scalar>
 	struct triangles_common
 	{
@@ -522,7 +431,33 @@ namespace muu::impl
 			return coplanar(p0, p1, p2, point) && contains_coplanar_point(p0, p1, p2, point);
 		}
 	};
+}
 
+//======================================================================================================================
+// bounding spheres
+//======================================================================================================================
+
+namespace muu
+{
+	namespace impl
+	{
+		template <typename Scalar>
+		struct MUU_TRIVIAL_ABI bounding_sphere_
+		{
+			vector<Scalar, 3> center;
+			Scalar radius;
+		};
+	}
+
+	MUU_GEOMETRY_BASE_BOILERPLATE(bounding_sphere);
+}
+
+//======================================================================================================================
+// bounding boxes - all
+//======================================================================================================================
+
+namespace muu::impl
+{
 	template <typename Scalar>
 	struct boxes_common
 	{
@@ -670,23 +605,30 @@ namespace muu::impl
 			}
 			MUU_UNREACHABLE;
 		}
-
-		template <box_corners Corner>
-		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(vector_param center, vector_param extents) noexcept
-		{
-			return center + boxes_common::template corner_offset<Corner>(extents);
-		}
-
-		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
-														   vector_param extents,
-														   box_corners which) noexcept
-		{
-			return center + corner_offset(extents, which);
-		}
 	};
+}
 
+//======================================================================================================================
+// bounding boxes - axis-aligned
+//======================================================================================================================
+
+namespace muu
+{
+	namespace impl
+	{
+		template <typename Scalar>
+		struct MUU_TRIVIAL_ABI bounding_box_
+		{
+			vector<Scalar, 3> center;
+			vector<Scalar, 3> extents;
+		};
+	}
+
+	MUU_GEOMETRY_BASE_BOILERPLATE(bounding_box);
+}
+
+namespace muu::impl
+{
 	template <typename Scalar>
 	struct aabb_common : boxes_common<Scalar>
 	{
@@ -697,67 +639,19 @@ namespace muu::impl
 		using planes	   = planes_common<Scalar>;
 		using triangles	   = triangles_common<Scalar>;
 
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains_point(vector_param center,
-															vector_param extents,
-															vector_param point) noexcept
+		template <box_corners Corner>
+		MUU_PURE_INLINE_GETTER
+		static constexpr vector_type MUU_VECTORCALL corner(vector_param center, vector_param extents) noexcept
 		{
-			const auto adj = vector_type::abs(point - center);
-			return adj.x <= extents.x //
-				&& adj.y <= extents.y //
-				&& adj.z <= extents.z;
+			return center + boxes::template corner_offset<Corner>(extents);
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains_aabb_minmax(vector_param outer_min,
-																  vector_param outer_max,
-																  vector_param inner_min,
-																  vector_param inner_max) noexcept
+		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
+														   vector_param extents,
+														   box_corners which) noexcept
 		{
-			return outer_min.x <= inner_min.x //
-				&& outer_max.x >= inner_max.x //
-				&& outer_min.y <= inner_min.y //
-				&& outer_max.y >= inner_max.y //
-				&& outer_min.z <= inner_min.z //
-				&& outer_max.z >= inner_max.z;
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains_aabb(vector_param outer_center,
-														   vector_param outer_extents,
-														   vector_param inner_center,
-														   vector_param inner_exents) noexcept
-		{
-			return contains_aabb_minmax(outer_center - outer_extents, //
-										outer_center + outer_extents, //
-										inner_center - inner_exents,  //
-										inner_center + inner_exents);
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_aabb_minmax(vector_param min1,
-																	vector_param max1,
-																	vector_param min2,
-																	vector_param max2) noexcept
-		{
-			return max1.x >= min2.x //
-				&& min1.x <= max2.x //
-				&& max1.y >= min2.y //
-				&& min1.y <= max2.y //
-				&& max1.z >= min2.z //
-				&& min1.z <= max2.z;
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_aabb(vector_param center1,
-															 vector_param extents1,
-															 vector_param center2,
-															 vector_param extents2) noexcept
-		{
-			return intersects_aabb_minmax(center1 - extents1, //
-										  center1 + extents1, //
-										  center2 - extents2, //
-										  center2 + extents2);
+			return center + boxes::corner_offset(extents, which);
 		}
 
 		MUU_PURE_GETTER
@@ -781,127 +675,46 @@ namespace muu::impl
 											sphere_center,	  //
 											sphere_radius);
 		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_line_segment(vector_param center,
-																	 vector_param extents,
-																	 vector_param start,
-																	 vector_param end) noexcept
-		{
-			MUU_FMA_BLOCK;
-
-			const auto mid_delta = (end - start) / scalar_type{ 2 };
-			const auto mid_point = start + mid_delta - center;
-			const auto abs_delta = vector_type::abs(mid_delta);
-
-			if (muu::abs(mid_point.x) > extents.x + abs_delta.x	   //
-				|| muu::abs(mid_point.y) > extents.y + abs_delta.y //
-				|| muu::abs(mid_point.z) > extents.z + abs_delta.z)
-				return false;
-
-			if (muu::abs(mid_delta.y * mid_point.z - mid_delta.z * mid_point.y)
-					> extents.y * abs_delta.z + extents.z * abs_delta.y
-				|| muu::abs(mid_delta.z * mid_point.x - mid_delta.x * mid_point.z)
-					   > extents.z * abs_delta.x + extents.x * abs_delta.z
-				|| muu::abs(mid_delta.x * mid_point.y - mid_delta.y * mid_point.x)
-					   > extents.x * abs_delta.y + extents.y * abs_delta.x)
-				return false;
-
-			return true;
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_plane(vector_param center,
-															  vector_param extents,
-															  vector_param normal,
-															  scalar_type d) noexcept
-		{
-			return planes::unsigned_distance(normal, d, center) <= vector_type::dot(extents, vector_type::abs(normal));
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_triangle(vector_param center,
-																 vector_param extents,
-																 vector_param p0,
-																 vector_param p1,
-																 vector_param p2) noexcept
-		{
-			MUU_FMA_BLOCK;
-
-			// this is the Akenine-Moller algorithm:
-			// https://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/pubs/tribox.pdf
-
-			// test box normals against triangle
-			const auto aabb_min					= center - extents;
-			const auto aabb_max					= center + extents;
-			constexpr vector_type box_normals[] = { vector_type::constants::x_axis,
-													vector_type::constants::y_axis,
-													vector_type::constants::z_axis };
-			for (size_t i = 0; i < 3_sz; i++)
-			{
-				sat_tester<scalar_type> sat;
-				sat(box_normals[i], p0);
-				sat(box_normals[i], p1);
-				sat(box_normals[i], p2);
-				if (!sat(aabb_min[i], aabb_max[i]))
-					return false;
-			}
-
-			// test triangle normal against box
-			const vector_type box_verts[] = { aabb_min,
-											  boxes::template corner<box_corners::x>(center, extents),
-											  boxes::template corner<box_corners::xy>(center, extents),
-											  boxes::template corner<box_corners::xz>(center, extents),
-											  boxes::template corner<box_corners::y>(center, extents),
-											  boxes::template corner<box_corners::yz>(center, extents),
-											  boxes::template corner<box_corners::z>(center, extents),
-											  aabb_max };
-			{
-				const auto axis = triangles::normal(p0, p1, p2);
-				sat_tester<scalar_type> sat;
-				sat(axis, box_verts);
-				if (!sat(vector_type::dot(axis, p0)))
-					return false;
-			}
-
-			// test edge cross products
-			const vector_type tri_edges[] = { p1 - p0, p2 - p1, p0 - p2 };
-			for (size_t i = 0; i < 3_sz; i++)
-			{
-				for (size_t j = 0; j < 3_sz; j++)
-				{
-					const auto axis = vector_type::cross(tri_edges[i], box_normals[j]);
-
-					sat_tester<scalar_type> box_sat;
-					box_sat(axis, box_verts);
-
-					sat_tester<scalar_type> tri_sat;
-					tri_sat(axis, p0);
-					tri_sat(axis, p1);
-					tri_sat(axis, p2);
-
-					if (!box_sat(tri_sat))
-						return false;
-				}
-			}
-
-			return true;
-		}
 	};
+}
 
+//======================================================================================================================
+// bounding boxes - oriented
+//======================================================================================================================
+
+namespace muu
+{
+	namespace impl
+	{
+		template <typename Scalar>
+		struct MUU_TRIVIAL_ABI oriented_bounding_box_
+		{
+			vector<Scalar, 3> center;
+			vector<Scalar, 3> extents;
+			matrix<Scalar, 3, 3> axes;
+		};
+	}
+
+	MUU_GEOMETRY_BASE_BOILERPLATE(oriented_bounding_box);
+}
+
+namespace muu::impl
+{
 	template <typename Scalar>
 	struct obb_common : boxes_common<Scalar>
 	{
 		using scalar_type  = Scalar;
 		using vector_type  = vector<scalar_type, 3>;
 		using vector_param = vectorcall_param<vector_type>;
+		using axes_type	   = matrix<scalar_type, 3, 3>;
+		using axes_param   = vectorcall_param<axes_type>;
 		using boxes		   = boxes_common<Scalar>;
 
 		template <box_corners Corner>
 		MUU_PURE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
 														   vector_param extents,
-														   const matrix<scalar_type, 3, 3>& axes) noexcept
+														   axes_param axes) noexcept
 		{
 			const auto offset = boxes::template corner_offset<Corner>(extents);
 			return center + offset.x * axes.m[0] + offset.y * axes.m[1] + offset.z * axes.m[2];
@@ -910,7 +723,7 @@ namespace muu::impl
 		MUU_PURE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
 														   vector_param extents,
-														   const matrix<scalar_type, 3, 3>& axes,
+														   axes_param axes,
 														   box_corners which) noexcept
 		{
 			const auto offset = boxes::corner_offset(extents, which);
@@ -919,31 +732,9 @@ namespace muu::impl
 	};
 }
 
-namespace muu
-{
-	template <typename From, typename Scalar>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::plane_<Scalar>> =
-		allow_implicit_bit_cast<From, plane<Scalar>>;
-
-	template <typename From, typename Scalar>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::triangle_<Scalar>> =
-		allow_implicit_bit_cast<From, triangle<Scalar>>;
-
-	template <typename From, typename Scalar>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::bounding_sphere_<Scalar>> =
-		allow_implicit_bit_cast<From, bounding_sphere<Scalar>>;
-
-	template <typename From, typename Scalar>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::bounding_box_<Scalar>> =
-		allow_implicit_bit_cast<From, bounding_box<Scalar>>;
-
-	template <typename From, typename Scalar>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::oriented_bounding_box_<Scalar>> =
-		allow_implicit_bit_cast<From, oriented_bounding_box<Scalar>>;
-}
-
 /// \endcond
 
+#undef MUU_GEOMETRY_BASE_BOILERPLATE
 MUU_PRAGMA_MSVC(inline_recursion(off))
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "header_end.h"

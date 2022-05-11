@@ -2236,6 +2236,18 @@ namespace muu
 	template <size_t N>
 	using index_tag = std::integral_constant<size_t, N>;
 
+	/// \brief An index_tag instantiation representing the X axis.
+	inline constexpr auto x_axis = index_tag<0>{};
+
+	/// \brief An index_tag instantiation representing the Y axis.
+	inline constexpr auto y_axis = index_tag<1>{};
+
+	/// \brief An index_tag instantiation representing the Z axis.
+	inline constexpr auto z_axis = index_tag<2>{};
+
+	/// \brief An index_tag instantiation representing the W axis.
+	inline constexpr auto w_axis = index_tag<3>{};
+
 	/// \brief Evaluates to true if an instance of `T` decays to a free-function pointer by explicit unary plus.
 	template <typename T>
 	inline constexpr bool decays_to_function_pointer_by_unary_plus = impl::decays_to_function_pointer_by_unary_plus_<T>;

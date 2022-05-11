@@ -7,6 +7,7 @@
 /// \file
 /// \brief  Contains the definition of muu::oriented_bounding_box.
 
+#include "sat_tester.h"
 #include "impl/geometry_common.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
@@ -55,9 +56,13 @@ namespace muu
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2 + sizeof(axes_type)),
 					  "Oriented bounding boxes should not have padding");
 
-		using obbs				 = impl::obb_common<Scalar>;
-		using intermediate_float = promote_if_small_float<scalar_type>;
-		static_assert(is_floating_point<intermediate_float>);
+		using obbs			  = impl::obb_common<Scalar>;
+		using sat_tester_type = sat_tester<Scalar, 3>;
+
+		using promoted_scalar					 = promote_if_small_float<scalar_type>;
+		using promoted_vec3						 = vector<promoted_scalar, 3>;
+		using promoted_box						 = oriented_bounding_box<promoted_scalar>;
+		static constexpr bool requires_promotion = impl::is_small_float_<scalar_type>;
 
 		using axes_constants = muu::constants<axes_type>;
 
@@ -609,6 +614,129 @@ namespace muu
 
 			/// @}
 	#endif // scaling
+
+	#if 1 // transformation -------------------------------------------------------------------
+		  /// \name Transformation
+		  /// @{
+
+		/// \brief Transforms an oriented bounding box from one coordinate space to another.
+		///
+		/// \param	bb		The bounding box to transform.
+		/// \param	tx		The transform to apply.
+		///
+		/// \return	Returns an oriented bounding box containing all the points of the
+		///			input bounding box after being transformed.
+		MUU_PURE_GETTER
+		static constexpr oriented_bounding_box MUU_VECTORCALL transform(
+			MUU_VC_PARAM(oriented_bounding_box) bb,
+			MUU_VC_PARAM(matrix<scalar_type, 4, 4>) tx) noexcept
+		{
+			if constexpr (requires_promotion)
+			{
+				return oriented_bounding_box{ promoted_box::transform(promoted_box{ bb },
+																	  matrix<promoted_scalar, 4, 4>{ tx }) };
+			}
+			else
+			{
+				oriented_bounding_box out{ tx * bb.center, vector_type{} };
+
+				out.axes.x_column() =
+					vector_type::normalize(tx * (bb.center + bb.axes.x_column() * bb.extents.x) - out.center,
+										   out.extents.x);
+				out.axes.y_column() =
+					vector_type::normalize(tx * (bb.center + bb.axes.y_column() * bb.extents.y) - out.center,
+										   out.extents.y);
+				out.axes.z_column() =
+					vector_type::normalize(tx * (bb.center + bb.axes.z_column() * bb.extents.z) - out.center,
+										   out.extents.z);
+
+				return out;
+			}
+		}
+
+		/// \brief Transforms the oriented bounding box from one coordinate space to another (in-place).
+		///
+		/// \param	tx		The transform to apply.
+		///
+		/// \return	A reference to the box.
+		constexpr oriented_bounding_box& transform(MUU_VC_PARAM(matrix<scalar_type, 4, 4>) tx) noexcept
+		{
+			return *this = transform(*this, tx);
+		}
+
+			/// @}
+	#endif // transformation
+
+	#if 1 // intersection and containment ------------------------------------------------------------------------------
+		  /// \name Intersection and containment
+		  /// @{
+
+		//--------------------------------
+		// obb x aabb
+		//--------------------------------
+
+		/// \brief	Returns true if an oriented bounding box intersects an axis-aligned bounding_box.
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(oriented_bounding_box) obb,
+														MUU_VC_PARAM(bounding_box<scalar_type>) aabb) noexcept;
+
+		/// \brief	Returns true if the oriented bounding box intersects an axis-aligned bounding_box.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box<scalar_type>) aabb) const noexcept;
+
+		//--------------------------------
+		// obb x obb
+		//--------------------------------
+
+		/// \brief	Returns true if two oriented bounding boxes intersect.
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(oriented_bounding_box) bb1,
+														MUU_VC_PARAM(oriented_bounding_box) bb2) noexcept
+		{
+			const vector_type corners1[] = {
+				bb1.template corner<box_corners::min>(), bb1.template corner<box_corners::x>(),
+				bb1.template corner<box_corners::xy>(),	 bb1.template corner<box_corners::xz>(),
+				bb1.template corner<box_corners::y>(),	 bb1.template corner<box_corners::yz>(),
+				bb1.template corner<box_corners::z>(),	 bb1.template corner<box_corners::max>()
+			};
+
+			const vector_type corners2[] = {
+				bb2.template corner<box_corners::min>(), bb2.template corner<box_corners::x>(),
+				bb2.template corner<box_corners::xy>(),	 bb2.template corner<box_corners::xz>(),
+				bb2.template corner<box_corners::y>(),	 bb2.template corner<box_corners::yz>(),
+				bb2.template corner<box_corners::z>(),	 bb2.template corner<box_corners::max>()
+			};
+
+			for (auto* bb : { &bb1, &bb2 })
+			{
+				MUU_ASSUME(bb);
+
+				for (size_t i = 0; i < 3; i++)
+				{
+					sat_tester_type tester1{ bb->axes[i], corners1[0] };
+					for (size_t c = 1; c < 8; c++)
+						tester1.add(bb->axes[i], corners1[c]);
+
+					sat_tester_type tester2{ bb->axes[i], corners2[0] };
+					for (size_t c = 1; c < 8; c++)
+						tester2.add(bb->axes[i], corners2[c]);
+
+					if (!tester1(tester2))
+						return false;
+				}
+			}
+			return true;
+		}
+
+		/// \brief	Returns true if two oriented bounding boxes intersect.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(oriented_bounding_box) bb) const noexcept
+		{
+			return intersects(*this, bb);
+		}
+
+			/// @}
+	#endif // intersection and containment
 	};
 
 	/// \cond

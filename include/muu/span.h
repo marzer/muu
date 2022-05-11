@@ -169,7 +169,7 @@ namespace muu
 
 #else
 
-		MUU_LEGACY_REQUIRES((Extent_ == 0 || Extent_ == dynamic_extent), size_t Extent_ = Extent)
+		MUU_HIDDEN_CONSTRAINT((Extent_ == 0 || Extent_ == dynamic_extent), size_t Extent_ = Extent)
 		MUU_NODISCARD_CTOR
 		constexpr span() noexcept
 		{}

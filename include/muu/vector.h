@@ -342,7 +342,7 @@ namespace muu
 		/// \param	y		Initial value for the vector's second scalar component.
 		///
 		/// \availability		This constructor is only available when #dimensions &gt;= 2.
-		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims >= 2, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y) noexcept //
 			: base{ x, y }
@@ -356,7 +356,7 @@ namespace muu
 		/// \param	z		Initial value for the vector's third scalar component.
 		///
 		/// \availability		This constructor is only available when #dimensions &gt;= 3.
-		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims >= 3, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept //
 			: base{ x, y, z }
@@ -371,7 +371,7 @@ namespace muu
 		/// \param	w		Initial value for the vector's fourth scalar component.
 		///
 		/// \availability			This constructor is only available when #dimensions &gt;= 4.
-		MUU_LEGACY_REQUIRES(Dims >= 4, size_t Dims = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims >= 4, size_t Dims = Dimensions)
 		MUU_NODISCARD_CTOR
 		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept //
 			: base{ x, y, z, w }
@@ -389,7 +389,7 @@ namespace muu
 		///
 		/// \availability			This constructor is only available when #dimensions &gt;= 5.
 		MUU_CONSTRAINED_TEMPLATE((Dims >= (4 + sizeof...(T)) //
-								  && all_convertible_to<Scalar, const T...>),
+								  && all_convertible_to<Scalar, const T&...>),
 								 typename... T //
 									 MUU_HIDDEN_PARAM(size_t Dims = Dimensions))
 		MUU_NODISCARD_CTOR
@@ -424,8 +424,8 @@ namespace muu
 		/// \tparam T		A type convertible to #scalar_type.
 		/// \tparam N		The number of elements in the array.
 		/// \param	arr		Array of values used to initialize the vector's scalar components.
-		MUU_CONSTRAINED_TEMPLATE((Dimensions >= N						 //
-								  && all_convertible_to<Scalar, const T> //
+		MUU_CONSTRAINED_TEMPLATE((Dimensions >= N						  //
+								  && all_convertible_to<Scalar, const T&> //
 								  && !std::is_same_v<remove_cv<T>, Scalar>),
 								 typename T,
 								 size_t N)
@@ -461,8 +461,8 @@ namespace muu
 		/// \tparam T		A type convertible to #scalar_type.
 		/// \tparam N		The number of elements in the array.
 		/// \param	arr		Array of values used to initialize the vector's scalar components.
-		MUU_CONSTRAINED_TEMPLATE((Dimensions >= N						 //
-								  && all_convertible_to<Scalar, const T> //
+		MUU_CONSTRAINED_TEMPLATE((Dimensions >= N						  //
+								  && all_convertible_to<Scalar, const T&> //
 								  && !std::is_same_v<remove_cv<T>, Scalar>),
 								 typename T,
 								 size_t N)
@@ -568,7 +568,7 @@ namespace muu
 		/// \param 	vec		A vector.
 		/// \param 	vals	Scalar values.
 		MUU_CONSTRAINED_TEMPLATE((Dimensions >= D + sizeof...(T) //
-								  && all_convertible_to<Scalar, const T...>),
+								  && all_convertible_to<Scalar, const T&...>),
 								 typename S,
 								 size_t D,
 								 typename... T)
@@ -583,7 +583,7 @@ namespace muu
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		Pointer to values to copy.
 		/// \param	num			Number of values to copy.
-		MUU_CONSTRAINED_TEMPLATE((all_convertible_to<Scalar, const T>), typename T)
+		MUU_CONSTRAINED_TEMPLATE((all_convertible_to<Scalar, const T&>), typename T)
 		MUU_NODISCARD_CTOR
 		MUU_ATTR(nonnull)
 		vector(const T* vals, size_t num) noexcept
@@ -609,7 +609,7 @@ namespace muu
 		///
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		Pointer to values to copy.
-		MUU_CONSTRAINED_TEMPLATE((all_convertible_to<Scalar, const T>), typename T)
+		MUU_CONSTRAINED_TEMPLATE((all_convertible_to<Scalar, const T&>), typename T)
 		MUU_NODISCARD_CTOR
 		MUU_ATTR(nonnull)
 		explicit constexpr vector(const T* MUU_HIDDEN(const&) vals) noexcept
@@ -622,8 +622,8 @@ namespace muu
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \tparam N			The number of elements covered by the span.
 		/// \param	vals		A span representing the values to copy.
-		MUU_CONSTRAINED_TEMPLATE((Dimensions >= N						 //
-								  && all_convertible_to<Scalar, const T> //
+		MUU_CONSTRAINED_TEMPLATE((Dimensions >= N						  //
+								  && all_convertible_to<Scalar, const T&> //
 								  && N != dynamic_extent),
 								 typename T,
 								 size_t N)
@@ -637,7 +637,7 @@ namespace muu
 		///
 		/// \tparam T			Type convertible to #scalar_type.
 		/// \param	vals		A span representing the values to copy.
-		MUU_CONSTRAINED_TEMPLATE((all_convertible_to<Scalar, const T>), typename T)
+		MUU_CONSTRAINED_TEMPLATE((all_convertible_to<Scalar, const T&>), typename T)
 		MUU_NODISCARD_CTOR
 		explicit constexpr vector(const muu::span<T>& vals) noexcept //
 			: vector{ vals.data(), vals.size() }
@@ -652,38 +652,38 @@ namespace muu
 	  private:
 		/// \cond
 
-		template <size_t Index, typename T>
+		template <size_t Dimension, typename T>
 		MUU_PURE_INLINE_GETTER
 		static constexpr auto& do_get(T& vec) noexcept
 		{
-			static_assert(Index < Dimensions, "Element index out of range");
+			static_assert(Dimension < Dimensions, "Dimension index out of range");
 
 			if constexpr (Dimensions <= 4)
 			{
-				if constexpr (Index == 0)
+				if constexpr (Dimension == 0)
 					return vec.x;
-				if constexpr (Index == 1)
+				if constexpr (Dimension == 1)
 					return vec.y;
-				if constexpr (Index == 2)
+				if constexpr (Dimension == 2)
 					return vec.z;
-				if constexpr (Index == 3)
+				if constexpr (Dimension == 3)
 					return vec.w;
 			}
 			else
-				return vec.values[Index];
+				return vec.values[Dimension];
 		}
 
 		template <typename T>
 		MUU_PURE_GETTER
-		static constexpr auto& do_array_operator(T& vec, size_t idx) noexcept
+		static constexpr auto& do_array_operator(T& vec, size_t dim) noexcept
 		{
-			MUU_ASSUME(idx < Dimensions);
+			MUU_ASSUME(dim < Dimensions);
 
 			if constexpr (Dimensions <= 4)
 			{
 				if (/*!build::supports_is_constant_evaluated ||*/ is_constant_evaluated())
 				{
-					switch (idx)
+					switch (dim)
 					{
 						case 0: return vec.x;
 						case 1:
@@ -705,10 +705,10 @@ namespace muu
 					}
 				}
 				else
-					return *(&vec.x + idx);
+					return *(&vec.x + dim);
 			}
 			else
-				return vec.values[idx];
+				return vec.values[dim];
 		}
 
 		/// \endcond
@@ -716,50 +716,50 @@ namespace muu
 	  public:
 		/// \brief Gets a reference to the scalar component at a specific index.
 		///
-		/// \tparam Index  The index of the scalar component to retrieve, where x == 0, y == 1, etc.
+		/// \tparam Dimension The index of the dimension to retrieve, where X == 0, Y == 1, etc.
 		///
 		/// \return  A reference to the selected scalar component.
-		template <size_t Index>
+		template <size_t Dimension>
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr const scalar_type& get() const noexcept
 		{
-			return do_get<Index>(*this);
+			return do_get<Dimension>(*this);
 		}
 
 		/// \brief Gets a reference to the scalar component at a specific index.
 		///
-		/// \tparam Index  The index of the scalar component to retrieve, where x == 0, y == 1, etc.
+		/// \tparam Dimension The index of the dimension to retrieve, where X == 0, Y == 1, etc.
 		///
 		/// \return  A reference to the selected scalar component.
-		template <size_t Index>
+		template <size_t Dimension>
 		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(flatten)
 		constexpr scalar_type& get() noexcept
 		{
-			return do_get<Index>(*this);
+			return do_get<Dimension>(*this);
 		}
 
 		/// \brief Gets a reference to the Nth scalar component.
 		///
-		/// \param idx  The index of the scalar component to retrieve, where x == 0, y == 1, etc.
+		/// \tparam dim The index of the dimension to retrieve, where X == 0, Y == 1, etc.
 		///
 		/// \return  A reference to the selected scalar component.
 		MUU_PURE_INLINE_GETTER
-		constexpr const scalar_type& operator[](size_t idx) const noexcept
+		constexpr const scalar_type& operator[](size_t dim) const noexcept
 		{
-			return do_array_operator(*this, idx);
+			return do_array_operator(*this, dim);
 		}
 
 		/// \brief Gets a reference to the Nth scalar component.
 		///
-		/// \param idx  The index of the scalar component to retrieve, where x == 0, y == 1, etc.
+		/// \tparam dim The index of the dimension to retrieve, where X == 0, Y == 1, etc.
 		///
 		/// \return  A reference to the selected scalar component.
 		MUU_PURE_INLINE_GETTER
-		constexpr scalar_type& operator[](size_t idx) noexcept
+		constexpr scalar_type& operator[](size_t dim) noexcept
 		{
-			return do_array_operator(*this, idx);
+			return do_array_operator(*this, dim);
 		}
 
 		/// \brief Returns a pointer to the first scalar component in the vector.
@@ -1039,7 +1039,7 @@ namespace muu
 		/// \brief	Returns true if all the scalar components in a vector are approximately equal to zero.
 		///
 		/// \availability		This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(vector) v,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
@@ -1056,7 +1056,7 @@ namespace muu
 		/// \brief	Returns true if all the scalar components in the vector are approximately equal to zero.
 		///
 		/// \availability		This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
@@ -1246,6 +1246,38 @@ namespace muu
 			return dot(*this, v);
 		}
 
+		/// \brief	Returns the dot product of a vector and a principal axis.
+		template <size_t Dimension>
+		MUU_PURE_INLINE_GETTER
+		static constexpr product_scalar_type MUU_VECTORCALL dot(MUU_VC_PARAM(vector) v,
+																index_tag<Dimension> /*axis*/) noexcept
+		{
+			static_assert(Dimension < Dimensions, "Dimension index out of range");
+
+			return v.template get<Dimension>();
+		}
+
+		/// \brief	Returns the dot product of a vector and a principal axis.
+		template <size_t Dimension>
+		MUU_PURE_INLINE_GETTER
+		static constexpr product_scalar_type MUU_VECTORCALL dot(index_tag<Dimension> /*axis*/,
+																MUU_VC_PARAM(vector) v) noexcept
+		{
+			static_assert(Dimension < Dimensions, "Dimension index out of range");
+
+			return v.template get<Dimension>();
+		}
+
+		/// \brief	Returns the dot product of the vector and a principal axis.
+		template <size_t Dimension>
+		MUU_PURE_INLINE_GETTER
+		constexpr product_scalar_type MUU_VECTORCALL dot(index_tag<Dimension> /*axis*/) const noexcept
+		{
+			static_assert(Dimension < Dimensions, "Dimension index out of range");
+
+			return get<Dimension>();
+		}
+
 		/// @}
 #endif // dot product
 
@@ -1257,7 +1289,7 @@ namespace muu
 		/// \brief	Returns the cross product of two vectors.
 		///
 		/// \availability		This function is only available when #dimensions == 3.
-		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_GETTER
 		static constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) v1,
 																			 MUU_VC_PARAM(vector) v2) noexcept
@@ -1269,26 +1301,96 @@ namespace muu
 			}
 			else
 			{
+				MUU_FMA_BLOCK;
+
 				return { v1.y * v2.z - v1.z * v2.y, //
 						 v1.z * v2.x - v1.x * v2.z,
 						 v1.x * v2.y - v1.y * v2.x };
 			}
 		}
 
+		/// \brief	Returns the cross product of a vector and a principal axis.
+		///
+		/// \availability		This function is only available when #dimensions == 3.
+		MUU_CONSTRAINED_TEMPLATE(Dimension < 3 && Dimensions == 3, size_t Dimension)
+		MUU_PURE_INLINE_GETTER
+		static constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) v,
+																			 index_tag<Dimension> /*axis*/) noexcept
+		{
+			static_assert(Dimension < Dimensions, "Dimension index out of range");
+
+			// x axis
+			if constexpr (Dimension == 0)
+			{
+				return { product_scalar_type{}, v.z, -v.y };
+			}
+
+			// y axis
+			if constexpr (Dimension == 1)
+			{
+				return { -v.z, product_scalar_type{}, v.x };
+			}
+
+			// z axis
+			if constexpr (Dimension == 2)
+			{
+				return { v.y, -v.x, product_scalar_type{} };
+			}
+		}
+
+		/// \brief	Returns the cross product of a principal axis and a vector.
+		///
+		/// \availability		This function is only available when #dimensions == 3.
+		MUU_CONSTRAINED_TEMPLATE(Dimension < 3 && Dimensions == 3, size_t Dimension)
+		MUU_PURE_INLINE_GETTER
+		static constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(index_tag<Dimension> /*axis*/,
+																			 MUU_VC_PARAM(vector) v) noexcept
+		{
+			static_assert(Dimension < Dimensions, "Dimension index out of range");
+
+			// x axis
+			if constexpr (Dimension == 0)
+			{
+				return { product_scalar_type{}, -v.z, v.y };
+			}
+
+			// y axis
+			if constexpr (Dimension == 1)
+			{
+				return { v.z, product_scalar_type{}, -v.x };
+			}
+
+			// z axis
+			if constexpr (Dimension == 2)
+			{
+				return { -v.y, v.x, product_scalar_type{} };
+			}
+		}
+
 		/// \brief	Returns the cross product of this vector and another.
 		///
 		/// \availability		This function is only available when #dimensions == 3.
-		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) v) const noexcept
 		{
 			return cross(*this, v);
 		}
 
+		/// \brief	Returns the cross product of this vector and a principal axis.
+		///
+		/// \availability		This function is only available when #dimensions == 3.
+		MUU_CONSTRAINED_TEMPLATE(Dimension < 3 && Dimensions == 3, size_t Dimension)
+		MUU_PURE_INLINE_GETTER
+		constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(index_tag<Dimension> /*axis*/) const noexcept
+		{
+			return cross(*this, index_tag<Dimension>{});
+		}
+
 		/// \brief	Returns a vector orthogonal to another.
 		///
 		/// \availability		This function is only available when #dimensions == 3.
-		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_GETTER
 		static constexpr vector<product_scalar_type, 3> orthogonal(MUU_VC_PARAM(vector) v) noexcept
 		{
@@ -1304,7 +1406,7 @@ namespace muu
 		/// \brief	Returns a vector orthogonal to this one.
 		///
 		/// \availability		This function is only available when #dimensions == 3.
-		MUU_LEGACY_REQUIRES(Dim == 3, size_t Dim = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr vector<product_scalar_type, 3> orthogonal() const noexcept
 		{
@@ -1452,7 +1554,7 @@ namespace muu
 		}
 
 		/// \brief Returns the componentwise negation of a vector.
-		MUU_LEGACY_REQUIRES(is_signed<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_signed<T>, typename T = Scalar)
 		MUU_PURE_GETTER
 		constexpr vector operator-() const noexcept
 		{
@@ -1788,7 +1890,7 @@ namespace muu
 		/// \brief Returns a vector with each scalar component left-shifted the given number of bits.
 		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
-		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_integral<T>, typename T = Scalar)
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator<<(MUU_VC_PARAM(vector) lhs, product_scalar_type rhs) noexcept
 		{
@@ -1813,7 +1915,7 @@ namespace muu
 		/// \brief Componentwise left-shifts each scalar component in the vector by the given number of bits.
 		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
-		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_integral<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL operator<<=(product_scalar_type rhs) noexcept
 		{
 			if constexpr (product_requires_promotion)
@@ -1837,7 +1939,7 @@ namespace muu
 		/// \brief Returns a vector with each scalar component right-shifted the given number of bits.
 		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
-		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_integral<T>, typename T = Scalar)
 		MUU_PURE_GETTER
 		friend constexpr vector MUU_VECTORCALL operator>>(MUU_VC_PARAM(vector) lhs, product_scalar_type rhs) noexcept
 		{
@@ -1862,7 +1964,7 @@ namespace muu
 		/// \brief Componentwise right-shifts each scalar component in the vector by the given number of bits.
 		///
 		/// \availability		This function is only available when #scalar_type is an integral type.
-		MUU_LEGACY_REQUIRES(is_integral<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_integral<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL operator>>=(product_scalar_type rhs) noexcept
 		{
 			if constexpr (product_requires_promotion)
@@ -1899,7 +2001,7 @@ namespace muu
 		/// \return		A normalized copy of the input vector.
 		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_NODISCARD
 		static constexpr vector MUU_VECTORCALL normalize(MUU_VC_PARAM(vector) v, delta_scalar_type& length_out) noexcept
 		{
@@ -1930,7 +2032,7 @@ namespace muu
 		/// \return		A normalized copy of the input vector.
 		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_PURE_GETTER
 		static constexpr vector MUU_VECTORCALL normalize(MUU_VC_PARAM(vector) v) noexcept
 		{
@@ -1959,7 +2061,7 @@ namespace muu
 		///
 		/// \warning	This function is implemented such that it is _always_ available at compile time,
 		///				arriving at the result using very slow iterative machinery. Do not use it at runtime!
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_PURE_GETTER
 		MUU_CONSTEVAL
 		static vector MUU_VECTORCALL consteval_normalize(MUU_VC_PARAM(vector) v) noexcept
@@ -1986,7 +2088,7 @@ namespace muu
 		/// \return	A reference to the vector.
 		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& normalize(delta_scalar_type& length_out) noexcept
 		{
 			return *this = normalize(*this, length_out);
@@ -1997,7 +2099,7 @@ namespace muu
 		/// \return	A reference to the vector.
 		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& normalize() noexcept
 		{
 			return *this = normalize(*this);
@@ -2011,7 +2113,7 @@ namespace muu
 		/// \return		A normalized copy of the input vector.
 		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_NODISCARD
 		static constexpr vector MUU_VECTORCALL normalize_lensq(MUU_VC_PARAM(vector) v,
 															   delta_scalar_type v_lensq) noexcept
@@ -2034,7 +2136,7 @@ namespace muu
 		/// \return	A reference to the vector.
 		///
 		/// \availability This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		constexpr vector& MUU_VECTORCALL normalize_lensq(delta_scalar_type lensq) noexcept
 		{
 			return *this = normalize_lensq(*this, lensq);
@@ -2108,7 +2210,7 @@ namespace muu
 		/// \return		A normalized direction vector pointing from the start position to the end position.
 		///
 		/// \availability	This function is only available when #dimensions == 2 or 3.
-		MUU_LEGACY_REQUIRES(Dim == 2 || Dim == 3, size_t Dim = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims == 2 || Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_GETTER
 		static constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
 															 MUU_VC_PARAM(vector) to,
@@ -2136,7 +2238,7 @@ namespace muu
 		/// \return		A normalized direction vector pointing from the start position to the end position.
 		///
 		/// \availability	This function is only available when #dimensions == 2 or 3.
-		MUU_LEGACY_REQUIRES(Dim == 2 || Dim == 3, size_t Dim = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims == 2 || Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_GETTER
 		static constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
 															 MUU_VC_PARAM(vector) to) noexcept
@@ -2158,7 +2260,7 @@ namespace muu
 		/// \param	distance_out	An output param to receive the distance between the two points.
 		///
 		/// \availability	This function is only available when #dimensions == 2 or 3.
-		MUU_LEGACY_REQUIRES(Dim == 2 || Dim == 3, size_t Dim = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims == 2 || Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to,
 													  delta_scalar_type& distance_out) const noexcept
@@ -2171,7 +2273,7 @@ namespace muu
 		/// \param	to				The end position.
 		///
 		/// \availability	This function is only available when #dimensions == 2 or 3.
-		MUU_LEGACY_REQUIRES(Dim == 2 || Dim == 3, size_t Dim = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims == 2 || Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to) const noexcept
 		{
@@ -2282,7 +2384,7 @@ namespace muu
 		/// @{
 
 		/// \brief	Returns the componentwise minimum of two or more vectors.
-		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector, T...>), typename... T)
+		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector, const T&...>), typename... T)
 		MUU_PURE_GETTER
 		static constexpr vector MUU_VECTORCALL min(MUU_VC_PARAM(vector) v1,
 												   MUU_VC_PARAM(vector) v2,
@@ -2311,6 +2413,7 @@ namespace muu
 
 			MUU_ASSUME(begin_ != nullptr);
 			MUU_ASSUME(end_ != nullptr);
+			MUU_ASSUME(begin_ < end_);
 
 			vector out = *begin_;
 			for (auto v = begin_ + 1u; v != end_; v++)
@@ -2332,7 +2435,7 @@ namespace muu
 		}
 
 		/// \brief	Returns the componentwise maximum of two or more vectors.
-		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector, T...>), typename... T)
+		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector, const T&...>), typename... T)
 		MUU_PURE_GETTER
 		static constexpr vector MUU_VECTORCALL max(MUU_VC_PARAM(vector) v1,
 												   MUU_VC_PARAM(vector) v2,
@@ -2499,7 +2602,7 @@ namespace muu
 		}
 
 		/// \brief Returns a two-dimensional vector containing `{ x, y }`.
-		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims >= 2, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr vector<scalar_type, 2> xy() const noexcept
 		{
@@ -2507,7 +2610,7 @@ namespace muu
 		}
 
 		/// \brief Returns a two-dimensional vector containing `{ x, z }`.
-		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims >= 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr vector<scalar_type, 2> xz() const noexcept
 		{
@@ -2515,7 +2618,7 @@ namespace muu
 		}
 
 		/// \brief Returns a two-dimensional vector containing `{ y, x }`.
-		MUU_LEGACY_REQUIRES(Dims >= 2, size_t Dims = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims >= 2, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr vector<scalar_type, 2> yx() const noexcept
 		{
@@ -2523,7 +2626,7 @@ namespace muu
 		}
 
 		/// \brief Returns a three-dimensional vector containing `{ x, y, z }`.
-		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims >= 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr vector<scalar_type, 3> xyz() const noexcept
 		{
@@ -2531,7 +2634,7 @@ namespace muu
 		}
 
 		/// \brief Returns a four-dimensional vector containing `{ x, y, z, 1 }`.
-		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims >= 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr vector<scalar_type, 4> xyz1() const noexcept
 		{
@@ -2539,7 +2642,7 @@ namespace muu
 		}
 
 		/// \brief Returns a four-dimensional vector containing `{ x, y, z, 0 }`.
-		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims >= 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr vector<scalar_type, 4> xyz0() const noexcept
 		{
@@ -2614,7 +2717,7 @@ namespace muu
 		/// 			The result is never greater than `pi` radians (180 degrees).
 		///
 		/// \availability		This function is only available when #dimensions == 2 or 3.
-		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
+		MUU_HIDDEN_CONSTRAINT((Dims == 2 || Dims == 3), size_t Dims = Dimensions)
 		MUU_PURE_GETTER
 		static constexpr delta_scalar_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v1,
 																MUU_VC_PARAM(vector) v2) noexcept
@@ -2651,7 +2754,7 @@ namespace muu
 		/// 			The result is never greater than `pi` radians (180 degrees).
 		///
 		/// \availability		This function is only available when #dimensions == 2 or 3.
-		MUU_LEGACY_REQUIRES((Dim == 2 || Dim == 3), size_t Dim = Dimensions)
+		MUU_HIDDEN_CONSTRAINT((Dims == 2 || Dims == 3), size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr delta_scalar_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v) const noexcept
 		{
@@ -2942,6 +3045,18 @@ namespace muu
 
 			/// \brief	A unit-length vector representing the X axis.
 			static constexpr vector<Scalar, Dimensions> x_axis{ scalars::one, scalars::zero };
+
+			/// \brief	A unit-length vector representing the principal axis of the given dimension.
+			template <size_t Dimension>
+			static constexpr vector<Scalar, Dimensions> axis = POXY_IMPLEMENTATION_DETAIL( //
+				[](auto dim_idx) constexpr noexcept {
+					constexpr auto dim = remove_cvref<decltype(dim_idx)>::value;
+					static_assert(dim < Dimensions, "Dimension index out of range");
+
+					vector<Scalar, Dimensions> out{ scalars::zero };
+					out.template get<dim>() = scalars::one;
+					return out;
+				}(index_tag<Dimension>{}));
 
 			/// @}
 		};
@@ -3532,7 +3647,7 @@ namespace muu
 	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the componentwise minimum of two or more vectors.
-	MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector<S, D>, T...>),
+	MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector<S, D>, const T&...>),
 							 typename S,
 							 size_t D,
 							 typename... T)
@@ -3545,7 +3660,7 @@ namespace muu
 	/// \relatesalso muu::vector
 	///
 	/// \brief	Returns the componentwise maximum of two or more vectors.
-	MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector<S, D>, T...>),
+	MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector<S, D>, const T&...>),
 							 typename S,
 							 size_t D,
 							 typename... T)

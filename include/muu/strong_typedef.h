@@ -900,23 +900,23 @@ namespace muu
 		strong_typedef& operator=(strong_typedef&&) = default;
 
 		/// \brief Value copy constructor.
-		MUU_LEGACY_REQUIRES(!impl::stypedef_init_with_value_semantics<T> && std::is_copy_constructible_v<T>,
-							typename T = value_type)
+		MUU_HIDDEN_CONSTRAINT(!impl::stypedef_init_with_value_semantics<T> && std::is_copy_constructible_v<T>,
+							  typename T = value_type)
 		explicit constexpr strong_typedef(const value_type& val) //
 			noexcept(std::is_nothrow_copy_constructible_v<value_type>)
 			: value{ val }
 		{}
 
 		/// \brief Value move constructor.
-		MUU_LEGACY_REQUIRES(!impl::stypedef_init_with_value_semantics<T> && std::is_move_constructible_v<T>,
-							typename T = value_type)
+		MUU_HIDDEN_CONSTRAINT(!impl::stypedef_init_with_value_semantics<T> && std::is_move_constructible_v<T>,
+							  typename T = value_type)
 		explicit constexpr strong_typedef(value_type&& val) //
 			noexcept(std::is_nothrow_move_constructible_v<value_type>)
 			: value{ static_cast<value_type&&>(val) }
 		{}
 
 		/// \brief Value constructor.
-		MUU_LEGACY_REQUIRES(impl::stypedef_init_with_value_semantics<T>, typename T = value_type)
+		MUU_HIDDEN_CONSTRAINT(impl::stypedef_init_with_value_semantics<T>, typename T = value_type)
 		explicit constexpr strong_typedef(value_type val) noexcept
 			: value{ static_cast<value_type>(val) } // in case value_type is an rvalue reference
 		{}

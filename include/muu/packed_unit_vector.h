@@ -285,7 +285,7 @@ namespace muu
 		}
 
 		/// \brief Checks if the z-axis component is negative (without needing to unpack the vector).
-		MUU_LEGACY_REQUIRES(Dims >= 3, size_t Dims = Dimensions)
+		MUU_HIDDEN_CONSTRAINT(Dims >= 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
 		constexpr bool z_negative() const noexcept
 		{

@@ -280,6 +280,9 @@
     <ClInclude Include="include\muu\impl\plane_x_line_segment.h">
       <Filter>include\impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\sat_tester.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">

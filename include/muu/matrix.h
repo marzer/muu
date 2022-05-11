@@ -232,14 +232,14 @@ namespace muu::impl
 			return matrix<Scalar, Rows, Columns>::from_2d_scale(scale);
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_scale_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_3d_scale_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(Scalar x, Scalar y, Scalar z) noexcept
 		{
 			return matrix<Scalar, Rows, Columns>::from_3d_scale(x, y, z);
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_scale_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_3d_scale_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(
 			MUU_VC_PARAM(vector<Scalar, 3>) scale) noexcept
@@ -344,7 +344,7 @@ namespace muu::impl
 			return matrix<Scalar, Rows, Columns>::from_2d_translation(xlat);
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_translation_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_3d_translation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(Scalar x,
 																					   Scalar y,
@@ -353,7 +353,7 @@ namespace muu::impl
 			return matrix<Scalar, Rows, Columns>::from_3d_translation(x, y, z);
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_translation_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_3d_translation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(
 			MUU_VC_PARAM(vector<Scalar, 3>) xlat) noexcept
@@ -582,7 +582,7 @@ namespace muu::impl
 		static_assert(Rows <= 4 && Columns <= 4);
 		static_assert(is_floating_point<Scalar>);
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_2d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_2d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
 			const matrix<Scalar, 2, 2>& rot) noexcept
@@ -590,7 +590,7 @@ namespace muu::impl
 			return matrix<Scalar, Rows, Columns>::from_2d_rotation(rot);
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_2d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_2d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
 			const matrix<Scalar, 2, 3>& rot) noexcept
@@ -598,7 +598,7 @@ namespace muu::impl
 			return matrix<Scalar, Rows, Columns>::from_2d_rotation(rot);
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_2d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_2d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axes(
 			MUU_VC_PARAM(vector<Scalar, 2>) x,
@@ -616,7 +616,7 @@ namespace muu::impl
 			return out;
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
 			const matrix<Scalar, 3, 3>& rot) noexcept
@@ -624,7 +624,7 @@ namespace muu::impl
 			return matrix<Scalar, Rows, Columns>::from_3d_rotation(rot);
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
 			const matrix<Scalar, 3, 4>& rot) noexcept
@@ -632,7 +632,7 @@ namespace muu::impl
 			return matrix<Scalar, Rows, Columns>::from_3d_rotation(rot);
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_rotation(
 			const matrix<Scalar, 4, 4>& rot) noexcept
@@ -640,7 +640,7 @@ namespace muu::impl
 			return matrix<Scalar, Rows, Columns>::from_3d_rotation(rot);
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axes(
 			MUU_VC_PARAM(vector<Scalar, 3>) x,
@@ -1098,7 +1098,7 @@ namespace muu
 		/// \param	vals	Initial values for the matrix's remaining scalar components.
 		MUU_CONSTRAINED_TEMPLATE((!impl::is_common_matrix_<matrix>			 //
 								  && (2u + sizeof...(T)) <= (Rows * Columns) //
-								  && all_convertible_to<scalar_type, scalar_type, T...>),
+								  && all_convertible_to<scalar_type, scalar_type, const T&...>),
 								 typename... T)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(scalar_type v0, scalar_type v1, const T&... vals) noexcept
@@ -1110,7 +1110,7 @@ namespace muu
 		// row-major scalar constructor optimizations for some common cases
 
 		// 2x2
-		MUU_LEGACY_REQUIRES((R == 2 && C == 2), size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT((R == 2 && C == 2), size_t R = Rows, size_t C = Columns)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(scalar_type v00,
 						 scalar_type v01,
@@ -1120,7 +1120,7 @@ namespace muu
 		{}
 
 		// 2x3
-		MUU_LEGACY_REQUIRES((R == 2 && C == 3), size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT((R == 2 && C == 3), size_t R = Rows, size_t C = Columns)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(scalar_type v00,
 						 scalar_type v01,
@@ -1132,7 +1132,7 @@ namespace muu
 		{}
 
 		// 3x3
-		MUU_LEGACY_REQUIRES((R == 3 && C == 3), size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT((R == 3 && C == 3), size_t R = Rows, size_t C = Columns)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(scalar_type v00,
 						 scalar_type v01,
@@ -1147,7 +1147,7 @@ namespace muu
 		{}
 
 		// 3x4
-		MUU_LEGACY_REQUIRES((R == 3 && C == 4), size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT((R == 3 && C == 4), size_t R = Rows, size_t C = Columns)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(scalar_type v00,
 						 scalar_type v01,
@@ -1165,7 +1165,7 @@ namespace muu
 		{}
 
 		// 4x4
-		MUU_LEGACY_REQUIRES((R == 4 && C == 4), size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT((R == 4 && C == 4), size_t R = Rows, size_t C = Columns)
 		MUU_NODISCARD_CTOR
 		constexpr matrix(scalar_type v00,
 						 scalar_type v01,
@@ -1902,7 +1902,7 @@ namespace muu
 		/// \brief	Returns true if all the scalar components in a matrix are approximately equal to zero.
 		///
 		/// \availability	This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(matrix) m,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
@@ -1916,7 +1916,7 @@ namespace muu
 		/// \brief	Returns true if all the scalar components in the matrix are approximately equal to zero.
 		///
 		/// \availability	This function is only available when #scalar_type is a floating-point type.
-		MUU_LEGACY_REQUIRES(is_floating_point<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL approx_zero(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
@@ -1981,7 +1981,7 @@ namespace muu
 		}
 
 		/// \brief Returns a componentwise negation of a matrix.
-		MUU_LEGACY_REQUIRES(is_signed<T>, typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT(is_signed<T>, typename T = Scalar)
 		MUU_PURE_GETTER
 		constexpr matrix operator-() const noexcept
 		{
@@ -2090,7 +2090,7 @@ namespace muu
 		/// \brief Multiplies this matrix with another and assigns the result.
 		///
 		/// \availability	This function is only available when the matrix is square.
-		MUU_LEGACY_REQUIRES(R == C, size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT(R == C, size_t R = Rows, size_t C = Columns)
 		constexpr matrix& MUU_VECTORCALL operator*=(MUU_VC_PARAM(matrix) rhs) noexcept
 		{
 			return *this = *this * rhs;
@@ -2328,7 +2328,7 @@ namespace muu
 		/// \brief	Transposes the matrix (in-place).
 		///
 		/// \availability	This function is only available when the matrix is square.
-		MUU_LEGACY_REQUIRES(R == C, size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT(R == C, size_t R = Rows, size_t C = Columns)
 		constexpr matrix& transpose() noexcept
 		{
 			return *this = transpose(*this);
@@ -2346,7 +2346,7 @@ namespace muu
 		///
 		/// \availability	This function is only available when the matrix is square
 		///					and has at most 4 rows and columns.
-		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		MUU_PURE_GETTER
 		static constexpr determinant_type MUU_VECTORCALL determinant(MUU_VC_PARAM(matrix) m) noexcept
 		{
@@ -2364,7 +2364,7 @@ namespace muu
 		///
 		/// \availability	This function is only available when the matrix is square
 		///					and has at most 4 rows and columns.
-		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		MUU_PURE_GETTER
 		constexpr determinant_type determinant() noexcept
 		{
@@ -2375,7 +2375,7 @@ namespace muu
 		///
 		/// \availability	This function is only available when the matrix is square
 		///					and has at most 4 rows and columns.
-		MUU_LEGACY_REQUIRES(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		MUU_PURE_GETTER
 		static constexpr inverse_type MUU_VECTORCALL invert(MUU_VC_PARAM(matrix) m) noexcept
 		{
@@ -2476,7 +2476,7 @@ namespace muu
 		///
 		/// \availability	This function is only available when the matrix is square,
 		///					has at most 4 rows and columns, and has a floating-point #scalar_type.
-		MUU_LEGACY_REQUIRES((R == C && C <= 4 && is_floating_point<Scalar>), size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT((R == C && C <= 4 && is_floating_point<Scalar>), size_t R = Rows, size_t C = Columns)
 		constexpr matrix& invert() noexcept
 		{
 			return *this = invert(*this);
@@ -2567,8 +2567,8 @@ namespace muu
 		/// 				and has a floating-point #scalar_type.
 		///
 		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
-		MUU_LEGACY_REQUIRES((is_floating_point<T> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4)),
-							typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT((is_floating_point<T> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4)),
+							  typename T = Scalar)
 		static constexpr matrix MUU_VECTORCALL orthonormalize(MUU_VC_PARAM(matrix) m) noexcept
 		{
 			if constexpr (is_small_float)
@@ -2616,8 +2616,8 @@ namespace muu
 		/// 				and has a floating-point #scalar_type.
 		///
 		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
-		MUU_LEGACY_REQUIRES((is_floating_point<T> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4)),
-							typename T = Scalar)
+		MUU_HIDDEN_CONSTRAINT((is_floating_point<T> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4)),
+							  typename T = Scalar)
 		constexpr matrix& orthonormalize() noexcept
 		{
 			return *this = orthonormalize(*this);

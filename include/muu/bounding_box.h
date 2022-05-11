@@ -7,6 +7,7 @@
 /// \file
 /// \brief  Contains the definition of muu::bounding_box.
 
+#include "sat_tester.h"
 #include "impl/geometry_common.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
@@ -36,7 +37,7 @@ namespace muu
 						  && std::is_trivially_destructible_v<Scalar>,
 					  "Bounding box scalar type must be trivially constructible, copyable and destructible");
 		static_assert(is_signed<Scalar>, "Bounding box scalar type must be signed");
-		static_assert(is_floating_point<Scalar>, "Bounding scalar type must be a floating-point type");
+		static_assert(is_floating_point<Scalar>, "Bounding box scalar type must be a floating-point type");
 
 		/// \brief The bounding box's scalar type.
 		using scalar_type = Scalar;
@@ -52,8 +53,10 @@ namespace muu
 		using base = impl::bounding_box_<Scalar>;
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2), "Bounding boxes should not have padding");
 
-		using boxes = impl::boxes_common<Scalar>;
-		using aabbs = impl::aabb_common<Scalar>;
+		using boxes			  = impl::boxes_common<Scalar>;
+		using aabbs			  = impl::aabb_common<Scalar>;
+		using triangles		  = impl::triangles_common<Scalar>;
+		using sat_tester_type = sat_tester<Scalar, 3>;
 
 		using promoted_scalar					 = promote_if_small_float<scalar_type>;
 		using promoted_vec3						 = vector<promoted_scalar, 3>;
@@ -199,7 +202,7 @@ namespace muu
 		}
 
 		/// \brief	Constructs a bounding box fitting two or more points.
-		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, T...>), typename... T)
+		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, const T&...>), typename... T)
 		MUU_PURE_GETTER
 		static constexpr bounding_box MUU_VECTORCALL from_points(MUU_VC_PARAM(vector_type) pt0,
 																 MUU_VC_PARAM(vector_type) pt1,
@@ -754,7 +757,7 @@ namespace muu
 		/// \param	pts		The remaining points being added to the box's volume.
 		///
 		/// \return	A reference to the box.
-		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, T...>), typename... T)
+		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, const T&...>), typename... T)
 		constexpr bounding_box& MUU_VECTORCALL append(MUU_VC_PARAM(vector_type) pt1,
 													  MUU_VC_PARAM(vector_type) pt2,
 													  const T&... pts) noexcept
@@ -812,7 +815,10 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(bounding_box) bb,
 													  MUU_VC_PARAM(vector_type) point) noexcept
 		{
-			return aabbs::contains_point(bb.center, bb.extents, point);
+			const auto adj = vector_type::abs(point - bb.center);
+			return adj.x <= bb.extents.x //
+				&& adj.y <= bb.extents.y //
+				&& adj.z <= bb.extents.z;
 		}
 
 		/// \brief	Returns true if the bounding box contains a point.
@@ -822,44 +828,154 @@ namespace muu
 			return contains(*this, point);
 		}
 
-		/// \brief	Returns true if a bounding box contains all the points of another boudning box.
+		/// \brief	Returns true if a bounding box contains all the points of another bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(bounding_box) outer_bb,
 													  MUU_VC_PARAM(bounding_box) inner_bb) noexcept
 		{
-			return aabbs::contains_aabb(outer_bb.center, outer_bb.extents, inner_bb.center, inner_bb.extents);
+			const auto outer_min = outer_bb.min_corner();
+			const auto outer_max = outer_bb.max_corner();
+			const auto inner_min = inner_bb.min_corner();
+			const auto inner_max = inner_bb.max_corner();
+
+			return outer_min.x <= inner_min.x //
+				&& outer_max.x >= inner_max.x //
+				&& outer_min.y <= inner_min.y //
+				&& outer_max.y >= inner_max.y //
+				&& outer_min.z <= inner_min.z //
+				&& outer_max.z >= inner_max.z;
 		}
 
-		/// \brief	Returns true if a bounding box contains all the points of another boudning box.
+		/// \brief	Returns true if a bounding box contains all the points of another bounding box.
 		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(bounding_box) bb) const noexcept
 		{
 			return contains(*this, bb);
 		}
 
-		/// \brief	Returns true if two bounding boxes intersect.
-		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb1,
-														MUU_VC_PARAM(bounding_box) bb2) noexcept
-		{
-			return aabbs::intersects_aabb(bb1.center, bb1.extents, bb2.center, bb2.extents);
-		}
-
-		/// \brief	Returns true if two bounding boxes intersect.
-		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb) const noexcept
-		{
-			return intersects(*this, bb);
-		}
+		//--------------------------------
+		// aabb x plane
+		//--------------------------------
 
 		/// \brief	Returns true if a bounding box intersects a plane.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb,
-														MUU_VC_PARAM(plane<scalar_type>) p) noexcept;
+														MUU_VC_PARAM(plane<scalar_type>) p) noexcept
+		{
+			return impl::planes_common<Scalar>::unsigned_distance(p.normal, p.d, bb.center)
+				<= vector_type::dot(bb.extents, vector_type::abs(p.normal));
+		}
 
 		/// \brief	Returns true if the bounding box intersects a plane.
 		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(plane<scalar_type>) p) const noexcept;
+
+		//--------------------------------
+		// aabb x line segment
+		//--------------------------------
+
+		/// \brief	Returns true if a bounding box intersects a line segment.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb,
+														MUU_VC_PARAM(vector_type) start,
+														MUU_VC_PARAM(vector_type) end) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			const auto mid_delta = (end - start) / scalar_type{ 2 };
+			const auto mid_point = start + mid_delta - bb.center;
+			const auto abs_delta = vector_type::abs(mid_delta);
+
+			if (muu::abs(mid_point.x) > bb.extents.x + abs_delta.x	  //
+				|| muu::abs(mid_point.y) > bb.extents.y + abs_delta.y //
+				|| muu::abs(mid_point.z) > bb.extents.z + abs_delta.z)
+				return false;
+
+			if (muu::abs(mid_delta.y * mid_point.z - mid_delta.z * mid_point.y)
+					> bb.extents.y * abs_delta.z + bb.extents.z * abs_delta.y
+				|| muu::abs(mid_delta.z * mid_point.x - mid_delta.x * mid_point.z)
+					   > bb.extents.z * abs_delta.x + bb.extents.x * abs_delta.z
+				|| muu::abs(mid_delta.x * mid_point.y - mid_delta.y * mid_point.x)
+					   > bb.extents.x * abs_delta.y + bb.extents.y * abs_delta.x)
+				return false;
+
+			return true;
+		}
+
+		/// \brief	Returns true if a bounding box intersects a line segment.
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb,
+														MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept;
+
+		/// \brief	Returns true if the bounding box intersects a line segment.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(line_segment<scalar_type>) seg) const noexcept;
+
+		//--------------------------------
+		// aabb x triangle
+		//--------------------------------
+
+		/// \brief	Returns true if a bounding box intersects a triangle.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb,
+														MUU_VC_PARAM(vector_type) p0,
+														MUU_VC_PARAM(vector_type) p1,
+														MUU_VC_PARAM(vector_type) p2) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			// this is the Akenine-Moller algorithm:
+			// https://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/pubs/tribox.pdf
+
+			// test box axes against triangle
+			const auto aabb_min = bb.min_corner();
+			const auto aabb_max = bb.max_corner();
+			{
+				const auto test_axis = [&](auto idx) noexcept -> bool
+				{
+					constexpr auto axis_index = remove_cvref<decltype(idx)>::value;
+					sat_tester_type sat{ index_tag<axis_index>{}, p0, p1, p2 };
+					return sat(aabb_min.template get<axis_index>(), aabb_max.template get<axis_index>());
+				};
+				if (!test_axis(muu::x_axis) || !test_axis(muu::y_axis) || !test_axis(muu::z_axis))
+					return false;
+			}
+
+			// test triangle normal against box
+			const vector_type box_verts[] = { aabb_min,
+											  bb.template corner<box_corners::x>(),
+											  bb.template corner<box_corners::xy>(),
+											  bb.template corner<box_corners::xz>(),
+											  bb.template corner<box_corners::y>(),
+											  bb.template corner<box_corners::yz>(),
+											  bb.template corner<box_corners::z>(),
+											  aabb_max };
+			{
+				const auto axis = triangles::normal(p0, p1, p2);
+				sat_tester_type sat{ axis, box_verts };
+				if (!sat(vector_type::dot(axis, p0)))
+					return false;
+			}
+
+			// test edge cross products
+			const vector_type tri_edges[] = { p1 - p0, p2 - p1, p0 - p2 };
+			for (const auto& edge : tri_edges)
+			{
+				const auto test_edge = [&](auto idx) noexcept -> bool
+				{
+					constexpr auto axis_index = remove_cvref<decltype(idx)>::value;
+
+					const auto axis = vector_type::cross(edge, index_tag<axis_index>{});
+					sat_tester_type box_sat{ axis, box_verts };
+					sat_tester_type tri_sat{ axis, p0, p1, p2 };
+					return box_sat(tri_sat);
+				};
+				if (!test_edge(muu::x_axis) || !test_edge(muu::y_axis) || !test_edge(muu::z_axis))
+					return false;
+			}
+
+			return true;
+		}
 
 		/// \brief	Returns true if a bounding box intersects a triangle.
 		MUU_PURE_INLINE_GETTER
@@ -870,14 +986,47 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(triangle<scalar_type>) tri) const noexcept;
 
-		/// \brief	Returns true if a bounding box intersects a line segment.
-		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb,
-														MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept;
+		//--------------------------------
+		// aabb x aabb
+		//--------------------------------
 
-		/// \brief	Returns true if the bounding box intersects a line segment.
+		/// \brief	Returns true if two bounding boxes intersect.
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(line_segment<scalar_type>) seg) const noexcept;
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb1,
+														MUU_VC_PARAM(bounding_box) bb2) noexcept
+		{
+			const auto min1 = bb1.min_corner();
+			const auto max1 = bb1.max_corner();
+			const auto min2 = bb2.min_corner();
+			const auto max2 = bb2.max_corner();
+
+			return max1.x >= min2.x //
+				&& min1.x <= max2.x //
+				&& max1.y >= min2.y //
+				&& min1.y <= max2.y //
+				&& max1.z >= min2.z //
+				&& min1.z <= max2.z;
+		}
+
+		/// \brief	Returns true if two bounding boxes intersect.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb) const noexcept
+		{
+			return intersects(*this, bb);
+		}
+
+		//--------------------------------
+		// aabb x obb
+		//--------------------------------
+
+		/// \brief	Returns true if an axis-aligned bounding box intersects an oriented bounding_box.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) aabb,
+														MUU_VC_PARAM(oriented_bounding_box<scalar_type>) obb) noexcept;
+
+		/// \brief	Returns true if the axis-aligned bounding box intersects an oriented bounding_box.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(oriented_bounding_box<scalar_type>) obb) const noexcept;
 
 			/// @}
 	#endif // intersection and containment

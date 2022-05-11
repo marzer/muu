@@ -22,7 +22,7 @@ namespace muu
 	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VC_PARAM(bounding_box) bb,
 																   MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept
 	{
-		return aabbs::intersects_line_segment(bb.center, bb.extents, seg.points[0], seg.points[1]);
+		return intersects(bb, seg.points[0], seg.points[1]);
 	}
 
 	template <typename Scalar>
@@ -30,7 +30,7 @@ namespace muu
 	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(
 		MUU_VC_PARAM(line_segment<scalar_type>) seg) const noexcept
 	{
-		return aabbs::intersects_line_segment(base::center, base::extents, seg.points[0], seg.points[1]);
+		return intersects(*this, seg.points[0], seg.points[1]);
 	}
 
 	template <typename Scalar>
@@ -53,7 +53,7 @@ namespace muu
 	constexpr bool MUU_VECTORCALL line_segment<Scalar>::intersects(MUU_VC_PARAM(line_segment) seg,
 																   MUU_VC_PARAM(bounding_box<scalar_type>) bb) noexcept
 	{
-		return aabbs::intersects_line_segment(bb.center, bb.extents, seg.points[0], seg.points[1]);
+		return bounding_box<scalar_type>::intersects(bb, seg.points[0], seg.points[1]);
 	}
 
 	template <typename Scalar>
@@ -61,7 +61,7 @@ namespace muu
 	constexpr bool MUU_VECTORCALL line_segment<Scalar>::intersects(
 		MUU_VC_PARAM(bounding_box<scalar_type>) bb) const noexcept
 	{
-		return aabbs::intersects_line_segment(bb.center, bb.extents, base::points[0], base::points[1]);
+		return bounding_box<scalar_type>::intersects(bb, base::points[0], base::points[1]);
 	}
 }
 

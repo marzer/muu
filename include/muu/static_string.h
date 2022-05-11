@@ -163,14 +163,14 @@ namespace muu
 
 		/// \brief Constructs a string from a std::string_view.
 		/// \details	Any extra characters not covered by the input argument are zero-initialized.
-		MUU_LEGACY_REQUIRES(!!Len, size_t Len = Length)
+		MUU_HIDDEN_CONSTRAINT(!!Len, size_t Len = Length)
 		MUU_NODISCARD_CTOR
 		explicit constexpr static_string(std::string_view str) noexcept //
 			: static_string{ str, std::make_index_sequence<Length>{} }
 		{}
 
 		/// \cond
-		MUU_LEGACY_REQUIRES(!Len, size_t Len = Length)
+		MUU_HIDDEN_CONSTRAINT(!Len, size_t Len = Length)
 		MUU_NODISCARD_CTOR
 		explicit constexpr static_string(std::string_view) noexcept //
 			: chars_{}
@@ -224,7 +224,7 @@ namespace muu
 		/// \brief Returns a reference to the first character in the string.
 		///
 		/// \availability		This function is not available when #string_length == 0.
-		MUU_LEGACY_REQUIRES(!!Len, size_t Len = Length)
+		MUU_HIDDEN_CONSTRAINT(!!Len, size_t Len = Length)
 		MUU_PURE_INLINE_GETTER
 		constexpr reference front() noexcept
 		{
@@ -234,7 +234,7 @@ namespace muu
 		/// \brief Returns a reference to the last character in the string.
 		///
 		/// \availability		This function is not available when #string_length == 0.
-		MUU_LEGACY_REQUIRES(!!Len, size_t Len = Length)
+		MUU_HIDDEN_CONSTRAINT(!!Len, size_t Len = Length)
 		MUU_PURE_INLINE_GETTER
 		constexpr reference back() noexcept
 		{
@@ -244,7 +244,7 @@ namespace muu
 		/// \brief Returns a const reference to the first character in the string.
 		///
 		/// \availability		This function is not available when #string_length == 0.
-		MUU_LEGACY_REQUIRES(!!Len, size_t Len = Length)
+		MUU_HIDDEN_CONSTRAINT(!!Len, size_t Len = Length)
 		MUU_PURE_INLINE_GETTER
 		constexpr const_reference front() const noexcept
 		{
@@ -254,7 +254,7 @@ namespace muu
 		/// \brief Returns a const reference to the last character in the string.
 		///
 		/// \availability		This function is not available when #string_length == 0.
-		MUU_LEGACY_REQUIRES(!!Len, size_t Len = Length)
+		MUU_HIDDEN_CONSTRAINT(!!Len, size_t Len = Length)
 		MUU_PURE_INLINE_GETTER
 		constexpr const_reference back() const noexcept
 		{

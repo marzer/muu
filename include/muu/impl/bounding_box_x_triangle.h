@@ -22,7 +22,7 @@ namespace muu
 	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VC_PARAM(bounding_box) bb,
 																   MUU_VC_PARAM(triangle<Scalar>) tri) noexcept
 	{
-		return aabbs::intersects_triangle(bb.center, bb.extents, tri.points[0], tri.points[1], tri.points[2]);
+		return intersects(bb, tri.points[0], tri.points[1], tri.points[2]);
 	}
 
 	template <typename Scalar>
@@ -30,7 +30,7 @@ namespace muu
 	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(
 		MUU_VC_PARAM(triangle<scalar_type>) tri) const noexcept
 	{
-		return aabbs::intersects_triangle(base::center, base::extents, tri.points[0], tri.points[1], tri.points[2]);
+		return intersects(*this, tri.points[0], tri.points[1], tri.points[2]);
 	}
 
 	template <typename Scalar>
@@ -54,7 +54,7 @@ namespace muu
 															   MUU_VC_PARAM(vector_type) p2,
 															   MUU_VC_PARAM(bounding_box<scalar_type>) bb) noexcept
 	{
-		return aabbs::intersects_triangle(bb.center, bb.extents, p0, p1, p2);
+		return bounding_box<scalar_type>::intersects(bb, p0, p1, p2);
 	}
 
 	template <typename Scalar>
@@ -62,7 +62,7 @@ namespace muu
 	constexpr bool MUU_VECTORCALL triangle<Scalar>::intersects(MUU_VC_PARAM(triangle) tri,
 															   MUU_VC_PARAM(bounding_box<scalar_type>) bb) noexcept
 	{
-		return aabbs::intersects_triangle(bb.center, bb.extents, tri.points[0], tri.points[1], tri.points[2]);
+		return bounding_box<scalar_type>::intersects(bb, tri.points[0], tri.points[1], tri.points[2]);
 	}
 
 	template <typename Scalar>
@@ -70,7 +70,7 @@ namespace muu
 	constexpr bool MUU_VECTORCALL triangle<Scalar>::intersects(
 		MUU_VC_PARAM(bounding_box<scalar_type>) bb) const noexcept
 	{
-		return aabbs::intersects_triangle(base::points[0], base::points[1], base::points[2], bb.center, bb.extents);
+		return bounding_box<scalar_type>::intersects(bb, base::points[0], base::points[1], base::points[2]);
 	}
 }
 

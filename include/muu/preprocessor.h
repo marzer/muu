@@ -1154,7 +1154,7 @@ namespace muu::impl
 #if MUU_CONCEPTS
 	#define MUU_REQUIRES(...)						requires(__VA_ARGS__)
 #endif
-#define MUU_LEGACY_REQUIRES(condition, ...)			template <__VA_ARGS__ MUU_ENABLE_IF(condition)> MUU_REQUIRES(condition)
+#define MUU_HIDDEN_CONSTRAINT(condition, ...)			template <__VA_ARGS__ MUU_ENABLE_IF(condition)> MUU_REQUIRES(condition)
 #define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__ MUU_ENABLE_IF(condition)> MUU_REQUIRES(condition)
 /// \endcond
 
@@ -1164,8 +1164,8 @@ namespace muu::impl
 #ifndef MUU_ENABLE_IF
 	#define MUU_ENABLE_IF(...)
 #endif
-#ifndef MUU_LEGACY_REQUIRES
-	#define MUU_LEGACY_REQUIRES(condition, ...)
+#ifndef MUU_HIDDEN_CONSTRAINT
+	#define MUU_HIDDEN_CONSTRAINT(condition, ...)
 #endif
 #ifndef MUU_CONSTRAINED_TEMPLATE
 	#define MUU_CONSTRAINED_TEMPLATE(condition, ...)	template <__VA_ARGS__>

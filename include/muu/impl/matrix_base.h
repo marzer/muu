@@ -126,13 +126,13 @@ namespace muu::impl
 		// row-major scalar constructor optimizations for some common cases
 
 		// 2x2
-		MUU_LEGACY_REQUIRES((R == 2 && C == 2), size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT((R == 2 && C == 2), size_t R = Rows, size_t C = Columns)
 		constexpr matrix_(Scalar v00, Scalar v01, Scalar v10 = Scalar{}, Scalar v11 = Scalar{}) noexcept
 			: m{ { v00, v10 }, { v01, v11 } }
 		{}
 
 		// 2x3
-		MUU_LEGACY_REQUIRES((R == 2 && C == 3), size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT((R == 2 && C == 3), size_t R = Rows, size_t C = Columns)
 		constexpr matrix_(Scalar v00,
 						  Scalar v01,
 						  Scalar v02 = Scalar{},
@@ -143,7 +143,7 @@ namespace muu::impl
 		{}
 
 		// 3x3
-		MUU_LEGACY_REQUIRES((R == 3 && C == 3), size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT((R == 3 && C == 3), size_t R = Rows, size_t C = Columns)
 		constexpr matrix_(Scalar v00,
 						  Scalar v01,
 						  Scalar v02 = Scalar{},
@@ -157,7 +157,7 @@ namespace muu::impl
 		{}
 
 		// 3x4
-		MUU_LEGACY_REQUIRES((R == 3 && C == 4), size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT((R == 3 && C == 4), size_t R = Rows, size_t C = Columns)
 		constexpr matrix_(Scalar v00,
 						  Scalar v01,
 						  Scalar v02 = Scalar{},
@@ -174,7 +174,7 @@ namespace muu::impl
 		{}
 
 		// 4x4
-		MUU_LEGACY_REQUIRES((R == 4 && C == 4), size_t R = Rows, size_t C = Columns)
+		MUU_HIDDEN_CONSTRAINT((R == 4 && C == 4), size_t R = Rows, size_t C = Columns)
 		constexpr matrix_(Scalar v00,
 						  Scalar v01,
 						  Scalar v02 = Scalar{},

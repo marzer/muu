@@ -307,7 +307,7 @@ namespace muu::impl
 			invoke(*callable, index, static_cast<Args&&>(args)...);
 		}
 
-		MUU_LEGACY_REQUIRES(sfinae, bool sfinae = requires_destruction)
+		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = requires_destruction)
 		MUU_ATTR(nonnull)
 		static void destroy(void* buffer) noexcept
 		{
