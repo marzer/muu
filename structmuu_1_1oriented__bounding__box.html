@@ -87,7 +87,9 @@
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
+                <li><a href="#intersection-and-containment">Intersection and containment</a></li>
                 <li><a href="#scalar-accessors">Scalar accessors</a></li>
+                <li><a href="#transformation">Transformation</a></li>
                 <li><a href="#translation">Translation</a></li>
                 <li><a href="#scaling">scaling</a></li>
                 <li><a href="#related">Related</a></li>
@@ -392,6 +394,29 @@
             <dd>Returns the width of the box (x-axis).</dd>
           </dl>
         </section>
+        <section id="intersection-and-containment">
+          <h2><a href="#intersection-and-containment">Intersection and containment</a></h2>
+          <dl class="m-doc">
+            <dt id="aceeebd08a3e2c01219536c8115b5fbde">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aceeebd08a3e2c01219536c8115b5fbde">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; obb,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; aabb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if an oriented bounding box intersects an axis-aligned <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>.</dd>
+            <dt id="ad40a1aab831164ca6e42b8f98e3e2a79">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad40a1aab831164ca6e42b8f98e3e2a79">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb1,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two oriented bounding boxes intersect.</dd>
+            <dt id="ab1872cd9def090e649fe370cb4f36903">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab1872cd9def090e649fe370cb4f36903">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; aabb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the oriented bounding box intersects an axis-aligned <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>.</dd>
+            <dt id="a0d132f82c8229850219d108af20032ee">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0d132f82c8229850219d108af20032ee">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two oriented bounding boxes intersect.</dd>
+          </dl>
+        </section>
         <section id="scalar-accessors">
           <h2><a href="#scalar-accessors">Scalar accessors</a></h2>
           <dl class="m-doc">
@@ -403,6 +428,20 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7057976f5c6b8bbbea89afb75953e9f1">data</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a pointer to the first scalar component in the bounding box.</dd>
+          </dl>
+        </section>
+        <section id="transformation">
+          <h2><a href="#transformation">Transformation</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aaf6cfe8f4d3013234df5ac9dd229aa37">transform</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>, 4, 4&gt;&amp; tx) -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Transforms an oriented bounding box from one coordinate space to another.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6a0587b14522e743659d6e18708c65f3">transform</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>, 4, 4&gt;&amp; tx) -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Transforms the oriented bounding box from one coordinate space to another (in-place).</dd>
           </dl>
         </section>
         <section id="translation">
@@ -783,6 +822,63 @@ template&lt;typename T&gt;
             </h3>
             <p>Returns true if two oriented bounding boxes are exactly equal.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a068191ce40cda58a5c698dd85dc24d41">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aaf6cfe8f4d3013234df5ac9dd229aa37"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aaf6cfe8f4d3013234df5ac9dd229aa37">transform</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>, 4, 4&gt;&amp; tx) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Transforms an oriented bounding box from one coordinate space to another.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">bb</td>
+                  <td>The bounding box to transform.</td>
+                </tr>
+                <tr>
+                  <td>tx</td>
+                  <td>The transform to apply.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Returns an oriented bounding box containing all the points of the input bounding box after being transformed.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
+          <section class="m-doc-details" id="a6a0587b14522e743659d6e18708c65f3"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6a0587b14522e743659d6e18708c65f3">transform</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>, 4, 4&gt;&amp; tx) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Transforms the oriented bounding box from one coordinate space to another (in-place).</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">tx</td>
+                  <td>The transform to apply.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A reference to the box.</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
           <section class="m-doc-details" id="a3e2fd19ae31e7fbd5d8c93b7b8d897dc"><div>
             <h3>

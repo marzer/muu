@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8"/>
+  <title>muu::sat_tester struct | muu Miscellaneous useful utilities for C++</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
+  <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
+  <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="#22272e" name="theme-color"/>
+  <meta content="muu" name="twitter:title"/>
+  <meta content="muu" property="og:title"/>
+  <meta content="muu" itemprop="name"/>
+  <meta content="Miscellaneous useful utilities for C++" name="description"/>
+  <meta content="Miscellaneous useful utilities for C++" name="twitter:description"/>
+  <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
+  <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
+  <meta content="telephone=no" name="format-detection"/>
+  <meta content="Poxy v0.5.5" name="generator"/>
+  <meta content="no-referrer-when-downgrade" name="referrer"/>
+  <link href="poxy-0.5.5.css" rel="stylesheet"/>
+  <link href="poxy-0.5.5-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.5.js"></script>
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a class="m-col-t-8 m-col-m-none m-left-m" href="index.html" id="m-navbar-brand"><img alt="" src="logo.png"/>muu <span class="m-thin">Miscellaneous useful utilities for C++</span></a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z" id="m-doc-search-icon-path"></path>
+        </svg></a>
+        <a href="#navigation" id="m-navbar-show" title="Show navigation"></a>
+        <a href="#" id="m-navbar-hide" title="Hide navigation"></a>
+      </div>
+      <div class="m-col-t-12 m-show-m m-col-m-none m-right-m" id="m-navbar-collapse">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="files.html">Files</a></li>
+            <li><a href="modules.html">Modules</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="4">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a class="github poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a></li>
+            <li class="m-show-m"><a class="m-doc-search-icon" href="#search" onclick="return showSearch()" title="Search"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path"></use>
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="sat__tester_8h.html">&lt;muu/sat_tester.h&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>sat_tester <span class="m-thin">struct</span>
+        </h1>
+        <p>A helper utility for performing Separating-Axis Theorem tests.</p>
+        <table class="m-table m-fullwidth m-flat">
+          <thead>
+            <tr><th colspan="2">Template parameters</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="width: 1%">Scalar</td>
+              <td>The <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> scalar component type.</td>
+            </tr>
+            <tr>
+              <td>Dimensions</td>
+              <td>The number of dimensions.</td>
+            </tr>
+          </tbody>
+        </table>
+        <nav class="m-block m-default poxy-toc">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-static-attribs">Public static variables</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.wikipedia.org/wiki/Hyperplane_separation_theorem" target="_blank">Separating-Axis Theorem</a></p></aside>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="a42a8df0ee91aa69281300a6dfcc7346f">
+              using <a class="m-doc-self" href="#a42a8df0ee91aa69281300a6dfcc7346f">scalar_type</a> = Scalar
+            </dt>
+            <dd>The <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>'s scalar type.</dd>
+            <dt id="abfe6b1b2608453df1b1e30db8238d54d">
+              using <a class="m-doc-self" href="#abfe6b1b2608453df1b1e30db8238d54d">vector_type</a> = <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1sat__tester.html#a42a8df0ee91aa69281300a6dfcc7346f">scalar_<wbr/>type</a>, Dimensions&gt;
+            </dt>
+            <dd>The <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>'s <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> type.</dd>
+          </dl>
+        </section>
+        <section id="pub-static-attribs">
+          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a86367d669564cc8efcb23cb764afd4c4"> static <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#a86367d669564cc8efcb23cb764afd4c4">dimensions</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>The number of dimensions represented by this <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>'s vector_type.</dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="aa8a98e0c73f9cce1b1674bdb5369aa33">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa8a98e0c73f9cce1b1674bdb5369aa33">sat_tester</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Default constructor.</dd>
+            <dt id="a0d841c79e3c63317a7385eecaf502965">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0d841c79e3c63317a7385eecaf502965">sat_tester</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1sat__tester.html#a42a8df0ee91aa69281300a6dfcc7346f">scalar_<wbr/>type</a> min_max) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Initializes the SAT test projection range bounds to a specific value.</dd>
+            <dt id="ae12573e37f4ca2ad8c7018b1af2d787a">
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae12573e37f4ca2ad8c7018b1af2d787a">sat_tester</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; axis,
+              const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; point,
+              const T&amp;... points) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Initializes the SAT test projection range directly from one or more points.</dd>
+            <dt id="ae856cc1a2dc9aef6ae78a8999a1ff73c">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension, typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae856cc1a2dc9aef6ae78a8999a1ff73c">sat_tester</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
+              const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; point,
+              const T&amp;... points) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Initializes the SAT test projection range directly from one or more points.</dd>
+            <dt id="a8d8797d5f5917decc8c1fdc7a11579c6">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8d8797d5f5917decc8c1fdc7a11579c6">sat_tester</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; axis,
+              const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>(&amp;points)[N]) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Initializes the SAT test projection range directly from an array of points.</dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a2cec6985184700e7dcc340d4adb14fe6">
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2cec6985184700e7dcc340d4adb14fe6">add</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; axis,
+              const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; point,
+              const T&amp;... points) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Adds one or more points to the SAT test projection range.</dd>
+            <dt id="ad00a843d8e594a30910546f6ec90ee6b">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension, typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad00a843d8e594a30910546f6ec90ee6b">add</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
+              const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; point,
+              const T&amp;... points) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Adds one or more points to the SAT test projection range.</dd>
+            <dt id="a1a0219d35e6c87199222c6419fc1ec8a">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1a0219d35e6c87199222c6419fc1ec8a">add</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; axis,
+              const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>(&amp;points)[N]) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Adds an array of points to the SAT test projection range.</dd>
+            <dt id="ab20bddde12b773cc249047d2b4f72bb4">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab20bddde12b773cc249047d2b4f72bb4">add</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; axis,
+              const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>* begin,
+              const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>* end) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Adds a range of points to the SAT test projection range.</dd>
+            <dt id="a658027e71527669fa50a9ba0c3b0f26a">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a658027e71527669fa50a9ba0c3b0f26a">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1sat__tester.html#a42a8df0ee91aa69281300a6dfcc7346f">scalar_<wbr/>type</a> val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the SAT test projection range seen so far contains the given value.</dd>
+            <dt id="afed6ab3cda96151c8b1db9bdda54a3df">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afed6ab3cda96151c8b1db9bdda54a3df">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1sat__tester.html#a42a8df0ee91aa69281300a6dfcc7346f">scalar_<wbr/>type</a> min_val,
+              <a class="m-doc" href="structmuu_1_1sat__tester.html#a42a8df0ee91aa69281300a6dfcc7346f">scalar_<wbr/>type</a> max_val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the SAT test projection range seen so far overlaps the given range.</dd>
+            <dt id="a7424a2e1bc685cfd212c9194e5c0ff46">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7424a2e1bc685cfd212c9194e5c0ff46">operator()</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; other) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the SAT test projection range seen so far overlaps that of another <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>.</dd>
+            <dt id="af898e107afb627dbee4a8d077bb7f596">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af898e107afb627dbee4a8d077bb7f596">reset</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Resets the SAT tester to the default-constructed state.</dd>
+          </dl>
+        </section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a37a7d00bef9e0ab19e9196e147b93bbc">
+              <a class="m-doc" href="structmuu_1_1sat__tester.html#a42a8df0ee91aa69281300a6dfcc7346f">scalar_<wbr/>type</a> <a class="m-doc-self" href="#a37a7d00bef9e0ab19e9196e147b93bbc">min</a>
+            </dt>
+            <dd>The minimum projection seen so far.</dd>
+            <dt id="a86aacef81d6300deff8b39a1f1a1e9a7">
+              <a class="m-doc" href="structmuu_1_1sat__tester.html#a42a8df0ee91aa69281300a6dfcc7346f">scalar_<wbr/>type</a> <a class="m-doc-self" href="#a86aacef81d6300deff8b39a1f1a1e9a7">max</a>
+            </dt>
+            <dd>The maximum projection seen so far.</dd>
+          </dl>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">…</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input autocomplete="off" autofocus="autofocus" disabled="disabled" id="search-input" name="q" placeholder="Loading …" spellcheck="false" type="search"/>
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div class="m-text m-dim m-text-center" id="search-help">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">↓</span>
+            / <span class="m-label m-dim">↑</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div class="m-text m-warning m-text-center" id="search-notfound">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v2.js"></script>
+<script async="async" src="searchdata-v2.js"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        
+    <a class="poxy-external" href="https://github.com/marzer/muu/" target="_blank">Github</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/issues" target="_blank">Report an issue</a>
+     • <a class="poxy-external" href="https://github.com/marzer/muu/blob/master/LICENSE" target="_blank">License</a>
+     • <a download="" href="muu.tagfile.xml" target="_blank" type="text/xml">Doxygen tagfile</a>
+    <br/><br/>
+    Site generated using <a class="poxy-external" href="https://github.com/marzer/poxy/" target="_blank">Poxy</a>
+
+      </div>
+    </div>
+  </div>
+</nav></footer>
+
+
+</body></html>

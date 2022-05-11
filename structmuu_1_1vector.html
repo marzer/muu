@@ -408,6 +408,18 @@
             </dt>
             <dd>Returns the cross product of two vectors.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a0cda73c1b6d8d758cb5e4f06db29fc45">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v,
+              <a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cross product of a vector and a principal axis.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a3a5b7e70bb031f403f7d981519f52535">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cross product of a principal axis and a vector.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a798546d2891f883d37daf90ddcdc7dc2">orthogonal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a vector orthogonal to another.</dd>
@@ -415,6 +427,11 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a79ef9d7cc5c50009151a32256226d9a5">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the cross product of this vector and another.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aaeb2f60f873e78011846bcc39f82716e">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the cross product of this vector and a principal axis.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a5adba8336be58303167c36839ad333f6">orthogonal</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -478,10 +495,27 @@
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the dot product of two vectors.</dd>
+            <dt id="a07e6d2bae74f0ec455dc13011f2726ae">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a07e6d2bae74f0ec455dc13011f2726ae">dot</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v,
+              <a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the dot product of a vector and a principal axis.</dd>
+            <dt id="a9d5055c5cf8d7504a2af80bfd80d9da1">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a9d5055c5cf8d7504a2af80bfd80d9da1">dot</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the dot product of a vector and a principal axis.</dd>
             <dt id="a06c5437850e12b0cbfc84035f86addeb">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a06c5437850e12b0cbfc84035f86addeb">dot</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the dot product of this and another vector.</dd>
+            <dt id="a65ac3ad85ea22fe61345b2adb1e46844">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a65ac3ad85ea22fe61345b2adb1e46844">dot</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the dot product of the vector and a principal axis.</dd>
           </dl>
         </section>
         <section id="equality-approximate">
@@ -813,21 +847,21 @@
             </dt>
             <dd>Returns a pointer to the first scalar component in the vector.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;</div>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6c9dc88b7400a51411156d4147b03b96">get</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the scalar component at a specific index.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;</div>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a0d9b9b73cbc2caa305f06f91234d4476">get</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the scalar component at a specific index.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a2b5fd3434b410af7c19dd9576f37c408">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> idx) const -&gt; const <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae70bab749dba6c5e53255a1a41e0c5f5">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) const -&gt; const <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the Nth scalar component.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a1d9237f0d5e1d0b4bd1981b6f4b816e8">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> idx) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad1fd1e088703c0b1b4704874e28aaa44">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the Nth scalar component.</dd>
           </dl>
@@ -1781,6 +1815,26 @@ template&lt;typename T&gt;
             <p>Returns the cross product of two vectors.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
           </div></section>
+          <section class="m-doc-details" id="a0cda73c1b6d8d758cb5e4f06db29fc45"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0cda73c1b6d8d758cb5e4f06db29fc45">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v,
+              <a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the cross product of a vector and a principal axis.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a3a5b7e70bb031f403f7d981519f52535"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3a5b7e70bb031f403f7d981519f52535">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the cross product of a principal axis and a vector.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
+          </div></section>
           <section class="m-doc-details" id="a798546d2891f883d37daf90ddcdc7dc2"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
@@ -1797,6 +1851,15 @@ template&lt;typename T&gt;
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a79ef9d7cc5c50009151a32256226d9a5">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the cross product of this vector and another.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aaeb2f60f873e78011846bcc39f82716e"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aaeb2f60f873e78011846bcc39f82716e">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns the cross product of this vector and a principal axis.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a5adba8336be58303167c36839ad333f6"><div>
@@ -2271,7 +2334,7 @@ template&lt;typename T&gt;
           </div></section>
           <section class="m-doc-details" id="a6c9dc88b7400a51411156d4147b03b96"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;
               </div>
               <span class="m-doc-wrap-bumper">const <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6c9dc88b7400a51411156d4147b03b96">get</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -2282,8 +2345,8 @@ template&lt;typename T&gt;
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">Index</td>
-                  <td>The index of the scalar component to retrieve, where x == 0, y == 1, etc.</td>
+                  <td style="width: 1%">Dimension</td>
+                  <td>The index of the dimension to retrieve, where X == 0, Y == 1, etc.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -2296,7 +2359,7 @@ template&lt;typename T&gt;
           </div></section>
           <section class="m-doc-details" id="a0d9b9b73cbc2caa305f06f91234d4476"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index&gt;
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0d9b9b73cbc2caa305f06f91234d4476">get</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -2307,8 +2370,8 @@ template&lt;typename T&gt;
               </thead>
               <tbody>
                 <tr>
-                  <td style="width: 1%">Index</td>
-                  <td>The index of the scalar component to retrieve, where x == 0, y == 1, etc.</td>
+                  <td style="width: 1%">Dimension</td>
+                  <td>The index of the dimension to retrieve, where X == 0, Y == 1, etc.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -2319,51 +2382,33 @@ template&lt;typename T&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a2b5fd3434b410af7c19dd9576f37c408"><div>
+          <section class="m-doc-details" id="ae70bab749dba6c5e53255a1a41e0c5f5"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a2b5fd3434b410af7c19dd9576f37c408">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> idx) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">const <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae70bab749dba6c5e53255a1a41e0c5f5">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Gets a reference to the Nth scalar component.</p>
             <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">idx</td>
-                  <td>The index of the scalar component to retrieve, where x == 0, y == 1, etc.</td>
-                </tr>
-              </tbody>
               <tfoot>
                 <tr>
-                  <th>Returns</th>
+                  <th style="width: 1%">Returns</th>
                   <td>A reference to the selected scalar component.</td>
                 </tr>
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a1d9237f0d5e1d0b4bd1981b6f4b816e8"><div>
+          <section class="m-doc-details" id="ad1fd1e088703c0b1b4704874e28aaa44"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1d9237f0d5e1d0b4bd1981b6f4b816e8">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> idx) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad1fd1e088703c0b1b4704874e28aaa44">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Gets a reference to the Nth scalar component.</p>
             <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">idx</td>
-                  <td>The index of the scalar component to retrieve, where x == 0, y == 1, etc.</td>
-                </tr>
-              </tbody>
               <tfoot>
                 <tr>
-                  <th>Returns</th>
+                  <th style="width: 1%">Returns</th>
                   <td>A reference to the selected scalar component.</td>
                 </tr>
               </tfoot>
