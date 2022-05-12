@@ -5300,6 +5300,20 @@
       <anchor>a7261a775662b1205754636f6d17bada9</anchor>
       <arglist>(const bounding_box &amp;bb) const noexcept</arglist>
     </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a0da4d9f89c8e92dd96891a67146f2ab6</anchor>
+      <arglist>(const bounding_box &amp;bb, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a83f57efd52e4ca85711d02e84d0140bd</anchor>
+      <arglist>(const bounding_box &amp;outer_bb, const bounding_box &amp;inner_bb) noexcept</arglist>
+    </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>intersects</name>
@@ -5334,20 +5348,6 @@
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a4a4bfa0d7559b33603c318b35991dba2</anchor>
       <arglist>(const oriented_bounding_box&lt; scalar_type &gt; &amp;obb) const noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>contains</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a0da4d9f89c8e92dd96891a67146f2ab6</anchor>
-      <arglist>(const bounding_box &amp;bb, const vector_type &amp;point) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>contains</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a83f57efd52e4ca85711d02e84d0140bd</anchor>
-      <arglist>(const bounding_box &amp;outer_bb, const bounding_box &amp;inner_bb) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
@@ -7506,20 +7506,6 @@
       <anchor>af7e1c5c5d4cb22ae82a02285a2a619bc</anchor>
       <arglist>(const line_segment &amp;seg, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>intersects</name>
-      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>a2699867786d45f90b8a559a5ace80216</anchor>
-      <arglist>(const bounding_box&lt; scalar_type &gt; &amp;bb) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>intersects</name>
-      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>a3cc873954b4e12f43cee793d33b8a6fd</anchor>
-      <arglist>(const plane&lt; scalar_type &gt; &amp;p) const noexcept</arglist>
-    </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>colinear</name>
@@ -7547,6 +7533,20 @@
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
       <anchor>ac9b7f6c5fcef994830e2e3bd338fd706</anchor>
       <arglist>(const line_segment &amp;seg1, const line_segment &amp;seg2, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a2699867786d45f90b8a559a5ace80216</anchor>
+      <arglist>(const bounding_box&lt; scalar_type &gt; &amp;bb) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a3cc873954b4e12f43cee793d33b8a6fd</anchor>
+      <arglist>(const plane&lt; scalar_type &gt; &amp;p) const noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
@@ -9780,6 +9780,13 @@
       <anchor>a278b38f3419153f7bdcb7e04cf8f830c</anchor>
       <arglist>(const vector_type &amp;point) const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>origin</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a5e1e2847a035c2ca1ee716e59ab763f8</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr scalar_type</type>
       <name>signed_distance</name>
@@ -9801,12 +9808,26 @@
       <anchor>a52a7c3d8492dec7e675ddbce471e0c65</anchor>
       <arglist>(const plane &amp;p, const vector_type &amp;point) noexcept</arglist>
     </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>origin</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>af38b322e72fd58e2ad82af2b40783fe7</anchor>
+      <arglist>(const plane &amp;p) noexcept</arglist>
+    </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>contains</name>
       <anchorfile>structmuu_1_1plane.html</anchorfile>
       <anchor>a0cac5c4810799635509c6c81c1a46a0d</anchor>
       <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a7317470da577b714f161efd8b77538de</anchor>
+      <arglist>(const plane &amp;p, const vector_type &amp;point) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -9824,13 +9845,6 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
-      <name>contains</name>
-      <anchorfile>structmuu_1_1plane.html</anchorfile>
-      <anchor>a7317470da577b714f161efd8b77538de</anchor>
-      <arglist>(const plane &amp;p, const vector_type &amp;point) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
       <name>intersects</name>
       <anchorfile>structmuu_1_1plane.html</anchorfile>
       <anchor>ae8557edd5d516b5ef10cc79f8954b82b</anchor>
@@ -9842,6 +9856,20 @@
       <anchorfile>structmuu_1_1plane.html</anchorfile>
       <anchor>a4e9f367c8d12193247c5bbef139b7ba7</anchor>
       <arglist>(const plane &amp;p, const bounding_box&lt; scalar_type &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr plane &amp;</type>
+      <name>transform</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a0858b3bacc7c8935d9c93906f78fe3fa</anchor>
+      <arglist>(const matrix&lt; scalar_type, 4, 4 &gt; &amp;tx) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr plane</type>
+      <name>transform</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a9a39a48d4772a6a25adda404862e4538</anchor>
+      <arglist>(const plane &amp;p, const matrix&lt; scalar_type, 4, 4 &gt; &amp;tx) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -13445,13 +13473,6 @@
       <anchor>ad667f1f626714fc800e8c06fb0cf7b9a</anchor>
       <arglist>(const vector_type &amp;point) const noexcept</arglist>
     </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>intersects</name>
-      <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>ad9f77091ab2178fa24ca801f00effaf5</anchor>
-      <arglist>(const bounding_box&lt; scalar_type &gt; &amp;bb) const noexcept</arglist>
-    </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>coplanar</name>
@@ -13479,6 +13500,13 @@
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
       <anchor>ae5b331c44513becdc04ca36fbc23c0d3</anchor>
       <arglist>(const triangle &amp;tri, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ad9f77091ab2178fa24ca801f00effaf5</anchor>
+      <arglist>(const bounding_box&lt; scalar_type &gt; &amp;bb) const noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>

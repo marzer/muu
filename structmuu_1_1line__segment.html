@@ -83,10 +83,11 @@
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#containment">Containment</a></li>
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
-                <li><a href="#intersection-and-containment">Intersection and containment</a></li>
+                <li><a href="#intersection">Intersection</a></li>
                 <li><a href="#iterators">Iterators</a></li>
                 <li><a href="#iterators-adl">Iterators (ADL)</a></li>
                 <li><a href="#point-accessors">Point accessors</a></li>
@@ -180,6 +181,55 @@
               <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <a class="m-doc-self" href="#a2156330bc7c31a1fbbd4984b779c24cf">points</a>
             </dt>
             <dd>the points in the line segment.</dd>
+          </dl>
+        </section>
+        <section id="containment">
+          <h2><a href="#containment">Containment</a></h2>
+          <dl class="m-doc">
+            <dt id="aa5d0d3dd6620e64c398e7dafbeace6dc">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aa5d0d3dd6620e64c398e7dafbeace6dc">colinear</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment and a point are colinear (i.e. they lie on the same infinite line).</dd>
+            <dt id="a3fd5938c199baa2e5ce7d960745c5839">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a3fd5938c199baa2e5ce7d960745c5839">colinear</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg1,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg2,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a two line segments are colinear (i.e. they lie on the same infinite line).</dd>
+            <dt id="aeeba844435bd2294ec5c1669ee4d2b47">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aeeba844435bd2294ec5c1669ee4d2b47">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a point lies on a line segment.</dd>
+            <dt id="ac9b7f6c5fcef994830e2e3bd338fd706">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ac9b7f6c5fcef994830e2e3bd338fd706">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg1,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg2,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two line segments are coplanar.</dd>
+            <dt id="a510645c6e3b87db9f1d61e3fa751afc0">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a510645c6e3b87db9f1d61e3fa751afc0">colinear</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment and a point are colinear (i.e. they lie on the same infinite line).</dd>
+            <dt id="a14d92e0e3fb1ab461cf354e7f9c75340">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a14d92e0e3fb1ab461cf354e7f9c75340">colinear</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a two line segments are colinear (i.e. they lie on the same infinite line).</dd>
+            <dt id="a25f7dd7056610d5543ce582ec656bd38">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a25f7dd7056610d5543ce582ec656bd38">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a point lies on a line segment.</dd>
+            <dt id="af7e1c5c5d4cb22ae82a02285a2a619bc">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af7e1c5c5d4cb22ae82a02285a2a619bc">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two line segments are coplanar.</dd>
           </dl>
         </section>
         <section id="equality-approximate">
@@ -296,33 +346,9 @@
             <dd>Returns the line segment's midpoint.</dd>
           </dl>
         </section>
-        <section id="intersection-and-containment">
-          <h2><a href="#intersection-and-containment">Intersection and containment</a></h2>
+        <section id="intersection">
+          <h2><a href="#intersection">Intersection</a></h2>
           <dl class="m-doc">
-            <dt id="aa5d0d3dd6620e64c398e7dafbeace6dc">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aa5d0d3dd6620e64c398e7dafbeace6dc">colinear</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
-              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point,
-              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a line segment and a point are colinear (i.e. they lie on the same infinite line).</dd>
-            <dt id="a3fd5938c199baa2e5ce7d960745c5839">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a3fd5938c199baa2e5ce7d960745c5839">colinear</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg1,
-              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg2,
-              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a two line segments are colinear (i.e. they lie on the same infinite line).</dd>
-            <dt id="aeeba844435bd2294ec5c1669ee4d2b47">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aeeba844435bd2294ec5c1669ee4d2b47">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
-              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point,
-              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a point lies on a line segment.</dd>
-            <dt id="ac9b7f6c5fcef994830e2e3bd338fd706">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ac9b7f6c5fcef994830e2e3bd338fd706">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg1,
-              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg2,
-              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two line segments are coplanar.</dd>
             <dt id="a4d442030860090f4479d36450a3a8a86">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4d442030860090f4479d36450a3a8a86">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -333,26 +359,6 @@
               const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a line segment intersects a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
-            <dt id="a510645c6e3b87db9f1d61e3fa751afc0">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a510645c6e3b87db9f1d61e3fa751afc0">colinear</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point,
-              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a line segment and a point are colinear (i.e. they lie on the same infinite line).</dd>
-            <dt id="a14d92e0e3fb1ab461cf354e7f9c75340">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a14d92e0e3fb1ab461cf354e7f9c75340">colinear</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
-              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a two line segments are colinear (i.e. they lie on the same infinite line).</dd>
-            <dt id="a25f7dd7056610d5543ce582ec656bd38">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a25f7dd7056610d5543ce582ec656bd38">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point,
-              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a point lies on a line segment.</dd>
-            <dt id="af7e1c5c5d4cb22ae82a02285a2a619bc">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af7e1c5c5d4cb22ae82a02285a2a619bc">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
-              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two line segments are coplanar.</dd>
             <dt id="a2699867786d45f90b8a559a5ace80216">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2699867786d45f90b8a559a5ace80216">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&gt;&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
