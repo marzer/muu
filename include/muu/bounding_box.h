@@ -806,8 +806,8 @@ namespace muu
 	/// @}
 	#endif // appending
 
-	#if 1 // intersection and containment ------------------------------------------------------------------------------
-		/// \name Intersection and containment
+	#if 1 // containment ------------------------------------------------------------------------------
+		/// \name Containment
 		/// @{
 
 		/// \brief	Returns true if a bounding box contains a point.
@@ -853,6 +853,13 @@ namespace muu
 			return contains(*this, bb);
 		}
 
+			/// @}
+	#endif // containment
+
+	#if 1 // intersection ------------------------------------------------------------------------------
+		/// \name Intersection
+		/// @{
+
 		//--------------------------------
 		// aabb x plane
 		//--------------------------------
@@ -862,7 +869,7 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box) bb,
 														MUU_VC_PARAM(plane<scalar_type>) p) noexcept
 		{
-			return impl::planes_common<Scalar>::unsigned_distance(p.normal, p.d, bb.center)
+			return plane<scalar_type>::distance(p, bb.center)
 				<= vector_type::dot(bb.extents, vector_type::abs(p.normal));
 		}
 
@@ -1029,7 +1036,7 @@ namespace muu
 		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(oriented_bounding_box<scalar_type>) obb) const noexcept;
 
 			/// @}
-	#endif // intersection and containment
+	#endif // intersection
 
 	#if 1 // misc ---------------------------------------------------------------------------------------------------
 

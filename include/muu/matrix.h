@@ -761,19 +761,19 @@ namespace muu::impl
 		{
 			MUU_FMA_BLOCK;
 
-			// an unrolling of matrix<T, 3, 3>{ mat } * v
+			// an unrolling of vector<Scalar, 3>::normalize(matrix<T, 3, 3>{ mat } * v)
 
-			return { xform.template get<0, 0>() * dir.x		  //
-						 + xform.template get<0, 1>() * dir.y //
-						 + xform.template get<0, 2>() * dir.z,
+			return vector<Scalar, 3>::normalize(vector<Scalar, 3>{ xform.template get<0, 0>() * dir.x		//
+																	   + xform.template get<0, 1>() * dir.y //
+																	   + xform.template get<0, 2>() * dir.z,
 
-					 xform.template get<1, 0>() * dir.x		  //
-						 + xform.template get<1, 1>() * dir.y //
-						 + xform.template get<1, 2>() * dir.z,
+																   xform.template get<1, 0>() * dir.x		//
+																	   + xform.template get<1, 1>() * dir.y //
+																	   + xform.template get<1, 2>() * dir.z,
 
-					 xform.template get<2, 0>() * dir.x		  //
-						 + xform.template get<2, 1>() * dir.y //
-						 + xform.template get<2, 2>() * dir.z };
+																   xform.template get<2, 0>() * dir.x		//
+																	   + xform.template get<2, 1>() * dir.y //
+																	   + xform.template get<2, 2>() * dir.z });
 		}
 
 		MUU_PURE_INLINE_GETTER
@@ -2659,19 +2659,19 @@ namespace muu
 		friend constexpr vector<scalar_type, 3> operator*(const matrix& xform,
 														  const vector<scalar_type, 3>& pos) noexcept;
 
-		/// \brief Applies a matrix's 3d transformation to the given direction vector, ignorning translation.
+		/// \brief Applies a matrix's 3d transformation to the given unit-length direction vector, ignorning translation.
 		///
 		/// \availability This operator is only available for 3x4 and 4x4 matrices with a floating-point #scalar_type.
 		///
-		/// \return The result of transforming the 3D direction by the matrix.
+		/// \return The result of transforming the 3D unit-length direction by the matrix.
 		static constexpr vector<scalar_type, 3> transform_direction(const matrix& xform,
 																	const vector<scalar_type, 3>& dir) noexcept;
 
-		/// \brief Applies a matrix's 3d transformation to the given direction vector, ignorning translation.
+		/// \brief Applies a matrix's 3d transformation to the given unit-length direction vector, ignorning translation.
 		///
 		/// \availability This operator is only available for 3x4 and 4x4 matrices with a floating-point #scalar_type.
 		///
-		/// \return The result of transforming the 3D direction by the matrix.
+		/// \return The result of transforming the 3D unit-length direction by the matrix.
 		constexpr vector<scalar_type, 3> transform_direction(const vector<scalar_type, 3>& dir) const noexcept;
 
 		/// \brief Extracts the scale from a 2D transform matrix.

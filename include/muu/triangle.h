@@ -426,8 +426,8 @@ namespace muu
 			/// @}
 	#endif // equality (approx)
 
-	#if 1 // intersection and containment ------------------------------------------------------------------------------
-		  /// \name Intersection and containment
+	#if 1 // containment ------------------------------------------------------------------------------
+		  /// \name Containment
 		  /// @{
 
 		/// \brief	Returns true if a triangle and a point are coplanar.
@@ -480,6 +480,13 @@ namespace muu
 			return triangles::contains_point(base::points[0], base::points[1], base::points[2], point);
 		}
 
+			/// @}
+	#endif // containment
+
+	#if 1 // intersection ------------------------------------------------------------------------------
+		  /// \name Intersection
+		  /// @{
+
 		/// \brief	Returns true if a triangle intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(vector_type) p0,
@@ -497,7 +504,7 @@ namespace muu
 		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box<scalar_type>) bb) const noexcept;
 
 			/// @}
-	#endif // intersection and containment
+	#endif // intersection
 
 	#if 1 // barycentric coordinates ----------------------------------------------------------------------
 		  /// \name Barycentric coordinates

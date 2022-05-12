@@ -410,8 +410,8 @@ namespace muu
 			/// @}
 	#endif // equality (approx)
 
-	#if 1 // intersection and containment ------------------------------------------------------------------------------
-		  /// \name Intersection and containment
+	#if 1 // containment ------------------------------------------------------------------------------
+		  /// \name Containment
 		  /// @{
 
 		/// \brief	Returns true if a line segment and a point are colinear (i.e. they lie on the same infinite line).
@@ -488,6 +488,13 @@ namespace muu
 			return coplanar(*this, seg, epsilon);
 		}
 
+			/// @}
+	#endif // containment
+
+	#if 1 // intersection ------------------------------------------------------------------------------
+		  /// \name Intersection
+		  /// @{
+
 		/// \brief	Returns true if a line segment intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(line_segment) seg,
@@ -507,7 +514,7 @@ namespace muu
 		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(plane<scalar_type>) p) const noexcept;
 
 			/// @}
-	#endif // intersection and containment
+	#endif // intersection
 
 	#if 1 // reversal --------------------------------------------------------------------------------------------
 		  /// \name Reversal

@@ -56,10 +56,10 @@ namespace muu
 		using aabbs			   = impl::aabb_common<Scalar>;
 		using scalar_constants = muu::constants<scalar_type>;
 
-		using promoted_scalar				 = promote_if_small_float<scalar_type>;
-		using promoted_vec					 = vector<promoted_scalar, 3>;
-		using promoted_plane				 = plane<promoted_scalar>;
-		static constexpr bool is_small_float = impl::is_small_float_<scalar_type>;
+		using promoted_scalar					 = promote_if_small_float<scalar_type>;
+		using promoted_vec						 = vector<promoted_scalar, 3>;
+		using promoted_plane					 = plane<promoted_scalar>;
+		static constexpr bool requires_promotion = impl::is_small_float_<scalar_type>;
 
 	  public:
 	#ifdef DOXYGEN
@@ -299,7 +299,7 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr plane MUU_VECTORCALL normalize(MUU_VC_PARAM(plane) p) noexcept
 		{
-			if constexpr (is_small_float)
+			if constexpr (requires_promotion)
 			{
 				return plane{ promoted_plane::normalize(promoted_plane{ p }) };
 			}
@@ -384,12 +384,26 @@ namespace muu
 			return planes::project(base::n, base::d, point);
 		}
 
+		/// \brief	Returns the 'origin' (basis point) of a plane.
+		MUU_PURE_INLINE_GETTER
+		static constexpr vector_type MUU_VECTORCALL origin(MUU_VC_PARAM(plane) p) noexcept
+		{
+			return planes::origin(p.n, p.d);
+		}
+
+		/// \brief	Returns the 'origin' (basis point) of the plane.
+		MUU_PURE_INLINE_GETTER
+		constexpr vector_type MUU_VECTORCALL origin() const noexcept
+		{
+			return planes::origin(base::n, base::d);
+		}
+
 			/// @}
 	#endif // distances and projection
 
-	#if 1 // intersection and containment ------------------------------------------------------------------------------
-		/// \name Intersection and containment
-		/// @{
+	#if 1 // containment ------------------------------------------------------------------------------
+		  /// \name Containment
+		  /// @{
 
 		/// \brief	Returns true if a plane contains a point.
 		MUU_PURE_INLINE_GETTER
@@ -404,6 +418,13 @@ namespace muu
 		{
 			return contains(*this, point);
 		}
+
+			/// @}
+	#endif // containment
+
+	#if 1 // intersection ------------------------------------------------------------------------------
+		/// \name Intersection
+		/// @{
 
 		/// \brief	Returns true if a plane intersects a line segment.
 		MUU_PURE_INLINE_GETTER
@@ -424,7 +445,44 @@ namespace muu
 		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box<scalar_type>) bb) const noexcept;
 
 			/// @}
-	#endif // intersection and containment
+	#endif // intersection
+
+	#if 1 // transformation -------------------------------------------------------------------
+		  /// \name Transformation
+		  /// @{
+
+		/// \brief Transforms a plane from one coordinate space to another.
+		///
+		/// \param	p		The plane to transform.
+		/// \param	tx		The transform to apply.
+		///
+		/// \return	Returns the plane transformed into the new coordinate space.
+		MUU_PURE_GETTER
+		static constexpr plane MUU_VECTORCALL transform(MUU_VC_PARAM(plane) p,
+														MUU_VC_PARAM(matrix<scalar_type, 4, 4>) tx) noexcept
+		{
+			if constexpr (requires_promotion)
+			{
+				return plane{ promoted_plane::transform(promoted_plane{ p }, matrix<promoted_scalar, 4, 4>{ tx }) };
+			}
+			else
+			{
+				return plane{ tx * p.origin(), tx.transform_direction(p.n) };
+			}
+		}
+
+		/// \brief Transforms the plane from one coordinate space to another (in-place).
+		///
+		/// \param	tx		The transform to apply.
+		///
+		/// \return	A reference to the plane.
+		constexpr plane& transform(MUU_VC_PARAM(matrix<scalar_type, 4, 4>) tx) noexcept
+		{
+			return *this = transform(*this, tx);
+		}
+
+			/// @}
+	#endif // transformation
 
 	#if 1 // misc ------------------------------------------------------------------------------------------------------
 

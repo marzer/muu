@@ -585,7 +585,7 @@ namespace muu
 	#endif // translation
 
 	#if 1 // scaling -----------------------------------------------------------------------------------
-		  /// \name scaling
+		  /// \name Scaling
 		  /// @{
 
 		/// \brief	Scales an oriented bounding box.
@@ -667,8 +667,8 @@ namespace muu
 			/// @}
 	#endif // transformation
 
-	#if 1 // intersection and containment ------------------------------------------------------------------------------
-		  /// \name Intersection and containment
+	#if 1 // intersection ------------------------------------------------------------------------------
+		  /// \name Intersection
 		  /// @{
 
 		//--------------------------------
@@ -736,7 +736,7 @@ namespace muu
 		}
 
 			/// @}
-	#endif // intersection and containment
+	#endif // intersection
 	};
 
 	/// \cond

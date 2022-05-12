@@ -88,6 +88,12 @@ namespace muu::impl
 		using vector_param = vectorcall_param<vector_type>;
 
 		MUU_PURE_INLINE_GETTER
+		static constexpr vector_type MUU_VECTORCALL origin(vector_param normal, scalar_type d) noexcept
+		{
+			return normal * -d;
+		}
+
+		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL d_term(vector_param pos, vector_param dir) noexcept
 		{
 			return -vector_type::dot(pos, dir);
@@ -636,7 +642,6 @@ namespace muu::impl
 		using vector_type  = vector<scalar_type, 3>;
 		using vector_param = vectorcall_param<vector_type>;
 		using boxes		   = boxes_common<Scalar>;
-		using planes	   = planes_common<Scalar>;
 		using triangles	   = triangles_common<Scalar>;
 
 		template <box_corners Corner>

@@ -285,3 +285,28 @@ BATCHED_TEST_CASE("plane infinity_or_nan", tested_planes)
 		}
 	}
 }
+
+BATCHED_TEST_CASE("plane distance and projection", tested_planes)
+{
+	using plane = TestType;
+	using T		= typename plane::scalar_type;
+	TEST_INFO("plane<"sv << nameof<T> << ">"sv);
+
+	BATCHED_SECTION("origin()")
+	{
+		RANDOM_ITERATIONS
+		{
+			const auto point = vector<T, 3>{ random<T>(-5, 5), random<T>(-5, 5), random<T>(-5, 5) };
+			T len;
+			const auto dir = vector<T, 3>::normalize(point, len);
+			SKIP_INF_NAN(dir);
+
+			const plane p{ point, dir };
+			CHECK_APPROX_EQUAL(len, muu::abs(p.d));
+
+			const auto origin = p.origin();
+			for (size_t i = 0; i < 3; i++)
+				CHECK_APPROX_EQUAL(origin[i], point[i]);
+		}
+	}
+}
