@@ -2236,6 +2236,8 @@ namespace muu
 	template <size_t N>
 	using index_tag = std::integral_constant<size_t, N>;
 
+#if !MUU_GCC || MUU_GCC >= 8
+
 	/// \brief An index_tag instantiation representing the X axis.
 	inline constexpr auto x_axis = index_tag<0>{};
 
@@ -2247,6 +2249,8 @@ namespace muu
 
 	/// \brief An index_tag instantiation representing the W axis.
 	inline constexpr auto w_axis = index_tag<3>{};
+
+#endif
 
 	/// \brief Evaluates to true if an instance of `T` decays to a free-function pointer by explicit unary plus.
 	template <typename T>

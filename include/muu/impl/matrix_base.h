@@ -29,8 +29,11 @@ namespace muu::impl
 
 		matrix_() noexcept = default;
 
+#if MUU_MSVC // still problematic as of 19.33
+
 	  private:
-#if MUU_MSVC
+		// internal compiler error:
+		// https://developercommunity2.visualstudio.com/t/C-Internal-Compiler-Error-in-constexpr/1264044
 
 		template <size_t Index>
 		MUU_CONST_INLINE_GETTER
@@ -39,14 +42,7 @@ namespace muu::impl
 			return vector<Scalar, Rows>{ fill };
 		}
 
-#endif
-
 	  public:
-#if MUU_MSVC
-
-		// internal compiler error:
-		// https://developercommunity2.visualstudio.com/t/C-Internal-Compiler-Error-in-constexpr/1264044
-
 		template <size_t... ColumnIndices>
 		explicit constexpr matrix_(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
 			: m{ fill_column_initializer_msvc<ColumnIndices>(fill)... }

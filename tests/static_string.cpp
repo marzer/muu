@@ -39,7 +39,7 @@ static_assert(static_string{ "the quick brown fox" }.slice<4, 9>() == static_str
 static_assert(static_string{ "the quick brown fox" }.slice<4, -4>() == static_string{ "quick brown" });
 static_assert(static_string{ "the quick brown fox" }.slice<-3>() == static_string{ "fox" });
 static_assert(static_string{ "the quick brown fox" }.slice<-3, -1>() == static_string{ "fo" });
-//
+
 // static_assert(static_string{ "the quick brown fox" }.find_first_of<'q'>() == 4_sz);
 // static_assert(!static_string{ "the quick brown fox" }.find_first_of<'q', 7>());
 // static_assert(static_string{ "the quick brown fox" }.find_last_of<'f'>() == 16_sz);
@@ -53,9 +53,6 @@ static_assert(static_string{ "" } + static_string{ "" } == static_string{ "" });
 static_assert(static_string{ "abc" } + 'd' == static_string{ "abcd" });
 static_assert('a' + static_string{ "bcd" } == static_string{ "abcd" });
 static_assert('a' + static_string{ "bcd" } == static_string{ "abcd" });
-static_assert(0_ss == static_string{ "0" });
-static_assert(0.2_ss == static_string{ "0.2" });
-static_assert(0xabCD1234_ss == static_string{ "0xabCD1234" });
 #if MUU_HAS_STATIC_STRING_LITERALS
 static_assert("abc"_ss == static_string{ "abc" });
 #endif

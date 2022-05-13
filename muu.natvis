@@ -241,18 +241,18 @@
 		<Intrinsic Name="u32string_view" Expression="(std::u32string_view*)&amp;storage" />
 		<Intrinsic Name="owning" Expression="mode_ &gt; 0 &amp;&amp; mode_ &lt; 128" />
 		<DisplayString Condition="mode_ == 0">""</DisplayString>
-		<DisplayString Condition="mode_ == 1">{*string(),s8}</DisplayString>
+		<DisplayString Condition="mode_ == 1">{*string(),na}</DisplayString>
 		<DisplayString Condition="mode_ == 2">{*wstring(),su}</DisplayString>
 		<DisplayString Condition="mode_ == 3">{*u8string(),s8}</DisplayString>
 		<DisplayString Condition="mode_ == 4">{*u16string(),su}</DisplayString>
 		<DisplayString Condition="mode_ == 5">{*u32string(),s32}</DisplayString>
-		<DisplayString Condition="mode_ == 128+1">{*string_view(),s8}</DisplayString>
+		<DisplayString Condition="mode_ == 128+1">{*string_view(),na}</DisplayString>
 		<DisplayString Condition="mode_ == 128+2">{*wstring_view(),su}</DisplayString>
 		<DisplayString Condition="mode_ == 128+3">{*u8string_view(),s8}</DisplayString>
 		<DisplayString Condition="mode_ == 128+4">{*u16string_view(),su}</DisplayString>
 		<DisplayString Condition="mode_ == 128+5">{*u32string_view(),s32}</DisplayString>
 		<DisplayString>NATVIS ERROR</DisplayString>
-		<StringView Condition="mode_ == 1">*string(),s8</StringView>
+		<StringView Condition="mode_ == 1">*string(),na</StringView>
 		<StringView Condition="mode_ == 2">*wstring(),su</StringView>
 		<StringView Condition="mode_ == 3">*u8string(),s8</StringView>
 		<StringView Condition="mode_ == 4">*u16string(),su</StringView>
@@ -260,6 +260,66 @@
 		<Expand>
 			<Item Name="[mode]">(int)mode_</Item>
 			<Item Name="[owning]">owning()</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::static_string&lt;char,*&gt;">
+		<DisplayString Condition="$T1 == 0">""</DisplayString>
+		<DisplayString Condition="$T1 != 0">{chars_,na}</DisplayString>
+		<Expand>
+			<Item Name="[size]" ExcludeView="simple">$T1</Item>
+			<ArrayItems>
+				<Size>$T1</Size>
+				<ValuePointer>chars_</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::static_string&lt;wchar_t,*&gt;">
+		<DisplayString Condition="$T1 == 0">""</DisplayString>
+		<DisplayString Condition="$T1 != 0">{chars_,su}</DisplayString>
+		<Expand>
+			<Item Name="[size]" ExcludeView="simple">$T1</Item>
+			<ArrayItems>
+				<Size>$T1</Size>
+				<ValuePointer>chars_</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::static_string&lt;char8_t,*&gt;">
+		<DisplayString Condition="$T1 == 0">""</DisplayString>
+		<DisplayString Condition="$T1 != 0">{chars_,s8}</DisplayString>
+		<Expand>
+			<Item Name="[size]" ExcludeView="simple">$T1</Item>
+			<ArrayItems>
+				<Size>$T1</Size>
+				<ValuePointer>chars_</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::static_string&lt;char16_t,*&gt;">
+		<DisplayString Condition="$T1 == 0">""</DisplayString>
+		<DisplayString Condition="$T1 != 0">{chars_,su}</DisplayString>
+		<Expand>
+			<Item Name="[size]" ExcludeView="simple">$T1</Item>
+			<ArrayItems>
+				<Size>$T1</Size>
+				<ValuePointer>chars_</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::static_string&lt;char32_t,*&gt;">
+		<DisplayString Condition="$T1 == 0">""</DisplayString>
+		<DisplayString Condition="$T1 != 0">{chars_,s32}</DisplayString>
+		<Expand>
+			<Item Name="[size]" ExcludeView="simple">$T1</Item>
+			<ArrayItems>
+				<Size>$T1</Size>
+				<ValuePointer>chars_</ValuePointer>
+			</ArrayItems>
 		</Expand>
 	</Type>
 
@@ -297,7 +357,7 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::vector&lt;*,*&gt;">
+	<Type Name="muu::vector&lt;*,*&gt;" Priority="Low">
 		<Intrinsic Name="ptr" Expression="(($T1*)&amp;values)" />
 		<DisplayString>{{ {*ptr()}, {*(ptr() + 1)}, {*(ptr() + 2)}, {*(ptr() + 3)}, ... }}</DisplayString>
 		<Expand>
@@ -398,11 +458,74 @@
 		</Expand>
 	</Type>
 
+	<Type Name="muu::axis_angle&lt;*&gt;">
+		<DisplayString>{{ {axis}, {angle} }}</DisplayString>
+		<Expand>
+			<Item Name="axis">axis</Item>
+			<Item Name="angle">angle</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::plane&lt;*&gt;">
+		<DisplayString>{{ {n}, {d} }}</DisplayString>
+		<Expand>
+			<Item Name="n">n</Item>
+			<Item Name="d">d</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::line_segment&lt;*&gt;">
+		<DisplayString>{{ {points[0]}, {points[1]} }}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>2</Size>
+				<ValuePointer>points</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::triangle&lt;*&gt;">
+		<DisplayString>{{ {points[0]}, {points[1]}, {points[2]} }}</DisplayString>
+		<Expand>
+			<ArrayItems>
+				<Size>3</Size>
+				<ValuePointer>points</ValuePointer>
+			</ArrayItems>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::bounding_box&lt;*&gt;">
+		<DisplayString>{{ {center}, {extents} }}</DisplayString>
+		<Expand>
+			<Item Name="center">center</Item>
+			<Item Name="extents">extents</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::oriented_bounding_box&lt;*&gt;">
+		<DisplayString>{{ {center}, {extents}, ... }}</DisplayString>
+		<Expand>
+			<Item Name="center">center</Item>
+			<Item Name="extents">extents</Item>
+			<Item Name="axes">axes</Item>
+		</Expand>
+	</Type>
+
+	<Type Name="muu::euler_angles&lt;*&gt;">
+		<DisplayString>{{ {yaw}, {pitch}, {roll} }}</DisplayString>
+		<Expand>
+			<Item Name="yaw">yaw</Item>
+			<Item Name="pitch">pitch</Item>
+			<Item Name="roll">roll</Item>
+		</Expand>
+	</Type>
+	
 	<Type Name="muu::strong_typedef&lt;*&gt;">
 		<DisplayString>{value}</DisplayString>
 		<Expand>
 			<Item Name="value">value</Item>
 		</Expand>
 	</Type>
+
 
 </AutoVisualizer>

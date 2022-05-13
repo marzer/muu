@@ -17,7 +17,7 @@
 #include "impl/header_start.h"
 
 #if MUU_HAS_THREE_WAY_COMPARISON && defined(__cpp_nontype_template_args) && __cpp_nontype_template_args >= 201911      \
-	&& (!MUU_MSVC || MUU_MSVC > 1932)
+	&& (!MUU_MSVC || MUU_MSVC >= 1933)
 	#define MUU_HAS_STATIC_STRING_LITERALS 1
 #else
 	#define MUU_HAS_STATIC_STRING_LITERALS 0
@@ -95,6 +95,10 @@ namespace muu
 		using view_type = std::basic_string_view<Character>;
 
 		/// \cond
+
+#if !MUU_HAS_STATIC_STRING_LITERALS
+	  private:
+#endif
 
 		// note that this is public only so this class qualifies as a 'structural type' per C++20's NTTP class rules.
 		// don't mess with this directly!
@@ -904,21 +908,6 @@ namespace muu
 
 	inline namespace literals
 	{
-		/// \brief	Constructs a static_string exactly representing a numeric literal.
-		/// \detail \cpp
-		/// constexpr auto str = 3.141_ss;
-		/// static_assert(str == static_string{ "3.141" })
-		/// \ecpp
-		///
-		/// \relatesalso muu::static_string
-		template <char... Str>
-		MUU_CONSTEVAL
-		static_string<char, sizeof...(Str)> operator"" _ss()
-		{
-			const char str[] = { Str... };
-			return static_string<char, sizeof...(Str)>{ str };
-		}
-
 #if defined(DOXYGEN) || MUU_HAS_STATIC_STRING_LITERALS
 
 		/// \brief	Constructs a static_string directly using a string literal.
@@ -937,7 +926,6 @@ namespace muu
 		{
 			return Str.value;
 		}
-
 #endif
 	}
 

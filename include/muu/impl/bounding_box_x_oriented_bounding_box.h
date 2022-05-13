@@ -57,7 +57,7 @@ namespace muu
 				sat.add(index_tag<axis_index>{}, obb_corners[c]);
 			return sat(aabb_min.template get<axis_index>(), aabb_max.template get<axis_index>());
 		};
-		if (!test_aabb(muu::x_axis) || !test_aabb(muu::y_axis) || !test_aabb(muu::z_axis))
+		if (!test_aabb(index_tag<0>{}) || !test_aabb(index_tag<1>{}) || !test_aabb(index_tag<2>{}))
 			return false;
 
 		const vector_type aabb_corners[] = {
