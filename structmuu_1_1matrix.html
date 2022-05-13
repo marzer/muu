@@ -648,6 +648,11 @@
             </dt>
             <dd>Applies a matrix's 3d transformation to the given <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a59d0f5254995c35e39fd1a9926d8f597">transform_without_translating</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Applies a matrix's 3d transformation to the given position or direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#abd506f0334c547b376c4327603477e7c">extract_2d_scale</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Extracts the scale from a 2D transform matrix.</dd>
@@ -658,16 +663,20 @@
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3754be9bee88e3a7b2da6d1c907ab2e0">transform_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Applies a matrix's 3d transformation to the given direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation and scale.</dd>
+            <dd>Applies a matrix's 3d transformation to the direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation and scale.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a623d1033a19402df8871e74615d6ef55">transform_position</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; pos) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Applies the matrix's 3d transformation to the given <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a40daeeb9d1ae14b61c969eac4c1da509">transform_without_translating</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; v) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Applies a matrix's 3d transformation to the position or direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6bb6e8d6c8f41487f87a5a4b14719498">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; pos) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Applies the matrix's 3d transformation to the given <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
+            <dd>Applies the matrix's 3d transformation to the <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
           </dl>
         </section>
         <section id="translation">
@@ -1729,6 +1738,24 @@ template&lt;typename T&gt;
             </table>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is only available for 3x4 and 4x4 matrices with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
           </div></section>
+          <section class="m-doc-details" id="a59d0f5254995c35e39fd1a9926d8f597"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a59d0f5254995c35e39fd1a9926d8f597">transform_without_translating</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Applies a matrix's 3d transformation to the given position or direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>The result of transforming the 3D <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> by the matrix.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is only available for 3x4 and 4x4 matrices with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
           <section class="m-doc-details" id="abd506f0334c547b376c4327603477e7c"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
@@ -1753,7 +1780,7 @@ template&lt;typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3754be9bee88e3a7b2da6d1c907ab2e0">transform_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Applies a matrix's 3d transformation to the given direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation and scale.</p>
+            <p>Applies a matrix's 3d transformation to the direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation and scale.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
@@ -1781,6 +1808,23 @@ template&lt;typename T&gt;
             </table>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is only available for 3x4 and 4x4 matrices with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
           </div></section>
+          <section class="m-doc-details" id="a40daeeb9d1ae14b61c969eac4c1da509"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a40daeeb9d1ae14b61c969eac4c1da509">transform_without_translating</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; v) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Applies a matrix's 3d transformation to the position or direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td>The result of transforming the 3D <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> by the matrix.</td>
+                </tr>
+              </tfoot>
+            </table>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is only available for 3x4 and 4x4 matrices with a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
           <section class="m-doc-details" id="a6bb6e8d6c8f41487f87a5a4b14719498"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
@@ -1788,7 +1832,7 @@ template&lt;typename T&gt;
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6bb6e8d6c8f41487f87a5a4b14719498">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; pos) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Applies the matrix's 3d transformation to the given <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</p>
+            <p>Applies the matrix's 3d transformation to the <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
