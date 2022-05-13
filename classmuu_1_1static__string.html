@@ -506,11 +506,6 @@
           <h2><a href="#related">Related</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;char... Str&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a57b7502d3109a0053c90b1ed5bb12488">operator""_ss</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;char, sizeof...(Str)&gt; <span class="m-label m-flat m-primary">constexpr</span></span>
-            </dt>
-            <dd>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> exactly representing a numeric literal.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;impl::static_string_udl_impl Str&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8e54812a469ae2ead0e36f335e547478">operator""_ss</a>(</span><span class="m-doc-wrap">) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
@@ -639,17 +634,6 @@
                 </tr>
               </tfoot>
             </table>
-          </div></section>
-          <section class="m-doc-details" id="a57b7502d3109a0053c90b1ed5bb12488"><div>
-            <h3>
-              <div class="m-doc-template"> template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;<br/>
-template&lt;char... Str&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a>&lt;char, sizeof...(Str)&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a57b7502d3109a0053c90b1ed5bb12488">operator""_ss</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span></span></span>
-            </h3>
-            <p>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> exactly representing a numeric literal.</p>
-<pre class="m-code"><span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str</span> <span class="o">=</span> <span class="mf">3.141</span><span class="n">_ss</span><span class="p">;</span>
-<span class="k">static_assert</span><span class="p">(</span><span class="n">str</span> <span class="o">==</span> <span class="n">static_string</span><span class="p">{</span> <span class="s">"3.141"</span> <span class="p">})</span></pre>
           </div></section>
           <section class="m-doc-details" id="a8e54812a469ae2ead0e36f335e547478"><div>
             <h3>

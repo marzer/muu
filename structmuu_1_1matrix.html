@@ -641,7 +641,7 @@
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aadde62cb9f7d7c6e320c89bdd6a91e9a">transform_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Applies a matrix's 3d transformation to the given unit-length direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</dd>
+            <dd>Applies a matrix's 3d transformation to the given direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation and scale.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a97e61f752b68c1fd0b42bc3cbcc26f2f">transform_position</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; pos) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -658,7 +658,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3754be9bee88e3a7b2da6d1c907ab2e0">transform_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Applies a matrix's 3d transformation to the given unit-length direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</dd>
+            <dd>Applies a matrix's 3d transformation to the given direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation and scale.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a623d1033a19402df8871e74615d6ef55">transform_position</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; pos) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -1700,12 +1700,12 @@ template&lt;typename T&gt;
               <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aadde62cb9f7d7c6e320c89bdd6a91e9a">transform_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&amp; xform,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Applies a matrix's 3d transformation to the given unit-length direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</p>
+            <p>Applies a matrix's 3d transformation to the given direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation and scale.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
                   <th style="width: 1%">Returns</th>
-                  <td>The result of transforming the 3D unit-length direction by the matrix.</td>
+                  <td>The result of transforming the 3D direction by the matrix.</td>
                 </tr>
               </tfoot>
             </table>
@@ -1753,12 +1753,12 @@ template&lt;typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3754be9bee88e3a7b2da6d1c907ab2e0">transform_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Applies a matrix's 3d transformation to the given unit-length direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation.</p>
+            <p>Applies a matrix's 3d transformation to the given direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>, ignorning translation and scale.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
                   <th style="width: 1%">Returns</th>
-                  <td>The result of transforming the 3D unit-length direction by the matrix.</td>
+                  <td>The result of transforming the 3D direction by the matrix.</td>
                 </tr>
               </tfoot>
             </table>
