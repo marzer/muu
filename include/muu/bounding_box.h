@@ -230,6 +230,14 @@ namespace muu
 			return from_min_max(vector_type::min(begin, end), vector_type::max(begin, end));
 		}
 
+		/// \brief	Constructs a bounding box fitting an array of points.
+		template <size_t N>
+		MUU_PURE_INLINE_GETTER
+		static constexpr bounding_box MUU_VECTORCALL from_points(const vector_type (&points)[N]) noexcept
+		{
+			return from_points(points, points + N);
+		}
+
 		/// \brief	Constructs a bounding box fitting a range of points.
 		MUU_NODISCARD_CTOR
 		MUU_ATTR(nonnull)
@@ -248,7 +256,7 @@ namespace muu
 		template <size_t N>
 		MUU_NODISCARD_CTOR
 		explicit constexpr bounding_box(const vector_type (&points)[N]) noexcept //
-			: bounding_box{ from_points(points, points + N) }
+			: bounding_box{ from_points(points) }
 		{}
 
 		/// \brief	Constructs a bounding box fitting an array of points.
