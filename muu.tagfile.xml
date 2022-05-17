@@ -4889,6 +4889,13 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bounding_box</type>
+      <name>from_points</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a4eb338465a4e0fc6f5a3dc10649b736f</anchor>
+      <arglist>(const vector_type(&amp;points)[N]) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bounding_box</type>
       <name>from_obb</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a2094b559aef1b8f3096b2618ad7520ef</anchor>

@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.5" name="generator"/>
+  <meta content="Poxy v0.5.7" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.5.css" rel="stylesheet"/>
-  <link href="poxy-0.5.5-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.5.js"></script>
+  <link href="poxy-0.5.7.css" rel="stylesheet"/>
+  <link href="poxy-0.5.7-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.5.7.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -143,6 +143,11 @@
               const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>* end) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a bounding box fitting a range of points.</dd>
+            <dt id="a4eb338465a4e0fc6f5a3dc10649b736f">
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4eb338465a4e0fc6f5a3dc10649b736f">from_points</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>(&amp;points)[N]) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box fitting an array of points.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -456,7 +461,7 @@
             </dt>
             <dd>Returns the longest of the box's three extents.</dd>
             <dt id="a4433b0e635d33a958b9c7c382eecb9c0">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4433b0e635d33a958b9c7c382eecb9c0">longest_extent</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4433b0e635d33a958b9c7c382eecb9c0">longest_extent</a>(</span><span class="m-doc-wrap">) const -&gt; const<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the longest of the box's three extents (const overload).</dd>
             <dt id="a45f4005da5180367d557652a922860bb">
@@ -472,7 +477,7 @@
             </dt>
             <dd>Returns the shortest of the box's three extents.</dd>
             <dt id="ad2e668e4c77b7751274cfada052f0a9a">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad2e668e4c77b7751274cfada052f0a9a">shortest_extent</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad2e668e4c77b7751274cfada052f0a9a">shortest_extent</a>(</span><span class="m-doc-wrap">) const -&gt; const<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the shortest of the box's three extents (const overload).</dd>
             <dt id="a79441a48975bc1d2d8f5ef9b9d883a75">
@@ -560,7 +565,7 @@
             </dt>
             <dd>Returns a pointer to the first scalar component in the bounding box.</dd>
             <dt id="a38f96ca4c0bbffb61a15fc880152bc34">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a38f96ca4c0bbffb61a15fc880152bc34">data</a>(</span><span class="m-doc-wrap">) const -&gt; const <a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a38f96ca4c0bbffb61a15fc880152bc34">data</a>(</span><span class="m-doc-wrap">) const -&gt; const<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a pointer to the first scalar component in the bounding box.</dd>
           </dl>
