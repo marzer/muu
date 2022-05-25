@@ -952,7 +952,7 @@ namespace muu
 					sat_tester_type sat{ index_tag<axis_index>{}, p0, p1, p2 };
 					return sat(aabb_min.template get<axis_index>(), aabb_max.template get<axis_index>());
 				};
-				if (!test_axis(index_tag<0>{}) || !test_axis(index_tag<1>{}) || !test_axis(index_tag<2>{}))
+				if (!test_axis(x_axis_tag{}) || !test_axis(y_axis_tag{}) || !test_axis(z_axis_tag{}))
 					return false;
 			}
 
@@ -985,7 +985,7 @@ namespace muu
 					sat_tester_type tri_sat{ axis, p0, p1, p2 };
 					return box_sat(tri_sat);
 				};
-				if (!test_edge(index_tag<0>{}) || !test_edge(index_tag<1>{}) || !test_edge(index_tag<2>{}))
+				if (!test_edge(x_axis_tag{}) || !test_edge(y_axis_tag{}) || !test_edge(z_axis_tag{}))
 					return false;
 			}
 

@@ -2236,21 +2236,17 @@ namespace muu
 	template <size_t N>
 	using index_tag = std::integral_constant<size_t, N>;
 
-#if !MUU_GCC || MUU_GCC >= 8
+	/// \brief An index_tag specialization for representing the X axis.
+	using x_axis_tag = index_tag<0>;
 
-	/// \brief An index_tag instantiation representing the X axis.
-	inline constexpr auto x_axis = index_tag<0>{};
+	/// \brief An index_tag specialization for representing the Y axis.
+	using y_axis_tag = index_tag<1>;
 
-	/// \brief An index_tag instantiation representing the Y axis.
-	inline constexpr auto y_axis = index_tag<1>{};
+	/// \brief An index_tag specialization for representing the Z axis.
+	using z_axis_tag = index_tag<2>;
 
-	/// \brief An index_tag instantiation representing the Z axis.
-	inline constexpr auto z_axis = index_tag<2>{};
-
-	/// \brief An index_tag instantiation representing the W axis.
-	inline constexpr auto w_axis = index_tag<3>{};
-
-#endif
+	/// \brief An index_tag specialization for representing the W axis.
+	using w_axis_tag = index_tag<3>;
 
 	/// \brief Evaluates to true if an instance of `T` decays to a free-function pointer by explicit unary plus.
 	template <typename T>
