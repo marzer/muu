@@ -286,6 +286,22 @@
               using <a class="m-doc" href="group__meta.html#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
+            <dt>
+              using <a class="m-doc" href="group__meta.html#ga91d696211c0fb4edebb87611d7fab7df">w_axis_tag</a> = index_tag&lt;3&gt;
+            </dt>
+            <dd>An index_tag specialization for representing the W axis.</dd>
+            <dt>
+              using <a class="m-doc" href="group__meta.html#ga8c02cd07c84b1ef589a0a3b83e113682">x_axis_tag</a> = index_tag&lt;0&gt;
+            </dt>
+            <dd>An index_tag specialization for representing the X axis.</dd>
+            <dt>
+              using <a class="m-doc" href="group__meta.html#ga6195dfd7a074e2a16f6c61500c45fe23">y_axis_tag</a> = index_tag&lt;1&gt;
+            </dt>
+            <dd>An index_tag specialization for representing the Y axis.</dd>
+            <dt>
+              using <a class="m-doc" href="group__meta.html#ga480c8ad7ee9e1cc7bcafa16d817bca1e">z_axis_tag</a> = index_tag&lt;2&gt;
+            </dt>
+            <dd>An index_tag specialization for representing the Z axis.</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -910,22 +926,6 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Equivalent to <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</dd>
-            <dt>
-              auto <a class="m-doc" href="group__meta.html#ga99ef6d06e68309f42be2c9f9b8e73dbf">w_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>An index_tag instantiation representing the W axis.</dd>
-            <dt>
-              auto <a class="m-doc" href="group__meta.html#gac2b46a84a7bf42d79b988f835254701a">x_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>An index_tag instantiation representing the X axis.</dd>
-            <dt>
-              auto <a class="m-doc" href="group__meta.html#ga382a83ec16c41ed0587c1b0b64781f50">y_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>An index_tag instantiation representing the Y axis.</dd>
-            <dt>
-              auto <a class="m-doc" href="group__meta.html#ga819b68d7b65bfbb082a35831e0b60952">z_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>An index_tag instantiation representing the Z axis.</dd>
             <dt>
               bool <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">supports_is_constant_evaluated</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>

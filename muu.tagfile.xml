@@ -1927,6 +1927,34 @@
       <anchor>ga6ca7fed60fe86574dd8bedf3b3332431</anchor>
       <arglist></arglist>
     </member>
+    <member kind="typedef">
+      <type>index_tag&lt; 0 &gt;</type>
+      <name>x_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga8c02cd07c84b1ef589a0a3b83e113682</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>index_tag&lt; 1 &gt;</type>
+      <name>y_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6195dfd7a074e2a16f6c61500c45fe23</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>index_tag&lt; 2 &gt;</type>
+      <name>z_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga480c8ad7ee9e1cc7bcafa16d817bca1e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>index_tag&lt; 3 &gt;</type>
+      <name>w_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga91d696211c0fb4edebb87611d7fab7df</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>always_false</name>
@@ -2779,34 +2807,6 @@
       <name>default_epsilon</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga1d7ffe385c4b8f4558d170f50f5eb79a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>x_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gac2b46a84a7bf42d79b988f835254701a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>y_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga382a83ec16c41ed0587c1b0b64781f50</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>z_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga819b68d7b65bfbb082a35831e0b60952</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>w_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga99ef6d06e68309f42be2c9f9b8e73dbf</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -15833,6 +15833,34 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>index_tag&lt; 0 &gt;</type>
+      <name>x_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga8c02cd07c84b1ef589a0a3b83e113682</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>index_tag&lt; 1 &gt;</type>
+      <name>y_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6195dfd7a074e2a16f6c61500c45fe23</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>index_tag&lt; 2 &gt;</type>
+      <name>z_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga480c8ad7ee9e1cc7bcafa16d817bca1e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>index_tag&lt; 3 &gt;</type>
+      <name>w_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga91d696211c0fb4edebb87611d7fab7df</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>span&lt; const T, Extent &gt;</type>
       <name>const_span</name>
       <anchorfile>group__memory.html</anchorfile>
@@ -20047,34 +20075,6 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>constexpr auto</type>
-      <name>x_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gac2b46a84a7bf42d79b988f835254701a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>y_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga382a83ec16c41ed0587c1b0b64781f50</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>z_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga819b68d7b65bfbb082a35831e0b60952</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>w_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga99ef6d06e68309f42be2c9f9b8e73dbf</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
       <type>constexpr bool</type>
       <name>decays_to_function_pointer_by_unary_plus</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -21295,6 +21295,34 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>index_tag&lt; 0 &gt;</type>
+      <name>x_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga8c02cd07c84b1ef589a0a3b83e113682</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>index_tag&lt; 1 &gt;</type>
+      <name>y_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6195dfd7a074e2a16f6c61500c45fe23</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>index_tag&lt; 2 &gt;</type>
+      <name>z_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga480c8ad7ee9e1cc7bcafa16d817bca1e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>index_tag&lt; 3 &gt;</type>
+      <name>w_axis_tag</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga91d696211c0fb4edebb87611d7fab7df</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>type_list&lt; T &gt;</type>
       <name>type_tag</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -22160,34 +22188,6 @@
       <name>default_epsilon</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga1d7ffe385c4b8f4558d170f50f5eb79a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>x_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>gac2b46a84a7bf42d79b988f835254701a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>y_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga382a83ec16c41ed0587c1b0b64781f50</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>z_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga819b68d7b65bfbb082a35831e0b60952</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr auto</type>
-      <name>w_axis</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga99ef6d06e68309f42be2c9f9b8e73dbf</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

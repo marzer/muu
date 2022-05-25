@@ -292,6 +292,22 @@
               using <a class="m-doc" href="#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
+            <dt>
+              using <a class="m-doc" href="#ga91d696211c0fb4edebb87611d7fab7df">w_axis_tag</a> = index_tag&lt;3&gt;
+            </dt>
+            <dd>An index_tag specialization for representing the W axis.</dd>
+            <dt>
+              using <a class="m-doc" href="#ga8c02cd07c84b1ef589a0a3b83e113682">x_axis_tag</a> = index_tag&lt;0&gt;
+            </dt>
+            <dd>An index_tag specialization for representing the X axis.</dd>
+            <dt>
+              using <a class="m-doc" href="#ga6195dfd7a074e2a16f6c61500c45fe23">y_axis_tag</a> = index_tag&lt;1&gt;
+            </dt>
+            <dd>An index_tag specialization for representing the Y axis.</dd>
+            <dt>
+              using <a class="m-doc" href="#ga480c8ad7ee9e1cc7bcafa16d817bca1e">z_axis_tag</a> = index_tag&lt;2&gt;
+            </dt>
+            <dd>An index_tag specialization for representing the Z axis.</dd>
           </dl>
         </section>
         <section id="var-members">
@@ -922,22 +938,6 @@
               auto <a class="m-doc" href="#ga7a9b12967ad4e5e7da9cd73de5cc56d6">type_name_list</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>A <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> containing a comma-delimited list of type names.</dd>
-            <dt>
-              auto <a class="m-doc" href="#ga99ef6d06e68309f42be2c9f9b8e73dbf">w_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>An index_tag instantiation representing the W axis.</dd>
-            <dt>
-              auto <a class="m-doc" href="#gac2b46a84a7bf42d79b988f835254701a">x_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>An index_tag instantiation representing the X axis.</dd>
-            <dt>
-              auto <a class="m-doc" href="#ga382a83ec16c41ed0587c1b0b64781f50">y_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>An index_tag instantiation representing the Y axis.</dd>
-            <dt>
-              auto <a class="m-doc" href="#ga819b68d7b65bfbb082a35831e0b60952">z_axis</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>An index_tag instantiation representing the Z axis.</dd>
           </dl>
         </section>
         <section>
@@ -1358,6 +1358,34 @@
               using <a class="m-doc-self" href="#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
             </h3>
             <p>Gets the unsigned integer type with a specific number of bits for the target platform.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga91d696211c0fb4edebb87611d7fab7df"><div>
+            <h3>
+              using <a class="m-doc-self" href="#ga91d696211c0fb4edebb87611d7fab7df">w_axis_tag</a> = index_tag&lt;3&gt;
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+            </h3>
+            <p>An index_tag specialization for representing the W axis.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga8c02cd07c84b1ef589a0a3b83e113682"><div>
+            <h3>
+              using <a class="m-doc-self" href="#ga8c02cd07c84b1ef589a0a3b83e113682">x_axis_tag</a> = index_tag&lt;0&gt;
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+            </h3>
+            <p>An index_tag specialization for representing the X axis.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga6195dfd7a074e2a16f6c61500c45fe23"><div>
+            <h3>
+              using <a class="m-doc-self" href="#ga6195dfd7a074e2a16f6c61500c45fe23">y_axis_tag</a> = index_tag&lt;1&gt;
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+            </h3>
+            <p>An index_tag specialization for representing the Y axis.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga480c8ad7ee9e1cc7bcafa16d817bca1e"><div>
+            <h3>
+              using <a class="m-doc-self" href="#ga480c8ad7ee9e1cc7bcafa16d817bca1e">z_axis_tag</a> = index_tag&lt;2&gt;
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+            </h3>
+            <p>An index_tag specialization for representing the Z axis.</p>
           </div></section>
         </section>
         <section>
@@ -2693,34 +2721,6 @@
             </h3>
             <p>A <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> containing a comma-delimited list of type names.</p>
 <pre class="m-code"><span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">muu</span><span class="o">::</span><span class="n">type_name_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">int, float, char</span></pre><aside class="m-block m-special"><h4>Conditional availability </h4><p>Older compilers have limitations preventing the generation of (unspecialized) type names. Check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ad4ed37ffabb38340c21bc4b899db2646">build::<wbr/>supports_type_name</a>.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga99ef6d06e68309f42be2c9f9b8e73dbf"><div>
-            <h3>
-              auto <a class="m-doc-self" href="#ga99ef6d06e68309f42be2c9f9b8e73dbf">w_axis</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
-            </h3>
-            <p>An index_tag instantiation representing the W axis.</p>
-          </div></section>
-          <section class="m-doc-details" id="gac2b46a84a7bf42d79b988f835254701a"><div>
-            <h3>
-              auto <a class="m-doc-self" href="#gac2b46a84a7bf42d79b988f835254701a">x_axis</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
-            </h3>
-            <p>An index_tag instantiation representing the X axis.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga382a83ec16c41ed0587c1b0b64781f50"><div>
-            <h3>
-              auto <a class="m-doc-self" href="#ga382a83ec16c41ed0587c1b0b64781f50">y_axis</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
-            </h3>
-            <p>An index_tag instantiation representing the Y axis.</p>
-          </div></section>
-          <section class="m-doc-details" id="ga819b68d7b65bfbb082a35831e0b60952"><div>
-            <h3>
-              auto <a class="m-doc-self" href="#ga819b68d7b65bfbb082a35831e0b60952">z_axis</a> <span class="m-label m-primary">constexpr</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
-            </h3>
-            <p>An index_tag instantiation representing the Z axis.</p>
           </div></section>
         </section>
       </div>
