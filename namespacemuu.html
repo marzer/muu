@@ -391,7 +391,7 @@
             </dt>
             <dd>A utility class for creating '<a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong typedefs</a>'.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign = <a class="m-doc" href="group__meta.html#ga693c421331c5f268eb2e2fdd318368fd">alignment_<wbr/>of</a>&lt;T&gt;&gt;</div>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign = impl::tptr_alignof&lt;T&gt;&gt;</div>
               class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_ptr</a>
             </dt>
             <dd>Specialized pointer capable of storing data in the unused bits of a pointer's value.</dd>
@@ -470,6 +470,11 @@
             <dd>Adds const and volatile qualifiers to a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga5087ff7f20ed1765f215b92e4b56cd6f">add_noexcept</a> = <a class="m-doc" href="group__meta.html#ga75bafae329db57745b406a02e6565007">copy_<wbr/>cvref</a>&lt;typename impl::add_noexcept_&lt;<a class="m-doc" href="group__meta.html#ga3cac44d2af43c4fd98e835ff5b28988a">remove_<wbr/>cvref</a>&lt;T&gt;&gt;::type, T&gt;
+            </dt>
+            <dd>Adds a <code>noexcept</code> specifier to a functional type (or reference to one).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#gaf658a920120d44cf78a83198479de23c">add_volatile</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_volatile_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Adds a volatile qualifier to a type or reference.</dd>
@@ -520,6 +525,16 @@
               using <a class="m-doc" href="group__meta.html#ga13aaa81d66b143ecb5d837c8c0041d18">copy_cv</a> = <a class="m-doc" href="group__meta.html#ga3e944d0a62580bb16190d18a7a50e854">copy_<wbr/>const</a>&lt;<a class="m-doc" href="group__meta.html#gafdebb5c32611e098bd4074c6393ad55d">copy_<wbr/>volatile</a>&lt;T, CopyFrom&gt;, CopyFrom&gt;
             </dt>
             <dd>Copies consteness and volatility (or lack thereof) from one type or reference to another.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga75bafae329db57745b406a02e6565007">copy_cvref</a> = <a class="m-doc" href="group__meta.html#gaa11d1a8c1d6c16d5381a6f1d11940294">copy_<wbr/>ref</a>&lt;<a class="m-doc" href="group__meta.html#ga13aaa81d66b143ecb5d837c8c0041d18">copy_<wbr/>cv</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;CopyFrom&gt;&gt;, CopyFrom&gt;
+            </dt>
+            <dd>Copies consteness, volatility and reference category (or lack thereof) from one type or to another.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              using <a class="m-doc" href="group__meta.html#gaa11d1a8c1d6c16d5381a6f1d11940294">copy_ref</a> = typename impl::copy_ref_&lt;T, CopyFrom&gt;::type
+            </dt>
+            <dd>Copies the reference category (or lack thereof) from one type or to another.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
               using <a class="m-doc" href="group__meta.html#gac5e348d0385db539de78faa96895dba9">copy_signed</a> = <a class="m-doc" href="group__meta.html#gafed1fc9809926331d0cdfb6ea3c1cb7c">set_<wbr/>signed</a>&lt;T, <a class="m-doc" href="group__meta.html#ga8692cd4c2e3c8e2b0167a5a586f1f6e1">is_<wbr/>signed</a>&lt;CopyFrom&gt;&gt;
@@ -608,6 +623,11 @@
             <dd>Strips every level of pointer from a type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga4af6796f51934576020a09a73986d074">remove_callconv</a> = <a class="m-doc" href="group__meta.html#ga75bafae329db57745b406a02e6565007">copy_<wbr/>cvref</a>&lt;typename impl::remove_callconv_&lt;<a class="m-doc" href="group__meta.html#ga3cac44d2af43c4fd98e835ff5b28988a">remove_<wbr/>cvref</a>&lt;T&gt;&gt;::type, T&gt;
+            </dt>
+            <dd>Removes any explicit calling convention specifiers from functions, function pointers and function references.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga6d7666d41f4b1baa5e5b030e85d145c1">remove_const</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_const_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost const qualifier from a type or reference.</dd>
@@ -633,9 +653,9 @@
             <dd>Removes reference qualification from a type if (and only if) it is an lvalue reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="group__meta.html#gaf61a06bf998aa195a3ec21cc20c4f348">remove_noexcept</a> = typename impl::remove_noexcept_&lt;T&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga28bb77154a6d0fb8930b84c5d59373d2">remove_noexcept</a> = <a class="m-doc" href="group__meta.html#ga75bafae329db57745b406a02e6565007">copy_<wbr/>cvref</a>&lt;typename impl::remove_noexcept_&lt;<a class="m-doc" href="group__meta.html#ga3cac44d2af43c4fd98e835ff5b28988a">remove_<wbr/>cvref</a>&lt;T&gt;&gt;::type, T&gt;
             </dt>
-            <dd>Removes any <code>noexcept</code> specifier from a functional type.</dd>
+            <dd>Removes any <code>noexcept</code> specifier from a functional type (or reference to one).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga82a7eca9ca8f07f6779eff47f45d5a80">remove_rvalue_reference</a> = typename impl::remove_rvalue_reference_&lt;T&gt;::type
@@ -2981,6 +3001,16 @@
             </dt>
             <dd>Are all of the named types floating-point or reference-to-floating-point?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga1838cd67d955014bc3dcccf62729e28e">all_function</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types free/static functions, or references to them?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga97a71f40f5199e22ff6226054bf5a65e">all_function_pointer</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are all of the named types free/static function pointers, or references to them?</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename To, typename... From&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga02add24d1eebc3839d917c0691cd6e0d">all_implicitly_convertible_to</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -3092,6 +3122,16 @@
             <dd>Are any of the named types floating-point or reference-to-floating-point?</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga2311e393d4395c4c60f8be62463ff71f">any_function</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types free/static functions, or references to them?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gac4b8cf2371d6981ef042c2d0b0b57f40">any_function_pointer</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Are any of the named types free/static function pointers, or references to them?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga93df7f38a0b30c68c6138780d55885fb">any_integer</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Are any of the named types arithmetic integers, or reference to them?</dd>
@@ -3140,6 +3180,11 @@
               bool <a class="m-doc" href="group__meta.html#ga7d0fb753d984f767d9530f4c88e4d0d2">decays_to_function_pointer_by_unary_plus</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Evaluates to true if an instance of <code>T</code> decays to a free-function pointer by explicit unary plus.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gae6f71ec83408ff4ff782c62ba96af352">decays_to_pointer_by_unary_plus</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Evaluates to true if an instance of <code>T</code> decays to a pointer by explicit unary plus.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;T...&gt; <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_epsilon</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -3428,6 +3473,16 @@
             </dt>
             <dd>Is a type a floating-point or reference-to-floating-point?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga2f5be1b8af1251a81691fd7e4a8c10f4">is_function</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type a free/static function, or reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gae1cae85c90f959c943683d0e6b8d03c3">is_function_pointer</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Is a type a free/static function pointer, or reference to one?</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga05ccb72a3320555db5a5115cd85d6691">is_implicitly_convertible</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -3507,6 +3562,11 @@
               bool <a class="m-doc" href="group__meta.html#ga31dc0c880276019ff4dc15c27db38541">is_standard_arithmetic</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type one of the standard c++ arithmetic types, or a reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename CompatibleWithFunc = void&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gab1f90e8e3f87fa3fc27fb0ae93571912">is_stateless_lambda</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Evaluates to true if <code>T</code> is a stateless lambda type, or a reference to one.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga07b1449019c885977279ee3afedb3b4f">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>

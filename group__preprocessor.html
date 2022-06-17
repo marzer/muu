@@ -162,6 +162,11 @@
             </dt>
             <dd>The value of <code>__clang_major__</code> when the code is being compiled by LLVM/Clang, otherwise <code>0</code>.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga7192f09d19d5065e6442e0053129bed1">MUU_CONCAT</a>(</span><span class="m-doc-wrap">x,
+              y)</span>
+            </dt>
+            <dd>Concatenates two preprocessor inputs. Equivalent to the <code>##</code> operator, but with macro expansion.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad89d19ea9cfdd7ec957df9cb6189f552">MUU_CONSTEVAL</a></span>
             </dt>
             <dd>Expands to C++20's <code>consteval</code> if supported by your compiler, otherwise <code>constexpr</code>.</dd>
@@ -222,6 +227,10 @@
             </dt>
             <dd>Pushes the current compiler warning state onto the stack then disables ALL compiler warnings.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gadb3f97223102fea76730cc3b1c36afdd">MUU_DOXYGEN</a></span>
+            </dt>
+            <dd><code>1</code> when the code being interpreted by Doygen or some other documentation generator, otherwise <code>0</code>.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga877f0e4eacd4875af9244d38c6547277">MUU_EMPTY_BASES</a></span>
             </dt>
             <dd>Marks a class as having only empty base classes.</dd>
@@ -234,17 +243,29 @@
             </dt>
             <dd>The value of <code>__GNUC__</code> when the code is being compiled by GCC, otherwise <code>0</code>.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaa6d403786a6e43ae12a7e6d2fabaf7bc">MUU_HAS_ATTR</a>(</span><span class="m-doc-wrap">attr)</span>
+            </dt>
+            <dd>The result of <code>__has_attribute(attr)</code> if supported by the compiler, otherwise <code>0</code>.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga555a63af817046f3efcdf5e5df32924b">MUU_HAS_BUILTIN</a>(</span><span class="m-doc-wrap">name)</span>
             </dt>
-            <dd>Expands to <code>__has_builtin(name)</code> when supported by the compiler, otherwise <code>0</code>.</dd>
+            <dd>The result of <code>__has_builtin(name)</code> if supported by the compiler, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga3c123483a9bd8a9d00279f0b65eace83">MUU_HAS_CHAR8</a></span>
             </dt>
-            <dd><code>1</code> when the target environment has the 8-bit character type <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a>.</dd>
+            <dd><code>1</code> when the compiler supports C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a>, otherwise <code>0</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga26ba299c991ccd164204b481e80556d1">MUU_HAS_CPP_ATTR</a>(</span><span class="m-doc-wrap">attr)</span>
+            </dt>
+            <dd>The result of <code>__has_cpp_attribute(attr)</code> if supported by the compiler, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga9ec0bf0abed9f6d63e8ff1d061fd7fa8">MUU_HAS_EXCEPTIONS</a></span>
             </dt>
-            <dd><code>1</code> when C++ exceptions are supported, otherwise <code>0</code>.</dd>
+            <dd><code>1</code> when C++ exceptions are supported and enabled, otherwise <code>0</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga9dcf675f3fa6b815e3c4af75caaea104">MUU_HAS_FEATURE</a>(</span><span class="m-doc-wrap">name)</span>
+            </dt>
+            <dd>The result of <code>__has_feature(name)</code> if supported by the compiler, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad6cf2ebac5d966916c61f46e79f035b2">MUU_HAS_FLOAT128</a></span>
             </dt>
@@ -260,7 +281,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaa46769772ecacae384f202d2288b5ef9">MUU_HAS_INCLUDE</a>(</span><span class="m-doc-wrap">header)</span>
             </dt>
-            <dd>Expands to <code>__has_include(header)</code> when supported by the compiler, otherwise <code>0</code>.</dd>
+            <dd>The result of <code>__has_include(header)</code> if supported by the compiler, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga61a9c9471317fa76fa46bd87d8f671b6">MUU_HAS_INT128</a></span>
             </dt>
@@ -268,7 +289,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga3a719188641393747cd874964992274e">MUU_HAS_RTTI</a></span>
             </dt>
-            <dd><code>1</code> when C++ run-time type identification (RTTI) is supported, otherwise <code>0</code>.</dd>
+            <dd><code>1</code> when C++ run-time type identification (RTTI) is supported and enabled, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad1a4aea6de6cd311e2d75437f7980756">MUU_HAS_STATIC_STRING_LITERALS</a></span>
             </dt>
@@ -334,6 +355,10 @@
             </dt>
             <dd>Stringifies the input, converting it verbatim into a raw string view literal.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga5e16d39be451564f4e4938ebf5b799ac">MUU_MALLOC</a></span>
+            </dt>
+            <dd>Optimizer hint that marks an allocating function's pointer return value as representing a newly allocated memory region free from aliasing.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gacf33ca59cc4d469b40b34ea471a0f57d">MUU_MSVC</a></span>
             </dt>
             <dd>The value of <code>_MSC_VER</code> when the code is being compiled by MSVC, otherwise <code>0</code>.</dd>
@@ -354,18 +379,9 @@
             </dt>
             <dd>Expands to a no-op expression, e.g. <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga7152606bb8ad70ab6f0197461e7a24b2">MUU_NO_DEFAULT_CASE</a></span>
-            </dt>
-            <dd>Marks a switch statement as not being in need of a default clause.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga8f304d74e983202dd94830798b27d10d">MUU_NO_UNIQUE_ADDRESS</a></span>
             </dt>
             <dd>Expands to C++20's <code>[[no_unique_address]]</code> if supported by your compiler.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gafa04ab1dd3ac1da5ddbd3df2bbadf4a1">MUU_OFFSETOF</a>(</span><span class="m-doc-wrap">type,
-              member)</span>
-            </dt>
-            <dd>Constexpr-friendly alias of <code>offsetof()</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga70d1ba7b4018ae5521eed5b23e98d41c">MUU_POP_WARNINGS</a></span>
             </dt>
@@ -373,39 +389,49 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga52152c34f89ec0ce1caeacd62c62c23d">MUU_PRAGMA_CLANG</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to <code>_Pragma("pragma clang ...")</code> when compiling with Clang.</dd>
+            <dd>Expands to <code>_Pragma("clang ...")</code> when compiling with Clang.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga9efe0dba4352e6c960b1264e5cf6ee4a">MUU_PRAGMA_CLANG_GE</a>(</span><span class="m-doc-wrap">ver,
               ...)</span>
             </dt>
-            <dd>Expands to <code>_Pragma("pragma clang ...")</code> when compiling with Clang and <code>__clang_major__</code> &gt;= <code>ver</code>.</dd>
+            <dd>Expands to <code>_Pragma("clang ...")</code> when compiling with Clang and <code>__clang_major__</code> &gt;= <code>ver</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga2298483b6b3af755fe55fd9b060a2e02">MUU_PRAGMA_CLANG_LT</a>(</span><span class="m-doc-wrap">ver,
               ...)</span>
             </dt>
-            <dd>Expands to <code>_Pragma("pragma clang ...")</code> when compiling with Clang and <code>__clang_major__</code> &lt; <code>ver</code>.</dd>
+            <dd>Expands to <code>_Pragma("clang ...")</code> when compiling with Clang and <code>__clang_major__</code> &lt; <code>ver</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga6f80b008b889d869c7447aff2475dd4d">MUU_PRAGMA_GCC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to <code>_Pragma("pragma GCC ...")</code> directive when compiling with GCC.</dd>
+            <dd>Expands to <code>_Pragma("GCC ...")</code> when compiling with GCC.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga4fcef268a71e24cde6f5470a2a3efdcc">MUU_PRAGMA_GCC_GE</a>(</span><span class="m-doc-wrap">ver,
               ...)</span>
             </dt>
-            <dd>Expands to <code>_Pragma("pragma GCC ...")</code> when compiling with GCC and <code>__GNUC__</code> &gt;= <code>ver</code>.</dd>
+            <dd>Expands to <code>_Pragma("GCC ...")</code> when compiling with GCC and <code>__GNUC__</code> &gt;= <code>ver</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gacef122f71333910cb2d2462877a34bfb">MUU_PRAGMA_GCC_LT</a>(</span><span class="m-doc-wrap">ver,
               ...)</span>
             </dt>
-            <dd>Expands to <code>_Pragma("pragma GCC ...")</code> when compiling with GCC and <code>__GNUC__</code> &lt; <code>ver</code>.</dd>
+            <dd>Expands to <code>_Pragma("GCC ...")</code> when compiling with GCC and <code>__GNUC__</code> &lt; <code>ver</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga5712bc0e086c593c40c8c4ed32caa46b">MUU_PRAGMA_ICC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to <code>_pragma(...)</code> directive when compiling with ICC.</dd>
+            <dd>Expands to <code>_pragma(...)</code> when compiling with ICC.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gac6b8e4b75a00c89a3f1479feb81be8e8">MUU_PRAGMA_MSVC</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Expands to <code>_pragma(...)</code> directive when compiling with MSVC.</dd>
+            <dd>Expands to <code>__pragma(...)</code> when compiling with MSVC.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga2f45e603c1abf6f077f07989f779652d">MUU_PRAGMA_MSVC_GE</a>(</span><span class="m-doc-wrap">ver,
+              ...)</span>
+            </dt>
+            <dd>Expands to <code>__pragma(...)</code> when compiling with MSVC and <code>_MSC_VER</code> &gt;= <code>ver</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga20845a67d49397e645bd03ea0ab455ca">MUU_PRAGMA_MSVC_LT</a>(</span><span class="m-doc-wrap">ver,
+              ...)</span>
+            </dt>
+            <dd>Expands to <code>__pragma(...)</code> when compiling with MSVC and <code>_MSC_VER</code> &lt; <code>ver</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga0b9c2e2b602c21d5f58ddaeb74923019">MUU_PUSH_WARNINGS</a></span>
             </dt>
@@ -414,10 +440,6 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaff60752ea9802d5cb7f09835672bd801">MUU_TRIVIAL_ABI</a></span>
             </dt>
             <dd>Marks a simple type which might otherwise be considered non-trivial as being trivial over ABI boundaries.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga66999b3d433c69989cc6243448a6e450">MUU_UNALIASED_ALLOC</a></span>
-            </dt>
-            <dd>Optimizer hint that marks an allocating function's pointer return value as being free from aliasing.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gada1974043df8aaa452400fe53a603219">MUU_UNIX</a></span>
             </dt>
@@ -615,6 +637,14 @@
             <p>The value of <code>__clang_major__</code> when the code is being compiled by LLVM/Clang, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://sourceforge.net/p/predef/wiki/Compilers/" target="_blank">https:/<wbr/>/<wbr/>sourceforge.net/<wbr/>p/<wbr/>predef/<wbr/>wiki/<wbr/>Compilers/<wbr/></a></p></aside>
           </div></section>
+          <section class="m-doc-details" id="ga7192f09d19d5065e6442e0053129bed1"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga7192f09d19d5065e6442e0053129bed1">MUU_CONCAT</a>(</span><span class="m-doc-wrap">x,
+              y)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Concatenates two preprocessor inputs. Equivalent to the <code>##</code> operator, but with macro expansion.</p>
+          </div></section>
           <section class="m-doc-details" id="gad89d19ea9cfdd7ec957df9cb6189f552"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gad89d19ea9cfdd7ec957df9cb6189f552">MUU_CONSTEVAL</a></span>
@@ -786,6 +816,13 @@
             </h3>
             <p>Pushes the current compiler warning state onto the stack then disables ALL compiler warnings.</p>
           </div></section>
+          <section class="m-doc-details" id="gadb3f97223102fea76730cc3b1c36afdd"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gadb3f97223102fea76730cc3b1c36afdd">MUU_DOXYGEN</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p><code>1</code> when the code being interpreted by Doygen or some other documentation generator, otherwise <code>0</code>.</p>
+          </div></section>
           <section class="m-doc-details" id="ga877f0e4eacd4875af9244d38c6547277"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga877f0e4eacd4875af9244d38c6547277">MUU_EMPTY_BASES</a></span>
@@ -821,27 +858,48 @@
             <p>The value of <code>__GNUC__</code> when the code is being compiled by GCC, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html" target="_blank">https:/<wbr/>/<wbr/>gcc.gnu.org/<wbr/>onlinedocs/<wbr/>cpp/<wbr/>Common-Predefined-Macros.html</a></p></aside>
           </div></section>
+          <section class="m-doc-details" id="gaa6d403786a6e43ae12a7e6d2fabaf7bc"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gaa6d403786a6e43ae12a7e6d2fabaf7bc">MUU_HAS_ATTR</a>(</span><span class="m-doc-wrap">attr)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>The result of <code>__has_attribute(attr)</code> if supported by the compiler, otherwise <code>0</code>.</p>
+          </div></section>
           <section class="m-doc-details" id="ga555a63af817046f3efcdf5e5df32924b"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga555a63af817046f3efcdf5e5df32924b">MUU_HAS_BUILTIN</a>(</span><span class="m-doc-wrap">name)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>__has_builtin(name)</code> when supported by the compiler, otherwise <code>0</code>.</p>
+            <p>The result of <code>__has_builtin(name)</code> if supported by the compiler, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga3c123483a9bd8a9d00279f0b65eace83"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga3c123483a9bd8a9d00279f0b65eace83">MUU_HAS_CHAR8</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment has the 8-bit character type <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a>.</p>
+            <p><code>1</code> when the compiler supports C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a>, otherwise <code>0</code>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga26ba299c991ccd164204b481e80556d1"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga26ba299c991ccd164204b481e80556d1">MUU_HAS_CPP_ATTR</a>(</span><span class="m-doc-wrap">attr)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>The result of <code>__has_cpp_attribute(attr)</code> if supported by the compiler, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga9ec0bf0abed9f6d63e8ff1d061fd7fa8"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga9ec0bf0abed9f6d63e8ff1d061fd7fa8">MUU_HAS_EXCEPTIONS</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when C++ exceptions are supported, otherwise <code>0</code>.</p>
+            <p><code>1</code> when C++ exceptions are supported and enabled, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p>build::supports_exceptions</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga9dcf675f3fa6b815e3c4af75caaea104"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga9dcf675f3fa6b815e3c4af75caaea104">MUU_HAS_FEATURE</a>(</span><span class="m-doc-wrap">name)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>The result of <code>__has_feature(name)</code> if supported by the compiler, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="gad6cf2ebac5d966916c61f46e79f035b2"><div>
             <h3>
@@ -872,7 +930,7 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gaa46769772ecacae384f202d2288b5ef9">MUU_HAS_INCLUDE</a>(</span><span class="m-doc-wrap">header)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>__has_include(header)</code> when supported by the compiler, otherwise <code>0</code>.</p>
+            <p>The result of <code>__has_include(header)</code> if supported by the compiler, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga61a9c9471317fa76fa46bd87d8f671b6"><div>
             <h3>
@@ -887,7 +945,7 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga3a719188641393747cd874964992274e">MUU_HAS_RTTI</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when C++ run-time type identification (RTTI) is supported, otherwise <code>0</code>.</p>
+            <p><code>1</code> when C++ run-time type identification (RTTI) is supported and enabled, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p>build::supports_rtti</p></aside>
           </div></section>
           <section class="m-doc-details" id="gad1a4aea6de6cd311e2d75437f7980756"><div>
@@ -998,13 +1056,13 @@
 
 <span class="c1">// emits these operators:</span>
 <span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">&amp;</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">|</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">^</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">~</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="k">bool</span>      <span class="k">operator</span> <span class="o">!</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 <span class="k">constexpr</span> <span class="ut">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">&amp;=</span> <span class="p">(</span><span class="ut">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">|</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
 <span class="k">constexpr</span> <span class="ut">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">|=</span> <span class="p">(</span><span class="ut">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
-<span class="k">constexpr</span> <span class="ut">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">^=</span> <span class="p">(</span><span class="ut">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span></pre>
+<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">^</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">,</span>  <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="ut">my_flags</span><span class="o">&amp;</span> <span class="k">operator</span> <span class="o">^=</span> <span class="p">(</span><span class="ut">my_flags</span><span class="o">&amp;</span><span class="p">,</span> <span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="ut">my_flags</span>  <span class="k">operator</span> <span class="o">~</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
+<span class="k">constexpr</span> <span class="k">bool</span>      <span class="k">operator</span> <span class="o">!</span>  <span class="p">(</span><span class="ut">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span></pre>
           </div></section>
           <section class="m-doc-details" id="gadd45b899bf7c8cc6e64f6d7c02b1c4f3"><div>
             <h3>
@@ -1035,6 +1093,14 @@
 <pre class="m-code"><span class="c1">// these are equivalent:</span>
 <span class="k">constexpr</span> <span class="ns">std</span><span class="o">::</span><span class="ut">string_view</span> <span class="n">str1</span> <span class="o">=</span> <span class="m">MUU_MAKE_STRING_VIEW</span><span class="p">(</span><span class="s">"It's trap!"</span> <span class="n">the</span> <span class="n">admiral</span> <span class="n">cried</span><span class="p">.);</span>
 <span class="k">constexpr</span> <span class="ns">std</span><span class="o">::</span><span class="ut">string_view</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"</span><span class="sa">sv</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga5e16d39be451564f4e4938ebf5b799ac"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga5e16d39be451564f4e4938ebf5b799ac">MUU_MALLOC</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Optimizer hint that marks an allocating function's pointer return value as representing a newly allocated memory region free from aliasing.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://docs.microsoft.com/en-us/cpp/cpp/restrict?view=vs-2019" target="_blank">_<wbr/>_<wbr/>declspec(restrict)</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gacf33ca59cc4d469b40b34ea471a0f57d"><div>
             <h3>
@@ -1098,46 +1164,12 @@
             </h3>
             <p>Expands to a no-op expression, e.g. <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga7152606bb8ad70ab6f0197461e7a24b2"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga7152606bb8ad70ab6f0197461e7a24b2">MUU_NO_DEFAULT_CASE</a></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
-            </h3>
-            <p>Marks a switch statement as not being in need of a default clause.</p>
-<pre class="m-code"><span class="k">enum</span> <span class="k">class</span> <span class="nc">my_enum</span>
-<span class="p">{</span>
-    <span class="n">one</span><span class="p">,</span>
-    <span class="n">two</span><span class="p">,</span>
-    <span class="n">some_invalid_sentinel</span> <span class="c1">// not a real, meaningful value</span>
-<span class="p">};</span>
-
-<span class="k">int</span> <span class="nf">do_the_thing</span><span class="p">(</span><span class="ut">my_enum</span> <span class="n">val</span><span class="p">)</span> <span class="k">noexcept</span>
-<span class="p">{</span>
-    <span class="k">switch</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">case</span> <span class="n">my_enum</span><span class="o">::</span><span class="nl">one</span><span class="p">:</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="k">case</span> <span class="n">my_enum</span><span class="o">::</span><span class="nl">two</span><span class="p">:</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
-        <span class="m">MUU_NO_DEFAULT_CASE</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// obviously makes sense only if do_the_thing()</span>
-<span class="c1">// is never called with any other values</span></pre><aside class="m-note m-danger"><h4>Warning</h4><p>Using this incorrectly can lead to seriously mis-compiled code!</p></aside>
-          </div></section>
           <section class="m-doc-details" id="ga8f304d74e983202dd94830798b27d10d"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga8f304d74e983202dd94830798b27d10d">MUU_NO_UNIQUE_ADDRESS</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Expands to C++20's <code>[[no_unique_address]]</code> if supported by your compiler.</p>
-          </div></section>
-          <section class="m-doc-details" id="gafa04ab1dd3ac1da5ddbd3df2bbadf4a1"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gafa04ab1dd3ac1da5ddbd3df2bbadf4a1">MUU_OFFSETOF</a>(</span><span class="m-doc-wrap">type,
-              member)</span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
-            </h3>
-            <p>Constexpr-friendly alias of <code>offsetof()</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga70d1ba7b4018ae5521eed5b23e98d41c"><div>
             <h3>
@@ -1152,7 +1184,7 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga52152c34f89ec0ce1caeacd62c62c23d">MUU_PRAGMA_CLANG</a>(</span><span class="m-doc-wrap">...)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>_Pragma("pragma clang ...")</code> when compiling with Clang.</p>
+            <p>Expands to <code>_Pragma("clang ...")</code> when compiling with Clang.</p>
           </div></section>
           <section class="m-doc-details" id="ga9efe0dba4352e6c960b1264e5cf6ee4a"><div>
             <h3>
@@ -1160,7 +1192,7 @@
               ...)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>_Pragma("pragma clang ...")</code> when compiling with Clang and <code>__clang_major__</code> &gt;= <code>ver</code>.</p>
+            <p>Expands to <code>_Pragma("clang ...")</code> when compiling with Clang and <code>__clang_major__</code> &gt;= <code>ver</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga2298483b6b3af755fe55fd9b060a2e02"><div>
             <h3>
@@ -1168,14 +1200,14 @@
               ...)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>_Pragma("pragma clang ...")</code> when compiling with Clang and <code>__clang_major__</code> &lt; <code>ver</code>.</p>
+            <p>Expands to <code>_Pragma("clang ...")</code> when compiling with Clang and <code>__clang_major__</code> &lt; <code>ver</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga6f80b008b889d869c7447aff2475dd4d"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga6f80b008b889d869c7447aff2475dd4d">MUU_PRAGMA_GCC</a>(</span><span class="m-doc-wrap">...)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>_Pragma("pragma GCC ...")</code> directive when compiling with GCC.</p>
+            <p>Expands to <code>_Pragma("GCC ...")</code> when compiling with GCC.</p>
           </div></section>
           <section class="m-doc-details" id="ga4fcef268a71e24cde6f5470a2a3efdcc"><div>
             <h3>
@@ -1183,7 +1215,7 @@
               ...)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>_Pragma("pragma GCC ...")</code> when compiling with GCC and <code>__GNUC__</code> &gt;= <code>ver</code>.</p>
+            <p>Expands to <code>_Pragma("GCC ...")</code> when compiling with GCC and <code>__GNUC__</code> &gt;= <code>ver</code>.</p>
           </div></section>
           <section class="m-doc-details" id="gacef122f71333910cb2d2462877a34bfb"><div>
             <h3>
@@ -1191,21 +1223,37 @@
               ...)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>_Pragma("pragma GCC ...")</code> when compiling with GCC and <code>__GNUC__</code> &lt; <code>ver</code>.</p>
+            <p>Expands to <code>_Pragma("GCC ...")</code> when compiling with GCC and <code>__GNUC__</code> &lt; <code>ver</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga5712bc0e086c593c40c8c4ed32caa46b"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga5712bc0e086c593c40c8c4ed32caa46b">MUU_PRAGMA_ICC</a>(</span><span class="m-doc-wrap">...)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>_pragma(...)</code> directive when compiling with ICC.</p>
+            <p>Expands to <code>_pragma(...)</code> when compiling with ICC.</p>
           </div></section>
           <section class="m-doc-details" id="gac6b8e4b75a00c89a3f1479feb81be8e8"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gac6b8e4b75a00c89a3f1479feb81be8e8">MUU_PRAGMA_MSVC</a>(</span><span class="m-doc-wrap">...)</span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>Expands to <code>_pragma(...)</code> directive when compiling with MSVC.</p>
+            <p>Expands to <code>__pragma(...)</code> when compiling with MSVC.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga2f45e603c1abf6f077f07989f779652d"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga2f45e603c1abf6f077f07989f779652d">MUU_PRAGMA_MSVC_GE</a>(</span><span class="m-doc-wrap">ver,
+              ...)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Expands to <code>__pragma(...)</code> when compiling with MSVC and <code>_MSC_VER</code> &gt;= <code>ver</code>.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga20845a67d49397e645bd03ea0ab455ca"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga20845a67d49397e645bd03ea0ab455ca">MUU_PRAGMA_MSVC_LT</a>(</span><span class="m-doc-wrap">ver,
+              ...)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>Expands to <code>__pragma(...)</code> when compiling with MSVC and <code>_MSC_VER</code> &lt; <code>ver</code>.</p>
           </div></section>
           <section class="m-doc-details" id="ga0b9c2e2b602c21d5f58ddaeb74923019"><div>
             <h3>
@@ -1244,14 +1292,6 @@
         <span class="c1">// non-trivial for some reason, maybe debug checks</span>
     <span class="p">}</span>
 <span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://quuxplusone.github.io/blog/2018/05/02/trivial-abi-101/" target="_blank">[[trivial_<wbr/>abi]]</a></p></aside>
-          </div></section>
-          <section class="m-doc-details" id="ga66999b3d433c69989cc6243448a6e450"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga66999b3d433c69989cc6243448a6e450">MUU_UNALIASED_ALLOC</a></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
-            </h3>
-            <p>Optimizer hint that marks an allocating function's pointer return value as being free from aliasing.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://docs.microsoft.com/en-us/cpp/cpp/restrict?view=vs-2019" target="_blank">_<wbr/>_<wbr/>declspec(restrict)</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gada1974043df8aaa452400fe53a603219"><div>
             <h3>

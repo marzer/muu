@@ -1809,10 +1809,17 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::remove_noexcept_&lt; T &gt;::type</type>
-      <name>remove_noexcept</name>
+      <type>typename impl::copy_ref_&lt; T, CopyFrom &gt;::type</type>
+      <name>copy_ref</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaf61a06bf998aa195a3ec21cc20c4f348</anchor>
+      <anchor>gaa11d1a8c1d6c16d5381a6f1d11940294</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_ref&lt; copy_cv&lt; std::remove_reference_t&lt; T &gt;, std::remove_reference_t&lt; CopyFrom &gt; &gt;, CopyFrom &gt;</type>
+      <name>copy_cvref</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga75bafae329db57745b406a02e6565007</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -1890,6 +1897,27 @@
       <name>remove_all_pointers</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gaff6410affb3cb93013482639fcaea000</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_cvref&lt; typename impl::remove_callconv_&lt; remove_cvref&lt; T &gt; &gt;::type, T &gt;</type>
+      <name>remove_callconv</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga4af6796f51934576020a09a73986d074</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_cvref&lt; typename impl::add_noexcept_&lt; remove_cvref&lt; T &gt; &gt;::type, T &gt;</type>
+      <name>add_noexcept</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga5087ff7f20ed1765f215b92e4b56cd6f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_cvref&lt; typename impl::remove_noexcept_&lt; remove_cvref&lt; T &gt; &gt;::type, T &gt;</type>
+      <name>remove_noexcept</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga28bb77154a6d0fb8930b84c5d59373d2</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -2558,6 +2586,48 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_function</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2f5be1b8af1251a81691fd7e4a8c10f4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_function</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2311e393d4395c4c60f8be62463ff71f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_function</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga1838cd67d955014bc3dcccf62729e28e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_function_pointer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae1cae85c90f959c943683d0e6b8d03c3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_function_pointer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac4b8cf2371d6981ef042c2d0b0b57f40</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_function_pointer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga97a71f40f5199e22ff6226054bf5a65e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr auto</type>
       <name>is_detected</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -2803,6 +2873,20 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>decays_to_pointer_by_unary_plus</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae6f71ec83408ff4ff782c62ba96af352</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>decays_to_function_pointer_by_unary_plus</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7d0fb753d984f767d9530f4c88e4d0d2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr epsilon_type&lt; T... &gt;</type>
       <name>default_epsilon</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -2811,9 +2895,9 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>decays_to_function_pointer_by_unary_plus</name>
+      <name>is_stateless_lambda</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7d0fb753d984f767d9530f4c88e4d0d2</anchor>
+      <anchor>gab1f90e8e3f87fa3fc27fb0ae93571912</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -2901,9 +2985,30 @@
     <filename>preprocessor_8h.html</filename>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_CPP</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gadb6fae17fb19af86f59b0ec414838070</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_CPP</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gadb6fae17fb19af86f59b0ec414838070</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_INTELLISENSE</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga0f1d961fa4c5109d8e007ddbaf868339</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DOXYGEN</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gadb3f97223102fea76730cc3b1c36afdd</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
@@ -2950,13 +3055,6 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_ARCH_BITNESS</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga2e302f23e8da851a0443167d733facc3</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
       <name>MUU_ARCH_X86</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga026661cf5e2ffbb7699f14b57a36bc45</anchor>
@@ -2992,6 +3090,13 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_ARCH_BITNESS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga2e302f23e8da851a0443167d733facc3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_WINDOWS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga9dee2f6a74a083b6305a29cfea6e2e01</anchor>
@@ -3010,20 +3115,6 @@
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga1e4e923ae71486fc6d9ac2bb0448231f</anchor>
       <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_MAKE_STRING</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga2fb0fd64a97ececb26a198c1072d223c</anchor>
-      <arglist>(s)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_INCLUDE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gaa46769772ecacae384f202d2288b5ef9</anchor>
-      <arglist>(header)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
@@ -3069,23 +3160,429 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_CPP</name>
+      <name>MUU_LITTLE_ENDIAN</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gadb6fae17fb19af86f59b0ec414838070</anchor>
+      <anchor>ga94d4f95aab666decfb7e1aac26d82f45</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_CPP</name>
+      <name>MUU_BIG_ENDIAN</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gadb6fae17fb19af86f59b0ec414838070</anchor>
+      <anchor>ga4e94491264f3712dd7dc6dbde6331a0f</anchor>
       <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_INCLUDE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gaa46769772ecacae384f202d2288b5ef9</anchor>
+      <arglist>(header)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_BUILTIN</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga555a63af817046f3efcdf5e5df32924b</anchor>
+      <arglist>(name)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_FEATURE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga9dcf675f3fa6b815e3c4af75caaea104</anchor>
+      <arglist>(name)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_ATTR</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gaa6d403786a6e43ae12a7e6d2fabaf7bc</anchor>
+      <arglist>(attr)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_CPP_ATTR</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga26ba299c991ccd164204b481e80556d1</anchor>
+      <arglist>(attr)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_EXCEPTIONS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga9ec0bf0abed9f6d63e8ff1d061fd7fa8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_RTTI</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga3a719188641393747cd874964992274e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_FP16</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gab2a752151f65377391481d1597297eca</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_FLOAT16</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga27290363c4626a953e97d39dd042af66</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_FLOAT128</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gad6cf2ebac5d966916c61f46e79f035b2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_INT128</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga61a9c9471317fa76fa46bd87d8f671b6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_CHAR8</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga3c123483a9bd8a9d00279f0b65eace83</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ATTR</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga47316637bf87fd0d0e4bb179cb603226</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ATTR_NDEBUG</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga202256eba435dbe97112a1e3751d31ad</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DECLSPEC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga011cf3340b4f4928a24e3b83c2360f34</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_UNREACHABLE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga5180303025bb345be8bf831f1e84abed</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ASSUME</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gabed9674c744db2fe13aa5a486b072d02</anchor>
+      <arglist>(cond)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_MALLOC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga5e16d39be451564f4e4938ebf5b799ac</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_CONSTEVAL</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gad89d19ea9cfdd7ec957df9cb6189f552</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ALWAYS_INLINE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga364a90dd5bcbbbc7b58bbaae2b0ed904</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_NEVER_INLINE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga00e7d0da1019e1fc64eff53311eab35e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ABSTRACT_INTERFACE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gafab84de7e09a93180841a788f0123c4a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_EMPTY_BASES</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga877f0e4eacd4875af9244d38c6547277</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_TRIVIAL_ABI</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gaff60752ea9802d5cb7f09835672bd801</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_LIKELY</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga96965362141a0033ee6aae1a68d8b30f</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_UNLIKELY</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga69620e1889e6b7ff936d34210ecf9bf5</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_NO_UNIQUE_ADDRESS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga8f304d74e983202dd94830798b27d10d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_NODISCARD</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga067801d06d0ecba0f17634fa6295706e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_NODISCARD_CTOR</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga2b6bac0477246591441528bf0bafeb39</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_CONCAT</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga7192f09d19d5065e6442e0053129bed1</anchor>
+      <arglist>(x, y)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_MAKE_STRING</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga2fb0fd64a97ececb26a198c1072d223c</anchor>
+      <arglist>(s)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_MAKE_RAW_STRING</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gadd45b899bf7c8cc6e64f6d7c02b1c4f3</anchor>
+      <arglist>(s)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_MAKE_STRING_VIEW</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gabf47b45b883c9646ed6f8ed0b73f8aaa</anchor>
+      <arglist>(s)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ATTR_CLANG</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga7dd651503a9dc759413a92f29e1bae08</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ATTR_CLANG_GE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga0264a9a1dc2f996bc538ba65663b7af5</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ATTR_CLANG_LT</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga5869f898016ec0f2b43ca8d1af1030d5</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_CLANG</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga52152c34f89ec0ce1caeacd62c62c23d</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_CLANG_GE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga9efe0dba4352e6c960b1264e5cf6ee4a</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_CLANG_LT</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga2298483b6b3af755fe55fd9b060a2e02</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ATTR_GCC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga36d8876b444701ec96c34f20026acd7a</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ATTR_GCC_GE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga6cac3ad3454e124f018ea5e75414ed54</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ATTR_GCC_LT</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gae024ebb7b36a46b6391c9d236611b312</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_GCC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga6f80b008b889d869c7447aff2475dd4d</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_GCC_GE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga4fcef268a71e24cde6f5470a2a3efdcc</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_GCC_LT</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gacef122f71333910cb2d2462877a34bfb</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_MSVC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gac6b8e4b75a00c89a3f1479feb81be8e8</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_MSVC_GE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga2f45e603c1abf6f077f07989f779652d</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_MSVC_LT</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga20845a67d49397e645bd03ea0ab455ca</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_ICC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga5712bc0e086c593c40c8c4ed32caa46b</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DELETE_MOVE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga7e2f4118dd8fcd04ed314cc433b8f1af</anchor>
+      <arglist>(T)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DELETE_COPY</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga25a02df45c3dbd56ef86ba14b3e89ce3</anchor>
+      <arglist>(T)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DEFAULT_MOVE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gae0f485363e80f9b712ba588c38a6913c</anchor>
+      <arglist>(T)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DEFAULT_COPY</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga934ea8bd0642688273d3e5fb6f262bae</anchor>
+      <arglist>(T)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_UNUSED</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga60d6410ec59d9127e60193e48d911c19</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_NOOP</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga208185e62d9dd3604e348e153ffc976b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_VECTORCALL</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga4eea4cd448c2f1324dc6fcfac8587688</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_MAKE_FLAGS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gae04a44728acc9352d70e8a7bf067eae3</anchor>
+      <arglist>(T)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>MUU_PUSH_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga0b9c2e2b602c21d5f58ddaeb74923019</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_POP_WARNINGS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga70d1ba7b4018ae5521eed5b23e98d41c</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
@@ -3150,384 +3647,6 @@
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga7328d95e2ec9777bbbd7e81c7b4ffa68</anchor>
       <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_POP_WARNINGS</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga70d1ba7b4018ae5521eed5b23e98d41c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_BUILTIN</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga555a63af817046f3efcdf5e5df32924b</anchor>
-      <arglist>(name)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_EXCEPTIONS</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga9ec0bf0abed9f6d63e8ff1d061fd7fa8</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_RTTI</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga3a719188641393747cd874964992274e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_LITTLE_ENDIAN</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga94d4f95aab666decfb7e1aac26d82f45</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_BIG_ENDIAN</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga4e94491264f3712dd7dc6dbde6331a0f</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_CLANG</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga52152c34f89ec0ce1caeacd62c62c23d</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_CLANG_GE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga9efe0dba4352e6c960b1264e5cf6ee4a</anchor>
-      <arglist>(ver,...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_CLANG_LT</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga2298483b6b3af755fe55fd9b060a2e02</anchor>
-      <arglist>(ver,...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_GCC</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga6f80b008b889d869c7447aff2475dd4d</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_GCC_GE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga4fcef268a71e24cde6f5470a2a3efdcc</anchor>
-      <arglist>(ver,...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_GCC_LT</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gacef122f71333910cb2d2462877a34bfb</anchor>
-      <arglist>(ver,...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_ICC</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga5712bc0e086c593c40c8c4ed32caa46b</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_MSVC</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gac6b8e4b75a00c89a3f1479feb81be8e8</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ATTR</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga47316637bf87fd0d0e4bb179cb603226</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ATTR_NDEBUG</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga202256eba435dbe97112a1e3751d31ad</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ATTR_CLANG</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga7dd651503a9dc759413a92f29e1bae08</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ATTR_CLANG_GE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga0264a9a1dc2f996bc538ba65663b7af5</anchor>
-      <arglist>(ver,...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ATTR_CLANG_LT</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga5869f898016ec0f2b43ca8d1af1030d5</anchor>
-      <arglist>(ver,...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ATTR_GCC</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga36d8876b444701ec96c34f20026acd7a</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ATTR_GCC_GE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga6cac3ad3454e124f018ea5e75414ed54</anchor>
-      <arglist>(ver,...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ATTR_GCC_LT</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gae024ebb7b36a46b6391c9d236611b312</anchor>
-      <arglist>(ver,...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_DECLSPEC</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga011cf3340b4f4928a24e3b83c2360f34</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ABSTRACT_INTERFACE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gafab84de7e09a93180841a788f0123c4a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_EMPTY_BASES</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga877f0e4eacd4875af9244d38c6547277</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ALWAYS_INLINE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga364a90dd5bcbbbc7b58bbaae2b0ed904</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NEVER_INLINE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga00e7d0da1019e1fc64eff53311eab35e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_UNALIASED_ALLOC</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga66999b3d433c69989cc6243448a6e450</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_UNUSED</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga60d6410ec59d9127e60193e48d911c19</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NOOP</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga208185e62d9dd3604e348e153ffc976b</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ASSUME</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gabed9674c744db2fe13aa5a486b072d02</anchor>
-      <arglist>(cond)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_UNREACHABLE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga5180303025bb345be8bf831f1e84abed</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NO_DEFAULT_CASE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga7152606bb8ad70ab6f0197461e7a24b2</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_LIKELY</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga96965362141a0033ee6aae1a68d8b30f</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_UNLIKELY</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga69620e1889e6b7ff936d34210ecf9bf5</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NO_UNIQUE_ADDRESS</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga8f304d74e983202dd94830798b27d10d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NODISCARD</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga067801d06d0ecba0f17634fa6295706e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NODISCARD_CTOR</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga2b6bac0477246591441528bf0bafeb39</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_TRIVIAL_ABI</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gaff60752ea9802d5cb7f09835672bd801</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_VECTORCALL</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga4eea4cd448c2f1324dc6fcfac8587688</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_CONSTEVAL</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gad89d19ea9cfdd7ec957df9cb6189f552</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_MAKE_RAW_STRING</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gadd45b899bf7c8cc6e64f6d7c02b1c4f3</anchor>
-      <arglist>(s)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_MAKE_STRING_VIEW</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gabf47b45b883c9646ed6f8ed0b73f8aaa</anchor>
-      <arglist>(s)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_DELETE_MOVE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga7e2f4118dd8fcd04ed314cc433b8f1af</anchor>
-      <arglist>(T)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_DELETE_COPY</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga25a02df45c3dbd56ef86ba14b3e89ce3</anchor>
-      <arglist>(T)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_DEFAULT_MOVE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gae0f485363e80f9b712ba588c38a6913c</anchor>
-      <arglist>(T)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_DEFAULT_COPY</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga934ea8bd0642688273d3e5fb6f262bae</anchor>
-      <arglist>(T)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_MAKE_FLAGS</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gae04a44728acc9352d70e8a7bf067eae3</anchor>
-      <arglist>(T)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_FP16</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gab2a752151f65377391481d1597297eca</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_FLOAT16</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga27290363c4626a953e97d39dd042af66</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_FLOAT128</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gad6cf2ebac5d966916c61f46e79f035b2</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_INT128</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga61a9c9471317fa76fa46bd87d8f671b6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_CHAR8</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga3c123483a9bd8a9d00279f0b65eace83</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_OFFSETOF</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gafa04ab1dd3ac1da5ddbd3df2bbadf4a1</anchor>
-      <arglist>(type, member)</arglist>
     </member>
   </compound>
   <compound kind="file">
@@ -6556,10 +6675,10 @@
     <filename>classmuu_1_1function__view.html</filename>
     <templarg>typename T</templarg>
     <member kind="typedef">
-      <type>T</type>
+      <type>remove_callconv&lt; T &gt;</type>
       <name>func_type</name>
       <anchorfile>classmuu_1_1function__view.html</anchorfile>
-      <anchor>a25087d6fca3faba987eeefc7d06f529a</anchor>
+      <anchor>a7a122326496608c33601fce9919c8a0a</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
@@ -8570,12 +8689,26 @@
       <anchor>a5cadade40d4864c6a07dade22bf58a13</anchor>
       <arglist>() noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>orthonormalized</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a5d320e20ca581f36b3e67b962dcf41c9</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
       <name>orthonormalize</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a90d37bc49d8d5a35e8c415400c47d4e7</anchor>
-      <arglist>(const matrix &amp;m) noexcept</arglist>
+      <anchor>aa15f83179ece20ae31d5f6e3f674bfbc</anchor>
+      <arglist>(const matrix &amp;) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>orthonormalized</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>afd8c1449ef5abd3b4378ff3ecb32de96</anchor>
+      <arglist>(const matrix &amp;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector&lt; scalar_type, 3 &gt;</type>
@@ -15714,10 +15847,17 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::remove_noexcept_&lt; T &gt;::type</type>
-      <name>remove_noexcept</name>
+      <type>typename impl::copy_ref_&lt; T, CopyFrom &gt;::type</type>
+      <name>copy_ref</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaf61a06bf998aa195a3ec21cc20c4f348</anchor>
+      <anchor>gaa11d1a8c1d6c16d5381a6f1d11940294</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_ref&lt; copy_cv&lt; std::remove_reference_t&lt; T &gt;, std::remove_reference_t&lt; CopyFrom &gt; &gt;, CopyFrom &gt;</type>
+      <name>copy_cvref</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga75bafae329db57745b406a02e6565007</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -15795,6 +15935,27 @@
       <name>remove_all_pointers</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gaff6410affb3cb93013482639fcaea000</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_cvref&lt; typename impl::remove_callconv_&lt; remove_cvref&lt; T &gt; &gt;::type, T &gt;</type>
+      <name>remove_callconv</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga4af6796f51934576020a09a73986d074</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_cvref&lt; typename impl::add_noexcept_&lt; remove_cvref&lt; T &gt; &gt;::type, T &gt;</type>
+      <name>add_noexcept</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga5087ff7f20ed1765f215b92e4b56cd6f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_cvref&lt; typename impl::remove_noexcept_&lt; remove_cvref&lt; T &gt; &gt;::type, T &gt;</type>
+      <name>remove_noexcept</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga28bb77154a6d0fb8930b84c5d59373d2</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -19823,6 +19984,48 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_function</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2f5be1b8af1251a81691fd7e4a8c10f4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_function</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2311e393d4395c4c60f8be62463ff71f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_function</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga1838cd67d955014bc3dcccf62729e28e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_function_pointer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae1cae85c90f959c943683d0e6b8d03c3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_function_pointer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac4b8cf2371d6981ef042c2d0b0b57f40</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_function_pointer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga97a71f40f5199e22ff6226054bf5a65e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr auto</type>
       <name>is_detected</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -20068,6 +20271,20 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>decays_to_pointer_by_unary_plus</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae6f71ec83408ff4ff782c62ba96af352</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>decays_to_function_pointer_by_unary_plus</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7d0fb753d984f767d9530f4c88e4d0d2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr epsilon_type&lt; T... &gt;</type>
       <name>default_epsilon</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -20076,9 +20293,9 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>decays_to_function_pointer_by_unary_plus</name>
+      <name>is_stateless_lambda</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7d0fb753d984f767d9530f4c88e4d0d2</anchor>
+      <anchor>gab1f90e8e3f87fa3fc27fb0ae93571912</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -21176,10 +21393,17 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::remove_noexcept_&lt; T &gt;::type</type>
-      <name>remove_noexcept</name>
+      <type>typename impl::copy_ref_&lt; T, CopyFrom &gt;::type</type>
+      <name>copy_ref</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>gaf61a06bf998aa195a3ec21cc20c4f348</anchor>
+      <anchor>gaa11d1a8c1d6c16d5381a6f1d11940294</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_ref&lt; copy_cv&lt; std::remove_reference_t&lt; T &gt;, std::remove_reference_t&lt; CopyFrom &gt; &gt;, CopyFrom &gt;</type>
+      <name>copy_cvref</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga75bafae329db57745b406a02e6565007</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -21257,6 +21481,27 @@
       <name>remove_all_pointers</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gaff6410affb3cb93013482639fcaea000</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_cvref&lt; typename impl::remove_callconv_&lt; remove_cvref&lt; T &gt; &gt;::type, T &gt;</type>
+      <name>remove_callconv</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga4af6796f51934576020a09a73986d074</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_cvref&lt; typename impl::add_noexcept_&lt; remove_cvref&lt; T &gt; &gt;::type, T &gt;</type>
+      <name>add_noexcept</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga5087ff7f20ed1765f215b92e4b56cd6f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>copy_cvref&lt; typename impl::remove_noexcept_&lt; remove_cvref&lt; T &gt; &gt;::type, T &gt;</type>
+      <name>remove_noexcept</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga28bb77154a6d0fb8930b84c5d59373d2</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -21939,6 +22184,48 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_function</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2f5be1b8af1251a81691fd7e4a8c10f4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_function</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga2311e393d4395c4c60f8be62463ff71f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_function</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga1838cd67d955014bc3dcccf62729e28e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_function_pointer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae1cae85c90f959c943683d0e6b8d03c3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>any_function_pointer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac4b8cf2371d6981ef042c2d0b0b57f40</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>all_function_pointer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga97a71f40f5199e22ff6226054bf5a65e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr auto</type>
       <name>is_detected</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -22184,6 +22471,20 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>decays_to_pointer_by_unary_plus</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gae6f71ec83408ff4ff782c62ba96af352</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>decays_to_function_pointer_by_unary_plus</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7d0fb753d984f767d9530f4c88e4d0d2</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr epsilon_type&lt; T... &gt;</type>
       <name>default_epsilon</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -22192,9 +22493,9 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>decays_to_function_pointer_by_unary_plus</name>
+      <name>is_stateless_lambda</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga7d0fb753d984f767d9530f4c88e4d0d2</anchor>
+      <anchor>gab1f90e8e3f87fa3fc27fb0ae93571912</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -22216,6 +22517,62 @@
     <name>preprocessor</name>
     <title>Preprocessor</title>
     <filename>group__preprocessor.html</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_CPP</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gadb6fae17fb19af86f59b0ec414838070</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_CPP</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gadb6fae17fb19af86f59b0ec414838070</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_INTELLISENSE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga0f1d961fa4c5109d8e007ddbaf868339</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DOXYGEN</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gadb3f97223102fea76730cc3b1c36afdd</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_CLANG</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga060dd82f84c0c24bf0be1462d79cbaef</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ICC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga909a6807c9b69a3b6e146a709c2a248d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_MSVC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gacf33ca59cc4d469b40b34ea471a0f57d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_GCC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga4e615ca6ddf99207d0d46055db0a9aaa</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="define">
       <type>#define</type>
       <name>MUU_ARCH_ITANIUM</name>
@@ -22260,6 +22617,13 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_ARCH_X64</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga1cdbe016e691eafdbf69dc6562d821e8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_ARCH_BITNESS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga2e302f23e8da851a0443167d733facc3</anchor>
@@ -22267,9 +22631,23 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_ARCH_X64</name>
+      <name>MUU_WINDOWS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga1cdbe016e691eafdbf69dc6562d821e8</anchor>
+      <anchor>ga9dee2f6a74a083b6305a29cfea6e2e01</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_UNIX</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gada1974043df8aaa452400fe53a603219</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_LINUX</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga1e4e923ae71486fc6d9ac2bb0448231f</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
@@ -22316,59 +22694,52 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_CLANG</name>
+      <name>MUU_LITTLE_ENDIAN</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga060dd82f84c0c24bf0be1462d79cbaef</anchor>
+      <anchor>ga94d4f95aab666decfb7e1aac26d82f45</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_MSVC</name>
+      <name>MUU_BIG_ENDIAN</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gacf33ca59cc4d469b40b34ea471a0f57d</anchor>
+      <anchor>ga4e94491264f3712dd7dc6dbde6331a0f</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_ICC</name>
+      <name>MUU_HAS_INCLUDE</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga909a6807c9b69a3b6e146a709c2a248d</anchor>
-      <arglist></arglist>
+      <anchor>gaa46769772ecacae384f202d2288b5ef9</anchor>
+      <arglist>(header)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_GCC</name>
+      <name>MUU_HAS_BUILTIN</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga4e615ca6ddf99207d0d46055db0a9aaa</anchor>
-      <arglist></arglist>
+      <anchor>ga555a63af817046f3efcdf5e5df32924b</anchor>
+      <arglist>(name)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_WINDOWS</name>
+      <name>MUU_HAS_FEATURE</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga9dee2f6a74a083b6305a29cfea6e2e01</anchor>
-      <arglist></arglist>
+      <anchor>ga9dcf675f3fa6b815e3c4af75caaea104</anchor>
+      <arglist>(name)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_UNIX</name>
+      <name>MUU_HAS_ATTR</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gada1974043df8aaa452400fe53a603219</anchor>
-      <arglist></arglist>
+      <anchor>gaa6d403786a6e43ae12a7e6d2fabaf7bc</anchor>
+      <arglist>(attr)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_LINUX</name>
+      <name>MUU_HAS_CPP_ATTR</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga1e4e923ae71486fc6d9ac2bb0448231f</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_INTELLISENSE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga0f1d961fa4c5109d8e007ddbaf868339</anchor>
-      <arglist></arglist>
+      <anchor>ga26ba299c991ccd164204b481e80556d1</anchor>
+      <arglist>(attr)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
@@ -22386,101 +22757,38 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_LITTLE_ENDIAN</name>
+      <name>MUU_HAS_FP16</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga94d4f95aab666decfb7e1aac26d82f45</anchor>
+      <anchor>gab2a752151f65377391481d1597297eca</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_BIG_ENDIAN</name>
+      <name>MUU_HAS_FLOAT16</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga4e94491264f3712dd7dc6dbde6331a0f</anchor>
+      <anchor>ga27290363c4626a953e97d39dd042af66</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_CPP</name>
+      <name>MUU_HAS_FLOAT128</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gadb6fae17fb19af86f59b0ec414838070</anchor>
+      <anchor>gad6cf2ebac5d966916c61f46e79f035b2</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_CPP</name>
+      <name>MUU_HAS_INT128</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gadb6fae17fb19af86f59b0ec414838070</anchor>
+      <anchor>ga61a9c9471317fa76fa46bd87d8f671b6</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_PRAGMA_CLANG</name>
+      <name>MUU_HAS_CHAR8</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga52152c34f89ec0ce1caeacd62c62c23d</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_CLANG_GE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga9efe0dba4352e6c960b1264e5cf6ee4a</anchor>
-      <arglist>(ver,...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_CLANG_LT</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga2298483b6b3af755fe55fd9b060a2e02</anchor>
-      <arglist>(ver,...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_MSVC</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gac6b8e4b75a00c89a3f1479feb81be8e8</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NOOP</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga208185e62d9dd3604e348e153ffc976b</anchor>
+      <anchor>ga3c123483a9bd8a9d00279f0b65eace83</anchor>
       <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_UNUSED</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga60d6410ec59d9127e60193e48d911c19</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_ICC</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga5712bc0e086c593c40c8c4ed32caa46b</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_GCC</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga6f80b008b889d869c7447aff2475dd4d</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_GCC_GE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga4fcef268a71e24cde6f5470a2a3efdcc</anchor>
-      <arglist>(ver,...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_PRAGMA_GCC_LT</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gacef122f71333910cb2d2462877a34bfb</anchor>
-      <arglist>(ver,...)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
@@ -22495,6 +22803,139 @@
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga202256eba435dbe97112a1e3751d31ad</anchor>
       <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DECLSPEC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga011cf3340b4f4928a24e3b83c2360f34</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_UNREACHABLE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga5180303025bb345be8bf831f1e84abed</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ASSUME</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gabed9674c744db2fe13aa5a486b072d02</anchor>
+      <arglist>(cond)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_MALLOC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga5e16d39be451564f4e4938ebf5b799ac</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_CONSTEVAL</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gad89d19ea9cfdd7ec957df9cb6189f552</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ALWAYS_INLINE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga364a90dd5bcbbbc7b58bbaae2b0ed904</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_NEVER_INLINE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga00e7d0da1019e1fc64eff53311eab35e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_ABSTRACT_INTERFACE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gafab84de7e09a93180841a788f0123c4a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_EMPTY_BASES</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga877f0e4eacd4875af9244d38c6547277</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_TRIVIAL_ABI</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gaff60752ea9802d5cb7f09835672bd801</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_LIKELY</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga96965362141a0033ee6aae1a68d8b30f</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_UNLIKELY</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga69620e1889e6b7ff936d34210ecf9bf5</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_NO_UNIQUE_ADDRESS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga8f304d74e983202dd94830798b27d10d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_NODISCARD</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga067801d06d0ecba0f17634fa6295706e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_NODISCARD_CTOR</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga2b6bac0477246591441528bf0bafeb39</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_CONCAT</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga7192f09d19d5065e6442e0053129bed1</anchor>
+      <arglist>(x, y)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_MAKE_STRING</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga2fb0fd64a97ececb26a198c1072d223c</anchor>
+      <arglist>(s)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_MAKE_RAW_STRING</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gadd45b899bf7c8cc6e64f6d7c02b1c4f3</anchor>
+      <arglist>(s)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_MAKE_STRING_VIEW</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gabf47b45b883c9646ed6f8ed0b73f8aaa</anchor>
+      <arglist>(s)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
@@ -22515,6 +22956,27 @@
       <name>MUU_ATTR_CLANG_LT</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga5869f898016ec0f2b43ca8d1af1030d5</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_CLANG</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga52152c34f89ec0ce1caeacd62c62c23d</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_CLANG_GE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga9efe0dba4352e6c960b1264e5cf6ee4a</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_CLANG_LT</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga2298483b6b3af755fe55fd9b060a2e02</anchor>
       <arglist>(ver,...)</arglist>
     </member>
     <member kind="define">
@@ -22540,16 +23002,121 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_DECLSPEC</name>
+      <name>MUU_PRAGMA_GCC</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga011cf3340b4f4928a24e3b83c2360f34</anchor>
+      <anchor>ga6f80b008b889d869c7447aff2475dd4d</anchor>
       <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_GCC_GE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga4fcef268a71e24cde6f5470a2a3efdcc</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_GCC_LT</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gacef122f71333910cb2d2462877a34bfb</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_MSVC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gac6b8e4b75a00c89a3f1479feb81be8e8</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_MSVC_GE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga2f45e603c1abf6f077f07989f779652d</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_MSVC_LT</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga20845a67d49397e645bd03ea0ab455ca</anchor>
+      <arglist>(ver,...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PRAGMA_ICC</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga5712bc0e086c593c40c8c4ed32caa46b</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DELETE_MOVE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga7e2f4118dd8fcd04ed314cc433b8f1af</anchor>
+      <arglist>(T)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DELETE_COPY</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga25a02df45c3dbd56ef86ba14b3e89ce3</anchor>
+      <arglist>(T)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DEFAULT_MOVE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gae0f485363e80f9b712ba588c38a6913c</anchor>
+      <arglist>(T)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DEFAULT_COPY</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga934ea8bd0642688273d3e5fb6f262bae</anchor>
+      <arglist>(T)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_UNUSED</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga60d6410ec59d9127e60193e48d911c19</anchor>
+      <arglist>(...)</arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_NOOP</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga208185e62d9dd3604e348e153ffc976b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_VECTORCALL</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga4eea4cd448c2f1324dc6fcfac8587688</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_MAKE_FLAGS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gae04a44728acc9352d70e8a7bf067eae3</anchor>
+      <arglist>(T)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
       <name>MUU_PUSH_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga0b9c2e2b602c21d5f58ddaeb74923019</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_POP_WARNINGS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga70d1ba7b4018ae5521eed5b23e98d41c</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
@@ -22614,237 +23181,6 @@
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga7328d95e2ec9777bbbd7e81c7b4ffa68</anchor>
       <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_POP_WARNINGS</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga70d1ba7b4018ae5521eed5b23e98d41c</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ASSUME</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gabed9674c744db2fe13aa5a486b072d02</anchor>
-      <arglist>(cond)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_UNREACHABLE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga5180303025bb345be8bf831f1e84abed</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NO_DEFAULT_CASE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga7152606bb8ad70ab6f0197461e7a24b2</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ABSTRACT_INTERFACE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gafab84de7e09a93180841a788f0123c4a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_EMPTY_BASES</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga877f0e4eacd4875af9244d38c6547277</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_UNALIASED_ALLOC</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga66999b3d433c69989cc6243448a6e450</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_ALWAYS_INLINE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga364a90dd5bcbbbc7b58bbaae2b0ed904</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NEVER_INLINE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga00e7d0da1019e1fc64eff53311eab35e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_TRIVIAL_ABI</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gaff60752ea9802d5cb7f09835672bd801</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_LIKELY</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga96965362141a0033ee6aae1a68d8b30f</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_UNLIKELY</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga69620e1889e6b7ff936d34210ecf9bf5</anchor>
-      <arglist>(...)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NO_UNIQUE_ADDRESS</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga8f304d74e983202dd94830798b27d10d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NODISCARD</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga067801d06d0ecba0f17634fa6295706e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_NODISCARD_CTOR</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga2b6bac0477246591441528bf0bafeb39</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_CONSTEVAL</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gad89d19ea9cfdd7ec957df9cb6189f552</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_VECTORCALL</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga4eea4cd448c2f1324dc6fcfac8587688</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_MAKE_STRING</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga2fb0fd64a97ececb26a198c1072d223c</anchor>
-      <arglist>(s)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_MAKE_RAW_STRING</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gadd45b899bf7c8cc6e64f6d7c02b1c4f3</anchor>
-      <arglist>(s)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_MAKE_STRING_VIEW</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gabf47b45b883c9646ed6f8ed0b73f8aaa</anchor>
-      <arglist>(s)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_INT128</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga61a9c9471317fa76fa46bd87d8f671b6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_FLOAT128</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gad6cf2ebac5d966916c61f46e79f035b2</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_FLOAT16</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga27290363c4626a953e97d39dd042af66</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_FP16</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gab2a752151f65377391481d1597297eca</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_CHAR8</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga3c123483a9bd8a9d00279f0b65eace83</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_BUILTIN</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga555a63af817046f3efcdf5e5df32924b</anchor>
-      <arglist>(name)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_HAS_INCLUDE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gaa46769772ecacae384f202d2288b5ef9</anchor>
-      <arglist>(header)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_OFFSETOF</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gafa04ab1dd3ac1da5ddbd3df2bbadf4a1</anchor>
-      <arglist>(type, member)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_DELETE_MOVE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga7e2f4118dd8fcd04ed314cc433b8f1af</anchor>
-      <arglist>(T)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_DELETE_COPY</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga25a02df45c3dbd56ef86ba14b3e89ce3</anchor>
-      <arglist>(T)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_DEFAULT_MOVE</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gae0f485363e80f9b712ba588c38a6913c</anchor>
-      <arglist>(T)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_DEFAULT_COPY</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga934ea8bd0642688273d3e5fb6f262bae</anchor>
-      <arglist>(T)</arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
-      <name>MUU_MAKE_FLAGS</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gae04a44728acc9352d70e8a7bf067eae3</anchor>
-      <arglist>(T)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
