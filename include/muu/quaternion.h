@@ -118,7 +118,7 @@ namespace muu
 		/// \endcond
 
 	  public:
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 
 		/// \brief The quaternion's scalar (real) part.
 		scalar_type s;

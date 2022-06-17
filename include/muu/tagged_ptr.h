@@ -306,6 +306,9 @@ namespace muu::impl
 
 	struct tptr_nullptr_deduced_tag
 	{};
+
+	template <typename T>
+	inline constexpr size_t tptr_alignof = alignment_of<T> ? alignment_of<T> : 1u;
 }
 
 /// \endcond
@@ -325,7 +328,7 @@ namespace muu
 	/// 					you will only be storing values with larger alignments.
 	///
 	/// \see [Tagged pointer](https://en.wikipedia.org/wiki/Tagged_pointer)
-	template <typename T, size_t MinAlign = alignment_of<T>>
+	template <typename T, size_t MinAlign = impl::tptr_alignof<T>>
 	class MUU_TRIVIAL_ABI tagged_ptr //
 		MUU_HIDDEN_BASE(public impl::tagged_ptr_to_object<T, MinAlign>)
 	{
@@ -335,7 +338,7 @@ namespace muu
 		static_assert(!std::is_reference_v<T>, "Tagged pointers cannot store references");
 		static_assert(MinAlign > 0 && has_single_bit(MinAlign), "Minimum alignment must be a power of two");
 		static_assert(std::is_function_v<T> // the default is not strictly the minimum for function pointers
-						  || MinAlign >= alignment_of<T>,
+						  || MinAlign >= impl::tptr_alignof<T>,
 					  "Minimum alignment cannot be smaller than the type's actual minimum alignment");
 		static_assert(MinAlign > 1 || impl::tptr_addr_free_bits > 0,
 					  "Types aligned on a single byte cannot be pointed to by a tagged pointer on the target platform");

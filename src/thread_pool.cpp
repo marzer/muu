@@ -100,7 +100,7 @@ namespace
 
 		using task = impl::thread_pool_task;
 
-		MUU_NODISCARD
+		MUU_PURE_GETTER
 		MUU_ATTR(returns_nonnull)
 		MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
 		task* get_task(size_t i) noexcept
@@ -174,25 +174,25 @@ namespace
 				cv.notify_all();
 		}
 
-		MUU_NODISCARD
+		MUU_PURE_INLINE_GETTER
 		bool terminated() const noexcept
 		{
 			return terminated_;
 		}
 
-		MUU_NODISCARD
+		MUU_PURE_INLINE_GETTER
 		size_t size() const noexcept
 		{
 			return back - front;
 		}
 
-		MUU_NODISCARD
+		MUU_PURE_INLINE_GETTER
 		bool full() const noexcept
 		{
 			return size() >= capacity;
 		}
 
-		MUU_NODISCARD
+		MUU_PURE_INLINE_GETTER
 		bool empty() const noexcept
 		{
 			return back == front;
@@ -281,12 +281,13 @@ namespace
 		using task					 = impl::thread_pool_task;
 
 	  public:
+		MUU_ALWAYS_INLINE
 		void terminate() noexcept
 		{
 			terminated_ = true;
 		}
 
-		MUU_NODISCARD
+		MUU_PURE_INLINE_GETTER
 		bool terminated() const noexcept
 		{
 			return terminated_;
@@ -345,7 +346,7 @@ namespace
 		MUU_DELETE_MOVE(thread_pool_worker);
 	};
 
-	MUU_NODISCARD
+	MUU_PURE_GETTER
 	static size_t calc_thread_pool_workers(size_t worker_count) noexcept
 	{
 		static constexpr auto absolute_max_workers = 1024_sz;
@@ -355,13 +356,13 @@ namespace
 		return min(worker_count ? worker_count : concurrency, effective_max_workers);
 	}
 
-	MUU_NODISCARD
-	static size_t calc_thread_pool_worker_queue_size(size_t worker_count, size_t task_queue_size) noexcept
+	MUU_PURE_GETTER
+	static constexpr size_t calc_thread_pool_worker_queue_size(size_t worker_count, size_t task_queue_size) noexcept
 	{
-		static constexpr size_t max_buffer_size			= 256_mb; // 4M tasks on x64
-		static constexpr size_t default_buffer_size		= 64_kb;  // 1024 tasks on x64
-		static constexpr size_t max_task_queue_size		= max_buffer_size / impl::thread_pool_task_granularity;
-		static constexpr size_t default_task_queue_size = default_buffer_size / impl::thread_pool_task_granularity;
+		constexpr size_t max_buffer_size		 = 256_mb; // 4M tasks on x64
+		constexpr size_t default_buffer_size	 = 64_kb;  // 1024 tasks on x64
+		constexpr size_t max_task_queue_size	 = max_buffer_size / impl::thread_pool_task_granularity;
+		constexpr size_t default_task_queue_size = default_buffer_size / impl::thread_pool_task_granularity;
 		static_assert(max_task_queue_size > 0);
 		static_assert(default_task_queue_size > 0);
 		MUU_ASSUME(worker_count > 0);
@@ -524,6 +525,7 @@ namespace
 		}
 
 		MUU_NODISCARD
+		MUU_ALWAYS_INLINE
 		MUU_ATTR(returns_nonnull)
 		MUU_ATTR(assume_aligned(muu::impl::thread_pool_task_granularity))
 		void* acquire(size_t qindex) noexcept
@@ -531,11 +533,13 @@ namespace
 			return queue(qindex).acquire();
 		}
 
+		MUU_ALWAYS_INLINE
 		void unlock(size_t qindex) noexcept
 		{
-			return queue(qindex).unlock();
+			queue(qindex).unlock();
 		}
 
+		MUU_ALWAYS_INLINE
 		void wait() const noexcept
 		{
 			monitor.wait();
@@ -652,11 +656,13 @@ extern "C" //
 		storage_cast(storage_).impl.wait();
 	}
 
+	MUU_PURE_GETTER
 	size_t MUU_CALLCONV muu_impl_thread_pool_workers(void* storage_) noexcept
 	{
 		return storage_ ? storage_cast(storage_).impl.worker_count : 0_sz;
 	}
 
+	MUU_PURE_GETTER
 	size_t MUU_CALLCONV muu_impl_thread_pool_capacity(void* storage_) noexcept
 	{
 		return storage_ ? storage_cast(storage_).impl.worker_count * storage_cast(storage_).impl.worker_queue_size

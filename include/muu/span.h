@@ -13,7 +13,7 @@
 
 namespace muu
 {
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 
 	/// \brief Indicates the number of elements covered by a span should be dynamically-determined at runtime.
 	///
@@ -160,7 +160,7 @@ namespace muu
 		compressed_pair<pointer, pair_size_type> ptr_and_size{};
 
 	  public:
-#if defined(DOXYGEN) || MUU_CONCEPTS
+#if MUU_DOXYGEN || MUU_CONCEPTS
 
 		/// \brief Default constructor.
 		/// \availability This constructor is not available for statically-sized spans.
@@ -255,7 +255,7 @@ namespace muu
 		/// \brief Constructs a span from an array.
 		MUU_CONSTRAINED_TEMPLATE((Extent == dynamic_extent || N == Extent), size_t N)
 		MUU_NODISCARD_CTOR
-		constexpr span(MUU_IDENTITY(element_type) (&arr)[N]) noexcept //
+		constexpr span(MUU_TYPE_IDENTITY(element_type) (&arr)[N]) noexcept //
 			: ptr_and_size{ arr, N }
 		{}
 

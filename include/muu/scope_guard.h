@@ -221,7 +221,7 @@ namespace muu
 			: base{ static_cast<U&&>(func) }
 		{}
 
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 		/// \brief	Dismisses the scope guard, cancelling invocation of the wrapped callable.
 		void dismiss() noexcept;
 
@@ -309,7 +309,7 @@ namespace muu
 			: base{ static_cast<U&&>(func) }
 		{}
 
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 		/// \brief	Dismisses the scope guard, cancelling invocation of the wrapped callable.
 		void dismiss() noexcept;
 
@@ -361,7 +361,7 @@ namespace muu
 			: base{ static_cast<U&&>(func) }
 		{}
 
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 		/// \brief	Dismisses the scope guard, cancelling invocation of the wrapped callable.
 		void dismiss() noexcept;
 

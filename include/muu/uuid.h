@@ -39,67 +39,64 @@ namespace muu::impl
 	};
 	static_assert(sizeof(uuid_bytes) == 16);
 
-	namespace MUU_ENDIANNESS_NAMESPACE
+	template <unsigned>
+	struct uuid_slicer;
+
+	template <>
+	struct uuid_slicer<2>
 	{
-		template <unsigned>
-		struct uuid_slicer;
-
-		template <>
-		struct uuid_slicer<2>
+		MUU_PURE_GETTER
+		static constexpr uint16_t slice(const std::byte (&bytes)[16], unsigned first) noexcept
 		{
-			MUU_PURE_GETTER
-			static constexpr uint16_t slice(const std::byte (&bytes)[16], unsigned first) noexcept
-			{
-				MUU_ASSUME((first + 2u) <= 16u);
-				if constexpr (build::is_little_endian)
-					return bit_pack(bytes[first], bytes[first + 1u]);
-				else
-					return bit_pack(bytes[first + 1u], bytes[first]);
-			}
-		};
+			MUU_ASSUME((first + 2u) <= 16u);
+			if constexpr (build::is_little_endian)
+				return bit_pack(bytes[first], bytes[first + 1u]);
+			else
+				return bit_pack(bytes[first + 1u], bytes[first]);
+		}
+	};
 
-		template <>
-		struct uuid_slicer<4>
+	template <>
+	struct uuid_slicer<4>
+	{
+		MUU_PURE_GETTER
+		static constexpr uint32_t slice(const std::byte (&bytes)[16], unsigned first) noexcept
 		{
-			MUU_PURE_GETTER
-			static constexpr uint32_t slice(const std::byte (&bytes)[16], unsigned first) noexcept
-			{
-				MUU_ASSUME((first + 4u) <= 16u);
-				if constexpr (build::is_little_endian)
-					return bit_pack(bytes[first], bytes[first + 1u], bytes[first + 2u], bytes[first + 3u]);
-				else
-					return bit_pack(bytes[first + 3u], bytes[first + 2u], bytes[first + 1u], bytes[first]);
-			}
-		};
+			MUU_ASSUME((first + 4u) <= 16u);
+			if constexpr (build::is_little_endian)
+				return bit_pack(bytes[first], bytes[first + 1u], bytes[first + 2u], bytes[first + 3u]);
+			else
+				return bit_pack(bytes[first + 3u], bytes[first + 2u], bytes[first + 1u], bytes[first]);
+		}
+	};
 
-		template <>
-		struct uuid_slicer<8>
+	template <>
+	struct uuid_slicer<8>
+	{
+		MUU_PURE_GETTER
+		static constexpr uint64_t slice(const std::byte (&bytes)[16], unsigned first) noexcept
 		{
-			MUU_PURE_GETTER
-			static constexpr uint64_t slice(const std::byte (&bytes)[16], unsigned first) noexcept
-			{
-				MUU_ASSUME((first + 8u) <= 16u);
-				if constexpr (build::is_little_endian)
-					return bit_pack(bytes[first],
-									bytes[first + 1u],
-									bytes[first + 2u],
-									bytes[first + 3u],
-									bytes[first + 4u],
-									bytes[first + 5u],
-									bytes[first + 6u],
-									bytes[first + 7u]);
-				else
-					return bit_pack(bytes[first + 7u],
-									bytes[first + 6u],
-									bytes[first + 5u],
-									bytes[first + 4u],
-									bytes[first + 3u],
-									bytes[first + 2u],
-									bytes[first + 1u],
-									bytes[first]);
-			}
-		};
-	} // be/le
+			MUU_ASSUME((first + 8u) <= 16u);
+			if constexpr (build::is_little_endian)
+				return bit_pack(bytes[first],
+								bytes[first + 1u],
+								bytes[first + 2u],
+								bytes[first + 3u],
+								bytes[first + 4u],
+								bytes[first + 5u],
+								bytes[first + 6u],
+								bytes[first + 7u]);
+			else
+				return bit_pack(bytes[first + 7u],
+								bytes[first + 6u],
+								bytes[first + 5u],
+								bytes[first + 4u],
+								bytes[first + 3u],
+								bytes[first + 2u],
+								bytes[first + 1u],
+								bytes[first]);
+		}
+	};
 }
 
 extern "C" //
@@ -402,7 +399,7 @@ namespace muu
 		MUU_PURE_GETTER
 		constexpr uint32_t time_low() const noexcept
 		{
-			using slicer = impl::MUU_ENDIANNESS_NAMESPACE::uuid_slicer<4>;
+			using slicer = impl::uuid_slicer<4>;
 			return slicer::slice(bytes.value, 0);
 		}
 
@@ -410,7 +407,7 @@ namespace muu
 		MUU_PURE_GETTER
 		constexpr uint16_t time_mid() const noexcept
 		{
-			using slicer = impl::MUU_ENDIANNESS_NAMESPACE::uuid_slicer<2>;
+			using slicer = impl::uuid_slicer<2>;
 			return slicer::slice(bytes.value, 4);
 		}
 
@@ -418,7 +415,7 @@ namespace muu
 		MUU_PURE_GETTER
 		constexpr uint16_t time_high_and_version() const noexcept
 		{
-			using slicer = impl::MUU_ENDIANNESS_NAMESPACE::uuid_slicer<2>;
+			using slicer = impl::uuid_slicer<2>;
 			return slicer::slice(bytes.value, 6);
 		}
 
@@ -443,7 +440,7 @@ namespace muu
 		MUU_PURE_GETTER
 		constexpr uint64_t node() const noexcept
 		{
-			using slicer = impl::MUU_ENDIANNESS_NAMESPACE::uuid_slicer<8>;
+			using slicer = impl::uuid_slicer<8>;
 			return slicer::slice(bytes.value, 8) & 0x0000FFFFFFFFFFFF_u64;
 		}
 
@@ -608,32 +605,32 @@ namespace muu
 
 	  private:
 		template <typename T>
-		MUU_NODISCARD
+		MUU_PURE_GETTER
 		static constexpr std::optional<uuid> parse_impl(std::basic_string_view<T> str) noexcept;
 
 	  public:
 		/// \brief	Attempts to parse a UUID from a UTF-8 string.
-		MUU_NODISCARD
+		MUU_PURE_GETTER
 		static constexpr std::optional<uuid> parse(std::string_view str) noexcept;
 
 #if MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Attempts to parse a UUID from a UTF-8 string.
-		MUU_NODISCARD
+		MUU_PURE_GETTER
 		static constexpr std::optional<uuid> parse(std::u8string_view str) noexcept;
 
 #endif
 
 		/// \brief	Attempts to parse a UUID from a UTF-16 string.
-		MUU_NODISCARD
+		MUU_PURE_GETTER
 		static constexpr std::optional<uuid> parse(std::u16string_view str) noexcept;
 
 		/// \brief	Attempts to parse a UUID from a UTF-32 string.
-		MUU_NODISCARD
+		MUU_PURE_GETTER
 		static constexpr std::optional<uuid> parse(std::u32string_view str) noexcept;
 
 		/// \brief	Attempts to parse a UUID from a wide string.
-		MUU_NODISCARD
+		MUU_PURE_GETTER
 		static constexpr std::optional<uuid> parse(std::wstring_view str) noexcept;
 
 		/// \brief	Writes a UUID to a text stream.
@@ -781,7 +778,7 @@ namespace muu
 	/// \cond
 
 	template <typename T>
-	MUU_ATTR(pure)
+	MUU_PURE_GETTER
 	constexpr std::optional<uuid> uuid::parse_impl(std::basic_string_view<T> str) noexcept
 	{
 		if (str.length() < 32) // uuid with no braces or hyphens
@@ -794,29 +791,29 @@ namespace muu
 		return {};
 	}
 
-	MUU_ATTR(pure)
+	MUU_PURE_INLINE_GETTER
 	constexpr std::optional<uuid> uuid::parse(std::string_view str) noexcept
 	{
 		return parse_impl(str);
 	}
 #if MUU_HAS_CHAR8_STRINGS
-	MUU_ATTR(pure)
+	MUU_PURE_INLINE_GETTER
 	constexpr std::optional<uuid> uuid::parse(std::u8string_view str) noexcept
 	{
 		return parse_impl(str);
 	}
 #endif
-	MUU_ATTR(pure)
+	MUU_PURE_INLINE_GETTER
 	constexpr std::optional<uuid> uuid::parse(std::u16string_view str) noexcept
 	{
 		return parse_impl(str);
 	}
-	MUU_ATTR(pure)
+	MUU_PURE_INLINE_GETTER
 	constexpr std::optional<uuid> uuid::parse(std::u32string_view str) noexcept
 	{
 		return parse_impl(str);
 	}
-	MUU_ATTR(pure)
+	MUU_PURE_INLINE_GETTER
 	constexpr std::optional<uuid> uuid::parse(std::wstring_view str) noexcept
 	{
 		return parse_impl(str);
@@ -853,7 +850,7 @@ namespace std
 		constexpr size_t operator()(const muu::uuid& id) const noexcept
 		{
 			using namespace muu;
-			using slicer = impl::MUU_ENDIANNESS_NAMESPACE::uuid_slicer<sizeof(size_t)>;
+			using slicer = impl::uuid_slicer<sizeof(size_t)>;
 
 #define get_slice(idx) slicer::slice(id.bytes.value, sizeof(size_t) * idx)
 

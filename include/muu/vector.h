@@ -126,7 +126,7 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 	}                                                                                                                  \
 	while (false)
 
-#define NULL_TRANSFORM(x) x
+#define IDENTITY_TRANSFORM(x) x
 
 #define COMPONENTWISE_CASTING_OP_BRANCH(func, transformer, x_selector)                                                 \
 	using func_type = decltype(func(x_selector));                                                                      \
@@ -136,7 +136,7 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 	}                                                                                                                  \
 	else                                                                                                               \
 	{                                                                                                                  \
-		transformer(func, NULL_TRANSFORM);                                                                             \
+		transformer(func, IDENTITY_TRANSFORM);                                                                         \
 	}                                                                                                                  \
 	static_assert(true)
 
@@ -288,7 +288,7 @@ namespace muu
 		/// \endcond
 
 	  public:
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 
 		/// \brief The vector's 0th scalar component (when #dimensions &lt;= 4).
 		scalar_type x;
@@ -818,8 +818,7 @@ namespace muu
 	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr bool MUU_VECTORCALL operator==(vector lhs, vector<T, dimensions> rhs) noexcept
 		{
 			// clang-format off
@@ -860,8 +859,7 @@ namespace muu
 	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator!=(vector lhs, vector<T, dimensions> rhs) noexcept
 		{
 			return !(lhs == rhs);
@@ -974,8 +972,7 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
 								  && (impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>)),
 								 typename T)
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			vector v1,
 			vector<T, dimensions> v2,
@@ -3265,7 +3262,7 @@ namespace muu
 		/// \endcond
 	}
 
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 	#define VECTOR_CONSTANTS_BASES                                                                                     \
 		impl::unit_length_vector_constants<Scalar, Dimensions>, impl::integer_limits<vector<Scalar, Dimensions>>,      \
 			impl::integer_positive_constants<vector<Scalar, Dimensions>>,                                              \
@@ -3559,6 +3556,7 @@ namespace muu
 		size_t D //
 			MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type))
 	MUU_NODISCARD
+	MUU_ALWAYS_INLINE
 	constexpr vector<S, D> normalize(const vector<S, D>& v, delta_scalar_type& length_out) noexcept
 	{
 		return vector<S, D>::normalize(v, length_out);
@@ -3617,6 +3615,7 @@ namespace muu
 								 MUU_HIDDEN_PARAM(typename delta_type = typename vector<S, D>::delta_type) //
 							 MUU_HIDDEN_PARAM(typename delta_scalar_type = typename vector<S, D>::delta_scalar_type))
 	MUU_NODISCARD
+	MUU_ALWAYS_INLINE
 	constexpr delta_type direction(const vector<S, D>& from,
 								   const vector<S, D>& to,
 								   delta_scalar_type& distance_out) noexcept
@@ -3765,7 +3764,7 @@ namespace muu
 #undef COMPONENTWISE_CONSTRUCT
 #undef COMPONENTWISE_ASSIGN_WITH_TRANSFORM
 #undef COMPONENTWISE_ASSIGN
-#undef NULL_TRANSFORM
+#undef IDENTITY_TRANSFORM
 #undef SPECIALIZED_IF
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

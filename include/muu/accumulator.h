@@ -26,7 +26,7 @@ namespace muu
 	/// \see [Kahan summation algorithm](https://en.wikipedia.org/wiki/Kahan_summation_algorithm)
 	template <typename ValueType,
 			  typename Impl
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 			  = impl::default_accumulator<ValueType>::type
 #endif
 			  >

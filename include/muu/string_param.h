@@ -87,7 +87,7 @@ namespace muu
 		struct char8_tag
 		{};
 
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		MUU_API
 		static bool MUU_CALLCONV built_with_char8_support() noexcept;
 

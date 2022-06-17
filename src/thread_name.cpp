@@ -74,7 +74,6 @@ namespace
 
 namespace
 {
-	// MUU_ATTR(const)
 	static void set_thread_name_os_specific(string_param&& /*name_*/)
 	{}
 }

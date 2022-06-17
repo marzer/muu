@@ -114,7 +114,7 @@ namespace muu
 		/// \endcond
 
 	  public:
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 
 		/// \brief The rotation around the local up axis (in radians).
 		/// \remark A positive yaw means "turn the nose of the aircraft to the right".

@@ -373,7 +373,7 @@ namespace muu
 		/// \brief	The Y axis.
 		static constexpr packed_unit_vector<Integer, Dimensions> y_axis{ vectors::y_axis };
 
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 
 		/// \brief	The Z axis.
 		static constexpr packed_unit_vector<Integer, Dimensions> z_axis;
@@ -385,7 +385,7 @@ namespace muu
 		/// \name Directions (screen space)
 		/// @{
 
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 
 		/// \brief	Right direction (in a top-down screen coordinate system).
 		static constexpr packed_unit_vector<Integer, Dimensions> screen_right;
@@ -406,7 +406,7 @@ namespace muu
 		/// \name Directions (world space)
 		/// @{
 
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 
 		/// \brief	Backward direction (in a right-handed coordinate system).
 		static constexpr packed_unit_vector<Integer, Dimensions> backward;

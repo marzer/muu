@@ -110,6 +110,9 @@
     <ClInclude Include="include\muu\impl\plane_x_line_segment.h" />
     <ClInclude Include="include\muu\impl\plane_x_triangle.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_clang.h" />
+    <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_gcc.h" />
+    <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_msvc.h" />
     <ClInclude Include="include\muu\impl\quaternion_x_matrix.h" />
     <ClInclude Include="include\muu\impl\std_compare.h" />
     <ClInclude Include="include\muu\impl\std_initializer_list.h" />
@@ -188,6 +191,7 @@
     <None Include="tools\build_libs_msvc.bat" />
     <None Include="tools\clang_format.bat" />
     <None Include="tools\generate_batched_tests.py" />
+    <None Include="tools\generate_compiler_dispatch_macros.py" />
     <None Include="tools\generate_float_tests_header.py" />
     <None Include="tools\generate_unicode_functions.py" />
     <None Include="tools\generate_windows_targets.py" />

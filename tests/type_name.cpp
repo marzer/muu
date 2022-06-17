@@ -120,11 +120,11 @@ TEST_CASE("type_name")
 	CHECK_TYPE_NAME_EXPLICIT("std::vector<int>", std::vector<int>);
 	CHECK_TYPE_NAME_EXPLICIT("std::vector<kek>", std::vector<named>);
 
-#if !MUU_MSVC
+	#if !MUU_MSVC
 	// msvc is bad at this: https://developercommunity.visualstudio.com/t/C-template-partial-specialization-fail/1533888
 	CHECK_TYPE_NAME_EXPLICIT("muu::vector<float, 3>", muu::vector<float, 3>);
 	CHECK_TYPE_NAME_EXPLICIT("muu::matrix<float, 3, 3>", muu::matrix<float, 3, 3>);
-#endif
+	#endif
 }
 
 #endif // !MUU_GCC || MUU_GCC > 7

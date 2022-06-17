@@ -587,8 +587,7 @@ namespace muu
 		using utf_code_point = typename utf_code_point_selector<T>::type;
 
 		template <typename T>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr unsigned hex_to_dec(T codepoint) noexcept
 		{
 			if constexpr (std::is_same_v<remove_cvref<T>, unsigned>)
@@ -625,16 +624,14 @@ namespace muu
 		}
 
 		template <typename Char = char>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr hex_char_pair<Char> byte_to_hex(uint8_t byte, Char a = constants<Char>::letter_a) noexcept
 		{
 			return { dec_to_hex(byte / 16u, a), dec_to_hex(byte % 16u, a) };
 		}
 
 		template <typename Char = char>
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr hex_char_pair<Char> byte_to_hex(std::byte byte, Char a = constants<Char>::letter_a) noexcept
 		{
 			return byte_to_hex(unwrap(byte), a);

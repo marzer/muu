@@ -100,23 +100,29 @@ static_assert(alignment_of<aligned<2>> == 2);
 static_assert(alignment_of<aligned<4>> == 4);
 static_assert(alignment_of<aligned<8>> == 8);
 static_assert(alignment_of<aligned<128>> == 128);
-static_assert(alignment_of<void> == 1);
-static_assert(alignment_of<const void> == 1);
-static_assert(alignment_of<const volatile void> == 1);
-static_assert(alignment_of<int()> == 1);
-static_assert(alignment_of<int() noexcept> == 1);
+static_assert(alignment_of<void> == 0);
+static_assert(alignment_of<const void> == 0);
+static_assert(alignment_of<const volatile void> == 0);
+static_assert(alignment_of<int()> == 0);
+static_assert(alignment_of<int() noexcept> == 0);
 
 // most_aligned
 static_assert(std::is_same_v<most_aligned<void, aligned<1>, aligned<2>, aligned<4>, aligned<128>>, aligned<128>>);
 static_assert(std::is_same_v<most_aligned<void, aligned<1>, aligned<2>, aligned<4>>, aligned<4>>);
 static_assert(std::is_same_v<most_aligned<void, aligned<1>, aligned<2>>, aligned<2>>);
 static_assert(std::is_same_v<most_aligned<void, aligned<1>>, aligned<1>>);
+static_assert(std::is_same_v<most_aligned<void>, void>);
 
 // least_aligned
-static_assert(std::is_same_v<least_aligned<void, aligned<1>, aligned<2>, aligned<4>, aligned<128>>, aligned<1>>);
-static_assert(std::is_same_v<least_aligned<void, aligned<2>, aligned<4>, aligned<128>>, aligned<2>>);
-static_assert(std::is_same_v<least_aligned<void, aligned<4>, aligned<128>>, aligned<4>>);
-static_assert(std::is_same_v<least_aligned<void, aligned<128>>, aligned<128>>);
+static_assert(std::is_same_v<least_aligned<void, aligned<1>, aligned<2>, aligned<4>, aligned<128>>, void>);
+static_assert(std::is_same_v<least_aligned<void, aligned<2>, aligned<4>, aligned<128>>, void>);
+static_assert(std::is_same_v<least_aligned<void, aligned<4>, aligned<128>>, void>);
+static_assert(std::is_same_v<least_aligned<void, aligned<128>>, void>);
+static_assert(std::is_same_v<least_aligned<void>, void>);
+static_assert(std::is_same_v<least_aligned<aligned<1>, aligned<2>, aligned<4>, aligned<128>>, aligned<1>>);
+static_assert(std::is_same_v<least_aligned<aligned<2>, aligned<4>, aligned<128>>, aligned<2>>);
+static_assert(std::is_same_v<least_aligned<aligned<4>, aligned<128>>, aligned<4>>);
+static_assert(std::is_same_v<least_aligned<aligned<128>>, aligned<128>>);
 
 // any_same (variadic std::is_same_v || ...)
 static_assert(!any_same<int>);
@@ -828,9 +834,102 @@ static_assert(is_cvref<const volatile int>);
 static_assert(is_cvref<const volatile int&>);
 static_assert(is_cvref<const volatile int&&>);
 
+// copy_ref
+static_assert(std::is_same_v<copy_ref<int, float>, int>);
+static_assert(std::is_same_v<copy_ref<int, float&>, int&>);
+static_assert(std::is_same_v<copy_ref<int, float&&>, int&&>);
+static_assert(std::is_same_v<copy_ref<int&, float>, int>);
+static_assert(std::is_same_v<copy_ref<int&, float&>, int&>);
+static_assert(std::is_same_v<copy_ref<int&, float&&>, int&&>);
+static_assert(std::is_same_v<copy_ref<int&&, float>, int>);
+static_assert(std::is_same_v<copy_ref<int&&, float&>, int&>);
+static_assert(std::is_same_v<copy_ref<int&&, float&&>, int&&>);
+
+// copy_cvref
+static_assert(std::is_same_v<copy_cvref<int, float>, int>);
+static_assert(std::is_same_v<copy_cvref<int, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<int, volatile float&&>, volatile int&&>);
+static_assert(std::is_same_v<copy_cvref<int&, float>, int>);
+static_assert(std::is_same_v<copy_cvref<int&, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<int&, volatile float&&>, volatile int&&>);
+static_assert(std::is_same_v<copy_cvref<int&&, float>, int>);
+static_assert(std::is_same_v<copy_cvref<int&&, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<int&&, volatile float&&>, volatile int&&>);
+static_assert(std::is_same_v<copy_cvref<const int, float>, int>);
+static_assert(std::is_same_v<copy_cvref<const int, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<const int, volatile float&&>, volatile int&&>);
+static_assert(std::is_same_v<copy_cvref<const int&, float>, int>);
+static_assert(std::is_same_v<copy_cvref<const int&, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<const int&, volatile float&&>, volatile int&&>);
+static_assert(std::is_same_v<copy_cvref<const int&&, float>, int>);
+static_assert(std::is_same_v<copy_cvref<const int&&, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<const int&&, volatile float&&>, volatile int&&>);
+static_assert(std::is_same_v<copy_cvref<volatile int, float>, int>);
+static_assert(std::is_same_v<copy_cvref<volatile int, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<volatile int, volatile float&&>, volatile int&&>);
+static_assert(std::is_same_v<copy_cvref<volatile int&, float>, int>);
+static_assert(std::is_same_v<copy_cvref<volatile int&, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<volatile int&, volatile float&&>, volatile int&&>);
+static_assert(std::is_same_v<copy_cvref<volatile int&&, float>, int>);
+static_assert(std::is_same_v<copy_cvref<volatile int&&, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<volatile int&&, volatile float&&>, volatile int&&>);
+static_assert(std::is_same_v<copy_cvref<const volatile int, float>, int>);
+static_assert(std::is_same_v<copy_cvref<const volatile int, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<const volatile int, volatile float&&>, volatile int&&>);
+static_assert(std::is_same_v<copy_cvref<const volatile int&, float>, int>);
+static_assert(std::is_same_v<copy_cvref<const volatile int&, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<const volatile int&, volatile float&&>, volatile int&&>);
+static_assert(std::is_same_v<copy_cvref<const volatile int&&, float>, int>);
+static_assert(std::is_same_v<copy_cvref<const volatile int&&, const float&>, const int&>);
+static_assert(std::is_same_v<copy_cvref<const volatile int&&, volatile float&&>, volatile int&&>);
+
 // remove_noexcept
+static_assert(std::is_same_v<remove_noexcept<int>, int>); // non-functions should be unchanged
+static_assert(std::is_same_v<remove_noexcept<const int>, const int>);
 static_assert(std::is_same_v<remove_noexcept<int()>, int()>);
 static_assert(std::is_same_v<remove_noexcept<int() noexcept>, int()>);
+static_assert(std::is_same_v<remove_noexcept<int (*)()>, int (*)()>);
+static_assert(std::is_same_v<remove_noexcept<int (*)() noexcept>, int (*)()>);
+static_assert(std::is_same_v<remove_noexcept<int (&)()>, int (&)()>);
+static_assert(std::is_same_v<remove_noexcept<int (&)() noexcept>, int (&)()>);
+#if MUU_WINDOWS
+static_assert(std::is_same_v<remove_noexcept<int __cdecl()>, int __cdecl()>);
+static_assert(std::is_same_v<remove_noexcept<int __cdecl() noexcept>, int __cdecl()>);
+static_assert(std::is_same_v<remove_noexcept<int(__cdecl*)()>, int(__cdecl*)()>);
+static_assert(std::is_same_v<remove_noexcept<int(__cdecl*)() noexcept>, int(__cdecl*)()>);
+static_assert(std::is_same_v<remove_noexcept<int(__cdecl&)()>, int(__cdecl&)()>);
+static_assert(std::is_same_v<remove_noexcept<int(__cdecl&)() noexcept>, int(__cdecl&)()>);
+static_assert(std::is_same_v<remove_noexcept<int __vectorcall()>, int __vectorcall()>);
+static_assert(std::is_same_v<remove_noexcept<int __vectorcall() noexcept>, int __vectorcall()>);
+static_assert(std::is_same_v<remove_noexcept<int(__vectorcall*)()>, int(__vectorcall*)()>);
+static_assert(std::is_same_v<remove_noexcept<int(__vectorcall*)() noexcept>, int(__vectorcall*)()>);
+static_assert(std::is_same_v<remove_noexcept<int(__vectorcall&)()>, int(__vectorcall&)()>);
+static_assert(std::is_same_v<remove_noexcept<int(__vectorcall&)() noexcept>, int(__vectorcall&)()>);
+#endif
+
+// remove_callconv
+static_assert(std::is_same_v<remove_callconv<int>, int>); // non-functions should be unchanged
+static_assert(std::is_same_v<remove_callconv<const int>, const int>);
+static_assert(std::is_same_v<remove_callconv<int()>, int()>);
+static_assert(std::is_same_v<remove_callconv<int() noexcept>, int() noexcept>);
+static_assert(std::is_same_v<remove_callconv<int (*)()>, int (*)()>);
+static_assert(std::is_same_v<remove_callconv<int (*)() noexcept>, int (*)() noexcept>);
+static_assert(std::is_same_v<remove_callconv<int (&)()>, int (&)()>);
+static_assert(std::is_same_v<remove_callconv<int (&)() noexcept>, int (&)() noexcept>);
+#if MUU_WINDOWS
+static_assert(std::is_same_v<remove_callconv<int __cdecl()>, int()>);
+static_assert(std::is_same_v<remove_callconv<int __cdecl() noexcept>, int() noexcept>);
+static_assert(std::is_same_v<remove_callconv<int(__cdecl*)()>, int (*)()>);
+static_assert(std::is_same_v<remove_callconv<int(__cdecl*)() noexcept>, int (*)() noexcept>);
+static_assert(std::is_same_v<remove_callconv<int(__cdecl&)()>, int (&)()>);
+static_assert(std::is_same_v<remove_callconv<int(__cdecl&)() noexcept>, int (&)() noexcept>);
+static_assert(std::is_same_v<remove_callconv<int __vectorcall()>, int()>);
+static_assert(std::is_same_v<remove_callconv<int __vectorcall() noexcept>, int() noexcept>);
+static_assert(std::is_same_v<remove_callconv<int(__vectorcall*)()>, int (*)()>);
+static_assert(std::is_same_v<remove_callconv<int(__vectorcall*)() noexcept>, int (*)() noexcept>);
+static_assert(std::is_same_v<remove_callconv<int(__vectorcall&)()>, int (&)()>);
+static_assert(std::is_same_v<remove_callconv<int(__vectorcall&)() noexcept>, int (&)() noexcept>);
+#endif
 
 // inherits_from
 struct base_type
@@ -1275,3 +1374,79 @@ static_assert(std::is_same_v<clamp_to_standard_float<float128_t>, long double>);
 static_assert(std::is_same_v<clamp_to_standard_float<float128_t&>, long double&>);
 static_assert(std::is_same_v<clamp_to_standard_float<const float128_t&>, const long double&>);
 #endif
+
+// is_function
+static void test_func1() noexcept
+{}
+static void test_func2()
+{}
+static constexpr auto test_lambda1 = []() noexcept {};
+static constexpr auto test_lambda2 = []() {};
+static_assert(is_function<decltype(test_func1)>);
+static_assert(is_function<decltype(test_func2)>);
+static_assert(is_function<decltype(test_func1)&>);
+static_assert(is_function<decltype(test_func2)&>);
+static_assert(!is_function<decltype(test_func1)*>);
+static_assert(!is_function<decltype(test_func2)*>);
+static_assert(!is_function<decltype(test_func1)*&>);
+static_assert(!is_function<decltype(test_func2)*&>);
+static_assert(!is_function<decltype(test_lambda1)>);
+static_assert(!is_function<decltype(test_lambda2)>);
+static_assert(!is_function<decltype(test_lambda1)*>);
+static_assert(!is_function<decltype(test_lambda2)*>);
+static_assert(!is_function<decltype(test_lambda1)&>);
+static_assert(!is_function<decltype(test_lambda2)&>);
+static_assert(!is_function<decltype(+test_lambda1)>);
+static_assert(!is_function<decltype(+test_lambda2)>);
+static_assert(is_function<std::remove_pointer_t<decltype(+test_lambda1)>>);
+static_assert(is_function<std::remove_pointer_t<decltype(+test_lambda2)>>);
+
+// is_function_pointer
+static_assert(!is_function_pointer<decltype(test_func1)>);
+static_assert(!is_function_pointer<decltype(test_func2)>);
+static_assert(!is_function_pointer<decltype(test_func1)&>);
+static_assert(!is_function_pointer<decltype(test_func2)&>);
+static_assert(is_function_pointer<decltype(test_func1)*>);
+static_assert(is_function_pointer<decltype(test_func2)*>);
+static_assert(is_function_pointer<decltype(test_func1)*&>);
+static_assert(is_function_pointer<decltype(test_func2)*&>);
+static_assert(!is_function_pointer<decltype(test_lambda1)>);
+static_assert(!is_function_pointer<decltype(test_lambda2)>);
+static_assert(!is_function_pointer<decltype(test_lambda1)*>);
+static_assert(!is_function_pointer<decltype(test_lambda2)*>);
+static_assert(!is_function_pointer<decltype(test_lambda1)&>);
+static_assert(!is_function_pointer<decltype(test_lambda2)&>);
+static_assert(is_function_pointer<decltype(+test_lambda1)>);
+static_assert(is_function_pointer<decltype(+test_lambda2)>);
+static_assert(!is_function_pointer<std::remove_pointer_t<decltype(+test_lambda1)>>);
+static_assert(!is_function_pointer<std::remove_pointer_t<decltype(+test_lambda2)>>);
+
+// is_stateless_lambda
+static_assert(!is_stateless_lambda<decltype(test_func1)>);
+static_assert(!is_stateless_lambda<decltype(test_func2)>);
+static_assert(!is_stateless_lambda<decltype(test_func1)&>);
+static_assert(!is_stateless_lambda<decltype(test_func2)&>);
+static_assert(!is_stateless_lambda<decltype(test_func1)*>);
+static_assert(!is_stateless_lambda<decltype(test_func2)*>);
+static_assert(!is_stateless_lambda<decltype(test_func1)*&>);
+static_assert(!is_stateless_lambda<decltype(test_func2)*&>);
+static_assert(is_stateless_lambda<decltype(test_lambda1)>);
+static_assert(is_stateless_lambda<decltype(test_lambda2)>);
+static_assert(!is_stateless_lambda<decltype(test_lambda1)*>);
+static_assert(!is_stateless_lambda<decltype(test_lambda2)*>);
+static_assert(is_stateless_lambda<decltype(test_lambda1)&>);
+static_assert(is_stateless_lambda<decltype(test_lambda2)&>);
+static_assert(!is_stateless_lambda<decltype(+test_lambda1)>);
+static_assert(!is_stateless_lambda<decltype(+test_lambda2)>);
+static_assert(!is_stateless_lambda<std::remove_pointer_t<decltype(+test_lambda1)>>);
+static_assert(!is_stateless_lambda<std::remove_pointer_t<decltype(+test_lambda2)>>);
+
+[[maybe_unused]] static void stateless_lambda_test_container()
+{
+	[[maybe_unused]] int foo = std::rand();
+	const auto test_lambda3	 = [&]() noexcept -> int { return foo ^ std::rand(); };
+
+	static_assert(!is_stateless_lambda<decltype(test_lambda3)>);
+	static_assert(!is_stateless_lambda<decltype(test_lambda3)*>);
+	static_assert(!is_stateless_lambda<decltype(test_lambda3)&>);
+}

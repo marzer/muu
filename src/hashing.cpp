@@ -18,8 +18,7 @@ namespace
 			raw_block value;
 		};
 
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		static constexpr uint32_t MUU_VECTORCALL rol(uint32_t value, uint32_t bits) noexcept
 		{
 			return (value << bits) | (value >> (32u - bits));

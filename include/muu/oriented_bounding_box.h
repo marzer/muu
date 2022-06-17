@@ -67,7 +67,7 @@ namespace muu
 		using axes_constants = muu::constants<axes_type>;
 
 	  public:
-	#ifdef DOXYGEN
+	#if MUU_DOXYGEN
 
 		/// \brief	The center of the box.
 		vector_type center;

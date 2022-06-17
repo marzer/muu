@@ -62,20 +62,13 @@ namespace muu
 
 			// note: this _was_ a lambda but MSVC fails to parse it, finding an erroneous comma where none exists =/
 			template <typename U>
-			static decltype(auto) invoker(void* fn, function_view_forwarding_arg<Args>... args) //
+			static constexpr decltype(auto) invoker(void* fn, function_view_forwarding_arg<Args>... args) //
 				noexcept(is_nothrow_invocable<U>)
 			{
 				// free function pointers
 				if constexpr (std::is_pointer_v<std::remove_reference_t<U>>)
 				{
 					using func_ptr = std::remove_reference_t<U>;
-					return pointer_cast<func_ptr>(fn)(static_cast<function_view_forwarding_arg<Args>>(args)...);
-				}
-
-				// stateless lambdas
-				else if constexpr (is_invocable<typename lambda_free_function_decay<U>::type>)
-				{
-					using func_ptr = typename lambda_free_function_decay<U>::type;
 					return pointer_cast<func_ptr>(fn)(static_cast<function_view_forwarding_arg<Args>>(args)...);
 				}
 
@@ -108,19 +101,26 @@ namespace muu
 					is_nothrow_invocable<U&&> || !is_nothrow_invocable<T>,
 					"a non-throwing function_view cannot invoke a throwing function (are you missing a 'noexcept'?)");
 
-				// already a callable pointer (free function pointers)
+				// already a free function pointer
 				if constexpr (std::is_pointer_v<std::remove_reference_t<U>>)
-					func_ = pointer_cast<void*>(func);
+				{
+					func_	 = pointer_cast<void*>(func);
+					invoker_ = invoker<std::remove_reference_t<U>>;
+				}
 
 				// stateless lambdas (store as a free function pointer)
-				else if constexpr (is_invocable<typename lambda_free_function_decay<U&&>::type>)
-					func_ = pointer_cast<void*>(+static_cast<U&&>(func));
+				else if constexpr (is_invocable<typename lambda_free_function_decay<std::remove_reference_t<U>>::type>)
+				{
+					func_	 = pointer_cast<void*>(+func);
+					invoker_ = invoker<decltype(+func)>;
+				}
 
 				// anything else
 				else
-					func_ = pointer_cast<void*>(std::addressof(func));
-
-				invoker_ = invoker<U&&>;
+				{
+					func_	 = pointer_cast<void*>(std::addressof(func));
+					invoker_ = invoker<U&&>;
+				}
 			}
 
 			constexpr decltype(auto) operator()(Args... args) const noexcept(std::is_nothrow_invocable_v<T, Args...>)
@@ -159,14 +159,14 @@ namespace muu
 	/// \brief A non-owning view of a callable object (functions, lambdas, etc.).
 	template <typename T>
 	class function_view //
-		MUU_HIDDEN_BASE(public impl::function_view_<T>)
+		MUU_HIDDEN_BASE(public impl::function_view_<remove_callconv<T>>)
 	{
 	  private:
-		using base = impl::function_view_<T>;
+		using base = impl::function_view_<remove_callconv<T>>;
 
 	  public:
 		/// \brief the nomimal function type signature of this view.
-		using func_type = T;
+		using func_type = remove_callconv<T>;
 
 		/// \brief Default-constructs a 'null' function view.
 		MUU_NODISCARD_CTOR
@@ -183,7 +183,7 @@ namespace muu
 			: base{ static_cast<U&&>(func) }
 		{}
 
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 
 		/// \brief	Invokes the wrapped callable with the given arguments
 		constexpr decltype(auto) operator()(Args&&...) const noexcept(...);
@@ -195,11 +195,17 @@ namespace muu
 
 	/// \cond
 
-	template <typename R, typename... P>
-	function_view(R (*)(P...) noexcept) -> function_view<R(P...) noexcept>;
+#define muu_make_function_view_deduction_guides(callconv)                                                              \
+                                                                                                                       \
+	template <typename R, typename... P>                                                                               \
+	function_view(R(callconv*)(P...) noexcept) -> function_view<R(P...) noexcept>;                                     \
+                                                                                                                       \
+	template <typename R, typename... P>                                                                               \
+	function_view(R(callconv*)(P...)) -> function_view<R(P...)>;
 
-	template <typename R, typename... P>
-	function_view(R (*)(P...)) -> function_view<R(P...)>;
+	MUU_FOR_EACH_CALLCONV(muu_make_function_view_deduction_guides)
+
+#undef muu_make_function_view_deduction_guides
 
 	/// \endcond
 }

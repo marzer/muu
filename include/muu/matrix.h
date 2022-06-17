@@ -924,6 +924,173 @@ namespace muu::impl
 
 #undef MAT_GET
 
+	//--- orthonormalize() -----------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_3d_rotation_matrix_<Derived>>
+	struct matrix_orthonormalize
+	{};
+
+	template <typename Scalar, size_t Rows, size_t Columns>
+	struct matrix_orthonormalize<matrix<Scalar, Rows, Columns>, true>
+	{
+		using scalar_type = Scalar;
+		using column_type = vector<Scalar, Rows>;
+
+	  private:
+		template <size_t Depth = Rows>
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL column_dot(MUU_VC_PARAM(column_type) c1,
+															   MUU_VC_PARAM(column_type) c2) noexcept
+		{
+			static_assert(Depth > 0);
+			static_assert(Depth <= Rows);
+			static_assert(is_floating_point<scalar_type>);
+			static_assert(!is_small_float_<scalar_type>);
+
+			if constexpr (Depth == Rows)
+				return column_type::dot(c1, c2);
+			else
+			{
+				MUU_FMA_BLOCK;
+
+				// avoid operator[] for vectors <= 4 elems (potentially slower and/or not-constexpr safe)
+				scalar_type dot = c1.template get<0>() * c2.template get<0>();
+				if constexpr (Depth > 1)
+					dot += c1.template get<1>() * c2.template get<1>();
+				if constexpr (Depth > 2)
+					dot += c1.template get<2>() * c2.template get<2>();
+				if constexpr (Depth > 3)
+					dot += c1.template get<3>() * c2.template get<3>();
+				if constexpr (Depth > 4)
+				{
+					for (size_t i = 4; i < Depth; i++)
+						dot += c1[i] * c2[i];
+				}
+				return dot;
+			}
+		}
+
+		template <size_t Depth = Rows>
+		static constexpr void column_normalize(column_type& c) noexcept
+		{
+			static_assert(Depth > 0);
+			static_assert(Depth <= Rows);
+			static_assert(is_floating_point<scalar_type>);
+			static_assert(!is_small_float_<scalar_type>);
+
+			if constexpr (Depth == Rows)
+				c.normalize();
+			else
+			{
+				MUU_FMA_BLOCK;
+
+				const auto inv_len = scalar_type{ 1 } / muu::sqrt(column_dot<Depth>(c, c));
+
+				// avoid operator[] for vectors <= 4 elems (potentially slower and/or not-constexpr safe)
+				c.template get<0>() = c.template get<0>() * inv_len;
+				if constexpr (Depth > 1)
+					c.template get<1>() = c.template get<1>() * inv_len;
+				if constexpr (Depth > 2)
+					c.template get<2>() = c.template get<2>() * inv_len;
+				if constexpr (Depth > 3)
+					c.template get<3>() = c.template get<3>() * inv_len;
+				if constexpr (Depth > 4)
+				{
+					for (size_t i = 4; i < Depth; i++)
+						c[i] = c[i] * inv_len;
+				}
+			}
+		}
+
+	  public:
+		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL orthonormalize(
+			MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) m) noexcept
+		{
+			if constexpr (is_small_float_<scalar_type>)
+			{
+				using promoted_mat = matrix<promote_if_small_float<scalar_type>, Rows, Columns>;
+
+				return matrix<Scalar, Rows, Columns>{ promoted_mat::orthonormalize(promoted_mat{ m }) };
+			}
+			else
+			{
+				MUU_FMA_BLOCK;
+
+				// 'modified' gram-schmidt:
+				// https://fgiesen.wordpress.com/2013/06/02/modified-gram-schmidt-orthogonalization/
+
+				matrix<Scalar, Rows, Columns> out{ m };
+
+				// x-axis
+				column_normalize<3>(out.m[0]);
+
+				constexpr auto subtract_dot_mult = [](auto& out_, auto& c1, auto& c2) noexcept
+				{
+					MUU_FMA_BLOCK;
+
+					const auto dot = column_dot<3>(c1, c2);
+					out_.template get<0>() -= dot * c2.template get<0>();
+					out_.template get<1>() -= dot * c2.template get<1>();
+					out_.template get<2>() -= dot * c2.template get<2>();
+				};
+
+				// y-axis
+				subtract_dot_mult(out.m[1], m.m[1], out.m[0]);
+				column_normalize<3>(out.m[1]);
+
+				// z-axis
+				subtract_dot_mult(out.m[2], m.m[2], out.m[0]);
+				subtract_dot_mult(out.m[2], out.m[2], out.m[1]);
+				column_normalize<3>(out.m[2]);
+
+				return out;
+			}
+		}
+
+		constexpr matrix<Scalar, Rows, Columns>& orthonormalize() noexcept
+		{
+			return static_cast<matrix<Scalar, Rows, Columns>&>(*this) =
+					   orthonormalize(static_cast<matrix<Scalar, Rows, Columns>&>(*this));
+		}
+
+	  private:
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL orthonormalized(MUU_VC_PARAM(vector<Scalar, 3>) x,
+															 MUU_VC_PARAM(vector<Scalar, 3>) y,
+															 MUU_VC_PARAM(vector<Scalar, 3>) z) noexcept
+		{
+			using vec = vector<Scalar, 3>;
+			return vec::normalized(x)				//
+				&& vec::normalized(y)				//
+				&& vec::normalized(z)				//
+				&& muu::approx_zero(vec::dot(x, y)) //
+				&& muu::approx_zero(vec::dot(x, z)) //
+				&& muu::approx_zero(vec::dot(y, z));
+		}
+
+	  public:
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL orthonormalized(MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) m) noexcept
+		{
+			if constexpr (Rows == 3)
+			{
+				return orthonormalized(m.x_column(), m.y_column(), m.z_column());
+			}
+			else
+			{
+				using vec = vector<Scalar, 3>;
+				return orthonormalized(vec{ m.x_column() }, vec{ m.y_column() }, vec{ m.z_column() });
+			}
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL orthonormalized() const noexcept
+		{
+			return orthonormalized(static_cast<const matrix<Scalar, Rows, Columns>&>(*this));
+		}
+	};
+
 } // impl
 
 #define SPECIALIZED_IF(cond) , bool = (cond)
@@ -968,7 +1135,8 @@ namespace muu
 			impl::matrix_transform_without_translating<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_transform_direction<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_extract_2d_scale<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_extract_3d_scale<matrix<Scalar, Rows, Columns>>
+			impl::matrix_extract_3d_scale<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_orthonormalize<matrix<Scalar, Rows, Columns>>
 		)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Matrix scalar type cannot be a reference");
@@ -1047,7 +1215,7 @@ namespace muu
 		/// \endcond
 
 	  public:
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 
 		/// \brief The values in the matrix (stored column-major).
 		column_type m[columns];
@@ -1340,7 +1508,7 @@ namespace muu
 		///					(i.e. one of 2x2, 2x3 or 3x3, 3x4 or 4x4).
 		/// @{
 
-	#ifdef DOXYGEN
+	#if MUU_DOXYGEN
 
 		/// \brief Creates a scale matrix from x and y scalar components.
 		///
@@ -1395,7 +1563,7 @@ namespace muu
 		///					matrix (i.e. one of 2x3, 3x3, 3x4 or 4x4).
 		/// @{
 
-	#ifdef DOXYGEN
+	#if MUU_DOXYGEN
 
 		/// \brief Creates a translation matrix from x and y scalar components.
 		///
@@ -1450,7 +1618,7 @@ namespace muu
 		///					(i.e. one of 2x2, 2x3, 3x3, 3x4 or 4x4) and has a floating-point #scalar_type.
 		/// @{
 
-	#ifdef DOXYGEN
+	#if MUU_DOXYGEN
 
 		/// \brief Creates a 2D rotation matrix from the lower 2x2 part of a matrix.
 		///
@@ -1581,7 +1749,7 @@ namespace muu
 			return base::m[C];
 		}
 
-	#ifdef DOXYGEN
+	#if MUU_DOXYGEN
 
 		/// \brief Returns a reference to the X column (column 0).
 		///
@@ -1763,8 +1931,7 @@ namespace muu
 	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<matrix, matrix<T, Rows, Columns>>), typename T)
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		friend constexpr bool MUU_VECTORCALL operator==(matrix lhs, matrix<T, rows, columns> rhs) noexcept
 		{
 			for (size_t i = 0; i < columns; i++)
@@ -1791,8 +1958,7 @@ namespace muu
 	#if MUU_HAS_VECTORCALL
 
 		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<matrix, matrix<T, Rows, Columns>>), typename T)
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool operator!=(matrix lhs, matrix<T, rows, columns> rhs) noexcept
 		{
 			return !(lhs == rhs);
@@ -1883,8 +2049,7 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
 								  && impl::pass_vectorcall_by_value<matrix, matrix<T, Rows, Columns>>),
 								 typename T)
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			matrix m1,
 			matrix<T, rows, columns> m2,
@@ -1919,8 +2084,7 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
 								  && impl::pass_vectorcall_by_value<matrix<T, Rows, Columns>>),
 								 typename T)
-		MUU_NODISCARD
-		MUU_ATTR(const)
+		MUU_CONST_GETTER
 		constexpr bool MUU_VECTORCALL approx_equal(
 			matrix<T, rows, columns> m,
 			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) const noexcept
@@ -2522,137 +2686,41 @@ namespace muu
 		///					(i.e. one of 3x3, 3x4 or 4x4) and has a floating-point #scalar_type.
 		/// @{
 
-	  private:
-		/// \cond
+	#if MUU_DOXYGEN
 
-		template <size_t Depth = Rows>
-		static constexpr scalar_type MUU_VECTORCALL column_dot(MUU_VC_PARAM(column_type) c1,
-															   MUU_VC_PARAM(column_type) c2) noexcept
-		{
-			static_assert(Depth > 0);
-			static_assert(Depth <= Rows);
-			static_assert(is_floating_point<scalar_type>);
-			static_assert(!is_small_float);
-
-			if constexpr (Depth == Rows)
-				return column_type::dot(c1, c2);
-			else
-			{
-				MUU_FMA_BLOCK;
-
-				// avoid operator[] for vectors <= 4 elems (potentially slower and/or not-constexpr safe)
-				scalar_type dot = c1.template get<0>() * c2.template get<0>();
-				if constexpr (Depth > 1)
-					dot += c1.template get<1>() * c2.template get<1>();
-				if constexpr (Depth > 2)
-					dot += c1.template get<2>() * c2.template get<2>();
-				if constexpr (Depth > 3)
-					dot += c1.template get<3>() * c2.template get<3>();
-				if constexpr (Depth > 4)
-				{
-					for (size_t i = 4; i < Depth; i++)
-						dot += c1[i] * c2[i];
-				}
-				return dot;
-			}
-		}
-
-		template <size_t Depth = Rows>
-		static constexpr void column_normalize(column_type& c) noexcept
-		{
-			static_assert(Depth > 0);
-			static_assert(Depth <= Rows);
-			static_assert(is_floating_point<scalar_type>);
-			static_assert(!is_small_float);
-
-			if constexpr (Depth == Rows)
-				c.normalize();
-			else
-			{
-				MUU_FMA_BLOCK;
-
-				const auto inv_len = scalar_type{ 1 } / muu::sqrt(column_dot<Depth>(c, c));
-
-				// avoid operator[] for vectors <= 4 elems (potentially slower and/or not-constexpr safe)
-				c.template get<0>() = c.template get<0>() * inv_len;
-				if constexpr (Depth > 1)
-					c.template get<1>() = c.template get<1>() * inv_len;
-				if constexpr (Depth > 2)
-					c.template get<2>() = c.template get<2>() * inv_len;
-				if constexpr (Depth > 3)
-					c.template get<3>() = c.template get<3>() * inv_len;
-				if constexpr (Depth > 4)
-				{
-					for (size_t i = 4; i < Depth; i++)
-						c[i] = c[i] * inv_len;
-				}
-			}
-		}
-
-		/// \endcond
-
-	  public:
 		/// \brief	Orthonormalizes the 3x3 part of a rotation or transformation matrix.
 		///
-		/// \availability	This function is only available when the matrix has 3 or 4 rows and columns
-		/// 				and has a floating-point #scalar_type.
+		/// \availability	This function is only available when the matrix is a typical 3D rotation matrix
+		///					(i.e. one of 3x3, 3x4 or 4x4) and has a floating-point #scalar_type.
 		///
 		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
-		MUU_HIDDEN_CONSTRAINT((is_floating_point<T> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4)),
-							  typename T = Scalar)
-		static constexpr matrix MUU_VECTORCALL orthonormalize(MUU_VC_PARAM(matrix) m) noexcept
-		{
-			if constexpr (is_small_float)
-			{
-				return matrix{ promoted_mat::orthonormalize(promoted_mat{ m }) };
-			}
-			else
-			{
-				MUU_FMA_BLOCK;
-
-				// 'modified' gram-schmidt:
-				// https://fgiesen.wordpress.com/2013/06/02/modified-gram-schmidt-orthogonalization/
-
-				matrix out{ m };
-
-				// x-axis
-				column_normalize<3>(out.m[0]);
-
-				constexpr auto subtract_dot_mult = [](auto& out_, auto& c1, auto& c2) noexcept
-				{
-					MUU_FMA_BLOCK;
-
-					const auto dot = column_dot<3>(c1, c2);
-					out_.template get<0>() -= dot * c2.template get<0>();
-					out_.template get<1>() -= dot * c2.template get<1>();
-					out_.template get<2>() -= dot * c2.template get<2>();
-				};
-
-				// y-axis
-				subtract_dot_mult(out.m[1], m.m[1], out.m[0]);
-				column_normalize<3>(out.m[1]);
-
-				// z-axis
-				subtract_dot_mult(out.m[2], m.m[2], out.m[0]);
-				subtract_dot_mult(out.m[2], out.m[2], out.m[1]);
-				column_normalize<3>(out.m[2]);
-
-				return out;
-			}
-		}
+		static constexpr matrix orthonormalize(const matrix&) noexcept;
 
 		/// \brief	Orthonormalizes the 3x3 part of the matrix.
 		///
-		/// \availability	This function is only available when the matrix has 3 or 4 rows and columns
-		/// 				and has a floating-point #scalar_type.
+		/// \availability	This function is only available when the matrix is a typical 3D rotation matrix
+		///					(i.e. one of 3x3, 3x4 or 4x4) and has a floating-point #scalar_type.
 		///
 		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
-		MUU_HIDDEN_CONSTRAINT((is_floating_point<T> && (Rows == 3 || Rows == 4) && (Columns == 3 || Columns == 4)),
-							  typename T = Scalar)
-		constexpr matrix& orthonormalize() noexcept
-		{
-			return *this = orthonormalize(*this);
-		}
+		constexpr matrix& orthonormalize() noexcept;
+
+		/// \brief	Returns true if the 3x3 part of a matrix is orthonormalized.
+		///
+		/// \availability	This function is only available when the matrix is a typical 3D rotation matrix
+		///					(i.e. one of 3x3, 3x4 or 4x4) and has a floating-point #scalar_type.
+		///
+		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
+		static constexpr bool orthonormalized(const matrix&) noexcept;
+
+		/// \brief	Returns true if the 3x3 part of the matrix is orthonormalized.
+		///
+		/// \availability	This function is only available when the matrix is a typical 3D rotation matrix
+		///					(i.e. one of 3x3, 3x4 or 4x4) and has a floating-point #scalar_type.
+		///
+		/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
+		constexpr bool orthonormalized() const noexcept;
+
+	#endif // DOXYGEN
 
 		/// @}
 #endif // orthonormalize
@@ -2663,7 +2731,7 @@ namespace muu
 		///					(i.e. one of 2x2, 2x3, 3x3, 3x4 or 4x4) and has a floating-point #scalar_type.
 		/// @{
 
-	#ifdef DOXYGEN
+	#if MUU_DOXYGEN
 
 		/// \brief Applies a matrix's 3d transformation to the given vector.
 		///
@@ -3100,7 +3168,7 @@ namespace muu
 		/// \endcond
 	}
 
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 	#define MATRIX_CONSTANTS_BASES                                                                                     \
 		impl::rotation_matrix_constants<Scalar, Rows, Columns>, impl::integer_limits<matrix<Scalar, Rows, Columns>>,   \
 			impl::integer_positive_constants<matrix<Scalar, Rows, Columns>>,                                           \
@@ -3140,7 +3208,7 @@ namespace muu
 	///
 	/// \brief	Returns true if any of the scalar components of a matrix are infinity or NaN.
 	template <typename S, size_t R, size_t C>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool infinity_or_nan(const matrix<S, R, C>& m) noexcept
 	{
 		if constexpr (is_floating_point<S>)
@@ -3174,7 +3242,7 @@ namespace muu
 	///
 	/// \availability	This function is only available when `S` is a floating-point type.
 	MUU_CONSTRAINED_TEMPLATE(is_floating_point<S>, typename S, size_t R, size_t C)
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(const matrix<S, R, C>& m, S epsilon = default_epsilon<S>) noexcept
 	{
 		return matrix<S, R, C>::approx_zero(m, epsilon);
@@ -3184,7 +3252,7 @@ namespace muu
 	///
 	/// \relatesalso	muu::matrix
 	template <typename S, size_t R, size_t C>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr matrix<S, C, R> transpose(const matrix<S, R, C>& m) noexcept
 	{
 		return matrix<S, R, C>::transpose(m);
@@ -3201,7 +3269,7 @@ namespace muu
 		size_t R,
 		size_t C //
 			MUU_HIDDEN_PARAM(typename determinant_type = typename matrix<S, R, C>::determinant_type))
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr determinant_type determinant(const matrix<S, R, C>& m) noexcept
 	{
 		return matrix<S, R, C>::determinant(m);
@@ -3217,7 +3285,7 @@ namespace muu
 							 size_t R,
 							 size_t C //
 								 MUU_HIDDEN_PARAM(typename inverse_type = typename matrix<S, R, C>::inverse_type))
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr inverse_type invert(const matrix<S, R, C>& m) noexcept
 	{
 		return matrix<S, R, C>::invert(m);
@@ -3232,7 +3300,7 @@ namespace muu
 	///
 	/// \see [Orthonormal basis](https://en.wikipedia.org/wiki/Orthonormal_basis)
 	MUU_CONSTRAINED_TEMPLATE(is_floating_point<S>, typename S, size_t R, size_t C)
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr matrix<S, R, C> orthonormalize(const matrix<S, R, C>& m) noexcept
 	{
 		return matrix<S, R, C>::orthonormalize(m);

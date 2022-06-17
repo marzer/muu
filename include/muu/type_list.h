@@ -143,8 +143,8 @@ namespace muu
 		#define MAKE_SELECTOR_1(N, N0, ...)                                                                            \
 			template <typename T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TPARAM, __VA_ARGS__), typename... T>                \
 			struct type_list_selector_<type_list<T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TARG, __VA_ARGS__), T...>,        \
-									   N,                                                                              \
-									   type_list_selector_spec::low_index>                                             \
+												 N,                                                                    \
+												 type_list_selector_spec::low_index>                                   \
 			{                                                                                                          \
 				using type = T##N;                                                                                     \
 			}
@@ -379,9 +379,9 @@ namespace muu
 		#define MAKE_SINGLE_ELEMENT_SLICER_1(N, N0, ...)                                                               \
 			template <typename T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TPARAM, __VA_ARGS__), typename... T>                \
 			struct type_list_slicer_<type_list<T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TARG, __VA_ARGS__), T...>,          \
-									 N,                                                                                \
-									 1,                                                                                \
-									 type_list_slicer_spec::single_low_index>                                          \
+											   N,                                                                      \
+											   1,                                                                      \
+											   type_list_slicer_spec::single_low_index>                                \
 			{                                                                                                          \
 				using type = type_list<T##N>;                                                                          \
 			}
@@ -473,9 +473,9 @@ namespace muu
 		#define MAKE_PREFIX_SLICER_1(N0, ...)                                                                          \
 			template <typename T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TPARAM, __VA_ARGS__), typename... T>                \
 			struct type_list_slicer_<type_list<T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TARG, __VA_ARGS__), T...>,          \
-									 0,                                                                                \
-									 MUU_COUNT_VA_ARGS(__VA_ARGS__) + 1,                                               \
-									 type_list_slicer_spec::prefix>                                                    \
+											   0,                                                                      \
+											   MUU_COUNT_VA_ARGS(__VA_ARGS__) + 1,                                     \
+											   type_list_slicer_spec::prefix>                                          \
 			{                                                                                                          \
 				using type = type_list<T0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TARG, __VA_ARGS__)>;                           \
 			}
@@ -566,13 +566,12 @@ namespace muu
 	#if 1
 		#define MAKE_SKIP_N_SLICER_1(N, N0, N1, ...)                                                                   \
 			template <typename T##N0,                                                                                  \
-					  typename T##N1 MUU_FOR_EACH(MUU_MAKE_INDEXED_TPARAM, __VA_ARGS__),                               \
-					  typename... T,                                                                                   \
-					  size_t Length>                                                                                   \
-			struct type_list_slicer_<type_list<T##N0, T##N1 MUU_FOR_EACH(MUU_MAKE_INDEXED_TARG, __VA_ARGS__), T...>,   \
-									 N,                                                                                \
-									 Length,                                                                           \
-									 type_list_slicer_spec::skip_first_N>                                              \
+					  typename T##N1 MUU_FOR_EACH(MUU_MAKE_INDEXED_TPARAM, __VA_ARGS__), typename... T, size_t Length> \
+					  struct type_list_slicer_<                                                                        \
+						  type_list<T##N0, T##N1 MUU_FOR_EACH(MUU_MAKE_INDEXED_TARG, __VA_ARGS__), T...>,              \
+									N,                                                                                 \
+									Length,                                                                            \
+									type_list_slicer_spec::skip_first_N>                                               \
 			{                                                                                                          \
 				using type = typename type_list<T##N, T...>::template slice<0, Length>;                                \
 			}
@@ -828,7 +827,7 @@ namespace muu
 
 	/// \endcond
 
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 
 	/// \brief A 'tag' type for encoding/parameterizing lists of types (without the instantiation heft of std::tuple).
 	///

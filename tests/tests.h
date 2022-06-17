@@ -37,8 +37,8 @@ MUU_PRAGMA_CLANG(diagnostic ignored "-Wunused-template")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wunused-macros")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wpadded")
 MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")
-#if MUU_CLANG == 13
-MUU_PRAGMA_CLANG(diagnostic ignored "-Wreserved-identifier") // false-positive
+#if MUU_CLANG >= 13
+MUU_PRAGMA_CLANG(diagnostic ignored "-Wreserved-identifier") // catch-2 spams __ in the internal identifiers :(
 #endif
 MUU_PRAGMA_GCC(diagnostic ignored "-Wfloat-equal")
 MUU_PRAGMA_GCC(diagnostic ignored "-Wpedantic")

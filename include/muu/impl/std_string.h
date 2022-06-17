@@ -11,11 +11,11 @@ MUU_DISABLE_WARNINGS;
 #include <string>
 MUU_ENABLE_WARNINGS;
 
-#if !defined(MUU_HAS_CHAR8_STRINGS)
-	#if defined(DOXYGEN) || (defined(__cpp_lib_char8_t) && __cpp_lib_char8_t >= 201907)
+#ifndef MUU_HAS_CHAR8_STRINGS
+	#if MUU_HAS_CHAR8 && defined(__cpp_lib_char8_t) && __cpp_lib_char8_t >= 201907
 		#define MUU_HAS_CHAR8_STRINGS 1
 	#else
-		#define MUU_HAS_CHAR8_STRINGS 0
+		#define MUU_HAS_CHAR8_STRINGS MUU_DOXYGEN
 	#endif
 #endif
 

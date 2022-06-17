@@ -86,7 +86,7 @@ namespace muu
 		/// \endcond
 
 	  public:
-#ifdef DOXYGEN
+#if MUU_DOXYGEN
 
 		/// \brief	The axis being rotated around.
 		vector_type axis;

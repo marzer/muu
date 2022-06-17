@@ -6,8 +6,7 @@
 #pragma once
 
 // muu config
-#define MUU_DEV			1
-// #define MUU_CONFIG_HEADER	<iostream>
+#define MUU_DEV 1
 
 // catch2 config
 #define CATCH_CONFIG_CPP11_TO_STRING

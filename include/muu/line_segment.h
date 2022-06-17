@@ -69,7 +69,7 @@ namespace muu
 		/// \endcond
 
 	  public:
-	#ifdef DOXYGEN
+	#if MUU_DOXYGEN
 
 		/// \brief	the points in the line segment.
 		vector_type points[2];

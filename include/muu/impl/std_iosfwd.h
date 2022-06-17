@@ -11,13 +11,13 @@ MUU_DISABLE_WARNINGS;
 #include <iosfwd>
 MUU_ENABLE_WARNINGS;
 
-#if defined(DOXYGEN) || (defined(__cpp_lib_syncbuf) && __cpp_lib_syncbuf >= 201803)
+#if MUU_DOXYGEN || (defined(__cpp_lib_syncbuf) && __cpp_lib_syncbuf >= 201803)
 	#define MUU_HAS_SYNCSTREAMS 1
 #else
 	#define MUU_HAS_SYNCSTREAMS 0
 #endif
 
-#if defined(DOXYGEN) || (defined(__cpp_lib_spanstream) && __cpp_lib_spanstream >= 202106)
+#if MUU_DOXYGEN || (defined(__cpp_lib_spanstream) && __cpp_lib_spanstream >= 202106)
 	#define MUU_HAS_SPANSTREAMS 1
 #else
 	#define MUU_HAS_SPANSTREAMS 0

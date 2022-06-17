@@ -44,7 +44,7 @@ namespace muu
 	///
 	/// \remark This is a variadic version of std::min.
 	template <typename T, typename... U>
-	MUU_NODISCARD
+	MUU_PURE_GETTER
 	constexpr const T& min(const T& val1, const T& val2, const U&... vals) noexcept
 	{
 		if constexpr (sizeof...(vals) == 0u)
@@ -66,7 +66,7 @@ namespace muu
 	///
 	/// \remark This is a variadic version of std::max.
 	template <typename T, typename... U>
-	MUU_NODISCARD
+	MUU_PURE_GETTER
 	constexpr const T& max(const T& val1, const T& val2, const U&... vals) noexcept
 	{
 		if constexpr (sizeof...(vals) == 0u)
@@ -88,7 +88,7 @@ namespace muu
 	///
 	/// \remark This is equivalent to std::clamp without requiring you to drag in the enormity of &lt;algorithm&gt;.
 	template <typename T>
-	MUU_NODISCARD
+	MUU_PURE_GETTER
 	constexpr const T& clamp(const T& val, const T& low, const T& high) noexcept
 	{
 		return val < low ? low : ((high < val) ? high : val);
@@ -97,7 +97,7 @@ namespace muu
 	/// \brief	Returns true if a value is between two bounds (inclusive).
 	/// \ingroup core
 	template <typename T, typename U>
-	MUU_CONST_INLINE_GETTER
+	MUU_PURE_GETTER
 	MUU_ATTR(flatten)
 	constexpr bool MUU_VECTORCALL between(const T& val, const U& low, const U& high) noexcept
 	{
@@ -193,8 +193,7 @@ namespace muu
 	/// \return The input casted to the desired type.
 	///
 	template <typename To, typename From>
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
+	MUU_PURE_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From from) noexcept
 	{
@@ -417,8 +416,7 @@ namespace muu
 	/// \cond
 
 	template <typename To, typename From, size_t N>
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
+	MUU_PURE_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From (&arr)[N]) noexcept
 	{
@@ -426,8 +424,7 @@ namespace muu
 	}
 
 	template <typename To, typename From, size_t N>
-	MUU_NODISCARD
-	MUU_ALWAYS_INLINE
+	MUU_PURE_INLINE_GETTER
 	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From (&&arr)[N]) noexcept
 	{

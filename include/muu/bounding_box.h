@@ -66,7 +66,7 @@ namespace muu
 		/// \endcond
 
 	  public:
-	#ifdef DOXYGEN
+	#if MUU_DOXYGEN
 
 		/// \brief	The center of the box.
 		vector_type center;

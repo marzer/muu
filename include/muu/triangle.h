@@ -64,7 +64,7 @@ namespace muu
 		/// \endcond
 
 	  public:
-	#ifdef DOXYGEN
+	#if MUU_DOXYGEN
 
 		/// \brief	the points in the triangle.
 		vector_type points[3];

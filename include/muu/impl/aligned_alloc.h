@@ -19,8 +19,7 @@ namespace muu::impl
 	inline constexpr size_t aligned_alloc_big_threshold = 2048;
 	inline constexpr size_t aligned_alloc_big_align		= muu::max<size_t>(aligned_alloc_min_align, 64);
 
-	MUU_NODISCARD
-	MUU_ATTR(const)
+	MUU_CONST_GETTER
 	constexpr size_t aligned_alloc_actual_align(size_t size, size_t alignment) noexcept
 	{
 		if (!alignment)
@@ -30,7 +29,7 @@ namespace muu::impl
 	}
 
 	MUU_NODISCARD
-	MUU_UNALIASED_ALLOC
+	MUU_MALLOC
 	MUU_ATTR(assume_aligned(aligned_alloc_min_align))
 	inline void* aligned_alloc(size_t size, size_t alignment) noexcept
 	{

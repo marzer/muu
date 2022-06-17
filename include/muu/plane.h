@@ -62,7 +62,7 @@ namespace muu
 		static constexpr bool requires_promotion = impl::is_small_float_<scalar_type>;
 
 	  public:
-	#ifdef DOXYGEN
+	#if MUU_DOXYGEN
 
 		/// \brief	The plane's normal direction.
 		vector_type n;

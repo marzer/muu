@@ -45,7 +45,7 @@ namespace muu
 	namespace impl
 	{
 		MUU_NODISCARD
-		MUU_UNALIASED_ALLOC
+		MUU_MALLOC
 		MUU_ATTR(assume_aligned(aligned_alloc_min_align))
 		inline void* generic_alloc(const generic_allocator* alloc, size_t size, size_t alignment) noexcept
 		{

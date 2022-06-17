@@ -458,6 +458,32 @@
 		</Expand>
 	</Type>
 
+	<Type Name="muu::matrix&lt;*, *, *&gt;">
+		<Intrinsic Name="ptr" Expression="(($T1*)&amp;m)" />
+		<Intrinsic Name="val" Expression="(*(ptr() + (c * $T2) + r))">
+			<Parameter Name="r" Type="unsigned"></Parameter>
+			<Parameter Name="c" Type="unsigned"></Parameter>
+		</Intrinsic>
+		<DisplayString>{{ {$T2} rows, {$T3} columns }}</DisplayString>
+		<Expand>
+			<Item Name="columns" ExcludeView="simple">m</Item>
+			<CustomListItems MaxItemsPerView="5000" ExcludeView="simple">
+				<Variable Name="r" InitialValue="0" />
+				<Variable Name="c" InitialValue="0" />
+				<Size>$T2 * $T3</Size>
+				<Loop>
+					<Item Name="[{r}, {c}]">val(r,c)</Item>
+					<Exec>c++</Exec>
+					<If Condition="(c % $T3) == 0">
+						<Exec>r++</Exec>
+						<Exec>c = 0</Exec>
+					</If>
+					<Break Condition="(r * c) >= ($T2 * $T3)" />
+				</Loop>
+			</CustomListItems>
+		</Expand>
+	</Type>
+
 	<Type Name="muu::axis_angle&lt;*&gt;">
 		<DisplayString>{{ {axis}, {angle} }}</DisplayString>
 		<Expand>

@@ -1139,12 +1139,13 @@ BATCHED_TEST_CASE("matrix orthonormalize", rotation_matrices<ALL_FLOATS>)
 			raw(r, c) = raw_axes(r, c);
 
 	matrix_t ortho{ raw };
-	ortho.orthonormalize();
+	CHECK(!ortho.orthonormalized());
 
-	mat3 ortho_axes;
-	for (size_t r = 0; r < 3; r++)
-		for (size_t c = 0; c < 3; c++)
-			ortho_axes(r, c) = ortho(r, c);
+	ortho.orthonormalize();
+	CHECK(ortho.orthonormalized());
+
+	// verify orthonormalized():
+	mat3 ortho_axes{ ortho };
 
 	// each should be unit-length
 	CHECK(ortho_axes.m[0].normalized());

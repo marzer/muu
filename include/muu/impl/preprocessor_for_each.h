@@ -2,7 +2,9 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-#pragma once
+#ifndef MUU_PREPROCESSOR_FOR_EACH_H
+#define MUU_PREPROCESSOR_FOR_EACH_H
+/// \cond
 
 #define MUU_FOR_EACH_FORCE_UNROLL(x) x // without this msvc treats forwarded __VA_ARGS__ as a single token
 
@@ -646,3 +648,6 @@
 									 2,                                                                                \
 									 1,                                                                                \
 									 0))
+
+/// \endcond
+#endif // MUU_PREPROCESSOR_FOR_EACH_H

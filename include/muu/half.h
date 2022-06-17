@@ -76,19 +76,33 @@ namespace muu
 #endif
 	}
 
+	MUU_CONST_GETTER
 	constexpr bool MUU_VECTORCALL infinity_or_nan(half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL abs(half) noexcept;
+	MUU_CONST_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(half, half, half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL floor(half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL ceil(half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL sqrt(half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL cos(half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL sin(half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL tan(half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL acos(half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL asin(half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL atan(half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL atan2(half, half) noexcept;
+	MUU_CONST_GETTER
 	constexpr half MUU_VECTORCALL lerp(half, half, half) noexcept;
 
 	/// \endcond

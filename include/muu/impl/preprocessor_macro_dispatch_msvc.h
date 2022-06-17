@@ -1,0 +1,372 @@
+// This file is a part of muu and is subject to the the terms of the MIT license.
+// Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
+// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+// SPDX-License-Identifier: MIT
+#ifndef MUU_PREPROCESSOR_MACRO_DISPATCH_MSVC_H
+#define MUU_PREPROCESSOR_MACRO_DISPATCH_MSVC_H
+/// \cond
+
+#ifndef _MSC_VER
+	#error _MSC_VER must be defined to use this header!
+#endif
+
+#if _MSC_VER >= 1920
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1920(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1920(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1920(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1920(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1921
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1921(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1921(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1921(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1921(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1922
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1922(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1922(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1922(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1922(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1923
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1923(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1923(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1923(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1923(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1924
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1924(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1924(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1924(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1924(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1925
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1925(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1925(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1925(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1925(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1926
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1926(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1926(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1926(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1926(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1927
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1927(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1927(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1927(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1927(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1928
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1928(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1928(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1928(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1928(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1929
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1929(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1929(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1929(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1929(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1930
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1930(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1930(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1930(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1930(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1931
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1931(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1931(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1931(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1931(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1932
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1932(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1932(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1932(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1932(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1933
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1933(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1933(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1933(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1933(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1934
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1934(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1934(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1934(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1934(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1935
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1935(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1935(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1935(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1935(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1936
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1936(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1936(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1936(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1936(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1937
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1937(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1937(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1937(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1937(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1938
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1938(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1938(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1938(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1938(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1939
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1939(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1939(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1939(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1939(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1940
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1940(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1940(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1940(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1940(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1941
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1941(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1941(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1941(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1941(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1942
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1942(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1942(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1942(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1942(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1943
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1943(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1943(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1943(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1943(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1944
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1944(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1944(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1944(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1944(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1945
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1945(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1945(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1945(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1945(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1946
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1946(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1946(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1946(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1946(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1947
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1947(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1947(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1947(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1947(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1948
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1948(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1948(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1948(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1948(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1949
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1949(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1949(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1949(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1949(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1950
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1950(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1950(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1950(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1950(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1951
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1951(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1951(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1951(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1951(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1952
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1952(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1952(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1952(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1952(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1953
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1953(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1953(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1953(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1953(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1954
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1954(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1954(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1954(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1954(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1955
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1955(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1955(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1955(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1955(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1956
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1956(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1956(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1956(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1956(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1957
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1957(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1957(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1957(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1957(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1958
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1958(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1958(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1958(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1958(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1959
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1959(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1959(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1959(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1959(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1960
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1960(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1960(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1960(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1960(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1961
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1961(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1961(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1961(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1961(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1962
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1962(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1962(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1962(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1962(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1963
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1963(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1963(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1963(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1963(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1964
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1964(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1964(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1964(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1964(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1965
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1965(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1965(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1965(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1965(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1966
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1966(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1966(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1966(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1966(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1967
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1967(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1967(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1967(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1967(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1968
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1968(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1968(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1968(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1968(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1969
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1969(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1969(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1969(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1969(...) __VA_ARGS__
+#endif
+#if _MSC_VER >= 1970
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1970(...) __VA_ARGS__
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1970(...)
+#else
+	#define MUU_MACRO_DISPATCH_MSVC_GE_1970(...)
+	#define MUU_MACRO_DISPATCH_MSVC_LT_1970(...) __VA_ARGS__
+#endif
+
+/// \endcond
+#endif // MUU_PREPROCESSOR_MACRO_DISPATCH_MSVC_H

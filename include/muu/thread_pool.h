@@ -83,9 +83,10 @@ namespace muu::impl
 
 	struct alignas(thread_pool_task_granularity) thread_pool_task
 	{
-		using action_invoker_type = void (*)(thread_pool_task_action&&) noexcept;
+		using action_invoker_type = void(MUU_CALLCONV*)(thread_pool_task_action&&) noexcept;
 
-		std::byte buffer[thread_pool_task_granularity - sizeof(action_invoker_type)];
+		alignas(thread_pool_task_granularity) //
+			std::byte buffer[thread_pool_task_granularity - sizeof(action_invoker_type)];
 
 		static constexpr size_t buffer_capacity = sizeof(buffer);
 
@@ -106,6 +107,7 @@ namespace muu::impl
 			action_invoker(thread_pool_task_action{ *this });
 		}
 
+		MUU_ALWAYS_INLINE
 		void operator()(size_t worker_index) noexcept
 		{
 			action_invoker(thread_pool_task_action{ *this, worker_index });
@@ -132,6 +134,7 @@ namespace muu::impl
 		static constexpr bool is_referential	   = !is_function_pointer;
 
 		template <typename U>
+		MUU_PURE_INLINE_GETTER
 		MUU_ATTR(returns_nonnull)
 		static storage_type select(U&& callable) noexcept
 		{
@@ -217,6 +220,7 @@ namespace muu::impl
 		static constexpr bool is_referential	   = false;
 
 		template <typename U>
+		MUU_CONST_INLINE_GETTER
 		static decltype(auto) select(U&& callable) noexcept
 		{
 			return static_cast<U&&>(callable);
@@ -318,9 +322,9 @@ namespace muu::impl
 	};
 
 	template <typename T>
-	MUU_NODISCARD
-	MUU_ATTR(const)
-	constexpr auto thread_pool_task_traits_selector() noexcept
+	MUU_CONST_GETTER
+	MUU_CONSTEVAL
+	auto thread_pool_task_traits_selector() noexcept
 	{
 		using bare_type = remove_cvref<T>;
 
@@ -358,11 +362,11 @@ namespace muu::impl
 				{
 					constexpr auto ctor_ok = std::is_nothrow_constructible_v<bare_type, T>;	 // copy or move constructor
 					constexpr auto move_ok = std::is_nothrow_move_constructible_v<bare_type> //
-										  || (std::is_nothrow_default_constructible_v<
-												  bare_type> && std::is_nothrow_copy_assignable_v<bare_type>);
-					constexpr auto copy_ok = std::is_nothrow_copy_constructible_v<bare_type> //
-										  || (std::is_nothrow_default_constructible_v<
-												  bare_type> && std::is_nothrow_copy_assignable_v<bare_type>);
+										  || (std::is_nothrow_default_constructible_v<bare_type> //
+											  && std::is_nothrow_copy_assignable_v<bare_type>);
+					constexpr auto copy_ok = std::is_nothrow_copy_constructible_v<bare_type>	 //
+										  || (std::is_nothrow_default_constructible_v<bare_type> //
+											  && std::is_nothrow_copy_assignable_v<bare_type>);
 
 					static_assert(ctor_ok,
 								  "Rvalue-referenced tasks must be trivially-copyable or nothrow-constructible.");
@@ -469,8 +473,6 @@ namespace muu::impl
 	};
 }
 
-#define MUU_MOVE_CHECK MUU_ASSERT(storage_ != nullptr && "The thread_pool has been moved from!")
-
 extern "C" //
 {
 	MUU_NODISCARD
@@ -502,14 +504,12 @@ extern "C" //
 	MUU_ATTR(nonnull)
 	void MUU_CALLCONV muu_impl_thread_pool_wait(void*) noexcept;
 
-	MUU_NODISCARD
+	MUU_PURE_GETTER
 	MUU_API
-	MUU_ATTR(pure)
 	size_t MUU_CALLCONV muu_impl_thread_pool_workers(void*) noexcept;
 
-	MUU_NODISCARD
+	MUU_PURE_GETTER
 	MUU_API
-	MUU_ATTR(pure)
 	size_t MUU_CALLCONV muu_impl_thread_pool_capacity(void*) noexcept;
 }
 
@@ -526,6 +526,7 @@ namespace muu
 		void* storage_ = nullptr;
 
 		template <typename T>
+		MUU_ALWAYS_INLINE
 		void enqueue(size_t queue_index, T&& task) noexcept
 		{
 			::new (muu::assume_aligned<impl::thread_pool_task_granularity>(
@@ -565,6 +566,7 @@ namespace muu
 
 		template <typename OriginalTask, typename Task>
 		MUU_NODISCARD
+		MUU_ALWAYS_INLINE
 		static auto wrap_for_each_task(Task&& task) noexcept
 		{
 			static_assert(std::is_reference_v<OriginalTask>);
@@ -609,6 +611,7 @@ namespace muu
 		{}
 
 		/// \brief	Move constructor.
+		MUU_NODISCARD_CTOR
 		thread_pool(thread_pool&& other) noexcept //
 			: storage_{ std::exchange(other.storage_, nullptr) }
 		{}
@@ -649,10 +652,9 @@ namespace muu
 		/// \brief	Waits for the thread pool to finish all of its current work.
 		///
 		/// \warning Do not call this from one of the thread pool's workers.
+		MUU_ALWAYS_INLINE
 		void wait() noexcept
 		{
-			MUU_MOVE_CHECK;
-
 			::muu_impl_thread_pool_wait(storage_);
 		}
 
@@ -687,7 +689,6 @@ namespace muu
 				std::is_nothrow_invocable_v<Task&&, size_t> //
 					|| std::is_nothrow_invocable_v<Task&&>,
 				"Tasks passed to thread_pool::enqueue() must be callable as void() noexcept or void(size_t) noexcept");
-			MUU_MOVE_CHECK;
 
 			const auto qindex = ::muu_impl_thread_pool_lock(storage_);
 			enqueue(qindex, static_cast<Task&&>(task));
@@ -802,8 +803,6 @@ namespace muu
 		template <typename Iter, typename Task>
 		thread_pool& for_each(Iter begin, Iter end, Task&& task) noexcept
 		{
-			MUU_MOVE_CHECK;
-
 			const auto job_count = iterator_distance(begin, end);
 			if (job_count <= 0)
 				return *this;
@@ -845,6 +844,7 @@ namespace muu
 		///
 		/// \return	A reference to the thread pool.
 		template <typename T, typename Task>
+		MUU_ALWAYS_INLINE
 		thread_pool& for_each(T&& collection, Task&& task) noexcept
 		{
 			return for_each(begin_iterator(static_cast<T&&>(collection)),
@@ -933,7 +933,6 @@ namespace muu
 							  || std::is_nothrow_invocable_v<Task&&>,
 						  "Tasks passed to thread_pool::for_range() must be callable as void() noexcept, void(T) "
 						  "noexcept or void(T, size_t) noexcept");
-			MUU_MOVE_CHECK;
 
 			// determine batch count and distribute indices
 			using value_type	 = remove_cvref<T>;
@@ -977,8 +976,6 @@ namespace muu
 		}
 	};
 }
-
-#undef MUU_MOVE_CHECK
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"

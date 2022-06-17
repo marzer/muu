@@ -908,7 +908,7 @@ namespace muu
 
 	inline namespace literals
 	{
-#if defined(DOXYGEN) || MUU_HAS_STATIC_STRING_LITERALS
+#if MUU_DOXYGEN || MUU_HAS_STATIC_STRING_LITERALS
 
 		/// \brief	Constructs a static_string directly using a string literal.
 		/// \detail \cpp

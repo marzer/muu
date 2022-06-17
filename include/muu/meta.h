@@ -27,7 +27,7 @@ namespace muu
 	/// \addtogroup		meta
 	/// @{
 
-#if defined(DOXYGEN) || !defined(__cpp_lib_remove_cvref) || __cpp_lib_remove_cvref < 201711
+#if MUU_DOXYGEN || !defined(__cpp_lib_remove_cvref) || __cpp_lib_remove_cvref < 201711
 
 	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
 	/// \remark This is equivalent to C++20's std::remove_cvref_t.
@@ -74,36 +74,52 @@ namespace muu
 			using type = std::add_rvalue_reference_t<U>;
 		};
 
+		template <typename T, typename CopyFrom>
+		struct copy_ref_
+		{
+			using type = std::remove_reference_t<T>;
+		};
+		template <typename T, typename CopyFrom>
+		struct copy_ref_<T, CopyFrom&>
+		{
+			using type = std::add_lvalue_reference_t<std::remove_reference_t<T>>;
+		};
+		template <typename T, typename CopyFrom>
+		struct copy_ref_<T, CopyFrom&&>
+		{
+			using type = std::add_rvalue_reference_t<std::remove_reference_t<T>>;
+		};
+
 		template <typename T, typename U>
 		struct rebase_pointer_
 		{
 			static_assert(std::is_pointer_v<T>);
-			using type = U*;
+			using type = std::add_pointer_t<U>;
 		};
 		template <typename T, typename U>
 		struct rebase_pointer_<const volatile T*, U>
 		{
-			using type = std::add_const_t<std::add_volatile_t<U>>*;
+			using type = std::add_pointer_t<std::add_const_t<std::add_volatile_t<U>>>;
 		};
 		template <typename T, typename U>
 		struct rebase_pointer_<volatile T*, U>
 		{
-			using type = std::add_volatile_t<U>*;
+			using type = std::add_pointer_t<std::add_volatile_t<U>>;
 		};
 		template <typename T, typename U>
 		struct rebase_pointer_<const T*, U>
 		{
-			using type = std::add_const_t<U>*;
+			using type = std::add_pointer_t<std::add_const_t<U>>;
 		};
 		template <typename T, typename U>
 		struct rebase_pointer_<T&, U>
 		{
-			using type = typename rebase_pointer_<T, U>::type&;
+			using type = std::add_lvalue_reference_t<typename rebase_pointer_<T, U>::type>;
 		};
 		template <typename T, typename U>
 		struct rebase_pointer_<T&&, U>
 		{
-			using type = typename rebase_pointer_<T, U>::type&&;
+			using type = std::add_rvalue_reference_t<typename rebase_pointer_<T, U>::type>;
 		};
 
 		template <typename T, bool = std::is_enum_v<std::remove_reference_t<T>>>
@@ -134,135 +150,24 @@ namespace muu
 		template <typename T>
 		struct remove_enum_<T&, true>
 		{
-			using type = typename remove_enum_<T>::type&;
+			using type = std::add_lvalue_reference_t<typename remove_enum_<T>::type>;
 		};
 		template <typename T>
 		struct remove_enum_<T&&, true>
 		{
-			using type = typename remove_enum_<T>::type&&;
+			using type = std::add_rvalue_reference_t<typename remove_enum_<T>::type>;
 		};
 
-		template <typename T>
-		struct remove_noexcept_
-		{
-			using type = T;
-		};
-		template <typename T>
-		struct remove_noexcept_<const T>
-		{
-			using type = const typename remove_noexcept_<T>::type;
-		};
-		template <typename T>
-		struct remove_noexcept_<volatile T>
-		{
-			using type = volatile typename remove_noexcept_<T>::type;
-		};
-		template <typename T>
-		struct remove_noexcept_<const volatile T>
-		{
-			using type = const volatile typename remove_noexcept_<T>::type;
-		};
-		template <typename T>
-		struct remove_noexcept_<T&>
-		{
-			using type = typename remove_noexcept_<T>::type&;
-		};
-		template <typename T>
-		struct remove_noexcept_<T&&>
-		{
-			using type = typename remove_noexcept_<T>::type&&;
-		};
-		template <typename R, typename... P>
-		struct remove_noexcept_<R(P...) noexcept>
-		{
-			using type = R(P...);
-		};
-		template <typename R, typename... P>
-		struct remove_noexcept_<R (*)(P...) noexcept>
-		{
-			using type = R (*)(P...);
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...) noexcept>
-		{
-			using type = R (C::*)(P...);
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...)& noexcept>
-		{
-			using type = R (C::*)(P...) &;
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...)&& noexcept>
-		{
-			using type = R (C::*)(P...) &&;
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...) const noexcept>
-		{
-			using type = R (C::*)(P...) const;
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...) const& noexcept>
-		{
-			using type = R (C::*)(P...) const&;
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...) const&& noexcept>
-		{
-			using type = R (C::*)(P...) const&&;
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...) volatile noexcept>
-		{
-			using type = R (C::*)(P...) volatile;
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...) volatile& noexcept>
-		{
-			using type = R (C::*)(P...) volatile&;
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...) volatile&& noexcept>
-		{
-			using type = R (C::*)(P...) volatile&&;
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...) const volatile noexcept>
-		{
-			using type = R (C::*)(P...) const volatile;
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...) const volatile& noexcept>
-		{
-			using type = R (C::*)(P...) const volatile&;
-		};
-		template <typename C, typename R, typename... P>
-		struct remove_noexcept_<R (C::*)(P...) const volatile&& noexcept>
-		{
-			using type = R (C::*)(P...) const volatile&&;
-		};
+		// === size of ====================
 
+		template <typename T, bool = (std::is_void_v<T> || std::is_function_v<std::remove_reference_t<T>>)>
+		struct size_of_ : std::integral_constant<size_t, sizeof(T)>
+		{};
 		template <typename T>
-		struct alignment_of_
-		{
-			static constexpr size_t value = alignof(T);
-		};
-		template <>
-		struct alignment_of_<void>
-		{
-			static constexpr size_t value = 1;
-		};
-		template <typename R, typename... P>
-		struct alignment_of_<R(P...)>
-		{
-			static constexpr size_t value = 1;
-		};
-		template <typename R, typename... P>
-		struct alignment_of_<R(P...) noexcept>
-		{
-			static constexpr size_t value = 1;
-		};
+		struct size_of_<T, true> : std::integral_constant<size_t, 0>
+		{};
+
+		// === largest ====================
 
 		template <typename...>
 		struct largest_;
@@ -274,13 +179,15 @@ namespace muu
 		template <typename T, typename U>
 		struct largest_<T, U>
 		{
-			using type = std::conditional_t<(sizeof(U) < sizeof(T)), T, U>;
+			using type = std::conditional_t<(size_of_<U>::value > size_of_<T>::value), U, T>;
 		};
 		template <typename T, typename U, typename... V>
 		struct largest_<T, U, V...>
 		{
 			using type = typename largest_<T, typename largest_<U, V...>::type>::type;
 		};
+
+		// === smallest ====================
 
 		template <typename...>
 		struct smallest_;
@@ -292,13 +199,24 @@ namespace muu
 		template <typename T, typename U>
 		struct smallest_<T, U>
 		{
-			using type = std::conditional_t<(sizeof(U) < sizeof(T)), U, T>;
+			using type = std::conditional_t<(size_of_<U>::value < size_of_<T>::value), U, T>;
 		};
 		template <typename T, typename U, typename... V>
 		struct smallest_<T, U, V...>
 		{
 			using type = typename smallest_<T, typename smallest_<U, V...>::type>::type;
 		};
+
+		// === alignment of  ====================
+
+		template <typename T, bool = (std::is_void_v<T> || std::is_function_v<std::remove_reference_t<T>>)>
+		struct alignment_of_ : std::integral_constant<size_t, alignof(T)>
+		{};
+		template <typename T>
+		struct alignment_of_<T, true> : std::integral_constant<size_t, 0>
+		{};
+
+		// === most aligned ====================
 
 		template <typename...>
 		struct most_aligned_;
@@ -307,46 +225,18 @@ namespace muu
 		{
 			using type = T;
 		};
-		template <typename T>
-		struct most_aligned_<T, void>
-		{
-			using type = T;
-		};
-		template <typename T>
-		struct most_aligned_<void, T>
-		{
-			using type = T;
-		};
-		template <typename T, typename R, typename P>
-		struct most_aligned_<T, R(P...)>
-		{
-			using type = T;
-		};
-		template <typename T, typename R, typename P>
-		struct most_aligned_<R(P...), T>
-		{
-			using type = T;
-		};
-		template <typename T, typename R, typename P>
-		struct most_aligned_<T, R(P...) noexcept>
-		{
-			using type = T;
-		};
-		template <typename T, typename R, typename P>
-		struct most_aligned_<R(P...) noexcept, T>
-		{
-			using type = T;
-		};
 		template <typename T, typename U>
 		struct most_aligned_<T, U>
 		{
-			using type = std::conditional_t<(alignment_of_<U>::value < alignment_of_<T>::value), T, U>;
+			using type = std::conditional_t<(alignment_of_<U>::value > alignment_of_<T>::value), U, T>;
 		};
 		template <typename T, typename U, typename... V>
 		struct most_aligned_<T, U, V...>
 		{
 			using type = typename most_aligned_<T, typename most_aligned_<U, V...>::type>::type;
 		};
+
+		// === least aligned ====================
 
 		template <typename...>
 		struct least_aligned_;
@@ -355,46 +245,18 @@ namespace muu
 		{
 			using type = T;
 		};
-		template <typename T>
-		struct least_aligned_<T, void>
-		{
-			using type = T;
-		};
-		template <typename T>
-		struct least_aligned_<void, T>
-		{
-			using type = T;
-		};
-		template <typename T, typename R, typename P>
-		struct least_aligned_<T, R(P...)>
-		{
-			using type = T;
-		};
-		template <typename T, typename R, typename P>
-		struct least_aligned_<R(P...), T>
-		{
-			using type = T;
-		};
-		template <typename T, typename R, typename P>
-		struct least_aligned_<T, R(P...) noexcept>
-		{
-			using type = T;
-		};
-		template <typename T, typename R, typename P>
-		struct least_aligned_<R(P...) noexcept, T>
-		{
-			using type = T;
-		};
 		template <typename T, typename U>
 		struct least_aligned_<T, U>
 		{
-			using type = std::conditional_t<(alignment_of_<T>::value < alignment_of_<U>::value), T, U>;
+			using type = std::conditional_t<(alignment_of_<U>::value < alignment_of_<T>::value), U, T>;
 		};
 		template <typename T, typename U, typename... V>
 		struct least_aligned_<T, U, V...>
 		{
 			using type = typename least_aligned_<T, typename least_aligned_<U, V...>::type>::type;
 		};
+
+		// === fixed-width signed integers ====================
 
 		template <size_t Bits>
 		struct signed_integer_;
@@ -425,6 +287,8 @@ namespace muu
 			using type = int128_t;
 		};
 #endif
+
+		// === fixed-width unsigned integers ====================
 
 		template <size_t Bits>
 		struct unsigned_integer_;
@@ -949,29 +813,32 @@ namespace muu
 	using remove_rvalue_reference = typename impl::remove_rvalue_reference_<T>::type;
 
 	/// \brief The largest type from a set of types.
+	/// \remarks Treats `void` and functions as having size of `0`.
 	template <typename T, typename... U>
 	using largest = typename impl::largest_<T, U...>::type;
 
 	/// \brief The smallest type from a set of types.
+	/// \remarks Treats `void` and functions as having size of `0`.
 	template <typename T, typename... U>
 	using smallest = typename impl::smallest_<T, U...>::type;
 
 	/// \brief The sum of `sizeof()` for all of the types named by T.
+	/// \remarks Treats `void` and functions as having size of `0`.
 	template <typename... T>
-	inline constexpr size_t total_size = (size_t{} + ... + sizeof(T));
+	inline constexpr size_t total_size = (size_t{} + ... + impl::size_of_<T>::value);
 
 	/// \brief The default alignment of a type.
-	/// \remarks Treats `void` and functions as having an alignment of `1`.
+	/// \remarks Treats `void` and functions as having an alignment of `0`.
 	template <typename T>
 	inline constexpr size_t alignment_of = impl::alignment_of_<remove_cvref<T>>::value;
 
 	/// \brief The type with the largest alignment (i.e. having the largest value for `alignment_of<T>`) from a set of types.
-	/// \remarks Treats `void` and functions as having an alignment of `1`.
+	/// \remarks Treats `void` and functions as having an alignment of `0`.
 	template <typename T, typename... U>
 	using most_aligned = typename impl::most_aligned_<T, U...>::type;
 
 	/// \brief The type with the smallest alignment (i.e. having the smallest value for `alignment_of<T>`) from a set of types.
-	/// \remarks Treats `void` and functions as having an alignment of `1`.
+	/// \remarks Treats `void` and functions as having an alignment of `0`.
 	template <typename T, typename... U>
 	using least_aligned = typename impl::least_aligned_<T, U...>::type;
 
@@ -1425,9 +1292,13 @@ namespace muu
 	template <typename... T>
 	inline constexpr bool all_cvref = MUU_ALL_VARIADIC_T(is_cvref);
 
-	/// \brief Removes any `noexcept` specifier from a functional type.
-	template <typename T>
-	using remove_noexcept = typename impl::remove_noexcept_<T>::type;
+	/// \brief Copies the reference category (or lack thereof) from one type or to another.
+	template <typename T, typename CopyFrom>
+	using copy_ref = typename impl::copy_ref_<T, CopyFrom>::type;
+
+	/// \brief Copies consteness, volatility and reference category (or lack thereof) from one type or to another.
+	template <typename T, typename CopyFrom>
+	using copy_cvref = copy_ref<copy_cv<std::remove_reference_t<T>, std::remove_reference_t<CopyFrom>>, CopyFrom>;
 
 	/// \brief Does Child inherit from Parent?
 	/// \remarks This does _not_ consider `Child == Parent` as being an "inherits from" relationship, unlike std::is_base_of.
@@ -1551,6 +1422,196 @@ namespace muu
 	template <typename... T>
 	inline constexpr bool all_array = MUU_ALL_VARIADIC_T(is_array);
 
+	/// \brief Is a type a free/static function, or reference to one?
+	template <typename T>
+	inline constexpr bool is_function = std::is_function_v<remove_cvref<T>>;
+
+	/// \brief Are any of the named types free/static functions, or references to them?
+	template <typename... T>
+	inline constexpr bool any_function = MUU_ANY_VARIADIC_T(is_function);
+
+	/// \brief Are all of the named types free/static functions, or references to them?
+	template <typename... T>
+	inline constexpr bool all_function = MUU_ALL_VARIADIC_T(is_function);
+
+	/// \brief Is a type a free/static function pointer, or reference to one?
+	template <typename T>
+	inline constexpr bool is_function_pointer = std::is_pointer_v<std::remove_reference_t<T>> //
+		&& is_function<std::remove_pointer_t<std::remove_reference_t<T>>>;
+
+	/// \brief Are any of the named types free/static function pointers, or references to them?
+	template <typename... T>
+	inline constexpr bool any_function_pointer = MUU_ANY_VARIADIC_T(is_function_pointer);
+
+	/// \brief Are all of the named types free/static function pointers, or references to them?
+	template <typename... T>
+	inline constexpr bool all_function_pointer = MUU_ALL_VARIADIC_T(is_function_pointer);
+
+	/// \cond
+	namespace impl
+	{
+		template <typename T>
+		struct remove_callconv_
+		{
+			using type = T;
+		};
+		template <typename T>
+		struct remove_callconv_<T*>
+		{
+			using type = std::add_pointer_t<typename remove_callconv_<T>::type>;
+		};
+
+		// free functions + pointers
+#define muu_make_remove_callconv(callconv)                                                                             \
+                                                                                                                       \
+	template <typename R, typename... Args>                                                                            \
+	struct remove_callconv_<R callconv(Args...)>                                                                       \
+	{                                                                                                                  \
+		using type = R(Args...);                                                                                       \
+	};                                                                                                                 \
+                                                                                                                       \
+	template <typename R, typename... Args>                                                                            \
+	struct remove_callconv_<R(callconv*)(Args...)>                                                                     \
+	{                                                                                                                  \
+		using type = R (*)(Args...);                                                                                   \
+	};                                                                                                                 \
+                                                                                                                       \
+	template <typename R, typename... Args>                                                                            \
+	struct remove_callconv_<R callconv(Args...) noexcept>                                                              \
+	{                                                                                                                  \
+		using type = R(Args...) noexcept;                                                                              \
+	};                                                                                                                 \
+                                                                                                                       \
+	template <typename R, typename... Args>                                                                            \
+	struct remove_callconv_<R(callconv*)(Args...) noexcept>                                                            \
+	{                                                                                                                  \
+		using type = R (*)(Args...) noexcept;                                                                          \
+	};
+
+		MUU_FOR_EACH_CALLCONV(muu_make_remove_callconv)
+
+#undef muu_make_remove_callconv
+
+		// member function pointers
+#define muu_make_remove_callconv(callconv, cvref)                                                                      \
+                                                                                                                       \
+	template <typename C, typename R, typename... P>                                                                   \
+	struct remove_callconv_<R (callconv C::*)(P...) cvref>                                                             \
+	{                                                                                                                  \
+		using type = R (C::*)(P...) cvref;                                                                             \
+	};                                                                                                                 \
+                                                                                                                       \
+	template <typename C, typename R, typename... P>                                                                   \
+	struct remove_callconv_<R (callconv C::*)(P...) cvref noexcept>                                                    \
+	{                                                                                                                  \
+		using type = R (C::*)(P...) cvref noexcept;                                                                    \
+	};
+
+		MUU_FOR_EACH_MEMBER_CALLCONV_CVREF(muu_make_remove_callconv)
+
+#undef muu_make_remove_callconv
+
+	}
+	/// \endcond
+
+	/// \brief Removes any explicit calling convention specifiers from functions, function pointers and function references.
+	template <typename T>
+	using remove_callconv = copy_cvref<typename impl::remove_callconv_<remove_cvref<T>>::type, T>;
+
+	/// \cond
+	namespace impl
+	{
+		template <typename T>
+		struct add_noexcept_
+		{
+			using type = T;
+		};
+
+		// free functions + pointers
+#define muu_make_add_noexcept(callconv)                                                                                \
+                                                                                                                       \
+	template <typename R, typename... P>                                                                               \
+	struct add_noexcept_<R callconv(P...)>                                                                             \
+	{                                                                                                                  \
+		using type = R callconv(P...) noexcept;                                                                        \
+	};                                                                                                                 \
+                                                                                                                       \
+	template <typename R, typename... P>                                                                               \
+	struct add_noexcept_<R(callconv*)(P...)>                                                                           \
+	{                                                                                                                  \
+		using type = R(callconv*)(P...) noexcept;                                                                      \
+	};
+
+		MUU_FOR_EACH_CALLCONV(muu_make_add_noexcept)
+
+#undef muu_make_add_noexcept
+
+		// member function pointers
+#define muu_make_add_noexcept(callconv, cvref)                                                                         \
+                                                                                                                       \
+	template <typename C, typename R, typename... P>                                                                   \
+	struct add_noexcept_<R (callconv C::*)(P...) cvref>                                                                \
+	{                                                                                                                  \
+		using type = R (callconv C::*)(P...) cvref noexcept;                                                           \
+	};
+
+		MUU_FOR_EACH_MEMBER_CALLCONV_CVREF(muu_make_add_noexcept)
+
+#undef muu_make_add_noexcept
+	}
+	/// \endcond
+
+	/// \brief Adds a `noexcept` specifier to a functional type (or reference to one).
+	template <typename T>
+	using add_noexcept = copy_cvref<typename impl::add_noexcept_<remove_cvref<T>>::type, T>;
+
+	/// \cond
+	namespace impl
+	{
+		template <typename T>
+		struct remove_noexcept_
+		{
+			using type = T;
+		};
+
+		// free functions + pointers
+#define muu_make_remove_noexcept(callconv)                                                                             \
+                                                                                                                       \
+	template <typename R, typename... P>                                                                               \
+	struct remove_noexcept_<R callconv(P...) noexcept>                                                                 \
+	{                                                                                                                  \
+		using type = R callconv(P...);                                                                                 \
+	};                                                                                                                 \
+                                                                                                                       \
+	template <typename R, typename... P>                                                                               \
+	struct remove_noexcept_<R(callconv*)(P...) noexcept>                                                               \
+	{                                                                                                                  \
+		using type = R(callconv*)(P...);                                                                               \
+	};
+
+		MUU_FOR_EACH_CALLCONV(muu_make_remove_noexcept)
+
+#undef muu_make_remove_noexcept
+
+		// member function pointers
+#define muu_make_remove_noexcept(callconv, cvref)                                                                      \
+                                                                                                                       \
+	template <typename C, typename R, typename... P>                                                                   \
+	struct remove_noexcept_<R (callconv C::*)(P...) cvref noexcept>                                                    \
+	{                                                                                                                  \
+		using type = R (callconv C::*)(P...) cvref;                                                                    \
+	};
+
+		MUU_FOR_EACH_MEMBER_CALLCONV_CVREF(muu_make_remove_noexcept)
+
+#undef muu_make_remove_noexcept
+	}
+	/// \endcond
+
+	/// \brief Removes any `noexcept` specifier from a functional type (or reference to one).
+	template <typename T>
+	using remove_noexcept = copy_cvref<typename impl::remove_noexcept_<remove_cvref<T>>::type, T>;
+
 	/// \cond
 	namespace impl
 	{
@@ -1563,9 +1624,8 @@ namespace muu
 		template <template <typename...> typename Trait, typename... Args>
 		inline constexpr auto is_detected_ = is_detected_impl<Trait, void, Args...>::value;
 	}
-
 	/// \endcond
-	///
+
 	/// \brief Detects if a type supports an interface.
 	/// \see
 	///		- [Detection Idiom](https://blog.tartanllama.xyz/detection-idiom/)
@@ -2215,14 +2275,28 @@ namespace muu
 		inline constexpr bool pass_vectorcall_by_value = !pass_vectorcall_by_reference<T...>;
 
 		template <typename T, bool = has_unary_plus_operator<T>>
+		inline constexpr bool decays_to_pointer_by_unary_plus_ = false;
+
+		template <typename T>
+		inline constexpr bool decays_to_pointer_by_unary_plus_<T, true> =
+			std::is_pointer_v<decltype(+std::declval<T>())>;
+
+		template <typename T, bool = has_unary_plus_operator<T>>
 		inline constexpr bool decays_to_function_pointer_by_unary_plus_ = false;
 
 		template <typename T>
 		inline constexpr bool decays_to_function_pointer_by_unary_plus_<T, true> =
-			std::is_pointer_v<std::remove_reference_t<decltype(+std::declval<T>())>> //
-				&& std::is_function_v<std::remove_pointer_t<std::remove_reference_t<decltype(+std::declval<T>())>>>;
+			is_function_pointer<decltype(+std::declval<T>())>;
 	}
 	/// \endcond
+
+	/// \brief Evaluates to true if an instance of `T` decays to a pointer by explicit unary plus.
+	template <typename T>
+	inline constexpr bool decays_to_pointer_by_unary_plus = impl::decays_to_pointer_by_unary_plus_<T>;
+
+	/// \brief Evaluates to true if an instance of `T` decays to a free-function pointer by explicit unary plus.
+	template <typename T>
+	inline constexpr bool decays_to_function_pointer_by_unary_plus = impl::decays_to_function_pointer_by_unary_plus_<T>;
 
 	/// \brief  A common epsilon type when comparing floating-point types named by T.
 	template <typename... T>
@@ -2248,9 +2322,91 @@ namespace muu
 	/// \brief An index_tag specialization for representing the W axis.
 	using w_axis_tag = index_tag<3>;
 
-	/// \brief Evaluates to true if an instance of `T` decays to a free-function pointer by explicit unary plus.
-	template <typename T>
-	inline constexpr bool decays_to_function_pointer_by_unary_plus = impl::decays_to_function_pointer_by_unary_plus_<T>;
+	/// \cond
+	namespace impl
+	{
+		//=======================================================================
+		// is_stateless_lambda - false (fails basic traits test)
+		//=======================================================================
+
+		// clang-format off
+
+		template <typename T>
+		inline constexpr bool could_be_stateless_lambda_ // see https://en.cppreference.com/w/cpp/language/lambda
+			 = std::is_class_v<T>
+			&& std::is_empty_v<T>
+			&& (size_of_<T>::value <= 1)
+			&& (std::is_trivially_default_constructible_v<T> || !std::is_default_constructible_v<T>)
+			&& (std::is_trivially_copy_assignable_v<T> || !std::is_copy_assignable_v<T>)
+			&& (std::is_trivially_move_assignable_v<T> || !std::is_move_assignable_v<T>)
+			&& std::is_trivially_copy_constructible_v<T>
+			&& std::is_trivially_move_constructible_v<T>
+			&& std::is_trivially_destructible_v<T>;
+
+		// clang-format on
+
+		template <typename T, typename FuncPtr, bool = could_be_stateless_lambda_<T>>
+		struct is_stateless_lambda_ : std::false_type
+		{
+			static_assert(std::is_void_v<FuncPtr> || is_function_pointer<FuncPtr>,
+						  "CompatibleWithFunc must be one of: void, function, function pointer, function reference");
+		};
+
+		//=======================================================================
+		// is_stateless_lambda - user-specified "compatible with" function
+		//=======================================================================
+
+		template <typename T, typename FuncPtr>
+		inline constexpr bool is_invocable_as_ = false;
+		template <typename T, typename R, typename... Args>
+		inline constexpr bool is_invocable_as_<T, R (*)(Args...)> = std::is_invocable_r_v<R, T, Args...>;
+		template <typename T, typename R, typename... Args>
+		inline constexpr bool is_invocable_as_<T, R (*)(Args...) noexcept> =
+			std::is_nothrow_invocable_r_v<R, T, Args...>;
+
+		template <typename T, typename FuncPtr>
+		struct is_stateless_lambda_<T, FuncPtr, true>
+			: std::bool_constant<is_implicitly_nothrow_convertible<T, FuncPtr> //
+								 || is_invocable_as_<T, FuncPtr>>
+		{
+			static_assert(is_function_pointer<FuncPtr>,
+						  "CompatibleWithFunc must be one of: void, function, function pointer, function reference");
+		};
+
+		//=======================================================================
+		// is_stateless_lambda - determine function type by decay
+		//=======================================================================
+
+		template <typename T, bool = decays_to_function_pointer_by_unary_plus<T>>
+		struct is_stateless_lambda_by_decay_ : is_stateless_lambda_<T, decltype(+std::declval<T>())>
+		{};
+		template <typename T>
+		struct is_stateless_lambda_by_decay_<T, false> : std::false_type
+		{};
+
+		template <typename T>
+		struct is_stateless_lambda_<T, void, true> // no "compatible with" function; have to do magic
+			: is_stateless_lambda_by_decay_<T>
+		{};
+
+	}
+	/// \endcond
+
+	/// \brief Evaluates to true if `T` is a stateless lambda type, or a reference to one.
+	///
+	/// \attention	The language provides no way of genuinely identifying a stateless lambda. This trait is based on
+	///				a highly-selective set of traits that _in the general case_ will only select for stateless lambdas.
+	///				It is still possible to manually construct a type that meets the criteria without being an actual
+	///				C++ lambda.
+	template <typename T, typename CompatibleWithFunc = void>
+	inline constexpr bool is_stateless_lambda = POXY_IMPLEMENTATION_DETAIL(
+		impl::is_stateless_lambda_<remove_cvref<T>,
+								   std::conditional_t<std::is_void_v<CompatibleWithFunc>,
+													  void,
+													  std::add_pointer_t<remove_callconv<std::remove_pointer_t<
+														  std::remove_reference_t<CompatibleWithFunc>>>> //
+													  >													 //
+								   >::value);
 
 	/** @} */ // meta
 }

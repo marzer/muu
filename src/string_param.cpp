@@ -290,6 +290,7 @@ namespace
 	}
 }
 
+MUU_CONST_GETTER
 bool MUU_CALLCONV string_param::built_with_char8_support() noexcept
 {
 #if MUU_HAS_CHAR8_STRINGS

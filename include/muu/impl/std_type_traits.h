@@ -19,4 +19,9 @@ MUU_ENABLE_WARNINGS;
 #undef MUU_ENABLE_IF
 #define MUU_ENABLE_IF(...) , std::enable_if_t<(__VA_ARGS__), int> = 0
 
+#if defined(__cpp_lib_type_identity) && __cpp_lib_type_identity >= 201806
+	#undef MUU_TYPE_IDENTITY
+	#define MUU_TYPE_IDENTITY(...) std::type_identity_t<__VA_ARGS__>
+#endif
+
 #endif // MUU_STD_TYPE_TRAITS_H
