@@ -5283,8 +5283,8 @@
       <type>constexpr vector_type</type>
       <name>corner</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>ab9acce8c7f88eb1cc7d9ee2cd37ea0f5</anchor>
-      <arglist>(box_corners which) const noexcept</arglist>
+      <anchor>ad067bbf7faac219c8bc92fbae861641a</anchor>
+      <arglist>(box_corner which) const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector_type</type>
@@ -5311,8 +5311,8 @@
       <type>static constexpr vector_type</type>
       <name>corner</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>abb6f653cb44c9ba8d03a06dfa5d57a22</anchor>
-      <arglist>(const bounding_box &amp;bb, box_corners which) noexcept</arglist>
+      <anchor>a9fc552fc02bc0e0631df01b847d1cfbb</anchor>
+      <arglist>(const bounding_box &amp;bb, box_corner which) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr vector_type</type>
@@ -9395,8 +9395,8 @@
       <type>constexpr vector_type</type>
       <name>corner</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>aca452c3f4d3494423c70f14b7cf52dfe</anchor>
-      <arglist>(box_corners which) const noexcept</arglist>
+      <anchor>a16c6c91c3f5442ff291de03c27c141ff</anchor>
+      <arglist>(box_corner which) const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector_type</type>
@@ -9423,8 +9423,8 @@
       <type>static constexpr vector_type</type>
       <name>corner</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>add9f55da11a5e3b44b8fbbc5fbf751cc</anchor>
-      <arglist>(const oriented_bounding_box &amp;bb, box_corners which) noexcept</arglist>
+      <anchor>a059e5ad5317cc00899ba8d0f9efeab9d</anchor>
+      <arglist>(const oriented_bounding_box &amp;bb, box_corner which) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr vector_type</type>
@@ -16077,19 +16077,19 @@
     </member>
     <member kind="enumeration">
       <type></type>
-      <name>box_corners</name>
+      <name>box_corner</name>
       <anchorfile>group__math.html</anchorfile>
-      <anchor>ga149b29e987e85245995f74a9efec7a9c</anchor>
+      <anchor>gaea66a56dd5d6fff0e1d6647c774eed1e</anchor>
       <arglist></arglist>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cad8bd79cc131920d5de426f914d17405a">min</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca9dd4e461268c8034f5c8564e155c67a6">x</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca415290769594460e2e485922904f345d">y</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca3e44107170a520582ade522fa73c1d15">xy</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cafbade9e36a3f36d3d676c1b808451dd7">z</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1">xz</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95">yz</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cad16fb36f0911f878998c136191af705e">xyz</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ead8bd79cc131920d5de426f914d17405a">min</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea9dd4e461268c8034f5c8564e155c67a6">x</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea415290769594460e2e485922904f345d">y</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea3e44107170a520582ade522fa73c1d15">xy</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1eafbade9e36a3f36d3d676c1b808451dd7">z</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1eadbd69ee9ae289a85ea34dbef8435d7c1">xz</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea2151a2bc77807b81113febbf50c4bc95">yz</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ead16fb36f0911f878998c136191af705e">xyz</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
     </member>
     <member kind="function">
       <type>constexpr int</type>
@@ -21127,19 +21127,19 @@
     <class kind="struct">muu::vector</class>
     <member kind="enumeration">
       <type></type>
-      <name>box_corners</name>
+      <name>box_corner</name>
       <anchorfile>group__math.html</anchorfile>
-      <anchor>ga149b29e987e85245995f74a9efec7a9c</anchor>
+      <anchor>gaea66a56dd5d6fff0e1d6647c774eed1e</anchor>
       <arglist></arglist>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cad8bd79cc131920d5de426f914d17405a">min</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca9dd4e461268c8034f5c8564e155c67a6">x</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca415290769594460e2e485922904f345d">y</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca3e44107170a520582ade522fa73c1d15">xy</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cafbade9e36a3f36d3d676c1b808451dd7">z</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cadbd69ee9ae289a85ea34dbef8435d7c1">xz</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2151a2bc77807b81113febbf50c4bc95">yz</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9cad16fb36f0911f878998c136191af705e">xyz</enumvalue>
-      <enumvalue file="group__math.html" anchor="gga149b29e987e85245995f74a9efec7a9ca2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ead8bd79cc131920d5de426f914d17405a">min</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea9dd4e461268c8034f5c8564e155c67a6">x</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea415290769594460e2e485922904f345d">y</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea3e44107170a520582ade522fa73c1d15">xy</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1eafbade9e36a3f36d3d676c1b808451dd7">z</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1eadbd69ee9ae289a85ea34dbef8435d7c1">xz</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea2151a2bc77807b81113febbf50c4bc95">yz</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ead16fb36f0911f878998c136191af705e">xyz</enumvalue>
+      <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
     </member>
     <member kind="function">
       <type>constexpr auto</type>
