@@ -181,7 +181,7 @@ namespace muu
 		template <typename T>
 		struct floating_point_named_constants
 		{
-			/// \name Irrational numbers
+			/// \name Irrational numbers and ratios
 			/// @{
 
 			static constexpr T one_over_two			  = T(0.500000000000000000000L); ///< `1 / 2`
@@ -195,6 +195,9 @@ namespace muu
 			static constexpr T three_over_five		  = T(0.600000000000000000000L); ///< `3 / 5`
 			static constexpr T sqrt_three			  = T(1.732050807568877293527L); ///< `sqrt(3)`
 			static constexpr T one_over_sqrt_three	  = T(0.577350269189625764509L); ///< `1 / sqrt(3)`
+			static constexpr T one_over_ten			  = T(0.100000000000000000000L); ///< `1 / 10`
+			static constexpr T one_over_one_hundred	  = T(0.010000000000000000000L); ///< `1 / 100`
+			static constexpr T one_over_one_thousand  = T(0.001000000000000000000L); ///< `1 / 1000`
 			static constexpr T pi					  = T(3.141592653589793238463L); ///< `pi`
 			static constexpr T one_over_pi			  = T(0.318309886183790671538L); ///< `1 / pi`
 			static constexpr T pi_over_two			  = T(1.570796326794896619231L); ///< `pi / 2`
@@ -265,6 +268,9 @@ namespace muu
 			static constexpr float128_t three_over_five		   = 0.600000000000000000000000000000000000q;
 			static constexpr float128_t sqrt_three			   = 1.732050807568877293527446341505872367q;
 			static constexpr float128_t one_over_sqrt_three	   = 0.577350269189625764509148780501957456q;
+			static constexpr float128_t one_over_ten		   = 0.100000000000000000000000000000000000q;
+			static constexpr float128_t one_over_one_hundred   = 0.010000000000000000000000000000000000q;
+			static constexpr float128_t one_over_one_thousand  = 0.001000000000000000000000000000000000q;
 			static constexpr float128_t pi					   = 3.141592653589793238462643383279502884q;
 			static constexpr float128_t one_over_pi			   = 0.318309886183790671537767526745028724q;
 			static constexpr float128_t pi_over_two			   = 1.570796326794896619231321691639751442q;

@@ -24,10 +24,10 @@ namespace muu
 		MUU_VC_PARAM(oriented_bounding_box<Scalar>) obb) noexcept
 	{
 		const vector_type corners[] = {
-			obb.template corner<box_corners::min>(), obb.template corner<muu::box_corners::x>(),
-			obb.template corner<box_corners::y>(),	 obb.template corner<muu::box_corners::xy>(),
-			obb.template corner<box_corners::z>(),	 obb.template corner<muu::box_corners::xz>(),
-			obb.template corner<box_corners::yz>(),	 obb.template corner<muu::box_corners::max>()
+			obb.template corner<box_corner::min>(), obb.template corner<muu::box_corner::x>(),
+			obb.template corner<box_corner::y>(),	obb.template corner<muu::box_corner::xy>(),
+			obb.template corner<box_corner::z>(),	obb.template corner<muu::box_corner::xz>(),
+			obb.template corner<box_corner::yz>(),	obb.template corner<muu::box_corner::max>()
 		};
 
 		return bounding_box{ corners };
@@ -40,10 +40,10 @@ namespace muu
 		MUU_VC_PARAM(oriented_bounding_box<Scalar>) obb) noexcept
 	{
 		const vector_type obb_corners[] = {
-			obb.template corner<box_corners::min>(), obb.template corner<box_corners::x>(),
-			obb.template corner<box_corners::xy>(),	 obb.template corner<box_corners::xz>(),
-			obb.template corner<box_corners::y>(),	 obb.template corner<box_corners::yz>(),
-			obb.template corner<box_corners::z>(),	 obb.template corner<box_corners::max>()
+			obb.template corner<box_corner::min>(), obb.template corner<box_corner::x>(),
+			obb.template corner<box_corner::xy>(),	obb.template corner<box_corner::xz>(),
+			obb.template corner<box_corner::y>(),	obb.template corner<box_corner::yz>(),
+			obb.template corner<box_corner::z>(),	obb.template corner<box_corner::max>()
 		};
 
 		// test aabb axes first - cheaper since the axes and ranges require less work
@@ -61,10 +61,10 @@ namespace muu
 			return false;
 
 		const vector_type aabb_corners[] = {
-			aabb.template corner<box_corners::min>(), aabb.template corner<box_corners::x>(),
-			aabb.template corner<box_corners::xy>(),  aabb.template corner<box_corners::xz>(),
-			aabb.template corner<box_corners::y>(),	  aabb.template corner<box_corners::yz>(),
-			aabb.template corner<box_corners::z>(),	  aabb.template corner<box_corners::max>()
+			aabb.template corner<box_corner::min>(), aabb.template corner<box_corner::x>(),
+			aabb.template corner<box_corner::xy>(),	 aabb.template corner<box_corner::xz>(),
+			aabb.template corner<box_corner::y>(),	 aabb.template corner<box_corner::yz>(),
+			aabb.template corner<box_corner::z>(),	 aabb.template corner<box_corner::max>()
 		};
 
 		// test obb axes

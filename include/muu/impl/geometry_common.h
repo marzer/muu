@@ -19,7 +19,7 @@ namespace muu
 	/// \see
 	/// 	- muu::bounding_box
 	/// 	- muu::oriented_bounding_box
-	enum class box_corners : uint8_t
+	enum class box_corner : uint8_t
 	{
 		min = 0,		 ///< The 'min' corner (negative offset on all axes).
 		x	= 1,		 ///< The corner with a positive offset on the X axis, negative on Y and Z.
@@ -31,7 +31,6 @@ namespace muu
 		xyz = x | y | z, ///< The 'max' corner (positive offset on all axes).
 		max = xyz		 ///< The 'max' corner (positive offset on all axes).
 	};
-	MUU_MAKE_FLAGS(box_corners);
 }
 
 /// \cond
@@ -567,46 +566,46 @@ namespace muu::impl
 			return extents.x <= scalar_type{} || extents.y <= scalar_type{} || extents.z <= scalar_type{};
 		}
 
-		template <box_corners Corner>
+		template <box_corner Corner>
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner_offset(vector_param extents) noexcept
 		{
-			static_assert(Corner <= box_corners::max);
+			static_assert(Corner <= box_corner::max);
 
-			if constexpr (Corner == box_corners::min)
+			if constexpr (Corner == box_corner::min)
 				return -extents;
-			if constexpr (Corner == box_corners::x)
+			if constexpr (Corner == box_corner::x)
 				return vector_type{ extents.x, -extents.y, -extents.z };
-			if constexpr (Corner == box_corners::y)
+			if constexpr (Corner == box_corner::y)
 				return vector_type{ -extents.x, extents.y, -extents.z };
-			if constexpr (Corner == box_corners::z)
+			if constexpr (Corner == box_corner::z)
 				return vector_type{ -extents.x, -extents.y, extents.z };
-			if constexpr (Corner == box_corners::xy)
+			if constexpr (Corner == box_corner::xy)
 				return vector_type{ extents.x, extents.y, -extents.z };
-			if constexpr (Corner == box_corners::xz)
+			if constexpr (Corner == box_corner::xz)
 				return vector_type{ extents.x, -extents.y, extents.z };
-			if constexpr (Corner == box_corners::yz)
+			if constexpr (Corner == box_corner::yz)
 				return vector_type{ -extents.x, extents.y, extents.z };
-			if constexpr (Corner == box_corners::max)
+			if constexpr (Corner == box_corner::max)
 				return extents;
 		}
 
 		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner_offset(vector_param extents, box_corners which) noexcept
+		static constexpr vector_type MUU_VECTORCALL corner_offset(vector_param extents, box_corner which) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT(which <= box_corners::max && "'which' cannot exceed box_corners::max");
-			MUU_ASSUME(which <= box_corners::max);
+			MUU_CONSTEXPR_SAFE_ASSERT(which <= box_corner::max && "'which' cannot exceed box_corner::max");
+			MUU_ASSUME(which <= box_corner::max);
 
 			switch (which)
 			{
-				case box_corners::min: return boxes_common::template corner_offset<box_corners::min>(extents);
-				case box_corners::x: return boxes_common::template corner_offset<box_corners::x>(extents);
-				case box_corners::y: return boxes_common::template corner_offset<box_corners::y>(extents);
-				case box_corners::xy: return boxes_common::template corner_offset<box_corners::xy>(extents);
-				case box_corners::z: return boxes_common::template corner_offset<box_corners::z>(extents);
-				case box_corners::xz: return boxes_common::template corner_offset<box_corners::xz>(extents);
-				case box_corners::yz: return boxes_common::template corner_offset<box_corners::yz>(extents);
-				case box_corners::max: return boxes_common::template corner_offset<box_corners::max>(extents);
+				case box_corner::min: return boxes_common::template corner_offset<box_corner::min>(extents);
+				case box_corner::x: return boxes_common::template corner_offset<box_corner::x>(extents);
+				case box_corner::y: return boxes_common::template corner_offset<box_corner::y>(extents);
+				case box_corner::xy: return boxes_common::template corner_offset<box_corner::xy>(extents);
+				case box_corner::z: return boxes_common::template corner_offset<box_corner::z>(extents);
+				case box_corner::xz: return boxes_common::template corner_offset<box_corner::xz>(extents);
+				case box_corner::yz: return boxes_common::template corner_offset<box_corner::yz>(extents);
+				case box_corner::max: return boxes_common::template corner_offset<box_corner::max>(extents);
 				default: MUU_UNREACHABLE;
 			}
 			MUU_UNREACHABLE;
@@ -644,7 +643,7 @@ namespace muu::impl
 		using boxes		   = boxes_common<Scalar>;
 		using triangles	   = triangles_common<Scalar>;
 
-		template <box_corners Corner>
+		template <box_corner Corner>
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(vector_param center, vector_param extents) noexcept
 		{
@@ -654,7 +653,7 @@ namespace muu::impl
 		MUU_PURE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
 														   vector_param extents,
-														   box_corners which) noexcept
+														   box_corner which) noexcept
 		{
 			return center + boxes::corner_offset(extents, which);
 		}
@@ -715,7 +714,7 @@ namespace muu::impl
 		using axes_param   = vectorcall_param<axes_type>;
 		using boxes		   = boxes_common<Scalar>;
 
-		template <box_corners Corner>
+		template <box_corner Corner>
 		MUU_PURE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
 														   vector_param extents,
@@ -729,7 +728,7 @@ namespace muu::impl
 		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
 														   vector_param extents,
 														   axes_param axes,
-														   box_corners which) noexcept
+														   box_corner which) noexcept
 		{
 			const auto offset = boxes::corner_offset(extents, which);
 			return center + offset.x * axes.m[0] + offset.y * axes.m[1] + offset.z * axes.m[2];

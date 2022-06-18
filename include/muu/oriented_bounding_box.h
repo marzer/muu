@@ -492,7 +492,7 @@ namespace muu
 		/// @{
 
 		/// \brief	Returns a specific corner of an oriented bounding box.
-		template <box_corners Corner>
+		template <box_corner Corner>
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
 		{
@@ -500,7 +500,7 @@ namespace muu
 		}
 
 		/// \brief	Returns a specific corner of the oriented bounding box.
-		template <box_corners Corner>
+		template <box_corner Corner>
 		MUU_PURE_INLINE_GETTER
 		constexpr vector_type corner() const noexcept
 		{
@@ -510,14 +510,14 @@ namespace muu
 		/// \brief	Returns a specific corner of an oriented bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(oriented_bounding_box) bb,
-														   box_corners which) noexcept
+														   box_corner which) noexcept
 		{
 			return obbs::corner(bb.center, bb.extents, bb.axes, which);
 		}
 
 		/// \brief	Returns a specific corner of the oriented bounding box.
 		MUU_PURE_INLINE_GETTER
-		constexpr vector_type corner(box_corners which) const noexcept
+		constexpr vector_type corner(box_corner which) const noexcept
 		{
 			return obbs::corner(base::center, base::extents, base::axes, which);
 		}
@@ -526,28 +526,28 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL min_corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
 		{
-			return obbs::template corner<box_corners::min>(bb.center, bb.extents, bb.axes);
+			return obbs::template corner<box_corner::min>(bb.center, bb.extents, bb.axes);
 		}
 
 		/// \brief	Returns the 'min' corner of the oriented bounding box.
 		MUU_PURE_INLINE_GETTER
 		constexpr vector_type min_corner() const noexcept
 		{
-			return obbs::template corner<box_corners::min>(base::center, base::extents, base::axes);
+			return obbs::template corner<box_corner::min>(base::center, base::extents, base::axes);
 		}
 
 		/// \brief	Returns the 'max' corner of an oriented bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL max_corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
 		{
-			return obbs::template corner<box_corners::max>(bb.center, bb.extents, bb.axes);
+			return obbs::template corner<box_corner::max>(bb.center, bb.extents, bb.axes);
 		}
 
 		/// \brief	Returns the 'max' corner of the oriented bounding box.
 		MUU_PURE_INLINE_GETTER
 		constexpr vector_type max_corner() const noexcept
 		{
-			return obbs::template corner<box_corners::max>(base::center, base::extents, base::axes);
+			return obbs::template corner<box_corner::max>(base::center, base::extents, base::axes);
 		}
 
 			/// @}
@@ -694,17 +694,17 @@ namespace muu
 														MUU_VC_PARAM(oriented_bounding_box) bb2) noexcept
 		{
 			const vector_type corners1[] = {
-				bb1.template corner<box_corners::min>(), bb1.template corner<box_corners::x>(),
-				bb1.template corner<box_corners::xy>(),	 bb1.template corner<box_corners::xz>(),
-				bb1.template corner<box_corners::y>(),	 bb1.template corner<box_corners::yz>(),
-				bb1.template corner<box_corners::z>(),	 bb1.template corner<box_corners::max>()
+				bb1.template corner<box_corner::min>(), bb1.template corner<box_corner::x>(),
+				bb1.template corner<box_corner::xy>(),	bb1.template corner<box_corner::xz>(),
+				bb1.template corner<box_corner::y>(),	bb1.template corner<box_corner::yz>(),
+				bb1.template corner<box_corner::z>(),	bb1.template corner<box_corner::max>()
 			};
 
 			const vector_type corners2[] = {
-				bb2.template corner<box_corners::min>(), bb2.template corner<box_corners::x>(),
-				bb2.template corner<box_corners::xy>(),	 bb2.template corner<box_corners::xz>(),
-				bb2.template corner<box_corners::y>(),	 bb2.template corner<box_corners::yz>(),
-				bb2.template corner<box_corners::z>(),	 bb2.template corner<box_corners::max>()
+				bb2.template corner<box_corner::min>(), bb2.template corner<box_corner::x>(),
+				bb2.template corner<box_corner::xy>(),	bb2.template corner<box_corner::xz>(),
+				bb2.template corner<box_corner::y>(),	bb2.template corner<box_corner::yz>(),
+				bb2.template corner<box_corner::z>(),	bb2.template corner<box_corner::max>()
 			};
 
 			for (auto* bb : { &bb1, &bb2 })

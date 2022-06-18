@@ -839,6 +839,9 @@ namespace muu
 			static constexpr half three_over_five		 = half::from_bits(0b0'01110'0011001101_u16);
 			static constexpr half sqrt_three			 = half::from_bits(0b0'01111'1011101110_u16);
 			static constexpr half one_over_sqrt_three	 = half::from_bits(0b0'01110'0010011111_u16);
+			static constexpr half one_over_ten			 = half::from_bits(0b0'01011'1001100111_u16);
+			static constexpr half one_over_one_hundred	 = half::from_bits(0b0'01000'0100011111_u16);
+			static constexpr half one_over_one_thousand	 = half::from_bits(0b0'00101'0000011001_u16);
 			static constexpr half pi					 = half::from_bits(0b0'10000'1001001001_u16);
 			static constexpr half one_over_pi			 = half::from_bits(0b0'01101'0100011000_u16);
 			static constexpr half pi_over_two			 = half::from_bits(0b0'01111'1001001001_u16);

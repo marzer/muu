@@ -561,7 +561,7 @@ namespace muu
 		/// @{
 
 		/// \brief	Returns a specific corner of a bounding box.
-		template <box_corners Corner>
+		template <box_corner Corner>
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(bounding_box) bb) noexcept
 		{
@@ -569,7 +569,7 @@ namespace muu
 		}
 
 		/// \brief	Returns a specific corner of the bounding box.
-		template <box_corners Corner>
+		template <box_corner Corner>
 		MUU_PURE_INLINE_GETTER
 		constexpr vector_type corner() const noexcept
 		{
@@ -578,14 +578,14 @@ namespace muu
 
 		/// \brief	Returns a specific corner of a bounding box.
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(bounding_box) bb, box_corners which) noexcept
+		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(bounding_box) bb, box_corner which) noexcept
 		{
 			return aabbs::corner(bb.center, bb.extents, which);
 		}
 
 		/// \brief	Returns a specific corner of the bounding box.
 		MUU_PURE_INLINE_GETTER
-		constexpr vector_type corner(box_corners which) const noexcept
+		constexpr vector_type corner(box_corner which) const noexcept
 		{
 			return aabbs::corner(base::center, base::extents, which);
 		}
@@ -594,28 +594,28 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL min_corner(MUU_VC_PARAM(bounding_box) bb) noexcept
 		{
-			return aabbs::template corner<box_corners::min>(bb.center, bb.extents);
+			return aabbs::template corner<box_corner::min>(bb.center, bb.extents);
 		}
 
 		/// \brief	Returns the 'min' corner of the bounding box.
 		MUU_PURE_INLINE_GETTER
 		constexpr vector_type min_corner() const noexcept
 		{
-			return aabbs::template corner<box_corners::min>(base::center, base::extents);
+			return aabbs::template corner<box_corner::min>(base::center, base::extents);
 		}
 
 		/// \brief	Returns the 'max' corner of a bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL max_corner(MUU_VC_PARAM(bounding_box) bb) noexcept
 		{
-			return aabbs::template corner<box_corners::max>(bb.center, bb.extents);
+			return aabbs::template corner<box_corner::max>(bb.center, bb.extents);
 		}
 
 		/// \brief	Returns the 'max' corner of the bounding box.
 		MUU_PURE_INLINE_GETTER
 		constexpr vector_type max_corner() const noexcept
 		{
-			return aabbs::template corner<box_corners::max>(base::center, base::extents);
+			return aabbs::template corner<box_corner::max>(base::center, base::extents);
 		}
 
 			/// @}
@@ -958,12 +958,12 @@ namespace muu
 
 			// test triangle normal against box
 			const vector_type box_verts[] = { aabb_min,
-											  bb.template corner<box_corners::x>(),
-											  bb.template corner<box_corners::xy>(),
-											  bb.template corner<box_corners::xz>(),
-											  bb.template corner<box_corners::y>(),
-											  bb.template corner<box_corners::yz>(),
-											  bb.template corner<box_corners::z>(),
+											  bb.template corner<box_corner::x>(),
+											  bb.template corner<box_corner::xy>(),
+											  bb.template corner<box_corner::xz>(),
+											  bb.template corner<box_corner::y>(),
+											  bb.template corner<box_corner::yz>(),
+											  bb.template corner<box_corner::z>(),
 											  aabb_max };
 			{
 				const auto axis = triangles::normal(p0, p1, p2);

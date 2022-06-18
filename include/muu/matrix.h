@@ -411,7 +411,7 @@ namespace muu::impl
 			const auto x = dir_type::normalize(dir_type{ static_cast<const matrix_type&>(*this).x_column() });
 			const auto y = dir_type::normalize(dir_type{ static_cast<const matrix_type&>(*this).y_column() });
 
-			constexpr auto eps = Scalar{ 0.001 };
+			constexpr auto eps = constants<Scalar>::one_over_one_thousand;
 
 			return !approx_equal(dir_type::dot(x, y), Scalar{}, eps);
 		}
@@ -561,7 +561,7 @@ namespace muu::impl
 			const auto y = dir_type::normalize(dir_type{ static_cast<const matrix_type&>(*this).y_column() });
 			const auto z = dir_type::normalize(dir_type{ static_cast<const matrix_type&>(*this).z_column() });
 
-			constexpr auto eps = Scalar{ 0.001 };
+			constexpr auto eps = constants<Scalar>::one_over_one_thousand;
 
 			return !approx_equal(dir_type::dot(x, y), Scalar{}, eps) //
 				|| !approx_equal(dir_type::dot(x, z), Scalar{}, eps) //
@@ -1060,13 +1060,16 @@ namespace muu::impl
 															 MUU_VC_PARAM(vector<Scalar, 3>) y,
 															 MUU_VC_PARAM(vector<Scalar, 3>) z) noexcept
 		{
+			constexpr auto eps = is_small_float_<Scalar> ? constants<Scalar>::one_over_one_hundred
+														 : constants<Scalar>::one_over_one_thousand;
+
 			using vec = vector<Scalar, 3>;
-			return vec::normalized(x)				//
-				&& vec::normalized(y)				//
-				&& vec::normalized(z)				//
-				&& muu::approx_zero(vec::dot(x, y)) //
-				&& muu::approx_zero(vec::dot(x, z)) //
-				&& muu::approx_zero(vec::dot(y, z));
+			return vec::normalized(x)					 //
+				&& vec::normalized(y)					 //
+				&& vec::normalized(z)					 //
+				&& muu::approx_zero(vec::dot(x, y), eps) //
+				&& muu::approx_zero(vec::dot(x, z), eps) //
+				&& muu::approx_zero(vec::dot(y, z), eps);
 		}
 
 	  public:

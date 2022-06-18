@@ -123,6 +123,9 @@ namespace muu
 		static constexpr long double phi_over_six			= 0.26967L;	 // 0'01101'0001010001
 		static constexpr long double sqrt_phi				= 1.27202L;	 // 0'01111'0100010111
 		static constexpr long double one_over_sqrt_phi		= 0.78615L;	 // 0'01110'1001001010
+		static constexpr long double one_over_ten			= 0.10000L;	 // 0'01011'1001100111
+		static constexpr long double one_over_one_hundred	= 0.01000L;	 // 0'01000'0100011111
+		static constexpr long double one_over_one_thousand	= 0.00100L;	 // 0'00101'0000011001
 		static constexpr long double degrees_to_radians		= 0.01745L;	 // 0'01001'0001111000
 		static constexpr long double radians_to_degrees		= 57.29578L; // 0'10100'1100101010
 
@@ -248,6 +251,9 @@ namespace muu
 		static constexpr long double phi_over_six			= 0.269672331L;
 		static constexpr long double sqrt_phi				= 1.272019650L;
 		static constexpr long double one_over_sqrt_phi		= 0.786151378L;
+		static constexpr long double one_over_ten			= 0.100000000L;
+		static constexpr long double one_over_one_hundred	= 0.010000000L;
+		static constexpr long double one_over_one_thousand	= 0.001000000L;
 		static constexpr long double degrees_to_radians		= 0.017453293L;
 		static constexpr long double radians_to_degrees		= 57.295779513L;
 
@@ -408,6 +414,9 @@ namespace muu
 		static constexpr long double phi_over_six			= 0.26967233145831581L;
 		static constexpr long double sqrt_phi				= 1.27201964951406896L;
 		static constexpr long double one_over_sqrt_phi		= 0.78615137775742329L;
+		static constexpr long double one_over_ten			= 0.10000000000000000L;
+		static constexpr long double one_over_one_hundred	= 0.01000000000000000L;
+		static constexpr long double one_over_one_thousand	= 0.00100000000000000L;
 		static constexpr long double degrees_to_radians		= 0.01745329251994330L;
 		static constexpr long double radians_to_degrees		= 57.29577951308232088L;
 
@@ -588,6 +597,9 @@ namespace muu
 		static constexpr long double phi_over_six			= 0.269672331458315808034L;
 		static constexpr long double sqrt_phi				= 1.272019649514068964252L;
 		static constexpr long double one_over_sqrt_phi		= 0.786151377757423286070L;
+		static constexpr long double one_over_ten			= 0.100000000000000000000L;
+		static constexpr long double one_over_one_hundred	= 0.010000000000000000000L;
+		static constexpr long double one_over_one_thousand	= 0.001000000000000000000L;
 		static constexpr long double degrees_to_radians		= 0.017453292519943295769L;
 		static constexpr long double radians_to_degrees		= 57.295779513082320876798L;
 
@@ -773,6 +785,9 @@ namespace muu
 		static constexpr long double phi_over_six			= 0.269672331458315808034L;
 		static constexpr long double sqrt_phi				= 1.272019649514068964252L;
 		static constexpr long double one_over_sqrt_phi		= 0.786151377757423286070L;
+		static constexpr long double one_over_ten			= 0.100000000000000000000L;
+		static constexpr long double one_over_one_hundred	= 0.010000000000000000000L;
+		static constexpr long double one_over_one_thousand	= 0.001000000000000000000L;
 		static constexpr long double degrees_to_radians		= 0.017453292519943295769L;
 		static constexpr long double radians_to_degrees		= 57.295779513082320876798L;
 
@@ -1071,6 +1086,9 @@ namespace muu
 		static constexpr float128_t phi_over_six		   = 0.269672331458315808034097805727606353q;
 		static constexpr float128_t sqrt_phi			   = 1.272019649514068964252422461737491492q;
 		static constexpr float128_t one_over_sqrt_phi	   = 0.786151377757423286069558585842958930q;
+		static constexpr float128_t one_over_ten		   = 0.100000000000000000000000000000000000q;
+		static constexpr float128_t one_over_one_hundred   = 0.010000000000000000000000000000000000q;
+		static constexpr float128_t one_over_one_thousand  = 0.001000000000000000000000000000000000q;
 		static constexpr float128_t degrees_to_radians	   = 0.017453292519943295769236907684886127q;
 		static constexpr float128_t radians_to_degrees	   = 57.295779513082320876798154814105170332q;
 

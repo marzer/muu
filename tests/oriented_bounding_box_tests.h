@@ -372,54 +372,54 @@ BATCHED_TEST_CASE("oriented_bounding_box corners", oriented_bounding_boxes<ALL_F
 
 	BATCHED_SECTION("obb::corner<>()")
 	{
-		CHECK(obb::template corner<box_corners::min>(box) == vec3{ neg });
-		CHECK(obb::template corner<box_corners::x>(box) == vec3{ pos, neg, neg });
-		CHECK(obb::template corner<box_corners::y>(box) == vec3{ neg, pos, neg });
-		CHECK(obb::template corner<box_corners::z>(box) == vec3{ neg, neg, pos });
-		CHECK(obb::template corner<box_corners::xy>(box) == vec3{ pos, pos, neg });
-		CHECK(obb::template corner<box_corners::xz>(box) == vec3{ pos, neg, pos });
-		CHECK(obb::template corner<box_corners::yz>(box) == vec3{ neg, pos, pos });
-		CHECK(obb::template corner<box_corners::xyz>(box) == vec3{ pos });
-		CHECK(obb::template corner<box_corners::max>(box) == vec3{ pos });
+		CHECK(obb::template corner<box_corner::min>(box) == vec3{ neg });
+		CHECK(obb::template corner<box_corner::x>(box) == vec3{ pos, neg, neg });
+		CHECK(obb::template corner<box_corner::y>(box) == vec3{ neg, pos, neg });
+		CHECK(obb::template corner<box_corner::z>(box) == vec3{ neg, neg, pos });
+		CHECK(obb::template corner<box_corner::xy>(box) == vec3{ pos, pos, neg });
+		CHECK(obb::template corner<box_corner::xz>(box) == vec3{ pos, neg, pos });
+		CHECK(obb::template corner<box_corner::yz>(box) == vec3{ neg, pos, pos });
+		CHECK(obb::template corner<box_corner::xyz>(box) == vec3{ pos });
+		CHECK(obb::template corner<box_corner::max>(box) == vec3{ pos });
 	}
 
 	BATCHED_SECTION("obb.corner<>()")
 	{
-		CHECK(box.template corner<box_corners::min>() == vec3{ neg });
-		CHECK(box.template corner<box_corners::x>() == vec3{ pos, neg, neg });
-		CHECK(box.template corner<box_corners::y>() == vec3{ neg, pos, neg });
-		CHECK(box.template corner<box_corners::z>() == vec3{ neg, neg, pos });
-		CHECK(box.template corner<box_corners::xy>() == vec3{ pos, pos, neg });
-		CHECK(box.template corner<box_corners::xz>() == vec3{ pos, neg, pos });
-		CHECK(box.template corner<box_corners::yz>() == vec3{ neg, pos, pos });
-		CHECK(box.template corner<box_corners::xyz>() == vec3{ pos });
-		CHECK(box.template corner<box_corners::max>() == vec3{ pos });
+		CHECK(box.template corner<box_corner::min>() == vec3{ neg });
+		CHECK(box.template corner<box_corner::x>() == vec3{ pos, neg, neg });
+		CHECK(box.template corner<box_corner::y>() == vec3{ neg, pos, neg });
+		CHECK(box.template corner<box_corner::z>() == vec3{ neg, neg, pos });
+		CHECK(box.template corner<box_corner::xy>() == vec3{ pos, pos, neg });
+		CHECK(box.template corner<box_corner::xz>() == vec3{ pos, neg, pos });
+		CHECK(box.template corner<box_corner::yz>() == vec3{ neg, pos, pos });
+		CHECK(box.template corner<box_corner::xyz>() == vec3{ pos });
+		CHECK(box.template corner<box_corner::max>() == vec3{ pos });
 	}
 
 	BATCHED_SECTION("obb::corner()")
 	{
-		CHECK(obb::corner(box, box_corners::min) == vec3{ neg });
-		CHECK(obb::corner(box, box_corners::x) == vec3{ pos, neg, neg });
-		CHECK(obb::corner(box, box_corners::y) == vec3{ neg, pos, neg });
-		CHECK(obb::corner(box, box_corners::z) == vec3{ neg, neg, pos });
-		CHECK(obb::corner(box, box_corners::xy) == vec3{ pos, pos, neg });
-		CHECK(obb::corner(box, box_corners::xz) == vec3{ pos, neg, pos });
-		CHECK(obb::corner(box, box_corners::yz) == vec3{ neg, pos, pos });
-		CHECK(obb::corner(box, box_corners::xyz) == vec3{ pos });
-		CHECK(obb::corner(box, box_corners::max) == vec3{ pos });
+		CHECK(obb::corner(box, box_corner::min) == vec3{ neg });
+		CHECK(obb::corner(box, box_corner::x) == vec3{ pos, neg, neg });
+		CHECK(obb::corner(box, box_corner::y) == vec3{ neg, pos, neg });
+		CHECK(obb::corner(box, box_corner::z) == vec3{ neg, neg, pos });
+		CHECK(obb::corner(box, box_corner::xy) == vec3{ pos, pos, neg });
+		CHECK(obb::corner(box, box_corner::xz) == vec3{ pos, neg, pos });
+		CHECK(obb::corner(box, box_corner::yz) == vec3{ neg, pos, pos });
+		CHECK(obb::corner(box, box_corner::xyz) == vec3{ pos });
+		CHECK(obb::corner(box, box_corner::max) == vec3{ pos });
 	}
 
 	BATCHED_SECTION("obb.corner()")
 	{
-		CHECK(box.corner(box_corners::min) == vec3{ neg });
-		CHECK(box.corner(box_corners::x) == vec3{ pos, neg, neg });
-		CHECK(box.corner(box_corners::y) == vec3{ neg, pos, neg });
-		CHECK(box.corner(box_corners::z) == vec3{ neg, neg, pos });
-		CHECK(box.corner(box_corners::xy) == vec3{ pos, pos, neg });
-		CHECK(box.corner(box_corners::xz) == vec3{ pos, neg, pos });
-		CHECK(box.corner(box_corners::yz) == vec3{ neg, pos, pos });
-		CHECK(box.corner(box_corners::xyz) == vec3{ pos });
-		CHECK(box.corner(box_corners::max) == vec3{ pos });
+		CHECK(box.corner(box_corner::min) == vec3{ neg });
+		CHECK(box.corner(box_corner::x) == vec3{ pos, neg, neg });
+		CHECK(box.corner(box_corner::y) == vec3{ neg, pos, neg });
+		CHECK(box.corner(box_corner::z) == vec3{ neg, neg, pos });
+		CHECK(box.corner(box_corner::xy) == vec3{ pos, pos, neg });
+		CHECK(box.corner(box_corner::xz) == vec3{ pos, neg, pos });
+		CHECK(box.corner(box_corner::yz) == vec3{ neg, pos, pos });
+		CHECK(box.corner(box_corner::xyz) == vec3{ pos });
+		CHECK(box.corner(box_corner::max) == vec3{ pos });
 	}
 
 	BATCHED_SECTION("min_corner()")
