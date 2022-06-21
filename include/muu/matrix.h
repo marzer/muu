@@ -35,28 +35,24 @@ namespace muu::impl
 		using column_type = vector<Scalar, Rows>;
 
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr column_type& x_column() noexcept
 		{
 			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<0>();
 		}
 
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr const column_type& x_column() const noexcept
 		{
 			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<0>();
 		}
 
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr column_type& y_column() noexcept
 		{
 			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<1>();
 		}
 
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr const column_type& y_column() const noexcept
 		{
 			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<1>();
@@ -75,14 +71,12 @@ namespace muu::impl
 		using column_type = vector<Scalar, Rows>;
 
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr column_type& z_column() noexcept
 		{
 			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<2>();
 		}
 
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr const column_type& z_column() const noexcept
 		{
 			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<2>();
@@ -101,14 +95,12 @@ namespace muu::impl
 		using column_type = vector<Scalar, Rows>;
 
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr column_type& w_column() noexcept
 		{
 			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<3>();
 		}
 
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr const column_type& w_column() const noexcept
 		{
 			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<3>();
@@ -127,14 +119,12 @@ namespace muu::impl
 		using column_type = vector<Scalar, Rows>;
 
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr column_type& translation_column() noexcept
 		{
 			return static_cast<matrix<Scalar, Rows, Columns>&>(*this).template column<Columns - 1u>();
 		}
 
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr const column_type& translation_column() const noexcept
 		{
 			return static_cast<const matrix<Scalar, Rows, Columns>&>(*this).template column<Columns - 1u>();
@@ -1818,7 +1808,6 @@ namespace muu
 
 		template <size_t R, size_t C, typename T>
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		static constexpr auto& do_get_scalar(T& mat) noexcept
 		{
 			static_assert(R < Rows, "Row index out of range");
@@ -1848,7 +1837,6 @@ namespace muu
 		/// \return  A reference to the selected scalar component.
 		template <size_t R, size_t C>
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr const scalar_type& get() const noexcept
 		{
 			return do_get_scalar<R, C>(*this);
@@ -1862,7 +1850,6 @@ namespace muu
 		/// \return  A reference to the selected scalar component.
 		template <size_t R, size_t C>
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr scalar_type& get() noexcept
 		{
 			return do_get_scalar<R, C>(*this);
@@ -1894,7 +1881,6 @@ namespace muu
 
 		/// \brief Returns a pointer to the first scalar component in the matrix.
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr const scalar_type* data() const noexcept
 		{
 			return &do_get_scalar<0, 0>(*this);
@@ -1902,7 +1888,6 @@ namespace muu
 
 		/// \brief Returns a pointer to the first scalar component in the matrix.
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr scalar_type* data() noexcept
 		{
 			return &do_get_scalar<0, 0>(*this);

@@ -681,7 +681,7 @@ namespace muu
 
 			if constexpr (Dimensions <= 4)
 			{
-				if (/*!build::supports_is_constant_evaluated ||*/ is_constant_evaluated())
+				MUU_IF_CONSTEVAL
 				{
 					switch (dim)
 					{
@@ -705,7 +705,9 @@ namespace muu
 					}
 				}
 				else
+				{
 					return *(&vec.x + dim);
+				}
 			}
 			else
 				return vec.values[dim];
@@ -721,7 +723,6 @@ namespace muu
 		/// \return  A reference to the selected scalar component.
 		template <size_t Dimension>
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr const scalar_type& get() const noexcept
 		{
 			return do_get<Dimension>(*this);
@@ -734,7 +735,6 @@ namespace muu
 		/// \return  A reference to the selected scalar component.
 		template <size_t Dimension>
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr scalar_type& get() noexcept
 		{
 			return do_get<Dimension>(*this);
@@ -764,7 +764,6 @@ namespace muu
 
 		/// \brief Returns a pointer to the first scalar component in the vector.
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr const scalar_type* data() const noexcept
 		{
 			return &do_get<0>(*this);
@@ -772,7 +771,6 @@ namespace muu
 
 		/// \brief Returns a pointer to the first scalar component in the vector.
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr scalar_type* data() noexcept
 		{
 			return &do_get<0>(*this);

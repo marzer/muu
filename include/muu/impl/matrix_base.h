@@ -93,7 +93,6 @@ namespace muu::impl
 
 		template <size_t Column, typename T, size_t... RowIndices>
 		MUU_PURE_GETTER
-		MUU_ATTR(flatten)
 		static constexpr vector<Scalar, Rows> column_from_row_major_tuple(const T& tpl,
 																		  std::index_sequence<RowIndices...>) noexcept
 		{

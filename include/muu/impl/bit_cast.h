@@ -34,7 +34,6 @@ namespace muu
 							 typename To,
 							 typename From)
 	MUU_PURE_INLINE_GETTER
-	MUU_ATTR(flatten)
 	constexpr To bit_cast(const From& from) noexcept
 	{
 #if MUU_CLANG >= 11 || MUU_GCC >= 11 || MUU_MSVC >= 1926                                                               \

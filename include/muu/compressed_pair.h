@@ -110,7 +110,6 @@ namespace muu::impl
 
 	template <size_t I, typename T>
 	MUU_PURE_INLINE_GETTER
-	MUU_ATTR(flatten)
 	constexpr decltype(auto) compressed_pair_get(T&& cp) noexcept
 	{
 		static_assert(I <= 1);

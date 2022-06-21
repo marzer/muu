@@ -2,12 +2,13 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
+// clang-format off
 #pragma once
 
-/// \file
-/// \brief Contains the definition of muu::is_constant_evaluated.
-
-#include "std_type_traits.h"
+#include "../preprocessor.h"
+#if !MUU_HAS_CONSTEVAL_IF
+	#include "std_type_traits.h"
+#endif
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 
@@ -23,15 +24,31 @@ namespace muu
 	/// \availability On older compilers lacking support for std::is_constant_evaluated this will always return `false`.
 	/// 		   Check for support by examining build::supports_is_constant_evaluated.
 	MUU_CONST_INLINE_GETTER
-	MUU_ATTR(flatten)
 	constexpr bool is_constant_evaluated() noexcept
 	{
-#if MUU_CLANG >= 9 || MUU_GCC >= 9 || MUU_MSVC >= 1925 || MUU_HAS_BUILTIN(is_constant_evaluated)
+#if MUU_HAS_CONSTEVAL_IF
+
+		if consteval
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+#elif MUU_CLANG >= 9 || MUU_GCC >= 9 || MUU_MSVC >= 1925 || MUU_HAS_BUILTIN(is_constant_evaluated)
+
 		return __builtin_is_constant_evaluated();
-#elif defined(__cpp_lib_is_constant_evaluated)
+
+#elif defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
+
 		return std::is_constant_evaluated();
+
 #else
+
 		return false;
+
 #endif
 	}
 
@@ -42,5 +59,14 @@ namespace muu
 	}
 }
 
+#if MUU_HAS_CONSTEVAL_IF
+	#define MUU_IF_CONSTEVAL	if consteval
+	#define MUU_IF_RUNTIME		if !consteval
+#else
+	#define MUU_IF_CONSTEVAL	if (::muu::is_constant_evaluated())
+	#define MUU_IF_RUNTIME		if (!::muu::is_constant_evaluated())
+#endif
+
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "header_end.h"
+// clang-format on

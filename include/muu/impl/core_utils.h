@@ -144,7 +144,6 @@ namespace muu
 	/// 		 by writing code 'as if' it were there and have it compile just the same.
 	template <class T>
 	MUU_CONST_INLINE_GETTER
-	MUU_ATTR(flatten)
 	constexpr T* launder(T* ptr) noexcept
 	{
 		static_assert(!std::is_function_v<T> && !std::is_void_v<T>,
@@ -194,7 +193,6 @@ namespace muu
 	///
 	template <typename To, typename From>
 	MUU_PURE_INLINE_GETTER
-	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From from) noexcept
 	{
 		static_assert(!std::is_reference_v<To> && !std::is_reference_v<From>, // will never be deduced as a reference
@@ -417,7 +415,6 @@ namespace muu
 
 	template <typename To, typename From, size_t N>
 	MUU_PURE_INLINE_GETTER
-	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From (&arr)[N]) noexcept
 	{
 		return pointer_cast<To, From*>(arr);
@@ -425,7 +422,6 @@ namespace muu
 
 	template <typename To, typename From, size_t N>
 	MUU_PURE_INLINE_GETTER
-	MUU_ATTR(flatten)
 	constexpr To pointer_cast(From (&&arr)[N]) noexcept
 	{
 		return pointer_cast<To, From*>(arr);
@@ -514,7 +510,6 @@ namespace muu
 	/// \see [P1007R1: std::assume_aligned](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1007r1.pdf)
 	template <size_t N, typename T>
 	MUU_CONST_INLINE_GETTER
-	MUU_ATTR(flatten)
 	MUU_ATTR(assume_aligned(N))
 	constexpr T* assume_aligned(T* ptr) noexcept
 	{
@@ -716,7 +711,6 @@ namespace muu
 	/// \param 	val	The unsigned value being aligned.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, size_t Alignment, typename T)
 	MUU_CONST_INLINE_GETTER
-	MUU_ATTR(flatten)
 	constexpr T apply_alignment(T val) noexcept
 	{
 		static_assert(Alignment, "alignment cannot be zero");
@@ -741,7 +735,6 @@ namespace muu
 	/// \param 	ptr		The pointer being aligned.
 	template <size_t Alignment, typename T>
 	MUU_CONST_INLINE_GETTER
-	MUU_ATTR(flatten)
 	MUU_ATTR(nonnull)
 	MUU_ATTR(returns_nonnull)
 	MUU_ATTR(assume_aligned(Alignment))

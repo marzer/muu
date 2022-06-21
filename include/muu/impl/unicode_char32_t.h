@@ -1559,4 +1559,3 @@ namespace muu
 
 #endif // MUU_UNICODE_CHAR32_T_H
 // clang-format on
-

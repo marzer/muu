@@ -23,7 +23,7 @@ namespace muu
 	{
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr int MUU_VECTORCALL countl_zero_native(T val) noexcept
+		constexpr int MUU_VECTORCALL countl_zero_naive(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
 
@@ -44,7 +44,6 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		MUU_ATTR(flatten)
 		int MUU_VECTORCALL countl_zero_intrinsic(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
@@ -138,13 +137,17 @@ namespace muu
 				return static_cast<int>(sizeof(T) * CHAR_BIT);
 
 			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_COUNTL_ZERO)
-				return impl::countl_zero_native(val);
+				return impl::countl_zero_naive(val);
 			else
 			{
-				if (is_constant_evaluated())
-					return impl::countl_zero_native(val);
+				MUU_IF_CONSTEVAL
+				{
+					return impl::countl_zero_naive(val);
+				}
 				else
+				{
 					return impl::countl_zero_intrinsic(val);
+				}
 			}
 		}
 	}
@@ -154,7 +157,7 @@ namespace muu
 	{
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr int MUU_VECTORCALL countr_zero_native(T val) noexcept
+		constexpr int MUU_VECTORCALL countr_zero_naive(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
 
@@ -175,7 +178,6 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		MUU_ATTR(flatten)
 		int MUU_VECTORCALL countr_zero_intrinsic(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
@@ -266,13 +268,17 @@ namespace muu
 				return static_cast<int>(sizeof(T) * CHAR_BIT);
 
 			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_COUNTR_ZERO)
-				return impl::countr_zero_native(val);
+				return impl::countr_zero_naive(val);
 			else
 			{
-				if (is_constant_evaluated())
-					return impl::countr_zero_native(val);
+				MUU_IF_CONSTEVAL
+				{
+					return impl::countr_zero_naive(val);
+				}
 				else
+				{
 					return impl::countr_zero_intrinsic(val);
+				}
 			}
 		}
 	}
@@ -464,7 +470,7 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr int MUU_VECTORCALL popcount_native(T val) noexcept
+		constexpr int MUU_VECTORCALL popcount_naive(T val) noexcept
 		{
 			MUU_ASSUME(val > T{});
 
@@ -514,7 +520,7 @@ namespace muu
 	#if MUU_MSVC >= 1928 // VS 16.8
 				return __popcnt16(static_cast<unsigned short>(val));
 	#else
-				return popcount_native(val);
+				return popcount_naive(val);
 	#endif
 			}
 			else if constexpr (sizeof(T) == sizeof(unsigned int))
@@ -565,13 +571,17 @@ namespace muu
 				return 0;
 
 			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_POPCOUNT)
-				return impl::popcount_native(val);
+				return impl::popcount_naive(val);
 			else
 			{
-				if (is_constant_evaluated())
-					return impl::popcount_native(val);
+				MUU_IF_CONSTEVAL
+				{
+					return impl::popcount_naive(val);
+				}
 				else
+				{
 					return static_cast<int>(impl::popcount_intrinsic(val));
+				}
 			}
 		}
 	}
@@ -598,10 +608,14 @@ namespace muu
 				return val != T{} && (val & (val - T{ 1 })) == T{};
 			else
 			{
-				if (is_constant_evaluated())
+				MUU_IF_CONSTEVAL
+				{
 					return val != T{} && (val & (val - T{ 1 })) == T{};
+				}
 				else
+				{
 					return impl::popcount_intrinsic(val) == 1;
+				}
 			}
 		}
 	}
@@ -745,7 +759,6 @@ namespace muu
 	/// \returns	The value of the selected byte.
 	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, size_t Index, typename T)
 	MUU_CONST_INLINE_GETTER
-	MUU_ATTR(flatten)
 	constexpr uint8_t MUU_VECTORCALL byte_select(T val) noexcept
 	{
 		static_assert(Index < sizeof(T),
@@ -801,7 +814,6 @@ namespace muu
 	/// \returns	The value of the selected byte, or 0 if the index was out-of-range.
 	MUU_CONSTRAINED_TEMPLATE(is_integral<T>, typename T)
 	MUU_CONST_INLINE_GETTER
-	MUU_ATTR(flatten)
 	constexpr uint8_t MUU_VECTORCALL byte_select(T val, size_t index) noexcept
 	{
 		if (index > sizeof(T))
@@ -871,7 +883,7 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL byte_reverse_native(T val) noexcept
+		constexpr T MUU_VECTORCALL byte_reverse_naive(T val) noexcept
 		{
 			if constexpr (sizeof(T) == sizeof(uint16_t))
 			{
@@ -898,8 +910,8 @@ namespace muu
 #if MUU_HAS_INT128
 			else if constexpr (sizeof(T) == sizeof(uint128_t))
 			{
-				return (static_cast<uint128_t>(byte_reverse_native(static_cast<uint64_t>(val))) << 64)
-					 | byte_reverse_native(static_cast<uint64_t>(val >> 64));
+				return (static_cast<uint128_t>(byte_reverse_naive(static_cast<uint64_t>(val))) << 64)
+					 | byte_reverse_naive(static_cast<uint64_t>(val >> 64));
 			}
 #endif
 			else
@@ -928,7 +940,6 @@ namespace muu
 	/// \returns	A copy of the input value with the byte order reversed.
 	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	MUU_CONST_INLINE_GETTER
-	MUU_ATTR(flatten)
 	constexpr T MUU_VECTORCALL byte_reverse(T val) noexcept
 	{
 		if constexpr (is_enum<T>)
@@ -936,13 +947,17 @@ namespace muu
 		else
 		{
 			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_BYTE_REVERSE)
-				return impl::byte_reverse_native(val);
+				return impl::byte_reverse_naive(val);
 			else
 			{
-				if (is_constant_evaluated())
-					return impl::byte_reverse_native(val);
+				MUU_IF_CONSTEVAL
+				{
+					return impl::byte_reverse_naive(val);
+				}
 				else
+				{
 					return impl::byte_reverse_intrinsic(val);
+				}
 			}
 		}
 	}

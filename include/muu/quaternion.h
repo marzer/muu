@@ -240,7 +240,6 @@ namespace muu
 		/// \return  A reference to the selected value.
 		template <size_t Index>
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr const auto& get() const noexcept
 		{
 			return do_get<Index>(*this);
@@ -253,7 +252,6 @@ namespace muu
 		/// \return  A reference to the selected value.
 		template <size_t Index>
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr auto& get() noexcept
 		{
 			return do_get<Index>(*this);
@@ -261,7 +259,6 @@ namespace muu
 
 		/// \brief Returns a pointer to the first scalar component in the quaternion.
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr const scalar_type* data() const noexcept
 		{
 			return &do_get<0>(*this);
@@ -269,7 +266,6 @@ namespace muu
 
 		/// \brief Returns a pointer to the first scalar component in the quaternion.
 		MUU_PURE_INLINE_GETTER
-		MUU_ATTR(flatten)
 		constexpr scalar_type* data() noexcept
 		{
 			return &do_get<0>(*this);

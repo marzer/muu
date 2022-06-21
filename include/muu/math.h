@@ -24,8 +24,9 @@ MUU_DISABLE_WARNINGS;
 #include <numeric>
 MUU_ENABLE_WARNINGS;
 #include "impl/header_start.h"
-MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_ARITHMETIC_WARNINGS;
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
+MUU_PRAGMA_MSVC(float_control(except, off))
 
 namespace muu
 {
@@ -309,7 +310,7 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		constexpr T MUU_VECTORCALL consteval_abs(T x) noexcept
+		constexpr T MUU_VECTORCALL abs_naive(T x) noexcept
 		{
 			static_assert(is_signed<T>);
 
@@ -325,34 +326,49 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		MUU_ATTR(flatten)
+		T MUU_VECTORCALL abs_intrinsic(T x) noexcept
+		{
+			static_assert(is_signed<T>);
+
+			if constexpr (0)
+				;
+	#if (MUU_CLANG || MUU_GCC)
+			else if constexpr (std::is_same_v<T, float>)
+				return __builtin_fabsf(x);
+			else if constexpr (std::is_same_v<T, double>)
+				return __builtin_fabs(x);
+			else if constexpr (std::is_same_v<T, long double>)
+				return __builtin_fabsl(x);
+	#endif
+			else if constexpr (is_standard_arithmetic<T>)
+				return std::abs(x);
+	#if MUU_HAS_QUADMATH
+			else if constexpr (std::is_same_v<float128_t, T>)
+				return ::fabsq(x);
+	#endif
+			else
+				return abs_naive(x);
+		}
+
+		template <typename T>
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL abs_(T x) noexcept
 		{
 			static_assert(is_signed<T>);
 
-			if (!build::supports_is_constant_evaluated || is_constant_evaluated())
-				return consteval_abs(x);
-			else
+			if constexpr (build::supports_is_constant_evaluated)
 			{
-				if constexpr (0)
-					static_assert(always_false<T>);
-	#if (MUU_CLANG || MUU_GCC)
-				else if constexpr (std::is_same_v<T, float>)
-					return __builtin_fabsf(x);
-				else if constexpr (std::is_same_v<T, double>)
-					return __builtin_fabs(x);
-				else if constexpr (std::is_same_v<T, long double>)
-					return __builtin_fabsl(x);
-	#endif
-				else if constexpr (is_standard_arithmetic<T>)
-					return std::abs(x);
-	#if MUU_HAS_QUADMATH
-				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::fabsq(x);
-	#endif
+				MUU_IF_CONSTEVAL
+				{
+					return abs_naive(x);
+				}
 				else
-					return consteval_abs(x);
+				{
+					return abs_intrinsic(x);
+				}
 			}
+			else
+				return abs_naive(x);
 		}
 	}
 	/// \endcond
@@ -646,7 +662,7 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		constexpr T MUU_VECTORCALL consteval_floor(T x) noexcept
+		constexpr T MUU_VECTORCALL floor_naive(T x) noexcept
 		{
 			static_assert(is_floating_point<T>);
 
@@ -660,41 +676,56 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		MUU_ATTR(flatten)
+		T MUU_VECTORCALL floor_intrinsic(T x) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if constexpr (0)
+				;
+	#if MUU_HAS_MSVC_INTRINSICS
+			else if constexpr (std::is_same_v<T, float>)
+				return __floorf(x);
+			else if constexpr (std::is_same_v<T, double>)
+				return __floor(x);
+			else if constexpr (std::is_same_v<T, long double>)
+				return static_cast<long double>(__floor(static_cast<double>(x)));
+	#elif (MUU_CLANG || MUU_GCC)
+			else if constexpr (std::is_same_v<T, float>)
+				return __builtin_floorf(x);
+			else if constexpr (std::is_same_v<T, double>)
+				return __builtin_floor(x);
+			else if constexpr (std::is_same_v<T, long double>)
+				return __builtin_floorl(x);
+	#endif
+			else if constexpr (is_standard_arithmetic<T>)
+				return std::floor(x);
+	#if MUU_HAS_QUADMATH
+			else if constexpr (std::is_same_v<float128_t, T>)
+				return ::floorq(x);
+	#endif
+			else
+				return floor_naive(x);
+		}
+
+		template <typename T>
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL floor_(T x) noexcept
 		{
 			static_assert(is_floating_point<T>);
 
-			if (!build::supports_is_constant_evaluated || is_constant_evaluated())
-				return consteval_floor(x);
-			else
+			if constexpr (build::supports_is_constant_evaluated)
 			{
-				if constexpr (0)
-					static_assert(always_false<T>);
-	#if MUU_HAS_MSVC_INTRINSICS
-				else if constexpr (std::is_same_v<T, float>)
-					return __floorf(x);
-				else if constexpr (std::is_same_v<T, double>)
-					return __floor(x);
-				else if constexpr (std::is_same_v<T, long double>)
-					return static_cast<long double>(__floor(static_cast<double>(x)));
-	#elif (MUU_CLANG || MUU_GCC)
-				else if constexpr (std::is_same_v<T, float>)
-					return __builtin_floorf(x);
-				else if constexpr (std::is_same_v<T, double>)
-					return __builtin_floor(x);
-				else if constexpr (std::is_same_v<T, long double>)
-					return __builtin_floorl(x);
-	#endif
-				else if constexpr (is_standard_arithmetic<T>)
-					return std::floor(x);
-	#if MUU_HAS_QUADMATH
-				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::floorq(x);
-	#endif
+				MUU_IF_CONSTEVAL
+				{
+					return floor_naive(x);
+				}
 				else
-					return consteval_floor(x);
+				{
+					return floor_intrinsic(x);
+				}
 			}
+			else
+				return floor_naive(x);
 		}
 	}
 	/// \endcond
@@ -776,7 +807,7 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		constexpr T MUU_VECTORCALL consteval_ceil(T x) noexcept
+		constexpr T MUU_VECTORCALL ceil_naive(T x) noexcept
 		{
 			static_assert(is_floating_point<T>);
 
@@ -790,41 +821,56 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		MUU_ATTR(flatten)
+		T MUU_VECTORCALL ceil_intrinsic(T x) noexcept
+		{
+			static_assert(is_floating_point<T>);
+
+			if constexpr (0)
+				;
+	#if MUU_HAS_MSVC_INTRINSICS
+			else if constexpr (std::is_same_v<T, float>)
+				return __ceilf(x);
+			else if constexpr (std::is_same_v<T, double>)
+				return __ceil(x);
+			else if constexpr (std::is_same_v<T, long double>)
+				return static_cast<long double>(__ceil(static_cast<double>(x)));
+	#elif (MUU_CLANG || MUU_GCC)
+			else if constexpr (std::is_same_v<T, float>)
+				return __builtin_ceilf(x);
+			else if constexpr (std::is_same_v<T, double>)
+				return __builtin_ceil(x);
+			else if constexpr (std::is_same_v<T, long double>)
+				return __builtin_ceill(x);
+	#endif
+			else if constexpr (is_standard_arithmetic<T>)
+				return std::ceil(x);
+	#if MUU_HAS_QUADMATH
+			else if constexpr (std::is_same_v<float128_t, T>)
+				return ::ceilq(x);
+	#endif
+			else
+				return ceil_naive(x);
+		}
+
+		template <typename T>
+		MUU_CONST_INLINE_GETTER
 		constexpr T MUU_VECTORCALL ceil_(T x) noexcept
 		{
 			static_assert(is_floating_point<T>);
 
-			if (!build::supports_is_constant_evaluated || is_constant_evaluated())
-				return consteval_ceil(x);
-			else
+			if constexpr (build::supports_is_constant_evaluated)
 			{
-				if constexpr (0)
-					static_assert(always_false<T>);
-	#if MUU_HAS_MSVC_INTRINSICS
-				else if constexpr (std::is_same_v<T, float>)
-					return __ceilf(x);
-				else if constexpr (std::is_same_v<T, double>)
-					return __ceil(x);
-				else if constexpr (std::is_same_v<T, long double>)
-					return static_cast<long double>(__ceil(static_cast<double>(x)));
-	#elif (MUU_CLANG || MUU_GCC)
-				else if constexpr (std::is_same_v<T, float>)
-					return __builtin_ceilf(x);
-				else if constexpr (std::is_same_v<T, double>)
-					return __builtin_ceil(x);
-				else if constexpr (std::is_same_v<T, long double>)
-					return __builtin_ceill(x);
-	#endif
-				else if constexpr (is_standard_arithmetic<T>)
-					return std::ceil(x);
-	#if MUU_HAS_QUADMATH
-				else if constexpr (std::is_same_v<float128_t, T>)
-					return ::ceilq(x);
-	#endif
+				MUU_IF_CONSTEVAL
+				{
+					return ceil_naive(x);
+				}
 				else
-					return consteval_ceil(x);
+				{
+					return ceil_intrinsic(x);
+				}
 			}
+			else
+				return ceil_naive(x);
 		}
 	}
 	/// \endcond
@@ -909,13 +955,13 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T consteval_sqrt_(T x) noexcept(!MUU_HAS_EXCEPTIONS)
+		constexpr T sqrt_naive(T x) noexcept(!MUU_HAS_EXCEPTIONS)
 		{
 			static_assert(is_floating_point<T>);
 
 			if constexpr (!std::is_same_v<impl::highest_ranked<T, long double>, T>)
 			{
-				return static_cast<T>(consteval_sqrt_(static_cast<long double>(x)));
+				return static_cast<T>(sqrt_naive(static_cast<long double>(x)));
 			}
 			else
 			{
@@ -956,21 +1002,21 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr float consteval_sqrt(float x) noexcept
 	{
-		return impl::consteval_sqrt_(x);
+		return impl::sqrt_naive(x);
 	}
 
 	/// \brief	Returns the square-root of a double.
 	MUU_CONST_INLINE_GETTER
 	constexpr double consteval_sqrt(double x) noexcept
 	{
-		return impl::consteval_sqrt_(x);
+		return impl::sqrt_naive(x);
 	}
 
 	/// \brief	Returns the square-root of a long double.
 	MUU_CONST_INLINE_GETTER
 	constexpr long double consteval_sqrt(long double x) noexcept
 	{
-		return impl::consteval_sqrt_(x);
+		return impl::sqrt_naive(x);
 	}
 
 	#if MUU_HAS_FLOAT128
@@ -979,7 +1025,7 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr float128_t consteval_sqrt(float128_t x) noexcept
 	{
-		return impl::consteval_sqrt_(x);
+		return impl::sqrt_naive(x);
 	}
 
 	#endif
@@ -990,7 +1036,7 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 consteval_sqrt(_Float16 x) noexcept
 	{
-		return impl::consteval_sqrt_(x);
+		return impl::sqrt_naive(x);
 	}
 
 	#endif
@@ -1001,7 +1047,7 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr __fp16 consteval_sqrt(__fp16 x) noexcept
 	{
-		return impl::consteval_sqrt_(x);
+		return impl::sqrt_naive(x);
 	}
 
 	#endif
@@ -1011,7 +1057,7 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr double consteval_sqrt(T x) noexcept
 	{
-		return impl::consteval_sqrt_(static_cast<double>(x));
+		return impl::sqrt_naive(static_cast<double>(x));
 	}
 
 	/** @} */ // math::sqrt
@@ -1029,18 +1075,9 @@ namespace muu
 	{
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		constexpr T MUU_VECTORCALL sqrt_(T x) noexcept
+		T MUU_VECTORCALL sqrt_intrinsic(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
-
-			if constexpr (build::supports_is_constant_evaluated)
-			{
-				if (is_constant_evaluated())
-				{
-					using type = highest_ranked<T, long double>;
-					return static_cast<T>(consteval_sqrt_<type>(x));
-				}
-			}
 
 			if constexpr (is_standard_arithmetic<T>)
 				return std::sqrt(x);
@@ -1050,6 +1087,27 @@ namespace muu
 	#endif
 			else
 				return static_cast<T>(std::sqrt(static_cast<clamp_to_standard_float<T>>(x)));
+		}
+
+		template <typename T>
+		MUU_CONST_INLINE_GETTER
+		constexpr T MUU_VECTORCALL sqrt_(T x) noexcept
+		{
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
+
+			if constexpr (build::supports_is_constant_evaluated)
+			{
+				MUU_IF_CONSTEVAL
+				{
+					return static_cast<T>(sqrt_naive(static_cast<highest_ranked<T, long double>>(x)));
+				}
+				else
+				{
+					return sqrt_intrinsic(x);
+				}
+			}
+			else
+				return sqrt_intrinsic(x);
 		}
 	}
 	/// \endcond
@@ -1133,15 +1191,15 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_sin(T);
+		constexpr T MUU_VECTORCALL sin_naive(T);
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_tan(T);
+		constexpr T MUU_VECTORCALL tan_naive(T);
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_cos(T x)
+		constexpr T MUU_VECTORCALL cos_naive(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1158,13 +1216,13 @@ namespace muu
 			// reduce input range for faster convergence
 			// (see http://mathonweb.com/help_ebook/html/algorithms.htm)
 			if (x > constants<T>::pi_over_two && x < constants<T>::pi) // quadrant 2
-				return -consteval_cos(constants<T>::pi - x);
+				return -cos_naive(constants<T>::pi - x);
 			if (x > constants<T>::pi && x < constants<T>::three_pi_over_two) // quadrant 3
-				return -consteval_cos(x - constants<T>::pi);
+				return -cos_naive(x - constants<T>::pi);
 			if (x > constants<T>::three_pi_over_two && x < constants<T>::two_pi) // quadrant 4
-				return consteval_cos(constants<T>::two_pi - x);
+				return cos_naive(constants<T>::two_pi - x);
 			if (x > constants<T>::pi_over_four && x < constants<T>::pi_over_two)
-				return consteval_sin(constants<T>::pi_over_two - x);
+				return sin_naive(constants<T>::pi_over_two - x);
 
 			// taylor series: https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
 			T term = -x * x / T{ 2 };
@@ -1184,18 +1242,9 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		constexpr T MUU_VECTORCALL cos_(T x) noexcept
+		T MUU_VECTORCALL cos_intrinsic(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
-
-			if constexpr (build::supports_is_constant_evaluated)
-			{
-				if (is_constant_evaluated())
-				{
-					using type = highest_ranked<T, long double>;
-					return static_cast<T>(consteval_cos(static_cast<type>(x)));
-				}
-			}
 
 			if constexpr (is_standard_arithmetic<T>)
 				return std::cos(x);
@@ -1205,6 +1254,27 @@ namespace muu
 	#endif
 			else
 				return static_cast<T>(std::cos(static_cast<clamp_to_standard_float<T>>(x)));
+		}
+
+		template <typename T>
+		MUU_CONST_INLINE_GETTER
+		constexpr T MUU_VECTORCALL cos_(T x) noexcept
+		{
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
+
+			if constexpr (build::supports_is_constant_evaluated)
+			{
+				MUU_IF_CONSTEVAL
+				{
+					return static_cast<T>(cos_naive(static_cast<highest_ranked<T, long double>>(x)));
+				}
+				else
+				{
+					return cos_intrinsic(x);
+				}
+			}
+			else
+				return cos_intrinsic(x);
 		}
 	}
 	/// \endcond
@@ -1288,7 +1358,7 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_sin(T x)
+		constexpr T MUU_VECTORCALL sin_naive(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1307,13 +1377,13 @@ namespace muu
 			// reduce input range for faster convergence
 			// (see http://mathonweb.com/help_ebook/html/algorithms.htm)
 			if (x > constants<T>::pi_over_two && x < constants<T>::pi) // quadrant 2
-				return consteval_sin(constants<T>::pi - x);
+				return sin_naive(constants<T>::pi - x);
 			if (x > constants<T>::pi && x < constants<T>::three_pi_over_two) // quadrant 3
-				return -consteval_sin(x - constants<T>::pi);
+				return -sin_naive(x - constants<T>::pi);
 			if (x > constants<T>::three_pi_over_two && x < constants<T>::two_pi) // quadrant 4
-				return -consteval_sin(constants<T>::two_pi - x);
+				return -sin_naive(constants<T>::two_pi - x);
 			if (x > constants<T>::pi_over_four && x < constants<T>::pi_over_two)
-				return consteval_cos(constants<T>::pi_over_two - x);
+				return cos_naive(constants<T>::pi_over_two - x);
 
 			// taylor series: https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
 			T term	 = x;
@@ -1334,18 +1404,9 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		constexpr T MUU_VECTORCALL sin_(T x) noexcept
+		T MUU_VECTORCALL sin_intrinsic(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
-
-			if constexpr (build::supports_is_constant_evaluated)
-			{
-				if (is_constant_evaluated())
-				{
-					using type = highest_ranked<T, long double>;
-					return static_cast<T>(consteval_sin(static_cast<type>(x)));
-				}
-			}
 
 			if constexpr (is_standard_arithmetic<T>)
 				return std::sin(x);
@@ -1355,6 +1416,27 @@ namespace muu
 	#endif
 			else
 				return static_cast<T>(std::sin(static_cast<clamp_to_standard_float<T>>(x)));
+		}
+
+		template <typename T>
+		MUU_CONST_INLINE_GETTER
+		constexpr T MUU_VECTORCALL sin_(T x) noexcept
+		{
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
+
+			if constexpr (build::supports_is_constant_evaluated)
+			{
+				MUU_IF_CONSTEVAL
+				{
+					return static_cast<T>(sin_naive(static_cast<highest_ranked<T, long double>>(x)));
+				}
+				else
+				{
+					return sin_intrinsic(x);
+				}
+			}
+			else
+				return sin_intrinsic(x);
 		}
 	}
 	/// \endcond
@@ -1438,7 +1520,7 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_tan(T x)
+		constexpr T MUU_VECTORCALL tan_naive(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1459,34 +1541,25 @@ namespace muu
 			// reduce input range for faster convergence
 			// (see http://mathonweb.com/help_ebook/html/algorithms.htm)
 			if (x > constants<T>::pi_over_two && x < constants<T>::pi) // quadrant 2
-				return -consteval_tan(constants<T>::pi - x);
+				return -tan_naive(constants<T>::pi - x);
 			if (x > constants<T>::pi_over_four && x < constants<T>::pi_over_two)
-				return T{ 1 } / consteval_tan(constants<T>::pi_over_two - x);
+				return T{ 1 } / tan_naive(constants<T>::pi_over_two - x);
 			if (x > constants<T>::pi_over_eight && x < constants<T>::pi_over_four)
 			{
-				const auto x_ = consteval_tan(x / T{ 2 });
+				const auto x_ = tan_naive(x / T{ 2 });
 				return (x_ + x_) / (T{ 1 } - x_ * x_);
 			}
 
-			return consteval_sin(x) / consteval_cos(x);
+			return sin_naive(x) / cos_naive(x);
 		}
 
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		constexpr T MUU_VECTORCALL tan_(T x) noexcept
+		T MUU_VECTORCALL tan_intrinsic(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
-
-			if constexpr (build::supports_is_constant_evaluated)
-			{
-				if (is_constant_evaluated())
-				{
-					using type = highest_ranked<T, long double>;
-					return static_cast<T>(consteval_tan(static_cast<type>(x)));
-				}
-			}
 
 			if constexpr (is_standard_arithmetic<T>)
 				return std::tan(x);
@@ -1496,6 +1569,27 @@ namespace muu
 	#endif
 			else
 				return static_cast<T>(std::tan(static_cast<clamp_to_standard_float<T>>(x)));
+		}
+
+		template <typename T>
+		MUU_CONST_INLINE_GETTER
+		constexpr T MUU_VECTORCALL tan_(T x) noexcept
+		{
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
+
+			if constexpr (build::supports_is_constant_evaluated)
+			{
+				MUU_IF_CONSTEVAL
+				{
+					return static_cast<T>(tan_naive(static_cast<highest_ranked<T, long double>>(x)));
+				}
+				else
+				{
+					return tan_intrinsic(x);
+				}
+			}
+			else
+				return tan_intrinsic(x);
 		}
 	}
 	/// \endcond
@@ -1579,22 +1673,22 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_asin(T);
+		constexpr T MUU_VECTORCALL asin_naive(T);
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_atan(T);
+		constexpr T MUU_VECTORCALL atan_naive(T);
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_acos(T x)
+		constexpr T MUU_VECTORCALL acos_naive(T x)
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
 			if (!between(x, T{ -1 }, T{ 1 }))
 			{
 	#if MUU_HAS_EXCEPTIONS
-				throw "consteval_acos() input out-of-range"; // force compilation failure
+				throw "acos_naive() input out-of-range"; // force compilation failure
 	#else
 				return constants<T>::nan;
 	#endif
@@ -1604,25 +1698,16 @@ namespace muu
 			if (x == T{ 1 })
 				return constants<T>::zero;
 
-			return constants<T>::pi_over_two - consteval_asin(x);
+			return constants<T>::pi_over_two - asin_naive(x);
 		}
 
 		MUU_POP_PRECISE_MATH;
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		constexpr T MUU_VECTORCALL acos_(T x) noexcept
+		T MUU_VECTORCALL acos_intrinsic(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
-
-			if constexpr (build::supports_is_constant_evaluated)
-			{
-				if (is_constant_evaluated())
-				{
-					using type = highest_ranked<T, long double>;
-					return static_cast<T>(consteval_acos(static_cast<type>(x)));
-				}
-			}
 
 			if constexpr (is_standard_arithmetic<T>)
 				return std::acos(x);
@@ -1632,6 +1717,27 @@ namespace muu
 	#endif
 			else
 				return static_cast<T>(std::acos(static_cast<clamp_to_standard_float<T>>(x)));
+		}
+
+		template <typename T>
+		MUU_CONST_INLINE_GETTER
+		constexpr T MUU_VECTORCALL acos_(T x) noexcept
+		{
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
+
+			if constexpr (build::supports_is_constant_evaluated)
+			{
+				MUU_IF_CONSTEVAL
+				{
+					return static_cast<T>(acos_naive(static_cast<highest_ranked<T, long double>>(x)));
+				}
+				else
+				{
+					return acos_intrinsic(x);
+				}
+			}
+			else
+				return acos_intrinsic(x);
 		}
 	}
 	/// \endcond
@@ -1715,7 +1821,7 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_asin(T x)
+		constexpr T MUU_VECTORCALL asin_naive(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1725,7 +1831,7 @@ namespace muu
 			if (!between(x, T{ -1 }, T{ 1 }))
 			{
 	#if MUU_HAS_EXCEPTIONS
-				throw "consteval_asin() input out-of-range"; // force compilation failure
+				throw "asin_naive() input out-of-range"; // force compilation failure
 	#else
 				return constants<T>::nan;
 	#endif
@@ -1738,9 +1844,9 @@ namespace muu
 			// use trig identities outside of [-1/sqrt(2), 1/sqrt(2)] for faster convergence
 			// (see: https://stackoverflow.com/a/20196782)
 			if (x > constants<T>::one_over_sqrt_two)
-				return constants<T>::pi_over_two - consteval_asin(consteval_sqrt(T{ 1 } - x * x));
+				return constants<T>::pi_over_two - asin_naive(consteval_sqrt(T{ 1 } - x * x));
 			if (x < -constants<T>::one_over_sqrt_two)
-				return -constants<T>::pi_over_two + consteval_asin(consteval_sqrt(T{ 1 } - x * x));
+				return -constants<T>::pi_over_two + asin_naive(consteval_sqrt(T{ 1 } - x * x));
 
 			// taylor series: https://en.wikipedia.org/wiki/Taylor_series#Trigonometric_functions
 			T sum  = x;
@@ -1760,18 +1866,9 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		constexpr T MUU_VECTORCALL asin_(T x) noexcept
+		T MUU_VECTORCALL asin_intrinsic(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
-
-			if constexpr (build::supports_is_constant_evaluated)
-			{
-				if (is_constant_evaluated())
-				{
-					using type = highest_ranked<T, long double>;
-					return static_cast<T>(consteval_asin(static_cast<type>(x)));
-				}
-			}
 
 			if constexpr (is_standard_arithmetic<T>)
 				return std::asin(x);
@@ -1781,6 +1878,27 @@ namespace muu
 	#endif
 			else
 				return static_cast<T>(std::asin(static_cast<clamp_to_standard_float<T>>(x)));
+		}
+
+		template <typename T>
+		MUU_CONST_INLINE_GETTER
+		constexpr T MUU_VECTORCALL asin_(T x) noexcept
+		{
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
+
+			if constexpr (build::supports_is_constant_evaluated)
+			{
+				MUU_IF_CONSTEVAL
+				{
+					return static_cast<T>(asin_naive(static_cast<highest_ranked<T, long double>>(x)));
+				}
+				else
+				{
+					return asin_intrinsic(x);
+				}
+			}
+			else
+				return asin_intrinsic(x);
 		}
 	}
 	/// \endcond
@@ -1864,7 +1982,7 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_atan(T x)
+		constexpr T MUU_VECTORCALL atan_naive(T x)
 		{
 			MUU_FMA_BLOCK;
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
@@ -1881,12 +1999,12 @@ namespace muu
 			// reduce the input value range for faster convergence
 			// (see http://mathonweb.com/help_ebook/html/algorithms.htm)
 			if (x < T{})
-				return -consteval_atan(-x);
+				return -atan_naive(-x);
 			if (x > T{ 1 })
-				return constants<T>::pi_over_two - consteval_atan(T{ 1 } / x);
+				return constants<T>::pi_over_two - atan_naive(T{ 1 } / x);
 			if (x > (T{ 2 } - constants<T>::sqrt_three))
 				return constants<T>::pi_over_six
-					 + consteval_atan(((constants<T>::sqrt_three * x) - T{ 1 }) / (constants<T>::sqrt_three + x));
+					 + atan_naive(((constants<T>::sqrt_three * x) - T{ 1 }) / (constants<T>::sqrt_three + x));
 
 			// Euler's series: https://en.wikipedia.org/wiki/Inverse_trigonometric_functions#Infinite_series
 			const auto x_sq = x * x;
@@ -1908,18 +2026,9 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		constexpr T MUU_VECTORCALL atan_(T x) noexcept
+		T MUU_VECTORCALL atan_intrinsic(T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
-
-			if constexpr (build::supports_is_constant_evaluated)
-			{
-				if (is_constant_evaluated())
-				{
-					using type = highest_ranked<T, long double>;
-					return static_cast<T>(consteval_atan(static_cast<type>(x)));
-				}
-			}
 
 			if constexpr (is_standard_arithmetic<T>)
 				return std::atan(x);
@@ -1929,6 +2038,27 @@ namespace muu
 	#endif
 			else
 				return static_cast<T>(std::atan(static_cast<clamp_to_standard_float<T>>(x)));
+		}
+
+		template <typename T>
+		MUU_CONST_INLINE_GETTER
+		constexpr T MUU_VECTORCALL atan_(T x) noexcept
+		{
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
+
+			if constexpr (build::supports_is_constant_evaluated)
+			{
+				MUU_IF_CONSTEVAL
+				{
+					return static_cast<T>(atan_naive(static_cast<highest_ranked<T, long double>>(x)));
+				}
+				else
+				{
+					return atan_intrinsic(x);
+				}
+			}
+			else
+				return atan_intrinsic(x);
 		}
 	}
 	/// \endcond
@@ -2012,7 +2142,7 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_GETTER
-		constexpr T MUU_VECTORCALL consteval_atan2(T y, T x)
+		constexpr T MUU_VECTORCALL atan2_naive(T y, T x)
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
@@ -2023,18 +2153,18 @@ namespace muu
 
 			// https://en.wikipedia.org/wiki/Atan2
 			if (x > T{})
-				return consteval_atan(y / x);
+				return atan_naive(y / x);
 			if (x < T{} && y >= T{})
-				return consteval_atan(y / x) + constants<T>::pi;
+				return atan_naive(y / x) + constants<T>::pi;
 			if (x < T{} && y < T{})
-				return consteval_atan(y / x) - constants<T>::pi;
+				return atan_naive(y / x) - constants<T>::pi;
 			if (x == T{} && y > T{})
 				return constants<T>::pi_over_two;
 			if (x == T{} && y < T{})
 				return -constants<T>::pi_over_two;
 
 	#if MUU_HAS_EXCEPTIONS
-			throw "consteval_atan2() input out-of-range"; // force compilation failure
+			throw "atan2_naive() input out-of-range"; // force compilation failure
 	#else
 			return constants<T>::nan;
 	#endif
@@ -2044,18 +2174,9 @@ namespace muu
 
 		template <typename T>
 		MUU_CONST_INLINE_GETTER
-		constexpr T MUU_VECTORCALL atan2_(T y, T x) noexcept
+		T MUU_VECTORCALL atan2_intrinsic(T y, T x) noexcept
 		{
 			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
-
-			if constexpr (build::supports_is_constant_evaluated)
-			{
-				if (is_constant_evaluated())
-				{
-					using type = highest_ranked<T, long double>;
-					return static_cast<T>(consteval_atan2(static_cast<type>(y), static_cast<type>(x)));
-				}
-			}
 
 			if constexpr (is_standard_arithmetic<T>)
 				return std::atan2(y, x);
@@ -2068,6 +2189,28 @@ namespace muu
 				using type = clamp_to_standard_float<T>;
 				return static_cast<T>(std::atan2(static_cast<type>(y), static_cast<type>(x)));
 			}
+		}
+
+		template <typename T>
+		MUU_CONST_INLINE_GETTER
+		constexpr T MUU_VECTORCALL atan2_(T y, T x) noexcept
+		{
+			static_assert(is_floating_point<T> && !std::is_same_v<T, half>);
+
+			if constexpr (build::supports_is_constant_evaluated)
+			{
+				MUU_IF_CONSTEVAL
+				{
+					using type = highest_ranked<T, long double>;
+					return static_cast<T>(atan2_naive(static_cast<type>(y), static_cast<type>(x)));
+				}
+				else
+				{
+					return atan2_intrinsic(y, x);
+				}
+			}
+			else
+				return atan2_intrinsic(y, x);
 		}
 	}
 	/// \endcond

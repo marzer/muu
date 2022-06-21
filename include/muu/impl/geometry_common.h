@@ -9,7 +9,6 @@
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
-MUU_PRAGMA_MSVC(inline_recursion(on))
 
 namespace muu
 {
@@ -739,6 +738,5 @@ namespace muu::impl
 /// \endcond
 
 #undef MUU_GEOMETRY_BASE_BOILERPLATE
-MUU_PRAGMA_MSVC(inline_recursion(off))
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "header_end.h"

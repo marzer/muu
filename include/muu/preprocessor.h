@@ -427,6 +427,22 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_HAS_CHAR8
 /// \brief `1` when the compiler supports C++20's char8_t, otherwise `0`.
 
+#if defined(__cpp_consteval) && __cpp_consteval >= 201811
+	#define MUU_HAS_CONSTEVAL 1
+#else
+	#define MUU_HAS_CONSTEVAL MUU_DOXYGEN
+#endif
+/// \def MUU_HAS_CONSTEVAL
+/// \brief `1` when the compiler supports C++20's `consteval` immediate functions, otherwise `0`.
+
+#if defined(__cpp_if_consteval) && __cpp_if_consteval >= 202106
+	#define MUU_HAS_CONSTEVAL_IF 1
+#else
+	#define MUU_HAS_CONSTEVAL_IF 0
+#endif
+/// \def MUU_HAS_CONSTEVAL_IF
+/// \brief `1` when the compiler supports C++23's `if consteval { }`, otherwise `0`.
+
 //======================================================================================================================
 // EXPORT VISIBILITY
 //======================================================================================================================
@@ -535,7 +551,7 @@ help me improve support for your target architecture. Thanks!
 /// \brief Optimizer hint that marks an allocating function's pointer return value as representing a newly allocated memory region free from aliasing.
 /// \see [__declspec(restrict)](https://docs.microsoft.com/en-us/cpp/cpp/restrict?view=vs-2019)
 
-#if defined(__cpp_consteval) && __cpp_consteval >= 201811 && (!MUU_MSVC || MUU_MSVC >= 1933)
+#if MUU_HAS_CONSTEVAL && (!MUU_MSVC || MUU_MSVC >= 1933)
 	// https://developercommunity.visualstudio.com/t/Erroneous-C7595-error-with-consteval-in/1404234
 	#define MUU_CONSTEVAL consteval
 #else
@@ -1687,7 +1703,7 @@ MUU_ENABLE_WARNINGS;
 		{                                                                                                              \
 			if constexpr (::muu::build::supports_is_constant_evaluated)                                                \
 			{                                                                                                          \
-				if (!::muu::is_constant_evaluated())                                                                   \
+				MUU_IF_RUNTIME                                                                                         \
 				{                                                                                                      \
 					MUU_ASSERT(cond);                                                                                  \
 				}                                                                                                      \
