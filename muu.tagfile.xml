@@ -303,17 +303,17 @@
     <namespace>muu::build</namespace>
     <namespace>muu::literals</namespace>
     <member kind="function">
-      <type>constexpr half</type>
+      <type>consteval half</type>
       <name>operator&quot;&quot;_f16</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a44b30e32ede9bd31865933e97822ed3d</anchor>
+      <anchor>a13af047e58351ed0d3446aa9cd617902</anchor>
       <arglist>(long double val) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr half</type>
+      <type>consteval half</type>
       <name>operator&quot;&quot;_f16</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a7d35b10d5222b2b36a00a7fcdf81d5d7</anchor>
+      <anchor>abc373f6b1f9679939e03e9421199241a</anchor>
       <arglist>(unsigned long long val) noexcept</arglist>
     </member>
     <member kind="function">
@@ -478,27 +478,6 @@
       <name>supports_constexpr_bit_cast</name>
       <anchorfile>namespacemuu_1_1build.html</anchorfile>
       <anchor>a5ee6b53a87bd46b2bf84f2bea9e2a0b5</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="file">
-    <name>is_constant_evaluated.h</name>
-    <path>/root/project/include/muu/impl/</path>
-    <filename>is__constant__evaluated_8h.html</filename>
-    <namespace>muu</namespace>
-    <namespace>muu::build</namespace>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>is_constant_evaluated</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga8a9b0aaf9860b30f93639333a5214d34</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_is_constant_evaluated</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a8398d41dfdf02da1234b776f754bbb3d</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -1645,7 +1624,6 @@
     <path>/root/project/include/muu/</path>
     <filename>meta_8h.html</filename>
     <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
-    <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">impl/is_constant_evaluated.h</includes>
     <namespace>muu</namespace>
     <member kind="typedef">
       <type>std::remove_cv_t&lt; std::remove_reference_t&lt; T &gt; &gt;</type>
@@ -3258,6 +3236,20 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_HAS_CONSTEVAL</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gab549eb238362898cf7195c31ab932d6e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_CONSTEVAL_IF</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga3c936754cdc18a19c8b08fb8f39349ff</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_ATTR</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga47316637bf87fd0d0e4bb179cb603226</anchor>
@@ -3798,10 +3790,10 @@
       <arglist></arglist>
     </member>
     <member kind="function">
-      <type>constexpr auto</type>
+      <type>consteval auto</type>
       <name>operator&quot;&quot;_ss</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a8e54812a469ae2ead0e36f335e547478</anchor>
+      <anchor>ac4b1112aae002fe8962e5e624cdde438</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="variable">
@@ -4172,10 +4164,10 @@
       <enumvalue file="namespacemuu.html" anchor="ab0531af99b7f9b575c98ea05d8b76bc8aad921d60486366258809553a3db49a4a">unknown</enumvalue>
     </member>
     <member kind="function">
-      <type>constexpr uuid</type>
+      <type>consteval uuid</type>
       <name>operator&quot;&quot;_uuid</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aa47ba1752e387734c3a2b0539a4dc252</anchor>
+      <anchor>a03372c885efd4ad9b5dafb757ed61f8f</anchor>
       <arglist>(const char *str, size_t len) noexcept</arglist>
     </member>
   </compound>
@@ -4231,10 +4223,10 @@
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_scalar_type</type>
+      <type>consteval delta_scalar_type</type>
       <name>consteval_length</name>
       <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>ad5db65d914e15753a7a68b649a0b5806</anchor>
+      <anchor>a4468463759178ee381f007205619c7f9</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
@@ -4252,10 +4244,10 @@
       <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_scalar_type</type>
+      <type>consteval delta_scalar_type</type>
       <name>consteval_distance</name>
       <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a9074a3d4f96e204d07f087fe01db4f96</anchor>
+      <anchor>a59590b8f7b7b8d67db414c1c719ebde9</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
     </member>
     <member kind="function">
@@ -4287,10 +4279,10 @@
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
+      <type>consteval vector&lt; S, D &gt;</type>
       <name>consteval_normalize</name>
       <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a90b187a276948d931b868967be469b65</anchor>
+      <anchor>ac738833e62a49a9e0a4b977809d534ad</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
@@ -6767,17 +6759,17 @@
       <arglist>(uint16_t val) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr half</type>
+      <type>consteval half</type>
       <name>operator&quot;&quot;_f16</name>
       <anchorfile>structmuu_1_1half.html</anchorfile>
-      <anchor>a44b30e32ede9bd31865933e97822ed3d</anchor>
+      <anchor>a13af047e58351ed0d3446aa9cd617902</anchor>
       <arglist>(long double val) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr half</type>
+      <type>consteval half</type>
       <name>operator&quot;&quot;_f16</name>
       <anchorfile>structmuu_1_1half.html</anchorfile>
-      <anchor>a7d35b10d5222b2b36a00a7fcdf81d5d7</anchor>
+      <anchor>abc373f6b1f9679939e03e9421199241a</anchor>
       <arglist>(unsigned long long val) noexcept</arglist>
     </member>
     <member kind="function">
@@ -11670,10 +11662,10 @@
       <arglist>(value_type lhs, const static_string &amp;rhs) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr auto</type>
+      <type>consteval auto</type>
       <name>operator&quot;&quot;_ss</name>
       <anchorfile>classmuu_1_1static__string.html</anchorfile>
-      <anchor>a8e54812a469ae2ead0e36f335e547478</anchor>
+      <anchor>ac4b1112aae002fe8962e5e624cdde438</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -14192,10 +14184,10 @@
       <arglist>(std::basic_ostream&lt; Char, std::char_traits&lt; Char &gt;&gt; &amp;lhs, const uuid &amp;rhs)</arglist>
     </member>
     <member kind="function">
-      <type>constexpr uuid</type>
+      <type>consteval uuid</type>
       <name>operator&quot;&quot;_uuid</name>
       <anchorfile>structmuu_1_1uuid.html</anchorfile>
-      <anchor>aa47ba1752e387734c3a2b0539a4dc252</anchor>
+      <anchor>a03372c885efd4ad9b5dafb757ed61f8f</anchor>
       <arglist>(const char *str, size_t len) noexcept</arglist>
     </member>
   </compound>
@@ -14688,10 +14680,10 @@
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_scalar_type</type>
+      <type>consteval delta_scalar_type</type>
       <name>consteval_length</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>ad5db65d914e15753a7a68b649a0b5806</anchor>
+      <anchor>a4468463759178ee381f007205619c7f9</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
@@ -14709,10 +14701,10 @@
       <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_scalar_type</type>
+      <type>consteval delta_scalar_type</type>
       <name>consteval_distance</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a9074a3d4f96e204d07f087fe01db4f96</anchor>
+      <anchor>a59590b8f7b7b8d67db414c1c719ebde9</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
     </member>
     <member kind="function">
@@ -14744,10 +14736,10 @@
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
+      <type>consteval vector&lt; S, D &gt;</type>
       <name>consteval_normalize</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a90b187a276948d931b868967be469b65</anchor>
+      <anchor>ac738833e62a49a9e0a4b977809d534ad</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
@@ -14975,10 +14967,10 @@
       <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>constexpr static delta_scalar_type</type>
+      <type>static consteval delta_scalar_type</type>
       <name>consteval_length</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a3b41ddab84addf22faf1a002fc88a1b9</anchor>
+      <anchor>a6380f3dbb5040cf2ad4ce3d1a11296ee</anchor>
       <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
@@ -14996,10 +14988,10 @@
       <arglist>(const vector &amp;p1, const vector &amp;p2) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>constexpr static delta_scalar_type</type>
+      <type>static consteval delta_scalar_type</type>
       <name>consteval_distance</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a3204fca93ad59d830f040dcb839dd5dc</anchor>
+      <anchor>afdf3f3dd883b60c60b444735b45b1dc4</anchor>
       <arglist>(const vector &amp;p1, const vector &amp;p2) noexcept</arglist>
     </member>
     <member kind="function">
@@ -15318,10 +15310,10 @@
       <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>constexpr static vector</type>
+      <type>static consteval vector</type>
       <name>consteval_normalize</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a9b6e21a0d75aed64f138a376951ed5f3</anchor>
+      <anchor>a572d815ecd8dbb1639cbd5ce96086998</anchor>
       <arglist>(const vector &amp;v) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
@@ -17716,10 +17708,10 @@
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_scalar_type</type>
+      <type>consteval delta_scalar_type</type>
       <name>consteval_length</name>
       <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>ad5db65d914e15753a7a68b649a0b5806</anchor>
+      <anchor>a4468463759178ee381f007205619c7f9</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
@@ -17737,10 +17729,10 @@
       <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr delta_scalar_type</type>
+      <type>consteval delta_scalar_type</type>
       <name>consteval_distance</name>
       <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a9074a3d4f96e204d07f087fe01db4f96</anchor>
+      <anchor>a59590b8f7b7b8d67db414c1c719ebde9</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;p1, const vector&lt; S, D &gt; &amp;p2) noexcept</arglist>
     </member>
     <member kind="function">
@@ -17772,10 +17764,10 @@
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr vector&lt; S, D &gt;</type>
+      <type>consteval vector&lt; S, D &gt;</type>
       <name>consteval_normalize</name>
       <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a90b187a276948d931b868967be469b65</anchor>
+      <anchor>ac738833e62a49a9e0a4b977809d534ad</anchor>
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
@@ -20475,136 +20467,136 @@
     <name>muu::literals</name>
     <filename>namespacemuu_1_1literals.html</filename>
     <member kind="function">
-      <type>constexpr half</type>
+      <type>consteval half</type>
       <name>operator&quot;&quot;_f16</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a44b30e32ede9bd31865933e97822ed3d</anchor>
+      <anchor>a13af047e58351ed0d3446aa9cd617902</anchor>
       <arglist>(long double val) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr half</type>
+      <type>consteval half</type>
       <name>operator&quot;&quot;_f16</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a7d35b10d5222b2b36a00a7fcdf81d5d7</anchor>
+      <anchor>abc373f6b1f9679939e03e9421199241a</anchor>
       <arglist>(unsigned long long val) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr auto</type>
+      <type>consteval auto</type>
       <name>operator&quot;&quot;_ss</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a8e54812a469ae2ead0e36f335e547478</anchor>
+      <anchor>ac4b1112aae002fe8962e5e624cdde438</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>constexpr uuid</type>
+      <type>consteval uuid</type>
       <name>operator&quot;&quot;_uuid</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aa47ba1752e387734c3a2b0539a4dc252</anchor>
+      <anchor>a03372c885efd4ad9b5dafb757ed61f8f</anchor>
       <arglist>(const char *str, size_t len) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr size_t</type>
+      <type>consteval size_t</type>
       <name>operator&quot;&quot;_sz</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>ac7cce4c07975fb4f279efb145f138f46</anchor>
+      <anchor>a4ed24f686cd4d1bc02a08d49723524e4</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr size_t</type>
+      <type>consteval size_t</type>
       <name>operator&quot;&quot;_b</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a0610560ecd34fdfbd35dc1ad13878e82</anchor>
+      <anchor>ae611e3cdfb3c6d4731dd7f600d50e1a8</anchor>
       <arglist>(unsigned long long b) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr size_t</type>
+      <type>consteval size_t</type>
       <name>operator&quot;&quot;_kb</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a48ff3748178e59016dea7b5dd3ddaa0a</anchor>
+      <anchor>a1aafa6a4433ed8ba20e7009e18e3001f</anchor>
       <arglist>(unsigned long long kb) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr size_t</type>
+      <type>consteval size_t</type>
       <name>operator&quot;&quot;_mb</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a91f862c0a9d1903914be0aca0ae38593</anchor>
+      <anchor>a9139d3fc5cb832d87d6d9701aa93b351</anchor>
       <arglist>(unsigned long long mb) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr size_t</type>
+      <type>consteval size_t</type>
       <name>operator&quot;&quot;_gb</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a2c22317398887c0a4a105b13fc55de35</anchor>
+      <anchor>a98a2294177231968f6f9f042d402619c</anchor>
       <arglist>(unsigned long long gb) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr uint8_t</type>
+      <type>consteval uint8_t</type>
       <name>operator&quot;&quot;_u8</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a36dc4280bf55a78f92503fc6a2216ef5</anchor>
+      <anchor>aebd70ea52d54027572688ebfda931440</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr uint16_t</type>
+      <type>consteval uint16_t</type>
       <name>operator&quot;&quot;_u16</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>af54dddb5b8960951e398306feae40eb0</anchor>
+      <anchor>a76a079fced111d7ccf855e813a2f5356</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr uint32_t</type>
+      <type>consteval uint32_t</type>
       <name>operator&quot;&quot;_u32</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>ae921845da59c738221bbb97e9f418f72</anchor>
+      <anchor>a3e2767a13c0198cdbf2b992840070fbc</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr uint64_t</type>
+      <type>consteval uint64_t</type>
       <name>operator&quot;&quot;_u64</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a1ee7ac59a10fb6d444883d13925796a0</anchor>
+      <anchor>a4e0d840a84730f9a8c0d3884e348f3ec</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr int8_t</type>
+      <type>consteval int8_t</type>
       <name>operator&quot;&quot;_i8</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a43a15b4448799e0e02621d9bf08104a1</anchor>
+      <anchor>a96020b0fcf18ae03ed09f9013f44237d</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr int16_t</type>
+      <type>consteval int16_t</type>
       <name>operator&quot;&quot;_i16</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aebdabb8a45196bbc6b42c4a1aba1da70</anchor>
+      <anchor>a7e6172ce8840190a09044aa8a16182c0</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr int32_t</type>
+      <type>consteval int32_t</type>
       <name>operator&quot;&quot;_i32</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a8bb8faeb0d317043b2c445b2920ed11e</anchor>
+      <anchor>aa49717181930042c1491b11d94c94134</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr int64_t</type>
+      <type>consteval int64_t</type>
       <name>operator&quot;&quot;_i64</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aa5ad5a0882c5fff84a7d5e61d836507e</anchor>
+      <anchor>aa621e75746c24672c98a7395560985e6</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr int128_t</type>
+      <type>consteval int128_t</type>
       <name>operator&quot;&quot;_i128</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aa0b0811f9ce6527d86c69109a89f7fcc</anchor>
+      <anchor>a974965c4f700560278e31614bb38fc92</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr uint128_t</type>
+      <type>consteval uint128_t</type>
       <name>operator&quot;&quot;_u128</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a9e8a35fefddabd1aa96c32f7d22061ea</anchor>
+      <anchor>a029f1ed1b5268a44c18ab45754d300f6</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
     </member>
   </compound>
@@ -22788,6 +22780,20 @@
       <name>MUU_HAS_CHAR8</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga3c123483a9bd8a9d00279f0b65eace83</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_CONSTEVAL</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gab549eb238362898cf7195c31ab932d6e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_HAS_CONSTEVAL_IF</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga3c936754cdc18a19c8b08fb8f39349ff</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
