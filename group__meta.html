@@ -208,6 +208,11 @@
             </dt>
             <dd>Promotes 'small' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, etc.) to <code>float</code>.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga964804cd88ade8fbca2a8bb49704551b">readonly_param</a> = typename impl::readonly_param_&lt;T&gt;::type
+            </dt>
+            <dd>Resolves to <code>T</code> or <code>const T&amp;</code> based on the performance characteristics of <code>T</code> being passed by value into a function.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename Ptr, typename NewBase&gt;</div>
               using <a class="m-doc" href="#ga29769609b73728e3b7814d36a7e0c335">rebase_pointer</a> = typename impl::rebase_pointer_&lt;Ptr, NewBase&gt;::type
             </dt>
@@ -312,6 +317,11 @@
               using <a class="m-doc" href="#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="#ga238728e690e176a6f6907400c57d8414">vector_param</a> = typename impl::vector_param_&lt;T&gt;::type
+            </dt>
+            <dd>Same as <a class="m-doc" href="group__meta.html#ga964804cd88ade8fbca2a8bb49704551b">readonly_<wbr/>param</a>, but also takes SIMD <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> types and MSVC's <code>__vectorcall</code> into account.</dd>
             <dt>
               using <a class="m-doc" href="#ga91d696211c0fb4edebb87611d7fab7df">w_axis_tag</a> = index_tag&lt;3&gt;
             </dt>
@@ -1249,6 +1259,17 @@
             <p>Promotes 'small' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, etc.) to <code>float</code>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>CV qualifiers and reference categories are preserved.</p></aside>
           </div></section>
+          <section class="m-doc-details" id="ga964804cd88ade8fbca2a8bb49704551b"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga964804cd88ade8fbca2a8bb49704551b">readonly_param</a> = typename impl::readonly_param_&lt;T&gt;::type
+            </h3>
+            <p>Resolves to <code>T</code> or <code>const T&amp;</code> based on the performance characteristics of <code>T</code> being passed by value into a function.</p>
+<p>This trait examines things like:</p><ul><li>Is <code>T</code> an integer/float/pointer/enum/'scalar' type?</li><li>Is <code>T</code> trivially copyable or nothrow copyable?</li><li>Is <code>T</code> large or small?</li></ul>
+          </div></section>
           <section class="m-doc-details" id="ga29769609b73728e3b7814d36a7e0c335"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
@@ -1460,6 +1481,17 @@
               using <a class="m-doc-self" href="#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
             </h3>
             <p>Gets the unsigned integer type with a specific number of bits for the target platform.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga238728e690e176a6f6907400c57d8414"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga238728e690e176a6f6907400c57d8414">vector_param</a> = typename impl::vector_param_&lt;T&gt;::type
+            </h3>
+            <p>Same as <a class="m-doc" href="group__meta.html#ga964804cd88ade8fbca2a8bb49704551b">readonly_<wbr/>param</a>, but also takes SIMD <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> types and MSVC's <code>__vectorcall</code> into account.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga964804cd88ade8fbca2a8bb49704551b">readonly_<wbr/>param</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga91d696211c0fb4edebb87611d7fab7df"><div>
             <h3>

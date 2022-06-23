@@ -1920,6 +1920,20 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>typename impl::readonly_param_&lt; T &gt;::type</type>
+      <name>readonly_param</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga964804cd88ade8fbca2a8bb49704551b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename impl::vector_param_&lt; T &gt;::type</type>
+      <name>vector_param</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga238728e690e176a6f6907400c57d8414</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>impl::std_math_common_type&lt; remove_cvref&lt; T &gt;... &gt;</type>
       <name>epsilon_type</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -15972,6 +15986,20 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>typename impl::readonly_param_&lt; T &gt;::type</type>
+      <name>readonly_param</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga964804cd88ade8fbca2a8bb49704551b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename impl::vector_param_&lt; T &gt;::type</type>
+      <name>vector_param</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga238728e690e176a6f6907400c57d8414</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>impl::std_math_common_type&lt; remove_cvref&lt; T &gt;... &gt;</type>
       <name>epsilon_type</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -21515,6 +21543,20 @@
       <name>clamp_to_standard_float</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gae07552fde8149d1a8a6c93971edbbd86</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename impl::readonly_param_&lt; T &gt;::type</type>
+      <name>readonly_param</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga964804cd88ade8fbca2a8bb49704551b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename impl::vector_param_&lt; T &gt;::type</type>
+      <name>vector_param</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga238728e690e176a6f6907400c57d8414</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
