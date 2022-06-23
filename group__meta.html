@@ -209,7 +209,7 @@
             <dd>Promotes 'small' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, etc.) to <code>float</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#ga964804cd88ade8fbca2a8bb49704551b">readonly_param</a> = typename impl::readonly_param_&lt;T&gt;::type
+              using <a class="m-doc" href="#gad190be2c498375940b7c2e046ba5b11f">readonly_param</a> = typename impl::readonly_param_&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;::type
             </dt>
             <dd>Resolves to <code>T</code> or <code>const T&amp;</code> based on the performance characteristics of <code>T</code> being passed by value into a function.</dd>
             <dt>
@@ -319,9 +319,9 @@
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              using <a class="m-doc" href="#ga238728e690e176a6f6907400c57d8414">vector_param</a> = typename impl::vector_param_&lt;T&gt;::type
+              using <a class="m-doc" href="#gaf9703e15aa8ea56c9f7686c4639560be">vector_param</a> = typename impl::vector_param_&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;::type
             </dt>
-            <dd>Same as <a class="m-doc" href="group__meta.html#ga964804cd88ade8fbca2a8bb49704551b">readonly_<wbr/>param</a>, but also takes SIMD <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> types and MSVC's <code>__vectorcall</code> into account.</dd>
+            <dd>Same as <a class="m-doc" href="group__meta.html#gad190be2c498375940b7c2e046ba5b11f">readonly_<wbr/>param</a>, but also takes SIMD <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> types and MSVC's <code>__vectorcall</code> into account.</dd>
             <dt>
               using <a class="m-doc" href="#ga91d696211c0fb4edebb87611d7fab7df">w_axis_tag</a> = index_tag&lt;3&gt;
             </dt>
@@ -1259,13 +1259,13 @@
             <p>Promotes 'small' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, etc.) to <code>float</code>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>CV qualifiers and reference categories are preserved.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga964804cd88ade8fbca2a8bb49704551b"><div>
+          <section class="m-doc-details" id="gad190be2c498375940b7c2e046ba5b11f"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              using <a class="m-doc-self" href="#ga964804cd88ade8fbca2a8bb49704551b">readonly_param</a> = typename impl::readonly_param_&lt;T&gt;::type
+              using <a class="m-doc-self" href="#gad190be2c498375940b7c2e046ba5b11f">readonly_param</a> = typename impl::readonly_param_&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;::type
             </h3>
             <p>Resolves to <code>T</code> or <code>const T&amp;</code> based on the performance characteristics of <code>T</code> being passed by value into a function.</p>
 <p>This trait examines things like:</p><ul><li>Is <code>T</code> an integer/float/pointer/enum/'scalar' type?</li><li>Is <code>T</code> trivially copyable or nothrow copyable?</li><li>Is <code>T</code> large or small?</li></ul>
@@ -1482,16 +1482,16 @@
             </h3>
             <p>Gets the unsigned integer type with a specific number of bits for the target platform.</p>
           </div></section>
-          <section class="m-doc-details" id="ga238728e690e176a6f6907400c57d8414"><div>
+          <section class="m-doc-details" id="gaf9703e15aa8ea56c9f7686c4639560be"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
-              using <a class="m-doc-self" href="#ga238728e690e176a6f6907400c57d8414">vector_param</a> = typename impl::vector_param_&lt;T&gt;::type
+              using <a class="m-doc-self" href="#gaf9703e15aa8ea56c9f7686c4639560be">vector_param</a> = typename impl::vector_param_&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;::type
             </h3>
-            <p>Same as <a class="m-doc" href="group__meta.html#ga964804cd88ade8fbca2a8bb49704551b">readonly_<wbr/>param</a>, but also takes SIMD <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> types and MSVC's <code>__vectorcall</code> into account.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga964804cd88ade8fbca2a8bb49704551b">readonly_<wbr/>param</a></p></aside>
+            <p>Same as <a class="m-doc" href="group__meta.html#gad190be2c498375940b7c2e046ba5b11f">readonly_<wbr/>param</a>, but also takes SIMD <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> types and MSVC's <code>__vectorcall</code> into account.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#gad190be2c498375940b7c2e046ba5b11f">readonly_<wbr/>param</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga91d696211c0fb4edebb87611d7fab7df"><div>
             <h3>
