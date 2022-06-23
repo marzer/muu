@@ -280,6 +280,18 @@
     <ClInclude Include="include\muu\impl\plane_x_line_segment.h">
       <Filter>include\impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\sat_tester.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_clang.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_gcc.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_msvc.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">
@@ -337,6 +349,9 @@
       <Filter>tools</Filter>
     </None>
     <None Include="tools\vcvars.bat">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="tools\generate_compiler_dispatch_macros.py">
       <Filter>tools</Filter>
     </None>
   </ItemGroup>

@@ -77,6 +77,7 @@ test_sources += [
 	'vector_5.cpp',
 	'vector_6.cpp',
 	'vector_7.cpp',
+	'vector_misc.cpp',
 ]
 
 test_dependencies = []

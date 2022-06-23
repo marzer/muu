@@ -98,9 +98,9 @@ namespace muu
 
 		/// \brief	Constructs a plane from a triangle.
 		MUU_PURE_INLINE_GETTER
-		static constexpr plane MUU_VECTORCALL from_triangle(MUU_VC_PARAM(vector_type) p0,
-															MUU_VC_PARAM(vector_type) p1,
-															MUU_VC_PARAM(vector_type) p2) noexcept
+		static constexpr plane MUU_VECTORCALL from_triangle(MUU_VPARAM(vector_type) p0,
+																	   MUU_VPARAM(vector_type) p1,
+																				  MUU_VPARAM(vector_type) p2) noexcept
 		{
 			return plane{ p0, triangles::normal(p0, p1, p2) };
 		}
@@ -113,7 +113,7 @@ namespace muu
 
 		/// \brief	Constructs a plane from a triangle.
 		MUU_PURE_INLINE_GETTER
-		static constexpr plane MUU_VECTORCALL from_triangle(MUU_VC_PARAM(triangle<scalar_type>) tri) noexcept;
+		static constexpr plane MUU_VECTORCALL from_triangle(MUU_VPARAM(triangle<scalar_type>) tri) noexcept;
 
 		/// \brief	Constructs a plane from a triangle.
 		MUU_NODISCARD_CTOR
@@ -176,7 +176,7 @@ namespace muu
 		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		template <typename T>
 		MUU_PURE_GETTER
-		friend constexpr bool MUU_VECTORCALL operator==(MUU_VC_PARAM(plane) lhs, const plane<T>& rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator==(MUU_VPARAM(plane) lhs, const plane<T>& rhs) noexcept
 		{
 			return lhs.n == rhs.n && lhs.d == rhs.d;
 		}
@@ -187,7 +187,7 @@ namespace muu
 		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		template <typename T>
 		MUU_PURE_GETTER
-		friend constexpr bool MUU_VECTORCALL operator!=(MUU_VC_PARAM(plane) lhs, const plane<T>& rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator!=(MUU_VPARAM(plane) lhs, const plane<T>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -197,7 +197,7 @@ namespace muu
 		/// \remarks	This is an exact check;
 		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(plane) p) noexcept
+		static constexpr bool MUU_VECTORCALL zero(MUU_VPARAM(plane) p) noexcept
 		{
 			return vector_type::zero(p.n) && p.d == scalar_constants::zero;
 		}
@@ -214,7 +214,7 @@ namespace muu
 
 		/// \brief	Returns true if any of the scalar components of a plane are infinity or NaN.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VC_PARAM(plane) p) noexcept
+		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VPARAM(plane) p) noexcept
 		{
 			return vector_type::infinity_or_nan(p.n) || muu::infinity_or_nan(p.d);
 		}
@@ -237,9 +237,9 @@ namespace muu
 		template <typename T>
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
-			MUU_VC_PARAM(plane) p1,
-			const plane<T>& p2,
-			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+			MUU_VPARAM(plane) p1,
+					   const plane<T>& p2,
+					   epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			return vector_type::approx_equal(p1.n, p2.n, epsilon) && muu::approx_equal(p1.d, p2.d, epsilon);
 		}
@@ -256,8 +256,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in a plane are approximately equal to zero.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(plane) p,
-														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_zero(
+			MUU_VPARAM(plane) p, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return vector_type::approx_zero(p.n, epsilon) && muu::approx_zero(p.d, epsilon);
 		}
@@ -271,8 +271,8 @@ namespace muu
 
 		/// \brief	Returns true if a plane has approximately zero volume.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_empty(MUU_VC_PARAM(plane) p,
-														  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_empty(
+			MUU_VPARAM(plane) p, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return vector_type::approx_zero(p.extents, epsilon);
 		}
@@ -297,7 +297,7 @@ namespace muu
 		///
 		/// \return		A normalized copy of the input plane.
 		MUU_PURE_GETTER
-		static constexpr plane MUU_VECTORCALL normalize(MUU_VC_PARAM(plane) p) noexcept
+		static constexpr plane MUU_VECTORCALL normalize(MUU_VPARAM(plane) p) noexcept
 		{
 			if constexpr (requires_promotion)
 			{
@@ -320,7 +320,7 @@ namespace muu
 
 		/// \brief Returns true if a plane is normalized.
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL normalized(MUU_VC_PARAM(plane) p) noexcept
+		static constexpr bool MUU_VECTORCALL normalized(MUU_VPARAM(plane) p) noexcept
 		{
 			return vector_type::normalized(p.n);
 		}
@@ -341,52 +341,51 @@ namespace muu
 
 		/// \brief	Returns the signed distance of a point from a plane.
 		MUU_PURE_INLINE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL signed_distance(MUU_VC_PARAM(plane) p,
-																	MUU_VC_PARAM(vector_type) point) noexcept
+		static constexpr scalar_type MUU_VECTORCALL signed_distance(MUU_VPARAM(plane) p,
+																			   MUU_VPARAM(vector_type) point) noexcept
 		{
 			return planes::signed_distance(p.n, p.d, point);
 		}
 
 		/// \brief	Returns the signed distance of a point from the plane.
 		MUU_PURE_INLINE_GETTER
-		constexpr scalar_type MUU_VECTORCALL signed_distance(MUU_VC_PARAM(vector_type) point) const noexcept
+		constexpr scalar_type MUU_VECTORCALL signed_distance(MUU_VPARAM(vector_type) point) const noexcept
 		{
 			return planes::signed_distance(base::n, base::d, point);
 		}
 
 		/// \brief	Returns the unsigned distance of a point from a plane.
 		MUU_PURE_INLINE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(plane) p,
-															 MUU_VC_PARAM(vector_type) point) noexcept
+		static constexpr scalar_type MUU_VECTORCALL distance(MUU_VPARAM(plane) p,
+																		MUU_VPARAM(vector_type) point) noexcept
 		{
 			return planes::unsigned_distance(p.n, p.d, point);
 		}
 
 		/// \brief	Returns the unsigned distance of a point from the plane.
 		MUU_PURE_INLINE_GETTER
-		constexpr scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector_type) point) const noexcept
+		constexpr scalar_type MUU_VECTORCALL distance(MUU_VPARAM(vector_type) point) const noexcept
 		{
 			return planes::unsigned_distance(base::n, base::d, point);
 		}
 
 		/// \brief	Returns the projection of a point onto a plane.
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL project(MUU_VC_PARAM(plane) p,
-															MUU_VC_PARAM(vector_type) point) noexcept
+		static constexpr vector_type MUU_VECTORCALL project(MUU_VPARAM(plane) p, MUU_VPARAM(vector_type) point) noexcept
 		{
 			return planes::project(p.n, p.d, point);
 		}
 
 		/// \brief	Returns the projection of a point onto the plane.
 		MUU_PURE_INLINE_GETTER
-		constexpr vector_type MUU_VECTORCALL project(MUU_VC_PARAM(vector_type) point) const noexcept
+		constexpr vector_type MUU_VECTORCALL project(MUU_VPARAM(vector_type) point) const noexcept
 		{
 			return planes::project(base::n, base::d, point);
 		}
 
 		/// \brief	Returns the 'origin' (basis point) of a plane.
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL origin(MUU_VC_PARAM(plane) p) noexcept
+		static constexpr vector_type MUU_VECTORCALL origin(MUU_VPARAM(plane) p) noexcept
 		{
 			return planes::origin(p.n, p.d);
 		}
@@ -407,14 +406,14 @@ namespace muu
 
 		/// \brief	Returns true if a plane contains a point.
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(plane) p, MUU_VC_PARAM(vector_type) point) noexcept
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(plane) p, MUU_VPARAM(vector_type) point) noexcept
 		{
 			return planes::contains_point(p.n, p.d, point);
 		}
 
 		/// \brief	Returns true if the plane contains a point.
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL contains(MUU_VC_PARAM(vector_type) point) const noexcept
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point) const noexcept
 		{
 			return contains(*this, point);
 		}
@@ -428,21 +427,21 @@ namespace muu
 
 		/// \brief	Returns true if a plane intersects a line segment.
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(plane) p,
-														MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept;
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(plane) p,
+																   MUU_VPARAM(line_segment<scalar_type>) seg) noexcept;
 
 		/// \brief	Returns true if the plane intersects a line segment.
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(line_segment<scalar_type>) seg) const noexcept;
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment<scalar_type>) seg) const noexcept;
 
 		/// \brief	Returns true if a plane intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(plane) p,
-														MUU_VC_PARAM(bounding_box<scalar_type>) bb) noexcept;
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(plane) p,
+																   MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if the plane intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box<scalar_type>) bb) const noexcept;
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept;
 
 			/// @}
 	#endif // intersection
@@ -458,8 +457,8 @@ namespace muu
 		///
 		/// \return	Returns the plane transformed into the new coordinate space.
 		MUU_PURE_GETTER
-		static constexpr plane MUU_VECTORCALL transform(MUU_VC_PARAM(plane) p,
-														MUU_VC_PARAM(matrix<scalar_type, 4, 4>) tx) noexcept
+		static constexpr plane MUU_VECTORCALL transform(MUU_VPARAM(plane) p,
+																   MUU_VPARAM(matrix<scalar_type, 4, 4>) tx) noexcept
 		{
 			if constexpr (requires_promotion)
 			{
@@ -476,7 +475,7 @@ namespace muu
 		/// \param	tx		The transform to apply.
 		///
 		/// \return	A reference to the plane.
-		constexpr plane& transform(MUU_VC_PARAM(matrix<scalar_type, 4, 4>) tx) noexcept
+		constexpr plane& transform(MUU_VPARAM(matrix<scalar_type, 4, 4>) tx) noexcept
 		{
 			return *this = transform(*this, tx);
 		}

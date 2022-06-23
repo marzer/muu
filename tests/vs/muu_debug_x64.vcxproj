@@ -95,6 +95,9 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\plane_x_line_segment.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\plane_x_triangle.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_macro_dispatch_clang.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_macro_dispatch_gcc.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_macro_dispatch_msvc.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\quaternion_x_matrix.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_compare.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_initializer_list.h" />
@@ -132,6 +135,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\rolling_average.h" />
     <ClInclude Include="$(SolutionDir)include\muu\integral_range.h" />
     <ClInclude Include="$(SolutionDir)include\muu\preprocessor.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\sat_tester.h" />
     <ClInclude Include="$(SolutionDir)include\muu\scope_guard.h" />
     <ClInclude Include="$(SolutionDir)include\muu\semver.h" />
     <ClInclude Include="$(SolutionDir)include\muu\span.h" />

@@ -440,3 +440,4 @@ namespace muu
 
 #endif // MUU_UNICODE_CHAR_H
 // clang-format on
+

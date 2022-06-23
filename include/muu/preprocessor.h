@@ -1020,11 +1020,14 @@ help me improve support for your target architecture. Thanks!
 #if defined(_MSC_VER) && (MUU_ARCH_X86 || MUU_ARCH_AMD64) && MUU_ISET_SSE2
 	#define MUU_VECTORCALL	   __vectorcall
 	#define MUU_HAS_VECTORCALL 1
-	#define MUU_VC_PARAM(...)  ::muu::impl::vectorcall_param<__VA_ARGS__>
 #else
 	#define MUU_VECTORCALL
 	#define MUU_HAS_VECTORCALL 0
-	#define MUU_VC_PARAM(...)  const __VA_ARGS__&
+#endif
+#if !MUU_DOXYGEN && !MUU_INTELLISENSE
+	#define MUU_VPARAM(...) ::muu::vector_param<__VA_ARGS__>
+#else
+	#define MUU_VPARAM(...) const __VA_ARGS__&
 #endif
 /// \def MUU_VECTORCALL
 /// \brief Expands to `__vectorcall` on compilers that support it.

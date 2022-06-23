@@ -2020,6 +2020,9 @@ namespace muu
 			/*implicit*/ constexpr operator T() const noexcept;
 		};
 
+		template <typename T>
+		inline constexpr bool always_pass_readonly_param_by_value = false;
+
 #if MUU_HAS_VECTORCALL
 
 		template <typename T>
@@ -2099,8 +2102,7 @@ namespace muu
 			// https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019
 			//
 			// a "homogeneous vector aggregate" must:
-			// - have between 1 and 4 members (if any of the members are arrays they count as N members where N is the
-			// extent of the array)
+			// - have between 1 and 4 members (if any members are N-length arrays they count as N members)
 			// - have all members be the same type
 			// - have the member type be float or simd intrinsic vector types
 			// - have the same alignment as its member type (no padding/over-alignment)
@@ -2199,69 +2201,56 @@ namespace muu
 
 #endif // !MUU_HAS_VECTORCALL
 
-		template <typename T, bool Vectorcall = false>
+		template <typename T, bool Vector = false>
 		struct readonly_param_base_
 		{
-			using type = std::conditional_t<
-				is_floating_point<T>
-				|| is_integral<T>
-				|| std::is_scalar_v<T>
-				|| (Vectorcall
-					&& MUU_HAS_VECTORCALL
-					&& (is_vectorcall_simd_intrinsic<T> || (!MUU_ARCH_X86 && is_hva<T>))
-					// HVAs cause a bunch of codegen bugs when passed by value with vectorcall on x86
-					)
-				|| ((std::is_class_v<T> || std::is_union_v<T>)
-					&& (std::is_trivially_copyable_v<T> || std::is_nothrow_copy_constructible_v<T>)
-					&& std::is_nothrow_destructible_v<T>
-					&& sizeof(T) <= sizeof(void*)),
-				T,
-				std::add_lvalue_reference_t<std::add_const_t<T>>
-			>;
-		};
-		template <typename T>
-		struct readonly_param_base_<T&>
-		{
-			using type = T&;
-		};
-		template <typename T>
-		struct readonly_param_base_<T&&>
-		{
-			using type = T&&;
-		};
-		template <>
-		struct readonly_param_base_<half>
-		{
-			using type = half;
-		};
-		template <typename T>
-		struct readonly_param_base_<T&, true> // vectorcall
-		{
-			using type = T&;
-		};
-		template <typename T>
-		struct readonly_param_base_<T&&, true> // vectorcall
-		{
-			using type = T&&;
-		};
-		template <>
-		struct readonly_param_base_<half, true> // vectorcall
-		{
-			using type = half;
-		};
+			static_assert(!std::is_reference_v<T>);
 
+			using raw_type = std::remove_cv_t<T>;
+
+			using type = std::conditional_t<
+				is_floating_point<raw_type>																			 //
+					|| is_integral<raw_type>																		 //
+					|| std::is_scalar_v<raw_type>																	 //
+					|| std::is_fundamental_v<raw_type>																 //
+					|| std::is_same_v<raw_type, muu::half>															 //
+					|| always_pass_readonly_param_by_value<raw_type>												 //
+					|| (Vector																						 //
+						&& MUU_HAS_VECTORCALL																		 //
+						&& (is_vectorcall_simd_intrinsic<raw_type> || is_hva<raw_type>))							 //
+					|| ((std::is_class_v<raw_type> || std::is_union_v<raw_type>)									 //
+						&&(std::is_trivially_copyable_v<raw_type> || std::is_nothrow_copy_constructible_v<raw_type>) //
+						&&std::is_nothrow_destructible_v<raw_type>													 //
+						&& sizeof(raw_type) <= (sizeof(void*) * 2u)),
+				raw_type,
+				std::add_lvalue_reference_t<std::add_const_t<T>>>;
+		};
 		template <typename T>
 		struct readonly_param_ : readonly_param_base_<T, false>
 		{};
 		template <typename T>
-		struct vectorcall_param_ : readonly_param_base_<T, true> // vectorcall
+		struct vector_param_ : readonly_param_base_<T, true> // vector semantics
 		{};
 
-		template <typename T>
-		using readonly_param = typename readonly_param_<T>::type;
-		template <typename T>
-		using vectorcall_param = typename vectorcall_param_<T>::type;
+	}
+	/// \endcond
 
+	/// \brief Resolves to `T` or `const T&` based on the performance characteristics of `T` being passed by value into a function.
+	/// \detail This trait examines things like:
+	/// - Is `T` an integer/float/pointer/enum/'scalar' type?
+	/// - Is `T` trivially copyable or nothrow copyable?
+	/// - Is `T` large or small?
+	template <typename T>
+	using readonly_param = typename impl::readonly_param_<std::remove_reference_t<T>>::type;
+
+	/// \brief Same as #readonly_param, but also takes SIMD vector types and MSVC's `__vectorcall` into account.
+	/// \see readonly_param
+	template <typename T>
+	using vector_param = typename impl::vector_param_<std::remove_reference_t<T>>::type;
+
+	/// \cond
+	namespace impl
+	{
 		template <typename... T>
 		inline constexpr bool pass_readonly_by_reference = (true || ... || std::is_reference_v<readonly_param<T>>);
 
@@ -2269,10 +2258,10 @@ namespace muu
 		inline constexpr bool pass_readonly_by_value = !pass_readonly_by_reference<T...>;
 
 		template <typename... T>
-		inline constexpr bool pass_vectorcall_by_reference = (true || ... || std::is_reference_v<vectorcall_param<T>>);
+		inline constexpr bool pass_vector_by_reference = (true || ... || std::is_reference_v<vector_param<T>>);
 
 		template <typename... T>
-		inline constexpr bool pass_vectorcall_by_value = !pass_vectorcall_by_reference<T...>;
+		inline constexpr bool pass_vector_by_value = !pass_vector_by_reference<T...>;
 
 		template <typename T, bool = has_unary_plus_operator<T>>
 		inline constexpr bool decays_to_pointer_by_unary_plus_ = false;

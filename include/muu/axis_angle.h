@@ -35,11 +35,9 @@ namespace muu::impl
 	inline constexpr bool is_hva<axis_angle<Scalar>> = is_hva<axis_angle_<Scalar>>;
 
 	template <typename Scalar>
-	struct vectorcall_param_<axis_angle<Scalar>>
+	struct vector_param_<axis_angle<Scalar>>
 	{
-		using type = std::conditional_t<pass_vectorcall_by_value<axis_angle_<Scalar>>, //
-										axis_angle<Scalar>,
-										const axis_angle<Scalar>&>;
+		using type = copy_cvref<axis_angle<Scalar>, vector_param<axis_angle_<Scalar>>>;
 	};
 }
 

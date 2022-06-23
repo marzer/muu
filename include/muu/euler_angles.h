@@ -36,11 +36,9 @@ namespace muu::impl
 	inline constexpr bool is_hva<euler_angles<Scalar>> = is_hva<euler_angles_<Scalar>>;
 
 	template <typename Scalar>
-	struct vectorcall_param_<euler_angles<Scalar>>
+	struct vector_param_<euler_angles<Scalar>>
 	{
-		using type = std::conditional_t<pass_vectorcall_by_value<euler_angles_<Scalar>>,
-										euler_angles<Scalar>,
-										const euler_angles<Scalar>&>;
+		using type = copy_cvref<euler_angles<Scalar>, vector_param<euler_angles_<Scalar>>>;
 	};
 }
 
@@ -171,14 +169,14 @@ namespace muu
 
 		/// \brief	Scales a set of euler angles.
 		MUU_PURE_GETTER
-		friend constexpr euler_angles MUU_VECTORCALL operator*(MUU_VC_PARAM(euler_angles) lhs, scalar_type rhs) noexcept
+		friend constexpr euler_angles MUU_VECTORCALL operator*(MUU_VPARAM(euler_angles) lhs, scalar_type rhs) noexcept
 		{
 			return euler_angles{ lhs.yaw * rhs, lhs.pitch * rhs, lhs.roll * rhs };
 		}
 
 		/// \brief	Scales a set of euler angles.
 		MUU_PURE_GETTER
-		friend constexpr euler_angles MUU_VECTORCALL operator*(scalar_type lhs, MUU_VC_PARAM(euler_angles) rhs) noexcept
+		friend constexpr euler_angles MUU_VECTORCALL operator*(scalar_type lhs, MUU_VPARAM(euler_angles) rhs) noexcept
 		{
 			return rhs * lhs;
 		}

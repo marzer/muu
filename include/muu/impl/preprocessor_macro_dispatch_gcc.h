@@ -10,7 +10,7 @@
 /// \cond
 
 #ifndef __GNUC__
-	#error __GNUC__ must be defined to use this header!
+#error __GNUC__ must be defined to use this header!
 #endif
 
 #if __GNUC__ >= 1
@@ -366,3 +366,4 @@
 
 /// \endcond
 #endif // MUU_PREPROCESSOR_MACRO_DISPATCH_GCC_H
+

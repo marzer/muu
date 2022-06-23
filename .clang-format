@@ -177,9 +177,6 @@ StatementMacros:
   - MUU_PURE
   - MUU_PURE_GETTER
   - MUU_PURE_INLINE_GETTER
-  - MUU_IN_PARAM
-  - MUU_OUT_PARAM
-  - MUU_INOUT_PARAM
   - _Pragma
   - __pragma
 TabWidth:        4
@@ -214,6 +211,6 @@ WhitespaceSensitiveMacros:
   - MUU_PRAGMA_ICC
   - MUU_PRAGMA_MSVC
   - MUU_UNLIKELY
-  - MUU_VC_PARAM
+  - MUU_VPARAM
 ...
 

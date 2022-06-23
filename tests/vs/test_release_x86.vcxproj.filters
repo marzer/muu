@@ -188,6 +188,9 @@
     <ClCompile Include="..\line_segment_3.cpp">
       <Filter>line_segment</Filter>
     </ClCompile>
+    <ClCompile Include="..\vector_misc.cpp">
+      <Filter>vector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />

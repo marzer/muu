@@ -348,8 +348,8 @@ namespace muu
 		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		template <typename T>
 		MUU_PURE_GETTER
-		friend constexpr bool MUU_VECTORCALL operator==(MUU_VC_PARAM(oriented_bounding_box) lhs,
-														const oriented_bounding_box<T>& rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator==(MUU_VPARAM(oriented_bounding_box) lhs,
+																   const oriented_bounding_box<T>& rhs) noexcept
 		{
 			return lhs.center == rhs.center && lhs.extents == rhs.extents && lhs.axes == rhs.axes;
 		}
@@ -360,8 +360,8 @@ namespace muu
 		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
 		template <typename T>
 		MUU_PURE_GETTER
-		friend constexpr bool MUU_VECTORCALL operator!=(MUU_VC_PARAM(oriented_bounding_box) lhs,
-														const oriented_bounding_box<T>& rhs) noexcept
+		friend constexpr bool MUU_VECTORCALL operator!=(MUU_VPARAM(oriented_bounding_box) lhs,
+																   const oriented_bounding_box<T>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -371,7 +371,7 @@ namespace muu
 		/// \remarks	This is an exact check;
 		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
+		static constexpr bool MUU_VECTORCALL zero(MUU_VPARAM(oriented_bounding_box) bb) noexcept
 		{
 			return vector_type::zero(bb.center) && vector_type::zero(bb.extents) && axes_type::zero(bb.axes);
 		}
@@ -391,7 +391,7 @@ namespace muu
 		/// \remarks	This is an exact check;
 		///				use #approx_empty() if you want an epsilon-based "near-enough" check.
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL empty(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
+		static constexpr bool MUU_VECTORCALL empty(MUU_VPARAM(oriented_bounding_box) bb) noexcept
 		{
 			return vector_type::zero(bb.extents);
 		}
@@ -408,7 +408,7 @@ namespace muu
 
 		/// \brief	Returns true if any of the scalar components of an oriented bounding box are infinity or NaN.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
+		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VPARAM(oriented_bounding_box) bb) noexcept
 		{
 			return vector_type::infinity_or_nan(bb.center) || vector_type::infinity_or_nan(bb.extents)
 				|| axes_type::infinity_or_nan(bb.axes);
@@ -432,9 +432,9 @@ namespace muu
 		template <typename T>
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
-			MUU_VC_PARAM(oriented_bounding_box) bb1,
-			const oriented_bounding_box<T>& bb2,
-			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+			MUU_VPARAM(oriented_bounding_box) bb1,
+					   const oriented_bounding_box<T>& bb2,
+					   epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			return vector_type::approx_equal(bb1.center, bb2.center, epsilon)
 				&& vector_type::approx_equal(bb1.extents, bb2.extents, epsilon)
@@ -454,8 +454,8 @@ namespace muu
 		/// \brief	Returns true if all the scalar components in an oriented bounding box are approximately equal to
 		/// zero.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(oriented_bounding_box) bb,
-														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_zero(
+			MUU_VPARAM(oriented_bounding_box) bb, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return vector_type::approx_zero(bb.center, epsilon) && vector_type::approx_zero(bb.extents, epsilon)
 				&& axes_type::approx_zero(bb.axes, epsilon);
@@ -471,8 +471,8 @@ namespace muu
 
 		/// \brief	Returns true if an oriented bounding box has approximately zero volume.
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_empty(MUU_VC_PARAM(oriented_bounding_box) bb,
-														  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_empty(
+			MUU_VPARAM(oriented_bounding_box) bb, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return vector_type::approx_zero(bb.extents, epsilon);
 		}
@@ -494,7 +494,7 @@ namespace muu
 		/// \brief	Returns a specific corner of an oriented bounding box.
 		template <box_corner Corner>
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
+		static constexpr vector_type MUU_VECTORCALL corner(MUU_VPARAM(oriented_bounding_box) bb) noexcept
 		{
 			return obbs::template corner<Corner>(bb.center, bb.extents, bb.axes);
 		}
@@ -509,8 +509,8 @@ namespace muu
 
 		/// \brief	Returns a specific corner of an oriented bounding box.
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(MUU_VC_PARAM(oriented_bounding_box) bb,
-														   box_corner which) noexcept
+		static constexpr vector_type MUU_VECTORCALL corner(MUU_VPARAM(oriented_bounding_box) bb,
+																	  box_corner which) noexcept
 		{
 			return obbs::corner(bb.center, bb.extents, bb.axes, which);
 		}
@@ -524,7 +524,7 @@ namespace muu
 
 		/// \brief	Returns the 'min' corner of an oriented bounding box.
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL min_corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
+		static constexpr vector_type MUU_VECTORCALL min_corner(MUU_VPARAM(oriented_bounding_box) bb) noexcept
 		{
 			return obbs::template corner<box_corner::min>(bb.center, bb.extents, bb.axes);
 		}
@@ -538,7 +538,7 @@ namespace muu
 
 		/// \brief	Returns the 'max' corner of an oriented bounding box.
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL max_corner(MUU_VC_PARAM(oriented_bounding_box) bb) noexcept
+		static constexpr vector_type MUU_VECTORCALL max_corner(MUU_VPARAM(oriented_bounding_box) bb) noexcept
 		{
 			return obbs::template corner<box_corner::max>(bb.center, bb.extents, bb.axes);
 		}
@@ -564,8 +564,9 @@ namespace muu
 		///
 		/// \returns	A copy of the input box translated by the given offset.
 		MUU_PURE_GETTER
-		static constexpr oriented_bounding_box MUU_VECTORCALL translate(MUU_VC_PARAM(oriented_bounding_box) bb,
-																		MUU_VC_PARAM(vector_type) offset) noexcept
+		static constexpr oriented_bounding_box MUU_VECTORCALL translate(MUU_VPARAM(oriented_bounding_box) bb,
+																				   MUU_VPARAM(vector_type)
+																					   offset) noexcept
 		{
 			return oriented_bounding_box{ bb.center + offset, bb.extents, bb.axes };
 		}
@@ -575,7 +576,7 @@ namespace muu
 		/// \param	offset	An offset to add to the box's center position.
 		///
 		/// \return	A reference to the box_.
-		constexpr oriented_bounding_box& MUU_VECTORCALL translate(MUU_VC_PARAM(vector_type) offset) noexcept
+		constexpr oriented_bounding_box& MUU_VECTORCALL translate(MUU_VPARAM(vector_type) offset) noexcept
 		{
 			base::center += offset;
 			return *this;
@@ -595,8 +596,8 @@ namespace muu
 		///
 		/// \returns	A copy of the input box scaled by the given amounts.
 		MUU_PURE_GETTER
-		static constexpr oriented_bounding_box MUU_VECTORCALL scale(MUU_VC_PARAM(oriented_bounding_box) bb,
-																	MUU_VC_PARAM(vector_type) scale_) noexcept
+		static constexpr oriented_bounding_box MUU_VECTORCALL scale(MUU_VPARAM(oriented_bounding_box) bb,
+																			   MUU_VPARAM(vector_type) scale_) noexcept
 		{
 			return oriented_bounding_box{ bb.center, bb.extents * scale_, bb.axes };
 		}
@@ -606,7 +607,7 @@ namespace muu
 		/// \param	scale_	The amount to scale the box extents by on each axis.
 		///
 		/// \return	A reference to the box_.
-		constexpr oriented_bounding_box& MUU_VECTORCALL scale(MUU_VC_PARAM(vector_type) scale_) noexcept
+		constexpr oriented_bounding_box& MUU_VECTORCALL scale(MUU_VPARAM(vector_type) scale_) noexcept
 		{
 			base::extents *= scale_;
 			return *this;
@@ -627,9 +628,9 @@ namespace muu
 		/// \return	Returns an oriented bounding box containing all the points of the
 		///			input bounding box after being transformed.
 		MUU_PURE_GETTER
-		static constexpr oriented_bounding_box MUU_VECTORCALL transform(
-			MUU_VC_PARAM(oriented_bounding_box) bb,
-			MUU_VC_PARAM(matrix<scalar_type, 4, 4>) tx) noexcept
+		static constexpr oriented_bounding_box MUU_VECTORCALL transform(MUU_VPARAM(oriented_bounding_box) bb,
+																				   MUU_VPARAM(matrix<scalar_type, 4, 4>)
+																								  tx) noexcept
 		{
 			if constexpr (requires_promotion)
 			{
@@ -659,7 +660,7 @@ namespace muu
 		/// \param	tx		The transform to apply.
 		///
 		/// \return	A reference to the box.
-		constexpr oriented_bounding_box& transform(MUU_VC_PARAM(matrix<scalar_type, 4, 4>) tx) noexcept
+		constexpr oriented_bounding_box& transform(MUU_VPARAM(matrix<scalar_type, 4, 4>) tx) noexcept
 		{
 			return *this = transform(*this, tx);
 		}
@@ -677,12 +678,12 @@ namespace muu
 
 		/// \brief	Returns true if an oriented bounding box intersects an axis-aligned bounding_box.
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(oriented_bounding_box) obb,
-														MUU_VC_PARAM(bounding_box<scalar_type>) aabb) noexcept;
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box) obb,
+																   MUU_VPARAM(bounding_box<scalar_type>) aabb) noexcept;
 
 		/// \brief	Returns true if the oriented bounding box intersects an axis-aligned bounding_box.
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(bounding_box<scalar_type>) aabb) const noexcept;
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) aabb) const noexcept;
 
 		//--------------------------------
 		// obb x obb
@@ -690,8 +691,8 @@ namespace muu
 
 		/// \brief	Returns true if two oriented bounding boxes intersect.
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(oriented_bounding_box) bb1,
-														MUU_VC_PARAM(oriented_bounding_box) bb2) noexcept
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box) bb1,
+																   MUU_VPARAM(oriented_bounding_box) bb2) noexcept
 		{
 			const vector_type corners1[] = {
 				bb1.template corner<box_corner::min>(), bb1.template corner<box_corner::x>(),
@@ -730,7 +731,7 @@ namespace muu
 
 		/// \brief	Returns true if two oriented bounding boxes intersect.
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VC_PARAM(oriented_bounding_box) bb) const noexcept
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box) bb) const noexcept
 		{
 			return intersects(*this, bb);
 		}

@@ -337,11 +337,9 @@ namespace muu::impl
 	inline constexpr bool is_hva<vector<Scalar, Dimensions>> = is_hva<vector_<Scalar, Dimensions>>;
 
 	template <typename Scalar, size_t Dimensions>
-	struct vectorcall_param_<vector<Scalar, Dimensions>>
+	struct vector_param_<vector<Scalar, Dimensions>>
 	{
-		using type = std::conditional_t<pass_vectorcall_by_value<vector_<Scalar, Dimensions>>,
-										vector<Scalar, Dimensions>,
-										const vector<Scalar, Dimensions>&>;
+		using type = copy_cvref<vector<Scalar, Dimensions>, vector_param<vector_<Scalar, Dimensions>>>;
 	};
 }
 

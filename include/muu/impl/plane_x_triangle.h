@@ -19,7 +19,7 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr plane<Scalar> MUU_VECTORCALL plane<Scalar>::from_triangle(MUU_VC_PARAM(triangle<Scalar>) tri) noexcept
+	constexpr plane<Scalar> MUU_VECTORCALL plane<Scalar>::from_triangle(MUU_VPARAM(triangle<Scalar>) tri) noexcept
 	{
 		return from_triangle(tri.points[0], tri.points[1], tri.points[2]);
 	}
@@ -33,9 +33,10 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr muu::plane<Scalar> MUU_VECTORCALL triangle<Scalar>::plane(MUU_VC_PARAM(vector_type) p0,
-																		MUU_VC_PARAM(vector_type) p1,
-																		MUU_VC_PARAM(vector_type) p2) noexcept
+	constexpr muu::plane<Scalar> MUU_VECTORCALL triangle<Scalar>::plane(MUU_VPARAM(vector_type) p0,
+																				   MUU_VPARAM(vector_type) p1,
+																							  MUU_VPARAM(vector_type)
+																								  p2) noexcept
 	{
 		return muu::plane<Scalar>{ p0, normal(p0, p1, p2) };
 	}

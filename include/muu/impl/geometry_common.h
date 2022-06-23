@@ -44,10 +44,9 @@ namespace muu
 		inline constexpr bool is_hva<muu::T<Scalar>> = is_hva<T##_<Scalar>>;                                           \
                                                                                                                        \
 		template <typename Scalar>                                                                                     \
-		struct vectorcall_param_<muu::T<Scalar>>                                                                       \
+		struct vector_param_<muu::T<Scalar>>                                                                           \
 		{                                                                                                              \
-			using type =                                                                                               \
-				std::conditional_t<pass_vectorcall_by_value<T##_<Scalar>>, muu::T<Scalar>, const muu::T<Scalar>&>;     \
+			using type = copy_cvref<muu::T<Scalar>, vector_param<T##_<Scalar>>>;                                       \
 		};                                                                                                             \
 	}                                                                                                                  \
                                                                                                                        \
@@ -81,41 +80,41 @@ namespace muu::impl
 	template <typename Scalar>
 	struct planes_common
 	{
-		using scalar_type  = Scalar;
-		using vector_type  = vector<scalar_type, 3>;
-		using vector_param = vectorcall_param<vector_type>;
+		using scalar_type = Scalar;
+		using vector_type = vector<scalar_type, 3>;
+		using vec_param	  = vector_param<vector_type>;
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL origin(vector_param normal, scalar_type d) noexcept
+		static constexpr vector_type MUU_VECTORCALL origin(vec_param normal, scalar_type d) noexcept
 		{
 			return normal * -d;
 		}
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL d_term(vector_param pos, vector_param dir) noexcept
+		static constexpr scalar_type MUU_VECTORCALL d_term(vec_param pos, vec_param dir) noexcept
 		{
 			return -vector_type::dot(pos, dir);
 		}
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL signed_distance(vector_param normal,
+		static constexpr scalar_type MUU_VECTORCALL signed_distance(vec_param normal,
 																	scalar_type d,
-																	vector_param point) noexcept
+																	vec_param point) noexcept
 		{
 			return vector_type::dot(normal, point) + d;
 		}
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL unsigned_distance(vector_param normal,
+		static constexpr scalar_type MUU_VECTORCALL unsigned_distance(vec_param normal,
 																	  scalar_type d,
-																	  vector_param point) noexcept
+																	  vec_param point) noexcept
 		{
 			return muu::abs(signed_distance(normal, d, point));
 		}
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL project_with_signed_distance(vector_param normal,
-																				 vector_param point,
+		static constexpr vector_type MUU_VECTORCALL project_with_signed_distance(vec_param normal,
+																				 vec_param point,
 																				 scalar_type signed_dist) noexcept
 		{
 			MUU_FMA_BLOCK;
@@ -124,33 +123,31 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL project(vector_param normal,
-															scalar_type d,
-															vector_param point) noexcept
+		static constexpr vector_type MUU_VECTORCALL project(vec_param normal, scalar_type d, vec_param point) noexcept
 		{
 			return project_with_signed_distance(normal, point, signed_distance(normal, d, point));
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains_point(vector_param normal,
+		static constexpr bool MUU_VECTORCALL contains_point(vec_param normal,
 															scalar_type d,
-															vector_param point,
+															vec_param point,
 															scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return muu::approx_zero(signed_distance(normal, d, point), epsilon);
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_plane(vector_param normal1, vector_param normal2) noexcept
+		static constexpr bool MUU_VECTORCALL intersects_plane(vec_param normal1, vec_param normal2) noexcept
 		{
 			return muu::approx_zero(vector_type::length_squared(vector_type::cross(normal1, normal2)));
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_line_segment(vector_param normal,
+		static constexpr bool MUU_VECTORCALL intersects_line_segment(vec_param normal,
 																	 scalar_type d,
-																	 vector_param start,
-																	 vector_param end) noexcept
+																	 vec_param start,
+																	 vec_param end) noexcept
 		{
 			return signed_distance(normal, d, start) * signed_distance(normal, d, end) >= scalar_type{};
 		}
@@ -166,38 +163,38 @@ namespace muu::impl
 	template <typename Scalar>
 	struct lines_common
 	{
-		using scalar_type  = Scalar;
-		using vector_type  = vector<scalar_type, 3>;
-		using vector_param = vectorcall_param<vector_type>;
+		using scalar_type = Scalar;
+		using vector_type = vector<scalar_type, 3>;
+		using vec_param	  = vector_param<vector_type>;
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL project_distance(vector_param line_origin,
-																	 vector_param line_dir,
-																	 vector_param point) noexcept
+		static constexpr scalar_type MUU_VECTORCALL project_distance(vec_param line_origin,
+																	 vec_param line_dir,
+																	 vec_param point) noexcept
 		{
 			return vector_type::dot(point - line_origin, line_dir);
 		}
 
 		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL project(vector_param line_origin,
-															vector_param line_dir,
-															vector_param point) noexcept
+		static constexpr vector_type MUU_VECTORCALL project(vec_param line_origin,
+															vec_param line_dir,
+															vec_param point) noexcept
 		{
 			return line_origin + line_dir * project_distance(line_origin, line_dir, point);
 		}
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL distance_squared(vector_param line_origin,
-																	 vector_param line_dir,
-																	 vector_param point) noexcept
+		static constexpr scalar_type MUU_VECTORCALL distance_squared(vec_param line_origin,
+																	 vec_param line_dir,
+																	 vec_param point) noexcept
 		{
 			return vector_type::distance_squared(point, project(line_origin, line_dir, point));
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains_point(vector_param line_origin,
-															vector_param line_dir,
-															vector_param point,
+		static constexpr bool MUU_VECTORCALL contains_point(vec_param line_origin,
+															vec_param line_dir,
+															vec_param point,
 															scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return muu::approx_zero(distance_squared(line_origin, line_dir, point), epsilon);
@@ -228,15 +225,15 @@ namespace muu::impl
 	template <typename Scalar>
 	struct line_segments_common
 	{
-		using scalar_type  = Scalar;
-		using vector_type  = vector<scalar_type, 3>;
-		using vector_param = vectorcall_param<vector_type>;
-		using lines		   = lines_common<Scalar>;
+		using scalar_type = Scalar;
+		using vector_type = vector<scalar_type, 3>;
+		using vec_param	  = vector_param<vector_type>;
+		using lines		  = lines_common<Scalar>;
 
 		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL nearest_point(vector_param seg0, // aka clamped_project()
-																  vector_param seg1,
-																  vector_param point) noexcept
+		static constexpr vector_type MUU_VECTORCALL nearest_point(vec_param seg0, // aka clamped_project()
+																  vec_param seg1,
+																  vec_param point) noexcept
 		{
 			scalar_type seg_len{};
 			const auto seg_dir = vector_type::direction(seg0, seg1, seg_len);
@@ -244,17 +241,17 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL distance_squared(vector_param seg0,
-																	 vector_param seg1,
-																	 vector_param point) noexcept
+		static constexpr scalar_type MUU_VECTORCALL distance_squared(vec_param seg0,
+																	 vec_param seg1,
+																	 vec_param point) noexcept
 		{
 			return vector_type::distance_squared(point, nearest_point(seg0, seg1, point));
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains_point(vector_param seg0,
-															vector_param seg1,
-															vector_param point,
+		static constexpr bool MUU_VECTORCALL contains_point(vec_param seg0,
+															vec_param seg1,
+															vec_param point,
 															scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return muu::approx_zero(distance_squared(seg0, seg1, point), epsilon);
@@ -285,19 +282,18 @@ namespace muu::impl
 	template <typename Scalar>
 	struct triangles_common
 	{
-		using scalar_type	 = Scalar;
-		using vector_type	 = vector<scalar_type, 3>;
-		using vector_param	 = vectorcall_param<vector_type>;
-		using triangle_param = vectorcall_param<triangle_<scalar_type>>;
+		using scalar_type = Scalar;
+		using vector_type = vector<scalar_type, 3>;
+		using vec_param	  = vector_param<vector_type>;
 
 		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL normal(vector_param p0, vector_param p1, vector_param p2) noexcept
+		static constexpr vector_type MUU_VECTORCALL normal(vec_param p0, vec_param p1, vec_param p2) noexcept
 		{
 			return vector_type::normalize(vector_type::cross(p1 - p0, p2 - p0));
 		}
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL centroid(vector_param p0, vector_param p1, vector_param p2) noexcept
+		static constexpr vector_type MUU_VECTORCALL centroid(vec_param p0, vec_param p1, vec_param p2) noexcept
 		{
 			MUU_FMA_BLOCK;
 
@@ -305,9 +301,7 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL perimeter(vector_param p0,
-															  vector_param p1,
-															  vector_param p2) noexcept
+		static constexpr scalar_type MUU_VECTORCALL perimeter(vec_param p0, vec_param p1, vec_param p2) noexcept
 		{
 			return vector_type::distance(p0, p1) //
 				 + vector_type::distance(p1, p2) //
@@ -315,7 +309,7 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL area(vector_param p0, vector_param p1, vector_param p2) noexcept
+		static constexpr scalar_type MUU_VECTORCALL area(vec_param p0, vec_param p1, vec_param p2) noexcept
 		{
 			MUU_FMA_BLOCK;
 
@@ -327,25 +321,25 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL degenerate(vector_param p0, vector_param p1, vector_param p2) noexcept
+		static constexpr bool MUU_VECTORCALL degenerate(vec_param p0, vec_param p1, vec_param p2) noexcept
 		{
 			return p0 == p1 || p0 == p2 || p1 == p2;
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL coplanar(vector_param p0,
-													  vector_param p1,
-													  vector_param p2,
-													  vector_param point) noexcept
+		static constexpr bool MUU_VECTORCALL coplanar(vec_param p0,
+													  vec_param p1,
+													  vec_param p2,
+													  vec_param point) noexcept
 		{
 			return muu::approx_zero(vector_type::dot(point - p0, normal(p0, p1, p2)));
 		}
 
 		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL barycentric(vector_param p0,
-																vector_param p1,
-																vector_param p2,
-																vector_param point) noexcept
+		static constexpr vector_type MUU_VECTORCALL barycentric(vec_param p0,
+																vec_param p1,
+																vec_param p2,
+																vec_param point) noexcept
 		{
 			MUU_FMA_BLOCK;
 
@@ -393,7 +387,7 @@ namespace muu::impl
 			{}
 
 			MUU_PURE_GETTER
-			constexpr vector_type MUU_VECTORCALL operator()(vector_param point) const noexcept
+			constexpr vector_type MUU_VECTORCALL operator()(vec_param point) const noexcept
 			{
 				MUU_FMA_BLOCK;
 
@@ -410,10 +404,10 @@ namespace muu::impl
 		};
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains_coplanar_point(vector_param p0,
-																	 vector_param p1,
-																	 vector_param p2,
-																	 vector_param point) noexcept
+		static constexpr bool MUU_VECTORCALL contains_coplanar_point(vec_param p0,
+																	 vec_param p1,
+																	 vec_param p2,
+																	 vec_param point) noexcept
 		{
 			const auto a = p0 - point;
 			const auto b = p1 - point;
@@ -427,10 +421,10 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains_point(vector_param p0,
-															vector_param p1,
-															vector_param p2,
-															vector_param point) noexcept
+		static constexpr bool MUU_VECTORCALL contains_point(vec_param p0,
+															vec_param p1,
+															vec_param p2,
+															vec_param point) noexcept
 		{
 			return coplanar(p0, p1, p2, point) && contains_coplanar_point(p0, p1, p2, point);
 		}
@@ -465,42 +459,42 @@ namespace muu::impl
 	template <typename Scalar>
 	struct boxes_common
 	{
-		using scalar_type  = Scalar;
-		using vector_type  = vector<scalar_type, 3>;
-		using vector_param = vectorcall_param<vector_type>;
+		using scalar_type = Scalar;
+		using vector_type = vector<scalar_type, 3>;
+		using vec_param	  = vector_param<vector_type>;
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL center(vector_param min, vector_param max) noexcept
+		static constexpr vector_type MUU_VECTORCALL center(vec_param min, vec_param max) noexcept
 		{
 			return (min + max) * static_cast<scalar_type>(0.5);
 		}
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL extents(vector_param min, vector_param max) noexcept
+		static constexpr vector_type MUU_VECTORCALL extents(vec_param min, vec_param max) noexcept
 		{
 			return (max - min) * static_cast<scalar_type>(0.5);
 		}
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL width(vector_param extents) noexcept
+		static constexpr scalar_type MUU_VECTORCALL width(vec_param extents) noexcept
 		{
 			return extents.x * scalar_type{ 2 };
 		}
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL height(vector_param extents) noexcept
+		static constexpr scalar_type MUU_VECTORCALL height(vec_param extents) noexcept
 		{
 			return extents.y * scalar_type{ 2 };
 		}
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL depth(vector_param extents) noexcept
+		static constexpr scalar_type MUU_VECTORCALL depth(vec_param extents) noexcept
 		{
 			return extents.z * scalar_type{ 2 };
 		}
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL diagonal(vector_param extents) noexcept
+		static constexpr scalar_type MUU_VECTORCALL diagonal(vec_param extents) noexcept
 		{
 			return vector_type::length(extents) * scalar_type{ 2 };
 		}
@@ -542,32 +536,32 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL volume(vector_param extents) noexcept
+		static constexpr scalar_type MUU_VECTORCALL volume(vec_param extents) noexcept
 		{
 			return extents.x * extents.y * extents.z * scalar_type{ 8 };
 		}
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL mass(vector_param extents, scalar_type density) noexcept
+		static constexpr scalar_type MUU_VECTORCALL mass(vec_param extents, scalar_type density) noexcept
 		{
 			return density * volume(extents);
 		}
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL density(vector_param extents, scalar_type mass) noexcept
+		static constexpr scalar_type MUU_VECTORCALL density(vec_param extents, scalar_type mass) noexcept
 		{
 			return mass / volume(extents);
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL degenerate(vector_param extents) noexcept
+		static constexpr bool MUU_VECTORCALL degenerate(vec_param extents) noexcept
 		{
 			return extents.x <= scalar_type{} || extents.y <= scalar_type{} || extents.z <= scalar_type{};
 		}
 
 		template <box_corner Corner>
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner_offset(vector_param extents) noexcept
+		static constexpr vector_type MUU_VECTORCALL corner_offset(vec_param extents) noexcept
 		{
 			static_assert(Corner <= box_corner::max);
 
@@ -590,7 +584,7 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner_offset(vector_param extents, box_corner which) noexcept
+		static constexpr vector_type MUU_VECTORCALL corner_offset(vec_param extents, box_corner which) noexcept
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(which <= box_corner::max && "'which' cannot exceed box_corner::max");
 			MUU_ASSUME(which <= box_corner::max);
@@ -636,31 +630,31 @@ namespace muu::impl
 	template <typename Scalar>
 	struct aabb_common : boxes_common<Scalar>
 	{
-		using scalar_type  = Scalar;
-		using vector_type  = vector<scalar_type, 3>;
-		using vector_param = vectorcall_param<vector_type>;
-		using boxes		   = boxes_common<Scalar>;
-		using triangles	   = triangles_common<Scalar>;
+		using scalar_type = Scalar;
+		using vector_type = vector<scalar_type, 3>;
+		using vec_param	  = vector_param<vector_type>;
+		using boxes		  = boxes_common<Scalar>;
+		using triangles	  = triangles_common<Scalar>;
 
 		template <box_corner Corner>
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(vector_param center, vector_param extents) noexcept
+		static constexpr vector_type MUU_VECTORCALL corner(vec_param center, vec_param extents) noexcept
 		{
 			return center + boxes::template corner_offset<Corner>(extents);
 		}
 
 		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
-														   vector_param extents,
+		static constexpr vector_type MUU_VECTORCALL corner(vec_param center,
+														   vec_param extents,
 														   box_corner which) noexcept
 		{
 			return center + boxes::corner_offset(extents, which);
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_sphere_minmax(vector_param min,
-																	  vector_param max,
-																	  vector_param sphere_center,
+		static constexpr bool MUU_VECTORCALL intersects_sphere_minmax(vec_param min,
+																	  vec_param max,
+																	  vec_param sphere_center,
 																	  scalar_type sphere_radius) noexcept
 		{
 			return vector_type::distance_squared(vector_type::clamp(sphere_center, min, max), sphere_center)
@@ -668,9 +662,9 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_sphere(vector_param center,
-															   vector_param extents,
-															   vector_param sphere_center,
+		static constexpr bool MUU_VECTORCALL intersects_sphere(vec_param center,
+															   vec_param extents,
+															   vec_param sphere_center,
 															   scalar_type sphere_radius) noexcept
 		{
 			return intersects_sphere_minmax(center - extents, //
@@ -706,17 +700,17 @@ namespace muu::impl
 	template <typename Scalar>
 	struct obb_common : boxes_common<Scalar>
 	{
-		using scalar_type  = Scalar;
-		using vector_type  = vector<scalar_type, 3>;
-		using vector_param = vectorcall_param<vector_type>;
-		using axes_type	   = matrix<scalar_type, 3, 3>;
-		using axes_param   = vectorcall_param<axes_type>;
-		using boxes		   = boxes_common<Scalar>;
+		using scalar_type = Scalar;
+		using vector_type = vector<scalar_type, 3>;
+		using vec_param	  = vector_param<vector_type>;
+		using axes_type	  = matrix<scalar_type, 3, 3>;
+		using axes_param  = vector_param<axes_type>;
+		using boxes		  = boxes_common<Scalar>;
 
 		template <box_corner Corner>
 		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
-														   vector_param extents,
+		static constexpr vector_type MUU_VECTORCALL corner(vec_param center,
+														   vec_param extents,
 														   axes_param axes) noexcept
 		{
 			const auto offset = boxes::template corner_offset<Corner>(extents);
@@ -724,8 +718,8 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL corner(vector_param center,
-														   vector_param extents,
+		static constexpr vector_type MUU_VECTORCALL corner(vec_param center,
+														   vec_param extents,
 														   axes_param axes,
 														   box_corner which) noexcept
 		{

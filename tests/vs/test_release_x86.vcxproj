@@ -186,6 +186,7 @@
     <ClCompile Include="..\vector_5.cpp" />
     <ClCompile Include="..\vector_6.cpp" />
     <ClCompile Include="..\vector_7.cpp" />
+    <ClCompile Include="..\vector_misc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(SolutionDir)muu.natvis" />

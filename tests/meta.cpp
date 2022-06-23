@@ -7,29 +7,33 @@
 #include "../include/muu/core.h"
 
 MUU_DISABLE_SPAM_WARNINGS;
+MUU_PRAGMA_CLANG(diagnostic ignored "-Wunneeded-member-function")
 
 //======================================================================================================================
 // these are all the public metafunctions and type traits in core_meta.h (ideally in the order they appear)
 //======================================================================================================================
 
-template <size_t align, typename T = char>
-struct aligned
+namespace
 {
-	alignas(align) T kek;
-};
-enum an_enum : int
-{
-	an_enum_one,
-	an_enum_two,
-	an_enum_three
-};
-enum class an_enum_class : unsigned
-{
-	one,
-	two,
-	three
-};
-using not_an_enum = double;
+	template <size_t align, typename T = char>
+	struct aligned
+	{
+		alignas(align) T kek;
+	};
+	enum an_enum : int
+	{
+		an_enum_one,
+		an_enum_two,
+		an_enum_three
+	};
+	enum class an_enum_class : unsigned
+	{
+		one,
+		two,
+		three
+	};
+	using not_an_enum = double;
+}
 
 // remove_cvref
 static_assert(std::is_same_v<remove_cvref<int>, int>);
@@ -1179,24 +1183,27 @@ static_assert(pointer_rank<const void* volatile* const volatile* const volatile*
 
 // has_arrow_operator
 // has_unary_plus_operator
-struct Bar
+namespace
 {
-	int value;
-
-	Bar operator+() const noexcept
+	struct Bar
 	{
-		return Bar{ value };
-	}
-};
-struct Foo
-{
-	Bar value;
+		int value;
 
-	Bar* operator->() noexcept
+		Bar operator+() const noexcept
+		{
+			return Bar{ value };
+		}
+	};
+	struct Foo
 	{
-		return &value;
-	}
-};
+		Bar value;
+
+		Bar* operator->() noexcept
+		{
+			return &value;
+		}
+	};
+}
 static_assert(!has_arrow_operator<void>);
 static_assert(!has_arrow_operator<void*>);
 static_assert(has_arrow_operator<Foo>);
@@ -1220,76 +1227,89 @@ static_assert(!is_tuple_like<Foo>);
 static_assert(is_tuple_like<std::tuple<int, int>>);
 static_assert(is_tuple_like<std::pair<int, int>>);
 
-#if MUU_HAS_VECTORCALL
-
 // is_hva
-struct hva1
+namespace
 {
-	float a;
-};
-struct hva2
-{
-	float a, b;
-};
-struct hva3
-{
-	float a, b, c;
-};
-struct hva4
-{
-	float a, b, c, d;
-};
-struct hva5
-{
-	__m64 a, b, c;
-};
-struct hva6
-{
-	float abcd[4];
-};
-struct hva7
-{
-	float ab[2];
-	float c, d;
-};
-
-static_assert(impl::is_hva<hva1>);
-static_assert(impl::is_hva<hva2>);
-static_assert(impl::is_hva<hva3>);
-static_assert(impl::is_hva<hva4>);
-static_assert(impl::is_hva<hva5>);
-static_assert(impl::is_hva<hva6>);
+	struct hva1
+	{
+		float a;
+	};
+	struct hva2
+	{
+		float a, b;
+	};
+	struct hva3
+	{
+		float a, b, c;
+	};
+	struct hva4
+	{
+		float a, b, c, d;
+	};
+	struct hva5
+	{
+		float abcd[4];
+	};
+	struct hva6
+	{
+		float ab[2];
+		float c, d;
+	};
+#if MUU_HAS_VECTORCALL
+	struct hva7
+	{
+		__m64 a, b, c;
+	};
+#endif
+}
+static_assert(impl::is_hva<hva1> == MUU_HAS_VECTORCALL);
+static_assert(impl::is_hva<hva2> == MUU_HAS_VECTORCALL);
+static_assert(impl::is_hva<hva3> == MUU_HAS_VECTORCALL);
+static_assert(impl::is_hva<hva4> == MUU_HAS_VECTORCALL);
+static_assert(impl::is_hva<hva5> == MUU_HAS_VECTORCALL);
+static_assert(impl::is_hva<hva6> == MUU_HAS_VECTORCALL);
+#if MUU_HAS_VECTORCALL
 static_assert(impl::is_hva<hva7>);
+#endif
 
-struct non_hva1
+namespace
 {
-	float a, b, c, d, e;
-};
-struct non_hva2
-{};
-struct non_hva3
-{
-	int a, b;
-};
-struct non_hva4
-{
-	float a, b;
-	int c;
-};
-struct alignas(64) non_hva5
-{
-	float a, b, c, d;
-};
-struct non_hva6
-{
-	float abcde[5];
-};
-struct non_hva7
-{
-	float ab[2];
-	int c, d;
-};
-
+	struct non_hva1
+	{
+		float a, b, c, d, e;
+	};
+	struct non_hva2
+	{};
+	struct non_hva3
+	{
+		int a, b;
+	};
+	struct non_hva4
+	{
+		float a, b;
+		int c;
+	};
+	struct alignas(64) non_hva5
+	{
+		float a, b, c, d;
+	};
+	struct non_hva6
+	{
+		float abcde[5];
+	};
+	struct non_hva7
+	{
+		float ab[2];
+		int c, d;
+	};
+	struct non_hva8
+	{
+		float ab[2];
+		int c, d;
+		double e;
+		char f[256];
+	};
+}
 static_assert(!impl::is_hva<non_hva1>);
 static_assert(!impl::is_hva<non_hva2>);
 static_assert(!impl::is_hva<non_hva3>);
@@ -1297,8 +1317,45 @@ static_assert(!impl::is_hva<non_hva4>);
 static_assert(!impl::is_hva<non_hva5>);
 static_assert(!impl::is_hva<non_hva6>);
 static_assert(!impl::is_hva<non_hva7>);
+static_assert(!impl::is_hva<non_hva8>);
 
-#endif // MUU_HAS_VECTORCALL
+// readonly_param
+static_assert(std::is_same_v<readonly_param<char>, char>);
+static_assert(std::is_same_v<readonly_param<char&>, char>);
+static_assert(std::is_same_v<readonly_param<char&&>, char>);
+static_assert(std::is_same_v<readonly_param<const char>, char>);
+static_assert(std::is_same_v<readonly_param<const char&>, char>);
+static_assert(std::is_same_v<readonly_param<const char&&>, char>);
+static_assert(std::is_same_v<readonly_param<volatile char>, char>);
+static_assert(std::is_same_v<readonly_param<volatile char&>, char>);
+static_assert(std::is_same_v<readonly_param<volatile char&&>, char>);
+static_assert(std::is_same_v<readonly_param<const volatile char>, char>);
+static_assert(std::is_same_v<readonly_param<const volatile char&>, char>);
+static_assert(std::is_same_v<readonly_param<const volatile char&&>, char>);
+static_assert(std::is_same_v<readonly_param<float>, float>);
+static_assert(std::is_same_v<readonly_param<float&>, float>);
+static_assert(std::is_same_v<readonly_param<float&&>, float>);
+static_assert(std::is_same_v<readonly_param<const float>, float>);
+static_assert(std::is_same_v<readonly_param<const float&>, float>);
+static_assert(std::is_same_v<readonly_param<const float&&>, float>);
+static_assert(std::is_same_v<readonly_param<volatile float>, float>);
+static_assert(std::is_same_v<readonly_param<volatile float&>, float>);
+static_assert(std::is_same_v<readonly_param<volatile float&&>, float>);
+static_assert(std::is_same_v<readonly_param<const volatile float>, float>);
+static_assert(std::is_same_v<readonly_param<const volatile float&>, float>);
+static_assert(std::is_same_v<readonly_param<const volatile float&&>, float>);
+static_assert(std::is_same_v<readonly_param<non_hva8>, const non_hva8&>);
+static_assert(std::is_same_v<readonly_param<non_hva8&>, const non_hva8&>);
+static_assert(std::is_same_v<readonly_param<non_hva8&&>, const non_hva8&>);
+static_assert(std::is_same_v<readonly_param<const non_hva8>, const non_hva8&>);
+static_assert(std::is_same_v<readonly_param<const non_hva8&>, const non_hva8&>);
+static_assert(std::is_same_v<readonly_param<const non_hva8&&>, const non_hva8&>);
+static_assert(std::is_same_v<readonly_param<volatile non_hva8>, const volatile non_hva8&>);
+static_assert(std::is_same_v<readonly_param<volatile non_hva8&>, const volatile non_hva8&>);
+static_assert(std::is_same_v<readonly_param<volatile non_hva8&&>, const volatile non_hva8&>);
+static_assert(std::is_same_v<readonly_param<const volatile non_hva8>, const volatile non_hva8&>);
+static_assert(std::is_same_v<readonly_param<const volatile non_hva8&>, const volatile non_hva8&>);
+static_assert(std::is_same_v<readonly_param<const volatile non_hva8&&>, const volatile non_hva8&>);
 
 // promote_if_small_float
 static_assert(std::is_same_v<promote_if_small_float<char>, char>);

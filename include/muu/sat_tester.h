@@ -59,9 +59,8 @@ namespace muu
 
 		/// \brief Adds one or more points to the SAT test projection range.
 		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, const T&...>), typename... T)
-		constexpr sat_tester& MUU_VECTORCALL add(MUU_VC_PARAM(vector_type) axis,
-												 MUU_VC_PARAM(vector_type) point,
-												 const T&... points) noexcept
+		constexpr sat_tester& MUU_VECTORCALL add(MUU_VPARAM(vector_type) axis,
+															MUU_VPARAM(vector_type) point, const T&... points) noexcept
 		{
 			const auto proj = vector_type::dot(axis, point);
 			min				= muu::min(proj, min);
@@ -77,8 +76,7 @@ namespace muu
 								 size_t Dimension,
 								 typename... T)
 		constexpr sat_tester& MUU_VECTORCALL add(index_tag<Dimension> /*axis*/,
-												 MUU_VC_PARAM(vector_type) point,
-												 const T&... points) noexcept
+												 MUU_VPARAM(vector_type) point, const T&... points) noexcept
 		{
 			static_assert(Dimension < Dimensions, "Dimension index out of range");
 
@@ -93,8 +91,7 @@ namespace muu
 
 		/// \brief Adds an array of points to the SAT test projection range.
 		template <size_t N>
-		constexpr sat_tester& MUU_VECTORCALL add(MUU_VC_PARAM(vector_type) axis,
-												 const vector_type (&points)[N]) noexcept
+		constexpr sat_tester& MUU_VECTORCALL add(MUU_VPARAM(vector_type) axis, const vector_type (&points)[N]) noexcept
 		{
 			for (const auto& p : points)
 				add(axis, p);
@@ -102,9 +99,9 @@ namespace muu
 		}
 
 		/// \brief Adds a range of points to the SAT test projection range.
-		constexpr sat_tester& MUU_VECTORCALL add(MUU_VC_PARAM(vector_type) axis,
-												 const vector_type* begin,
-												 const vector_type* end) noexcept
+		constexpr sat_tester& MUU_VECTORCALL add(MUU_VPARAM(vector_type) axis,
+															const vector_type* begin,
+															const vector_type* end) noexcept
 		{
 			if (begin == end)
 				return *this;
@@ -135,9 +132,9 @@ namespace muu
 		/// \brief Initializes the SAT test projection range directly from one or more points.
 		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, const T&...>), typename... T)
 		MUU_NODISCARD_CTOR
-		constexpr sat_tester(MUU_VC_PARAM(vector_type) axis,
-							 MUU_VC_PARAM(vector_type) point,
-							 const T&... points) noexcept //
+		constexpr sat_tester(MUU_VPARAM(vector_type) axis,
+										MUU_VPARAM(vector_type) point,
+												   const T&... points) noexcept //
 			: sat_tester{ vector_type::dot(axis, point) }
 		{
 			if constexpr (sizeof...(T) > 0)
@@ -150,8 +147,8 @@ namespace muu
 								 typename... T)
 		MUU_NODISCARD_CTOR
 		constexpr sat_tester(index_tag<Dimension> /*axis*/,
-							 MUU_VC_PARAM(vector_type) point,
-							 const T&... points) noexcept //
+							 MUU_VPARAM(vector_type) point,
+										const T&... points) noexcept //
 			: sat_tester{ point.template get<Dimension>() * scalar_type{ 1 } }
 		{
 			if constexpr (sizeof...(T) > 0)
@@ -161,7 +158,7 @@ namespace muu
 		/// \brief Initializes the SAT test projection range directly from an array of points.
 		template <size_t N>
 		MUU_NODISCARD_CTOR
-		constexpr sat_tester(MUU_VC_PARAM(vector_type) axis, const vector_type (&points)[N]) noexcept //
+		constexpr sat_tester(MUU_VPARAM(vector_type) axis, const vector_type (&points)[N]) noexcept //
 			: sat_tester{ axis, points[0] }
 		{
 			static_assert(N >= 1);

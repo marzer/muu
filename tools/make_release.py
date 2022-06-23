@@ -42,7 +42,7 @@ def git_query(git_args, cwd=None):
 def run(args):
 
 	# establish local directories
-	root_dir = utils.entry_script_dir().parent
+	root_dir = utils.entry_script_dir().resolve().parent
 	include_dir = Path(root_dir, 'include')
 	docs_dir = Path(root_dir, 'docs')
 	tools_dir = Path(root_dir, 'tools')
@@ -249,12 +249,13 @@ def run(args):
 			if out_file.exists():
 				print(f'Deleting {out_file}')
 				out_file.unlink()
-			with zipfile.ZipFile(out_file, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zip:
+			with zipfile.ZipFile(out_file, 'w', compression=zipfile.ZIP_LZMA, compresslevel=9) as zip:
+				assert out_dir.is_absolute()
 				file_prefix_len = len(str(out_dir))
 				for file in utils.get_all_files(out_dir, recursive=True):
-					archive_file = 'muu/' + str(file)[file_prefix_len:].strip(r'\/')
-					print(f'Zipping {file}')
-					zip.write(file, arcname=archive_file)
+					relative_file = str(file)[file_prefix_len:].replace('\\','/').strip('/')
+					print(f'Zipping {relative_file}')
+					zip.write(file, arcname=rf'muu/{relative_file}')
 		print(rf'Release packaged as {out_file}.')
 
 	# delete temp directory
@@ -264,7 +265,6 @@ def run(args):
 
 
 def main():
-	global __verbose
 	args = ArgumentParser(
 		description='Rebuilds the library and documentation and bundles them into a zip file for release.',
 		formatter_class=RawTextHelpFormatter
@@ -336,7 +336,6 @@ def main():
 		help=rf"Lists the VS toolsets to target, separated by spaces. (default: {' '.join(default_toolsets)})"
 	)
 	args = args.parse_args()
-	__verbose = args.verbose
 
 	# process toolsets arg
 	if not args.toolsets:

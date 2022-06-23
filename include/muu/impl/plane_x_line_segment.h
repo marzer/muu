@@ -19,15 +19,16 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VC_PARAM(plane) p,
-															MUU_VC_PARAM(line_segment<scalar_type>) seg) noexcept
+	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VPARAM(plane) p,
+																	   MUU_VPARAM(line_segment<scalar_type>)
+																					  seg) noexcept
 	{
 		return planes::intersects_line_segment(p.n, p.d, seg.points[0], seg.points[1]);
 	}
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VC_PARAM(line_segment<scalar_type>) seg) const noexcept
+	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VPARAM(line_segment<scalar_type>) seg) const noexcept
 	{
 		return planes::intersects_line_segment(base::n, base::d, seg.points[0], seg.points[1]);
 	}
@@ -41,15 +42,15 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL line_segment<Scalar>::intersects(MUU_VC_PARAM(line_segment) seg,
-																   MUU_VC_PARAM(plane<scalar_type>) p) noexcept
+	constexpr bool MUU_VECTORCALL line_segment<Scalar>::intersects(MUU_VPARAM(line_segment) seg,
+																			  MUU_VPARAM(plane<scalar_type>) p) noexcept
 	{
 		return planes::intersects_line_segment(p.n, p.d, seg.points[0], seg.points[1]);
 	}
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL line_segment<Scalar>::intersects(MUU_VC_PARAM(plane<scalar_type>) p) const noexcept
+	constexpr bool MUU_VECTORCALL line_segment<Scalar>::intersects(MUU_VPARAM(plane<scalar_type>) p) const noexcept
 	{
 		return planes::intersects_line_segment(p.n, p.d, base::points[0], base::points[1]);
 	}

@@ -787,9 +787,7 @@ namespace muu
 		///
 		/// \remarks	This is a componentwise exact equality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point vectors, use #approx_equal().
-		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL
-								  || impl::pass_vectorcall_by_reference<vector, vector<T, Dimensions>>),
-								 typename T)
+		MUU_CONSTRAINED_TEMPLATE((impl::pass_vector_by_reference<vector, vector<T, Dimensions>>), typename T)
 		MUU_PURE_GETTER
 		friend constexpr bool operator==(const vector& lhs, const vector<T, dimensions>& rhs) noexcept
 		{
@@ -813,9 +811,9 @@ namespace muu
 			// clang-format on
 		}
 
-	#if MUU_HAS_VECTORCALL
+	#if !MUU_DOXYGEN
 
-		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
+		MUU_CONSTRAINED_TEMPLATE((impl::pass_vector_by_value<vector, vector<T, Dimensions>>), typename T)
 		MUU_CONST_GETTER
 		friend constexpr bool MUU_VECTORCALL operator==(vector lhs, vector<T, dimensions> rhs) noexcept
 		{
@@ -839,38 +837,36 @@ namespace muu
 			// clang-format on
 		}
 
-	#endif // MUU_HAS_VECTORCALL
+	#endif // !MUU_DOXYGEN
 
 		/// \brief	Returns true if two vectors are not exactly equal.
 		///
 		/// \remarks	This is a componentwise exact inequality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point vectors, use #approx_equal().
-		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL
-								  || impl::pass_vectorcall_by_reference<vector, vector<T, Dimensions>>),
-								 typename T)
+		MUU_CONSTRAINED_TEMPLATE((impl::pass_vector_by_reference<vector, vector<T, Dimensions>>), typename T)
 		MUU_PURE_GETTER
 		friend constexpr bool operator!=(const vector& lhs, const vector<T, dimensions>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
 
-	#if MUU_HAS_VECTORCALL
+	#if !MUU_DOXYGEN
 
-		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>), typename T)
+		MUU_CONSTRAINED_TEMPLATE((impl::pass_vector_by_value<vector, vector<T, Dimensions>>), typename T)
 		MUU_CONST_INLINE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator!=(vector lhs, vector<T, dimensions> rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
 
-	#endif // MUU_HAS_VECTORCALL
+	#endif // !MUU_DOXYGEN
 
 		/// \brief	Returns true if all the scalar components of a vector are exactly zero.
 		///
 		/// \remarks	This is a componentwise exact equality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point vectors, use #approx_zero().
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr bool MUU_VECTORCALL zero(MUU_VPARAM(vector) v) noexcept
 		{
 			// clang-format off
 
@@ -893,7 +889,7 @@ namespace muu
 
 		/// \brief	Returns true if any of the scalar components of a vector are infinity or NaN.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VPARAM(vector) v) noexcept
 		{
 			// clang-format off
 
@@ -934,8 +930,7 @@ namespace muu
 		/// \availability		This function is only available when at least one of #scalar_type
 		///						and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
-								  && (!MUU_HAS_VECTORCALL
-									  || impl::pass_vectorcall_by_reference<vector, vector<T, Dimensions>>)),
+								  && impl::pass_vector_by_reference<vector, vector<T, Dimensions>>),
 								 typename T)
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
@@ -965,10 +960,10 @@ namespace muu
 			// clang-format on
 		}
 
-	#if MUU_HAS_VECTORCALL
+	#if !MUU_DOXYGEN
 
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
-								  && (impl::pass_vectorcall_by_value<vector, vector<T, Dimensions>>)),
+								  && impl::pass_vector_by_value<vector, vector<T, Dimensions>>),
 								 typename T)
 		MUU_CONST_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
@@ -998,15 +993,14 @@ namespace muu
 			// clang-format on
 		}
 
-	#endif // MUU_HAS_VECTORCALL
+	#endif // !MUU_DOXYGEN
 
 		/// \brief	Returns true if the vector is approximately equal to another.
 		///
 		/// \availability		This function is only available when at least one of #scalar_type
 		///						and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
-								  && (!MUU_HAS_VECTORCALL
-									  || impl::pass_vectorcall_by_reference<vector<T, Dimensions>>)),
+								  && impl::pass_vector_by_reference<vector<T, Dimensions>>),
 								 typename T)
 		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL approx_equal(
@@ -1016,10 +1010,10 @@ namespace muu
 			return approx_equal(*this, v, epsilon);
 		}
 
-	#if MUU_HAS_VECTORCALL
+	#if !MUU_DOXYGEN
 
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
-								  && impl::pass_vectorcall_by_value<vector<T, Dimensions>>),
+								  && impl::pass_vector_by_value<vector<T, Dimensions>>),
 								 typename T)
 		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL approx_equal(
@@ -1029,15 +1023,15 @@ namespace muu
 			return approx_equal(*this, v, epsilon);
 		}
 
-	#endif // MUU_HAS_VECTORCALL
+	#endif // !MUU_DOXYGEN
 
 		/// \brief	Returns true if all the scalar components in a vector are approximately equal to zero.
 		///
 		/// \availability		This function is only available when #scalar_type is a floating-point type.
 		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(vector) v,
-														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_zero(
+			MUU_VPARAM(vector) v, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			// clang-format off
 
@@ -1067,7 +1061,7 @@ namespace muu
 
 		/// \brief	Returns the squared length (magnitude) of a vector.
 		MUU_PURE_GETTER
-		static constexpr delta_scalar_type MUU_VECTORCALL length_squared(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr delta_scalar_type MUU_VECTORCALL length_squared(MUU_VPARAM(vector) v) noexcept
 		{
 			if constexpr (delta_requires_promotion)
 			{
@@ -1094,7 +1088,7 @@ namespace muu
 
 		/// \brief	Returns the length (magnitude) of a vector.
 		MUU_PURE_GETTER
-		static constexpr delta_scalar_type MUU_VECTORCALL length(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr delta_scalar_type MUU_VECTORCALL length(MUU_VPARAM(vector) v) noexcept
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -1116,7 +1110,7 @@ namespace muu
 		///				arriving at the result using very slow iterative machinery. Do not use it at runtime!
 		MUU_PURE_GETTER
 		MUU_CONSTEVAL
-		static delta_scalar_type MUU_VECTORCALL consteval_length(MUU_VC_PARAM(vector) v) noexcept
+		static delta_scalar_type MUU_VECTORCALL consteval_length(MUU_VPARAM(vector) v) noexcept
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -1141,8 +1135,8 @@ namespace muu
 
 		/// \brief	Returns the squared distance between two points.
 		MUU_PURE_GETTER
-		static constexpr delta_scalar_type MUU_VECTORCALL distance_squared(MUU_VC_PARAM(vector) p1,
-																		   MUU_VC_PARAM(vector) p2) noexcept
+		static constexpr delta_scalar_type MUU_VECTORCALL distance_squared(MUU_VPARAM(vector) p1,
+																					  MUU_VPARAM(vector) p2) noexcept
 		{
 			if constexpr (delta_requires_promotion)
 			{
@@ -1157,15 +1151,15 @@ namespace muu
 
 		/// \brief	Returns the squared distance between this and another point vector.
 		MUU_PURE_INLINE_GETTER
-		constexpr delta_scalar_type MUU_VECTORCALL distance_squared(MUU_VC_PARAM(vector) p) const noexcept
+		constexpr delta_scalar_type MUU_VECTORCALL distance_squared(MUU_VPARAM(vector) p) const noexcept
 		{
 			return distance_squared(*this, p);
 		}
 
 		/// \brief	Returns the distance between two points.
 		MUU_PURE_GETTER
-		static constexpr delta_scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector) p1,
-																   MUU_VC_PARAM(vector) p2) noexcept
+		static constexpr delta_scalar_type MUU_VECTORCALL distance(MUU_VPARAM(vector) p1,
+																			  MUU_VPARAM(vector) p2) noexcept
 		{
 			if constexpr (delta_requires_promotion)
 			{
@@ -1184,8 +1178,8 @@ namespace muu
 		///				arriving at the result using very slow iterative machinery. Do not use it at runtime!
 		MUU_PURE_GETTER
 		MUU_CONSTEVAL
-		static delta_scalar_type MUU_VECTORCALL consteval_distance(MUU_VC_PARAM(vector) p1,
-																   MUU_VC_PARAM(vector) p2) noexcept
+		static delta_scalar_type MUU_VECTORCALL consteval_distance(MUU_VPARAM(vector) p1,
+																			  MUU_VPARAM(vector) p2) noexcept
 		{
 			if constexpr (delta_requires_promotion)
 			{
@@ -1200,7 +1194,7 @@ namespace muu
 
 		/// \brief	Returns the distance between this and another point vector.
 		MUU_PURE_INLINE_GETTER
-		constexpr delta_scalar_type MUU_VECTORCALL distance(MUU_VC_PARAM(vector) p) const noexcept
+		constexpr delta_scalar_type MUU_VECTORCALL distance(MUU_VPARAM(vector) p) const noexcept
 		{
 			return distance(*this, p);
 		}
@@ -1214,8 +1208,7 @@ namespace muu
 
 		/// \brief	Returns the dot product of two vectors.
 		MUU_PURE_GETTER
-		static constexpr product_scalar_type MUU_VECTORCALL dot(MUU_VC_PARAM(vector) v1,
-																MUU_VC_PARAM(vector) v2) noexcept
+		static constexpr product_scalar_type MUU_VECTORCALL dot(MUU_VPARAM(vector) v1, MUU_VPARAM(vector) v2) noexcept
 		{
 			if constexpr (product_requires_promotion)
 			{
@@ -1236,7 +1229,7 @@ namespace muu
 
 		/// \brief	Returns the dot product of this and another vector.
 		MUU_PURE_INLINE_GETTER
-		constexpr product_scalar_type MUU_VECTORCALL dot(MUU_VC_PARAM(vector) v) const noexcept
+		constexpr product_scalar_type MUU_VECTORCALL dot(MUU_VPARAM(vector) v) const noexcept
 		{
 			return dot(*this, v);
 		}
@@ -1244,8 +1237,8 @@ namespace muu
 		/// \brief	Returns the dot product of a vector and a principal axis.
 		template <size_t Dimension>
 		MUU_PURE_INLINE_GETTER
-		static constexpr product_scalar_type MUU_VECTORCALL dot(MUU_VC_PARAM(vector) v,
-																index_tag<Dimension> /*axis*/) noexcept
+		static constexpr product_scalar_type MUU_VECTORCALL dot(MUU_VPARAM(vector) v,
+																		   index_tag<Dimension> /*axis*/) noexcept
 		{
 			static_assert(Dimension < Dimensions, "Dimension index out of range");
 
@@ -1256,7 +1249,7 @@ namespace muu
 		template <size_t Dimension>
 		MUU_PURE_INLINE_GETTER
 		static constexpr product_scalar_type MUU_VECTORCALL dot(index_tag<Dimension> /*axis*/,
-																MUU_VC_PARAM(vector) v) noexcept
+																MUU_VPARAM(vector) v) noexcept
 		{
 			static_assert(Dimension < Dimensions, "Dimension index out of range");
 
@@ -1286,8 +1279,8 @@ namespace muu
 		/// \availability		This function is only available when #dimensions == 3.
 		MUU_HIDDEN_CONSTRAINT(Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_GETTER
-		static constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) v1,
-																			 MUU_VC_PARAM(vector) v2) noexcept
+		static constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(MUU_VPARAM(vector) v1,
+																						MUU_VPARAM(vector) v2) noexcept
 		{
 			if constexpr (product_requires_promotion)
 			{
@@ -1309,8 +1302,8 @@ namespace muu
 		/// \availability		This function is only available when #dimensions == 3.
 		MUU_CONSTRAINED_TEMPLATE(Dimension < 3 && Dimensions == 3, size_t Dimension)
 		MUU_PURE_INLINE_GETTER
-		static constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) v,
-																			 index_tag<Dimension> /*axis*/) noexcept
+		static constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(
+			MUU_VPARAM(vector) v, index_tag<Dimension> /*axis*/) noexcept
 		{
 			static_assert(Dimension < Dimensions, "Dimension index out of range");
 
@@ -1339,7 +1332,7 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE(Dimension < 3 && Dimensions == 3, size_t Dimension)
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(index_tag<Dimension> /*axis*/,
-																			 MUU_VC_PARAM(vector) v) noexcept
+																			 MUU_VPARAM(vector) v) noexcept
 		{
 			static_assert(Dimension < Dimensions, "Dimension index out of range");
 
@@ -1367,7 +1360,7 @@ namespace muu
 		/// \availability		This function is only available when #dimensions == 3.
 		MUU_HIDDEN_CONSTRAINT(Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
-		constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(MUU_VC_PARAM(vector) v) const noexcept
+		constexpr vector<product_scalar_type, 3> MUU_VECTORCALL cross(MUU_VPARAM(vector) v) const noexcept
 		{
 			return cross(*this, v);
 		}
@@ -1387,7 +1380,7 @@ namespace muu
 		/// \availability		This function is only available when #dimensions == 3.
 		MUU_HIDDEN_CONSTRAINT(Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_GETTER
-		static constexpr vector<product_scalar_type, 3> orthogonal(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr vector<product_scalar_type, 3> orthogonal(MUU_VPARAM(vector) v) noexcept
 		{
 			const auto x = muu::abs(v.x);
 			const auto y = muu::abs(v.y);
@@ -1417,7 +1410,7 @@ namespace muu
 
 		/// \brief Returns the componentwise addition of two vectors.
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator+(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator+(MUU_VPARAM(vector) lhs, MUU_VPARAM(vector) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1436,7 +1429,7 @@ namespace muu
 		}
 
 		/// \brief Componentwise adds another vector to this one.
-		constexpr vector& MUU_VECTORCALL operator+=(MUU_VC_PARAM(vector) rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator+=(MUU_VPARAM(vector) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1463,7 +1456,7 @@ namespace muu
 
 		/// \brief Returns the sum of all the scalar components in a vector.
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL sum(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr scalar_type MUU_VECTORCALL sum(MUU_VPARAM(vector) v) noexcept
 		{
 			if constexpr (dimensions == 1)
 			{
@@ -1511,7 +1504,7 @@ namespace muu
 
 		/// \brief Returns the componentwise subtraction of one vector from another.
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator-(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator-(MUU_VPARAM(vector) lhs, MUU_VPARAM(vector) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1530,7 +1523,7 @@ namespace muu
 		}
 
 		/// \brief Componentwise subtracts another vector from this one.
-		constexpr vector& MUU_VECTORCALL operator-=(MUU_VC_PARAM(vector) rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator-=(MUU_VPARAM(vector) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1571,7 +1564,7 @@ namespace muu
 
 		/// \brief Returns the componentwise multiplication of two vectors.
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator*(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator*(MUU_VPARAM(vector) lhs, MUU_VPARAM(vector) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1590,7 +1583,7 @@ namespace muu
 		}
 
 		/// \brief Componentwise multiplies this vector by another.
-		constexpr vector& MUU_VECTORCALL operator*=(MUU_VC_PARAM(vector) rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator*=(MUU_VPARAM(vector) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1610,7 +1603,7 @@ namespace muu
 
 		/// \brief Returns the componentwise multiplication of a vector and a scalar.
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator*(MUU_VC_PARAM(vector) lhs, scalar_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator*(MUU_VPARAM(vector) lhs, scalar_type rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1630,7 +1623,7 @@ namespace muu
 
 		/// \brief Returns the componentwise multiplication of a vector and a scalar.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator*(scalar_type lhs, MUU_VC_PARAM(vector) rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator*(scalar_type lhs, MUU_VPARAM(vector) rhs) noexcept
 		{
 			return rhs * lhs;
 		}
@@ -1656,7 +1649,7 @@ namespace muu
 
 		/// \brief Returns the product of all the scalar components in a vector.
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL product(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr scalar_type MUU_VECTORCALL product(MUU_VPARAM(vector) v) noexcept
 		{
 			if constexpr (dimensions == 1)
 			{
@@ -1704,7 +1697,7 @@ namespace muu
 
 		/// \brief Returns the componentwise division of one vector by another.
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator/(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator/(MUU_VPARAM(vector) lhs, MUU_VPARAM(vector) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1723,7 +1716,7 @@ namespace muu
 		}
 
 		/// \brief Componentwise divides this vector by another.
-		constexpr vector& MUU_VECTORCALL operator/=(MUU_VC_PARAM(vector) rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator/=(MUU_VPARAM(vector) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1743,7 +1736,7 @@ namespace muu
 
 		/// \brief Returns the componentwise division of a vector and a scalar.
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator/(MUU_VC_PARAM(vector) lhs, scalar_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator/(MUU_VPARAM(vector) lhs, scalar_type rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1798,7 +1791,7 @@ namespace muu
 
 		/// \brief Returns the remainder of componentwise dividing of one vector by another.
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator%(MUU_VC_PARAM(vector) lhs, MUU_VC_PARAM(vector) rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator%(MUU_VPARAM(vector) lhs, MUU_VPARAM(vector) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1817,7 +1810,7 @@ namespace muu
 		}
 
 		/// \brief Assigns the result of componentwise dividing this vector by another.
-		constexpr vector& MUU_VECTORCALL operator%=(MUU_VC_PARAM(vector) rhs) noexcept
+		constexpr vector& MUU_VECTORCALL operator%=(MUU_VPARAM(vector) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1837,7 +1830,7 @@ namespace muu
 
 		/// \brief Returns the remainder of componentwise dividing vector by a scalar.
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator%(MUU_VC_PARAM(vector) lhs, scalar_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator%(MUU_VPARAM(vector) lhs, scalar_type rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -1887,7 +1880,7 @@ namespace muu
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_HIDDEN_CONSTRAINT(is_integral<T>, typename T = Scalar)
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator<<(MUU_VC_PARAM(vector) lhs, product_scalar_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator<<(MUU_VPARAM(vector) lhs, product_scalar_type rhs) noexcept
 		{
 			if constexpr (product_requires_promotion)
 			{
@@ -1936,7 +1929,7 @@ namespace muu
 		/// \availability		This function is only available when #scalar_type is an integral type.
 		MUU_HIDDEN_CONSTRAINT(is_integral<T>, typename T = Scalar)
 		MUU_PURE_GETTER
-		friend constexpr vector MUU_VECTORCALL operator>>(MUU_VC_PARAM(vector) lhs, product_scalar_type rhs) noexcept
+		friend constexpr vector MUU_VECTORCALL operator>>(MUU_VPARAM(vector) lhs, product_scalar_type rhs) noexcept
 		{
 			if constexpr (product_requires_promotion)
 			{
@@ -1998,7 +1991,7 @@ namespace muu
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_NODISCARD
-		static constexpr vector MUU_VECTORCALL normalize(MUU_VC_PARAM(vector) v, delta_scalar_type& length_out) noexcept
+		static constexpr vector MUU_VECTORCALL normalize(MUU_VPARAM(vector) v, delta_scalar_type& length_out) noexcept
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2029,7 +2022,7 @@ namespace muu
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_PURE_GETTER
-		static constexpr vector MUU_VECTORCALL normalize(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr vector MUU_VECTORCALL normalize(MUU_VPARAM(vector) v) noexcept
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2059,7 +2052,7 @@ namespace muu
 		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_PURE_GETTER
 		MUU_CONSTEVAL
-		static vector MUU_VECTORCALL consteval_normalize(MUU_VC_PARAM(vector) v) noexcept
+		static vector MUU_VECTORCALL consteval_normalize(MUU_VPARAM(vector) v) noexcept
 		{
 			if constexpr (Dimensions == 1)
 			{
@@ -2110,8 +2103,7 @@ namespace muu
 		/// \availability This function is only available when #scalar_type is a floating-point type.
 		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_NODISCARD
-		static constexpr vector MUU_VECTORCALL normalize_lensq(MUU_VC_PARAM(vector) v,
-															   delta_scalar_type v_lensq) noexcept
+		static constexpr vector MUU_VECTORCALL normalize_lensq(MUU_VPARAM(vector) v, delta_scalar_type v_lensq) noexcept
 		{
 			if constexpr (delta_requires_promotion)
 			{
@@ -2139,7 +2131,7 @@ namespace muu
 
 		/// \brief Returns true if a vector is normalized (i.e. has a length of 1).
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL normalized(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr bool MUU_VECTORCALL normalized(MUU_VPARAM(vector) v) noexcept
 		{
 			if constexpr (is_integral<scalar_type>)
 			{
@@ -2207,9 +2199,8 @@ namespace muu
 		/// \availability	This function is only available when #dimensions == 2 or 3.
 		MUU_HIDDEN_CONSTRAINT(Dims == 2 || Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_GETTER
-		static constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
-															 MUU_VC_PARAM(vector) to,
-															 delta_scalar_type& distance_out) noexcept
+		static constexpr delta_type MUU_VECTORCALL direction(
+			MUU_VPARAM(vector) from, MUU_VPARAM(vector) to, delta_scalar_type& distance_out) noexcept
 		{
 			if constexpr (delta_requires_promotion)
 			{
@@ -2235,8 +2226,7 @@ namespace muu
 		/// \availability	This function is only available when #dimensions == 2 or 3.
 		MUU_HIDDEN_CONSTRAINT(Dims == 2 || Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_GETTER
-		static constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) from,
-															 MUU_VC_PARAM(vector) to) noexcept
+		static constexpr delta_type MUU_VECTORCALL direction(MUU_VPARAM(vector) from, MUU_VPARAM(vector) to) noexcept
 		{
 			if constexpr (delta_requires_promotion)
 			{
@@ -2257,8 +2247,8 @@ namespace muu
 		/// \availability	This function is only available when #dimensions == 2 or 3.
 		MUU_HIDDEN_CONSTRAINT(Dims == 2 || Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
-		constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to,
-													  delta_scalar_type& distance_out) const noexcept
+		constexpr delta_type MUU_VECTORCALL direction(MUU_VPARAM(vector) to,
+																 delta_scalar_type& distance_out) const noexcept
 		{
 			return direction(*this, to, distance_out);
 		}
@@ -2270,7 +2260,7 @@ namespace muu
 		/// \availability	This function is only available when #dimensions == 2 or 3.
 		MUU_HIDDEN_CONSTRAINT(Dims == 2 || Dims == 3, size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
-		constexpr delta_type MUU_VECTORCALL direction(MUU_VC_PARAM(vector) to) const noexcept
+		constexpr delta_type MUU_VECTORCALL direction(MUU_VPARAM(vector) to) const noexcept
 		{
 			return direction(*this, to);
 		}
@@ -2381,9 +2371,8 @@ namespace muu
 		/// \brief	Returns the componentwise minimum of two or more vectors.
 		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector, const T&...>), typename... T)
 		MUU_PURE_GETTER
-		static constexpr vector MUU_VECTORCALL min(MUU_VC_PARAM(vector) v1,
-												   MUU_VC_PARAM(vector) v2,
-												   const T&... vecs) noexcept
+		static constexpr vector MUU_VECTORCALL min(MUU_VPARAM(vector) v1,
+															  MUU_VPARAM(vector) v2, const T&... vecs) noexcept
 		{
 			if constexpr (sizeof...(T) > 0)
 				return vector::min(v1, vector::min(v2, vecs...));
@@ -2432,9 +2421,8 @@ namespace muu
 		/// \brief	Returns the componentwise maximum of two or more vectors.
 		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector, const T&...>), typename... T)
 		MUU_PURE_GETTER
-		static constexpr vector MUU_VECTORCALL max(MUU_VC_PARAM(vector) v1,
-												   MUU_VC_PARAM(vector) v2,
-												   const T&... vecs) noexcept
+		static constexpr vector MUU_VECTORCALL max(MUU_VPARAM(vector) v1,
+															  MUU_VPARAM(vector) v2, const T&... vecs) noexcept
 		{
 			if constexpr (sizeof...(T) > 0)
 				return vector::max(v1, vector::max(v2, vecs...));
@@ -2487,9 +2475,9 @@ namespace muu
 		///
 		/// \return	A vector containing the scalar components from `v` clamped inside the given bounds.
 		MUU_PURE_GETTER
-		static constexpr vector MUU_VECTORCALL clamp(MUU_VC_PARAM(vector) v,
-													 MUU_VC_PARAM(vector) low,
-													 MUU_VC_PARAM(vector) high) noexcept
+		static constexpr vector MUU_VECTORCALL clamp(MUU_VPARAM(vector) v,
+																MUU_VPARAM(vector) low,
+																		   MUU_VPARAM(vector) high) noexcept
 		{
 			// clang-format off
 
@@ -2506,7 +2494,7 @@ namespace muu
 		/// \param high		The high bound of the clamp operation.
 		///
 		/// \return	A reference to the vector.
-		constexpr vector& MUU_VECTORCALL clamp(MUU_VC_PARAM(vector) low, MUU_VC_PARAM(vector) high) noexcept
+		constexpr vector& MUU_VECTORCALL clamp(MUU_VPARAM(vector) low, MUU_VPARAM(vector) high) noexcept
 		{
 			// clang-format off
 
@@ -2555,7 +2543,7 @@ namespace muu
 		/// \return  A vector composed from the desired 'swizzle' of the source vector.
 		template <size_t... Indices>
 		MUU_PURE_GETTER
-		static constexpr vector<scalar_type, sizeof...(Indices)> MUU_VECTORCALL swizzle(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr vector<scalar_type, sizeof...(Indices)> MUU_VECTORCALL swizzle(MUU_VPARAM(vector) v) noexcept
 		{
 			static_assert(sizeof...(Indices) > 0_sz, "At least one scalar index must be specified.");
 			static_assert((true && ... && (Indices < Dimensions)),
@@ -2665,9 +2653,9 @@ namespace muu
 		///
 		/// \returns	A vector with values derived from a linear interpolation from `start` to `finish`.
 		MUU_PURE_GETTER
-		static constexpr vector MUU_VECTORCALL lerp(MUU_VC_PARAM(vector) start,
-													MUU_VC_PARAM(vector) finish,
-													delta_scalar_type alpha) noexcept
+		static constexpr vector MUU_VECTORCALL lerp(MUU_VPARAM(vector) start,
+															   MUU_VPARAM(vector) finish,
+																		  delta_scalar_type alpha) noexcept
 		{
 			if constexpr (delta_requires_promotion)
 			{
@@ -2695,7 +2683,7 @@ namespace muu
 		/// \param	alpha 	The blend factor.
 		///
 		/// \return	A reference to the vector.
-		constexpr vector& MUU_VECTORCALL lerp(MUU_VC_PARAM(vector) target, delta_scalar_type alpha) noexcept
+		constexpr vector& MUU_VECTORCALL lerp(MUU_VPARAM(vector) target, delta_scalar_type alpha) noexcept
 		{
 			return *this = lerp(*this, target, alpha);
 		}
@@ -2714,8 +2702,7 @@ namespace muu
 		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_HIDDEN_CONSTRAINT((Dims == 2 || Dims == 3), size_t Dims = Dimensions)
 		MUU_PURE_GETTER
-		static constexpr delta_scalar_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v1,
-																MUU_VC_PARAM(vector) v2) noexcept
+		static constexpr delta_scalar_type MUU_VECTORCALL angle(MUU_VPARAM(vector) v1, MUU_VPARAM(vector) v2) noexcept
 		{
 			// intermediate calcs are done using doubles because anything else is far too imprecise
 			using angle_type = impl::highest_ranked<promoted_delta, double>;
@@ -2751,14 +2738,14 @@ namespace muu
 		/// \availability		This function is only available when #dimensions == 2 or 3.
 		MUU_HIDDEN_CONSTRAINT((Dims == 2 || Dims == 3), size_t Dims = Dimensions)
 		MUU_PURE_INLINE_GETTER
-		constexpr delta_scalar_type MUU_VECTORCALL angle(MUU_VC_PARAM(vector) v) const noexcept
+		constexpr delta_scalar_type MUU_VECTORCALL angle(MUU_VPARAM(vector) v) const noexcept
 		{
 			return angle(*this, v);
 		}
 
 		/// \brief	Returns a vector with all scalar components set to their absolute values.
 		MUU_PURE_GETTER
-		static constexpr vector MUU_VECTORCALL abs(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr vector MUU_VECTORCALL abs(MUU_VPARAM(vector) v) noexcept
 		{
 			// clang-format off
 
@@ -2787,7 +2774,7 @@ namespace muu
 		/// \brief	Returns a vector with all scalar components set to the lowest integer not less than their original
 		/// values.
 		MUU_PURE_GETTER
-		static constexpr vector MUU_VECTORCALL ceil(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr vector MUU_VECTORCALL ceil(MUU_VPARAM(vector) v) noexcept
 		{
 			// clang-format off
 
@@ -2817,7 +2804,7 @@ namespace muu
 		/// \brief	Returns a vector with all scalar components set to the highest integer not greater than their
 		/// original values.
 		MUU_PURE_GETTER
-		static constexpr vector MUU_VECTORCALL floor(MUU_VC_PARAM(vector) v) noexcept
+		static constexpr vector MUU_VECTORCALL floor(MUU_VPARAM(vector) v) noexcept
 		{
 			// clang-format off
 
@@ -3295,7 +3282,7 @@ namespace muu::impl
 	struct vector_accumulator
 	{
 		using value_type		 = vector<Scalar, Dimensions>;
-		using value_param		 = vectorcall_param<value_type>;
+		using value_param		 = vector_param<value_type>;
 		using scalar_accumulator = typename default_accumulator<Scalar>::type;
 
 		scalar_accumulator accumulators[Dimensions];

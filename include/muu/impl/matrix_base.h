@@ -200,11 +200,9 @@ namespace muu::impl
 	inline constexpr bool is_hva<matrix<Scalar, Rows, Columns>> = is_hva<matrix_<Scalar, Rows, Columns>>;
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct vectorcall_param_<matrix<Scalar, Rows, Columns>>
+	struct vector_param_<matrix<Scalar, Rows, Columns>>
 	{
-		using type = std::conditional_t<pass_vectorcall_by_value<matrix_<Scalar, Rows, Columns>>,
-										matrix<Scalar, Rows, Columns>,
-										const matrix<Scalar, Rows, Columns>&>;
+		using type = copy_cvref<matrix<Scalar, Rows, Columns>, vector_param<matrix_<Scalar, Rows, Columns>>>;
 	};
 
 	//--- matrix classification  ---------------------------------------------------------------------------------------

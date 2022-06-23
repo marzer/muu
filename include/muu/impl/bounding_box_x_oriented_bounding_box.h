@@ -20,8 +20,8 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_GETTER
-	inline constexpr bounding_box<Scalar> MUU_VECTORCALL bounding_box<Scalar>::from_obb(
-		MUU_VC_PARAM(oriented_bounding_box<Scalar>) obb) noexcept
+	inline constexpr bounding_box<Scalar> MUU_VECTORCALL bounding_box<Scalar>::from_obb(MUU_VPARAM(oriented_bounding_box<Scalar>)
+																									   obb) noexcept
 	{
 		const vector_type corners[] = {
 			obb.template corner<box_corner::min>(), obb.template corner<muu::box_corner::x>(),
@@ -35,9 +35,8 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_GETTER
-	inline constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(
-		MUU_VC_PARAM(bounding_box) aabb,
-		MUU_VC_PARAM(oriented_bounding_box<Scalar>) obb) noexcept
+	inline constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(bounding_box) aabb,
+																					 MUU_VPARAM(oriented_bounding_box<Scalar>) obb) noexcept
 	{
 		const vector_type obb_corners[] = {
 			obb.template corner<box_corner::min>(), obb.template corner<box_corner::x>(),
@@ -87,8 +86,8 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(
-		MUU_VC_PARAM(oriented_bounding_box<Scalar>) obb) const noexcept
+	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(oriented_bounding_box<Scalar>)
+																				  obb) const noexcept
 	{
 		return intersects(*this, obb);
 	}
@@ -102,17 +101,17 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::intersects(
-		MUU_VC_PARAM(oriented_bounding_box) obb,
-		MUU_VC_PARAM(bounding_box<Scalar>) aabb) noexcept
+	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::intersects(MUU_VPARAM(oriented_bounding_box) obb,
+																					   MUU_VPARAM(bounding_box<Scalar>)
+																									  aabb) noexcept
 	{
 		return bounding_box<Scalar>::intersects(aabb, obb);
 	}
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::intersects(
-		MUU_VC_PARAM(bounding_box<Scalar>) aabb) const noexcept
+	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::intersects(MUU_VPARAM(bounding_box<Scalar>)
+																						   aabb) const noexcept
 	{
 		return bounding_box<Scalar>::intersects(aabb, *this);
 	}

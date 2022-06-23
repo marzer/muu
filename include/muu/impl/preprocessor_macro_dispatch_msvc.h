@@ -10,7 +10,7 @@
 /// \cond
 
 #ifndef _MSC_VER
-	#error _MSC_VER must be defined to use this header!
+#error _MSC_VER must be defined to use this header!
 #endif
 
 #if _MSC_VER >= 1920
@@ -373,3 +373,4 @@
 
 /// \endcond
 #endif // MUU_PREPROCESSOR_MACRO_DISPATCH_MSVC_H
+

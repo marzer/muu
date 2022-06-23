@@ -216,8 +216,8 @@ namespace muu::impl
 		}
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(
-			MUU_VC_PARAM(vector<Scalar, 2>) scale) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(MUU_VPARAM(vector<Scalar, 2>)
+																								scale) noexcept
 		{
 			return matrix<Scalar, Rows, Columns>::from_2d_scale(scale);
 		}
@@ -231,8 +231,8 @@ namespace muu::impl
 
 		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_3d_scale_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_INLINE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(
-			MUU_VC_PARAM(vector<Scalar, 3>) scale) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_scale(MUU_VPARAM(vector<Scalar, 3>)
+																								scale) noexcept
 		{
 			return matrix<Scalar, Rows, Columns>::from_3d_scale(scale);
 		}
@@ -328,8 +328,8 @@ namespace muu::impl
 		}
 
 		MUU_PURE_INLINE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(
-			MUU_VC_PARAM(vector<Scalar, 2>) xlat) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(MUU_VPARAM(vector<Scalar, 2>)
+																									  xlat) noexcept
 		{
 			return matrix<Scalar, Rows, Columns>::from_2d_translation(xlat);
 		}
@@ -345,8 +345,8 @@ namespace muu::impl
 
 		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_3d_translation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_INLINE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(
-			MUU_VC_PARAM(vector<Scalar, 3>) xlat) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_translation(MUU_VPARAM(vector<Scalar, 3>)
+																									  xlat) noexcept
 		{
 			return matrix<Scalar, Rows, Columns>::from_3d_translation(xlat);
 		}
@@ -449,8 +449,8 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_quaternion(
-			MUU_VC_PARAM(quaternion<Scalar>) quat) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_quaternion(MUU_VPARAM(quaternion<Scalar>)
+																									 quat) noexcept
 		{
 			using out_type = matrix<Scalar, Rows, Columns>;
 
@@ -491,9 +491,9 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axis_angle(
-			MUU_VC_PARAM(vector<Scalar, 3>) axis,
-			Scalar angle) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axis_angle(MUU_VPARAM(vector<Scalar, 3>)
+																									 axis,
+																								 Scalar angle) noexcept
 		{
 			if constexpr (is_small_float_<Scalar>)
 			{
@@ -509,8 +509,8 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axis_angle(
-			MUU_VC_PARAM(axis_angle<Scalar>) aa) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axis_angle(MUU_VPARAM(axis_angle<Scalar>)
+																									 aa) noexcept
 		{
 			return from_axis_angle(aa.axis, aa.angle);
 		}
@@ -535,8 +535,8 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_euler(
-			MUU_VC_PARAM(euler_angles<Scalar>) angles) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_euler(MUU_VPARAM(euler_angles<Scalar>)
+																								angles) noexcept
 		{
 			return from_euler(angles.yaw, angles.pitch, angles.roll);
 		}
@@ -590,9 +590,9 @@ namespace muu::impl
 
 		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_2d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axes(
-			MUU_VC_PARAM(vector<Scalar, 2>) x,
-			MUU_VC_PARAM(vector<Scalar, 2>) y) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axes(MUU_VPARAM(vector<Scalar, 2>) x,
+																						   MUU_VPARAM(vector<Scalar, 2>)
+																										  y) noexcept
 		{
 			using out_type = matrix<Scalar, Rows, Columns>;
 
@@ -633,9 +633,7 @@ namespace muu::impl
 		MUU_HIDDEN_CONSTRAINT(sfinae, bool sfinae = is_3d_rotation_matrix_<matrix<Scalar, Rows, Columns>>)
 		MUU_PURE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_axes(
-			MUU_VC_PARAM(vector<Scalar, 3>) x,
-			MUU_VC_PARAM(vector<Scalar, 3>) y,
-			MUU_VC_PARAM(vector<Scalar, 3>) z) noexcept
+			MUU_VPARAM(vector<Scalar, 3>) x, MUU_VPARAM(vector<Scalar, 3>) y, MUU_VPARAM(vector<Scalar, 3>) z) noexcept
 		{
 			using out_type = matrix<Scalar, Rows, Columns>;
 
@@ -662,8 +660,7 @@ namespace muu::impl
 
 		MUU_PURE_GETTER
 		static constexpr vector<Scalar, 3> MUU_VECTORCALL transform_position(
-			MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) xform,
-			MUU_VC_PARAM(vector<Scalar, 3>) pos) noexcept
+			MUU_VPARAM(matrix<Scalar, Rows, Columns>) xform, MUU_VPARAM(vector<Scalar, 3>) pos) noexcept
 		{
 			MUU_FMA_BLOCK;
 
@@ -705,8 +702,7 @@ namespace muu::impl
 		}
 
 		MUU_PURE_INLINE_GETTER
-		constexpr vector<Scalar, 3> MUU_VECTORCALL transform_position(
-			MUU_VC_PARAM(vector<Scalar, 3>) pos) const noexcept
+		constexpr vector<Scalar, 3> MUU_VECTORCALL transform_position(MUU_VPARAM(vector<Scalar, 3>) pos) const noexcept
 		{
 			return transform_position(static_cast<const matrix<Scalar, Rows, Columns>&>(*this), pos);
 		}
@@ -725,8 +721,9 @@ namespace muu::impl
 													 // handled by the generalized mat * vec operator
 
 		MUU_PURE_INLINE_GETTER
-		friend constexpr vector<Scalar, 3> MUU_VECTORCALL operator*(MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) xform,
-																	MUU_VC_PARAM(vector<Scalar, 3>) pos) noexcept
+		friend constexpr vector<Scalar, 3> MUU_VECTORCALL operator*(MUU_VPARAM(matrix<Scalar, Rows, Columns>) xform,
+																			   MUU_VPARAM(vector<Scalar, 3>)
+																							  pos) noexcept
 		{
 			return matrix<Scalar, Rows, Columns>::transform_position(xform, pos);
 		}
@@ -746,8 +743,7 @@ namespace muu::impl
 
 		MUU_PURE_GETTER
 		static constexpr vector<Scalar, 3> MUU_VECTORCALL transform_without_translating(
-			MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) xform,
-			MUU_VC_PARAM(vector<Scalar, 3>) dir) noexcept
+			MUU_VPARAM(matrix<Scalar, Rows, Columns>) xform, MUU_VPARAM(vector<Scalar, 3>) dir) noexcept
 		{
 			MUU_FMA_BLOCK;
 
@@ -765,8 +761,8 @@ namespace muu::impl
 		}
 
 		MUU_PURE_INLINE_GETTER
-		constexpr vector<Scalar, 3> MUU_VECTORCALL transform_without_translating(
-			MUU_VC_PARAM(vector<Scalar, 3>) dir) const noexcept
+		constexpr vector<Scalar, 3> MUU_VECTORCALL transform_without_translating(MUU_VPARAM(vector<Scalar, 3>)
+																								dir) const noexcept
 		{
 			return transform_without_translating(static_cast<const matrix<Scalar, Rows, Columns>&>(*this), dir);
 		}
@@ -786,8 +782,7 @@ namespace muu::impl
 
 		MUU_PURE_GETTER
 		static constexpr vector<Scalar, 3> MUU_VECTORCALL transform_direction(
-			MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) xform,
-			MUU_VC_PARAM(vector<Scalar, 3>) dir) noexcept
+			MUU_VPARAM(matrix<Scalar, Rows, Columns>) xform, MUU_VPARAM(vector<Scalar, 3>) dir) noexcept
 		{
 			MUU_FMA_BLOCK;
 
@@ -797,8 +792,7 @@ namespace muu::impl
 		}
 
 		MUU_PURE_INLINE_GETTER
-		constexpr vector<Scalar, 3> MUU_VECTORCALL transform_direction(
-			MUU_VC_PARAM(vector<Scalar, 3>) dir) const noexcept
+		constexpr vector<Scalar, 3> MUU_VECTORCALL transform_direction(MUU_VPARAM(vector<Scalar, 3>) dir) const noexcept
 		{
 			return transform_direction(static_cast<const matrix<Scalar, Rows, Columns>&>(*this), dir);
 		}
@@ -814,8 +808,8 @@ namespace muu::impl
 	struct matrix_extract_2d_scale<matrix<Scalar, Rows, Columns>, true>
 	{
 		MUU_PURE_GETTER
-		static constexpr vector<Scalar, 2> MUU_VECTORCALL extract_2d_scale(
-			MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) mat) noexcept
+		static constexpr vector<Scalar, 2> MUU_VECTORCALL extract_2d_scale(MUU_VPARAM(matrix<Scalar, Rows, Columns>)
+																						  mat) noexcept
 		{
 			return { vector<Scalar, 2>{ mat.template get<0, 0>(), mat.template get<1, 0>() }.length(),
 					 vector<Scalar, 2>{ mat.template get<0, 1>(), mat.template get<1, 1>() }.length() };
@@ -838,8 +832,8 @@ namespace muu::impl
 	struct matrix_extract_3d_scale<matrix<Scalar, Rows, Columns>, true>
 	{
 		MUU_PURE_GETTER
-		static constexpr vector<Scalar, 3> MUU_VECTORCALL extract_3d_scale(
-			MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) mat) noexcept
+		static constexpr vector<Scalar, 3> MUU_VECTORCALL extract_3d_scale(MUU_VPARAM(matrix<Scalar, Rows, Columns>)
+																						  mat) noexcept
 		{
 			return { vector<Scalar, 3>{ mat.template get<0, 0>(), mat.template get<1, 0>(), mat.template get<2, 0>() }
 						 .length(),
@@ -929,8 +923,8 @@ namespace muu::impl
 	  private:
 		template <size_t Depth = Rows>
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL column_dot(MUU_VC_PARAM(column_type) c1,
-															   MUU_VC_PARAM(column_type) c2) noexcept
+		static constexpr scalar_type MUU_VECTORCALL column_dot(MUU_VPARAM(column_type) c1,
+																		  MUU_VPARAM(column_type) c2) noexcept
 		{
 			static_assert(Depth > 0);
 			static_assert(Depth <= Rows);
@@ -994,8 +988,7 @@ namespace muu::impl
 
 	  public:
 		MUU_PURE_GETTER
-		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL orthonormalize(
-			MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) m) noexcept
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL orthonormalize(MUU_VPARAM(matrix<Scalar, Rows, Columns>) m) noexcept
 		{
 			if constexpr (is_small_float_<scalar_type>)
 			{
@@ -1046,9 +1039,8 @@ namespace muu::impl
 
 	  private:
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL orthonormalized(MUU_VC_PARAM(vector<Scalar, 3>) x,
-															 MUU_VC_PARAM(vector<Scalar, 3>) y,
-															 MUU_VC_PARAM(vector<Scalar, 3>) z) noexcept
+		static constexpr bool MUU_VECTORCALL orthonormalized(
+			MUU_VPARAM(vector<Scalar, 3>) x, MUU_VPARAM(vector<Scalar, 3>) y, MUU_VPARAM(vector<Scalar, 3>) z) noexcept
 		{
 			constexpr auto eps = is_small_float_<Scalar> ? constants<Scalar>::one_over_one_hundred
 														 : constants<Scalar>::one_over_one_thousand;
@@ -1064,7 +1056,7 @@ namespace muu::impl
 
 	  public:
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL orthonormalized(MUU_VC_PARAM(matrix<Scalar, Rows, Columns>) m) noexcept
+		static constexpr bool MUU_VECTORCALL orthonormalized(MUU_VPARAM(matrix<Scalar, Rows, Columns>) m) noexcept
 		{
 			if constexpr (Rows == 3)
 			{
@@ -1904,9 +1896,7 @@ namespace muu
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
-		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL
-								  || impl::pass_vectorcall_by_reference<matrix, matrix<T, Rows, Columns>>),
-								 typename T)
+		MUU_CONSTRAINED_TEMPLATE((impl::pass_vector_by_reference<matrix, matrix<T, Rows, Columns>>), typename T)
 		MUU_PURE_GETTER
 		friend constexpr bool operator==(const matrix& lhs, const matrix<T, rows, columns>& rhs) noexcept
 		{
@@ -1916,9 +1906,9 @@ namespace muu
 			return true;
 		}
 
-	#if MUU_HAS_VECTORCALL
+	#if !MUU_DOXYGEN
 
-		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<matrix, matrix<T, Rows, Columns>>), typename T)
+		MUU_CONSTRAINED_TEMPLATE((impl::pass_vector_by_value<matrix, matrix<T, Rows, Columns>>), typename T)
 		MUU_CONST_GETTER
 		friend constexpr bool MUU_VECTORCALL operator==(matrix lhs, matrix<T, rows, columns> rhs) noexcept
 		{
@@ -1928,38 +1918,36 @@ namespace muu
 			return true;
 		}
 
-	#endif // MUU_HAS_VECTORCALL
+	#endif // !MUU_DOXYGEN
 
 		/// \brief	Returns true if two matrices are not exactly equal.
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_equal() if you want an epsilon-based "near-enough" check.
-		MUU_CONSTRAINED_TEMPLATE((!MUU_HAS_VECTORCALL
-								  || impl::pass_vectorcall_by_reference<matrix, matrix<T, Rows, Columns>>),
-								 typename T)
+		MUU_CONSTRAINED_TEMPLATE((impl::pass_vector_by_reference<matrix, matrix<T, Rows, Columns>>), typename T)
 		MUU_PURE_GETTER
 		friend constexpr bool operator!=(const matrix& lhs, const matrix<T, rows, columns>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
 
-	#if MUU_HAS_VECTORCALL
+	#if !MUU_DOXYGEN
 
-		MUU_CONSTRAINED_TEMPLATE((impl::pass_vectorcall_by_value<matrix, matrix<T, Rows, Columns>>), typename T)
+		MUU_CONSTRAINED_TEMPLATE((impl::pass_vector_by_value<matrix, matrix<T, Rows, Columns>>), typename T)
 		MUU_CONST_INLINE_GETTER
 		friend constexpr bool operator!=(matrix lhs, matrix<T, rows, columns> rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
 
-	#endif // MUU_HAS_VECTORCALL
+	#endif // !MUU_DOXYGEN
 
 		/// \brief	Returns true if all the scalar components of a matrix are exactly zero.
 		///
 		/// \remarks	This is an exact check;
 		///				use #approx_zero() if you want an epsilon-based "near-enough" check.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL zero(MUU_VC_PARAM(matrix) m) noexcept
+		static constexpr bool MUU_VECTORCALL zero(MUU_VPARAM(matrix) m) noexcept
 		{
 			for (size_t i = 0; i < columns; i++)
 				if (!column_type::zero(m.m[i]))
@@ -1979,7 +1967,7 @@ namespace muu
 
 		/// \brief	Returns true if any of the scalar components of a matrix are infinity or NaN.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VC_PARAM(matrix) m) noexcept
+		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VPARAM(matrix) m) noexcept
 		{
 			if constexpr (is_floating_point<scalar_type>)
 			{
@@ -2017,8 +2005,7 @@ namespace muu
 		/// \availability	This function is only available when at least one of #scalar_type
 		///					and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
-								  && (!MUU_HAS_VECTORCALL
-									  || impl::pass_vectorcall_by_reference<matrix, matrix<T, Rows, Columns>>)),
+								  && impl::pass_vector_by_reference<matrix, matrix<T, Rows, Columns>>),
 								 typename T)
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
@@ -2032,10 +2019,10 @@ namespace muu
 			return true;
 		}
 
-	#if MUU_HAS_VECTORCALL
+	#if !MUU_DOXYGEN
 
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
-								  && impl::pass_vectorcall_by_value<matrix, matrix<T, Rows, Columns>>),
+								  && impl::pass_vector_by_value<matrix, matrix<T, Rows, Columns>>),
 								 typename T)
 		MUU_CONST_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
@@ -2049,15 +2036,14 @@ namespace muu
 			return true;
 		}
 
-	#endif // MUU_HAS_VECTORCALL
+	#endif // !MUU_DOXYGEN
 
 		/// \brief	Returns true if the matrix is approximately equal to another.
 		///
 		/// \availability	This function is only available when at least one of #scalar_type
 		///					and `T` is a floating-point type.
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
-								  && (!MUU_HAS_VECTORCALL
-									  || impl::pass_vectorcall_by_reference<matrix<T, Rows, Columns>>)),
+								  && impl::pass_vector_by_reference<matrix<T, Rows, Columns>>),
 								 typename T)
 		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL approx_equal(
@@ -2067,10 +2053,10 @@ namespace muu
 			return approx_equal(*this, m, epsilon);
 		}
 
-	#if MUU_HAS_VECTORCALL
+	#if !MUU_DOXYGEN
 
 		MUU_CONSTRAINED_TEMPLATE((any_floating_point<Scalar, T> //
-								  && impl::pass_vectorcall_by_value<matrix<T, Rows, Columns>>),
+								  && impl::pass_vector_by_value<matrix<T, Rows, Columns>>),
 								 typename T)
 		MUU_CONST_GETTER
 		constexpr bool MUU_VECTORCALL approx_equal(
@@ -2080,15 +2066,15 @@ namespace muu
 			return approx_equal(*this, m, epsilon);
 		}
 
-	#endif // MUU_HAS_VECTORCALL
+	#endif // !MUU_DOXYGEN
 
 		/// \brief	Returns true if all the scalar components in a matrix are approximately equal to zero.
 		///
 		/// \availability	This function is only available when #scalar_type is a floating-point type.
 		MUU_HIDDEN_CONSTRAINT(is_floating_point<T>, typename T = Scalar)
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VC_PARAM(matrix) m,
-														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_zero(
+			MUU_VPARAM(matrix) m, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			for (size_t i = 0; i < columns; i++)
 				if (!column_type::approx_zero(m.m[i], epsilon))
@@ -2115,7 +2101,7 @@ namespace muu
 
 		/// \brief Returns the componentwise addition of two matrices.
 		MUU_PURE_GETTER
-		friend constexpr matrix MUU_VECTORCALL operator+(MUU_VC_PARAM(matrix) lhs, MUU_VC_PARAM(matrix) rhs) noexcept
+		friend constexpr matrix MUU_VECTORCALL operator+(MUU_VPARAM(matrix) lhs, MUU_VPARAM(matrix) rhs) noexcept
 		{
 			matrix out{ lhs };
 			for (size_t i = 0; i < columns; i++)
@@ -2124,7 +2110,7 @@ namespace muu
 		}
 
 		/// \brief Componentwise adds another matrix to this one.
-		constexpr matrix& MUU_VECTORCALL operator+=(MUU_VC_PARAM(matrix) rhs) noexcept
+		constexpr matrix& MUU_VECTORCALL operator+=(MUU_VPARAM(matrix) rhs) noexcept
 		{
 			for (size_t i = 0; i < columns; i++)
 				base::m[i] += rhs.m[i];
@@ -2147,7 +2133,7 @@ namespace muu
 
 		/// \brief Returns the componentwise subtraction of two matrices.
 		MUU_PURE_GETTER
-		friend constexpr matrix MUU_VECTORCALL operator-(MUU_VC_PARAM(matrix) lhs, MUU_VC_PARAM(matrix) rhs) noexcept
+		friend constexpr matrix MUU_VECTORCALL operator-(MUU_VPARAM(matrix) lhs, MUU_VPARAM(matrix) rhs) noexcept
 		{
 			matrix out{ lhs };
 			for (size_t i = 0; i < columns; i++)
@@ -2156,7 +2142,7 @@ namespace muu
 		}
 
 		/// \brief Componentwise subtracts another matrix from this one.
-		constexpr matrix& MUU_VECTORCALL operator-=(MUU_VC_PARAM(matrix) rhs) noexcept
+		constexpr matrix& MUU_VECTORCALL operator-=(MUU_VPARAM(matrix) rhs) noexcept
 		{
 			for (size_t i = 0; i < columns; i++)
 				base::m[i] -= rhs.m[i];
@@ -2191,8 +2177,7 @@ namespace muu
 		template <size_t C>
 		MUU_PURE_GETTER
 		friend constexpr matrix<scalar_type, rows, C> MUU_VECTORCALL operator*(
-			MUU_VC_PARAM(matrix) lhs,
-			const matrix<scalar_type, columns, C>& rhs) noexcept
+			MUU_VPARAM(matrix) lhs, const matrix<scalar_type, columns, C>& rhs) noexcept
 		{
 			using result_type = matrix<scalar_type, Rows, C>;
 
@@ -2274,7 +2259,7 @@ namespace muu
 		///
 		/// \availability	This function is only available when the matrix is square.
 		MUU_HIDDEN_CONSTRAINT(R == C, size_t R = Rows, size_t C = Columns)
-		constexpr matrix& MUU_VECTORCALL operator*=(MUU_VC_PARAM(matrix) rhs) noexcept
+		constexpr matrix& MUU_VECTORCALL operator*=(MUU_VPARAM(matrix) rhs) noexcept
 		{
 			return *this = *this * rhs;
 		}
@@ -2286,8 +2271,9 @@ namespace muu
 		///
 		/// \return  The result of `lhs * rhs`.
 		MUU_PURE_GETTER
-		friend constexpr column_type MUU_VECTORCALL operator*(MUU_VC_PARAM(matrix) lhs,
-															  MUU_VC_PARAM(vector<scalar_type, columns>) rhs) noexcept
+		friend constexpr column_type MUU_VECTORCALL operator*(MUU_VPARAM(matrix) lhs,
+																		 MUU_VPARAM(vector<scalar_type, columns>)
+																						rhs) noexcept
 		{
 			if constexpr (product_requires_promotion)
 			{
@@ -2342,8 +2328,8 @@ namespace muu
 		///
 		/// \return  The result of `lhs * rhs`.
 		MUU_PURE_GETTER
-		friend constexpr row_type MUU_VECTORCALL operator*(MUU_VC_PARAM(vector<scalar_type, rows>) lhs,
-														   MUU_VC_PARAM(matrix) rhs) noexcept
+		friend constexpr row_type MUU_VECTORCALL operator*(MUU_VPARAM(vector<scalar_type, rows>) lhs,
+																	  MUU_VPARAM(matrix) rhs) noexcept
 		{
 			if constexpr (product_requires_promotion)
 			{
@@ -2393,7 +2379,7 @@ namespace muu
 
 		/// \brief Returns the componentwise multiplication of a matrix and a scalar.
 		MUU_PURE_GETTER
-		friend constexpr matrix MUU_VECTORCALL operator*(MUU_VC_PARAM(matrix) lhs, scalar_type rhs) noexcept
+		friend constexpr matrix MUU_VECTORCALL operator*(MUU_VPARAM(matrix) lhs, scalar_type rhs) noexcept
 		{
 			matrix out{ lhs };
 			out *= rhs;
@@ -2402,7 +2388,7 @@ namespace muu
 
 		/// \brief Returns the componentwise multiplication of a matrix and a scalar.
 		MUU_PURE_GETTER
-		friend constexpr matrix MUU_VECTORCALL operator*(scalar_type lhs, MUU_VC_PARAM(matrix) rhs) noexcept
+		friend constexpr matrix MUU_VECTORCALL operator*(scalar_type lhs, MUU_VPARAM(matrix) rhs) noexcept
 		{
 			return rhs * lhs;
 		}
@@ -2424,7 +2410,7 @@ namespace muu
 
 		/// \brief Returns the componentwise multiplication of a matrix by a scalar.
 		MUU_PURE_GETTER
-		friend constexpr matrix MUU_VECTORCALL operator/(MUU_VC_PARAM(matrix) lhs, scalar_type rhs) noexcept
+		friend constexpr matrix MUU_VECTORCALL operator/(MUU_VPARAM(matrix) lhs, scalar_type rhs) noexcept
 		{
 			matrix out{ lhs };
 			out /= rhs;
@@ -2461,7 +2447,7 @@ namespace muu
 
 		/// \brief	Returns a transposed copy of a matrix.
 		MUU_PURE_GETTER
-		static constexpr matrix<scalar_type, columns, rows> MUU_VECTORCALL transpose(MUU_VC_PARAM(matrix) m) noexcept
+		static constexpr matrix<scalar_type, columns, rows> MUU_VECTORCALL transpose(MUU_VPARAM(matrix) m) noexcept
 		{
 			using result_type	= matrix<scalar_type, columns, rows>;
 			using result_column = vector<scalar_type, columns>;
@@ -2531,7 +2517,7 @@ namespace muu
 		///					and has at most 4 rows and columns.
 		MUU_HIDDEN_CONSTRAINT(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		MUU_PURE_GETTER
-		static constexpr determinant_type MUU_VECTORCALL determinant(MUU_VC_PARAM(matrix) m) noexcept
+		static constexpr determinant_type MUU_VECTORCALL determinant(MUU_VPARAM(matrix) m) noexcept
 		{
 			if constexpr (Columns == 1)
 				return static_cast<determinant_type>(m.m[0].x);
@@ -2560,7 +2546,7 @@ namespace muu
 		///					and has at most 4 rows and columns.
 		MUU_HIDDEN_CONSTRAINT(R == C && C <= 4, size_t R = Rows, size_t C = Columns)
 		MUU_PURE_GETTER
-		static constexpr inverse_type MUU_VECTORCALL invert(MUU_VC_PARAM(matrix) m) noexcept
+		static constexpr inverse_type MUU_VECTORCALL invert(MUU_VPARAM(matrix) m) noexcept
 		{
 			if constexpr (inverse_requires_promotion)
 			{

@@ -19,7 +19,7 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VC_PARAM(plane<scalar_type>) p) const noexcept
+	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(plane<scalar_type>) p) const noexcept
 	{
 		return intersects(*this, p);
 	}
@@ -33,15 +33,15 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VC_PARAM(plane) p,
-															MUU_VC_PARAM(bounding_box<Scalar>) bb) noexcept
+	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VPARAM(plane) p,
+																	   MUU_VPARAM(bounding_box<Scalar>) bb) noexcept
 	{
 		return bounding_box<Scalar>::intersects(bb, p);
 	}
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VC_PARAM(bounding_box<scalar_type>) bb) const noexcept
+	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
 	{
 		return bounding_box<Scalar>::intersects(bb, *this);
 	}
