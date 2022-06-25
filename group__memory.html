@@ -90,6 +90,11 @@
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
             <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment&gt;</div>
+              using <a class="m-doc" href="#ga3eab514dcbb52de9004c572c8a1dd5a9">aligned_byte_span</a> = <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, dynamic_extent, Alignment&gt;
+            </dt>
+            <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, dynamic_extent, Alignment&gt;</code>.</dd>
+            <dt>
               using <a class="m-doc" href="#gae6d7d07e5320ddbc969461099bd00db0">byte_span</a> = <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;
             </dt>
             <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;</code>.</dd>
@@ -98,8 +103,8 @@
             </dt>
             <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;</code>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = dynamic_extent&gt;</div>
-              using <a class="m-doc" href="#ga842ca2a75ebbf9f8c1a2ce90afa8f3bd">const_span</a> = <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const T, Extent&gt;
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = dynamic_extent, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment = 0&gt;</div>
+              using <a class="m-doc" href="#ga53f315d3ed4471ebb10c054e6bde0bd6">const_span</a> = <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const T, Extent, Alignment&gt;
             </dt>
             <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const T, Extent&gt;</code>.</dd>
           </dl>
@@ -108,13 +113,13 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gacaa08dc6422b5847e58a7c4ab9557362">as_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> E, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> A&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gad865424b406396afa3b05a4c49313996">as_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;T, E, A&gt; s) -&gt; <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, E&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Reinterprets a <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a> as an immutable view of the underlying bytes.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gab6812fcab12e2e24abb7261d0f895fcb">as_writable_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) -&gt; <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> E, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> A&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga4bb56e355ae623e691df5c66f9842620">as_writable_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;T, E, A&gt; s) -&gt; <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, E&gt;&gt; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Reinterprets a <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a> as a view of the underlying bytes.</dd>
           </dl>
@@ -129,6 +134,15 @@
         </section>
         <section>
           <h2>Typedef documentation</h2>
+          <section class="m-doc-details" id="ga3eab514dcbb52de9004c572c8a1dd5a9"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga3eab514dcbb52de9004c572c8a1dd5a9">aligned_byte_span</a> = <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, dynamic_extent, Alignment&gt;
+            </h3>
+            <p>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, dynamic_extent, Alignment&gt;</code>.</p>
+          </div></section>
           <section class="m-doc-details" id="gae6d7d07e5320ddbc969461099bd00db0"><div>
             <h3>
               using <a class="m-doc-self" href="#gae6d7d07e5320ddbc969461099bd00db0">byte_span</a> = <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;
@@ -143,34 +157,34 @@
             </h3>
             <p>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga842ca2a75ebbf9f8c1a2ce90afa8f3bd"><div>
+          <section class="m-doc-details" id="ga53f315d3ed4471ebb10c054e6bde0bd6"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = dynamic_extent&gt;
+              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = dynamic_extent, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment = 0&gt;
               </div>
-              using <a class="m-doc-self" href="#ga842ca2a75ebbf9f8c1a2ce90afa8f3bd">const_span</a> = <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const T, Extent&gt;
+              using <a class="m-doc-self" href="#ga53f315d3ed4471ebb10c054e6bde0bd6">const_span</a> = <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const T, Extent, Alignment&gt;
             </h3>
             <p>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const T, Extent&gt;</code>.</p>
           </div></section>
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="gacaa08dc6422b5847e58a7c4ab9557362"><div>
+          <section class="m-doc-details" id="gad865424b406396afa3b05a4c49313996"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
+              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> E, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> A&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gacaa08dc6422b5847e58a7c4ab9557362">as_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, E&gt;&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gad865424b406396afa3b05a4c49313996">as_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;T, E, A&gt; s) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Reinterprets a <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a> as an immutable view of the underlying bytes.</p>
 <p>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/container/span/as_bytes" target="_blank">std::as_bytes</a>.</p>
           </div></section>
-          <section class="m-doc-details" id="gab6812fcab12e2e24abb7261d0f895fcb"><div>
+          <section class="m-doc-details" id="ga4bb56e355ae623e691df5c66f9842620"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="span_8h.html">&lt;muu/span.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;
+              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> E, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> A&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, N&gt;&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gab6812fcab12e2e24abb7261d0f895fcb">as_writable_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;T, N&gt; s) <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, impl::as_bytes_extent&lt;T, E&gt;&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga4bb56e355ae623e691df5c66f9842620">as_writable_bytes</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;T, E, A&gt; s) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Reinterprets a <a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a> as a view of the underlying bytes.</p>
 <p>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/container/span/as_bytes" target="_blank">std::as_writable_bytes</a>.</p>

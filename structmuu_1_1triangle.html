@@ -80,11 +80,11 @@
               Reference
               <ul>
                 <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
                 <li><a href="#barycentric-coordinates">Barycentric coordinates</a></li>
-                <li><a href="#containment">Containment</a></li>
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
@@ -122,6 +122,35 @@
               using <a class="m-doc-self" href="#a4f332b7b6aca26c58fd69ac540ced5ff">vector_type</a> = <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>, 3&gt;
             </dt>
             <dd>The three-dimensional <a class="m-doc" href="structmuu_1_1vector.html">muu::<wbr/>vector</a> with the same <a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a> as the triangle.</dd>
+          </dl>
+        </section>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-doc">
+            <dt id="afd20f1a4bad93eaae90b6b4870956d82">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#afd20f1a4bad93eaae90b6b4870956d82">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle contains a point.</dd>
+            <dt id="ae5b331c44513becdc04ca36fbc23c0d3">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ae5b331c44513becdc04ca36fbc23c0d3">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle contains a point.</dd>
+            <dt id="af1c8179a45b0f04460b2783fd62c77c0">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#af1c8179a45b0f04460b2783fd62c77c0">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle and a point are coplanar.</dd>
+            <dt id="a9b02d704299c7fdf472cedf9e8561b73">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a9b02d704299c7fdf472cedf9e8561b73">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle and a point are coplanar.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -172,6 +201,14 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
+            <dt id="ad667f1f626714fc800e8c06fb0cf7b9a">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad667f1f626714fc800e8c06fb0cf7b9a">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the triangle contains a point.</dd>
+            <dt id="a3d8f835445e079d196746f6eb215adf5">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3d8f835445e079d196746f6eb215adf5">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the triangle and a point are coplanar.</dd>
             <dt id="a380e4bcba5e09675ce293ddf46ac3cf4">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a380e4bcba5e09675ce293ddf46ac3cf4">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -211,43 +248,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5917ff6a72c46204b658e8c8217f255e">barycentric_generator</a>(</span><span class="m-doc-wrap">) const -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a generator for calculating multiple barycentric coordinates from the triangle.</dd>
-          </dl>
-        </section>
-        <section id="containment">
-          <h2><a href="#containment">Containment</a></h2>
-          <dl class="m-doc">
-            <dt id="afd20f1a4bad93eaae90b6b4870956d82">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#afd20f1a4bad93eaae90b6b4870956d82">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
-              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
-              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2,
-              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a triangle contains a point.</dd>
-            <dt id="ae5b331c44513becdc04ca36fbc23c0d3">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ae5b331c44513becdc04ca36fbc23c0d3">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri,
-              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a triangle contains a point.</dd>
-            <dt id="af1c8179a45b0f04460b2783fd62c77c0">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#af1c8179a45b0f04460b2783fd62c77c0">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
-              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
-              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2,
-              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a triangle and a point are coplanar.</dd>
-            <dt id="a9b02d704299c7fdf472cedf9e8561b73">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a9b02d704299c7fdf472cedf9e8561b73">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri,
-              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a triangle and a point are coplanar.</dd>
-            <dt id="ad667f1f626714fc800e8c06fb0cf7b9a">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad667f1f626714fc800e8c06fb0cf7b9a">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if the triangle contains a point.</dd>
-            <dt id="a3d8f835445e079d196746f6eb215adf5">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3d8f835445e079d196746f6eb215adf5">coplanar</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if the triangle and a point are coplanar.</dd>
           </dl>
         </section>
         <section id="equality-approximate">
