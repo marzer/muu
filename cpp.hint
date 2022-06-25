@@ -60,6 +60,7 @@
 #define MUU_HIDDEN_BASE(...)				: __VA_ARGS__
 #define MUU_HIDDEN_PARAM(...)
 #define MUU_HIDDEN_CONSTRAINT(...)
+#define MUU_IF_DOXYGEN(A, B)				B
 #define MUU_LITTLE_ENDIAN					1
 #define MUU_MAKE_FLAGS(...)					static_assert(true)
 #define MUU_MAKE_RAW_STRING(...)			""

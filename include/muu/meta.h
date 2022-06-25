@@ -2321,7 +2321,7 @@ namespace muu
 		// clang-format off
 
 		template <typename T>
-		inline constexpr bool could_be_stateless_lambda_ // see https://en.cppreference.com/w/cpp/language/lambda
+		inline constexpr bool could_be_stateless_lambda // see https://en.cppreference.com/w/cpp/language/lambda
 			 = std::is_class_v<T>
 			&& std::is_empty_v<T>
 			&& (size_of_<T>::value <= 1)
@@ -2334,7 +2334,7 @@ namespace muu
 
 		// clang-format on
 
-		template <typename T, typename FuncPtr, bool = could_be_stateless_lambda_<T>>
+		template <typename T, typename FuncPtr, bool = could_be_stateless_lambda<T>>
 		struct is_stateless_lambda_ : std::false_type
 		{
 			static_assert(std::is_void_v<FuncPtr> || is_function_pointer<FuncPtr>,

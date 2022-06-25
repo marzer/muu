@@ -1476,12 +1476,14 @@ MUU_ENABLE_WARNINGS;
 	#define MUU_HIDDEN(...) __VA_ARGS__
 	#define MUU_HIDDEN_BASE(...)	: __VA_ARGS__
 	#define MUU_DOXYGEN_ONLY(...)
+	#define MUU_IF_DOXYGEN(A, B) B
 #endif
 /// \endcond
 #ifndef MUU_HIDDEN
 	#define MUU_HIDDEN(...)
 	#define MUU_HIDDEN_BASE(...)
 	#define MUU_DOXYGEN_ONLY(...) __VA_ARGS__
+	#define MUU_IF_DOXYGEN(A, B)  A
 #endif
 
 /// \cond

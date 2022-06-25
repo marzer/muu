@@ -11,6 +11,8 @@ MUU_DISABLE_WARNINGS;
 MUU_ENABLE_WARNINGS;
 MUU_DISABLE_SPAM_WARNINGS;
 
+// clang-format off
+
 TEST_CASE("thread_pool - initialization")
 {
 	// creating and immediately destroying a threadpool causes a spurious deadlock
@@ -228,9 +230,9 @@ TEST_CASE("thread_pool - enqueue")
 		std::atomic_int i = 0;
 		struct Kek
 		{
-			alignas(impl::thread_pool_task_granularity << 1) int i;
+			alignas(impl::thread_pool_alignment << 1) int i;
 		};
-		static_assert(alignof(Kek) == (impl::thread_pool_task_granularity << 1));
+		static_assert(alignof(Kek) == (impl::thread_pool_alignment << 1));
 
 		Kek kek{ 41 };
 		auto task = [&, kek]() mutable noexcept { kek.i++; i = kek.i; };

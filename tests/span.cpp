@@ -6,10 +6,18 @@
 #include "tests.h"
 #include "../include/muu/span.h"
 
+static_assert(sizeof(span<int>) == sizeof(int*) + sizeof(size_t));
+static_assert(std::is_trivially_copyable_v<span<int>>);
+static_assert(std::is_trivially_destructible_v<span<int>>);
+
+static_assert(sizeof(span<int, 10>) == sizeof(int*));
+static_assert(std::is_trivially_copyable_v<span<int, 10>>);
+static_assert(std::is_trivially_destructible_v<span<int, 10>>);
+
 TEST_CASE("span")
 {
 	std::vector<int> vec{ 1, 2, 3, 4, 5 };
-	int arr[] { 1, 2, 3, 4, 5 };
+	int arr[]{ 1, 2, 3, 4, 5 };
 	std::array std_arr{ 1, 2, 3, 4, 5 };
 	const auto& const_std_arr = std_arr;
 
@@ -145,5 +153,4 @@ TEST_CASE("span")
 			CHECK(&s[i] == &const_std_arr[i]);
 		}
 	}
-
 }

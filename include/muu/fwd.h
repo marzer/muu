@@ -350,12 +350,14 @@ namespace muu
 	template <typename, size_t>
 	class tagged_ptr;
 
-	template <typename, size_t = dynamic_extent>
+	template <typename T, size_t = dynamic_extent, size_t = 0>
 	class span;
-	template <typename T, size_t Extent = dynamic_extent>
-	using const_span	  = span<const T, Extent>;
+	template <typename T, size_t Extent = dynamic_extent, size_t Alignment = 0>
+	using const_span	  = span<const T, Extent, Alignment>;
 	using byte_span		  = span<std::byte>;
 	using const_byte_span = span<const std::byte>;
+	template <size_t Alignment>
+	using aligned_byte_span = span<std::byte, dynamic_extent, Alignment>;
 
 	template <typename>
 	struct integral_range;

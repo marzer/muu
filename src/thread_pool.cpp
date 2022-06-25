@@ -48,6 +48,8 @@ using namespace std::string_view_literals;
 
 namespace
 {
+	using thread_pool_byte_span = aligned_byte_span<impl::thread_pool_alignment>;
+
 	class thread_pool_monitor
 	{
 	  private:
@@ -90,7 +92,7 @@ namespace
 	class thread_pool_queue
 	{
 	  private:
-		byte_span pool;
+		thread_pool_byte_span pool;
 		thread_pool_monitor& monitor;
 		size_t capacity, front = {}, back = {};
 		size_t enqueues = {};
@@ -102,17 +104,16 @@ namespace
 
 		MUU_PURE_GETTER
 		MUU_ATTR(returns_nonnull)
-		MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
+		MUU_ATTR(assume_aligned(impl::thread_pool_alignment))
 		task* get_task(size_t i) noexcept
 		{
-			return MUU_LAUNDER(
-				reinterpret_cast<task*>(muu::assume_aligned<impl::thread_pool_task_granularity>(pool.data())
-										+ impl::thread_pool_task_granularity * ((front + i) % capacity)));
+			return MUU_LAUNDER(reinterpret_cast<task*>(muu::assume_aligned<impl::thread_pool_alignment>(pool.data())
+													   + impl::thread_pool_alignment * ((front + i) % capacity)));
 		}
 
 		MUU_NODISCARD
 		MUU_ATTR(returns_nonnull)
-		MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
+		MUU_ATTR(assume_aligned(impl::thread_pool_alignment))
 		task* pop_front_task() noexcept
 		{
 			MUU_ASSERT(back > front);
@@ -127,7 +128,7 @@ namespace
 		MUU_NODISCARD
 		MUU_ATTR(nonnull)
 		MUU_ATTR(returns_nonnull)
-		MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
+		MUU_ATTR(assume_aligned(impl::thread_pool_alignment))
 		task* pop_front_task(void* buf) noexcept
 		{
 			MUU_ASSERT(back > front);
@@ -135,7 +136,7 @@ namespace
 			auto t = pop_front_task();
 			MUU_ASSERT(t->action_invoker);
 
-			auto result = ::new (muu::assume_aligned<impl::thread_pool_task_granularity>(buf)) task{ MUU_MOVE(*t) };
+			auto result = ::new (muu::assume_aligned<impl::thread_pool_alignment>(buf)) task{ MUU_MOVE(*t) };
 			MUU_ASSERT(result->action_invoker);
 
 			t->~task();
@@ -144,10 +145,10 @@ namespace
 
 	  public:
 		MUU_NODISCARD_CTOR
-		thread_pool_queue(byte_span tp, thread_pool_monitor& mon) noexcept //
+		thread_pool_queue(thread_pool_byte_span tp, thread_pool_monitor& mon) noexcept //
 			: pool{ tp },
 			  monitor{ mon },
-			  capacity{ pool.size() / impl::thread_pool_task_granularity }
+			  capacity{ pool.size() / impl::thread_pool_alignment }
 		{
 			MUU_ASSERT(!pool.empty());
 			MUU_ASSERT(capacity);
@@ -215,13 +216,13 @@ namespace
 
 		MUU_NODISCARD
 		MUU_ATTR(returns_nonnull)
-		MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
+		MUU_ATTR(assume_aligned(impl::thread_pool_alignment))
 		void* acquire() noexcept
 		{
 			MUU_ASSERT(!full());
 			enqueues++;
-			return muu::assume_aligned<impl::thread_pool_task_granularity>(pool.data())
-				 + impl::thread_pool_task_granularity * (back++ % capacity);
+			return muu::assume_aligned<impl::thread_pool_alignment>(pool.data())
+				 + impl::thread_pool_alignment * (back++ % capacity);
 		}
 
 		void unlock() noexcept
@@ -245,19 +246,19 @@ namespace
 
 		MUU_NODISCARD
 		MUU_ATTR(nonnull)
-		MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
+		MUU_ATTR(assume_aligned(impl::thread_pool_alignment))
 		task* try_pop(void* buf) noexcept
 		{
 			std::unique_lock lock{ mutex, std::try_to_lock };
 			if (!lock || empty() || terminated())
 				return nullptr;
 
-			return pop_front_task(muu::assume_aligned<impl::thread_pool_task_granularity>(buf));
+			return pop_front_task(muu::assume_aligned<impl::thread_pool_alignment>(buf));
 		}
 
 		MUU_NODISCARD
 		MUU_ATTR(nonnull)
-		MUU_ATTR(assume_aligned(impl::thread_pool_task_granularity))
+		MUU_ATTR(assume_aligned(impl::thread_pool_alignment))
 		task* pop(void* buf) noexcept
 		{
 			std::unique_lock lock{ mutex };
@@ -267,7 +268,7 @@ namespace
 			if (terminated())
 				return nullptr;
 
-			return pop_front_task(muu::assume_aligned<impl::thread_pool_task_granularity>(buf));
+			return pop_front_task(muu::assume_aligned<impl::thread_pool_alignment>(buf));
 		}
 	};
 
@@ -311,8 +312,7 @@ namespace
 
 								 set_thread_name(name);
 
-								 alignas(impl::thread_pool_task_granularity)
-									 std::byte pop_buffer[impl::thread_pool_task_granularity];
+								 alignas(impl::thread_pool_alignment) std::byte pop_buffer[impl::thread_pool_alignment];
 
 								 while (!terminated())
 								 {
@@ -361,8 +361,8 @@ namespace
 	{
 		constexpr size_t max_buffer_size		 = 256_mb; // 4M tasks on x64
 		constexpr size_t default_buffer_size	 = 64_kb;  // 1024 tasks on x64
-		constexpr size_t max_task_queue_size	 = max_buffer_size / impl::thread_pool_task_granularity;
-		constexpr size_t default_task_queue_size = default_buffer_size / impl::thread_pool_task_granularity;
+		constexpr size_t max_task_queue_size	 = max_buffer_size / impl::thread_pool_alignment;
+		constexpr size_t default_task_queue_size = default_buffer_size / impl::thread_pool_alignment;
 		static_assert(max_task_queue_size > 0);
 		static_assert(default_task_queue_size > 0);
 		MUU_ASSUME(worker_count > 0);
@@ -377,9 +377,9 @@ namespace
 
 	struct thread_pool_impl
 	{
-		byte_span queue_buffer;
-		byte_span worker_buffer;
-		byte_span task_buffer;
+		thread_pool_byte_span queue_buffer;
+		thread_pool_byte_span worker_buffer;
+		thread_pool_byte_span task_buffer;
 		size_t worker_count{};
 		size_t worker_queue_size{};
 		std::atomic<size_t> next_queue = 0_sz;
@@ -402,7 +402,10 @@ namespace
 		}
 
 		MUU_NODISCARD_CTOR
-		thread_pool_impl(string_param&& name, byte_span queue_buffer_, byte_span worker_buffer_, byte_span task_buffer_)
+		thread_pool_impl(string_param&& name,
+						 thread_pool_byte_span queue_buffer_,
+						 thread_pool_byte_span worker_buffer_,
+						 thread_pool_byte_span task_buffer_)
 			: queue_buffer{ queue_buffer_ },
 			  worker_buffer{ worker_buffer_ },
 			  task_buffer{ task_buffer_ }
@@ -412,17 +415,17 @@ namespace
 			MUU_ASSERT(!task_buffer_.empty());
 			MUU_ASSERT(queue_buffer_.size() % sizeof(thread_pool_queue) == 0_sz);
 			MUU_ASSERT(worker_buffer_.size() % sizeof(thread_pool_worker) == 0_sz);
-			MUU_ASSERT(task_buffer_.size() % impl::thread_pool_task_granularity == 0_sz);
-			MUU_ASSERT(reinterpret_cast<uintptr_t>(task_buffer_.data()) % impl::thread_pool_task_granularity == 0_sz);
+			MUU_ASSERT(task_buffer_.size() % impl::thread_pool_alignment == 0_sz);
+			MUU_ASSERT(reinterpret_cast<uintptr_t>(task_buffer_.data()) % impl::thread_pool_alignment == 0_sz);
 
 			worker_count	  = worker_buffer_.size() / sizeof(thread_pool_worker);
-			worker_queue_size = task_buffer.size() / impl::thread_pool_task_granularity / worker_count;
+			worker_queue_size = task_buffer.size() / impl::thread_pool_alignment / worker_count;
 			MUU_ASSERT(queue_buffer_.size() / sizeof(thread_pool_queue) == worker_count);
 
 			for (size_t i = 0; i < worker_count; i++)
 			{
-				byte_span pool{ task_buffer.data() + impl::thread_pool_task_granularity * worker_queue_size * i,
-								impl::thread_pool_task_granularity * worker_queue_size };
+				thread_pool_byte_span pool{ task_buffer.data() + impl::thread_pool_alignment * worker_queue_size * i,
+											impl::thread_pool_alignment * worker_queue_size };
 				::new (static_cast<void*>(queue_buffer.data() + sizeof(thread_pool_queue) * i))
 					thread_pool_queue{ pool, monitor };
 			}
@@ -527,7 +530,7 @@ namespace
 		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(returns_nonnull)
-		MUU_ATTR(assume_aligned(muu::impl::thread_pool_task_granularity))
+		MUU_ATTR(assume_aligned(muu::impl::thread_pool_alignment))
 		void* acquire(size_t qindex) noexcept
 		{
 			return queue(qindex).acquire();
@@ -549,7 +552,7 @@ namespace
 	struct thread_pool_storage
 	{
 		generic_allocator* allocator;
-		byte_span buffer;
+		thread_pool_byte_span buffer;
 		thread_pool_impl impl;
 	};
 
@@ -580,21 +583,21 @@ extern "C" //
 		const auto worker_queue_size = calc_thread_pool_worker_queue_size(worker_count, task_queue_size);
 		task_queue_size				 = worker_count * worker_queue_size;
 
-		static_assert(impl::thread_pool_task_granularity >= sizeof(impl::thread_pool_task));
+		static_assert(impl::thread_pool_alignment >= sizeof(impl::thread_pool_task));
 
 		constexpr auto storage_start = 0_sz;
 		const auto queues_start =
-			apply_alignment<impl::thread_pool_task_granularity>(storage_start + sizeof(thread_pool_storage));
+			apply_alignment<impl::thread_pool_alignment>(storage_start + sizeof(thread_pool_storage));
 		const auto queues_end		= queues_start + sizeof(thread_pool_queue) * worker_count;
-		const auto workers_start	= apply_alignment<impl::thread_pool_task_granularity>(queues_end);
+		const auto workers_start	= apply_alignment<impl::thread_pool_alignment>(queues_end);
 		const auto workers_end		= workers_start + sizeof(thread_pool_worker) * worker_count;
-		const auto tasks_start		= apply_alignment<impl::thread_pool_task_granularity>(workers_end);
-		const auto tasks_end		= tasks_start + impl::thread_pool_task_granularity * task_queue_size;
+		const auto tasks_start		= apply_alignment<impl::thread_pool_alignment>(workers_end);
+		const auto tasks_end		= tasks_start + impl::thread_pool_alignment * task_queue_size;
 		const auto total_allocation = tasks_end - storage_start;
 
-		auto buffer_ptr = impl::generic_alloc(allocator,
-											  total_allocation,
-											  max(alignof(thread_pool_storage), impl::thread_pool_task_granularity));
+		static_assert(alignof(thread_pool_storage) <= impl::thread_pool_alignment);
+		auto buffer_ptr = muu::assume_aligned<impl::thread_pool_alignment>(
+			impl::generic_alloc(allocator, total_allocation, impl::thread_pool_alignment));
 
 #if !MUU_HAS_EXCEPTIONS
 		{
@@ -606,10 +609,10 @@ extern "C" //
 
 		const auto unwind = scope_fail{ [=]() noexcept { impl::generic_free(allocator, buffer_ptr); } };
 
-		byte_span buffer{ static_cast<std::byte*>(buffer_ptr), total_allocation };
-		byte_span queue_buffer{ buffer.data() + queues_start, queues_end - queues_start };
-		byte_span worker_buffer{ buffer.data() + workers_start, workers_end - workers_start };
-		byte_span task_buffer{ buffer.data() + tasks_start, tasks_end - tasks_start };
+		thread_pool_byte_span buffer{ static_cast<std::byte*>(buffer_ptr), total_allocation };
+		thread_pool_byte_span queue_buffer{ buffer.data() + queues_start, queues_end - queues_start };
+		thread_pool_byte_span worker_buffer{ buffer.data() + workers_start, workers_end - workers_start };
+		thread_pool_byte_span task_buffer{ buffer.data() + tasks_start, tasks_end - tasks_start };
 
 		return ::new (buffer_ptr)
 			thread_pool_storage{ allocator,

@@ -22,9 +22,9 @@ MUU_PRAGMA_MSVC(warning(disable : 26495)) // core guidelines: uninitialized memb
 namespace muu::impl
 {
 #ifdef __cpp_lib_hardware_interference_size
-	inline constexpr size_t thread_pool_task_granularity = max(std::hardware_destructive_interference_size, 64_sz);
+	inline constexpr size_t thread_pool_alignment = max(std::hardware_destructive_interference_size, 64_sz);
 #else
-	inline constexpr size_t thread_pool_task_granularity = 64;
+	inline constexpr size_t thread_pool_alignment = 64;
 #endif
 
 	/*
@@ -64,7 +64,7 @@ namespace muu::impl
 			: task{ task_ },
 			  type{ types::move }
 		{
-			data.source = muu::assume_aligned<thread_pool_task_granularity>(&source_);
+			data.source = muu::assume_aligned<thread_pool_alignment>(&source_);
 		}
 
 		MUU_NODISCARD_CTOR
@@ -81,12 +81,12 @@ namespace muu::impl
 		{}
 	};
 
-	struct alignas(thread_pool_task_granularity) thread_pool_task
+	struct alignas(thread_pool_alignment) thread_pool_task
 	{
 		using action_invoker_type = void(MUU_CALLCONV*)(thread_pool_task_action&&) noexcept;
 
-		alignas(thread_pool_task_granularity) //
-			std::byte buffer[thread_pool_task_granularity - sizeof(action_invoker_type)];
+		alignas(thread_pool_alignment) //
+			std::byte buffer[thread_pool_alignment - sizeof(action_invoker_type)];
 
 		static constexpr size_t buffer_capacity = sizeof(buffer);
 
@@ -114,8 +114,8 @@ namespace muu::impl
 		}
 	};
 
-	static_assert(sizeof(thread_pool_task) == thread_pool_task_granularity);
-	static_assert(alignof(thread_pool_task) == thread_pool_task_granularity);
+	static_assert(sizeof(thread_pool_task) == thread_pool_alignment);
+	static_assert(alignof(thread_pool_task) == thread_pool_alignment);
 	static_assert(MUU_OFFSETOF(thread_pool_task, buffer) == 0);
 	static_assert(std::is_standard_layout_v<thread_pool_task>);
 
@@ -126,8 +126,9 @@ namespace muu::impl
 		using callable_type = std::remove_pointer_t<storage_type>;
 
 		static_assert(std::is_pointer_v<storage_type>);
-		static_assert(
-			std::is_function_v<callable_type> || std::is_class_v<callable_type> || std::is_union_v<callable_type>);
+		static_assert(std::is_function_v<callable_type> //
+					  || std::is_class_v<callable_type> //
+					  || std::is_union_v<callable_type>);
 
 		static constexpr bool requires_destruction = false;
 		static constexpr bool is_function_pointer  = std::is_function_v<callable_type>;
@@ -213,7 +214,7 @@ namespace muu::impl
 		static_assert(std::is_class_v<callable_type> || std::is_union_v<callable_type>);
 		static_assert(!is_cv<callable_type>);
 		static_assert(sizeof(callable_type) <= thread_pool_task::buffer_capacity);
-		static_assert(alignof(callable_type) <= thread_pool_task_granularity);
+		static_assert(alignof(callable_type) <= thread_pool_alignment);
 
 		static constexpr bool requires_destruction = !std::is_trivially_destructible_v<callable_type>;
 		static constexpr bool is_function_pointer  = false;
@@ -256,8 +257,8 @@ namespace muu::impl
 			{
 				::new (to) callable_type{ MUU_MOVE(*muu::launder(static_cast<callable_type*>(from))) };
 			}
-			else if constexpr (std::is_nothrow_default_constructible_v<
-								   callable_type> && std::is_nothrow_move_assignable_v<callable_type>)
+			else if constexpr (std::is_nothrow_default_constructible_v<callable_type> //
+							   && std::is_nothrow_move_assignable_v<callable_type>)
 			{
 				auto val = ::new (to) callable_type;
 				*val	 = MUU_MOVE(*muu::launder(static_cast<callable_type*>(from)));
@@ -266,8 +267,8 @@ namespace muu::impl
 			{
 				::new (to) callable_type{ *MUU_LAUNDER(static_cast<callable_type*>(from)) };
 			}
-			else if constexpr (std::is_nothrow_default_constructible_v<
-								   callable_type> && std::is_nothrow_copy_assignable_v<callable_type>)
+			else if constexpr (std::is_nothrow_default_constructible_v<callable_type> //
+							   && std::is_nothrow_copy_assignable_v<callable_type>)
 			{
 				auto val = ::new (to) callable_type;
 				*val	 = *MUU_LAUNDER(static_cast<callable_type*>(from));
@@ -336,10 +337,8 @@ namespace muu::impl
 		else if constexpr (std::is_function_v<std::remove_pointer_t<bare_type>>)
 			return thread_pool_task_traits_pointer_to_callable<bare_type>{};
 
-		// lambdas that can decay to function pointers
-		else if constexpr (std::is_class_v<bare_type>	 //
-						   && std::is_empty_v<bare_type> //
-						   && decays_to_function_pointer_by_unary_plus<T>)
+		// stateless lambdas (can decay to function pointers)
+		else if constexpr (is_stateless_lambda<T>)
 		{
 			return thread_pool_task_traits_pointer_to_callable<std::remove_reference_t<decltype(+std::declval<T>())>>{};
 		}
@@ -350,7 +349,7 @@ namespace muu::impl
 			if constexpr (std::is_rvalue_reference_v<T>)
 			{
 				constexpr auto size_ok		= sizeof(bare_type) <= thread_pool_task::buffer_capacity;
-				constexpr auto alignment_ok = alignof(bare_type) <= thread_pool_task_granularity;
+				constexpr auto alignment_ok = alignof(bare_type) <= thread_pool_alignment;
 				constexpr auto dtor_ok		= std::is_nothrow_destructible_v<bare_type>;
 
 				static_assert(size_ok, "Rvalue-referenced tasks must be small enough to stored internally.");
@@ -493,7 +492,7 @@ extern "C" //
 	MUU_API
 	MUU_ATTR(nonnull)
 	MUU_ATTR(returns_nonnull)
-	MUU_ATTR(assume_aligned(muu::impl::thread_pool_task_granularity))
+	MUU_ATTR(assume_aligned(muu::impl::thread_pool_alignment))
 	void* MUU_CALLCONV muu_impl_thread_pool_acquire(void*, size_t) noexcept;
 
 	MUU_API
@@ -529,8 +528,8 @@ namespace muu
 		MUU_ALWAYS_INLINE
 		void enqueue(size_t queue_index, T&& task) noexcept
 		{
-			::new (muu::assume_aligned<impl::thread_pool_task_granularity>(
-				::muu_impl_thread_pool_acquire(storage_, queue_index)))
+			::new (
+				muu::assume_aligned<impl::thread_pool_alignment>(::muu_impl_thread_pool_acquire(storage_, queue_index)))
 				impl::thread_pool_task{ static_cast<T&&>(task) };
 		}
 
