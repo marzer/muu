@@ -13326,20 +13326,6 @@
       <arglist>(const T &amp;blittable) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr bool</type>
-      <name>coplanar</name>
-      <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>a3d8f835445e079d196746f6eb215adf5</anchor>
-      <arglist>(const vector_type &amp;point) const noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>contains</name>
-      <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>ad667f1f626714fc800e8c06fb0cf7b9a</anchor>
-      <arglist>(const vector_type &amp;point) const noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr vector_type &amp;</type>
       <name>get</name>
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
@@ -13422,34 +13408,6 @@
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
       <anchor>aa917bc386bdb4b0e722ecf483a2c1b2c</anchor>
       <arglist>() const noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>coplanar</name>
-      <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>af1c8179a45b0f04460b2783fd62c77c0</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2, const vector_type &amp;point) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>coplanar</name>
-      <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>a9b02d704299c7fdf472cedf9e8561b73</anchor>
-      <arglist>(const triangle &amp;tri, const vector_type &amp;point) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>contains</name>
-      <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>afd20f1a4bad93eaae90b6b4870956d82</anchor>
-      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2, const vector_type &amp;point) noexcept</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static constexpr bool</type>
-      <name>contains</name>
-      <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>ae5b331c44513becdc04ca36fbc23c0d3</anchor>
-      <arglist>(const triangle &amp;tri, const vector_type &amp;point) noexcept</arglist>
     </member>
     <member kind="variable">
       <type>vector_type</type>
@@ -13730,6 +13688,48 @@
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
       <anchor>a088b7e68956e8d3bf98cd0aaf524230a</anchor>
       <arglist>(const triangle &amp;tri, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>coplanar</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a3d8f835445e079d196746f6eb215adf5</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ad667f1f626714fc800e8c06fb0cf7b9a</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>coplanar</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>af1c8179a45b0f04460b2783fd62c77c0</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>coplanar</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a9b02d704299c7fdf472cedf9e8561b73</anchor>
+      <arglist>(const triangle &amp;tri, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>afd20f1a4bad93eaae90b6b4870956d82</anchor>
+      <arglist>(const vector_type &amp;p0, const vector_type &amp;p1, const vector_type &amp;p2, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ae5b331c44513becdc04ca36fbc23c0d3</anchor>
+      <arglist>(const triangle &amp;tri, const vector_type &amp;point) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
