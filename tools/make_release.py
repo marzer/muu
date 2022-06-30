@@ -51,7 +51,7 @@ def run(args):
 	utils.assert_existing_directory(docs_dir)
 
 	# ignore list for copytree
-	garbage = ['*.exp', '*.ilk', '*.build', '*.dox', '*.log']
+	garbage = ['*.ilk', '*.build', '*.dox', '*.log']
 	if args.nosymbols:
 		garbage.append('*.pdb')
 	garbage = shutil.ignore_patterns(*garbage)
@@ -78,7 +78,7 @@ def run(args):
 	if not args.nofetch:
 		with utils.ScopeTimer(r'Running git fetch', print_start=True) as timer:
 			proc = subprocess.run(
-				rf'git fetch --all --jobs={os.cpu_count()} {"" if args.nosubmodules else "--recurse-submodules"}'.split(),
+				rf'git fetch --all --tags --force --jobs={os.cpu_count()} {"" if args.nosubmodules else "--recurse-submodules"}'.split(),
 				cwd=root_dir,
 				check=True
 			)
@@ -121,7 +121,7 @@ def run(args):
 		package_name = rf'{package_name}-dirty'
 
 	# create temp output directory
-	out_dir = Path(root_dir, rf'{package_name}_temp')
+	out_dir = Path(root_dir, args.tempdir) if args.tempdir else Path(root_dir, rf'{package_name}_temp')
 	utils.delete_directory(out_dir, logger=True)
 	print(rf'Creating {out_dir}')
 	out_dir.mkdir(parents=True)
@@ -175,24 +175,28 @@ def run(args):
 				utils.run_python_script(Path(tools_dir, 'generate_unicode_functions.py'))
 
 		# build libs
+		print(rf'Platforms: {", ".join(args.platforms)}')
+		print(rf'Toolsets: {", ".join(args.toolsets)}')
 		lib_dir = Path(root_dir, 'lib')
 		if not args.stale:
 			with utils.ScopeTimer(r'Building libs', print_start=True) as timer:
 				utils.delete_directory(lib_dir, logger=True)
-				for ts in args.toolsets:
-					cmd = [str(Path(tools_dir, 'build_libs_msvc.bat')),
-						rf'-p:PlatformToolset=v{ts}',
-						rf'-p:MuuOptimizedDebug={not args.nofastdebug}',
-						rf'-p:MuuStripSymbols={args.nosymbols}',
-						rf'-p:MuuInstructionSet={args.iset}',
-						r'-p:MuuDeleteIntDir=True'
-					]
-					if args.verbose:
-						cmd.append('-verbosity:detailed')
-					subprocess.run(
-						cmd,
-						check=True
-					)
+				for pf in args.platforms:
+					for ts in args.toolsets:
+						cmd = [str(Path(tools_dir, 'build_libs_msvc.bat')),
+							rf'-p:Platform={pf}',
+							rf'-p:PlatformToolset=v{ts}',
+							rf'-p:MuuOptimizedDebug={not args.nofastdebug}',
+							rf'-p:MuuStripSymbols={args.nosymbols}',
+							rf'-p:MuuInstructionSet={args.iset}',
+							r'-p:MuuDeleteIntDir=True'
+						]
+						if args.verbose:
+							cmd.append(r'-verbosity:detailed')
+						subprocess.run(
+							cmd,
+							check=True
+						)
 
 		# copy libs
 		utils.assert_existing_directory(lib_dir)
@@ -273,58 +277,68 @@ def main():
 	args.add_argument(
 		'--stale',
 		action='store_true',
-		help='Does not recompile binaries, pull submodules, regenerate documentation etc., using only what is already present.'
+		help='do not recompile binaries, pull submodules, regenerate documentation etc.; use only what is already present'
 	)
 	args.add_argument(
 		'--nosubmodules',
 		action='store_true',
-		help='Does not pull submodules. (implied by --stale)'
+		help='do not pull submodules (implied by --stale)'
 	)
 	args.add_argument(
 		'--nounicode',
 		action='store_true',
-		help='Does not regenerate the Unicode functions before building. (implied by --stale)'
+		help='do not regenerate the Unicode functions before building (implied by --stale)'
 	)
 	args.add_argument(
 		'--nodocs',
 		action='store_true',
-		help='Does not include documentation.'
+		help='do not include documentation'
 	)
 	args.add_argument(
 		'--nofetch',
 		action='store_true',
-		help='Does not run git fetch. (implied by --stale)'
+		help='do not run git fetch (implied by --stale)'
 	)
 	args.add_argument(
 		'--nolibs',
 		action='store_true',
-		help='Does not include library binaries.'
+		help='do not include library binaries'
 	)
 	args.add_argument(
 		'--nocleanup',
 		action='store_true',
-		help='Does not delete the temp directory afterward.'
+		help='do not delete the temp directory afterward'
 	)
 	args.add_argument(
 		'--nozip',
 		action='store_true',
-		help='Does not create the zip file.'
+		help='do not create the zip file'
 	)
 	args.add_argument(
 		'--nofastdebug',
 		action='store_true',
-		help='Debug-mode binaries are not build with any optimization at all (default is "optimized debug").'
+		help='do not build debug-mode binaries with any optimization (default is "optimized debug").'
 	)
 	args.add_argument(
 		'--nosymbols',
 		action='store_true',
-		help='Does not generate debug information or emit symbol database files.'
+		help='do not generate debug information or emit symbol database files.'
 	)
 	args.add_argument(
 		'--iset',
 		choices=['sse2', 'avx', 'avx2', 'avx512'],
 		default='avx',
-		help='Sets the min instruction set to target. (default: %(default)s)'
+		help='minimum instruction set to target (default: %(default)s)'
+	)
+	default_platforms = ['x64']
+	supported_platforms = ['x64', 'Win32']
+	args.add_argument(
+		'--platforms',
+		type=str,
+		action='extend',
+		nargs='+',
+		metavar='PF',
+		help=rf"the platforms to target (default: {' '.join(default_platforms)})"
 	)
 	default_toolsets = ['142', '143']
 	supported_toolsets = ['142', '143']
@@ -333,9 +347,29 @@ def main():
 		type=str,
 		action='extend',
 		nargs='+',
-		help=rf"Lists the VS toolsets to target, separated by spaces. (default: {' '.join(default_toolsets)})"
+		metavar='TS',
+		help=rf"the VS toolsets to target (default: {' '.join(default_toolsets)})"
+	)
+	args.add_argument(
+		'--tempdir',
+		type=str,
+		default='',
+		metavar='DIR',
+		help=rf"temp directory used for collecting the outputs prior to zipping (default: automatic)."
+			+ "\nRelative paths are resolved from the repository root."
+			+ "\nWARNING: any existing contents will be deleted!"
 	)
 	args = args.parse_args()
+
+	# process platforms arg
+	if not args.platforms:
+		args.platforms = default_platforms
+	args.platforms = [pf.strip(' ,') for pf in args.platforms]
+	args.platforms = [pf for pf in args.platforms if pf]
+	for pf in args.platforms:
+		if pf not in supported_platforms:
+			print(rf"unknown or unsupported target platform '{pf}' - must be one of: {' '.join(supported_platforms)}", file=sys.stderr)
+			return 1
 
 	# process toolsets arg
 	if not args.toolsets:
@@ -346,6 +380,13 @@ def main():
 		if ts not in supported_toolsets:
 			print(rf"unknown or unsupported VS toolset version '{ts}' - must be one of: {' '.join(supported_toolsets)}", file=sys.stderr)
 			return 1
+
+	# process tempdir arg
+	args.tempdir = args.tempdir.strip()
+	args.tempdir = args.tempdir.replace('/', os.path.sep).replace('\\', os.path.sep)
+	if re.search(r'[<>"|?*]', args.tempdir) is not None:
+		print(r'tempdir argument may not contain any of these characters: < > " | ? *', file=sys.stderr)
+		return 1
 
 	# collapse some invariants here to make the run routine easier to reason about
 	if args.stale:

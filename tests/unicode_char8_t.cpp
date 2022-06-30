@@ -459,4 +459,3 @@ struct code_unit_func_group<char8_t, 7>
 
 #endif // MUU_HAS_CHAR8
 // clang-format on
-

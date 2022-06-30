@@ -68,6 +68,8 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <PropertyGroup>
+    <PerfCriticalNoPCH Condition="$(Configuration.ToLower().Contains('debug'))">true</PerfCriticalNoPCH>
+    <PerfCriticalNoPCH Condition="!$(Configuration.ToLower().Contains('debug'))">false</PerfCriticalNoPCH>
     <IncludePath>$(ProjectDir)src;$(IncludePath)</IncludePath>
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
@@ -195,6 +197,7 @@
     <None Include="tools\generate_float_tests_header.py" />
     <None Include="tools\generate_unicode_functions.py" />
     <None Include="tools\generate_windows_targets.py" />
+    <None Include="tools\make_release.bat" />
     <None Include="tools\make_release.py" />
     <None Include="tools\utils.py" />
     <None Include=".runsettings" />
@@ -212,7 +215,10 @@
     <ClCompile Include="src\hashing.cpp" />
     <ClCompile Include="src\string_param.cpp" />
     <ClCompile Include="src\thread_name.cpp" />
-    <ClCompile Include="src\thread_pool.cpp" />
+    <ClCompile Include="src\thread_pool.cpp">
+      <PrecompiledHeader Condition="'$(PerfCriticalNoPCH)'=='true'">NotUsing</PrecompiledHeader>
+      <Optimization Condition="'$(PerfCriticalNoPCH)'=='true'">MaxSpeed</Optimization>
+    </ClCompile>
     <ClCompile Include="src\uuid.cpp" />
     <ClCompile Include="src\vector_types_common.cpp" />
   </ItemGroup>

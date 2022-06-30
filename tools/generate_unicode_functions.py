@@ -2083,7 +2083,6 @@ def write_header(folders, code_unit):
 				t('#endif // MUU_HAS_CHAR8')
 
 		both('// clang-format on')
-		both()
 
 		if tests_file is not None:
 			tests_file.close()

@@ -42,19 +42,31 @@
 	</PropertyGroup>
 
 	<!-- :: MuuInstructionSet -->
-	<PropertyGroup Condition="'$(PlatformArchitecture.Trim())'=='64'">
-		<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx2'">AdvancedVectorExtensions2</MuuInstructionSet_>
-		<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx512'">AdvancedVectorExtensions512</MuuInstructionSet_>
-		<MuuInstructionSet_ Condition="'$(MuuInstructionSet_)'==''">AdvancedVectorExtensions</MuuInstructionSet_>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(PlatformArchitecture.Trim())'=='32'">
-		<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx'">AdvancedVectorExtensions</MuuInstructionSet_>
-		<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx2'">AdvancedVectorExtensions2</MuuInstructionSet_>
-		<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx512'">AdvancedVectorExtensions512</MuuInstructionSet_>
-		<MuuInstructionSet_ Condition="'$(MuuInstructionSet_)'==''">StreamingSIMDExtensions2</MuuInstructionSet_>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(PlatformArchitecture.Trim().ToLower())'=='arm'">
-	</PropertyGroup>
+	<Choose>
+		<!-- :: AMD64 -->
+		<When Condition="'$(PlatformArchitecture.Trim())'=='64'">
+			<PropertyGroup>
+				<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx'">AdvancedVectorExtensions</MuuInstructionSet_>
+				<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx2'">AdvancedVectorExtensions2</MuuInstructionSet_>
+				<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx512'">AdvancedVectorExtensions512</MuuInstructionSet_>
+				<MuuInstructionSet_ Condition="'$(MuuInstructionSet_)'==''">AdvancedVectorExtensions</MuuInstructionSet_>
+			</PropertyGroup>
+		</When>
+		<!-- :: x86 -->
+		<When Condition="'$(PlatformArchitecture.Trim())'=='32'">
+			<PropertyGroup>
+				<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx'">AdvancedVectorExtensions</MuuInstructionSet_>
+				<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx2'">AdvancedVectorExtensions2</MuuInstructionSet_>
+				<MuuInstructionSet_ Condition="'$(MuuInstructionSet.Trim().ToLower())'=='avx512'">AdvancedVectorExtensions512</MuuInstructionSet_>
+				<MuuInstructionSet_ Condition="'$(MuuInstructionSet_)'==''">StreamingSIMDExtensions2</MuuInstructionSet_>
+			</PropertyGroup>
+		</When>
+		<!-- :: ARM -->
+		<When Condition="'$(PlatformArchitecture.Trim())'=='arm'">
+			<PropertyGroup>
+			</PropertyGroup>
+		</When>
+	</Choose>
 
 	<!-- :: project paths -->
 	<Choose>
@@ -93,6 +105,7 @@
 			<SupportJustMyCode>false</SupportJustMyCode> <!-- /jmc- -->
 			<InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion> <!-- /Ob2 -->
 			<CallingConvention>VectorCall</CallingConvention>  <!-- /Gv -->
+			<OmitFramePointers>true</OmitFramePointers> <!-- /Oy -->
 			<IntrinsicFunctions>true</IntrinsicFunctions>
 			<FunctionLevelLinking>true</FunctionLevelLinking>
 			<TreatWarningAsError>true</TreatWarningAsError>
@@ -128,15 +141,13 @@
 			<TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
 			<GenerateDebugInformation>DebugFull</GenerateDebugInformation>
 			<LargeAddressAware>true</LargeAddressAware>
-			<SubSystem>Console</SubSystem>
 		</Link>
 	</ItemDefinitionGroup>
 
 	<!-- :: debug -->
-	<ItemDefinitionGroup Condition="$(Configuration.ToLower().Contains('debug')) And '$(MuuOptimizedDebug_)'=='False'">
+	<ItemDefinitionGroup Condition="$(Configuration.ToLower().Contains('debug')) And '$(MuuOptimizedDebug_.ToLower())'=='false'">
 		<ClCompile>
 			<Optimization>Disabled</Optimization> <!-- /Od -->
-			<OmitFramePointers>false</OmitFramePointers> <!-- /Oy- -->
 		</ClCompile>
 		<Link>
 			<OptimizeReferences>false</OptimizeReferences> <!-- /OPT:NOREF -->
@@ -146,10 +157,9 @@
 	</ItemDefinitionGroup>
 
 	<!-- :: release or optimized debug -->
-	<ItemDefinitionGroup Condition="!$(Configuration.ToLower().Contains('debug')) Or '$(MuuOptimizedDebug_)'=='True'">
+	<ItemDefinitionGroup Condition="!$(Configuration.ToLower().Contains('debug')) Or '$(MuuOptimizedDebug_.ToLower())'=='true'">
 		<ClCompile>
 			<Optimization>MaxSpeed</Optimization> <!-- /O2 -->
-			<OmitFramePointers>true</OmitFramePointers> <!-- /Oy -->
 		</ClCompile>
 		<Link>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -172,7 +182,7 @@
 	</ItemDefinitionGroup>
 
 	<!-- :: strip debug symbols -->
-	<ItemDefinitionGroup Condition="'$(MuuStripSymbols_)'=='True'">
+	<ItemDefinitionGroup Condition="'$(MuuStripSymbols_.ToLower())'=='true'">
 		<ClCompile>
 			<DebugInformationFormat>None</DebugInformationFormat>
 		</ClCompile>
@@ -209,7 +219,7 @@
 	</Target>
 
 	<!-- Delete IntDir -->
-	<Target Name="MuuDeleteIntDir" AfterTargets="MuuReportBuildDuration" Condition="'$(MuuDeleteIntDir_)'=='True' And Exists('$(IntDir)')">
+	<Target Name="MuuDeleteIntDir" AfterTargets="MuuReportBuildDuration" Condition="'$(MuuDeleteIntDir_.ToLower())'=='true' And Exists('$(IntDir)')">
 		<RemoveDir Directories="$(IntDir)" />
 	</Target>
 

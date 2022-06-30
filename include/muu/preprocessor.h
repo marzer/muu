@@ -147,7 +147,8 @@
 /// \def MUU_ARCH_X86
 /// \brief `1` when targeting 32-bit x86, otherwise `0`.
 
-#if defined(__aarch64__) || defined(__ARM_ARCH_ISA_A64) || defined(_M_ARM64) || defined(__ARM_64BIT_STATE)
+#if defined(__aarch64__) || defined(__ARM_ARCH_ISA_A64) || defined(_M_ARM64) || defined(__ARM_64BIT_STATE)             \
+	|| defined(_M_ARM64EC)
 	#define MUU_ARCH_ARM32	 0
 	#define MUU_ARCH_ARM64	 1
 	#define MUU_ARCH_ARM	 1

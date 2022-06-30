@@ -42,7 +42,7 @@ def main():
 /// \cond
 
 #ifndef {version_macro}
-#error {version_macro} must be defined to use this header!
+	#error {version_macro} must be defined to use this header!
 #endif
 ''', file=file)
 
@@ -57,8 +57,7 @@ def main():
 
 			print(rf'''
 /// \endcond
-#endif // {guard_name}
-''', file=file)
+#endif // {guard_name}''', file=file)
 
 if __name__ == '__main__':
 	utils.run(main, verbose=True)

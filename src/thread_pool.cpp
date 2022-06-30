@@ -50,6 +50,43 @@ namespace
 {
 	using thread_pool_byte_span = aligned_byte_span<impl::thread_pool_alignment>;
 
+#if defined(__cpp_lib_atomic_wait) && __cpp_lib_atomic_wait >= 201907
+
+	class thread_pool_monitor
+	{
+	  private:
+	#if defined(__cpp_lib_atomic_lock_free_type_aliases) && __cpp_lib_atomic_lock_free_type_aliases >= 201907L
+		std::atomic_unsigned_lock_free count_ = 0u;
+	#else
+		std::atomic_uint_fast32_t count_ = 0u;
+	#endif
+
+	  public:
+		void wait() noexcept
+		{
+			auto val = count_.load();
+			while (val)
+			{
+				count_.wait(val);
+				val = count_.load();
+			}
+		}
+
+		void increment(size_t i = 1u) noexcept
+		{
+			count_ += i;
+			count_.notify_all();
+		}
+
+		void decrement(size_t i = 1u) noexcept
+		{
+			count_ -= i;
+			count_.notify_all();
+		}
+	};
+
+#else
+
 	class thread_pool_monitor
 	{
 	  private:
@@ -62,25 +99,20 @@ namespace
 		{
 			std::unique_lock lock{ mutex };
 			while (busy)
-				cv.wait_for(lock, 250ms);
+				cv.wait(lock);
 		}
 
-		void increment(size_t i = 1) noexcept
+		void increment(size_t i = 1u) noexcept
 		{
-			MUU_ASSERT(i > 0);
-
 			std::lock_guard lock{ mutex };
 			busy += i;
 		}
 
-		void decrement(size_t i = 1) noexcept
+		void decrement(size_t i = 1u) noexcept
 		{
-			MUU_ASSERT(i > 0);
-
 			bool notify = false;
 			{
 				std::lock_guard lock{ mutex };
-				MUU_ASSERT(i <= busy);
 				busy -= i;
 				notify = !busy;
 			}
@@ -89,13 +121,15 @@ namespace
 		}
 	};
 
+#endif
+
 	class thread_pool_queue
 	{
 	  private:
 		thread_pool_byte_span pool;
 		thread_pool_monitor& monitor;
 		size_t capacity, front = {}, back = {};
-		size_t enqueues = {};
+		size_t enqueues_ = {};
 		mutable std::mutex mutex;
 		mutable std::condition_variable cv;
 		std::atomic_bool terminated_ = false;
@@ -157,7 +191,7 @@ namespace
 		~thread_pool_queue() noexcept
 		{
 			std::lock_guard lock{ mutex };
-			if (const auto remaining = size(); remaining)
+			if (const auto remaining = size())
 			{
 				while (!empty())
 					pop_front_task()->~task();
@@ -170,9 +204,8 @@ namespace
 
 		void terminate() noexcept
 		{
-			bool expected = false;
-			if (terminated_.compare_exchange_strong(expected, true))
-				cv.notify_all();
+			terminated_ = true;
+			cv.notify_all();
 		}
 
 		MUU_PURE_INLINE_GETTER
@@ -199,19 +232,27 @@ namespace
 			return back == front;
 		}
 
+		MUU_PURE_INLINE_GETTER
+		size_t available() const noexcept
+		{
+			return capacity - size();
+		}
+
 		MUU_NODISCARD
 		bool try_lock() noexcept
 		{
 			if (!mutex.try_lock())
 				return false;
-			enqueues = 0;
+
+			enqueues_ = {};
+
 			return true;
 		}
 
 		// void lock() noexcept
 		//{
 		//	mutex.lock();
-		//	enqueues = 0;
+		//	enqueues_ = {};
 		//}
 
 		MUU_NODISCARD
@@ -220,27 +261,25 @@ namespace
 		void* acquire() noexcept
 		{
 			MUU_ASSERT(!full());
-			enqueues++;
+
+			enqueues_++;
+
 			return muu::assume_aligned<impl::thread_pool_alignment>(pool.data())
 				 + impl::thread_pool_alignment * (back++ % capacity);
 		}
 
 		void unlock() noexcept
 		{
-			size_t enq = enqueues;
+			const auto enq = enqueues_;
 			if (enq)
 			{
 				monitor.increment(enq);
-#ifndef NDEBUG
 				MUU_ASSERT(get_task(back - front - 1u)->action_invoker);
-#endif
 			}
 
 			mutex.unlock();
 
-			if (enq == 1)
-				cv.notify_one();
-			else if (enq > 1)
+			if (enq)
 				cv.notify_all();
 		}
 
@@ -263,7 +302,7 @@ namespace
 		{
 			std::unique_lock lock{ mutex };
 			while (empty() && !terminated())
-				cv.wait_for(lock, 250ms);
+				cv.wait(lock);
 
 			if (terminated())
 				return nullptr;
@@ -272,7 +311,7 @@ namespace
 		}
 	};
 
-	inline constexpr size_t thread_pool_spin_wait_iterations = 20;
+	static constexpr size_t thread_pool_spin_wait_iterations_per_queue = 100;
 
 	class thread_pool_worker
 	{
@@ -316,13 +355,12 @@ namespace
 
 								 while (!terminated())
 								 {
-									 const size_t tries = queues.size() * thread_pool_spin_wait_iterations;
+									 const size_t tries = queues.size() * thread_pool_spin_wait_iterations_per_queue;
 
 									 task* t = nullptr;
-									 for (size_t i = 0; i < tries && !t; i++)
+									 for (size_t i = worker_index, e = i + tries; i < e && !t; i++)
 									 {
-										 spin_wait_iteration();
-										 t = queues[(worker_index + i) % queues.size()].try_pop(pop_buffer);
+										 t = queues[i % queues.size()].try_pop(pop_buffer);
 									 }
 									 if (!t)
 										 t = queues[worker_index].pop(pop_buffer); // blocks
@@ -385,7 +423,7 @@ namespace
 		std::atomic<size_t> next_queue = 0_sz;
 		mutable thread_pool_monitor monitor;
 
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		thread_pool_queue& queue(size_t idx) noexcept
 		{
 			MUU_ASSERT(idx < worker_count);
@@ -393,7 +431,7 @@ namespace
 				reinterpret_cast<thread_pool_queue*>(queue_buffer.data() + sizeof(thread_pool_queue) * idx));
 		}
 
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		thread_pool_worker& worker(size_t idx) noexcept
 		{
 			MUU_ASSERT(idx < worker_count);
@@ -476,21 +514,88 @@ namespace
 				queue(i).~thread_pool_queue();
 		}
 
-		MUU_NODISCARD
-		size_t lock() noexcept
+	  private:
+		template <typename Action, typename Delay>
+		static constexpr auto repeat_with_delay(Action&& action, Delay, size_t max_attempts) noexcept
 		{
-			// exponential falloff based on
-			// https://software.intel.com/content/www/us/en/develop/articles/benefitting-power-and-performance-sleep-loops.html
+			using result_type = decltype(static_cast<Action&&>(action)());
+
+			if constexpr (Delay::value > 0)
+			{
+				for (size_t i = 0; i < max_attempts; i++)
+				{
+					if (auto q = static_cast<decltype(action)&&>(action)())
+						return q;
+					std::this_thread::sleep_for(std::chrono::milliseconds{ Delay::value });
+				}
+			}
+			else
+			{
+				int mask		  = 1;
+				constexpr int max = 64;
+
+				for (size_t i = 0; i < max_attempts; i++)
+				{
+					if (auto q = static_cast<decltype(action)&&>(action)())
+						return q;
+
+					for (int w = mask; w; --w)
+						spin_wait_iteration();
+					mask = mask < max ? mask << 1 : max;
+				}
+			}
+
+			return result_type{};
+		}
+
+	  public:
+		MUU_NODISCARD
+		std::optional<size_t> lock_multiple(size_t required) noexcept
+		{
+			MUU_ASSUME(required >= 1);
+
+			if (required > worker_queue_size)
+				return {};
 
 			const auto find_queue = [workers	= worker_count,
 									 start		= next_queue++,
-									 iterations = worker_count * thread_pool_spin_wait_iterations,
+									 iterations = worker_count * thread_pool_spin_wait_iterations_per_queue,
+									 required,
 									 this]() noexcept
 			{
-				for (size_t i = 0; i < iterations; i++)
+				for (size_t i = start, e = i + iterations; i < e; i++)
 				{
-					spin_wait_iteration();
-					const auto qindex = (start + i) % workers;
+					const auto qindex = i % workers;
+					auto& q			  = queue(qindex);
+					if (q.try_lock())
+					{
+						if (q.available() >= required)
+							return std::optional<size_t>{ qindex };
+						q.unlock();
+					}
+				}
+				return std::optional<size_t>{};
+			};
+
+			using millis = std::chrono::milliseconds::rep;
+			auto qindex	 = find_queue();
+			if (!qindex)
+				qindex = repeat_with_delay(find_queue, std::integral_constant<millis, 0>{}, 100);
+
+			return qindex;
+		}
+
+		MUU_NODISCARD
+		size_t lock() noexcept
+		{
+			const auto find_queue = [workers	= worker_count,
+									 start		= next_queue++,
+									 iterations = worker_count * thread_pool_spin_wait_iterations_per_queue,
+									 this]() noexcept
+			{
+				for (size_t i = start, e = i + iterations; i < e; i++)
+				{
+					const auto qindex = i % workers;
 					auto& q			  = queue(qindex);
 					if (q.try_lock())
 					{
@@ -502,26 +607,15 @@ namespace
 				return std::optional<size_t>{};
 			};
 
-			static constexpr auto repeat_with_delay =
-				[](auto&& action, std::chrono::milliseconds delay, size_t max_attempts) noexcept
-			{
-				using result_type = decltype(static_cast<decltype(action)&&>(action)());
-				for (size_t i = 0; i < max_attempts; i++)
-				{
-					std::this_thread::sleep_for(delay);
-					if (auto q = static_cast<decltype(action)&&>(action)())
-						return q;
-				}
-				return result_type{};
-			};
-
-			auto qindex = find_queue();
+			using millis = std::chrono::milliseconds::rep;
+			auto qindex	 = find_queue();
 			if (!qindex)
-				qindex = repeat_with_delay(find_queue, 0ms, 100);
+				qindex = repeat_with_delay(find_queue, std::integral_constant<millis, 0>{}, 100);
 			if (!qindex)
-				qindex = repeat_with_delay(find_queue, 10ms, 10);
+				qindex = repeat_with_delay(find_queue, std::integral_constant<millis, 10>{}, 10);
 			if (!qindex)
-				qindex = repeat_with_delay(find_queue, 100ms, constants<size_t>::highest);
+				qindex =
+					repeat_with_delay(find_queue, std::integral_constant<millis, 100>{}, constants<size_t>::highest);
 
 			MUU_ASSERT(qindex);
 			return *qindex;
@@ -629,6 +723,17 @@ extern "C" //
 		auto allocator = storage.allocator;
 		storage.~thread_pool_storage();
 		impl::generic_free(allocator, buffer.data());
+	}
+
+	size_t MUU_CALLCONV muu_impl_thread_pool_lock_multiple(void* storage_, size_t required) noexcept
+	{
+		MUU_ASSUME(storage_ != nullptr);
+		MUU_ASSUME(required >= 1u);
+
+		const auto queue = storage_cast(storage_).impl.lock_multiple(required);
+		if (queue)
+			return queue.value();
+		return static_cast<size_t>(-1);
 	}
 
 	size_t MUU_CALLCONV muu_impl_thread_pool_lock(void* storage_) noexcept

@@ -486,6 +486,11 @@ extern "C" //
 	MUU_NODISCARD
 	MUU_API
 	MUU_ATTR(nonnull)
+	size_t MUU_CALLCONV muu_impl_thread_pool_lock_multiple(void*, size_t) noexcept;
+
+	MUU_NODISCARD
+	MUU_API
+	MUU_ATTR(nonnull)
 	size_t MUU_CALLCONV muu_impl_thread_pool_lock(void*) noexcept;
 
 	MUU_NODISCARD
@@ -696,17 +701,25 @@ namespace muu
 		}
 
 	  private:
+		static constexpr size_t no_available_queue = static_cast<size_t>(-1);
+
 		template <typename OriginalTask, bool Indexed, typename Iter, typename Task>
-		void enqueue_for_each_batch(Iter batch_start, Iter batch_end, size_t batch_index, Task&& task) noexcept
+		void enqueue_for_each_batch(size_t shared_queue_index,
+									Iter batch_start,
+									Iter batch_end,
+									size_t batch_index,
+									Task&& task) noexcept
 		{
 			if constexpr (Indexed)
 				MUU_ASSERT(batch_index < workers());
 			else
 				MUU_UNUSED(batch_index);
 
-			const auto qindex = ::muu_impl_thread_pool_lock(storage_);
+			const auto queue_index = shared_queue_index == no_available_queue //
+									   ? ::muu_impl_thread_pool_lock(storage_)
+									   : shared_queue_index;
 
-			enqueue(qindex,
+			enqueue(queue_index,
 					[=, wrapped_task = wrap_for_each_task<OriginalTask>(static_cast<Task&&>(task))]() mutable noexcept
 					{
 						while (batch_start != batch_end)
@@ -719,7 +732,8 @@ namespace muu
 						}
 					});
 
-			::muu_impl_thread_pool_unlock(storage_, qindex);
+			if (shared_queue_index == no_available_queue)
+				::muu_impl_thread_pool_unlock(storage_, queue_index);
 		}
 
 		template <typename Begin, typename Task>
@@ -734,11 +748,18 @@ namespace muu
 				"void(T, size_t) noexcept");
 
 			// determine batch count and distribute iterators
-			auto batch_generator   = impl::batch_size_generator<size_t>{ job_count, this->workers() };
-			size_t next_batch_size = batch_generator();
-			auto batch_start	   = begin;
-			auto batch_end		   = std::next(begin, static_cast<ptrdiff_t>(next_batch_size));
-			auto batch_index	   = 0_sz;
+			const auto worker_count = this->workers();
+			auto batch_generator	= impl::batch_size_generator<size_t>{ job_count, worker_count };
+			size_t next_batch_size	= batch_generator();
+			auto batch_start		= begin;
+			auto batch_end			= std::next(begin, static_cast<ptrdiff_t>(next_batch_size));
+			auto batch_index		= 0_sz;
+			auto batch_count		= job_count <= worker_count
+										? job_count
+										: (job_count / worker_count) + (job_count % worker_count ? 1u : 0u);
+
+			// try to get a shared queue for all the allocations
+			const auto shared_queue_index = ::muu_impl_thread_pool_lock_multiple(storage_, batch_count);
 
 			// dispatch tasks
 			static constexpr auto indexed = std::is_nothrow_invocable_v<Task&&, elem_reference, size_t>;
@@ -747,13 +768,18 @@ namespace muu
 				next_batch_size = batch_generator();
 				if (next_batch_size)
 				{
-					enqueue_for_each_batch<Task&&, indexed>(batch_start, batch_end, batch_index, task);
+					enqueue_for_each_batch<Task&&, indexed>(shared_queue_index,
+															batch_start,
+															batch_end,
+															batch_index,
+															task);
 					batch_start = batch_end;
 					std::advance(batch_end, static_cast<ptrdiff_t>(next_batch_size));
 				}
 				else
 				{
-					enqueue_for_each_batch<Task&&, indexed>(batch_start,
+					enqueue_for_each_batch<Task&&, indexed>(shared_queue_index,
+															batch_start,
 															batch_end,
 															batch_index,
 															static_cast<Task&&>(task));
@@ -761,6 +787,11 @@ namespace muu
 				}
 				batch_index++;
 			}
+
+			// unlock shared queue
+			if (shared_queue_index != no_available_queue)
+				::muu_impl_thread_pool_unlock(storage_, shared_queue_index);
+
 			return *this;
 		}
 
@@ -853,16 +884,22 @@ namespace muu
 
 	  private:
 		template <typename OriginalTask, typename ValueType, bool Indexed, typename T, typename Task>
-		void enqueue_for_range_batch(T batch_start, T batch_end, size_t batch_index, Task&& task) noexcept
+		void enqueue_for_range_batch(size_t shared_queue_index,
+									 T batch_start,
+									 T batch_end,
+									 size_t batch_index,
+									 Task&& task) noexcept
 		{
 			if constexpr (Indexed)
 				MUU_ASSERT(batch_index < workers());
 			else
 				MUU_UNUSED(batch_index);
 
-			const auto qindex = ::muu_impl_thread_pool_lock(storage_);
+			const auto queue_index = shared_queue_index == no_available_queue //
+									   ? ::muu_impl_thread_pool_lock(storage_)
+									   : shared_queue_index;
 
-			enqueue(qindex,
+			enqueue(queue_index,
 					[=, wrapped_task = wrap_for_each_task<OriginalTask>(static_cast<Task&&>(task))]() mutable noexcept
 					{
 						if (batch_start < batch_end)
@@ -887,7 +924,8 @@ namespace muu
 						}
 					});
 
-			::muu_impl_thread_pool_unlock(storage_, qindex);
+			if (shared_queue_index == no_available_queue)
+				::muu_impl_thread_pool_unlock(storage_, queue_index);
 		}
 
 	  public:
@@ -942,10 +980,18 @@ namespace muu
 														  - static_cast<offset_type>(min(unwrap(start), unwrap(end))));
 			if (!job_count)
 				return *this;
-			auto batch_generator		 = impl::batch_size_generator<size_type>{ job_count, this->workers() };
+
+			const auto worker_count		 = this->workers();
+			auto batch_generator		 = impl::batch_size_generator<size_type>{ job_count, worker_count };
 			offset_type next_batch_start = unwrap(start);
 			size_type next_batch_size	 = batch_generator();
 			auto batch_index			 = 0_sz;
+			auto batch_count			 = job_count <= worker_count
+											 ? job_count
+											 : (job_count / worker_count) + (job_count % worker_count ? 1u : 0u);
+
+			// try to get a shared queue for all the allocations
+			const auto shared_queue_index = ::muu_impl_thread_pool_lock_multiple(storage_, batch_count);
 
 			// dispatch tasks
 			static constexpr auto indexed = std::is_nothrow_invocable_v<Task&&, T, size_t>;
@@ -957,13 +1003,15 @@ namespace muu
 				next_batch_size		   = batch_generator();
 
 				if (next_batch_size)
-					enqueue_for_range_batch<Task&&, value_type, indexed>(batch_start,
+					enqueue_for_range_batch<Task&&, value_type, indexed>(shared_queue_index,
+																		 batch_start,
 																		 next_batch_start,
 																		 batch_index,
 																		 task);
 				else
 				{
-					enqueue_for_range_batch<Task&&, value_type, indexed>(batch_start,
+					enqueue_for_range_batch<Task&&, value_type, indexed>(shared_queue_index,
+																		 batch_start,
 																		 next_batch_start,
 																		 batch_index,
 																		 static_cast<Task&&>(task));
@@ -971,6 +1019,11 @@ namespace muu
 				}
 				batch_index++;
 			}
+
+			// unlock shared queue
+			if (shared_queue_index != no_available_queue)
+				::muu_impl_thread_pool_unlock(storage_, shared_queue_index);
+
 			return *this;
 		}
 	};

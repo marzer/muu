@@ -1443,4 +1443,3 @@ struct code_unit_func_group<char16_t, 7>
 };
 
 // clang-format on
-

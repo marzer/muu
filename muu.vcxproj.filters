@@ -354,6 +354,9 @@
     <None Include="tools\generate_compiler_dispatch_macros.py">
       <Filter>tools</Filter>
     </None>
+    <None Include="tools\make_release.bat">
+      <Filter>tools</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include=".circleci">
