@@ -428,7 +428,16 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_HAS_CHAR8
 /// \brief `1` when the compiler supports C++20's char8_t, otherwise `0`.
 
-#if defined(__cpp_consteval) && __cpp_consteval >= 201811
+#if defined(__cpp_consteval) && __cpp_consteval >= 201811 && !MUU_MSVC
+
+// Q: "why !MUU_MSVC?"
+//
+// A: consteval is basically fucked in msvc:
+// https://developercommunity.visualstudio.com/t/Erroneous-C7595-error-with-consteval-in/1404234
+// https://developercommunity.visualstudio.com/t/using-consteval-rvalues-results-in-compi/10083735
+// https://developercommunity.visualstudio.com/t/consteval-conversion-function-fails/1579014
+// https://developercommunity.visualstudio.com/t/Function-call-expression-of-consteval-fu/1557055
+
 	#define MUU_HAS_CONSTEVAL 1
 #else
 	#define MUU_HAS_CONSTEVAL MUU_DOXYGEN
@@ -552,8 +561,7 @@ help me improve support for your target architecture. Thanks!
 /// \brief Optimizer hint that marks an allocating function's pointer return value as representing a newly allocated memory region free from aliasing.
 /// \see [__declspec(restrict)](https://docs.microsoft.com/en-us/cpp/cpp/restrict?view=vs-2019)
 
-#if MUU_HAS_CONSTEVAL && (!MUU_MSVC || MUU_MSVC >= 1933)
-	// https://developercommunity.visualstudio.com/t/Erroneous-C7595-error-with-consteval-in/1404234
+#if MUU_HAS_CONSTEVAL
 	#define MUU_CONSTEVAL consteval
 #else
 	#define MUU_CONSTEVAL constexpr
@@ -899,7 +907,7 @@ help me improve support for your target architecture. Thanks!
 /// \brief Expands to `_pragma(...)` when compiling with ICC.
 
 #define MUU_DELETE_MOVE(T)                                                                                             \
-	T(T&&)			  = delete;                                                                                        \
+	T(T&&)	   = delete;                                                                                               \
 	T& operator=(T&&) = delete
 /// \def MUU_DELETE_MOVE(T)
 /// \brief Explicitly deletes the move constructor and move-assignment operator of a class or struct.
@@ -923,7 +931,7 @@ help me improve support for your target architecture. Thanks!
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 
 #define MUU_DELETE_COPY(T)                                                                                             \
-	T(const T&)			   = delete;                                                                                   \
+	T(const T&) = delete;                                                                                              \
 	T& operator=(const T&) = delete
 /// \def MUU_DELETE_COPY(T)
 /// \brief Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.
@@ -946,7 +954,7 @@ help me improve support for your target architecture. Thanks!
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 
 #define MUU_DEFAULT_MOVE(T)                                                                                            \
-	T(T&&)			  = default;                                                                                       \
+	T(T&&)	   = default;                                                                                              \
 	T& operator=(T&&) = default
 /// \def MUU_DEFAULT_MOVE
 /// \brief Explicitly defaults the move constructor and move-assignment operator of a class or struct.
@@ -970,7 +978,7 @@ help me improve support for your target architecture. Thanks!
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 
 #define MUU_DEFAULT_COPY(T)                                                                                            \
-	T(const T&)			   = default;                                                                                  \
+	T(const T&) = default;                                                                                             \
 	T& operator=(const T&) = default
 /// \def MUU_DEFAULT_COPY
 /// \brief Explicitly defaults the copy constructor and copy-assignment operator of a class or struct.

@@ -531,17 +531,12 @@ namespace
 			}
 			else
 			{
-				int mask		  = 1;
-				constexpr int max = 64;
-
 				for (size_t i = 0; i < max_attempts; i++)
 				{
 					if (auto q = static_cast<decltype(action)&&>(action)())
 						return q;
 
-					for (int w = mask; w; --w)
-						spin_wait_iteration();
-					mask = mask < max ? mask << 1 : max;
+					spin_wait_iteration();
 				}
 			}
 
@@ -603,6 +598,8 @@ namespace
 							return std::optional<size_t>{ qindex };
 						q.unlock();
 					}
+					else
+						spin_wait_iteration();
 				}
 				return std::optional<size_t>{};
 			};
