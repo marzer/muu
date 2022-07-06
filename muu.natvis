@@ -196,34 +196,37 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::span&lt;*, 0&gt;" Priority="High">
-		<DisplayString>{{ size=0 }}</DisplayString>
+	<Type Name="muu::span&lt;*, 0, *&gt;" Priority="High">
+		<DisplayString>{{ size=0, align={alignment} }}</DisplayString>
 		<Expand>
 			<Item Name="[size]">0</Item>
-			<Item Name="[ptr]">ptr_and_size.first_</Item>
+			<Item Name="[align]">alignment</Item>
+			<Item Name="[ptr]">ptr_</Item>
 		</Expand>
 	</Type>
 	
-	<Type Name="muu::span&lt;*, -1&gt;" Priority="Medium">
-		<DisplayString>{{ size={ptr_and_size.second_} }}</DisplayString>
+	<Type Name="muu::span&lt;*, -1, *&gt;" Priority="Medium">
+		<DisplayString>{{ size={extent_}, align={alignment} }}</DisplayString>
 		<Expand>
-			<Item Name="[size]">ptr_and_size.second_</Item>
-			<Item Name="[ptr]">ptr_and_size.first_</Item>
+			<Item Name="[size]">extent_</Item>
+			<Item Name="[align]">alignment</Item>
+			<Item Name="[ptr]">ptr_</Item>
 			<ArrayItems>
-				<Size>ptr_and_size.second_</Size>
-				<ValuePointer>(($T1*)ptr_and_size.first_)</ValuePointer>
+				<Size>extent_</Size>
+				<ValuePointer>(($T1*)ptr_)</ValuePointer>
 			</ArrayItems>
 		</Expand>
 	</Type>
 
-	<Type Name="muu::span&lt;*, *&gt;" Priority="Low">
-		<DisplayString>{{ size={$T2} }}</DisplayString>
+	<Type Name="muu::span&lt;*, *, *&gt;" Priority="Low">
+		<DisplayString>{{ size={$T2}, align={alignment} }}</DisplayString>
 		<Expand>
 			<Item Name="[size]">$T2</Item>
-			<Item Name="[ptr]">ptr_and_size.first_</Item>
+			<Item Name="[align]">alignment</Item>
+			<Item Name="[ptr]">ptr_</Item>
 			<ArrayItems>
 				<Size>$T2</Size>
-				<ValuePointer>(($T1*)ptr_and_size.first_)</ValuePointer>
+				<ValuePointer>(($T1*)ptr_)</ValuePointer>
 			</ArrayItems>
 		</Expand>
 	</Type>
