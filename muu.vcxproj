@@ -112,6 +112,7 @@
     <ClInclude Include="include\muu\impl\plane_x_line_segment.h" />
     <ClInclude Include="include\muu\impl\plane_x_triangle.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="include\muu\impl\preprocessor_for_each_attributes.h" />
     <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_clang.h" />
     <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_gcc.h" />
     <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_msvc.h" />
@@ -195,6 +196,7 @@
     <None Include="tools\generate_batched_tests.py" />
     <None Include="tools\generate_compiler_dispatch_macros.py" />
     <None Include="tools\generate_float_tests_header.py" />
+    <None Include="tools\generate_for_each_attribute_macros.py" />
     <None Include="tools\generate_unicode_functions.py" />
     <None Include="tools\generate_windows_targets.py" />
     <None Include="tools\make_release.bat" />

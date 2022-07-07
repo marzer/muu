@@ -1448,6 +1448,7 @@ namespace muu
 	inline constexpr bool all_function_pointer = MUU_ALL_VARIADIC_T(is_function_pointer);
 
 	/// \cond
+	// clang-format off
 	namespace impl
 	{
 		template <typename T>
@@ -1460,58 +1461,39 @@ namespace muu
 		{
 			using type = std::add_pointer_t<typename remove_callconv_<T>::type>;
 		};
-
+		
 		// free functions + pointers
-#define muu_make_remove_callconv(callconv)                                                                             \
-                                                                                                                       \
-	template <typename R, typename... Args>                                                                            \
-	struct remove_callconv_<R callconv(Args...)>                                                                       \
-	{                                                                                                                  \
-		using type = R(Args...);                                                                                       \
-	};                                                                                                                 \
-                                                                                                                       \
-	template <typename R, typename... Args>                                                                            \
-	struct remove_callconv_<R(callconv*)(Args...)>                                                                     \
-	{                                                                                                                  \
-		using type = R (*)(Args...);                                                                                   \
-	};                                                                                                                 \
-                                                                                                                       \
-	template <typename R, typename... Args>                                                                            \
-	struct remove_callconv_<R callconv(Args...) noexcept>                                                              \
-	{                                                                                                                  \
-		using type = R(Args...) noexcept;                                                                              \
-	};                                                                                                                 \
-                                                                                                                       \
-	template <typename R, typename... Args>                                                                            \
-	struct remove_callconv_<R(callconv*)(Args...) noexcept>                                                            \
-	{                                                                                                                  \
-		using type = R (*)(Args...) noexcept;                                                                          \
-	};
-
-		MUU_FOR_EACH_CALLCONV(muu_make_remove_callconv)
-
-#undef muu_make_remove_callconv
+		#define muu_make_remove_callconv(callconv, noex)                                                               \
+		                                                                                                               \
+			template <typename R, typename... Args>                                                                    \
+			struct remove_callconv_<R callconv(Args...) noex>                                                          \
+			{                                                                                                          \
+				using type = R(Args...) noex;                                                                          \
+			};                                                                                                         \
+		                                                                                                               \
+			template <typename R, typename... Args>                                                                    \
+			struct remove_callconv_<R(callconv*)(Args...) noex>                                                        \
+			{                                                                                                          \
+				using type = R (*)(Args...) noex;                                                                      \
+			};
+		
+		MUU_FOR_EACH_CALLCONV_NOEXCEPT(muu_make_remove_callconv)
+		#undef muu_make_remove_callconv
 
 		// member function pointers
-#define muu_make_remove_callconv(callconv, cvref)                                                                      \
-                                                                                                                       \
-	template <typename C, typename R, typename... P>                                                                   \
-	struct remove_callconv_<R (callconv C::*)(P...) cvref>                                                             \
-	{                                                                                                                  \
-		using type = R (C::*)(P...) cvref;                                                                             \
-	};                                                                                                                 \
-                                                                                                                       \
-	template <typename C, typename R, typename... P>                                                                   \
-	struct remove_callconv_<R (callconv C::*)(P...) cvref noexcept>                                                    \
-	{                                                                                                                  \
-		using type = R (C::*)(P...) cvref noexcept;                                                                    \
-	};
-
-		MUU_FOR_EACH_MEMBER_CALLCONV_CVREF(muu_make_remove_callconv)
-
-#undef muu_make_remove_callconv
+		#define muu_make_remove_callconv(callconv, cvref, noex)                                                        \
+		                                                                                                               \
+			template <typename C, typename R, typename... P>                                                           \
+			struct remove_callconv_<R (callconv C::*)(P...) cvref noex>                                                \
+			{                                                                                                          \
+				using type = R (C::*)(P...) cvref noex;                                                                \
+			};
+		
+		MUU_FOR_EACH_MEMBER_CALLCONV_CVREF_NOEXCEPT(muu_make_remove_callconv)
+		#undef muu_make_remove_callconv
 
 	}
+	// clang-format on
 	/// \endcond
 
 	/// \brief Removes any explicit calling convention specifiers from functions, function pointers and function references.
@@ -1519,6 +1501,7 @@ namespace muu
 	using remove_callconv = copy_cvref<typename impl::remove_callconv_<remove_cvref<T>>::type, T>;
 
 	/// \cond
+	// clang-format off
 	namespace impl
 	{
 		template <typename T>
@@ -1528,37 +1511,36 @@ namespace muu
 		};
 
 		// free functions + pointers
-#define muu_make_add_noexcept(callconv)                                                                                \
-                                                                                                                       \
-	template <typename R, typename... P>                                                                               \
-	struct add_noexcept_<R callconv(P...)>                                                                             \
-	{                                                                                                                  \
-		using type = R callconv(P...) noexcept;                                                                        \
-	};                                                                                                                 \
-                                                                                                                       \
-	template <typename R, typename... P>                                                                               \
-	struct add_noexcept_<R(callconv*)(P...)>                                                                           \
-	{                                                                                                                  \
-		using type = R(callconv*)(P...) noexcept;                                                                      \
-	};
-
+		#define muu_make_add_noexcept(callconv)                                                                        \
+		                                                                                                               \
+			template <typename R, typename... P>                                                                       \
+			struct add_noexcept_<R callconv(P...)>                                                                     \
+			{                                                                                                          \
+				using type = R callconv(P...) noexcept;                                                                \
+			};                                                                                                         \
+		                                                                                                               \
+			template <typename R, typename... P>                                                                       \
+			struct add_noexcept_<R(callconv*)(P...)>                                                                   \
+			{                                                                                                          \
+				using type = R(callconv*)(P...) noexcept;                                                              \
+			};
+		
 		MUU_FOR_EACH_CALLCONV(muu_make_add_noexcept)
-
-#undef muu_make_add_noexcept
+		#undef muu_make_add_noexcept
 
 		// member function pointers
-#define muu_make_add_noexcept(callconv, cvref)                                                                         \
-                                                                                                                       \
-	template <typename C, typename R, typename... P>                                                                   \
-	struct add_noexcept_<R (callconv C::*)(P...) cvref>                                                                \
-	{                                                                                                                  \
-		using type = R (callconv C::*)(P...) cvref noexcept;                                                           \
-	};
-
+		#define muu_make_add_noexcept(callconv, cvref)                                                                 \
+		                                                                                                               \
+			template <typename C, typename R, typename... P>                                                           \
+			struct add_noexcept_<R (callconv C::*)(P...) cvref>                                                        \
+			{                                                                                                          \
+				using type = R (callconv C::*)(P...) cvref noexcept;                                                   \
+			};
+		
 		MUU_FOR_EACH_MEMBER_CALLCONV_CVREF(muu_make_add_noexcept)
-
-#undef muu_make_add_noexcept
+		#undef muu_make_add_noexcept
 	}
+	// clang-format on
 	/// \endcond
 
 	/// \brief Adds a `noexcept` specifier to a functional type (or reference to one).
@@ -1566,6 +1548,7 @@ namespace muu
 	using add_noexcept = copy_cvref<typename impl::add_noexcept_<remove_cvref<T>>::type, T>;
 
 	/// \cond
+	// clang-format off
 	namespace impl
 	{
 		template <typename T>
@@ -1575,37 +1558,36 @@ namespace muu
 		};
 
 		// free functions + pointers
-#define muu_make_remove_noexcept(callconv)                                                                             \
-                                                                                                                       \
-	template <typename R, typename... P>                                                                               \
-	struct remove_noexcept_<R callconv(P...) noexcept>                                                                 \
-	{                                                                                                                  \
-		using type = R callconv(P...);                                                                                 \
-	};                                                                                                                 \
-                                                                                                                       \
-	template <typename R, typename... P>                                                                               \
-	struct remove_noexcept_<R(callconv*)(P...) noexcept>                                                               \
-	{                                                                                                                  \
-		using type = R(callconv*)(P...);                                                                               \
-	};
+		#define muu_make_remove_noexcept(callconv)                                                                     \
+		                                                                                                               \
+			template <typename R, typename... P>                                                                       \
+			struct remove_noexcept_<R callconv(P...) noexcept>                                                         \
+			{                                                                                                          \
+				using type = R callconv(P...);                                                                         \
+			};                                                                                                         \
+		                                                                                                               \
+			template <typename R, typename... P>                                                                       \
+			struct remove_noexcept_<R(callconv*)(P...) noexcept>                                                       \
+			{                                                                                                          \
+				using type = R(callconv*)(P...);                                                                       \
+			};
 
 		MUU_FOR_EACH_CALLCONV(muu_make_remove_noexcept)
-
-#undef muu_make_remove_noexcept
+		#undef muu_make_remove_noexcept
 
 		// member function pointers
-#define muu_make_remove_noexcept(callconv, cvref)                                                                      \
-                                                                                                                       \
-	template <typename C, typename R, typename... P>                                                                   \
-	struct remove_noexcept_<R (callconv C::*)(P...) cvref noexcept>                                                    \
-	{                                                                                                                  \
-		using type = R (callconv C::*)(P...) cvref;                                                                    \
-	};
+		#define muu_make_remove_noexcept(callconv, cvref)                                                              \
+		                                                                                                               \
+			template <typename C, typename R, typename... P>                                                           \
+			struct remove_noexcept_<R (callconv C::*)(P...) cvref noexcept>                                            \
+			{                                                                                                          \
+				using type = R (callconv C::*)(P...) cvref;                                                            \
+			};
 
 		MUU_FOR_EACH_MEMBER_CALLCONV_CVREF(muu_make_remove_noexcept)
-
-#undef muu_make_remove_noexcept
+		#undef muu_make_remove_noexcept
 	}
+	// clang-format on
 	/// \endcond
 
 	/// \brief Removes any `noexcept` specifier from a functional type (or reference to one).
@@ -2406,13 +2388,14 @@ namespace muu
 								   >::value);
 
 	/// \cond
+	// clang-format off
 	namespace impl
 	{
 		template <typename T>
 		using arity_remove_decorations_ = remove_callconv<remove_noexcept<std::remove_pointer_t<remove_cvref<T>>>>;
 
 		template <typename T,
-				  bool = (std::is_class_v<T> || std::is_union_v<T>)&&has_unambiguous_function_call_operator<T>, //
+				  bool = (std::is_class_v<T> || std::is_union_v<T>) && has_unambiguous_function_call_operator<T>,
 				  bool = is_stateless_lambda<T> || decays_to_function_pointer_by_unary_plus<T>>
 		struct arity_ : std::integral_constant<size_t, 0>
 		{};
@@ -2436,17 +2419,17 @@ namespace muu
 		{};
 
 		// member function pointers
-#define muu_make_arity(cvref)                                                                                          \
-                                                                                                                       \
-	template <typename C, typename R, typename... P>                                                                   \
-	struct arity_<R (C::*)(P...) cvref, false, false> : std::integral_constant<size_t, sizeof...(P)>                   \
-	{};
+		#define muu_make_arity(cvref)                                                                                  \
+		                                                                                                               \
+			template <typename C, typename R, typename... P>                                                           \
+			struct arity_<R (C::*)(P...) cvref, false, false> : std::integral_constant<size_t, sizeof...(P)>           \
+			{};
 
-		MUU_FOR_EACH_MEMBER_CVREF(muu_make_arity)
-
-#undef muu_make_arity
+		MUU_FOR_EACH_CVREF(muu_make_arity)
+		#undef muu_make_arity
 
 	}
+	// clang-format on
 	/// \endcond
 
 	/// \brief	Returns the arity (parameter count) of a function, function pointer, stateless lambda,

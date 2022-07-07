@@ -1531,55 +1531,15 @@ namespace muu::impl
 	#define MUU_TYPE_IDENTITY(...) __VA_ARGS__
 #endif
 
-#include "impl/preprocessor_for_each.h"
-
-// clang-format off
-#if MUU_WINDOWS
-	#if MUU_ARCH_AMD64
-		#define MUU_FOR_EACH_CALLCONV_XARG(func, arg)		\
-			func(__cdecl,		arg)						\
-			func(__vectorcall,	arg)
-		#define MUU_FOR_EACH_MEMBER_CALLCONV_XARG(func, arg)\
-			MUU_FOR_EACH_CALLCONV_XARG(func, arg)			
-	#else
-		#define MUU_FOR_EACH_CALLCONV_XARG(func, arg)	\
-			func(__cdecl,		arg)					\
-			func(__vectorcall,	arg)					\
-			func(__stdcall,		arg)					\
-			func(__fastcall,	arg)
-		#define MUU_FOR_EACH_MEMBER_CALLCONV_XARG(func, arg)\
-			MUU_FOR_EACH_CALLCONV_XARG(func, arg)			\
-			func(__thiscall, arg)
-	#endif
-#else
-	#define MUU_FOR_EACH_CALLCONV_XARG(func, arg)		 func(, arg)
-	#define MUU_FOR_EACH_MEMBER_CALLCONV_XARG(func, arg) func(, arg)
+#ifndef MUU_BLANK
+	#define MUU_BLANK_3
+	#define MUU_BLANK_2 MUU_BLANK_3
+	#define MUU_BLANK_1 MUU_BLANK_2
+	#define MUU_BLANK	MUU_BLANK_1
 #endif
-// clang-format on
-#define MUU_FOR_EACH_CURRY_ARG(value, func) func(value)
-#define MUU_FOR_EACH_CALLCONV(func)			MUU_FOR_EACH_CALLCONV_XARG(MUU_FOR_EACH_CURRY_ARG, func)
-#define MUU_FOR_EACH_MEMBER_CALLCONV(func)	MUU_FOR_EACH_MEMBER_CALLCONV_XARG(MUU_FOR_EACH_CURRY_ARG, func)
 
-// clang-format off
-#define MUU_FOR_EACH_MEMBER_CVREF_XARG(func, arg) \
-	func(, arg)					\
-	func(&, arg)				\
-	func(&&, arg)				\
-	func(const, arg)			\
-	func(const&, arg)			\
-	func(const&&, arg)			\
-	func(volatile, arg)			\
-	func(volatile&, arg)		\
-	func(volatile&&, arg)		\
-	func(const volatile, arg)	\
-	func(const volatile&, arg)	\
-	func(const volatile&&, arg)
-// clang-format on
-#define MUU_FOR_EACH_MEMBER_CVREF(func) MUU_FOR_EACH_MEMBER_CVREF_XARG(MUU_FOR_EACH_CURRY_ARG, func)
-
-#define MUU_FOR_EACH_MEMBER_CALLCONV_CVREF_1(cvref, func) MUU_FOR_EACH_MEMBER_CALLCONV_XARG(func, cvref)
-#define MUU_FOR_EACH_MEMBER_CALLCONV_CVREF(func)                                                                       \
-	MUU_FOR_EACH_MEMBER_CVREF_XARG(MUU_FOR_EACH_MEMBER_CALLCONV_CVREF_1, func)
+#include "impl/preprocessor_for_each.h"
+#include "impl/preprocessor_for_each_attributes.h"
 
 #if !defined(__POXY__) && !defined(POXY_IMPLEMENTATION_DETAIL)
 	#define POXY_IMPLEMENTATION_DETAIL(...) __VA_ARGS__

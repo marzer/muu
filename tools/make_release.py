@@ -169,6 +169,11 @@ def run(args):
 			with utils.ScopeTimer(r'Regenerating compiler version dispatch macros', print_start=True) as timer:
 				utils.run_python_script(Path(tools_dir, 'generate_compiler_dispatch_macros.py'))
 
+		# regenerate the MUU_FOR_EACH_XXXX macros
+		if not args.stale:
+			with utils.ScopeTimer(r'Regenerating MUU_FOR_EACH macros', print_start=True) as timer:
+				utils.run_python_script(Path(tools_dir, 'generate_for_each_attribute_macros.py'))
+
 		# regenerate unicode functions
 		if not args.nounicode:
 			with utils.ScopeTimer(r'Regenerating Unicode functions', print_start=True) as timer:

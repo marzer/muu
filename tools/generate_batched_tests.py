@@ -5,11 +5,9 @@
 # SPDX-License-Identifier: MIT
 
 import utils
-import sys
-import os
-import shutil
 import argparse
 from pathlib import Path
+from io import StringIO()
 
 
 
@@ -42,8 +40,7 @@ def run(args):
 		source_path = Path(header_path.parent, source_path + rf'_{i}.cpp')
 		
 		if i < batch_size:
-			print(rf'Writing {source_path}')
-			with open(source_path, 'w', encoding='utf-8', newline='\n') as file:
+			with StringIO() as buf:
 				print(rf'''
 // This file is a part of muu and is subject to the the terms of the MIT license.
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
@@ -59,7 +56,11 @@ def run(args):
 
 #include "{header_path.name}"
 
-'''.strip(), file=file)
+'''.strip(), file=buf)
+
+				print(rf'Writing {source_path}')
+				with open(source_path, 'w', encoding='utf-8', newline='\n') as file:
+					file.write(utils.clang_format(buf.getvalue()))
 		else:
 			utils.delete_file(source_path, logger=True)
 

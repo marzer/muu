@@ -5,10 +5,8 @@
 # SPDX-License-Identifier: MIT
 
 import utils
-import sys
-import os
-import shutil
 from pathlib import Path
+from io import StringIO
 
 
 
@@ -28,8 +26,7 @@ def main():
 		file_path = Path(impl_dir, rf'preprocessor_macro_dispatch_{name}.h')
 		name_upper = name.upper()
 		guard_name = rf'MUU_PREPROCESSOR_MACRO_DISPATCH_{name_upper}_H'
-		print(rf'Writing {file_path}')
-		with open(file_path, 'w', encoding='utf-8', newline='\n') as file:
+		with StringIO() as buf:
 			print(rf'''// This file is a part of muu and is subject to the the terms of the MIT license.
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
@@ -44,20 +41,25 @@ def main():
 #ifndef {version_macro}
 	#error {version_macro} must be defined to use this header!
 #endif
-''', file=file)
+''', file=buf)
 
 			for version in range(min_version, max_version+1):
-				print(rf'''#if {version_macro} >= {version}
+				print(rf'''
+#if {version_macro} >= {version}
 	#define MUU_MACRO_DISPATCH_{name_upper}_GE_{version}(...) __VA_ARGS__
 	#define MUU_MACRO_DISPATCH_{name_upper}_LT_{version}(...)
 #else
 	#define MUU_MACRO_DISPATCH_{name_upper}_GE_{version}(...)
 	#define MUU_MACRO_DISPATCH_{name_upper}_LT_{version}(...) __VA_ARGS__
-#endif''', file=file)
+#endif''', file=buf)
 
 			print(rf'''
 /// \endcond
-#endif // {guard_name}''', file=file)
+#endif // {guard_name}''', file=buf)
+
+			print(rf'Writing {file_path}')
+			with open(file_path, 'w', encoding='utf-8', newline='\n') as file:
+				file.write(utils.clang_format(buf.getvalue()))
 
 if __name__ == '__main__':
 	utils.run(main, verbose=True)

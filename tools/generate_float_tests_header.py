@@ -5,12 +5,11 @@
 # SPDX-License-Identifier: MIT
 
 import utils
-import sys
 import math
 import random
 import decimal
 from pathlib import Path
-
+from io import StringIO
 
 
 __debugging = False
@@ -511,10 +510,9 @@ def write_float_data(file, traits):
 def main():
 	
 	file_path = Path(utils.entry_script_dir(), '..', 'tests', 'float_test_data.h').resolve()
-	print("Writing to {}".format(file_path))
-	with open(file_path, 'w', encoding='utf-8', newline='\n') as file:
+	with StringIO() as buf:
 		indent = 0
-		write = lambda txt: print(('\t' * indent) + txt if txt != '' else '', file=file)
+		write = lambda txt: print(('\t' * indent) + txt if txt != '' else '', file=buf)
 
 		# preamble
 		write('// This file is a part of muu and is subject to the the terms of the MIT license.')
@@ -554,18 +552,18 @@ def main():
 
 		# (padding_bits, sign_bits, exponent_bits, integer_part_bits, significand_bits)
 
-		write_float_data(file, FloatTraits(  0, 1,  5, 0,  10)) # 16-bit 'half'
+		write_float_data(buf, FloatTraits(  0, 1,  5, 0,  10)) # 16-bit 'half'
 		write('')
-		write_float_data(file, FloatTraits(  0, 1,  8, 0,  23)) # 32-bit float
+		write_float_data(buf, FloatTraits(  0, 1,  8, 0,  23)) # 32-bit float
 		write('')
-		write_float_data(file, FloatTraits(  0, 1, 11, 0,  52)) # 64-bit double
+		write_float_data(buf, FloatTraits(  0, 1, 11, 0,  52)) # 64-bit double
 		write('')
-		write_float_data(file, FloatTraits(  0, 1, 15, 1,  63)) # 80-bit long double
+		write_float_data(buf, FloatTraits(  0, 1, 15, 1,  63)) # 80-bit long double
 		write('')
-		write_float_data(file, FloatTraits( 48, 1, 15, 1,  63)) # 80-bit long double stored as 128 bits
+		write_float_data(buf, FloatTraits( 48, 1, 15, 1,  63)) # 80-bit long double stored as 128 bits
 		write('')
 		write('#if MUU_HAS_FLOAT128')
-		write_float_data(file, FloatTraits(  0, 1, 15, 0, 112)) # 128-bit quad
+		write_float_data(buf, FloatTraits(  0, 1, 15, 0, 112)) # 128-bit quad
 		write('#endif // MUU_HAS_FLOAT128')
 		write('')
 		#write_float_data(file, FloatTraits(256,  0, 19, 0, 237))
@@ -579,6 +577,10 @@ def main():
 
 		write('')
 		write('MUU_POP_WARNINGS;')
+
+		print("Writing to {}".format(file_path))
+		with open(file_path, 'w', encoding='utf-8', newline='\n') as file:
+			file.write(utils.clang_format(buf.getvalue()))
 		
 
 if __name__ == '__main__':

@@ -292,6 +292,9 @@
     <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_msvc.h">
       <Filter>include\impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\impl\preprocessor_for_each_attributes.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">
@@ -355,6 +358,9 @@
       <Filter>tools</Filter>
     </None>
     <None Include="tools\make_release.bat">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="tools\generate_for_each_attribute_macros.py">
       <Filter>tools</Filter>
     </None>
   </ItemGroup>

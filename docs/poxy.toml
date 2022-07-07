@@ -83,7 +83,8 @@ numeric_literals = [
 ]
 
 'muu/preprocessor.h' = [
-    'muu/impl/preprocessor_for_each.h'
+    'muu/impl/preprocessor_for_each.h',
+    'muu/impl/preprocessor_for_each_attributes.h',
 ]
 'muu/strings.h' = [
     'muu/impl/thread_name.h'

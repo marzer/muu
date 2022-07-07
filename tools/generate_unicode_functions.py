@@ -14,6 +14,7 @@ import bisect
 import json
 from pathlib import Path
 from argparse import ArgumentParser
+from io import StringIO
 
 
 #### SETTINGS / MISC ##################################################################################################
@@ -1648,17 +1649,15 @@ def write_header(folders, code_unit):
 	header_path = re.sub(r'\s+', '_', code_unit.typename)
 	tests_path = Path(folders[1], f'unicode_{header_path}.cpp').resolve()
 	header_path = Path(folders[0], f'unicode_{header_path}.h').resolve()
-	print("Writing to {}".format(header_path))
-	with open(header_path, 'w', encoding='utf-8', newline='\n') as header_file:
-		h = lambda txt='',end='\n': print(txt, file=header_file, end=end)
+	with StringIO() as header_buf:
+		h = lambda txt='',end='\n': print(txt, file=header_buf, end=end)
 
-		tests_file = None
+		tests_buf = None
 		t = None
 		both = None
 		if G.generate_tests and code_unit.typename != 'wchar_t':
-			print("Writing to {}".format(tests_path))
-			tests_file = open(tests_path, 'w', encoding='utf-8', newline='\n')
-			t = lambda txt='',end='\n': print(txt, file=tests_file, end=end)
+			tests_buf = StringIO()
+			t = lambda txt='',end='\n': print(txt, file=tests_buf, end=end)
 			both = lambda txt='',end='\n': (h(txt,end), t(txt,end))
 		else:
 			both = h
@@ -1732,7 +1731,7 @@ def write_header(folders, code_unit):
 		else:
 			specifier = f'UTF-{code_unit.bits} code unit'
 
-		files = (header_file, tests_file)
+		files = (header_buf, tests_buf)
 		mutex_groups = dict()
 
 
@@ -2084,8 +2083,18 @@ def write_header(folders, code_unit):
 
 		both('// clang-format on')
 
-		if tests_file is not None:
-			tests_file.close()
+		print("Writing to {}".format(header_path))
+		with open(header_path, 'w', encoding='utf-8', newline='\n') as file:
+			file.write(utils.clang_format(header_buf.getvalue()))
+
+		if tests_buf is not None:
+			print("Writing to {}".format(tests_path))
+			with open(tests_path, 'w', encoding='utf-8', newline='\n') as file:
+				file.write(utils.clang_format(tests_buf.getvalue()))
+			tests_buf.close()
+
+
+
 
 #### MAIN ##############################################################################################################
 
