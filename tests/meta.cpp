@@ -935,6 +935,22 @@ static_assert(std::is_same_v<remove_callconv<int(__vectorcall&)()>, int (&)()>);
 static_assert(std::is_same_v<remove_callconv<int(__vectorcall&)() noexcept>, int (&)() noexcept>);
 #endif
 
+// arity
+namespace
+{
+	struct func_test
+	{
+		int func(int, double, char) const;
+		void operator()(int, double, float, char) noexcept;
+	};
+}
+static_assert(0 == arity<void (*)() noexcept>);
+static_assert(1 == arity<void(MUU_VECTORCALL*)(int) noexcept>);
+static_assert(2 == arity<void (&)(int, float)>);
+static_assert(3 == arity<decltype(&func_test::func)>);
+static_assert(4 == arity<decltype(&func_test::operator())>);
+static_assert(4 == arity<func_test>);
+
 // inherits_from
 struct base_type
 {};

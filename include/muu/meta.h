@@ -1704,6 +1704,9 @@ namespace muu
 		using has_post_decrement_operator_ = decltype(std::declval<T>()--);
 
 		template <typename T>
+		using has_unambiguous_function_call_operator_ = decltype(&T::operator());
+
+		template <typename T>
 		using has_begin_member_func_ = decltype(std::declval<T>().begin());
 		template <typename T>
 		using has_end_member_func_ = decltype(std::declval<T>().end());
@@ -1914,6 +1917,11 @@ namespace muu
 	/// \brief True if a type has a post-decrement operator (`T--`).
 	template <typename T>
 	inline constexpr bool has_post_decrement_operator = is_detected<impl::has_post_decrement_operator_, T>;
+
+	/// \brief True if a type has single non-template operator() overload.
+	template <typename T>
+	inline constexpr bool has_unambiguous_function_call_operator =
+		is_detected<impl::has_unambiguous_function_call_operator_, remove_cvref<T>>;
 
 	/// \brief True if a type has a member function `data()` returning a pointer.
 	template <typename T>
@@ -2396,6 +2404,55 @@ namespace muu
 														  std::remove_reference_t<CompatibleWithFunc>>>> //
 													  >													 //
 								   >::value);
+
+	/// \cond
+	namespace impl
+	{
+		template <typename T>
+		using arity_remove_decorations_ = remove_callconv<remove_noexcept<std::remove_pointer_t<remove_cvref<T>>>>;
+
+		template <typename T,
+				  bool = (std::is_class_v<T> || std::is_union_v<T>)&&has_unambiguous_function_call_operator<T>, //
+				  bool = is_stateless_lambda<T> || decays_to_function_pointer_by_unary_plus<T>>
+		struct arity_ : std::integral_constant<size_t, 0>
+		{};
+
+		// free functions
+		template <typename R, typename... P>
+		struct arity_<R(P...), false, false> : std::integral_constant<size_t, sizeof...(P)>
+		{};
+		template <typename R, typename... P>
+		struct arity_<R(P...), false, true> : arity_<R(P...), false, false>
+		{};
+
+		// classes/unions with an unambiguous function call operator
+		template <typename T, bool SL>
+		struct arity_<T, true, SL> : arity_<arity_remove_decorations_<decltype(&remove_cvref<T>::operator())>>
+		{};
+
+		// stateless lambdas (and things that decay to function pointer by unary plus)
+		template <typename T>
+		struct arity_<T, false, true> : arity_<arity_remove_decorations_<decltype(+std::declval<T>())>>
+		{};
+
+		// member function pointers
+#define muu_make_arity(cvref)                                                                                          \
+                                                                                                                       \
+	template <typename C, typename R, typename... P>                                                                   \
+	struct arity_<R (C::*)(P...) cvref, false, false> : std::integral_constant<size_t, sizeof...(P)>                   \
+	{};
+
+		MUU_FOR_EACH_MEMBER_CVREF(muu_make_arity)
+
+#undef muu_make_arity
+
+	}
+	/// \endcond
+
+	/// \brief	Returns the arity (parameter count) of a function, function pointer, stateless lambda,
+	///			or class/union type with an unambiguous `operator()` overload.
+	template <typename T>
+	inline constexpr size_t arity = impl::arity_<impl::arity_remove_decorations_<T>>::value;
 
 	/** @} */ // meta
 }

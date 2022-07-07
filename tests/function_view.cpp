@@ -34,22 +34,25 @@ TEST_CASE("function_view")
 {
 	// free functions
 	{
-		val = 1;
-		function_view fv{ func1 };
+		val		= 1;
+		auto fv = function_view{ func1 };
+		static_assert(std::is_same_v<decltype(fv), function_view<int(int) noexcept>>);
 		fv(2);
 	}
 	CHECK(val == 2);
 	{
-		val = 1;
-		function_view fv{ func2 };
+		val		= 1;
+		auto fv = function_view{ func2 };
+		static_assert(std::is_same_v<decltype(fv), function_view<int(int) noexcept>>);
 		fv(2);
 	}
 	CHECK(val == 2);
 
 	// stateless lambdas (rvalue)
 	{
-		val = 1;
-		function_view<void() noexcept> fv{ []() noexcept { val++; } };
+		val		= 1;
+		auto fv = function_view{ []() noexcept { val++; } };
+		static_assert(std::is_same_v<decltype(fv), function_view<void() noexcept>>);
 		fv();
 	}
 	CHECK(val == 2);
@@ -59,7 +62,8 @@ TEST_CASE("function_view")
 		val				  = 1;
 		const auto lambda = []() noexcept { val++; };
 		static_assert(is_stateless_lambda<decltype(lambda)>);
-		function_view<void() noexcept> fv{ lambda };
+		auto fv = function_view{ lambda };
+		static_assert(std::is_same_v<decltype(fv), function_view<void() noexcept>>);
 		fv();
 	}
 	CHECK(val == 2);
@@ -70,7 +74,8 @@ TEST_CASE("function_view")
 		int v			  = 1;
 		const auto lambda = [&]() noexcept { val += v; };
 		static_assert(!is_stateless_lambda<decltype(lambda)>);
-		function_view<void() noexcept> fv{ lambda };
+		auto fv = function_view{ lambda };
+		static_assert(std::is_same_v<decltype(fv), function_view<void() noexcept>>);
 		fv();
 	}
 	CHECK(val == 2);

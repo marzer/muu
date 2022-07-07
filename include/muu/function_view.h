@@ -195,6 +195,7 @@ namespace muu
 
 	/// \cond
 
+	// deduction guides for free functions
 #define muu_make_function_view_deduction_guides(callconv)                                                              \
                                                                                                                        \
 	template <typename R, typename... P>                                                                               \
@@ -204,8 +205,56 @@ namespace muu
 	function_view(R(callconv*)(P...)) -> function_view<R(P...)>;
 
 	MUU_FOR_EACH_CALLCONV(muu_make_function_view_deduction_guides)
-
 #undef muu_make_function_view_deduction_guides
+
+	namespace impl
+	{
+		template <typename T,
+				  bool = (std::is_class_v<std::remove_reference_t<T>> || std::is_union_v<std::remove_reference_t<T>>) //
+				  &&has_unambiguous_function_call_operator<T>,														  //
+				  bool = is_stateless_lambda<T> || decays_to_function_pointer_by_unary_plus<T>>
+		struct function_view_deduction;
+
+		// member function pointers
+		template <typename>
+		struct function_view_deduction_from_memptr;
+
+#define muu_make_function_view_deduction_guides(cvref)                                                                 \
+	template <typename C, typename R, typename... P>                                                                   \
+	struct function_view_deduction_from_memptr<R (C::*)(P...) cvref noexcept>                                          \
+	{                                                                                                                  \
+		using type = R(P...) noexcept;                                                                                 \
+	};                                                                                                                 \
+	template <typename C, typename R, typename... P>                                                                   \
+	struct function_view_deduction_from_memptr<R (C::*)(P...) cvref>                                                   \
+	{                                                                                                                  \
+		using type = R(P...);                                                                                          \
+	};
+
+		MUU_FOR_EACH_MEMBER_CVREF(muu_make_function_view_deduction_guides)
+#undef muu_make_function_view_deduction_guides
+
+		// classes/unions with an unambiguous function call operator
+		template <typename T, bool SL>
+		struct function_view_deduction<T, true, SL>
+			: function_view_deduction_from_memptr<muu::remove_callconv<decltype(&remove_cvref<T>::operator())>>
+		{};
+
+		// stateless lambdas (and things that decay to function pointer by unary plus)
+		template <typename T>
+		struct function_view_deduction<T, false, true>
+		{
+			using type = muu::remove_callconv<std::remove_pointer_t<decltype(+std::declval<T>())>>;
+		};
+	}
+
+	// deduction guides for stateless lambdas and classes/unions with an unambiguous operator()
+	MUU_CONSTRAINED_TEMPLATE(
+		((std::is_class_v<std::remove_reference_t<T>> || std::is_union_v<std::remove_reference_t<T>>) //
+		 &&has_unambiguous_function_call_operator<T&&>)
+			|| muu::is_stateless_lambda<T&&> || muu::decays_to_function_pointer_by_unary_plus<T&&>,
+		typename T)
+	function_view(T&&)->function_view<typename impl::function_view_deduction<T&&>::type>;
 
 	/// \endcond
 }

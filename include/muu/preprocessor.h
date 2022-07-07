@@ -907,7 +907,7 @@ help me improve support for your target architecture. Thanks!
 /// \brief Expands to `_pragma(...)` when compiling with ICC.
 
 #define MUU_DELETE_MOVE(T)                                                                                             \
-	T(T&&)	   = delete;                                                                                               \
+	T(T&&)			  = delete;                                                                                        \
 	T& operator=(T&&) = delete
 /// \def MUU_DELETE_MOVE(T)
 /// \brief Explicitly deletes the move constructor and move-assignment operator of a class or struct.
@@ -931,7 +931,7 @@ help me improve support for your target architecture. Thanks!
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 
 #define MUU_DELETE_COPY(T)                                                                                             \
-	T(const T&) = delete;                                                                                              \
+	T(const T&)			   = delete;                                                                                   \
 	T& operator=(const T&) = delete
 /// \def MUU_DELETE_COPY(T)
 /// \brief Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.
@@ -954,7 +954,7 @@ help me improve support for your target architecture. Thanks!
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 
 #define MUU_DEFAULT_MOVE(T)                                                                                            \
-	T(T&&)	   = default;                                                                                              \
+	T(T&&)			  = default;                                                                                       \
 	T& operator=(T&&) = default
 /// \def MUU_DEFAULT_MOVE
 /// \brief Explicitly defaults the move constructor and move-assignment operator of a class or struct.
@@ -978,7 +978,7 @@ help me improve support for your target architecture. Thanks!
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 
 #define MUU_DEFAULT_COPY(T)                                                                                            \
-	T(const T&) = default;                                                                                             \
+	T(const T&)			   = default;                                                                                  \
 	T& operator=(const T&) = default
 /// \def MUU_DEFAULT_COPY
 /// \brief Explicitly defaults the copy constructor and copy-assignment operator of a class or struct.
