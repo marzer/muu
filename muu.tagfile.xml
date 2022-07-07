@@ -2831,6 +2831,13 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>has_unambiguous_function_call_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7dc563ba758563489ce7b5b01074359c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>has_data_member_function</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gaf10843e1090d5460710e8a864f8313a9</anchor>
@@ -2890,6 +2897,13 @@
       <name>is_stateless_lambda</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gab1f90e8e3f87fa3fc27fb0ae93571912</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr size_t</type>
+      <name>arity</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga36e4304bf9afa010bb56ee74b513312e</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -20348,6 +20362,13 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>has_unambiguous_function_call_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7dc563ba758563489ce7b5b01074359c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>has_data_member_function</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gaf10843e1090d5460710e8a864f8313a9</anchor>
@@ -20407,6 +20428,13 @@
       <name>is_stateless_lambda</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gab1f90e8e3f87fa3fc27fb0ae93571912</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr size_t</type>
+      <name>arity</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga36e4304bf9afa010bb56ee74b513312e</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -22569,6 +22597,13 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>has_unambiguous_function_call_operator</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga7dc563ba758563489ce7b5b01074359c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>has_data_member_function</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gaf10843e1090d5460710e8a864f8313a9</anchor>
@@ -22628,6 +22663,13 @@
       <name>is_stateless_lambda</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gab1f90e8e3f87fa3fc27fb0ae93571912</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr size_t</type>
+      <name>arity</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga36e4304bf9afa010bb56ee74b513312e</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">

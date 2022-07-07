@@ -576,6 +576,10 @@
             </dt>
             <dd>Are any of the named types volatile or reference-to-volatile?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#ga36e4304bf9afa010bb56ee74b513312e">arity</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Returns the arity (parameter count) of a function, function pointer, stateless lambda, or class/union type with an unambiguous <code>operator()</code> overload.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga7d0fb753d984f767d9530f4c88e4d0d2">decays_to_function_pointer_by_unary_plus</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -735,6 +739,11 @@
               bool <a class="m-doc" href="group__meta.html#ga6889472d0f71b499636c488a48aafe27">has_subtraction_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>True if a pair of types has a subtraction operator (<code>T - U</code>).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga7dc563ba758563489ce7b5b01074359c">has_unambiguous_function_call_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a type has single non-template operator() overload.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#gadfa546414eebe20b450f7a7d520b4767">has_unary_minus_operator</a> <span class="m-label m-flat m-primary">constexpr</span>
