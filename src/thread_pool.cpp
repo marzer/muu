@@ -50,7 +50,7 @@ namespace
 {
 	using thread_pool_byte_span = aligned_byte_span<impl::thread_pool_alignment>;
 
-#if defined(__cpp_lib_atomic_wait) && __cpp_lib_atomic_wait >= 201907
+#if defined(__cpp_lib_atomic_wait) && __cpp_lib_atomic_wait >= 201907 && 0
 
 	class thread_pool_monitor
 	{
@@ -298,13 +298,12 @@ namespace
 		MUU_NODISCARD
 		MUU_ATTR(nonnull)
 		MUU_ATTR(assume_aligned(impl::thread_pool_alignment))
-		task* pop(void* buf) noexcept
+		task* pop(void* buf, std::chrono::milliseconds timeoout) noexcept
 		{
 			std::unique_lock lock{ mutex };
-			while (empty() && !terminated())
-				cv.wait(lock);
+			cv.wait_for(lock, timeoout, [this]() noexcept { return !empty() || terminated(); });
 
-			if (terminated())
+			if (empty() || terminated())
 				return nullptr;
 
 			return pop_front_task(muu::assume_aligned<impl::thread_pool_alignment>(buf));
@@ -353,17 +352,21 @@ namespace
 
 								 alignas(impl::thread_pool_alignment) std::byte pop_buffer[impl::thread_pool_alignment];
 
+								 const size_t tries = queues.size() * thread_pool_spin_wait_iterations_per_queue;
+
 								 while (!terminated())
 								 {
-									 const size_t tries = queues.size() * thread_pool_spin_wait_iterations_per_queue;
-
 									 task* t = nullptr;
-									 for (size_t i = worker_index, e = i + tries; i < e && !t; i++)
+									 while (!t && !terminated())
 									 {
-										 t = queues[i % queues.size()].try_pop(pop_buffer);
+										 for (size_t i = worker_index, e = i + tries; i < e && !t; i++)
+										 {
+											 spin_wait_iteration();
+											 t = queues[i % queues.size()].try_pop(pop_buffer);
+										 }
+										 if (!t)
+											 t = queues[worker_index].pop(pop_buffer, 100ms); // blocks until timeout
 									 }
-									 if (!t)
-										 t = queues[worker_index].pop(pop_buffer); // blocks
 									 if (t)
 									 {
 										 (*t)(worker_index);
@@ -418,7 +421,7 @@ namespace
 		thread_pool_byte_span queue_buffer;
 		thread_pool_byte_span worker_buffer;
 		thread_pool_byte_span task_buffer;
-		size_t worker_count{};
+		size_t worker_count{}; // also the queue count
 		size_t worker_queue_size{};
 		std::atomic<size_t> next_queue = 0_sz;
 		mutable thread_pool_monitor monitor;
@@ -552,22 +555,23 @@ namespace
 			if (required > worker_queue_size)
 				return {};
 
-			const auto find_queue = [workers	= worker_count,
-									 start		= next_queue++,
-									 iterations = worker_count * thread_pool_spin_wait_iterations_per_queue,
+			const auto find_queue = [queue_count = worker_count,
+									 iterations	 = worker_count * thread_pool_spin_wait_iterations_per_queue,
 									 required,
 									 this]() noexcept
 			{
+				const auto start = next_queue++;
 				for (size_t i = start, e = i + iterations; i < e; i++)
 				{
-					const auto qindex = i % workers;
-					auto& q			  = queue(qindex);
+					const auto queue_index = i % queue_count;
+					auto& q				   = queue(queue_index);
 					if (q.try_lock())
 					{
 						if (q.available() >= required)
-							return std::optional<size_t>{ qindex };
+							return std::optional<size_t>{ queue_index };
 						q.unlock();
 					}
+					spin_wait_iteration();
 				}
 				return std::optional<size_t>{};
 			};
@@ -583,23 +587,22 @@ namespace
 		MUU_NODISCARD
 		size_t lock() noexcept
 		{
-			const auto find_queue = [workers	= worker_count,
-									 start		= next_queue++,
-									 iterations = worker_count * thread_pool_spin_wait_iterations_per_queue,
+			const auto find_queue = [queue_count = worker_count,
+									 iterations	 = worker_count * thread_pool_spin_wait_iterations_per_queue,
 									 this]() noexcept
 			{
+				const auto start = next_queue++;
 				for (size_t i = start, e = i + iterations; i < e; i++)
 				{
-					const auto qindex = i % workers;
-					auto& q			  = queue(qindex);
+					const auto queue_index = i % queue_count;
+					auto& q				   = queue(queue_index);
 					if (q.try_lock())
 					{
 						if (!q.full())
-							return std::optional<size_t>{ qindex };
+							return std::optional<size_t>{ queue_index };
 						q.unlock();
 					}
-					else
-						spin_wait_iteration();
+					spin_wait_iteration();
 				}
 				return std::optional<size_t>{};
 			};
@@ -622,15 +625,15 @@ namespace
 		MUU_ALWAYS_INLINE
 		MUU_ATTR(returns_nonnull)
 		MUU_ATTR(assume_aligned(muu::impl::thread_pool_alignment))
-		void* acquire(size_t qindex) noexcept
+		void* acquire(size_t queue_index) noexcept
 		{
-			return queue(qindex).acquire();
+			return queue(queue_index).acquire();
 		}
 
 		MUU_ALWAYS_INLINE
-		void unlock(size_t qindex) noexcept
+		void unlock(size_t queue_index) noexcept
 		{
-			queue(qindex).unlock();
+			queue(queue_index).unlock();
 		}
 
 		MUU_ALWAYS_INLINE

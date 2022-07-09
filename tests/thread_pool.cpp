@@ -31,7 +31,7 @@ TEST_CASE("thread_pool - initialization")
 		thread_pool pool2{ std::move(pool) };
 		CHECK(pool.workers() == 0u);
 		CHECK(pool2.workers() == 1u);
-		pool2.for_range(0_sz, pool2.workers(), anti_hang);
+		pool2.for_each(0_sz, pool2.workers(), anti_hang);
 
 		std::this_thread::sleep_for(100ms);
 	}
@@ -41,7 +41,7 @@ TEST_CASE("thread_pool - initialization")
 
 		thread_pool pool { 1u, 10u };
 		CHECK(pool.workers() == 1u);
-		pool.for_range(0_sz, pool.workers(), anti_hang);
+		pool.for_each(0_sz, pool.workers(), anti_hang);
 
 		std::this_thread::sleep_for(100ms);
 	}
@@ -51,7 +51,7 @@ TEST_CASE("thread_pool - initialization")
 
 		thread_pool pool;
 		CHECK(pool.workers() == std::thread::hardware_concurrency());
-		pool.for_range(0_sz, pool.workers(), anti_hang);
+		pool.for_each(0_sz, pool.workers(), anti_hang);
 
 		std::this_thread::sleep_for(100ms);
 	}
@@ -59,7 +59,7 @@ TEST_CASE("thread_pool - initialization")
 	{
 		INFO("auto workers, queue size == 10")
 		thread_pool pool { 0u, 10u };
-		pool.for_range(0_sz, pool.workers(), anti_hang);
+		pool.for_each(0_sz, pool.workers(), anti_hang);
 
 		std::this_thread::sleep_for(100ms);
 	}
@@ -259,7 +259,7 @@ TEST_CASE("thread_pool - enqueue")
 	}
 }
 
-TEST_CASE("thread_pool - for_range")
+TEST_CASE("thread_pool - for_each (integral inputs)")
 {
 	thread_pool pool{ min(std::thread::hardware_concurrency(), 16u) };
 
@@ -275,13 +275,13 @@ TEST_CASE("thread_pool - for_range")
 	{
 		INFO("[A, B)")
 		reset();
-		pool.for_range(0_sz, values.size(), [&](auto i) noexcept { values[i]++; });
+		pool.for_each(0_sz, values.size(), [&](auto i) noexcept { values[i]++; });
 		pool.wait();
 		for (auto& v : values)
 			CHECK(v == 1);
 
 		reset();
-		pool.for_range(0_sz, values.size(), [&](auto i, auto batch) noexcept
+		pool.for_each(0_sz, values.size(), [&](auto i, auto batch) noexcept
 		{
 			values[i]++;
 			batches[batch]++;
@@ -295,7 +295,7 @@ TEST_CASE("thread_pool - for_range")
 
 	{
 		INFO("[A, B)")
-		pool.for_range(10u, 100u, [&](auto i) noexcept { values[i]--; });
+		pool.for_each(10u, 100u, [&](auto i) noexcept { values[i]--; });
 		pool.wait();
 		for (size_t i = 0; i < 10; i++)
 			CHECK(values[i] == 1);
@@ -308,7 +308,7 @@ TEST_CASE("thread_pool - for_range")
 	{
 		INFO("[A, B) where A > B")
 		reset();
-		pool.for_range(500u, 300u, [&](auto i) noexcept { values[i] = 69; });
+		pool.for_each(500u, 300u, [&](auto i) noexcept { values[i] = 69; });
 		pool.wait();
 		for (size_t i = 0; i <= 300; i++)
 			CHECK(values[i] == 0);
@@ -321,7 +321,7 @@ TEST_CASE("thread_pool - for_range")
 	{
 		INFO("[A, A)")
 		reset();
-		pool.for_range(100u, 100u, [&](auto i) noexcept { values[i] = 100; });
+		pool.for_each(100u, 100u, [&](auto i) noexcept { values[i] = 100; });
 		pool.wait();
 		for (auto& v : values)
 			CHECK(v == 0);
@@ -331,20 +331,20 @@ TEST_CASE("thread_pool - for_range")
 		INFO("copy semantics")
 		std::atomic_size_t val = 0_sz;
 		auto callable = callable_counter{ val };
-		pool.for_range(0_sz, values.size(), callable);
+		pool.for_each(0_sz, values.size(), callable);
 		pool.wait();
 		CHECK(val == values.size());
 	}
 	{
 		INFO("move semantics")
 		std::atomic_size_t val = 0_sz;
-		pool.for_range(0_sz, values.size(), callable_counter{ val });
+		pool.for_each(0_sz, values.size(), callable_counter{ val });
 		pool.wait();
 		CHECK(val == values.size());
 	}
 }
 
-TEST_CASE("thread_pool - for_each")
+TEST_CASE("thread_pool - for_each (iterators)")
 {
 	thread_pool pool{ min(std::thread::hardware_concurrency(), 16u) };
 
