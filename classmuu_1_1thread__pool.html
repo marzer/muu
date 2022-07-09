@@ -111,6 +111,19 @@
             </dt>
             <dd>Enqueues a task.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T, typename Task&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#abc292731eddf5cbfdcb159ccd3584e65">for_each</a>(</span><span class="m-doc-wrap">T start,
+              T end,
+              Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Enqueues a task to execute once for every value in a range.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename Task&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3597b210fd6c9f2ec6734cf2cb3bfbb6">for_each</a>(</span><span class="m-doc-wrap">T end,
+              Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Enqueues a task to execute once for every value in a range.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename Iter, typename Task&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8f4b6d4bbed147da00ec02ff29cc505e">for_each</a>(</span><span class="m-doc-wrap">Iter begin,
               Iter end,
@@ -123,13 +136,6 @@
               Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Enqueues a task to execute on every element in a collection.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T, typename Task&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#afd645f9d69c3cf18994cb33194c733f9">for_range</a>(</span><span class="m-doc-wrap">T start,
-              T end,
-              Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Enqueues a task to execute once for every value in a range.</dd>
             <dt id="ae8ccb244ff4bc2db327711c4dcbc9174">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae8ccb244ff4bc2db327711c4dcbc9174">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp;&amp; rhs) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -249,6 +255,125 @@
 <span class="p">{</span>
     <span class="c1">//...</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and <a class="m-doc" href="classmuu_1_1thread__pool.html#a0be5fc12fedc8dbb694b614a6e53ec23">wait()</a> calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="abc292731eddf5cbfdcb159ccd3584e65"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T, typename Task&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abc292731eddf5cbfdcb159ccd3584e65">for_each</a>(</span><span class="m-doc-wrap">T start,
+              T end,
+              Task&amp;&amp; task) <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Enqueues a task to execute once for every value in a range.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An integer or enum type.</td>
+                </tr>
+                <tr>
+                  <td>Task</td>
+                  <td>The type of the task being enqueued.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>start</td>
+                  <td>The start of the value range (inclusive).</td>
+                </tr>
+                <tr>
+                  <td>end</td>
+                  <td>The end of the value range (exclusive).</td>
+                </tr>
+                <tr>
+                  <td>task</td>
+                  <td>The task to enqueue.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A reference to the threadpool.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current value from the range<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">,</span> <span class="ut"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="c1">// i is in the range [0, 9]</span>
+    <span class="c1">// batch_index is in the range [0, pool.workers() - 1]</span>
+<span class="p">});</span>
+<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="c1">// i is in the range [0, 9]</span>
+<span class="p">});</span>
+<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[]()</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="c1">// no args is OK too</span>
+<span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and Wait() calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a3597b210fd6c9f2ec6734cf2cb3bfbb6"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename T, typename Task&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3597b210fd6c9f2ec6734cf2cb3bfbb6">for_each</a>(</span><span class="m-doc-wrap">T end,
+              Task&amp;&amp; task) <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Enqueues a task to execute once for every value in a range.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>An integer or enum type.</td>
+                </tr>
+                <tr>
+                  <td>Task</td>
+                  <td>The type of the task being enqueued.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>end</td>
+                  <td>The end of the value range (exclusive).</td>
+                </tr>
+                <tr>
+                  <td>task</td>
+                  <td>The task to enqueue.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>A reference to the threadpool.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current value from the range<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">,</span> <span class="ut"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="c1">// i is in the range [0, 9]</span>
+    <span class="c1">// batch_index is in the range [0, pool.workers() - 1]</span>
+<span class="p">});</span>
+<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="c1">// i is in the range [0, 9]</span>
+<span class="p">});</span>
+<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">[]()</span> <span class="k">noexcept</span>
+<span class="p">{</span>
+    <span class="c1">// no args is OK too</span>
+<span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and Wait() calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a8f4b6d4bbed147da00ec02ff29cc505e"><div>
             <h3>
@@ -370,68 +495,6 @@
 <span class="p">{</span>
     <span class="c1">// no args is OK too (though unusual)</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and <a class="m-doc" href="classmuu_1_1thread__pool.html#a0be5fc12fedc8dbb694b614a6e53ec23">wait()</a> calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="afd645f9d69c3cf18994cb33194c733f9"><div>
-            <h3>
-              <div class="m-doc-template">
-                template&lt;typename T, typename Task&gt;
-              </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afd645f9d69c3cf18994cb33194c733f9">for_range</a>(</span><span class="m-doc-wrap">T start,
-              T end,
-              Task&amp;&amp; task) <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Enqueues a task to execute once for every value in a range.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Template parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">T</td>
-                  <td>An integer or enum type.</td>
-                </tr>
-                <tr>
-                  <td>Task</td>
-                  <td>The type of the task being enqueued.</td>
-                </tr>
-              </tbody>
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>start</td>
-                  <td>The start of the value range (inclusive).</td>
-                </tr>
-                <tr>
-                  <td>end</td>
-                  <td>The end of the value range (exclusive).</td>
-                </tr>
-                <tr>
-                  <td>task</td>
-                  <td>The task to enqueue.</td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <th>Returns</th>
-                  <td>A reference to the threadpool.</td>
-                </tr>
-              </tfoot>
-            </table>
-<p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current value from the range<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="n">for_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">,</span> <span class="ut"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
-<span class="p">{</span>
-    <span class="c1">// i is in the range [0, 9]</span>
-    <span class="c1">// batch_index is in the range [0, pool.workers() - 1]</span>
-<span class="p">});</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="k">noexcept</span>
-<span class="p">{</span>
-    <span class="c1">// i is in the range [0, 9]</span>
-<span class="p">});</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[]()</span> <span class="k">noexcept</span>
-<span class="p">{</span>
-    <span class="c1">// no args is OK too</span>
-<span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and Wait() calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
           </div></section>
           <section class="m-doc-details" id="a0be5fc12fedc8dbb694b614a6e53ec23"><div>
             <h3>

@@ -13226,6 +13226,20 @@
       <type>thread_pool &amp;</type>
       <name>for_each</name>
       <anchorfile>classmuu_1_1thread__pool.html</anchorfile>
+      <anchor>abc292731eddf5cbfdcb159ccd3584e65</anchor>
+      <arglist>(T start, T end, Task &amp;&amp;task) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>thread_pool &amp;</type>
+      <name>for_each</name>
+      <anchorfile>classmuu_1_1thread__pool.html</anchorfile>
+      <anchor>a3597b210fd6c9f2ec6734cf2cb3bfbb6</anchor>
+      <arglist>(T end, Task &amp;&amp;task) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>thread_pool &amp;</type>
+      <name>for_each</name>
+      <anchorfile>classmuu_1_1thread__pool.html</anchorfile>
       <anchor>a8f4b6d4bbed147da00ec02ff29cc505e</anchor>
       <arglist>(Iter begin, Iter end, Task &amp;&amp;task) noexcept</arglist>
     </member>
@@ -13235,13 +13249,6 @@
       <anchorfile>classmuu_1_1thread__pool.html</anchorfile>
       <anchor>a3cc58fa2c82e63f14ec668f96f654d19</anchor>
       <arglist>(T &amp;&amp;collection, Task &amp;&amp;task) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>thread_pool &amp;</type>
-      <name>for_range</name>
-      <anchorfile>classmuu_1_1thread__pool.html</anchorfile>
-      <anchor>afd645f9d69c3cf18994cb33194c733f9</anchor>
-      <arglist>(T start, T end, Task &amp;&amp;task) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
