@@ -865,9 +865,7 @@ namespace muu
 			offset_type next_batch_start = unwrap(start);
 			size_type next_batch_size	 = batch_generator();
 			auto batch_index			 = 0_sz;
-			auto batch_count			 = job_count <= worker_count
-											 ? job_count
-											 : (job_count / worker_count) + (job_count % worker_count ? 1u : 0u);
+			auto batch_count			 = muu::min(job_count, worker_count);
 
 			// try to get a shared queue for all the allocations
 			const auto shared_queue_index = ::muu_impl_thread_pool_lock_multiple(storage_, batch_count);
@@ -1005,9 +1003,7 @@ namespace muu
 			auto batch_start		= begin;
 			auto batch_end			= std::next(begin, static_cast<ptrdiff_t>(next_batch_size));
 			auto batch_index		= 0_sz;
-			auto batch_count		= job_count <= worker_count
-										? job_count
-										: (job_count / worker_count) + (job_count % worker_count ? 1u : 0u);
+			auto batch_count		= muu::min(job_count, worker_count);
 
 			// try to get a shared queue for all the allocations
 			const auto shared_queue_index = ::muu_impl_thread_pool_lock_multiple(storage_, batch_count);
