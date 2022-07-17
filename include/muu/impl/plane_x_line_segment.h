@@ -20,8 +20,7 @@ namespace muu
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VPARAM(plane) p,
-																	   MUU_VPARAM(line_segment<scalar_type>)
-																					  seg) noexcept
+															MUU_VPARAM(line_segment<scalar_type>) seg) noexcept
 	{
 		return planes::intersects_line_segment(p.n, p.d, seg.points[0], seg.points[1]);
 	}
@@ -43,7 +42,7 @@ namespace muu
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL line_segment<Scalar>::intersects(MUU_VPARAM(line_segment) seg,
-																			  MUU_VPARAM(plane<scalar_type>) p) noexcept
+																   MUU_VPARAM(plane<scalar_type>) p) noexcept
 	{
 		return planes::intersects_line_segment(p.n, p.d, seg.points[0], seg.points[1]);
 	}

@@ -29,6 +29,7 @@ AttributeMacros:
   - MUU_TRIVIAL_ABI
   - MUU_VECTORCALL
   - MUU_CALLCONV
+  - MUU_VPARAM
 BinPackArguments: false
 BinPackParameters: false
 BraceWrapping:

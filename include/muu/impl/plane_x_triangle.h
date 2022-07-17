@@ -34,9 +34,8 @@ namespace muu
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
 	constexpr muu::plane<Scalar> MUU_VECTORCALL triangle<Scalar>::plane(MUU_VPARAM(vector_type) p0,
-																				   MUU_VPARAM(vector_type) p1,
-																							  MUU_VPARAM(vector_type)
-																								  p2) noexcept
+																		MUU_VPARAM(vector_type) p1,
+																		MUU_VPARAM(vector_type) p2) noexcept
 	{
 		return muu::plane<Scalar>{ p0, normal(p0, p1, p2) };
 	}

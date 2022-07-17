@@ -206,8 +206,8 @@ namespace muu
 		/// \brief	Returns the normal of a triangle's plane.
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL normal(MUU_VPARAM(vector_type) p0,
-																	  MUU_VPARAM(vector_type) p1,
-																				 MUU_VPARAM(vector_type) p2) noexcept
+														   MUU_VPARAM(vector_type) p1,
+														   MUU_VPARAM(vector_type) p2) noexcept
 		{
 			return triangles::normal(p0, p1, p2);
 		}
@@ -224,8 +224,8 @@ namespace muu
 		/// \see https://en.wikipedia.org/wiki/Centroid
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL centroid(MUU_VPARAM(vector_type) p0,
-																		MUU_VPARAM(vector_type) p1,
-																				   MUU_VPARAM(vector_type) p2) noexcept
+															 MUU_VPARAM(vector_type) p1,
+															 MUU_VPARAM(vector_type) p2) noexcept
 		{
 			return triangles::centroid(p0, p1, p2);
 		}
@@ -242,8 +242,8 @@ namespace muu
 		/// \brief	Returns the length of a triangle's perimeter.
 		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL perimeter(MUU_VPARAM(vector_type) p0,
-																		 MUU_VPARAM(vector_type) p1,
-																					MUU_VPARAM(vector_type) p2) noexcept
+															  MUU_VPARAM(vector_type) p1,
+															  MUU_VPARAM(vector_type) p2) noexcept
 		{
 			return triangles::perimeter(p0, p1, p2);
 		}
@@ -258,7 +258,8 @@ namespace muu
 		/// \brief	Returns the area of a triangle.
 		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type area(MUU_VPARAM(vector_type) p0,
-													 MUU_VPARAM(vector_type) p1, MUU_VPARAM(vector_type) p2) noexcept
+										  MUU_VPARAM(vector_type) p1,
+										  MUU_VPARAM(vector_type) p2) noexcept
 		{
 			return triangles::area(p0, p1, p2);
 		}
@@ -273,8 +274,8 @@ namespace muu
 		/// \brief	Returns true if a triangle is degenerate (i.e. two or more of its points are coincident).
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL degenerate(MUU_VPARAM(vector_type) p0,
-																   MUU_VPARAM(vector_type) p1,
-																			  MUU_VPARAM(vector_type) p2) noexcept
+														MUU_VPARAM(vector_type) p1,
+														MUU_VPARAM(vector_type) p2) noexcept
 		{
 			return triangles::degenerate(p0, p1, p2);
 		}
@@ -289,9 +290,8 @@ namespace muu
 		/// \brief	Returns the plane on which a triangle lies.
 		MUU_PURE_INLINE_GETTER
 		static constexpr muu::plane<scalar_type> MUU_VECTORCALL plane(MUU_VPARAM(vector_type) p0,
-																				 MUU_VPARAM(vector_type) p1,
-																							MUU_VPARAM(vector_type)
-																								p2) noexcept;
+																	  MUU_VPARAM(vector_type) p1,
+																	  MUU_VPARAM(vector_type) p2) noexcept;
 
 		/// \brief	Returns the plane on which the triangle lies.
 		MUU_PURE_INLINE_GETTER
@@ -388,8 +388,8 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			MUU_VPARAM(triangle) tri1,
-					   const triangle<T>& tri2,
-					   epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+			const triangle<T>& tri2,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			return vector_type::approx_equal(tri1.points[0], tri2.points[0], epsilon) //
 				&& vector_type::approx_equal(tri1.points[1], tri2.points[1], epsilon) //
@@ -408,8 +408,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in a triangle are approximately equal to zero.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_zero(
-			MUU_VPARAM(triangle) tri, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VPARAM(triangle) tri,
+														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return vector_type::approx_equal(tri.points[0], epsilon) //
 				&& vector_type::approx_equal(tri.points[1], epsilon) //
@@ -433,10 +433,9 @@ namespace muu
 		/// \brief	Returns true if a triangle and a point are coplanar.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(vector_type) p0,
-																 MUU_VPARAM(vector_type) p1,
-																			MUU_VPARAM(vector_type) p2,
-																					   MUU_VPARAM(vector_type)
-																						   point) noexcept
+													  MUU_VPARAM(vector_type) p1,
+													  MUU_VPARAM(vector_type) p2,
+													  MUU_VPARAM(vector_type) point) noexcept
 		{
 			return triangles::coplanar(p0, p1, p2, point);
 		}
@@ -458,10 +457,9 @@ namespace muu
 		/// \brief	Returns true if a triangle contains a point.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) p0,
-																 MUU_VPARAM(vector_type) p1,
-																			MUU_VPARAM(vector_type) p2,
-																					   MUU_VPARAM(vector_type)
-																						   point) noexcept
+													  MUU_VPARAM(vector_type) p1,
+													  MUU_VPARAM(vector_type) p2,
+													  MUU_VPARAM(vector_type) point) noexcept
 		{
 			return triangles::contains_point(p0, p1, p2, point);
 		}
@@ -490,12 +488,14 @@ namespace muu
 		/// \brief	Returns true if a triangle intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(vector_type) p0,
-			MUU_VPARAM(vector_type) p1, MUU_VPARAM(vector_type) p2, MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
+														MUU_VPARAM(vector_type) p1,
+														MUU_VPARAM(vector_type) p2,
+														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if a triangle intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle) tri,
-																   MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
+														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if the triangle intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
@@ -511,10 +511,9 @@ namespace muu
 		/// \brief Returns the barycentric coordinates of a point within a triangle.
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL barycentric(MUU_VPARAM(vector_type) p0,
-																		   MUU_VPARAM(vector_type) p1,
-																					  MUU_VPARAM(vector_type) p2,
-																								 MUU_VPARAM(vector_type)
-																									 point) noexcept
+																MUU_VPARAM(vector_type) p1,
+																MUU_VPARAM(vector_type) p2,
+																MUU_VPARAM(vector_type) point) noexcept
 		{
 			return triangles::barycentric(p0, p1, p2, point);
 		}

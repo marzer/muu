@@ -452,8 +452,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in a quaternion are approximately equal to zero.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_zero(
-			MUU_VPARAM(quaternion) q, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VPARAM(quaternion) q,
+														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return muu::approx_zero(q.s, epsilon) && vector_type::approx_zero(q.v, epsilon);
 		}
@@ -594,7 +594,7 @@ namespace muu
 		/// \return A quaternion encoding the given axis-angle rotation.
 		MUU_PURE_GETTER
 		static constexpr quaternion MUU_VECTORCALL from_axis_angle(MUU_VPARAM(vector_type) axis,
-																			  scalar_type angle) noexcept
+																   scalar_type angle) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -630,7 +630,7 @@ namespace muu
 		/// \returns	An axis-angle rotation representing the rotation stored in the given quaternion.
 		MUU_PURE_GETTER
 		static constexpr axis_angle_type MUU_VECTORCALL to_axis_angle(MUU_VPARAM(quaternion) quat,
-																				 bool shortest_path = true) noexcept
+																	  bool shortest_path = true) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -801,7 +801,7 @@ namespace muu
 		/// \returns	A quaternion encoding a rotation between the two direction vectors.
 		MUU_PURE_GETTER
 		static constexpr quaternion MUU_VECTORCALL from_rotation(MUU_VPARAM(vector_type) from,
-																			MUU_VPARAM(vector_type) to) noexcept
+																 MUU_VPARAM(vector_type) to) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -848,7 +848,7 @@ namespace muu
 
 		MUU_PURE_GETTER
 		static constexpr quaternion MUU_VECTORCALL multiply(MUU_VPARAM(quaternion) lhs,
-																	   MUU_VPARAM(quaternion) rhs) noexcept
+															MUU_VPARAM(quaternion) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -865,7 +865,7 @@ namespace muu
 
 		MUU_PURE_GETTER
 		static constexpr vector_type MUU_VECTORCALL rotate_vector(MUU_VPARAM(quaternion) lhs,
-																			 MUU_VPARAM(vector_type) rhs) noexcept
+																  MUU_VPARAM(vector_type) rhs) noexcept
 		{
 			if constexpr (is_small_float)
 			{
@@ -888,7 +888,7 @@ namespace muu
 		/// \brief Multiplies two quaternions.
 		MUU_PURE_GETTER
 		friend constexpr quaternion MUU_VECTORCALL operator*(MUU_VPARAM(quaternion) lhs,
-																		MUU_VPARAM(quaternion) rhs) noexcept
+															 MUU_VPARAM(quaternion) rhs) noexcept
 		{
 			return multiply(lhs, rhs);
 		}
@@ -902,7 +902,7 @@ namespace muu
 		/// \brief Rotates a three-dimensional vector by the rotation encoded in a quaternion.
 		MUU_NODISCARD
 		friend constexpr vector_type MUU_VECTORCALL operator*(MUU_VPARAM(quaternion) lhs,
-																		 MUU_VPARAM(vector_type) rhs) noexcept
+															  MUU_VPARAM(vector_type) rhs) noexcept
 		{
 			return rotate_vector(lhs, rhs);
 		}
@@ -910,7 +910,7 @@ namespace muu
 		/// \brief Rotates a three-dimensional vector by the rotation encoded in a quaternion.
 		MUU_NODISCARD
 		friend constexpr vector_type MUU_VECTORCALL operator*(MUU_VPARAM(vector_type) lhs,
-																		 MUU_VPARAM(quaternion) rhs) noexcept
+															  MUU_VPARAM(quaternion) rhs) noexcept
 		{
 			return rotate_vector(rhs, lhs);
 		}
@@ -974,8 +974,8 @@ namespace muu
 		/// \see [Slerp](https://en.wikipedia.org/wiki/Slerp)
 		MUU_PURE_GETTER
 		static constexpr quaternion MUU_VECTORCALL slerp(MUU_VPARAM(quaternion) start,
-																	MUU_VPARAM(quaternion) finish,
-																			   scalar_type alpha) noexcept
+														 MUU_VPARAM(quaternion) finish,
+														 scalar_type alpha) noexcept
 		{
 			if constexpr (is_small_float)
 			{

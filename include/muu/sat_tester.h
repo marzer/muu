@@ -60,7 +60,8 @@ namespace muu
 		/// \brief Adds one or more points to the SAT test projection range.
 		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, const T&...>), typename... T)
 		constexpr sat_tester& MUU_VECTORCALL add(MUU_VPARAM(vector_type) axis,
-															MUU_VPARAM(vector_type) point, const T&... points) noexcept
+												 MUU_VPARAM(vector_type) point,
+												 const T&... points) noexcept
 		{
 			const auto proj = vector_type::dot(axis, point);
 			min				= muu::min(proj, min);
@@ -76,7 +77,8 @@ namespace muu
 								 size_t Dimension,
 								 typename... T)
 		constexpr sat_tester& MUU_VECTORCALL add(index_tag<Dimension> /*axis*/,
-												 MUU_VPARAM(vector_type) point, const T&... points) noexcept
+												 MUU_VPARAM(vector_type) point,
+												 const T&... points) noexcept
 		{
 			static_assert(Dimension < Dimensions, "Dimension index out of range");
 
@@ -100,8 +102,8 @@ namespace muu
 
 		/// \brief Adds a range of points to the SAT test projection range.
 		constexpr sat_tester& MUU_VECTORCALL add(MUU_VPARAM(vector_type) axis,
-															const vector_type* begin,
-															const vector_type* end) noexcept
+												 const vector_type* begin,
+												 const vector_type* end) noexcept
 		{
 			if (begin == end)
 				return *this;
@@ -133,8 +135,8 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, const T&...>), typename... T)
 		MUU_NODISCARD_CTOR
 		constexpr sat_tester(MUU_VPARAM(vector_type) axis,
-										MUU_VPARAM(vector_type) point,
-												   const T&... points) noexcept //
+							 MUU_VPARAM(vector_type) point,
+							 const T&... points) noexcept //
 			: sat_tester{ vector_type::dot(axis, point) }
 		{
 			if constexpr (sizeof...(T) > 0)
@@ -148,7 +150,7 @@ namespace muu
 		MUU_NODISCARD_CTOR
 		constexpr sat_tester(index_tag<Dimension> /*axis*/,
 							 MUU_VPARAM(vector_type) point,
-										const T&... points) noexcept //
+							 const T&... points) noexcept //
 			: sat_tester{ point.template get<Dimension>() * scalar_type{ 1 } }
 		{
 			if constexpr (sizeof...(T) > 0)

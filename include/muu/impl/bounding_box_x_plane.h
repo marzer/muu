@@ -34,7 +34,7 @@ namespace muu
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VPARAM(plane) p,
-																	   MUU_VPARAM(bounding_box<Scalar>) bb) noexcept
+															MUU_VPARAM(bounding_box<Scalar>) bb) noexcept
 	{
 		return bounding_box<Scalar>::intersects(bb, p);
 	}

@@ -99,8 +99,8 @@ namespace muu
 		/// \brief	Constructs a plane from a triangle.
 		MUU_PURE_INLINE_GETTER
 		static constexpr plane MUU_VECTORCALL from_triangle(MUU_VPARAM(vector_type) p0,
-																	   MUU_VPARAM(vector_type) p1,
-																				  MUU_VPARAM(vector_type) p2) noexcept
+															MUU_VPARAM(vector_type) p1,
+															MUU_VPARAM(vector_type) p2) noexcept
 		{
 			return plane{ p0, triangles::normal(p0, p1, p2) };
 		}
@@ -238,8 +238,8 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			MUU_VPARAM(plane) p1,
-					   const plane<T>& p2,
-					   epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+			const plane<T>& p2,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			return vector_type::approx_equal(p1.n, p2.n, epsilon) && muu::approx_equal(p1.d, p2.d, epsilon);
 		}
@@ -256,8 +256,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in a plane are approximately equal to zero.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_zero(
-			MUU_VPARAM(plane) p, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VPARAM(plane) p,
+														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return vector_type::approx_zero(p.n, epsilon) && muu::approx_zero(p.d, epsilon);
 		}
@@ -271,8 +271,8 @@ namespace muu
 
 		/// \brief	Returns true if a plane has approximately zero volume.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_empty(
-			MUU_VPARAM(plane) p, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_empty(MUU_VPARAM(plane) p,
+														  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return vector_type::approx_zero(p.extents, epsilon);
 		}
@@ -342,7 +342,7 @@ namespace muu
 		/// \brief	Returns the signed distance of a point from a plane.
 		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL signed_distance(MUU_VPARAM(plane) p,
-																			   MUU_VPARAM(vector_type) point) noexcept
+																	MUU_VPARAM(vector_type) point) noexcept
 		{
 			return planes::signed_distance(p.n, p.d, point);
 		}
@@ -357,7 +357,7 @@ namespace muu
 		/// \brief	Returns the unsigned distance of a point from a plane.
 		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL distance(MUU_VPARAM(plane) p,
-																		MUU_VPARAM(vector_type) point) noexcept
+															 MUU_VPARAM(vector_type) point) noexcept
 		{
 			return planes::unsigned_distance(p.n, p.d, point);
 		}
@@ -428,7 +428,7 @@ namespace muu
 		/// \brief	Returns true if a plane intersects a line segment.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(plane) p,
-																   MUU_VPARAM(line_segment<scalar_type>) seg) noexcept;
+														MUU_VPARAM(line_segment<scalar_type>) seg) noexcept;
 
 		/// \brief	Returns true if the plane intersects a line segment.
 		MUU_PURE_INLINE_GETTER
@@ -437,7 +437,7 @@ namespace muu
 		/// \brief	Returns true if a plane intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(plane) p,
-																   MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
+														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if the plane intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
@@ -458,7 +458,7 @@ namespace muu
 		/// \return	Returns the plane transformed into the new coordinate space.
 		MUU_PURE_GETTER
 		static constexpr plane MUU_VECTORCALL transform(MUU_VPARAM(plane) p,
-																   MUU_VPARAM(matrix<scalar_type, 4, 4>) tx) noexcept
+														MUU_VPARAM(matrix<scalar_type, 4, 4>) tx) noexcept
 		{
 			if constexpr (requires_promotion)
 			{

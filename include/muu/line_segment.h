@@ -208,7 +208,7 @@ namespace muu
 		/// \brief	Returns the direction of a line segment (from point 0 to point 1).
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL direction(MUU_VPARAM(line_segment) seg,
-																		 scalar_type& length_out) noexcept
+															  scalar_type& length_out) noexcept
 		{
 			return vector_type::direction(seg.points[0], seg.points[1], length_out);
 		}
@@ -308,7 +308,7 @@ namespace muu
 		template <typename T>
 		MUU_PURE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator==(MUU_VPARAM(line_segment) lhs,
-																   const line_segment<T>& rhs) noexcept
+														const line_segment<T>& rhs) noexcept
 		{
 			return lhs.points[0] == rhs.points[0] //
 				&& lhs.points[1] == rhs.points[1];
@@ -321,7 +321,7 @@ namespace muu
 		template <typename T>
 		MUU_PURE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator!=(MUU_VPARAM(line_segment) lhs,
-																   const line_segment<T>& rhs) noexcept
+														const line_segment<T>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -374,8 +374,8 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			MUU_VPARAM(line_segment) seg1,
-					   const line_segment<T>& seg2,
-					   epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+			const line_segment<T>& seg2,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			return vector_type::approx_equal(seg1.points[0], seg2.points[0], epsilon) //
 				&& vector_type::approx_equal(seg1.points[1], seg2.points[1], epsilon);
@@ -393,8 +393,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in a line segment are approximately equal to zero.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_zero(
-			MUU_VPARAM(line_segment) seg, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VPARAM(line_segment) seg,
+														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return vector_type::approx_equal(seg.points[0], epsilon) //
 				&& vector_type::approx_equal(seg.points[1], epsilon);
@@ -416,9 +416,9 @@ namespace muu
 
 		/// \brief	Returns true if a line segment and a point are colinear (i.e. they lie on the same infinite line).
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL colinear(
-			MUU_VPARAM(line_segment) seg,
-					   MUU_VPARAM(vector_type) point, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL colinear(MUU_VPARAM(line_segment) seg,
+													  MUU_VPARAM(vector_type) point,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return lines::contains_point(seg.points[0],
 										 vector_type::direction(seg.points[0], seg.points[1]),
@@ -428,17 +428,17 @@ namespace muu
 
 		/// \brief	Returns true if a line segment and a point are colinear (i.e. they lie on the same infinite line).
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL colinear(
-			MUU_VPARAM(vector_type) point, scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
+		constexpr bool MUU_VECTORCALL colinear(MUU_VPARAM(vector_type) point,
+											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
 			return colinear(*this, point, epsilon);
 		}
 
 		/// \brief	Returns true if a two line segments are colinear (i.e. they lie on the same infinite line).
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL colinear(
-			MUU_VPARAM(line_segment) seg1,
-					   MUU_VPARAM(line_segment) seg2, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL colinear(MUU_VPARAM(line_segment) seg1,
+													  MUU_VPARAM(line_segment) seg2,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			const auto seg1_dir = vector_type::direction(seg1.points[0], seg1.points[1]);
 			return lines::contains_point(seg1.points[0], seg1_dir, seg2.points[0], epsilon)
@@ -447,34 +447,34 @@ namespace muu
 
 		/// \brief	Returns true if a two line segments are colinear (i.e. they lie on the same infinite line).
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL colinear(
-			MUU_VPARAM(line_segment) seg, scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
+		constexpr bool MUU_VECTORCALL colinear(MUU_VPARAM(line_segment) seg,
+											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
 			return colinear(*this, seg, epsilon);
 		}
 
 		/// \brief	Returns true if a point lies on a line segment.
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL contains(
-			MUU_VPARAM(line_segment) seg,
-					   MUU_VPARAM(vector_type) point, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(line_segment) seg,
+													  MUU_VPARAM(vector_type) point,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return segments::contains_point(seg.points[0], seg.points[1], point, epsilon);
 		}
 
 		/// \brief	Returns true if a point lies on a line segment.
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL contains(
-			MUU_VPARAM(vector_type) point, scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point,
+											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
 			return contains(*this, point, epsilon);
 		}
 
 		/// \brief	Returns true if two line segments are coplanar.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL coplanar(
-			MUU_VPARAM(line_segment) seg1,
-					   MUU_VPARAM(line_segment) seg2, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(line_segment) seg1,
+													  MUU_VPARAM(line_segment) seg2,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			const auto n = triangles::normal(seg1.points[0], seg1.points[1], seg2.points[0]);
 			return planes::contains_point(n, planes::d_term(seg1.points[0], n), seg2.points[1], epsilon);
@@ -482,8 +482,8 @@ namespace muu
 
 		/// \brief	Returns true if two line segments are coplanar.
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL coplanar(
-			MUU_VPARAM(line_segment) seg, scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
+		constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(line_segment) seg,
+											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
 			return coplanar(*this, seg, epsilon);
 		}
@@ -498,7 +498,7 @@ namespace muu
 		/// \brief	Returns true if a line segment intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment) seg,
-																   MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
+														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if a line segment intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
@@ -507,7 +507,7 @@ namespace muu
 		/// \brief	Returns true if a line segment intersects a plane.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment) seg,
-																   MUU_VPARAM(plane<scalar_type>) p) noexcept;
+														MUU_VPARAM(plane<scalar_type>) p) noexcept;
 
 		/// \brief	Returns true if a line segment intersects a plane.
 		MUU_PURE_INLINE_GETTER

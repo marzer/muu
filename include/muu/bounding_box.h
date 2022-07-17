@@ -187,7 +187,7 @@ namespace muu
 		/// \brief	Constructs a bounding box from min and max corners.
 		MUU_PURE_GETTER
 		static constexpr bounding_box MUU_VECTORCALL from_min_max(MUU_VPARAM(vector_type) min_,
-																			 MUU_VPARAM(vector_type) max_) noexcept
+																  MUU_VPARAM(vector_type) max_) noexcept
 		{
 			if constexpr (requires_promotion)
 			{
@@ -205,8 +205,8 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, const T&...>), typename... T)
 		MUU_PURE_GETTER
 		static constexpr bounding_box MUU_VECTORCALL from_points(MUU_VPARAM(vector_type) pt0,
-																			MUU_VPARAM(vector_type) pt1,
-																					   const T&... pts) noexcept
+																 MUU_VPARAM(vector_type) pt1,
+																 const T&... pts) noexcept
 		{
 			if constexpr (sizeof...(T) && !all_same<vector_type, remove_cvref<T>...>)
 			{
@@ -276,7 +276,7 @@ namespace muu
 		/// \brief	Constructs a bounding box completely containing an oriented bounding-box.
 		MUU_PURE_GETTER
 		static constexpr bounding_box MUU_VECTORCALL from_obb(MUU_VPARAM(oriented_bounding_box<scalar_type>)
-																			 obb) noexcept;
+																  obb) noexcept;
 
 		/// \brief	Constructs a bounding box completely containing an oriented bounding-box.
 		MUU_NODISCARD_CTOR
@@ -423,7 +423,7 @@ namespace muu
 		template <typename T>
 		MUU_PURE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator==(MUU_VPARAM(bounding_box) lhs,
-																   const bounding_box<T>& rhs) noexcept
+														const bounding_box<T>& rhs) noexcept
 		{
 			return lhs.center == rhs.center && lhs.extents == rhs.extents;
 		}
@@ -435,7 +435,7 @@ namespace muu
 		template <typename T>
 		MUU_PURE_GETTER
 		friend constexpr bool MUU_VECTORCALL operator!=(MUU_VPARAM(bounding_box) lhs,
-																   const bounding_box<T>& rhs) noexcept
+														const bounding_box<T>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -506,8 +506,8 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL approx_equal(
 			MUU_VPARAM(bounding_box) bb1,
-					   const bounding_box<T>& bb2,
-					   epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
+			const bounding_box<T>& bb2,
+			epsilon_type<scalar_type, T> epsilon = default_epsilon<scalar_type, T>) noexcept
 		{
 			return vector_type::approx_equal(bb1.center, bb2.center, epsilon)
 				&& vector_type::approx_equal(bb1.extents, bb2.extents, epsilon);
@@ -525,8 +525,8 @@ namespace muu
 
 		/// \brief	Returns true if all the scalar components in a bounding box are approximately equal to zero.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_zero(
-			MUU_VPARAM(bounding_box) bb, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VPARAM(bounding_box) bb,
+														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return vector_type::approx_zero(bb.center, epsilon) && vector_type::approx_zero(bb.extents, epsilon);
 		}
@@ -540,8 +540,8 @@ namespace muu
 
 		/// \brief	Returns true if a bounding box has approximately zero volume.
 		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_empty(
-			MUU_VPARAM(bounding_box) bb, scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		static constexpr bool MUU_VECTORCALL approx_empty(MUU_VPARAM(bounding_box) bb,
+														  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
 			return vector_type::approx_zero(bb.extents, epsilon);
 		}
@@ -633,7 +633,7 @@ namespace muu
 		/// \returns	A copy of the input box translated by the given offset.
 		MUU_PURE_GETTER
 		static constexpr bounding_box MUU_VECTORCALL translate(MUU_VPARAM(bounding_box) bb,
-																		  MUU_VPARAM(vector_type) offset) noexcept
+															   MUU_VPARAM(vector_type) offset) noexcept
 		{
 			return bounding_box{ bb.center + offset, bb.extents };
 		}
@@ -664,7 +664,7 @@ namespace muu
 		/// \returns	A copy of the input box scaled by the given amounts.
 		MUU_PURE_GETTER
 		static constexpr bounding_box MUU_VECTORCALL scale(MUU_VPARAM(bounding_box) bb,
-																	  MUU_VPARAM(vector_type) scale_) noexcept
+														   MUU_VPARAM(vector_type) scale_) noexcept
 		{
 			return bounding_box{ bb.center, bb.extents * scale_ };
 		}
@@ -696,8 +696,7 @@ namespace muu
 		///			input bounding box after being transformed.
 		MUU_PURE_GETTER
 		static constexpr bounding_box MUU_VECTORCALL transform(MUU_VPARAM(bounding_box) bb,
-																		  MUU_VPARAM(matrix<scalar_type, 4, 4>)
-																						 tx) noexcept
+															   MUU_VPARAM(matrix<scalar_type, 4, 4>) tx) noexcept
 		{
 			if constexpr (requires_promotion)
 			{
@@ -768,7 +767,8 @@ namespace muu
 		/// \return	A reference to the box.
 		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, const T&...>), typename... T)
 		constexpr bounding_box& MUU_VECTORCALL append(MUU_VPARAM(vector_type) pt1,
-																 MUU_VPARAM(vector_type) pt2, const T&... pts) noexcept
+													  MUU_VPARAM(vector_type) pt2,
+													  const T&... pts) noexcept
 		{
 			if constexpr (sizeof...(T) && !all_same<vector_type, remove_cvref<T>...>)
 			{
@@ -821,7 +821,7 @@ namespace muu
 		/// \brief	Returns true if a bounding box contains a point.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb,
-																 MUU_VPARAM(vector_type) point) noexcept
+													  MUU_VPARAM(vector_type) point) noexcept
 		{
 			const auto adj = vector_type::abs(point - bb.center);
 			return adj.x <= bb.extents.x //
@@ -839,7 +839,7 @@ namespace muu
 		/// \brief	Returns true if a bounding box contains all the points of another bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) outer_bb,
-																 MUU_VPARAM(bounding_box) inner_bb) noexcept
+													  MUU_VPARAM(bounding_box) inner_bb) noexcept
 		{
 			const auto outer_min = outer_bb.min_corner();
 			const auto outer_max = outer_bb.max_corner();
@@ -875,7 +875,7 @@ namespace muu
 		/// \brief	Returns true if a bounding box intersects a plane.
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
-																   MUU_VPARAM(plane<scalar_type>) p) noexcept
+														MUU_VPARAM(plane<scalar_type>) p) noexcept
 		{
 			return plane<scalar_type>::distance(p, bb.center)
 				<= vector_type::dot(bb.extents, vector_type::abs(p.normal));
@@ -892,8 +892,8 @@ namespace muu
 		/// \brief	Returns true if a bounding box intersects a line segment.
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
-																   MUU_VPARAM(vector_type) start,
-																			  MUU_VPARAM(vector_type) end) noexcept
+														MUU_VPARAM(vector_type) start,
+														MUU_VPARAM(vector_type) end) noexcept
 		{
 			MUU_FMA_BLOCK;
 
@@ -920,7 +920,7 @@ namespace muu
 		/// \brief	Returns true if a bounding box intersects a line segment.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
-																   MUU_VPARAM(line_segment<scalar_type>) seg) noexcept;
+														MUU_VPARAM(line_segment<scalar_type>) seg) noexcept;
 
 		/// \brief	Returns true if the bounding box intersects a line segment.
 		MUU_PURE_INLINE_GETTER
@@ -933,10 +933,9 @@ namespace muu
 		/// \brief	Returns true if a bounding box intersects a triangle.
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
-																   MUU_VPARAM(vector_type) p0,
-																			  MUU_VPARAM(vector_type) p1,
-																						 MUU_VPARAM(vector_type)
-																							 p2) noexcept
+														MUU_VPARAM(vector_type) p0,
+														MUU_VPARAM(vector_type) p1,
+														MUU_VPARAM(vector_type) p2) noexcept
 		{
 			MUU_FMA_BLOCK;
 
@@ -996,7 +995,7 @@ namespace muu
 		/// \brief	Returns true if a bounding box intersects a triangle.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
-																   MUU_VPARAM(triangle<scalar_type>) tri) noexcept;
+														MUU_VPARAM(triangle<scalar_type>) tri) noexcept;
 
 		/// \brief	Returns true if the bounding box intersects a triangle.
 		MUU_PURE_INLINE_GETTER
@@ -1009,7 +1008,7 @@ namespace muu
 		/// \brief	Returns true if two bounding boxes intersect.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb1,
-																   MUU_VPARAM(bounding_box) bb2) noexcept
+														MUU_VPARAM(bounding_box) bb2) noexcept
 		{
 			const auto min1 = bb1.min_corner();
 			const auto max1 = bb1.max_corner();
@@ -1038,8 +1037,7 @@ namespace muu
 		/// \brief	Returns true if an axis-aligned bounding box intersects an oriented bounding_box.
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) aabb,
-																   MUU_VPARAM(oriented_bounding_box<scalar_type>)
-																				  obb) noexcept;
+														MUU_VPARAM(oriented_bounding_box<scalar_type>) obb) noexcept;
 
 		/// \brief	Returns true if the axis-aligned bounding box intersects an oriented bounding_box.
 		MUU_PURE_INLINE_GETTER
