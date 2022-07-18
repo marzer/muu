@@ -7907,8 +7907,8 @@
       <type>constexpr</type>
       <name>matrix</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a7e6e3e611f1af0548d22bc555ba2d6e1</anchor>
-      <arglist>(scalar_type fill) noexcept</arglist>
+      <anchor>a473fdde6194828ca23d6dde8f163ee48</anchor>
+      <arglist>(scalar_type broadcast) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
@@ -14396,13 +14396,6 @@
       <type>constexpr</type>
       <name>vector</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a0f9026824be861f778dadb15a091a8dc</anchor>
-      <arglist>(scalar_type fill) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>vector</name>
-      <anchorfile>structmuu_1_1vector.html</anchorfile>
       <anchor>ae04a9e78ea8934c2167ab193a9a953d6</anchor>
       <arglist>(scalar_type x, scalar_type y) noexcept</arglist>
     </member>
@@ -14410,22 +14403,29 @@
       <type>constexpr</type>
       <name>vector</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a728ee8868452ad9f6768c4ab6f961a0c</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z) noexcept</arglist>
+      <anchor>a7ad16275aef250207b3bce13144d7d98</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z=scalar_type{}) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>vector</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>aeb9e04efd86f59a605130bb438e18c55</anchor>
-      <arglist>(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept</arglist>
+      <anchor>a5b54d286a9df38d70a39b1f067eeac77</anchor>
+      <arglist>(scalar_type x, scalar_type y, scalar_type z=scalar_type{}, scalar_type w=scalar_type{}) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>vector</name>
       <anchorfile>structmuu_1_1vector.html</anchorfile>
-      <anchor>a5b1d318171e35256ff26b32181c9813a</anchor>
+      <anchor>a3d1f613e916685b4ddd6bf65b2a373dc</anchor>
       <arglist>(scalar_type x, scalar_type y, scalar_type z, scalar_type w, const T &amp;... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>vector</name>
+      <anchorfile>structmuu_1_1vector.html</anchorfile>
+      <anchor>af3afe69d5db9e1a7b9db05bb8a9d1dd9</anchor>
+      <arglist>(scalar_type broadcast) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
