@@ -272,7 +272,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename, size_t>
-		struct vector_;
+		struct vector_base;
 		template <typename>
 		struct axis_angle_;
 		template <typename>

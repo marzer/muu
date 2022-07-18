@@ -84,7 +84,8 @@ namespace muu
 		hash_type value_;
 
 	  public:
-		constexpr hash_combiner(hash_type seed_hash) noexcept : value_{ seed_hash }
+		constexpr hash_combiner(hash_type seed_hash) noexcept //
+			: value_{ seed_hash }
 		{}
 
 		constexpr hash_combiner& operator()(hash_type new_hash) noexcept
@@ -94,7 +95,7 @@ namespace muu
 			return *this;
 		}
 
-		MUU_NODISCARD
+		MUU_PURE_INLINE_GETTER
 		constexpr hash_type value() const noexcept
 		{
 			return value_;
@@ -199,6 +200,7 @@ namespace muu
 		}
 
 		/// \brief	Appends a single byte to the hash function's input.
+		MUU_ALWAYS_INLINE
 		constexpr fnv1a& operator()(std::byte byte) noexcept
 		{
 			return (*this)(static_cast<uint8_t>(byte));
@@ -214,24 +216,28 @@ namespace muu
 		}
 
 		/// \brief	Appends a string to the hash function's input.
+		MUU_ALWAYS_INLINE
 		constexpr fnv1a& operator()(std::string_view str) noexcept
 		{
 			return hash_string_view(str);
 		}
 
 		/// \brief	Appends a wide string to the hash function's input.
+		MUU_ALWAYS_INLINE
 		constexpr fnv1a& operator()(std::wstring_view str) noexcept
 		{
 			return hash_string_view(str);
 		}
 
 		/// \brief	Appends a UTF-32 string to the hash function's input.
+		MUU_ALWAYS_INLINE
 		constexpr fnv1a& operator()(std::u32string_view str) noexcept
 		{
 			return hash_string_view(str);
 		}
 
 		/// \brief	Appends a UTF-16 string to the hash function's input.
+		MUU_ALWAYS_INLINE
 		constexpr fnv1a& operator()(std::u16string_view str) noexcept
 		{
 			return hash_string_view(str);
@@ -240,6 +246,7 @@ namespace muu
 #if MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Appends a UTF-8 string to the hash function's input.
+		MUU_ALWAYS_INLINE
 		constexpr fnv1a& operator()(std::u8string_view str) noexcept
 		{
 			return hash_string_view(str);
@@ -248,7 +255,7 @@ namespace muu
 #endif // MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Returns the calculated hash value.
-		MUU_NODISCARD
+		MUU_PURE_INLINE_GETTER
 		constexpr hash_type value() const noexcept
 		{
 			return value_;
@@ -307,6 +314,7 @@ namespace muu
 		void add(const uint8_t*, size_t) noexcept;
 
 		template <typename Char>
+		MUU_ALWAYS_INLINE
 		sha1& hash_string_view(std::basic_string_view<Char> str) noexcept
 		{
 			if constexpr (sizeof(Char) == 1)
@@ -330,6 +338,7 @@ namespace muu
 		sha1& operator()(uint8_t byte) noexcept;
 
 		/// \brief	Appends a single byte to the hash function's input.
+		MUU_ALWAYS_INLINE
 		sha1& operator()(std::byte byte) noexcept
 		{
 			return (*this)(unwrap(byte));
@@ -340,24 +349,28 @@ namespace muu
 		sha1& operator()(const void* data, size_t size) noexcept;
 
 		/// \brief	Appends a string to the hash function's input.
+		MUU_ALWAYS_INLINE
 		sha1& operator()(std::string_view str) noexcept
 		{
 			return hash_string_view(str);
 		}
 
 		/// \brief	Appends a wide string to the hash function's input.
+		MUU_ALWAYS_INLINE
 		sha1& operator()(std::wstring_view str) noexcept
 		{
 			return hash_string_view(str);
 		}
 
 		/// \brief	Appends a UTF-32 string to the hash function's input.
+		MUU_ALWAYS_INLINE
 		sha1& operator()(std::u32string_view str) noexcept
 		{
 			return hash_string_view(str);
 		}
 
 		/// \brief	Appends a UTF-16 string to the hash function's input.
+		MUU_ALWAYS_INLINE
 		sha1& operator()(std::u16string_view str) noexcept
 		{
 			return hash_string_view(str);
@@ -366,6 +379,7 @@ namespace muu
 #if MUU_HAS_CHAR8_STRINGS
 
 		/// \brief	Appends a UTF-8 string to the hash function's input.
+		MUU_ALWAYS_INLINE
 		sha1& operator()(std::u8string_view str) noexcept
 		{
 			return hash_string_view(str);
@@ -381,7 +395,7 @@ namespace muu
 		/// \brief	Returns the calculated hash value.
 		///
 		/// \warning Calling this before finish() has been called is undefined behaviour.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		const hash_type& value() const noexcept
 		{
 			return state.hash;

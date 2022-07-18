@@ -222,7 +222,7 @@ namespace muu
 	/// \tparam	Scalar      The vector's scalar component type.
 	/// \tparam Dimensions  The number of dimensions.
 	template <typename Scalar, size_t Dimensions>
-	struct MUU_TRIVIAL_ABI vector MUU_HIDDEN_BASE(impl::vector_<Scalar, Dimensions>)
+	struct MUU_TRIVIAL_ABI vector MUU_HIDDEN_BASE(impl::vector_base<Scalar, Dimensions>)
 	{
 		static_assert(!is_cvref<Scalar>, "Vector scalar type cannot be const, volatile, or a reference");
 		static_assert(std::is_trivially_constructible_v<Scalar>	  //
@@ -265,7 +265,7 @@ namespace muu
 		template <typename, size_t>
 		friend struct vector;
 
-		using base = impl::vector_<scalar_type, Dimensions>;
+		using base = impl::vector_base<scalar_type, Dimensions>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * Dimensions), "Vectors should not have padding");
 
 		using promoted_scalar				 = promote_if_small_float<scalar_type>;
@@ -327,13 +327,11 @@ namespace muu
 		/// \brief Copy-assigment operator.
 		constexpr vector& operator=(const vector&) noexcept = default;
 
-		/// \brief	Constructs a vector with all scalar components set to the same value.
-		///
-		/// \param	fill	The value used to initialize each of the vector's scalar components.
-		MUU_NODISCARD_CTOR
-		explicit constexpr vector(scalar_type fill) noexcept //
-			: base{ impl::value_fill_tag{}, fill }
-		{}
+	#ifndef DOXYGEN
+
+		using impl::vector_base<scalar_type, Dimensions>::vector_base; // inherit constructors
+
+	#else
 
 		/// \brief		Constructs a vector from two scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
@@ -342,11 +340,7 @@ namespace muu
 		/// \param	y		Initial value for the vector's second scalar component.
 		///
 		/// \availability		This constructor is only available when #dimensions &gt;= 2.
-		MUU_HIDDEN_CONSTRAINT(Dims >= 2, size_t Dims = Dimensions)
-		MUU_NODISCARD_CTOR
-		constexpr vector(scalar_type x, scalar_type y) noexcept //
-			: base{ x, y }
-		{}
+		constexpr vector(scalar_type x, scalar_type y) noexcept;
 
 		/// \brief		Constructs a vector from three scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
@@ -356,11 +350,7 @@ namespace muu
 		/// \param	z		Initial value for the vector's third scalar component.
 		///
 		/// \availability		This constructor is only available when #dimensions &gt;= 3.
-		MUU_HIDDEN_CONSTRAINT(Dims >= 3, size_t Dims = Dimensions)
-		MUU_NODISCARD_CTOR
-		constexpr vector(scalar_type x, scalar_type y, scalar_type z) noexcept //
-			: base{ x, y, z }
-		{}
+		constexpr vector(scalar_type x, scalar_type y, scalar_type z = scalar_type{}) noexcept;
 
 		/// \brief		Constructs a vector from four scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
@@ -371,11 +361,10 @@ namespace muu
 		/// \param	w		Initial value for the vector's fourth scalar component.
 		///
 		/// \availability			This constructor is only available when #dimensions &gt;= 4.
-		MUU_HIDDEN_CONSTRAINT(Dims >= 4, size_t Dims = Dimensions)
-		MUU_NODISCARD_CTOR
-		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w) noexcept //
-			: base{ x, y, z, w }
-		{}
+		constexpr vector(scalar_type x,
+						 scalar_type y,
+						 scalar_type z = scalar_type{},
+						 scalar_type w = scalar_type{}) noexcept;
 
 		/// \brief		Constructs a vector from five or more scalar values.
 		/// \details	Any scalar components not covered by the constructor's parameters are initialized to zero.
@@ -388,13 +377,17 @@ namespace muu
 		/// \param	vals	Initial values for the vector's remaining scalar components.
 		///
 		/// \availability			This constructor is only available when #dimensions &gt;= 5.
-		MUU_CONSTRAINED_TEMPLATE((Dims >= (4 + sizeof...(T)) //
-								  && all_convertible_to<Scalar, const T&...>),
-								 typename... T //
-									 MUU_HIDDEN_PARAM(size_t Dims = Dimensions))
+		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, const T&... vals) noexcept;
+
+	#endif
+
+		/// \brief	Constructs a vector by broadcasting a scalar value to all components.
+		///
+		/// \param	broadcast	The scalar value used to initialize each of the vector's scalar components.
 		MUU_NODISCARD_CTOR
-		constexpr vector(scalar_type x, scalar_type y, scalar_type z, scalar_type w, const T&... vals) noexcept
-			: base{ x, y, z, w, vals... }
+		MUU_ALWAYS_INLINE
+		explicit constexpr vector(scalar_type broadcast) noexcept //
+			: base{ impl::broadcast_tag{}, broadcast }
 		{}
 
 		/// \brief Constructs a vector from a raw array of scalars.
@@ -404,6 +397,7 @@ namespace muu
 		/// \param	arr		Array of values used to initialize the vector's scalar components.
 		MUU_CONSTRAINED_TEMPLATE((Dimensions > N || (Dimensions == N && !build::supports_constexpr_bit_cast)), size_t N)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		explicit constexpr vector(const scalar_type (&arr)[N]) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
@@ -412,6 +406,7 @@ namespace muu
 
 		MUU_CONSTRAINED_TEMPLATE((Dimensions == N && build::supports_constexpr_bit_cast), size_t N)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		explicit constexpr vector(const scalar_type (&arr)[N]) noexcept //
 			: base{ muu::bit_cast<base>(arr) }
 		{}
@@ -430,6 +425,7 @@ namespace muu
 								 typename T,
 								 size_t N)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		explicit constexpr vector(const T (&arr)[N]) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
@@ -441,6 +437,7 @@ namespace muu
 		/// \param	arr		Array of values used to initialize the vector's scalar components.
 		MUU_CONSTRAINED_TEMPLATE((Dimensions > N || (Dimensions == N && !build::supports_constexpr_bit_cast)), size_t N)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		explicit constexpr vector(const std::array<scalar_type, N>& arr) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
@@ -449,6 +446,7 @@ namespace muu
 
 		MUU_CONSTRAINED_TEMPLATE((Dimensions == N && build::supports_constexpr_bit_cast), size_t N)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		explicit constexpr vector(const std::array<scalar_type, N>& arr) noexcept //
 			: base{ muu::bit_cast<base>(arr) }
 		{}
@@ -467,6 +465,7 @@ namespace muu
 								 typename T,
 								 size_t N)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		explicit constexpr vector(const std::array<T, N>& arr) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, arr }
 		{}
@@ -487,6 +486,7 @@ namespace muu
 								  && !allow_implicit_bit_cast<T, vector>),
 								 typename T)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		explicit constexpr vector(const T& tuple_or_bitcastable) noexcept
 			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<tuple_size<T>>{}, tuple_or_bitcastable }
 		{}
@@ -499,6 +499,7 @@ namespace muu
 								  && (!is_tuple_like<T> || (tuple_size<T> > Dimensions))),
 								 typename T)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		/*implicit*/
 		constexpr vector(const T& bitcastable) noexcept //
 			: base{ muu::bit_cast<base>(bitcastable) }
@@ -524,6 +525,7 @@ namespace muu
 		/// \param 	vec		Source vector.
 		template <typename S, size_t D>
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		explicit constexpr vector(const vector<S, D>& vec) noexcept
 			: base{ impl::tuple_cast_tag{}, std::make_index_sequence<(D < Dimensions ? D : Dimensions)>{}, vec }
 		{}
@@ -545,6 +547,7 @@ namespace muu
 		/// \param 	vec2	Vector 2.
 		MUU_CONSTRAINED_TEMPLATE(Dimensions >= D1 + D2, typename S1, size_t D1, typename S2, size_t D2)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		constexpr vector(const vector<S1, D1>& vec1, const vector<S2, D2>& vec2) noexcept
 			: base{ impl::tuple_concat_tag{},
 					std::make_index_sequence<D1>{},
@@ -573,6 +576,7 @@ namespace muu
 								 size_t D,
 								 typename... T)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		constexpr vector(const vector<S, D>& vec, const T&... vals) noexcept
 			: base{ impl::tuple_concat_tag{}, std::make_index_sequence<D>{}, vec, vals... }
 		{}
@@ -611,6 +615,7 @@ namespace muu
 		/// \param	vals		Pointer to values to copy.
 		MUU_CONSTRAINED_TEMPLATE((all_convertible_to<Scalar, const T&>), typename T)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		MUU_ATTR(nonnull)
 		explicit constexpr vector(const T* MUU_HIDDEN(const&) vals) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<Dimensions>{}, vals }
@@ -628,6 +633,7 @@ namespace muu
 								 typename T,
 								 size_t N)
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		explicit constexpr vector(const muu::span<T, N>& vals) noexcept
 			: base{ impl::array_cast_tag{}, std::make_index_sequence<N>{}, vals }
 		{}

@@ -68,11 +68,13 @@ namespace muu
 
 			template <typename U>
 			MUU_NODISCARD_CTOR
+			MUU_ALWAYS_INLINE
 			scope_guard_move(U&& callable) noexcept(std::is_nothrow_constructible_v<base, U&&>)
 				: base{ static_cast<U&&>(callable) }
 			{}
 
 			MUU_NODISCARD_CTOR
+			MUU_ALWAYS_INLINE
 			scope_guard_move(scope_guard_move&& other) noexcept(std::is_nothrow_move_constructible_v<base>)
 				: base{ static_cast<base&&>(other) }
 			{
@@ -94,6 +96,7 @@ namespace muu
 
 			template <typename U>
 			MUU_NODISCARD_CTOR
+			MUU_ALWAYS_INLINE
 			scope_guard_move(U&& callable) noexcept(std::is_nothrow_constructible_v<base, U&&>)
 				: base{ static_cast<U&&>(callable) }
 			{}
@@ -125,6 +128,7 @@ namespace muu
 		  public:
 			template <typename U>
 			MUU_NODISCARD_CTOR
+			MUU_ALWAYS_INLINE
 			scope_guard_(U&& callable) noexcept(std::is_nothrow_constructible_v<base, U&&>)
 				: base{ static_cast<U&&>(callable) }
 			{
@@ -149,6 +153,7 @@ namespace muu
 					base::func_and_dismissed_.first()();
 			}
 
+			MUU_ALWAYS_INLINE
 			void dismiss() noexcept
 			{
 				base::func_and_dismissed_.second() = true;
@@ -217,6 +222,7 @@ namespace muu
 		/// \param 	func	The callable to invoke when the scope_guard goes out of scope.
 		template <typename U>
 		MUU_NODISCARD_CTOR
+		MUU_ALWAYS_INLINE
 		explicit scope_guard(U&& func) noexcept(std::is_nothrow_constructible_v<base, U&&>)
 			: base{ static_cast<U&&>(func) }
 		{}

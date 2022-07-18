@@ -1227,7 +1227,7 @@ namespace muu
 		/// \brief Copy-assigment operator.
 		constexpr matrix& operator=(const matrix&) noexcept = default;
 
-		/// \brief	Constructs a matrix with all scalar components set to the same value.
+		/// \brief	Constructs a matrix by broadcasting a scalar value to all components.
 		///
 		/// \details \cpp
 		/// std::cout << matrix<int, 3, 3>{ 1 } << "\n";
@@ -1239,10 +1239,10 @@ namespace muu
 		///	     1,    1,    1 }
 		/// \eout
 		///
-		/// \param	fill	The value used to initialize each of the matrix's scalar components.
+		/// \param	broadcast	The value used to initialize each of the matrix's scalar components.
 		MUU_NODISCARD_CTOR
-		explicit constexpr matrix(scalar_type fill) noexcept
-			: base{ impl::value_fill_tag{}, std::make_index_sequence<Columns>{}, fill }
+		explicit constexpr matrix(scalar_type broadcast) noexcept
+			: base{ impl::broadcast_tag{}, std::make_index_sequence<Columns>{}, broadcast }
 		{}
 
 		/// \brief	Constructs a matrix from (row-major-ordered) scalars.

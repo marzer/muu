@@ -44,7 +44,7 @@ namespace muu::impl
 
 	  public:
 		template <size_t... ColumnIndices>
-		explicit constexpr matrix_(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
+		explicit constexpr matrix_(broadcast_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
 			: m{ fill_column_initializer_msvc<ColumnIndices>(fill)... }
 		{
 			static_assert(sizeof...(ColumnIndices) <= Columns);
@@ -53,8 +53,8 @@ namespace muu::impl
 #else
 
 		template <size_t... ColumnIndices>
-		explicit constexpr matrix_(value_fill_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
-			: m{ (MUU_UNUSED(ColumnIndices), vector<Scalar, Rows>{ fill })... }
+		explicit constexpr matrix_(broadcast_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
+			: m{ (static_cast<void>(ColumnIndices), vector<Scalar, Rows>{ fill })... }
 		{
 			static_assert(sizeof...(ColumnIndices) <= Columns);
 		}
@@ -92,7 +92,7 @@ namespace muu::impl
 		}
 
 		template <size_t Column, typename T, size_t... RowIndices>
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr vector<Scalar, Rows> column_from_row_major_tuple(const T& tpl,
 																		  std::index_sequence<RowIndices...>) noexcept
 		{
@@ -104,6 +104,7 @@ namespace muu::impl
 
 	  public:
 		template <typename T, size_t... ColumnIndices>
+		MUU_ALWAYS_INLINE
 		explicit constexpr matrix_(const T& tpl, std::index_sequence<ColumnIndices...>) noexcept
 			: m{ column_from_row_major_tuple<ColumnIndices>(tpl, std::make_index_sequence<Rows>{})... }
 		{
@@ -130,10 +131,10 @@ namespace muu::impl
 		MUU_HIDDEN_CONSTRAINT((R == 2 && C == 3), size_t R = Rows, size_t C = Columns)
 		constexpr matrix_(Scalar v00,
 						  Scalar v01,
-						  Scalar v02 = Scalar{},
-						  Scalar v10 = Scalar{},
-						  Scalar v11 = Scalar{},
-						  Scalar v12 = Scalar{}) noexcept //
+						  Scalar v02,
+						  Scalar v10,
+						  Scalar v11,
+						  Scalar v12) noexcept //
 			: m{ { v00, v10 }, { v01, v11 }, { v02, v12 } }
 		{}
 
@@ -141,13 +142,13 @@ namespace muu::impl
 		MUU_HIDDEN_CONSTRAINT((R == 3 && C == 3), size_t R = Rows, size_t C = Columns)
 		constexpr matrix_(Scalar v00,
 						  Scalar v01,
-						  Scalar v02 = Scalar{},
-						  Scalar v10 = Scalar{},
-						  Scalar v11 = Scalar{},
-						  Scalar v12 = Scalar{},
-						  Scalar v20 = Scalar{},
-						  Scalar v21 = Scalar{},
-						  Scalar v22 = Scalar{}) noexcept //
+						  Scalar v02,
+						  Scalar v10,
+						  Scalar v11,
+						  Scalar v12,
+						  Scalar v20,
+						  Scalar v21,
+						  Scalar v22) noexcept //
 			: m{ { v00, v10, v20 }, { v01, v11, v21 }, { v02, v12, v22 } }
 		{}
 
@@ -155,16 +156,16 @@ namespace muu::impl
 		MUU_HIDDEN_CONSTRAINT((R == 3 && C == 4), size_t R = Rows, size_t C = Columns)
 		constexpr matrix_(Scalar v00,
 						  Scalar v01,
-						  Scalar v02 = Scalar{},
-						  Scalar v03 = Scalar{},
-						  Scalar v10 = Scalar{},
-						  Scalar v11 = Scalar{},
-						  Scalar v12 = Scalar{},
-						  Scalar v13 = Scalar{},
-						  Scalar v20 = Scalar{},
-						  Scalar v21 = Scalar{},
-						  Scalar v22 = Scalar{},
-						  Scalar v23 = Scalar{}) noexcept //
+						  Scalar v02,
+						  Scalar v03,
+						  Scalar v10,
+						  Scalar v11,
+						  Scalar v12,
+						  Scalar v13,
+						  Scalar v20,
+						  Scalar v21,
+						  Scalar v22,
+						  Scalar v23) noexcept //
 			: m{ { v00, v10, v20 }, { v01, v11, v21 }, { v02, v12, v22 }, { v03, v13, v23 } }
 		{}
 
@@ -172,20 +173,20 @@ namespace muu::impl
 		MUU_HIDDEN_CONSTRAINT((R == 4 && C == 4), size_t R = Rows, size_t C = Columns)
 		constexpr matrix_(Scalar v00,
 						  Scalar v01,
-						  Scalar v02 = Scalar{},
-						  Scalar v03 = Scalar{},
-						  Scalar v10 = Scalar{},
-						  Scalar v11 = Scalar{},
-						  Scalar v12 = Scalar{},
-						  Scalar v13 = Scalar{},
-						  Scalar v20 = Scalar{},
-						  Scalar v21 = Scalar{},
-						  Scalar v22 = Scalar{},
-						  Scalar v23 = Scalar{},
-						  Scalar v30 = Scalar{},
-						  Scalar v31 = Scalar{},
-						  Scalar v32 = Scalar{},
-						  Scalar v33 = Scalar{}) noexcept //
+						  Scalar v02,
+						  Scalar v03,
+						  Scalar v10,
+						  Scalar v11,
+						  Scalar v12,
+						  Scalar v13,
+						  Scalar v20,
+						  Scalar v21,
+						  Scalar v22,
+						  Scalar v23,
+						  Scalar v30,
+						  Scalar v31,
+						  Scalar v32,
+						  Scalar v33) noexcept //
 			: m{ { v00, v10, v20, v30 }, { v01, v11, v21, v31 }, { v02, v12, v22, v32 }, { v03, v13, v23, v33 } }
 		{}
 	};

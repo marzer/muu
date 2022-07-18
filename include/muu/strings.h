@@ -71,7 +71,7 @@ namespace muu
 			uint_least32_t codepoint{};
 
 		  public:
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr bool error() const noexcept
 			{
 				return state == uint_least32_t{ 12u };
@@ -83,19 +83,19 @@ namespace muu
 				state = uint_least32_t{};
 			}
 
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr bool has_value() const noexcept
 			{
 				return state == uint_least32_t{};
 			}
 
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr char32_t value() const noexcept
 			{
 				return static_cast<char32_t>(codepoint);
 			}
 
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr bool needs_more_input() const noexcept
 			{
 				return state > uint_least32_t{} && state != uint_least32_t{ 12u };
@@ -113,15 +113,21 @@ namespace muu
 
 				state = state_table[state + uint_least32_t{ 256u } + type];
 			}
+
+			MUU_ALWAYS_INLINE
 			constexpr void operator()(char code_unit) noexcept
 			{
 				(*this)(static_cast<uint8_t>(code_unit));
 			}
+
 	#if MUU_HAS_CHAR8
+
+			MUU_ALWAYS_INLINE
 			constexpr void operator()(char8_t code_unit) noexcept
 			{
 				(*this)(static_cast<uint8_t>(code_unit));
 			}
+
 	#endif
 		};
 
@@ -138,7 +144,7 @@ namespace muu
 			uint_least32_t codepoint{};
 
 		  public:
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr bool error() const noexcept
 			{
 				return state == ds_error;
@@ -150,19 +156,19 @@ namespace muu
 				state = ds_initial;
 			}
 
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr bool has_value() const noexcept
 			{
 				return state == ds_has_codepoint;
 			}
 
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr char32_t value() const noexcept
 			{
 				return static_cast<char32_t>(codepoint);
 			}
 
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr bool needs_more_input() const noexcept
 			{
 				return state == ds_expecting_low_surrogate;
@@ -205,15 +211,21 @@ namespace muu
 					default: state = ds_error;
 				}
 			}
+
+			MUU_ALWAYS_INLINE
 			constexpr void operator()(char16_t code_unit) noexcept
 			{
 				(*this)(static_cast<uint16_t>(code_unit));
 			}
+
 	#if MUU_WCHAR_BYTES == 2
+
+			MUU_ALWAYS_INLINE
 			constexpr void operator()(wchar_t code_unit) noexcept
 			{
 				(*this)(static_cast<uint16_t>(code_unit));
 			}
+
 	#endif
 		};
 
@@ -245,6 +257,7 @@ namespace muu
 		};
 
 		template <typename T>
+		MUU_PURE_GETTER
 		constexpr bool utf_detect_platform_endian(const T* data, const T* const end) noexcept
 		{
 			static_assert(sizeof(T) >= 2);
@@ -509,14 +522,14 @@ namespace muu
 				: utf8_code_point{ static_cast<uint_least32_t>(cp) }
 			{}
 
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr std::basic_string_view<T> view() const noexcept
 			{
 				return code_units[3] ? std::basic_string_view<T>{ code_units, 4_sz }
 									 : std::basic_string_view<T>{ code_units };
 			}
 
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr operator std::basic_string_view<T>() const noexcept
 			{
 				return view();
@@ -551,14 +564,14 @@ namespace muu
 				: utf16_code_point{ static_cast<uint_least32_t>(cp) }
 			{}
 
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr std::basic_string_view<T> view() const noexcept
 			{
 				return code_units[1] ? std::basic_string_view<T>{ code_units, 2_sz }
 									 : std::basic_string_view<T>{ code_units };
 			}
 
-			MUU_NODISCARD
+			MUU_PURE_INLINE_GETTER
 			constexpr operator std::basic_string_view<T>() const noexcept
 			{
 				return view();
@@ -612,16 +625,16 @@ namespace muu
 		{
 			Char high;
 			Char low;
-		};
 
-		template <typename Char, typename Traits>
-		inline std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& lhs,
-															hex_char_pair<Char> rhs)
-		{
-			static_assert(sizeof(hex_char_pair<Char>) == sizeof(Char) * 2);
-			lhs.write(&rhs.high, 2u);
-			return lhs;
-		}
+			template <typename Traits>
+			friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& lhs,
+																const hex_char_pair& rhs)
+			{
+				lhs.put(rhs.high);
+				lhs.put(rhs.low);
+				return lhs;
+			}
+		};
 
 		template <typename Char = char>
 		MUU_CONST_GETTER
@@ -631,7 +644,7 @@ namespace muu
 		}
 
 		template <typename Char = char>
-		MUU_CONST_GETTER
+		MUU_CONST_INLINE_GETTER
 		constexpr hex_char_pair<Char> byte_to_hex(std::byte byte, Char a = constants<Char>::letter_a) noexcept
 		{
 			return byte_to_hex(unwrap(byte), a);

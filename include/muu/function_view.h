@@ -123,6 +123,7 @@ namespace muu
 				}
 			}
 
+			MUU_ALWAYS_INLINE
 			constexpr decltype(auto) operator()(Args... args) const noexcept(std::is_nothrow_invocable_v<T, Args...>)
 			{
 				return invoker_(func_, static_cast<function_view_forwarding_arg<Args>>(args)...);

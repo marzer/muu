@@ -1976,7 +1976,7 @@ namespace muu
 		inline constexpr bool is_vector_<::muu::vector<S, D>, MinD, MaxD> = (D >= MinD && D <= MaxD);
 
 		template <typename S, size_t D, size_t MinD, size_t MaxD>
-		inline constexpr bool is_vector_<::muu::impl::vector_<S, D>, MinD, MaxD> = (D >= MinD && D <= MaxD);
+		inline constexpr bool is_vector_<::muu::impl::vector_base<S, D>, MinD, MaxD> = (D >= MinD && D <= MaxD);
 
 		template <typename T>
 		inline constexpr bool is_quaternion_ = false;
