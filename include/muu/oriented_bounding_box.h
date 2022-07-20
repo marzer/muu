@@ -56,8 +56,8 @@ namespace muu
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2 + sizeof(axes_type)),
 					  "Oriented bounding boxes should not have padding");
 
-		using obbs			  = impl::obb_common<Scalar>;
-		using sat_tester_type = sat_tester<Scalar, 3>;
+		using obbs		 = impl::obb_common<Scalar>;
+		using sat_tester = muu::sat_tester<Scalar, 3>;
 
 		using promoted_scalar					 = promote_if_small_float<scalar_type>;
 		using promoted_vec3						 = vector<promoted_scalar, 3>;
@@ -676,12 +676,12 @@ namespace muu
 		//--------------------------------
 
 		/// \brief	Returns true if an oriented bounding box intersects an axis-aligned bounding_box.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box) obb,
 														MUU_VPARAM(bounding_box<scalar_type>) aabb) noexcept;
 
 		/// \brief	Returns true if the oriented bounding box intersects an axis-aligned bounding_box.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) aabb) const noexcept;
 
 		//--------------------------------
@@ -689,7 +689,7 @@ namespace muu
 		//--------------------------------
 
 		/// \brief	Returns true if two oriented bounding boxes intersect.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box) bb1,
 														MUU_VPARAM(oriented_bounding_box) bb2) noexcept
 		{
@@ -713,13 +713,13 @@ namespace muu
 
 				for (size_t i = 0; i < 3; i++)
 				{
-					sat_tester_type tester1{ bb->axes[i], corners1[0] };
+					sat_tester tester1{ bb->axes.m[i], corners1[0] };
 					for (size_t c = 1; c < 8; c++)
-						tester1.add(bb->axes[i], corners1[c]);
+						tester1.add(bb->axes.m[i], corners1[c]);
 
-					sat_tester_type tester2{ bb->axes[i], corners2[0] };
+					sat_tester tester2{ bb->axes.m[i], corners2[0] };
 					for (size_t c = 1; c < 8; c++)
-						tester2.add(bb->axes[i], corners2[c]);
+						tester2.add(bb->axes.m[i], corners2[c]);
 
 					if (!tester1(tester2))
 						return false;
@@ -729,7 +729,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if two oriented bounding boxes intersect.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box) bb) const noexcept
 		{
 			return intersects(*this, bb);

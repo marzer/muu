@@ -297,7 +297,7 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr muu::plane<scalar_type> plane() const noexcept
 		{
-			return plane(base::points);
+			return plane(base::points[0], base::points[1], base::points[2]);
 		}
 
 		/// \brief	Returns the plane on which the triangle lies.
@@ -411,9 +411,9 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VPARAM(triangle) tri,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-			return vector_type::approx_equal(tri.points[0], epsilon) //
-				&& vector_type::approx_equal(tri.points[1], epsilon) //
-				&& vector_type::approx_equal(tri.points[2], epsilon);
+			return vector_type::approx_zero(tri.points[0], epsilon) //
+				&& vector_type::approx_zero(tri.points[1], epsilon) //
+				&& vector_type::approx_zero(tri.points[2], epsilon);
 		}
 
 		/// \brief	Returns true if all the scalar components in the triangle are approximately equal to zero.
@@ -431,7 +431,7 @@ namespace muu
 		  /// @{
 
 		/// \brief	Returns true if a triangle and a point are coplanar.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(vector_type) p0,
 													  MUU_VPARAM(vector_type) p1,
 													  MUU_VPARAM(vector_type) p2,
@@ -441,21 +441,21 @@ namespace muu
 		}
 
 		/// \brief	Returns true if a triangle and a point are coplanar.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(triangle) tri, MUU_VPARAM(vector_type) point) noexcept
 		{
 			return triangles::coplanar(tri.points[0], tri.points[1], tri.points[2], point);
 		}
 
 		/// \brief	Returns true if the triangle and a point are coplanar.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(vector_type) point) const noexcept
 		{
 			return triangles::coplanar(base::points[0], base::points[1], base::points[2], point);
 		}
 
 		/// \brief	Returns true if a triangle contains a point.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) p0,
 													  MUU_VPARAM(vector_type) p1,
 													  MUU_VPARAM(vector_type) p2,
@@ -465,14 +465,14 @@ namespace muu
 		}
 
 		/// \brief	Returns true if a triangle contains a point.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(triangle) tri, MUU_VPARAM(vector_type) point) noexcept
 		{
 			return triangles::contains_point(tri.points[0], tri.points[1], tri.points[2], point);
 		}
 
 		/// \brief	Returns true if the triangle contains a point.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point) const noexcept
 		{
 			return triangles::contains_point(base::points[0], base::points[1], base::points[2], point);
@@ -500,6 +500,9 @@ namespace muu
 		/// \brief	Returns true if the triangle intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept;
+
+		MUU_PURE_INLINE_GETTER
+		constexpr muu::intersection_tester<triangle> MUU_VECTORCALL intersection_tester() noexcept;
 
 			/// @}
 	#endif // intersection
@@ -700,6 +703,46 @@ namespace std
 		using type = muu::vector<Scalar, 3>;
 	};
 }
+
+#endif //===============================================================================================================
+
+//======================================================================================================================
+// INTERSECTION TESTER
+#if 1
+
+/// \cond
+namespace muu
+{
+	template <typename Scalar>
+	struct intersection_tester<triangle<Scalar>>
+	{
+		using scalar_type	= Scalar;
+		using vector_type	= vector<scalar_type, 3>;
+		using triangle_type = triangle<scalar_type>;
+
+		triangle_type tri;
+		vector_type edges[3]; // 0 -> 1, 1 -> 2, 2 -> 0
+		vector_type normal;
+
+		MUU_NODISCARD_CTOR
+		intersection_tester() noexcept = default;
+
+		MUU_NODISCARD_CTOR
+		explicit constexpr intersection_tester(const triangle_type& t) noexcept //
+			: tri{ t },
+			  edges{ t[1] - t[0], t[2] - t[1], t[0] - t[2] },
+			  normal{ t.normal() }
+		{}
+	};
+
+	template <typename Scalar>
+	MUU_PURE_INLINE_GETTER
+	constexpr muu::intersection_tester<triangle<Scalar>> MUU_VECTORCALL triangle<Scalar>::intersection_tester() noexcept
+	{
+		return muu::intersection_tester<triangle<Scalar>>{ *this };
+	}
+}
+/// \endcond
 
 #endif //===============================================================================================================
 

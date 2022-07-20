@@ -18,7 +18,7 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 namespace muu
 {
 	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(plane<scalar_type>) p) const noexcept
 	{
 		return intersects(*this, p);
@@ -32,7 +32,7 @@ namespace muu
 namespace muu
 {
 	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VPARAM(plane) p,
 															MUU_VPARAM(bounding_box<Scalar>) bb) noexcept
 	{
@@ -40,7 +40,7 @@ namespace muu
 	}
 
 	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
 	{
 		return bounding_box<Scalar>::intersects(bb, *this);

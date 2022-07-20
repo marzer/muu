@@ -52,7 +52,7 @@ namespace muu
 		const auto test_aabb = [&](auto idx) noexcept -> bool
 		{
 			constexpr auto axis_index = remove_cvref<decltype(idx)>::value;
-			sat_tester_type sat{ index_tag<axis_index>{}, obb_corners[0] };
+			sat_tester sat{ index_tag<axis_index>{}, obb_corners[0] };
 			for (size_t c = 1; c < 8; c++)
 				sat.add(index_tag<axis_index>{}, obb_corners[c]);
 			return sat(aabb_min.template get<axis_index>(), aabb_max.template get<axis_index>());
@@ -70,11 +70,11 @@ namespace muu
 		// test obb axes
 		for (size_t i = 0; i < 3; i++)
 		{
-			sat_tester_type tester1{ obb.axes.m[i], obb_corners[0] };
+			sat_tester tester1{ obb.axes.m[i], obb_corners[0] };
 			for (size_t c = 1; c < 8; c++)
 				tester1.add(obb.axes.m[i], obb_corners[c]);
 
-			sat_tester_type tester2{ obb.axes.m[i], aabb_corners[0] };
+			sat_tester tester2{ obb.axes.m[i], aabb_corners[0] };
 			for (size_t c = 1; c < 8; c++)
 				tester2.add(obb.axes.m[i], aabb_corners[c]);
 
@@ -86,7 +86,7 @@ namespace muu
 	}
 
 	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(oriented_bounding_box<Scalar>)
 																	   obb) const noexcept
 	{
@@ -101,7 +101,7 @@ namespace muu
 namespace muu
 {
 	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::intersects(MUU_VPARAM(oriented_bounding_box) obb,
 																			MUU_VPARAM(bounding_box<Scalar>)
 																				aabb) noexcept
@@ -110,7 +110,7 @@ namespace muu
 	}
 
 	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::intersects(MUU_VPARAM(bounding_box<Scalar>)
 																				aabb) const noexcept
 	{

@@ -320,6 +320,8 @@ namespace muu
 	struct packed_unit_vector;
 	template <typename, size_t>
 	struct sat_tester;
+	template <typename>
+	struct intersection_tester;
 
 	template <typename T>
 	using axis_angle_rotation = axis_angle<T>;

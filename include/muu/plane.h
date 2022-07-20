@@ -269,21 +269,6 @@ namespace muu
 			return approx_zero(*this, epsilon);
 		}
 
-		/// \brief	Returns true if a plane has approximately zero volume.
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL approx_empty(MUU_VPARAM(plane) p,
-														  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
-		{
-			return vector_type::approx_zero(p.extents, epsilon);
-		}
-
-		/// \brief	Returns true if the plane has approximately zero volume.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL approx_empty(scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
-		{
-			return vector_type::approx_zero(base::extents, epsilon);
-		}
-
 			/// @}
 	#endif // equality (approx)
 
@@ -405,14 +390,14 @@ namespace muu
 		  /// @{
 
 		/// \brief	Returns true if a plane contains a point.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(plane) p, MUU_VPARAM(vector_type) point) noexcept
 		{
 			return planes::contains_point(p.n, p.d, point);
 		}
 
 		/// \brief	Returns true if the plane contains a point.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point) const noexcept
 		{
 			return contains(*this, point);
@@ -426,21 +411,21 @@ namespace muu
 		/// @{
 
 		/// \brief	Returns true if a plane intersects a line segment.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(plane) p,
 														MUU_VPARAM(line_segment<scalar_type>) seg) noexcept;
 
 		/// \brief	Returns true if the plane intersects a line segment.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment<scalar_type>) seg) const noexcept;
 
 		/// \brief	Returns true if a plane intersects a bounding box.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(plane) p,
 														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if the plane intersects a bounding box.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept;
 
 			/// @}

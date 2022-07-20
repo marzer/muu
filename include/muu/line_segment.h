@@ -396,8 +396,8 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL approx_zero(MUU_VPARAM(line_segment) seg,
 														 scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-			return vector_type::approx_equal(seg.points[0], epsilon) //
-				&& vector_type::approx_equal(seg.points[1], epsilon);
+			return vector_type::approx_zero(seg.points[0], epsilon) //
+				&& vector_type::approx_zero(seg.points[1], epsilon);
 		}
 
 		/// \brief	Returns true if all the scalar components in the line segment are approximately equal to zero.
@@ -454,7 +454,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if a point lies on a line segment.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(line_segment) seg,
 													  MUU_VPARAM(vector_type) point,
 													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
@@ -463,7 +463,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if a point lies on a line segment.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point,
 											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
@@ -481,7 +481,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if two line segments are coplanar.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(line_segment) seg,
 											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
@@ -496,21 +496,21 @@ namespace muu
 		  /// @{
 
 		/// \brief	Returns true if a line segment intersects a bounding box.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment) seg,
 														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if a line segment intersects a bounding box.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept;
 
 		/// \brief	Returns true if a line segment intersects a plane.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment) seg,
 														MUU_VPARAM(plane<scalar_type>) p) noexcept;
 
 		/// \brief	Returns true if a line segment intersects a plane.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(plane<scalar_type>) p) const noexcept;
 
 			/// @}

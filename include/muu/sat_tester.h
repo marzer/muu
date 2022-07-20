@@ -117,6 +117,26 @@ namespace muu
 			return *this;
 		}
 
+		/// \brief Adds a range of points to the SAT test projection range.
+		template <size_t Dimension>
+		constexpr sat_tester& MUU_VECTORCALL add(index_tag<Dimension> /*axis*/,
+												 const vector_type* begin,
+												 const vector_type* end) noexcept
+		{
+			static_assert(Dimension < Dimensions, "Dimension index out of range");
+
+			if (begin == end)
+				return *this;
+
+			MUU_ASSUME(begin != nullptr);
+			MUU_ASSUME(end != nullptr);
+			MUU_ASSUME(begin < end);
+
+			for (; begin != end; begin++)
+				add(index_tag<Dimension>{}, *begin);
+			return *this;
+		}
+
 		/// \brief Default constructor.
 		MUU_NODISCARD_CTOR
 		constexpr sat_tester() noexcept //
@@ -167,6 +187,18 @@ namespace muu
 
 			if constexpr (N > 1)
 				add(axis, points + 1, points + N);
+		}
+
+		/// \brief Initializes the SAT test projection range directly from an array of points.
+		template <size_t Dimension, size_t N>
+		MUU_NODISCARD_CTOR
+		constexpr sat_tester(index_tag<Dimension> /*axis*/, const vector_type (&points)[N]) noexcept //
+			: sat_tester{ index_tag<Dimension>{}, points[0] }
+		{
+			static_assert(N >= 1);
+
+			if constexpr (N > 1)
+				add(index_tag<Dimension>{}, points + 1, points + N);
 		}
 
 		/// \brief Returns true if the SAT test projection range seen so far contains the given value.
