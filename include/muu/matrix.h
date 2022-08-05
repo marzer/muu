@@ -1108,7 +1108,7 @@ namespace muu
 	template <typename Scalar, size_t Rows, size_t Columns>
 	struct MUU_EMPTY_BASES MUU_TRIVIAL_ABI matrix //
 		MUU_HIDDEN_BASE(
-			impl::matrix_<Scalar, Rows, Columns>,
+			impl::storage_base<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_get_xy_column<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_get_z_column<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_get_w_column<matrix<Scalar, Rows, Columns>>,
@@ -1183,7 +1183,7 @@ namespace muu
 		template <typename, size_t, size_t>
 		friend struct matrix;
 
-		using base = impl::matrix_<Scalar, Rows, Columns>;
+		using base = impl::storage_base<matrix<Scalar, Rows, Columns>>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * Rows * Columns), "Matrices should not have padding");
 
 		using promoted_scalar				 = promote_if_small_float<scalar_type>;

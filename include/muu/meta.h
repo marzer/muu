@@ -1973,17 +1973,17 @@ namespace muu
 		inline constexpr bool is_vector_ = false;
 
 		template <typename S, size_t D, size_t MinD, size_t MaxD>
-		inline constexpr bool is_vector_<::muu::vector<S, D>, MinD, MaxD> = (D >= MinD && D <= MaxD);
+		inline constexpr bool is_vector_<vector<S, D>, MinD, MaxD> = (D >= MinD && D <= MaxD);
 
 		template <typename S, size_t D, size_t MinD, size_t MaxD>
-		inline constexpr bool is_vector_<::muu::impl::vector_base<S, D>, MinD, MaxD> = (D >= MinD && D <= MaxD);
+		inline constexpr bool is_vector_<storage_base<vector<S, D>>, MinD, MaxD> = (D >= MinD && D <= MaxD);
 
 		template <typename T>
 		inline constexpr bool is_quaternion_ = false;
 		template <typename S>
-		inline constexpr bool is_quaternion_<::muu::quaternion<S>> = true;
+		inline constexpr bool is_quaternion_<quaternion<S>> = true;
 		template <typename S>
-		inline constexpr bool is_quaternion_<::muu::impl::quaternion_<S>> = true;
+		inline constexpr bool is_quaternion_<storage_base<quaternion<S>>> = true;
 
 		template <typename T,
 				  size_t MinR = 0,
@@ -1993,11 +1993,11 @@ namespace muu
 		inline constexpr bool is_matrix_ = false;
 
 		template <typename S, size_t R, size_t C, size_t MinR, size_t MinC, size_t MaxR, size_t MaxC>
-		inline constexpr bool is_matrix_<::muu::matrix<S, R, C>, MinR, MinC, MaxR, MaxC> = //
+		inline constexpr bool is_matrix_<matrix<S, R, C>, MinR, MinC, MaxR, MaxC> = //
 			(R >= MinR && C >= MinC && R <= MaxR && C <= MaxC);
 
 		template <typename S, size_t R, size_t C, size_t MinR, size_t MinC, size_t MaxR, size_t MaxC>
-		inline constexpr bool is_matrix_<::muu::impl::matrix_<S, R, C>, MinR, MinC, MaxR, MaxC> = //
+		inline constexpr bool is_matrix_<storage_base<matrix<S, R, C>>, MinR, MinC, MaxR, MaxC> = //
 			(R >= MinR && C >= MinC && R <= MaxR && C <= MaxC);
 
 		// promotes ints to doubles, keeps floats as-is, as per the behaviour of std::sqrt, std::lerp, etc.

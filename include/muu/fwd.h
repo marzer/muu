@@ -271,28 +271,8 @@ namespace muu
 
 	namespace impl
 	{
-		template <typename, size_t>
-		struct vector_base;
 		template <typename>
-		struct axis_angle_;
-		template <typename>
-		struct euler_angles_;
-		template <typename>
-		struct quaternion_;
-		template <typename, size_t, size_t>
-		struct matrix_;
-		template <typename>
-		struct plane_;
-		template <typename>
-		struct line_segment_;
-		template <typename>
-		struct triangle_;
-		template <typename>
-		struct bounding_sphere_;
-		template <typename>
-		struct bounding_box_;
-		template <typename>
-		struct oriented_bounding_box_;
+		struct storage_base;
 	}
 	template <typename, size_t>
 	struct vector;

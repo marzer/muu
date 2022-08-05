@@ -25,7 +25,7 @@ namespace muu
 	/// \tparam	Scalar      The line segment's scalar component type. Must be a floating-point type.
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI line_segment //
-		MUU_HIDDEN_BASE(impl::line_segment_<Scalar>)
+		MUU_HIDDEN_BASE(impl::storage_base<line_segment<Scalar>>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Line segment scalar type cannot be a reference");
 		static_assert(!is_cv<Scalar>, "Line segment scalar type cannot be const- or volatile-qualified");
@@ -53,7 +53,7 @@ namespace muu
 
 	  private:
 		/// \cond
-		using base = impl::line_segment_<Scalar>;
+		using base = impl::storage_base<line_segment<Scalar>>;
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2), "Line segments should not have padding");
 
 		using aabbs		= impl::aabb_common<Scalar>;
@@ -280,20 +280,6 @@ namespace muu
 			return length(*this);
 		}
 
-		/// \brief	Returns true if a line segment is degenerate (i.e. its points are coincident).
-		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL degenerate(MUU_VPARAM(line_segment) seg) noexcept
-		{
-			return seg.points[0] == seg.points[1];
-		}
-
-		/// \brief	Returns true if a line segment is degenerate (i.e. its points are coincident).
-		MUU_PURE_INLINE_GETTER
-		constexpr bool degenerate() const noexcept
-		{
-			return degenerate(*this);
-		}
-
 			/// @}
 	#endif // geometric properties
 
@@ -360,6 +346,20 @@ namespace muu
 		constexpr bool infinity_or_nan() const noexcept
 		{
 			return infinity_or_nan(*this);
+		}
+
+		/// \brief	Returns true if a line segment is degenerate (i.e. its points are coincident).
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL degenerate(MUU_VPARAM(line_segment) seg) noexcept
+		{
+			return seg.points[0] == seg.points[1];
+		}
+
+		/// \brief	Returns true if a line segment is degenerate (i.e. its points are coincident).
+		MUU_PURE_INLINE_GETTER
+		constexpr bool degenerate() const noexcept
+		{
+			return degenerate(*this);
 		}
 
 			/// @}
@@ -758,6 +758,17 @@ namespace muu
 	constexpr bool MUU_VECTORCALL approx_zero(const line_segment<S>& seg, S epsilon = default_epsilon<S>) noexcept
 	{
 		return line_segment<S>::approx_zero(seg, epsilon);
+	}
+
+	/// \ingroup		degenerate
+	/// \relatesalso	muu::line_segment
+	///
+	/// \brief	Returns true if a line segment is degenerate (i.e. its points are coincident).
+	template <typename S>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool degenerate(const line_segment<S>& seg) noexcept
+	{
+		return line_segment<S>::degenerate(seg);
 	}
 }
 

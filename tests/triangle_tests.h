@@ -38,6 +38,8 @@ namespace
 		static_cast<Func&&>(func)(tri1.points[2].z, tri2.points[2].z, 8_sz);
 	}
 
+	inline constexpr size_t tri_scalar_count = 9;
+
 	template <typename T>
 	struct blittable
 	{

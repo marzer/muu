@@ -28,7 +28,7 @@ namespace muu
 	/// \see [Aligned Bounding Box](https://www.sciencedirect.com/topics/computer-science/aligned-bounding-box)
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI bounding_box //
-		MUU_HIDDEN_BASE(impl::bounding_box_<Scalar>)
+		MUU_HIDDEN_BASE(impl::storage_base<bounding_box<Scalar>>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Bounding box scalar type cannot be a reference");
 		static_assert(!is_cv<Scalar>, "Bounding box scalar type cannot be const- or volatile-qualified");
@@ -50,7 +50,7 @@ namespace muu
 
 	  private:
 		/// \cond
-		using base = impl::bounding_box_<Scalar>;
+		using base = impl::storage_base<bounding_box<Scalar>>;
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2), "Bounding boxes should not have padding");
 
 		using boxes		 = impl::boxes_common<Scalar>;
@@ -392,21 +392,14 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type MUU_VECTORCALL mass(scalar_type density) const noexcept
 		{
-			return aabbs::mass(base::extents, density);
+			return density * volume();
 		}
 
 		/// \brief	Calculates the density of this box if it had a given mass.
 		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type MUU_VECTORCALL density(scalar_type mass) const noexcept
 		{
-			return aabbs::density(base::extents, mass);
-		}
-
-		/// \brief	Returns true if the box is degenerate (i.e. any of its extents are less than or equal to zero).
-		MUU_PURE_INLINE_GETTER
-		constexpr bool degenerate() const noexcept
-		{
-			return aabbs::degenerate(base::extents);
+			return mass / volume();
 		}
 
 			/// @}
@@ -492,6 +485,20 @@ namespace muu
 		constexpr bool infinity_or_nan() const noexcept
 		{
 			return infinity_or_nan(*this);
+		}
+
+		/// \brief	Returns true if a box is degenerate (i.e. any of its extents are less than or equal to zero).
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL degenerate(MUU_VPARAM(bounding_box) bb) noexcept
+		{
+			return aabbs::degenerate(bb.extents);
+		}
+
+		/// \brief	Returns true if the box is degenerate (i.e. any of its extents are less than or equal to zero).
+		MUU_PURE_INLINE_GETTER
+		constexpr bool degenerate() const noexcept
+		{
+			return aabbs::degenerate(base::extents);
 		}
 
 			/// @}
@@ -877,7 +884,8 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
 														MUU_VPARAM(plane<scalar_type>) p) noexcept
 		{
-			return plane<scalar_type>::distance(p, bb.center) <= vector_type::dot(bb.extents, vector_type::abs(p.n));
+			return plane<scalar_type>::distance(p, bb.center)
+				<= vector_type::dot(bb.extents, vector_type::abs(p.normal));
 		}
 
 		/// \brief	Returns true if the bounding box intersects a plane.
@@ -1011,7 +1019,7 @@ namespace muu
 
 	#if 1 // misc ---------------------------------------------------------------------------------------------------
 
-		/// \brief Writes a vector out to a text stream.
+		/// \brief Writes a bounding box out to a text stream.
 		template <typename Char, typename Traits>
 		friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& os,
 															const bounding_box& bb)
@@ -1179,6 +1187,22 @@ MUU_PUSH_PRECISE_MATH;
 
 namespace muu
 {
+	/// \ingroup	constants
+	/// \see		muu::bounding_box
+	///
+	/// \brief		Axis-aligned bounding box constants.
+	template <typename Scalar>
+	struct constants<bounding_box<Scalar>>
+	{
+		using scalars = constants<Scalar>;
+		using vectors = constants<vector<Scalar, 3>>;
+
+		/// \brief A bounding box with all members initialized to zero.
+		static constexpr bounding_box<Scalar> zero = { vectors::zero, vectors::zero };
+
+		/// \brief A bounding box centered at the origin with sides of length 1.
+		static constexpr bounding_box<Scalar> unit = { vectors::zero, vectors::one_over_two };
+	};
 }
 
 MUU_POP_PRECISE_MATH;
@@ -1197,9 +1221,9 @@ namespace muu
 	/// \brief	Returns true if any of the scalar components of a bounding_box are infinity or NaN.
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool infinity_or_nan(const bounding_box<S>& q) noexcept
+	constexpr bool infinity_or_nan(const bounding_box<S>& bb) noexcept
 	{
-		return bounding_box<S>::infinity_or_nan(q);
+		return bounding_box<S>::infinity_or_nan(bb);
 	}
 
 	/// \ingroup		approx_equal
@@ -1208,11 +1232,11 @@ namespace muu
 	/// \brief		Returns true if two bounding_boxes are approximately equal.
 	template <typename S, typename T>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL approx_equal(const bounding_box<S>& q1,
-											   const bounding_box<T>& q2,
+	constexpr bool MUU_VECTORCALL approx_equal(const bounding_box<S>& bb1,
+											   const bounding_box<T>& bb2,
 											   epsilon_type<S, T> epsilon = default_epsilon<S, T>) noexcept
 	{
-		return bounding_box<S>::approx_equal(q1, q2, epsilon);
+		return bounding_box<S>::approx_equal(bb1, bb2, epsilon);
 	}
 
 	/// \ingroup		approx_zero
@@ -1221,9 +1245,20 @@ namespace muu
 	/// \brief		Returns true if all the scalar components of a bounding_box are approximately equal to zero.
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL approx_zero(const bounding_box<S>& q, S epsilon = default_epsilon<S>) noexcept
+	constexpr bool MUU_VECTORCALL approx_zero(const bounding_box<S>& bb, S epsilon = default_epsilon<S>) noexcept
 	{
-		return bounding_box<S>::approx_zero(q, epsilon);
+		return bounding_box<S>::approx_zero(bb, epsilon);
+	}
+
+	/// \ingroup		degenerate
+	/// \relatesalso	muu::bounding_box
+	///
+	/// \brief	Returns true if a box is degenerate (i.e. any of its extents are less than or equal to zero).
+	template <typename S>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool degenerate(const bounding_box<S>& bb) noexcept
+	{
+		return bounding_box<S>::degenerate(bb);
 	}
 }
 

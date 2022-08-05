@@ -27,29 +27,30 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 namespace muu::impl
 {
 	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI quaternion_
+	struct MUU_TRIVIAL_ABI storage_base<quaternion<Scalar>>
 	{
 		Scalar s;
 		vector<Scalar, 3> v;
 	};
 
 	template <typename Scalar>
-	inline constexpr bool is_hva<quaternion_<Scalar>> = can_be_hva_of<Scalar, quaternion_<Scalar>>;
+	inline constexpr bool is_hva<storage_base<quaternion<Scalar>>> =
+		can_be_hva_of<Scalar, storage_base<quaternion<Scalar>>>;
 
 	template <typename Scalar>
-	inline constexpr bool is_hva<quaternion<Scalar>> = is_hva<quaternion_<Scalar>>;
+	inline constexpr bool is_hva<quaternion<Scalar>> = is_hva<storage_base<quaternion<Scalar>>>;
 
 	template <typename Scalar>
 	struct vector_param_<quaternion<Scalar>>
 	{
-		using type = copy_cvref<quaternion<Scalar>, vector_param<quaternion_<Scalar>>>;
+		using type = copy_cvref<quaternion<Scalar>, vector_param<storage_base<quaternion<Scalar>>>>;
 	};
 }
 
 namespace muu
 {
 	template <typename From, typename Scalar>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::quaternion_<Scalar>> =
+	inline constexpr bool allow_implicit_bit_cast<From, impl::storage_base<quaternion<Scalar>>> =
 		allow_implicit_bit_cast<From, quaternion<Scalar>>;
 }
 
@@ -72,7 +73,7 @@ namespace muu
 	/// 	 - muu::euler_angles
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI quaternion //
-		MUU_HIDDEN_BASE(impl::quaternion_<Scalar>)
+		MUU_HIDDEN_BASE(impl::storage_base<quaternion<Scalar>>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Quaternion scalar type cannot be a reference");
 		static_assert(!is_cv<Scalar>, "Quaternion scalar type cannot be const- or volatile-qualified");
@@ -103,7 +104,7 @@ namespace muu
 		template <typename>
 		friend struct quaternion;
 
-		using base = impl::quaternion_<Scalar>;
+		using base = impl::storage_base<quaternion<Scalar>>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * 4), "Quaternions should not have padding");
 
 		static constexpr bool is_small_float = impl::is_small_float_<scalar_type>;

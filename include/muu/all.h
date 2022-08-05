@@ -12,6 +12,7 @@
 #include "bit.h"
 #include "blob.h"
 #include "bounding_box.h"
+#include "bounding_sphere.h"
 #include "chars.h"
 #include "compressed_pair.h"
 #include "core.h"

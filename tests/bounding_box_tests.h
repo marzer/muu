@@ -33,6 +33,8 @@ namespace
 		static_cast<Func&&>(func)(bb1.extents.z, bb2.extents.z, 5_sz);
 	}
 
+	inline constexpr size_t aabb_scalar_count = 6;
+
 	template <typename T>
 	struct blittable
 	{
@@ -247,7 +249,7 @@ BATCHED_TEST_CASE("bounding_box equality", bounding_boxes<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("bounding_box zero", bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_box zero()", bounding_boxes<ALL_FLOATS>)
 {
 	using aabb = TestType;
 	using T	   = typename aabb::scalar_type;
@@ -280,7 +282,7 @@ BATCHED_TEST_CASE("bounding_box zero", bounding_boxes<ALL_FLOATS>)
 
 	BATCHED_SECTION("one zero")
 	{
-		for (size_t i = 0; i < 6; i++)
+		for (size_t i = 0; i < aabb_scalar_count; i++)
 		{
 			aabb bb{};
 			aabb_for_each(bb,
@@ -294,7 +296,7 @@ BATCHED_TEST_CASE("bounding_box zero", bounding_boxes<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("bounding_box infinity_or_nan", bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_box infinity_or_nan()", bounding_boxes<ALL_FLOATS>)
 {
 	using aabb = TestType;
 	using T	   = typename aabb::scalar_type;
@@ -312,7 +314,7 @@ BATCHED_TEST_CASE("bounding_box infinity_or_nan", bounding_boxes<ALL_FLOATS>)
 	{
 		BATCHED_SECTION("contains one NaN")
 		{
-			for (size_t i = 0; i < 6; i++)
+			for (size_t i = 0; i < aabb_scalar_count; i++)
 			{
 				aabb bb{};
 				aabb_for_each(bb,
@@ -331,7 +333,7 @@ BATCHED_TEST_CASE("bounding_box infinity_or_nan", bounding_boxes<ALL_FLOATS>)
 	{
 		BATCHED_SECTION("contains one infinity")
 		{
-			for (size_t i = 0; i < 6; i++)
+			for (size_t i = 0; i < aabb_scalar_count; i++)
 			{
 				aabb bb{};
 				aabb_for_each(bb,
@@ -343,6 +345,42 @@ BATCHED_TEST_CASE("bounding_box infinity_or_nan", bounding_boxes<ALL_FLOATS>)
 				CHECK(bb.infinity_or_nan());
 				CHECK(muu::infinity_or_nan(bb));
 			}
+		}
+	}
+}
+
+BATCHED_TEST_CASE("bounding_box degenerate()", bounding_boxes<ALL_FLOATS>)
+{
+	using aabb = TestType;
+	using T	   = typename aabb::scalar_type;
+	using vec3 = vector<T, 3>;
+	TEST_INFO("bounding_sphere<"sv << nameof<T> << ">"sv);
+
+	BATCHED_SECTION("false")
+	{
+		aabb bb;
+
+		RANDOM_ITERATIONS
+		{
+			bb.center  = vec3{ random_array<T, 3>(1, 10) };
+			bb.extents = vec3{ random_array<T, 3>(1, 10) };
+			CHECK(!bb.degenerate());
+			CHECK(!aabb::degenerate(bb));
+			CHECK(!muu::degenerate(bb));
+		}
+	}
+
+	BATCHED_SECTION("true")
+	{
+		aabb bb;
+
+		RANDOM_ITERATIONS
+		{
+			bb.center  = vec3{ random_array<T, 3>(1, 10) };
+			bb.extents = vec3{ random_array<T, 3>(-10, 0) };
+			CHECK(bb.degenerate());
+			CHECK(aabb::degenerate(bb));
+			CHECK(muu::degenerate(bb));
 		}
 	}
 }

@@ -22,7 +22,7 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 namespace muu::impl
 {
 	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI euler_angles_
+	struct MUU_TRIVIAL_ABI storage_base<euler_angles<Scalar>>
 	{
 		Scalar yaw;
 		Scalar pitch;
@@ -30,15 +30,16 @@ namespace muu::impl
 	};
 
 	template <typename Scalar>
-	inline constexpr bool is_hva<euler_angles_<Scalar>> = can_be_hva_of<Scalar, euler_angles_<Scalar>>;
+	inline constexpr bool is_hva<storage_base<euler_angles<Scalar>>> =
+		can_be_hva_of<Scalar, storage_base<euler_angles<Scalar>>>;
 
 	template <typename Scalar>
-	inline constexpr bool is_hva<euler_angles<Scalar>> = is_hva<euler_angles_<Scalar>>;
+	inline constexpr bool is_hva<euler_angles<Scalar>> = is_hva<storage_base<euler_angles<Scalar>>>;
 
 	template <typename Scalar>
 	struct vector_param_<euler_angles<Scalar>>
 	{
-		using type = copy_cvref<euler_angles<Scalar>, vector_param<euler_angles_<Scalar>>>;
+		using type = copy_cvref<euler_angles<Scalar>, vector_param<storage_base<euler_angles<Scalar>>>>;
 	};
 }
 
@@ -46,7 +47,7 @@ namespace muu
 {
 
 	template <typename From, typename Scalar>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::euler_angles_<Scalar>> =
+	inline constexpr bool allow_implicit_bit_cast<From, impl::storage_base<euler_angles<Scalar>>> =
 		allow_implicit_bit_cast<From, euler_angles<Scalar>>;
 }
 
@@ -95,7 +96,7 @@ namespace muu
 	/// 	 - [Euler Angles (math)](https://www.euclideanspace.com/maths/geometry/rotations/euler/index.htm)
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI euler_angles //
-		MUU_HIDDEN_BASE(impl::euler_angles_<Scalar>)
+		MUU_HIDDEN_BASE(impl::storage_base<euler_angles<Scalar>>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Euler rotation scalar type cannot be a reference");
 		static_assert(!is_cv<Scalar>, "Euler rotation scalar type cannot be const- or volatile-qualified");
@@ -107,7 +108,7 @@ namespace muu
 	  private:
 		/// \cond
 
-		using base = impl::euler_angles_<Scalar>;
+		using base = impl::storage_base<euler_angles<Scalar>>;
 
 		/// \endcond
 

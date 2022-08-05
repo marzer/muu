@@ -38,21 +38,21 @@ namespace muu
 	namespace impl                                                                                                     \
 	{                                                                                                                  \
 		template <typename Scalar>                                                                                     \
-		inline constexpr bool is_hva<T##_<Scalar>> = can_be_hva_of<Scalar, T##_<Scalar>>;                              \
+		inline constexpr bool is_hva<storage_base<T<Scalar>>> = can_be_hva_of<Scalar, storage_base<T<Scalar>>>;        \
                                                                                                                        \
 		template <typename Scalar>                                                                                     \
-		inline constexpr bool is_hva<muu::T<Scalar>> = is_hva<T##_<Scalar>>;                                           \
+		inline constexpr bool is_hva<T<Scalar>> = is_hva<storage_base<T<Scalar>>>;                                     \
                                                                                                                        \
 		template <typename Scalar>                                                                                     \
-		struct vector_param_<muu::T<Scalar>>                                                                           \
+		struct vector_param_<T<Scalar>>                                                                                \
 		{                                                                                                              \
-			using type = copy_cvref<muu::T<Scalar>, vector_param<T##_<Scalar>>>;                                       \
+			using type = copy_cvref<T<Scalar>, vector_param<storage_base<T<Scalar>>>>;                                 \
 		};                                                                                                             \
 	}                                                                                                                  \
                                                                                                                        \
 	template <typename From, typename Scalar>                                                                          \
-	inline constexpr bool allow_implicit_bit_cast<From, impl::T##_<Scalar>> =                                          \
-		allow_implicit_bit_cast<From, muu::T<Scalar>>;                                                                 \
+	inline constexpr bool allow_implicit_bit_cast<From, impl::storage_base<T<Scalar>>> =                               \
+		allow_implicit_bit_cast<From, T<Scalar>>;                                                                      \
                                                                                                                        \
 	static_assert(true)
 
@@ -65,9 +65,9 @@ namespace muu
 	namespace impl
 	{
 		template <typename Scalar>
-		struct MUU_TRIVIAL_ABI plane_
+		struct MUU_TRIVIAL_ABI storage_base<plane<Scalar>>
 		{
-			vector<Scalar, 3> n;
+			vector<Scalar, 3> normal;
 			Scalar d;
 		};
 	}
@@ -213,7 +213,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename Scalar>
-		struct MUU_TRIVIAL_ABI line_segment_
+		struct MUU_TRIVIAL_ABI storage_base<line_segment<Scalar>>
 		{
 			vector<Scalar, 3> points[2];
 		};
@@ -270,7 +270,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename Scalar>
-		struct MUU_TRIVIAL_ABI triangle_
+		struct MUU_TRIVIAL_ABI storage_base<triangle<Scalar>>
 		{
 			vector<Scalar, 3> points[3];
 		};
@@ -444,7 +444,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename Scalar>
-		struct MUU_TRIVIAL_ABI bounding_sphere_
+		struct MUU_TRIVIAL_ABI storage_base<bounding_sphere<Scalar>>
 		{
 			vector<Scalar, 3> center;
 			Scalar radius;
@@ -452,6 +452,25 @@ namespace muu
 	}
 
 	MUU_GEOMETRY_BASE_BOILERPLATE(bounding_sphere);
+}
+
+namespace muu::impl
+{
+	template <typename Scalar>
+	struct spheres_common
+	{
+		using scalar_type  = Scalar;
+		using vector_type  = vector<scalar_type, 3>;
+		using vector_param = muu::vector_param<vector_type>;
+		using triangles	   = triangles_common<scalar_type>;
+		using sat_tester   = muu::sat_tester<scalar_type, 3>;
+
+		MUU_PURE_GETTER
+		static constexpr scalar_type MUU_VECTORCALL volume(scalar_type radius) noexcept
+		{
+			return constants<scalar_type>::four_over_three_pi * radius * radius * radius;
+		}
+	};
 }
 
 //======================================================================================================================
@@ -546,18 +565,6 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL mass(vector_param extents, scalar_type density) noexcept
-		{
-			return density * volume(extents);
-		}
-
-		MUU_PURE_GETTER
-		static constexpr scalar_type MUU_VECTORCALL density(vector_param extents, scalar_type mass) noexcept
-		{
-			return mass / volume(extents);
-		}
-
-		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL degenerate(vector_param extents) noexcept
 		{
 			return extents.x <= scalar_type{} || extents.y <= scalar_type{} || extents.z <= scalar_type{};
@@ -619,7 +626,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename Scalar>
-		struct MUU_TRIVIAL_ABI bounding_box_
+		struct MUU_TRIVIAL_ABI storage_base<bounding_box<Scalar>>
 		{
 			vector<Scalar, 3> center;
 			vector<Scalar, 3> extents;
@@ -637,8 +644,8 @@ namespace muu::impl
 		using scalar_type  = Scalar;
 		using vector_type  = vector<scalar_type, 3>;
 		using vector_param = muu::vector_param<vector_type>;
-		using boxes		   = boxes_common<Scalar>;
-		using triangles	   = triangles_common<Scalar>;
+		using boxes		   = boxes_common<scalar_type>;
+		using triangles	   = triangles_common<scalar_type>;
 		using sat_tester   = muu::sat_tester<scalar_type, 3>;
 
 		template <box_corner Corner>
@@ -812,7 +819,7 @@ namespace muu
 	namespace impl
 	{
 		template <typename Scalar>
-		struct MUU_TRIVIAL_ABI oriented_bounding_box_
+		struct MUU_TRIVIAL_ABI storage_base<oriented_bounding_box<Scalar>>
 		{
 			vector<Scalar, 3> center;
 			vector<Scalar, 3> extents;
@@ -833,7 +840,7 @@ namespace muu::impl
 		using vector_param = muu::vector_param<vector_type>;
 		using axes_type	   = matrix<scalar_type, 3, 3>;
 		using axes_param   = muu::vector_param<axes_type>;
-		using boxes		   = boxes_common<Scalar>;
+		using boxes		   = boxes_common<scalar_type>;
 
 		template <box_corner Corner>
 		MUU_PURE_GETTER

@@ -79,6 +79,7 @@
     <ClInclude Include="include\muu\all.h" />
     <ClInclude Include="include\muu\axis_angle.h" />
     <ClInclude Include="include\muu\bit.h" />
+    <ClInclude Include="include\muu\bounding_sphere.h" />
     <ClInclude Include="include\muu\euler_angles.h" />
     <ClInclude Include="include\muu\function_view.h" />
     <ClInclude Include="include\muu\impl\aligned_alloc.h" />

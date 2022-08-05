@@ -25,7 +25,7 @@ namespace muu
 	/// \tparam	Scalar      The triangle's scalar component type. Must be a floating-point type.
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI triangle //
-		MUU_HIDDEN_BASE(impl::triangle_<Scalar>)
+		MUU_HIDDEN_BASE(impl::storage_base<triangle<Scalar>>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Triangle scalar type cannot be a reference");
 		static_assert(!is_cv<Scalar>, "Triangle scalar type cannot be const- or volatile-qualified");
@@ -53,7 +53,7 @@ namespace muu
 
 	  private:
 		/// \cond
-		using base = impl::triangle_<Scalar>;
+		using base = impl::storage_base<triangle<Scalar>>;
 		static_assert(sizeof(base) == (sizeof(vector_type) * 3), "Triangles should not have padding");
 
 		using triangles			 = impl::triangles_common<Scalar>;
@@ -271,22 +271,6 @@ namespace muu
 			return triangles::area(base::points[0], base::points[1], base::points[2]);
 		}
 
-		/// \brief	Returns true if a triangle is degenerate (i.e. two or more of its points are coincident).
-		MUU_PURE_INLINE_GETTER
-		static constexpr bool MUU_VECTORCALL degenerate(MUU_VPARAM(vector_type) p0,
-														MUU_VPARAM(vector_type) p1,
-														MUU_VPARAM(vector_type) p2) noexcept
-		{
-			return triangles::degenerate(p0, p1, p2);
-		}
-
-		/// \brief	Returns true if the triangle is degenerate (i.e. two or more of its points are coincident).
-		MUU_PURE_INLINE_GETTER
-		constexpr bool degenerate() const noexcept
-		{
-			return triangles::degenerate(base::points[0], base::points[1], base::points[2]);
-		}
-
 		/// \brief	Returns the plane on which a triangle lies.
 		MUU_PURE_INLINE_GETTER
 		static constexpr muu::plane<scalar_type> MUU_VECTORCALL plane(MUU_VPARAM(vector_type) p0,
@@ -374,6 +358,22 @@ namespace muu
 		constexpr bool infinity_or_nan() const noexcept
 		{
 			return infinity_or_nan(*this);
+		}
+
+		/// \brief	Returns true if a triangle is degenerate (i.e. two or more of its points are coincident).
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL degenerate(MUU_VPARAM(vector_type) p0,
+														MUU_VPARAM(vector_type) p1,
+														MUU_VPARAM(vector_type) p2) noexcept
+		{
+			return triangles::degenerate(p0, p1, p2);
+		}
+
+		/// \brief	Returns true if the triangle is degenerate (i.e. two or more of its points are coincident).
+		MUU_PURE_INLINE_GETTER
+		constexpr bool degenerate() const noexcept
+		{
+			return triangles::degenerate(base::points[0], base::points[1], base::points[2]);
 		}
 
 			/// @}
@@ -812,6 +812,17 @@ namespace muu
 	constexpr bool MUU_VECTORCALL approx_zero(const triangle<S>& tri, S epsilon = default_epsilon<S>) noexcept
 	{
 		return triangle<S>::approx_zero(tri, epsilon);
+	}
+
+	/// \ingroup		degenerate
+	/// \relatesalso	muu::triangle
+	///
+	/// \brief	Returns true if a triangle is degenerate (i.e. two or more of its points are coincident).
+	template <typename S>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool degenerate(const triangle<S>& tri) noexcept
+	{
+		return triangle<S>::degenerate(tri);
 	}
 }
 

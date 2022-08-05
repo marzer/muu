@@ -222,7 +222,7 @@ namespace muu
 	/// \tparam	Scalar      The vector's scalar component type.
 	/// \tparam Dimensions  The number of dimensions.
 	template <typename Scalar, size_t Dimensions>
-	struct MUU_TRIVIAL_ABI vector MUU_HIDDEN_BASE(impl::vector_base<Scalar, Dimensions>)
+	struct MUU_TRIVIAL_ABI vector MUU_HIDDEN_BASE(impl::storage_base<vector<Scalar, Dimensions>>)
 	{
 		static_assert(!is_cvref<Scalar>, "Vector scalar type cannot be const, volatile, or a reference");
 		static_assert(std::is_trivially_constructible_v<Scalar>	  //
@@ -265,7 +265,7 @@ namespace muu
 		template <typename, size_t>
 		friend struct vector;
 
-		using base = impl::vector_base<scalar_type, Dimensions>;
+		using base = impl::storage_base<vector<scalar_type, Dimensions>>;
 		static_assert(sizeof(base) == (sizeof(scalar_type) * Dimensions), "Vectors should not have padding");
 
 		using promoted_scalar				 = promote_if_small_float<scalar_type>;
@@ -329,7 +329,7 @@ namespace muu
 
 	#ifndef DOXYGEN
 
-		using impl::vector_base<scalar_type, Dimensions>::vector_base; // inherit constructors
+		using impl::storage_base<vector<scalar_type, Dimensions>>::storage_base; // inherit constructors
 
 	#else
 

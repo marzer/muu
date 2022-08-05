@@ -7,7 +7,7 @@
 import utils
 import argparse
 from pathlib import Path
-from io import StringIO()
+from io import StringIO
 
 
 

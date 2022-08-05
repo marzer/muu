@@ -13,25 +13,27 @@ namespace
 	template <typename T, typename Func>
 	static void plane_for_each(T&& p, Func&& func)
 	{
-		static_cast<Func&&>(func)(p.n.x, 0_sz);
-		static_cast<Func&&>(func)(p.n.y, 1_sz);
-		static_cast<Func&&>(func)(p.n.z, 2_sz);
-		static_cast<Func&&>(func)(p.d, 3_sz);
+		static_cast<Func&&>(func)(static_cast<T&&>(p).normal.x, 0_sz);
+		static_cast<Func&&>(func)(static_cast<T&&>(p).normal.y, 1_sz);
+		static_cast<Func&&>(func)(static_cast<T&&>(p).normal.z, 2_sz);
+		static_cast<Func&&>(func)(static_cast<T&&>(p).d, 3_sz);
 	}
 
 	template <typename T, typename U, typename Func>
 	static void plane_for_each(T&& p1, U&& p2, Func&& func)
 	{
-		static_cast<Func&&>(func)(p1.n.x, p2.n.x, 0_sz);
-		static_cast<Func&&>(func)(p1.n.y, p2.n.y, 1_sz);
-		static_cast<Func&&>(func)(p1.n.z, p2.n.z, 2_sz);
-		static_cast<Func&&>(func)(p1.d, p2.d, 3_sz);
+		static_cast<Func&&>(func)(static_cast<T&&>(p1).normal.x, static_cast<U&&>(p2).normal.x, 0_sz);
+		static_cast<Func&&>(func)(static_cast<T&&>(p1).normal.y, static_cast<U&&>(p2).normal.y, 1_sz);
+		static_cast<Func&&>(func)(static_cast<T&&>(p1).normal.z, static_cast<U&&>(p2).normal.z, 2_sz);
+		static_cast<Func&&>(func)(static_cast<T&&>(p1).d, static_cast<U&&>(p2).d, 3_sz);
 	}
+
+	inline constexpr size_t plane_scalar_count = 4;
 
 	template <typename T>
 	struct blittable
 	{
-		vector<T, 3> n;
+		vector<T, 3> normal;
 		T d;
 	};
 
@@ -77,9 +79,9 @@ BATCHED_TEST_CASE("plane constructors", tested_planes)
 		const auto n = vec3::normalize(vec3{ random_array<T, 3>() });
 		const auto d = random<T>();
 		const auto p = plane{ n, d };
-		CHECK(p.n[0] == n[0]);
-		CHECK(p.n[1] == n[1]);
-		CHECK(p.n[2] == n[2]);
+		CHECK(p.normal[0] == n[0]);
+		CHECK(p.normal[1] == n[1]);
+		CHECK(p.normal[2] == n[2]);
 		CHECK(p.d == d);
 	}
 
@@ -88,9 +90,9 @@ BATCHED_TEST_CASE("plane constructors", tested_planes)
 		const auto pos = vec3{ random_array<T, 3>() };
 		const auto dir = vec3::normalize(vec3{ random_array<T, 3>() });
 		const auto p   = plane{ pos, dir };
-		CHECK(p.n[0] == dir[0]);
-		CHECK(p.n[1] == dir[1]);
-		CHECK(p.n[2] == dir[2]);
+		CHECK(p.normal[0] == dir[0]);
+		CHECK(p.normal[1] == dir[1]);
+		CHECK(p.normal[2] == dir[2]);
 		CHECK(p.contains(pos));
 	}
 
@@ -219,7 +221,7 @@ BATCHED_TEST_CASE("plane zero", tested_planes)
 
 	BATCHED_SECTION("one zero")
 	{
-		for (size_t i = 0; i < 4; i++)
+		for (size_t i = 0; i < plane_scalar_count; i++)
 		{
 			plane p{};
 			plane_for_each(p,
@@ -251,7 +253,7 @@ BATCHED_TEST_CASE("plane infinity_or_nan", tested_planes)
 	{
 		BATCHED_SECTION("contains one NaN")
 		{
-			for (size_t i = 0; i < 4; i++)
+			for (size_t i = 0; i < plane_scalar_count; i++)
 			{
 				plane p{};
 				plane_for_each(p,
@@ -270,7 +272,7 @@ BATCHED_TEST_CASE("plane infinity_or_nan", tested_planes)
 	{
 		BATCHED_SECTION("contains one infinity")
 		{
-			for (size_t i = 0; i < 4; i++)
+			for (size_t i = 0; i < plane_scalar_count; i++)
 			{
 				plane p{};
 				plane_for_each(p,

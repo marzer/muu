@@ -36,6 +36,8 @@ namespace
 				static_cast<Func&&>(func)(bb1.axes(r, c), bb2.axes(r, c), idx++);
 	}
 
+	inline constexpr size_t obb_scalar_count = 15;
+
 	template <typename T>
 	struct blittable
 	{
@@ -257,7 +259,7 @@ BATCHED_TEST_CASE("oriented_bounding_box equality", oriented_bounding_boxes<ALL_
 	}
 }
 
-BATCHED_TEST_CASE("oriented_bounding_box zero", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box zero()", oriented_bounding_boxes<ALL_FLOATS>)
 {
 	using obb = TestType;
 	using T	  = typename obb::scalar_type;
@@ -290,7 +292,7 @@ BATCHED_TEST_CASE("oriented_bounding_box zero", oriented_bounding_boxes<ALL_FLOA
 
 	BATCHED_SECTION("one zero")
 	{
-		for (size_t i = 0; i < 15; i++)
+		for (size_t i = 0; i < obb_scalar_count; i++)
 		{
 			obb bb{};
 			obb_for_each(bb,
@@ -304,7 +306,7 @@ BATCHED_TEST_CASE("oriented_bounding_box zero", oriented_bounding_boxes<ALL_FLOA
 	}
 }
 
-BATCHED_TEST_CASE("oriented_bounding_box infinity_or_nan", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box infinity_or_nan()", oriented_bounding_boxes<ALL_FLOATS>)
 {
 	using obb = TestType;
 	using T	  = typename obb::scalar_type;
@@ -322,7 +324,7 @@ BATCHED_TEST_CASE("oriented_bounding_box infinity_or_nan", oriented_bounding_box
 	{
 		BATCHED_SECTION("contains one NaN")
 		{
-			for (size_t i = 0; i < 15; i++)
+			for (size_t i = 0; i < obb_scalar_count; i++)
 			{
 				obb bb{};
 				obb_for_each(bb,
@@ -341,7 +343,7 @@ BATCHED_TEST_CASE("oriented_bounding_box infinity_or_nan", oriented_bounding_box
 	{
 		BATCHED_SECTION("contains one infinity")
 		{
-			for (size_t i = 0; i < 15; i++)
+			for (size_t i = 0; i < obb_scalar_count; i++)
 			{
 				obb bb{};
 				obb_for_each(bb,
@@ -353,6 +355,45 @@ BATCHED_TEST_CASE("oriented_bounding_box infinity_or_nan", oriented_bounding_box
 				CHECK(bb.infinity_or_nan());
 				CHECK(muu::infinity_or_nan(bb));
 			}
+		}
+	}
+}
+
+BATCHED_TEST_CASE("oriented_bounding_box degenerate()", oriented_bounding_boxes<ALL_FLOATS>)
+{
+	using obb  = TestType;
+	using T	   = typename obb::scalar_type;
+	using vec3 = vector<T, 3>;
+	using mat3 = matrix<T, 3, 3>;
+	TEST_INFO("oriented_bounding_box<"sv << nameof<T> << ">"sv);
+
+	BATCHED_SECTION("false")
+	{
+		obb bb;
+		bb.axes = mat3::constants::identity;
+
+		RANDOM_ITERATIONS
+		{
+			bb.center  = vec3{ random_array<T, 3>(1, 10) };
+			bb.extents = vec3{ random_array<T, 3>(1, 10) };
+			CHECK(!bb.degenerate());
+			CHECK(!obb::degenerate(bb));
+			CHECK(!muu::degenerate(bb));
+		}
+	}
+
+	BATCHED_SECTION("true")
+	{
+		obb bb;
+		bb.axes = mat3::constants::identity;
+
+		RANDOM_ITERATIONS
+		{
+			bb.center  = vec3{ random_array<T, 3>(1, 10) };
+			bb.extents = vec3{ random_array<T, 3>(-10, 0) };
+			CHECK(bb.degenerate());
+			CHECK(obb::degenerate(bb));
+			CHECK(muu::degenerate(bb));
 		}
 	}
 }

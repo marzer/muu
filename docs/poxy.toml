@@ -104,6 +104,7 @@ numeric_literals = [
 '(?:muu::)?uint128_ts?' = 'group__core.html#gaa82164a62949a1b029695dff5441d577'
 '(?:muu::)?int128_ts?' = 'group__core.html#gaf8e0aa5a37ec05e07c7b69077de9303c'
 '(?:muu::)?float128_ts?' = 'group__core.html#ga74a70ec9e3331f37ebbc3e875e183861'
+'(?:muu::)?bounding_sphere(?:s)?' = 'structmuu_1_1bounding__sphere.html'
 '(?:muu::)?bounding_box(?:es)?' = 'structmuu_1_1bounding__box.html'
 '(?:muu::)?oriented_bounding_box(?:es)?' = 'structmuu_1_1oriented__bounding__box.html'
 '(?:muu::)?planes?' = 'structmuu_1_1plane.html'

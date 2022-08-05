@@ -7,7 +7,7 @@
 
 #define TEST_BATCHES	 4
 #define TEST_BATCH		 3
-#define TEST_BATCH_INFIX bounding_box
+#define TEST_BATCH_INFIX bounding_sphere
 #include "batching.h"
 
-#include "bounding_box_tests.h"
+#include "bounding_sphere_tests.h"

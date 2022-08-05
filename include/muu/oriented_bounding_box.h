@@ -27,7 +27,7 @@ namespace muu
 	/// \see [Oriented Bounding Box](https://www.sciencedirect.com/topics/computer-science/oriented-bounding-box)
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI oriented_bounding_box //
-		MUU_HIDDEN_BASE(impl::oriented_bounding_box_<Scalar>)
+		MUU_HIDDEN_BASE(impl::storage_base<oriented_bounding_box<Scalar>>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Oriented bounding box scalar type cannot be a reference");
 		static_assert(!is_cv<Scalar>, "Oriented bounding box scalar type cannot be const- or volatile-qualified");
@@ -52,7 +52,7 @@ namespace muu
 		using constants = muu::constants<oriented_bounding_box>;
 
 	  private:
-		using base = impl::oriented_bounding_box_<Scalar>;
+		using base = impl::storage_base<oriented_bounding_box<Scalar>>;
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2 + sizeof(axes_type)),
 					  "Oriented bounding boxes should not have padding");
 
@@ -318,21 +318,14 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type MUU_VECTORCALL mass(scalar_type density) const noexcept
 		{
-			return obbs::mass(base::extents, density);
+			return density * volume();
 		}
 
 		/// \brief	Calculates the density of this box if it had a given mass.
 		MUU_PURE_INLINE_GETTER
 		constexpr scalar_type MUU_VECTORCALL density(scalar_type mass) const noexcept
 		{
-			return obbs::density(base::extents, mass);
-		}
-
-		/// \brief	Returns true if the box is degenerate (i.e. any of its extents are less than or equal to zero).
-		MUU_PURE_INLINE_GETTER
-		constexpr bool degenerate() const noexcept
-		{
-			return obbs::degenerate(base::extents);
+			return mass / volume();
 		}
 
 			/// @}
@@ -419,6 +412,20 @@ namespace muu
 		constexpr bool infinity_or_nan() const noexcept
 		{
 			return infinity_or_nan(*this);
+		}
+
+		/// \brief	Returns true if the box is degenerate (i.e. any of its extents are less than or equal to zero).
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL degenerate(MUU_VPARAM(oriented_bounding_box) bb) noexcept
+		{
+			return obbs::degenerate(bb.extents);
+		}
+
+		/// \brief	Returns true if the box is degenerate (i.e. any of its extents are less than or equal to zero).
+		MUU_PURE_INLINE_GETTER
+		constexpr bool degenerate() const noexcept
+		{
+			return obbs::degenerate(base::extents);
 		}
 
 			/// @}
@@ -794,6 +801,22 @@ MUU_PUSH_PRECISE_MATH;
 
 namespace muu
 {
+	/// \ingroup	constants
+	/// \see		muu::oriented_bounding_box
+	///
+	/// \brief		Oriented bounding box constants.
+	template <typename Scalar>
+	struct constants<oriented_bounding_box<Scalar>>
+	{
+		using scalars = constants<Scalar>;
+		using vectors = constants<vector<Scalar, 3>>;
+
+		/// \brief An oriented bounding box with all members initialized to zero.
+		static constexpr oriented_bounding_box<Scalar> zero = { vectors::zero, vectors::zero };
+
+		/// \brief A oriented bounding box centered at the origin with sides of length 1.
+		static constexpr oriented_bounding_box<Scalar> unit = { vectors::zero, vectors::one_over_two };
+	};
 }
 
 MUU_POP_PRECISE_MATH;
@@ -812,9 +835,9 @@ namespace muu
 	/// \brief	Returns true if any of the scalar components of an oriented_bounding_box are infinity or NaN.
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool infinity_or_nan(const oriented_bounding_box<S>& q) noexcept
+	constexpr bool infinity_or_nan(const oriented_bounding_box<S>& bb) noexcept
 	{
-		return oriented_bounding_box<S>::infinity_or_nan(q);
+		return oriented_bounding_box<S>::infinity_or_nan(bb);
 	}
 
 	/// \ingroup	approx_equal
@@ -823,11 +846,11 @@ namespace muu
 	/// \brief		Returns true if two oriented bounding boxes are approximately equal.
 	template <typename S, typename T>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL approx_equal(const oriented_bounding_box<S>& q1,
-											   const oriented_bounding_box<T>& q2,
+	constexpr bool MUU_VECTORCALL approx_equal(const oriented_bounding_box<S>& bb1,
+											   const oriented_bounding_box<T>& bb2,
 											   epsilon_type<S, T> epsilon = default_epsilon<S, T>) noexcept
 	{
-		return oriented_bounding_box<S>::approx_equal(q1, q2, epsilon);
+		return oriented_bounding_box<S>::approx_equal(bb1, bb2, epsilon);
 	}
 
 	/// \ingroup	approx_zero
@@ -837,10 +860,21 @@ namespace muu
 	/// zero.
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL approx_zero(const oriented_bounding_box<S>& q,
+	constexpr bool MUU_VECTORCALL approx_zero(const oriented_bounding_box<S>& bb,
 											  S epsilon = default_epsilon<S>) noexcept
 	{
-		return oriented_bounding_box<S>::approx_zero(q, epsilon);
+		return oriented_bounding_box<S>::approx_zero(bb, epsilon);
+	}
+
+	/// \ingroup		degenerate
+	/// \relatesalso	muu::oriented_bounding_box
+	///
+	/// \brief	Returns true if a box is degenerate (i.e. any of its extents are less than or equal to zero).
+	template <typename S>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool degenerate(const oriented_bounding_box<S>& bb) noexcept
+	{
+		return oriented_bounding_box<S>::degenerate(bb);
 	}
 }
 

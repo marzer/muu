@@ -295,6 +295,9 @@
     <ClInclude Include="include\muu\impl\preprocessor_for_each_attributes.h">
       <Filter>include\impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\bounding_sphere.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">

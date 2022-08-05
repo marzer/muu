@@ -22,29 +22,30 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 namespace muu::impl
 {
 	template <typename Scalar>
-	struct MUU_TRIVIAL_ABI axis_angle_
+	struct MUU_TRIVIAL_ABI storage_base<axis_angle<Scalar>>
 	{
 		vector<Scalar, 3> axis;
 		Scalar angle;
 	};
 
 	template <typename Scalar>
-	inline constexpr bool is_hva<axis_angle_<Scalar>> = can_be_hva_of<Scalar, axis_angle_<Scalar>>;
+	inline constexpr bool is_hva<storage_base<axis_angle<Scalar>>> =
+		can_be_hva_of<Scalar, storage_base<axis_angle<Scalar>>>;
 
 	template <typename Scalar>
-	inline constexpr bool is_hva<axis_angle<Scalar>> = is_hva<axis_angle_<Scalar>>;
+	inline constexpr bool is_hva<axis_angle<Scalar>> = is_hva<storage_base<axis_angle<Scalar>>>;
 
 	template <typename Scalar>
 	struct vector_param_<axis_angle<Scalar>>
 	{
-		using type = copy_cvref<axis_angle<Scalar>, vector_param<axis_angle_<Scalar>>>;
+		using type = copy_cvref<axis_angle<Scalar>, vector_param<storage_base<axis_angle<Scalar>>>>;
 	};
 }
 
 namespace muu
 {
 	template <typename From, typename Scalar>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::axis_angle_<Scalar>> =
+	inline constexpr bool allow_implicit_bit_cast<From, impl::storage_base<axis_angle<Scalar>>> =
 		allow_implicit_bit_cast<From, axis_angle<Scalar>>;
 }
 
@@ -64,7 +65,7 @@ namespace muu
 	/// \see		muu::quaternion
 	template <typename Scalar>
 	struct MUU_TRIVIAL_ABI axis_angle //
-		MUU_HIDDEN_BASE(impl::axis_angle_<Scalar>)
+		MUU_HIDDEN_BASE(impl::storage_base<axis_angle<Scalar>>)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Axis-angle rotation scalar type cannot be a reference");
 		static_assert(!is_cv<Scalar>, "Axis-angle rotation scalar type cannot be const- or volatile-qualified");
@@ -79,7 +80,7 @@ namespace muu
 	  private:
 		/// \cond
 
-		using base = impl::axis_angle_<Scalar>;
+		using base = impl::storage_base<axis_angle<Scalar>>;
 
 		/// \endcond
 

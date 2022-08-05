@@ -23,11 +23,11 @@ namespace muu::impl
 	{};
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	struct MUU_TRIVIAL_ABI matrix_
+	struct MUU_TRIVIAL_ABI storage_base<matrix<Scalar, Rows, Columns>>
 	{
 		vector<Scalar, Rows> m[Columns];
 
-		matrix_() noexcept = default;
+		storage_base() noexcept = default;
 
 #if MUU_MSVC // still problematic as of 19.33
 
@@ -44,7 +44,7 @@ namespace muu::impl
 
 	  public:
 		template <size_t... ColumnIndices>
-		explicit constexpr matrix_(broadcast_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
+		explicit constexpr storage_base(broadcast_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
 			: m{ fill_column_initializer_msvc<ColumnIndices>(fill)... }
 		{
 			static_assert(sizeof...(ColumnIndices) <= Columns);
@@ -53,7 +53,7 @@ namespace muu::impl
 #else
 
 		template <size_t... ColumnIndices>
-		explicit constexpr matrix_(broadcast_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
+		explicit constexpr storage_base(broadcast_tag, std::index_sequence<ColumnIndices...>, Scalar fill) noexcept
 			: m{ (static_cast<void>(ColumnIndices), vector<Scalar, Rows>{ fill })... }
 		{
 			static_assert(sizeof...(ColumnIndices) <= Columns);
@@ -62,14 +62,16 @@ namespace muu::impl
 #endif
 
 		template <typename... T>
-		explicit constexpr matrix_(columnwise_init_tag, T... cols) noexcept //
+		explicit constexpr storage_base(columnwise_init_tag, T... cols) noexcept //
 			: m{ cols... }
 		{
 			static_assert(sizeof...(T) <= Columns);
 		}
 
 		template <typename T, size_t... ColumnIndices>
-		explicit constexpr matrix_(columnwise_copy_tag, std::index_sequence<ColumnIndices...>, const T& cols) noexcept
+		explicit constexpr storage_base(columnwise_copy_tag,
+										std::index_sequence<ColumnIndices...>,
+										const T& cols) noexcept
 			: m{ vector<Scalar, Rows>{ cols[ColumnIndices] }... }
 		{
 			static_assert(sizeof...(ColumnIndices) <= Columns);
@@ -105,7 +107,7 @@ namespace muu::impl
 	  public:
 		template <typename T, size_t... ColumnIndices>
 		MUU_ALWAYS_INLINE
-		explicit constexpr matrix_(const T& tpl, std::index_sequence<ColumnIndices...>) noexcept
+		explicit constexpr storage_base(const T& tpl, std::index_sequence<ColumnIndices...>) noexcept
 			: m{ column_from_row_major_tuple<ColumnIndices>(tpl, std::make_index_sequence<Rows>{})... }
 		{
 			static_assert(tuple_size<T> <= Rows * Columns);
@@ -113,8 +115,8 @@ namespace muu::impl
 		}
 
 		template <typename T>
-		explicit constexpr matrix_(row_major_tuple_tag, const T& tpl) noexcept
-			: matrix_{ tpl, std::make_index_sequence<Columns>{} }
+		explicit constexpr storage_base(row_major_tuple_tag, const T& tpl) noexcept
+			: storage_base{ tpl, std::make_index_sequence<Columns>{} }
 		{
 			static_assert(tuple_size<T> <= Rows * Columns);
 		}
@@ -123,70 +125,70 @@ namespace muu::impl
 
 		// 2x2
 		MUU_HIDDEN_CONSTRAINT((R == 2 && C == 2), size_t R = Rows, size_t C = Columns)
-		constexpr matrix_(Scalar v00, Scalar v01, Scalar v10 = Scalar{}, Scalar v11 = Scalar{}) noexcept
+		constexpr storage_base(Scalar v00, Scalar v01, Scalar v10 = Scalar{}, Scalar v11 = Scalar{}) noexcept
 			: m{ { v00, v10 }, { v01, v11 } }
 		{}
 
 		// 2x3
 		MUU_HIDDEN_CONSTRAINT((R == 2 && C == 3), size_t R = Rows, size_t C = Columns)
-		constexpr matrix_(Scalar v00,
-						  Scalar v01,
-						  Scalar v02,
-						  Scalar v10,
-						  Scalar v11,
-						  Scalar v12) noexcept //
+		constexpr storage_base(Scalar v00,
+							   Scalar v01,
+							   Scalar v02,
+							   Scalar v10,
+							   Scalar v11,
+							   Scalar v12) noexcept //
 			: m{ { v00, v10 }, { v01, v11 }, { v02, v12 } }
 		{}
 
 		// 3x3
 		MUU_HIDDEN_CONSTRAINT((R == 3 && C == 3), size_t R = Rows, size_t C = Columns)
-		constexpr matrix_(Scalar v00,
-						  Scalar v01,
-						  Scalar v02,
-						  Scalar v10,
-						  Scalar v11,
-						  Scalar v12,
-						  Scalar v20,
-						  Scalar v21,
-						  Scalar v22) noexcept //
+		constexpr storage_base(Scalar v00,
+							   Scalar v01,
+							   Scalar v02,
+							   Scalar v10,
+							   Scalar v11,
+							   Scalar v12,
+							   Scalar v20,
+							   Scalar v21,
+							   Scalar v22) noexcept //
 			: m{ { v00, v10, v20 }, { v01, v11, v21 }, { v02, v12, v22 } }
 		{}
 
 		// 3x4
 		MUU_HIDDEN_CONSTRAINT((R == 3 && C == 4), size_t R = Rows, size_t C = Columns)
-		constexpr matrix_(Scalar v00,
-						  Scalar v01,
-						  Scalar v02,
-						  Scalar v03,
-						  Scalar v10,
-						  Scalar v11,
-						  Scalar v12,
-						  Scalar v13,
-						  Scalar v20,
-						  Scalar v21,
-						  Scalar v22,
-						  Scalar v23) noexcept //
+		constexpr storage_base(Scalar v00,
+							   Scalar v01,
+							   Scalar v02,
+							   Scalar v03,
+							   Scalar v10,
+							   Scalar v11,
+							   Scalar v12,
+							   Scalar v13,
+							   Scalar v20,
+							   Scalar v21,
+							   Scalar v22,
+							   Scalar v23) noexcept //
 			: m{ { v00, v10, v20 }, { v01, v11, v21 }, { v02, v12, v22 }, { v03, v13, v23 } }
 		{}
 
 		// 4x4
 		MUU_HIDDEN_CONSTRAINT((R == 4 && C == 4), size_t R = Rows, size_t C = Columns)
-		constexpr matrix_(Scalar v00,
-						  Scalar v01,
-						  Scalar v02,
-						  Scalar v03,
-						  Scalar v10,
-						  Scalar v11,
-						  Scalar v12,
-						  Scalar v13,
-						  Scalar v20,
-						  Scalar v21,
-						  Scalar v22,
-						  Scalar v23,
-						  Scalar v30,
-						  Scalar v31,
-						  Scalar v32,
-						  Scalar v33) noexcept //
+		constexpr storage_base(Scalar v00,
+							   Scalar v01,
+							   Scalar v02,
+							   Scalar v03,
+							   Scalar v10,
+							   Scalar v11,
+							   Scalar v12,
+							   Scalar v13,
+							   Scalar v20,
+							   Scalar v21,
+							   Scalar v22,
+							   Scalar v23,
+							   Scalar v30,
+							   Scalar v31,
+							   Scalar v32,
+							   Scalar v33) noexcept //
 			: m{ { v00, v10, v20, v30 }, { v01, v11, v21, v31 }, { v02, v12, v22, v32 }, { v03, v13, v23, v33 } }
 		{}
 	};
@@ -194,16 +196,17 @@ namespace muu::impl
 	//--- hva/vectorcall -----------------------------------------------------------------------------------------------
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool is_hva<matrix_<Scalar, Rows, Columns>> =
-		can_be_hva_of<Scalar, matrix_<Scalar, Rows, Columns>>;
+	inline constexpr bool is_hva<storage_base<matrix<Scalar, Rows, Columns>>> =
+		can_be_hva_of<Scalar, storage_base<matrix<Scalar, Rows, Columns>>>;
 
 	template <typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool is_hva<matrix<Scalar, Rows, Columns>> = is_hva<matrix_<Scalar, Rows, Columns>>;
+	inline constexpr bool is_hva<matrix<Scalar, Rows, Columns>> = is_hva<storage_base<matrix<Scalar, Rows, Columns>>>;
 
 	template <typename Scalar, size_t Rows, size_t Columns>
 	struct vector_param_<matrix<Scalar, Rows, Columns>>
 	{
-		using type = copy_cvref<matrix<Scalar, Rows, Columns>, vector_param<matrix_<Scalar, Rows, Columns>>>;
+		using type =
+			copy_cvref<matrix<Scalar, Rows, Columns>, vector_param<storage_base<matrix<Scalar, Rows, Columns>>>>;
 	};
 
 	//--- matrix classification  ---------------------------------------------------------------------------------------
@@ -322,7 +325,7 @@ namespace muu::impl
 namespace muu
 {
 	template <typename From, typename Scalar, size_t Rows, size_t Columns>
-	inline constexpr bool allow_implicit_bit_cast<From, impl::matrix_<Scalar, Rows, Columns>> =
+	inline constexpr bool allow_implicit_bit_cast<From, impl::storage_base<matrix<Scalar, Rows, Columns>>> =
 		allow_implicit_bit_cast<From, matrix<Scalar, Rows, Columns>>;
 }
 
