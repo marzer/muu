@@ -76,11 +76,18 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0535df1acd603649ac9f793d96062112">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; q1,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;T&gt;&amp; q2,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6b10b6af5ce7597eee3876967ce03465">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; bb1,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;T&gt;&amp; bb2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_boxes</a> are approximately equal.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8976372243128129e8c98bc13031a28d">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;S&gt;&amp; bs1,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;T&gt;&amp; bs2,
+              epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two bounding spheres are approximately equal.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga87bf7f92a62590f695617cea9bb941fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a> a,
               <a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a> b,
@@ -145,8 +152,8 @@
             <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrices</a> are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga44033f904b7ed733949dab5e6acccd16">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; q1,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;T&gt;&amp; q2,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa405d888329e64402e4a0f2e4f46a203">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; bb1,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;T&gt;&amp; bb2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two oriented bounding boxes are approximately equal.</dd>
@@ -182,17 +189,29 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ga0535df1acd603649ac9f793d96062112"><div>
+          <section class="m-doc-details" id="ga6b10b6af5ce7597eee3876967ce03465"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__box_8h.html">&lt;muu/bounding_box.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename S, typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0535df1acd603649ac9f793d96062112">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; q1,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;T&gt;&amp; q2,
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6b10b6af5ce7597eee3876967ce03465">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; bb1,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;T&gt;&amp; bb2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_boxes</a> are approximately equal.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga8976372243128129e8c98bc13031a28d"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__sphere_8h.html">&lt;muu/bounding_sphere.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename S, typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8976372243128129e8c98bc13031a28d">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;S&gt;&amp; bs1,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;T&gt;&amp; bs2,
+              epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if two bounding spheres are approximately equal.</p>
           </div></section>
           <section class="m-doc-details" id="ga87bf7f92a62590f695617cea9bb941fe"><div>
             <h3>
@@ -293,14 +312,14 @@
             <p>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrices</a> are approximately equal.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when at least one of <code>S</code> and <code>T</code> is a floating-point type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ga44033f904b7ed733949dab5e6acccd16"><div>
+          <section class="m-doc-details" id="gaa405d888329e64402e4a0f2e4f46a203"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="oriented__bounding__box_8h.html">&lt;muu/oriented_bounding_box.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename S, typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga44033f904b7ed733949dab5e6acccd16">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; q1,
-              const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;T&gt;&amp; q2,
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa405d888329e64402e4a0f2e4f46a203">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; bb1,
+              const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;T&gt;&amp; bb2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two oriented bounding boxes are approximately equal.</p>

@@ -262,6 +262,10 @@
         <section id="equality-exact">
           <h2><a href="#equality-exact">Equality (exact)</a></h2>
           <dl class="m-doc">
+            <dt id="aa2dc1ee9a89725fae385509e4c0b876c">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aa2dc1ee9a89725fae385509e4c0b876c">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment is degenerate (i.e. its points are coincident).</dd>
             <dt id="a3658396761ffd2fb51652e7f026b654f">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a3658396761ffd2fb51652e7f026b654f">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -270,6 +274,10 @@
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a78b7742abe2c6e2f9f61367668630b23">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the points of a line segment are exactly zero.</dd>
+            <dt id="a2293e254b7a4c9e841dcef108c274ca5">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2293e254b7a4c9e841dcef108c274ca5">degenerate</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment is degenerate (i.e. its points are coincident).</dd>
             <dt id="a57b0cb28fbdab9ae1ef095919c9d1647">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a57b0cb28fbdab9ae1ef095919c9d1647">infinity_or_nan</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -295,10 +303,6 @@
         <section id="geometric-properties">
           <h2><a href="#geometric-properties">Geometric properties</a></h2>
           <dl class="m-doc">
-            <dt id="aa2dc1ee9a89725fae385509e4c0b876c">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aa2dc1ee9a89725fae385509e4c0b876c">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a line segment is degenerate (i.e. its points are coincident).</dd>
             <dt id="a1a64ae1471c34f5c8e61f6a96c0a8e09">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a1a64ae1471c34f5c8e61f6a96c0a8e09">direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
               <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&amp; length_out) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -320,10 +324,6 @@
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a483eca88f4f25c77674e35d6de3f09b5">midpoint</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a line segment's midpoint.</dd>
-            <dt id="a2293e254b7a4c9e841dcef108c274ca5">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2293e254b7a4c9e841dcef108c274ca5">degenerate</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a line segment is degenerate (i.e. its points are coincident).</dd>
             <dt id="a0119355a5234186d377e56d9da7f0065">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0119355a5234186d377e56d9da7f0065">direction</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>&amp; length_out) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -503,6 +503,11 @@
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the points in line segment are approximately equal to zero.</dd>
+            <dt id="a8e6014f4408e18bb6eabd6743abb3d52">
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a8e6014f4408e18bb6eabd6743abb3d52">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a line segment is degenerate (i.e. its points are coincident).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gafe018cc9e24195a2edf98017340c2263">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>

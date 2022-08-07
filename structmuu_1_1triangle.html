@@ -280,6 +280,12 @@
         <section id="equality-exact">
           <h2><a href="#equality-exact">Equality (exact)</a></h2>
           <dl class="m-doc">
+            <dt id="ac891350e77133647bb9b9c3800564ba6">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ac891350e77133647bb9b9c3800564ba6">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle is degenerate (i.e. two or more of its points are coincident).</dd>
             <dt id="aa6dd25aeeba2dbb7a0237688c5ba554e">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aa6dd25aeeba2dbb7a0237688c5ba554e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -288,6 +294,10 @@
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a8ba2ece2bafc08a34d60b4a5128ac278">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the points of a triangle are exactly zero.</dd>
+            <dt id="af9075d4c90279701a3e2208a1f180435">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af9075d4c90279701a3e2208a1f180435">degenerate</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the triangle is degenerate (i.e. two or more of its points are coincident).</dd>
             <dt id="ab98d85af8f104aebbe9a0e5040d30cc8">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab98d85af8f104aebbe9a0e5040d30cc8">infinity_or_nan</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -325,12 +335,6 @@
               const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a triangle's centroid point.</dd>
-            <dt id="ac891350e77133647bb9b9c3800564ba6">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ac891350e77133647bb9b9c3800564ba6">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
-              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
-              const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a triangle is degenerate (i.e. two or more of its points are coincident).</dd>
             <dt id="a43dfb7e83c3b43c58d00f74b707e2862">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a43dfb7e83c3b43c58d00f74b707e2862">normal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p0,
               const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p1,
@@ -357,10 +361,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ac45d0c9a3993bb80460c1e06628583ea">centroid</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the triangle's centroid point.</dd>
-            <dt id="af9075d4c90279701a3e2208a1f180435">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af9075d4c90279701a3e2208a1f180435">degenerate</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if the triangle is degenerate (i.e. two or more of its points are coincident).</dd>
             <dt id="a53dd160e37e290a66d6062105e849daf">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a53dd160e37e290a66d6062105e849daf">normal</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -521,6 +521,11 @@
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the points in triangle are approximately equal to zero.</dd>
+            <dt id="aa05ebbda3b946e8314e714eabe1037fc">
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa05ebbda3b946e8314e714eabe1037fc">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a triangle is degenerate (i.e. two or more of its points are coincident).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga73ae74e7ab9484fb2ee90a67e91c1b08">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
