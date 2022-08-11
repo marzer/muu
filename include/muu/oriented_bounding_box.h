@@ -832,7 +832,7 @@ namespace muu
 	/// \ingroup	infinity_or_nan
 	/// \relatesalso	muu::oriented_bounding_box
 	///
-	/// \brief	Returns true if any of the scalar components of an oriented_bounding_box are infinity or NaN.
+	/// \brief	Returns true if any of the scalar components of an oriented bounding box are infinity or NaN.
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool infinity_or_nan(const oriented_bounding_box<S>& bb) noexcept
@@ -856,7 +856,7 @@ namespace muu
 	/// \ingroup	approx_zero
 	/// \relatesalso	muu::oriented_bounding_box
 	///
-	/// \brief		Returns true if all the scalar components of an oriented_bounding_box are approximately equal to
+	/// \brief		Returns true if all the scalar components of an oriented bounding box are approximately equal to
 	/// zero.
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
@@ -869,7 +869,7 @@ namespace muu
 	/// \ingroup		degenerate
 	/// \relatesalso	muu::oriented_bounding_box
 	///
-	/// \brief	Returns true if a box is degenerate (i.e. any of its extents are less than or equal to zero).
+	/// \brief	Returns true if an oriented bounding box is degenerate (i.e. any of its extents are less than or equal to zero).
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool degenerate(const oriented_bounding_box<S>& bb) noexcept

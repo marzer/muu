@@ -9,7 +9,7 @@
 // clang-format off
 #ifdef MUU_TYPE_NAME_H
 
-namespace muu
+namespace muu::impl
 {
 	// <string>
 	#if !defined(MUU_TYPENAME_SPECIALIZED_STD_STRING)                                                                  \

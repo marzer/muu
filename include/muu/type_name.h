@@ -762,115 +762,122 @@ namespace muu
 		// todo: member function pointers
 		// todo: member object pointers
 		// todo: template unpacking with NTTPs
-	}
 
 #define MUU_SPECIALIZE_TYPENAME_ALIAS(T)                                                                               \
 	template <>                                                                                                        \
-	inline constexpr auto type_name<T> = static_string(MUU_MAKE_STRING(T))
+	struct type_name_<T>                                                                                               \
+	{                                                                                                                  \
+		static constexpr auto value = static_string(MUU_MAKE_STRING(T));                                               \
+	}
 
 #define MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(T)                                                                      \
 	template <typename T0>                                                                                             \
-	inline constexpr auto type_name<T<T0>> = static_string(MUU_MAKE_STRING(T)) + '<' + type_name<T0> + '>'
+	struct type_name_<T<T0>>                                                                                           \
+	{                                                                                                                  \
+		static constexpr auto value = static_string(MUU_MAKE_STRING(T)) + '<' + type_name<T0> + '>';                   \
+	}
 
-	// built-ins (to reduce instantiations and ensure consistent behaviour)
-	MUU_SPECIALIZE_TYPENAME_ALIAS(void);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(bool);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(char);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(signed char);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned char);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(wchar_t);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(char32_t);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(char16_t);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(short);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(int);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(long);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(long long);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned short);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned int);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned long);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned long long);
+		// built-ins (to reduce instantiations and ensure consistent behaviour)
+		MUU_SPECIALIZE_TYPENAME_ALIAS(void);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(bool);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(char);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(signed char);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned char);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(wchar_t);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(char32_t);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(char16_t);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(short);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(int);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(long);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(long long);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned short);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned int);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned long);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(unsigned long long);
 #if MUU_HAS_INT128
-	MUU_SPECIALIZE_TYPENAME_ALIAS(__int128_t);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(__uint128_t);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(__int128_t);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(__uint128_t);
 #endif
-	MUU_SPECIALIZE_TYPENAME_ALIAS(float);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(double);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(long double);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(float);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(double);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(long double);
 #if MUU_HAS_CHAR8
-	MUU_SPECIALIZE_TYPENAME_ALIAS(char8_t);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(char8_t);
 #endif
 #if MUU_HAS_FP16
-	MUU_SPECIALIZE_TYPENAME_ALIAS(__fp16);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(__fp16);
 #endif
 #if MUU_HAS_FLOAT16
-	MUU_SPECIALIZE_TYPENAME_ALIAS(_Float16);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(_Float16);
 #endif
 #if MUU_HAS_FLOAT128
-	MUU_SPECIALIZE_TYPENAME_ALIAS(__float128);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(__float128);
 #endif
 
-	// muu types forward-declared in fwd.h
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(muu::span);
-	MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(muu::accumulator);
+		// muu types forward-declared in fwd.h
+		MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(muu::span);
+		MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(muu::accumulator);
 
-	// <string_view> (included in this header)
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::string_view);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wstring_view);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::u16string_view);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::u32string_view);
+		// <string_view> (included in this header)
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::string_view);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wstring_view);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::u16string_view);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::u32string_view);
 #if MUU_HAS_CHAR8_STRINGS
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::u8string_view);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::u8string_view);
 #endif
 
-	// <iosfwd> (included in this header)
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ios);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wios);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::streambuf);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::istream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ostream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::iostream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::stringbuf);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::istringstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ostringstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::stringstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::filebuf);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ifstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ofstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::fstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wstreambuf);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wistream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wostream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wiostream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wstringbuf);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wistringstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wostringstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wstringstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wfilebuf);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wifstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wofstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wfstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::streampos);
+		// <iosfwd> (included in this header)
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::ios);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wios);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::streambuf);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::istream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::ostream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::iostream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::stringbuf);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::istringstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::ostringstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::stringstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::filebuf);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::ifstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::ofstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::fstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wstreambuf);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wistream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wostream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wiostream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wstringbuf);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wistringstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wostringstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wstringstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wfilebuf);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wifstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wofstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wfstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::streampos);
 
-	// these should also be in <iosfwd> but aren't forward-declared on libstdc++-11 for whatever reason
-	// so they break stuff and I don't care enough to handle this better
+		// these should also be in <iosfwd> but aren't forward-declared on libstdc++-11 for whatever reason
+		// so they break stuff and I don't care enough to handle this better
 #if 0
 	#if MUU_HAS_SYNCSTREAMS
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::syncbuf);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::osyncstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wsyncbuf);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wosyncstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::syncbuf);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::osyncstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wsyncbuf);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wosyncstream);
 	#endif
 	#if MUU_HAS_SPANSTREAMS
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::spanbuf);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ispanstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::ospanstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::spanstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wspanbuf);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wispanstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wospanstream);
-	MUU_SPECIALIZE_TYPENAME_ALIAS(std::wspanstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::spanbuf);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::ispanstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::ospanstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::spanstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wspanbuf);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wispanstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wospanstream);
+		MUU_SPECIALIZE_TYPENAME_ALIAS(std::wspanstream);
 	#endif
 #endif
+
+	}
 
 	/// \endcond
 }

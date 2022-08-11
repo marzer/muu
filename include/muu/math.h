@@ -153,31 +153,6 @@ namespace muu
 			}
 		}
 
-		template <typename T>
-		using has_static_infinity_or_nan_ = decltype(static_cast<bool>(T::infinity_or_nan(std::declval<const T&>())));
-
-		template <typename T>
-		using has_member_infinity_or_nan_ = decltype(static_cast<bool>(std::declval<const T&>().infinity_or_nan()));
-
-		template <typename T>
-		inline constexpr bool has_builtin_infinity_or_nan = false;
-		template <typename T, size_t D>
-		inline constexpr bool has_builtin_infinity_or_nan<vector<T, D>> = true;
-		template <typename T>
-		inline constexpr bool has_builtin_infinity_or_nan<quaternion<T>> = true;
-		template <typename T, size_t R, size_t C>
-		inline constexpr bool has_builtin_infinity_or_nan<matrix<T, R, C>> = true;
-		template <typename T>
-		inline constexpr bool has_builtin_infinity_or_nan<bounding_box<T>> = true;
-		template <typename T>
-		inline constexpr bool has_builtin_infinity_or_nan<oriented_bounding_box<T>> = true;
-
-		template <typename T>
-		inline constexpr bool has_specialized_infinity_or_nan =
-			(std::is_class_v<T> || std::is_union_v<T>)		//
-			&&!has_builtin_infinity_or_nan<remove_cvref<T>> //
-			&& (is_detected<impl::has_static_infinity_or_nan_, T> || is_detected<impl::has_member_infinity_or_nan_, T>);
-
 		MUU_PRAGMA_GCC(pop_options) // -fno-finite-math-only
 	}
 	/// \endcond
@@ -250,25 +225,9 @@ namespace muu
 		}
 	}
 
-	/// \brief	Checks if an object is infinity or NaN.
-	///
-	/// \tparam	T		The object type.
-	/// \param 	obj		The object.
-	///
-	/// \returns	The result `T::infinity_or_nan(obj)` or `obj.infinity_or_nan()` (coerced to bool).
-	MUU_CONSTRAINED_TEMPLATE(impl::has_specialized_infinity_or_nan<T>, typename T)
-	MUU_PURE_INLINE_GETTER
-	constexpr bool infinity_or_nan(const T& obj) noexcept
-	{
-		if constexpr (is_detected<impl::has_static_infinity_or_nan_, T>)
-			return static_cast<bool>(T::infinity_or_nan(obj));
-		else
-			return static_cast<bool>(obj.infinity_or_nan());
-	}
-
 	/// \brief	Returns true if any value in array is infinity or NaN.
 	template <typename T, size_t N>
-	MUU_NODISCARD
+	MUU_PURE_GETTER
 	constexpr bool infinity_or_nan(const T (&vals)[N]) noexcept
 	{
 		for (const auto& val : vals)
@@ -277,9 +236,9 @@ namespace muu
 		return false;
 	}
 
-	/// \brief	Returns true if any value of the given values is infinity or NaN.
+	/// \brief	Returns true if any of the given values is infinity or NaN.
 	template <typename T, typename U, typename... V>
-	MUU_NODISCARD
+	MUU_PURE_GETTER
 	constexpr bool infinity_or_nan(const T& val1, const U& val2, const V&... vals) noexcept
 	{
 		return ((infinity_or_nan(val1) || infinity_or_nan(val2)) || ... || infinity_or_nan(vals));
@@ -297,6 +256,33 @@ namespace muu
 	/// \addtogroup	math
 	/// @{
 #endif // infinity_or_nan
+
+#if 1 // degenerate -----------------------------------------------------------------------------------------------
+	  /// \addtogroup		degenerate	degenerate()
+	  /// \brief			Retuurns true if a math class type is in a degenerate state.
+	  /// @{
+
+	/// \brief	Returns true if any value in array is in a degenerate state.
+	template <typename T, size_t N>
+	MUU_PURE_GETTER
+	constexpr bool degenerate(const T (&vals)[N]) noexcept
+	{
+		for (const auto& val : vals)
+			if (degenerate(val))
+				return true;
+		return false;
+	}
+
+	/// \brief	Returns true if any of the given values in a degenerate state.
+	template <typename T, typename U, typename... V>
+	MUU_PURE_GETTER
+	constexpr bool degenerate(const T& val1, const U& val2, const V&... vals) noexcept
+	{
+		return ((degenerate(val1) || degenerate(val2)) || ... || degenerate(vals));
+	}
+
+	/** @} */ // math::degenerate
+#endif		  // degenerate
 
 #if 1 // abs -----------------------------------------------------------------------------------------------------------
 	/// \addtogroup		abs		abs()

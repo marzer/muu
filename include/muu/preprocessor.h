@@ -1439,9 +1439,9 @@ MUU_DISABLE_WARNINGS;
 	#include <version>
 #elif defined(_MSC_VER) && MUU_HAS_INCLUDE(<yvals_core.h>)
 	#include <yvals_core.h>
-#elif MUU_CPP <= 17 && MUU_HAS_INCLUDE(<ciso646>)
+#elif MUU_CPP <= 17
 	#include <ciso646>
-#elif MUU_HAS_INCLUDE(<iso646.h>)
+#else
 	#include <iso646.h>
 #endif
 MUU_ENABLE_WARNINGS;

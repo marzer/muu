@@ -422,16 +422,51 @@ namespace muu
 			/// @}
 	#endif // scaling
 
-	#if 1	// containment ------------------------------------------------------------------------------
-			/// \name Containment
-			/// @{
+	#if 1 // containment ------------------------------------------------------------------------------
+		  /// \name Containment
+		  /// @{
+
+		/// \brief	Returns true if a bounding sphere contains a point.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) bs,
+													  MUU_VPARAM(vector_type) point) noexcept
+		{
+			return vector_type::distance_squared(bs.center, point) <= (bs.radius * bs.radius);
+		}
+
+		/// \brief	Returns true if the bounding sphere contains a point.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point) const noexcept
+		{
+			return contains(*this, point);
+		}
 
 			/// @}
 	#endif // containment
 
-	#if 1	// intersection ------------------------------------------------------------------------------
-			/// \name Intersection
-			/// @{
+	#if 1 // intersection ------------------------------------------------------------------------------
+		  /// \name Intersection
+		  /// @{
+
+		//--------------------------------
+		// sphere x sphere
+		//--------------------------------
+
+		/// \brief	Returns true if two bounding spheres intersect.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere) bs1,
+														MUU_VPARAM(bounding_sphere) bs2) noexcept
+		{
+			return vector_type::distance_squared(bs1.center, bs2.center)
+				<= ((bs1.radius * bs1.radius) + (bs2.radius * bs2.radius));
+		}
+
+		/// \brief	Returns true if two bounding spheres intersect.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere) bs) const noexcept
+		{
+			return intersects(*this, bs);
+		}
 
 			/// @}
 	#endif // intersection
@@ -527,7 +562,7 @@ namespace muu
 	/// \ingroup		infinity_or_nan
 	/// \relatesalso	muu::bounding_sphere
 	///
-	/// \brief	Returns true if any of the scalar components of a bounding_sphere are infinity or NaN.
+	/// \brief	Returns true if any of the scalar components of a bounding sphere are infinity or NaN.
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool infinity_or_nan(const bounding_sphere<S>& bs) noexcept
@@ -551,7 +586,7 @@ namespace muu
 	/// \ingroup		approx_zero
 	/// \relatesalso	muu::bounding_sphere
 	///
-	/// \brief		Returns true if all the scalar components of a bounding_sphere are approximately equal to zero.
+	/// \brief		Returns true if all the scalar components of a bounding sphere are approximately equal to zero.
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(const bounding_sphere<S>& bs, S epsilon = default_epsilon<S>) noexcept
@@ -562,7 +597,7 @@ namespace muu
 	/// \ingroup		degenerate
 	/// \relatesalso	muu::bounding_sphere
 	///
-	/// \brief	Returns true if the sphere is degenerate (i.e. its radius is less than or equal to zero).
+	/// \brief	Returns true if a bounding sphere is degenerate (i.e. its radius is less than or equal to zero).
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool degenerate(const bounding_sphere<S>& bs) noexcept

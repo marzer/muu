@@ -837,7 +837,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if the bounding box contains a point.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point) const noexcept
 		{
 			return contains(*this, point);
@@ -862,7 +862,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if a bounding box contains all the points of another bounding box.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb) const noexcept
 		{
 			return contains(*this, bb);
@@ -882,11 +882,7 @@ namespace muu
 		/// \brief	Returns true if a bounding box intersects a plane.
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
-														MUU_VPARAM(plane<scalar_type>) p) noexcept
-		{
-			return plane<scalar_type>::distance(p, bb.center)
-				<= vector_type::dot(bb.extents, vector_type::abs(p.normal));
-		}
+														MUU_VPARAM(plane<scalar_type>) p) noexcept;
 
 		/// \brief	Returns true if the bounding box intersects a plane.
 		MUU_PURE_GETTER
@@ -995,7 +991,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if two bounding boxes intersect.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb) const noexcept
 		{
 			return intersects(*this, bb);
@@ -1218,7 +1214,7 @@ namespace muu
 	/// \ingroup		infinity_or_nan
 	/// \relatesalso	muu::bounding_box
 	///
-	/// \brief	Returns true if any of the scalar components of a bounding_box are infinity or NaN.
+	/// \brief	Returns true if any of the scalar components of a bounding box are infinity or NaN.
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool infinity_or_nan(const bounding_box<S>& bb) noexcept
@@ -1229,7 +1225,7 @@ namespace muu
 	/// \ingroup		approx_equal
 	/// \relatesalso	muu::bounding_box
 	///
-	/// \brief		Returns true if two bounding_boxes are approximately equal.
+	/// \brief		Returns true if two bounding boxes are approximately equal.
 	template <typename S, typename T>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_equal(const bounding_box<S>& bb1,
@@ -1242,7 +1238,7 @@ namespace muu
 	/// \ingroup		approx_zero
 	/// \relatesalso	muu::bounding_box
 	///
-	/// \brief		Returns true if all the scalar components of a bounding_box are approximately equal to zero.
+	/// \brief		Returns true if all the scalar components of a bounding box are approximately equal to zero.
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(const bounding_box<S>& bb, S epsilon = default_epsilon<S>) noexcept
@@ -1253,7 +1249,7 @@ namespace muu
 	/// \ingroup		degenerate
 	/// \relatesalso	muu::bounding_box
 	///
-	/// \brief	Returns true if a box is degenerate (i.e. any of its extents are less than or equal to zero).
+	/// \brief	Returns true if a bounding box is degenerate (i.e. any of its extents are less than or equal to zero).
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool degenerate(const bounding_box<S>& bb) noexcept
