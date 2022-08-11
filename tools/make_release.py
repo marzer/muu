@@ -345,8 +345,8 @@ def main():
 		metavar='PF',
 		help=rf"the platforms to target (default: {' '.join(default_platforms)})"
 	)
-	default_toolsets = ['142', '143']
-	supported_toolsets = ['142', '143']
+	default_toolsets = ['143']
+	supported_toolsets = ['143', '142']
 	args.add_argument(
 		'--toolsets',
 		type=str,
