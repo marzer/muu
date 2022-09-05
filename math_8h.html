@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.7" name="generator"/>
+  <meta content="Poxy v0.6.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.7.css" rel="stylesheet"/>
-  <link href="poxy-0.5.7-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.7.js"></script>
+  <link href="poxy-0.6.1.css" rel="stylesheet"/>
+  <link href="poxy-0.6.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.6.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -422,6 +422,18 @@
             </dt>
             <dd>Returns the cosine of an integer.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#gafd015a10ac401fc58d319f6961b0dcbe">degenerate</a>(</span><span class="m-doc-wrap">const T(&amp;vals)[N]) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any value in array is in a degenerate state.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U, typename... V&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#ga0bfc7a5fc4ab09f4b73dd22c295f4e5a">degenerate</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const U&amp; val2,
+              const V&amp;... vals) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the given values in a degenerate state.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__math.html#gabf640468db93ee9390f6809f2495a291">evenly_distribute</a>(</span><span class="m-doc-wrap">T total,
               T bucket_count,
@@ -494,11 +506,6 @@
             </dt>
             <dd>Returns true if an arithmetic value is infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga7165ec00307546834b2cfec5dcd18920">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; obj) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Checks if an object is infinity or NaN.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gac83f0d0b00f182e5cfa6ae4dfa9ad12c">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T(&amp;vals)[N]) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -509,7 +516,7 @@
               const U&amp; val2,
               const V&amp;... vals) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any value of the given values is infinity or NaN.</dd>
+            <dd>Returns true if any of the given values is infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U, typename... V&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__math.html#ga747762e03956634201248a153ce0ce5e">lcm</a>(</span><span class="m-doc-wrap">T val1,

@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.7" name="generator"/>
+  <meta content="Poxy v0.6.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.7.css" rel="stylesheet"/>
-  <link href="poxy-0.5.7-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.7.js"></script>
+  <link href="poxy-0.6.1.css" rel="stylesheet"/>
+  <link href="poxy-0.6.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.6.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -388,16 +388,16 @@
               const <a class="m-doc" href="structmuu_1_1triangle.html#a4f332b7b6aca26c58fd69ac540ced5ff">vector_<wbr/>type</a>&amp; p2,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a triangle intersects a bounding box.</dd>
+            <dd>Returns true if a triangle intersects a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
             <dt id="af266c2c8468e08e18fb8394aee9c2567">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#af266c2c8468e08e18fb8394aee9c2567">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&amp; tri,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a triangle intersects a bounding box.</dd>
+            <dd>Returns true if a triangle intersects a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
             <dt id="ad9f77091ab2178fa24ca801f00effaf5">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad9f77091ab2178fa24ca801f00effaf5">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1triangle.html#a6f139156800ade1637a72ba97c96d732">scalar_<wbr/>type</a>&gt;&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if the triangle intersects a bounding box.</dd>
+            <dd>Returns true if the triangle intersects a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
           </dl>
         </section>
         <section id="iterators">
@@ -521,9 +521,9 @@
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the points in triangle are approximately equal to zero.</dd>
-            <dt id="aa05ebbda3b946e8314e714eabe1037fc">
+            <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa05ebbda3b946e8314e714eabe1037fc">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#gaa05ebbda3b946e8314e714eabe1037fc">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a triangle is degenerate (i.e. two or more of its points are coincident).</dd>
             <dt>

@@ -37,6 +37,7 @@
     <includes id="quaternion_8h" name="quaternion.h" local="yes" imported="no">quaternion.h</includes>
     <includes id="scope__guard_8h" name="scope_guard.h" local="yes" imported="no">scope_guard.h</includes>
     <includes id="span_8h" name="span.h" local="yes" imported="no">span.h</includes>
+    <includes id="spin__mutex_8h" name="spin_mutex.h" local="yes" imported="no">spin_mutex.h</includes>
     <includes id="static__string_8h" name="static_string.h" local="yes" imported="no">static_string.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
     <includes id="strings_8h" name="strings.h" local="yes" imported="no">strings.h</includes>
@@ -215,8 +216,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>ae3ec909573716c292520f7e5319407b4</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gae3ec909573716c292520f7e5319407b4</anchor>
       <arglist>(const bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
     </member>
   </compound>
@@ -253,8 +254,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a236cb7c134ac66ab7b2e98ef8744d2ba</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga236cb7c134ac66ab7b2e98ef8744d2ba</anchor>
       <arglist>(const bounding_sphere&lt; S &gt; &amp;bs) noexcept</arglist>
     </member>
   </compound>
@@ -627,8 +628,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a8e6014f4408e18bb6eabd6743abb3d52</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga8e6014f4408e18bb6eabd6743abb3d52</anchor>
       <arglist>(const line_segment&lt; S &gt; &amp;seg) noexcept</arglist>
     </member>
   </compound>
@@ -694,13 +695,6 @@
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga7165ec00307546834b2cfec5dcd18920</anchor>
-      <arglist>(const T &amp;obj) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>gac83f0d0b00f182e5cfa6ae4dfa9ad12c</anchor>
       <arglist>(const T(&amp;vals)[N]) noexcept</arglist>
     </member>
@@ -709,6 +703,20 @@
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>ga0f071cb7be895ff5f3176182306cb1a9</anchor>
+      <arglist>(const T &amp;val1, const U &amp;val2, const V &amp;... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gafd015a10ac401fc58d319f6961b0dcbe</anchor>
+      <arglist>(const T(&amp;vals)[N]) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga0bfc7a5fc4ab09f4b73dd22c295f4e5a</anchor>
       <arglist>(const T &amp;val1, const U &amp;val2, const V &amp;... vals) noexcept</arglist>
     </member>
     <member kind="function">
@@ -2928,6 +2936,20 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>is_mutex_like</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga1edac78f9c21a3d456c36805d6c99925</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_shared_mutex_like</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6d740ced211f96c15a8f979f8d3af237</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>decays_to_pointer_by_unary_plus</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gae6f71ec83408ff4ff782c62ba96af352</anchor>
@@ -2996,8 +3018,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a1b0d0e8f19cca6bb195e997fb48ac3be</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga1b0d0e8f19cca6bb195e997fb48ac3be</anchor>
       <arglist>(const oriented_bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
     </member>
   </compound>
@@ -3705,6 +3727,13 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_DISABLE_DEPRECATION_WARNINGS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga0ba9b3960e068dc858d53e351c405e30</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_DISABLE_SUGGEST_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga305e4c6d20217201e79a601d7ec46572</anchor>
@@ -3868,6 +3897,14 @@
       <anchor>ga3cc0f4ca005186681123b33b6a754a36</anchor>
       <arglist></arglist>
     </member>
+  </compound>
+  <compound kind="file">
+    <name>spin_mutex.h</name>
+    <path>/root/project/include/muu/</path>
+    <filename>spin__mutex_8h.html</filename>
+    <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
+    <class kind="class">muu::spin_mutex</class>
+    <namespace>muu</namespace>
   </compound>
   <compound kind="file">
     <name>static_string.h</name>
@@ -4181,8 +4218,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>aa05ebbda3b946e8314e714eabe1037fc</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gaa05ebbda3b946e8314e714eabe1037fc</anchor>
       <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
     </member>
   </compound>
@@ -5154,8 +5191,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>ae3ec909573716c292520f7e5319407b4</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gae3ec909573716c292520f7e5319407b4</anchor>
       <arglist>(const bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
     </member>
     <member kind="function">
@@ -5789,8 +5826,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>structmuu_1_1bounding__sphere.html</anchorfile>
-      <anchor>a236cb7c134ac66ab7b2e98ef8744d2ba</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga236cb7c134ac66ab7b2e98ef8744d2ba</anchor>
       <arglist>(const bounding_sphere&lt; S &gt; &amp;bs) noexcept</arglist>
     </member>
     <member kind="function">
@@ -5974,6 +6011,34 @@
       <anchorfile>structmuu_1_1bounding__sphere.html</anchorfile>
       <anchor>af9392504a48cf40a573cdeef65fe094f</anchor>
       <arglist>(const bounding_sphere &amp;bs, scalar_type scale_) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1bounding__sphere.html</anchorfile>
+      <anchor>a863f80bbefe421f3195209468d1a2270</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1bounding__sphere.html</anchorfile>
+      <anchor>aadaadb1e9704233dd3b66ae9e05b81ab</anchor>
+      <arglist>(const bounding_sphere &amp;bs, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__sphere.html</anchorfile>
+      <anchor>a18f5f5994b901a647c86c42cc0937112</anchor>
+      <arglist>(const bounding_sphere &amp;bs) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__sphere.html</anchorfile>
+      <anchor>a4edefcf21c74550528fcec04034cb80e</anchor>
+      <arglist>(const bounding_sphere &amp;bs1, const bounding_sphere &amp;bs2) noexcept</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -7919,8 +7984,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>a8e6014f4408e18bb6eabd6743abb3d52</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga8e6014f4408e18bb6eabd6743abb3d52</anchor>
       <arglist>(const line_segment&lt; S &gt; &amp;seg) noexcept</arglist>
     </member>
     <member kind="function">
@@ -9692,8 +9757,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a1b0d0e8f19cca6bb195e997fb48ac3be</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga1b0d0e8f19cca6bb195e997fb48ac3be</anchor>
       <arglist>(const oriented_bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
     </member>
     <member kind="function">
@@ -11786,6 +11851,45 @@
       <anchorfile>classmuu_1_1span.html</anchorfile>
       <anchor>af8581a3d03e16fae11b739a62c7410aa</anchor>
       <arglist>(const span &amp;s) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>muu::spin_mutex</name>
+    <filename>classmuu_1_1spin__mutex.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>spin_mutex</name>
+      <anchorfile>classmuu_1_1spin__mutex.html</anchorfile>
+      <anchor>a171f1bdee051530e893882b6f5d2e21a</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>~spin_mutex</name>
+      <anchorfile>classmuu_1_1spin__mutex.html</anchorfile>
+      <anchor>a2065d2d73725a3c951abee57a5ab9214</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>lock</name>
+      <anchorfile>classmuu_1_1spin__mutex.html</anchorfile>
+      <anchor>a7ac86f639feda3cb781ca6a354ff783a</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>try_lock</name>
+      <anchorfile>classmuu_1_1spin__mutex.html</anchorfile>
+      <anchor>a3e8ba537ee38877b3b860851fbe3283a</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>unlock</name>
+      <anchorfile>classmuu_1_1spin__mutex.html</anchorfile>
+      <anchor>ad4012bc6c46e67ce208da28c95e96dc4</anchor>
+      <arglist>() noexcept</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -14013,8 +14117,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>aa05ebbda3b946e8314e714eabe1037fc</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gaa05ebbda3b946e8314e714eabe1037fc</anchor>
       <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
     </member>
     <member kind="function">
@@ -16237,6 +16341,7 @@
     <class kind="class">muu::scope_fail</class>
     <class kind="class">muu::scope_success</class>
     <class kind="class">muu::span</class>
+    <class kind="class">muu::spin_mutex</class>
     <class kind="class">muu::static_string</class>
     <class kind="class">muu::string_param</class>
     <class kind="struct">muu::strong_typedef</class>
@@ -16884,8 +16989,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>ae3ec909573716c292520f7e5319407b4</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gae3ec909573716c292520f7e5319407b4</anchor>
       <arglist>(const bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
     </member>
     <member kind="function">
@@ -16912,8 +17017,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a236cb7c134ac66ab7b2e98ef8744d2ba</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga236cb7c134ac66ab7b2e98ef8744d2ba</anchor>
       <arglist>(const bounding_sphere&lt; S &gt; &amp;bs) noexcept</arglist>
     </member>
     <member kind="function">
@@ -17087,8 +17192,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a8e6014f4408e18bb6eabd6743abb3d52</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga8e6014f4408e18bb6eabd6743abb3d52</anchor>
       <arglist>(const line_segment&lt; S &gt; &amp;seg) noexcept</arglist>
     </member>
     <member kind="function">
@@ -17144,13 +17249,6 @@
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga7165ec00307546834b2cfec5dcd18920</anchor>
-      <arglist>(const T &amp;obj) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>gac83f0d0b00f182e5cfa6ae4dfa9ad12c</anchor>
       <arglist>(const T(&amp;vals)[N]) noexcept</arglist>
     </member>
@@ -17159,6 +17257,20 @@
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>ga0f071cb7be895ff5f3176182306cb1a9</anchor>
+      <arglist>(const T &amp;val1, const U &amp;val2, const V &amp;... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gafd015a10ac401fc58d319f6961b0dcbe</anchor>
+      <arglist>(const T(&amp;vals)[N]) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga0bfc7a5fc4ab09f4b73dd22c295f4e5a</anchor>
       <arglist>(const T &amp;val1, const U &amp;val2, const V &amp;... vals) noexcept</arglist>
     </member>
     <member kind="function">
@@ -18123,8 +18235,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>a1b0d0e8f19cca6bb195e997fb48ac3be</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga1b0d0e8f19cca6bb195e997fb48ac3be</anchor>
       <arglist>(const oriented_bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
     </member>
     <member kind="function">
@@ -18382,8 +18494,8 @@
     <member kind="function">
       <type>constexpr bool</type>
       <name>degenerate</name>
-      <anchorfile>namespacemuu.html</anchorfile>
-      <anchor>aa05ebbda3b946e8314e714eabe1037fc</anchor>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gaa05ebbda3b946e8314e714eabe1037fc</anchor>
       <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
     </member>
     <member kind="function">
@@ -20992,6 +21104,20 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>is_mutex_like</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga1edac78f9c21a3d456c36805d6c99925</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_shared_mutex_like</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6d740ced211f96c15a8f979f8d3af237</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>decays_to_pointer_by_unary_plus</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gae6f71ec83408ff4ff782c62ba96af352</anchor>
@@ -21835,6 +21961,7 @@
     <subgroup>ceil</subgroup>
     <subgroup>consteval_sqrt</subgroup>
     <subgroup>cos</subgroup>
+    <subgroup>degenerate</subgroup>
     <subgroup>floor</subgroup>
     <subgroup>infinity_or_nan</subgroup>
     <subgroup>lerp</subgroup>
@@ -23231,6 +23358,20 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>is_mutex_like</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga1edac78f9c21a3d456c36805d6c99925</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_shared_mutex_like</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6d740ced211f96c15a8f979f8d3af237</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>decays_to_pointer_by_unary_plus</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gae6f71ec83408ff4ff782c62ba96af352</anchor>
@@ -23932,6 +24073,13 @@
       <name>MUU_DISABLE_SHADOW_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>gabf94a669fabe4f2614f7f1f6876e7c50</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_DISABLE_DEPRECATION_WARNINGS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga0ba9b3960e068dc858d53e351c405e30</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
@@ -24985,6 +25133,95 @@
     </member>
   </compound>
   <compound kind="group">
+    <name>degenerate</name>
+    <title>degenerate()</title>
+    <filename>group__degenerate.html</filename>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gae3ec909573716c292520f7e5319407b4</anchor>
+      <arglist>(const bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga236cb7c134ac66ab7b2e98ef8744d2ba</anchor>
+      <arglist>(const bounding_sphere&lt; S &gt; &amp;bs) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga8e6014f4408e18bb6eabd6743abb3d52</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gafd015a10ac401fc58d319f6961b0dcbe</anchor>
+      <arglist>(const T(&amp;vals)[N]) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga0bfc7a5fc4ab09f4b73dd22c295f4e5a</anchor>
+      <arglist>(const T &amp;val1, const U &amp;val2, const V &amp;... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga1b0d0e8f19cca6bb195e997fb48ac3be</anchor>
+      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gaa05ebbda3b946e8314e714eabe1037fc</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gae3ec909573716c292520f7e5319407b4</anchor>
+      <arglist>(const bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga236cb7c134ac66ab7b2e98ef8744d2ba</anchor>
+      <arglist>(const bounding_sphere&lt; S &gt; &amp;bs) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga8e6014f4408e18bb6eabd6743abb3d52</anchor>
+      <arglist>(const line_segment&lt; S &gt; &amp;seg) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>ga1b0d0e8f19cca6bb195e997fb48ac3be</anchor>
+      <arglist>(const oriented_bounding_box&lt; S &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>degenerate</name>
+      <anchorfile>group__degenerate.html</anchorfile>
+      <anchor>gaa05ebbda3b946e8314e714eabe1037fc</anchor>
+      <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="group">
     <name>floor</name>
     <title>floor()</title>
     <filename>group__floor.html</filename>
@@ -25146,13 +25383,6 @@
       <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>gae0e73f57dfe538bfb813978525d029b4</anchor>
       <arglist>(T x) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>infinity_or_nan</name>
-      <anchorfile>group__infinity__or__nan.html</anchorfile>
-      <anchor>ga7165ec00307546834b2cfec5dcd18920</anchor>
-      <arglist>(const T &amp;obj) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>

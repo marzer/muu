@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.7" name="generator"/>
+  <meta content="Poxy v0.6.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.7.css" rel="stylesheet"/>
-  <link href="poxy-0.5.7-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.7.js"></script>
+  <link href="poxy-0.6.1.css" rel="stylesheet"/>
+  <link href="poxy-0.6.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.6.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -83,9 +83,11 @@
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#containment">Containment</a></li>
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
+                <li><a href="#intersection">Intersection</a></li>
                 <li><a href="#scalar-accessors">Scalar accessors</a></li>
                 <li><a href="#scaling">Scaling</a></li>
                 <li><a href="#translation">Translation</a></li>
@@ -172,6 +174,20 @@
               <a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> <a class="m-doc-self" href="#a0c80ce618dbbc212bb939103a2acbf62">radius</a>
             </dt>
             <dd>The radius of the sphere.</dd>
+          </dl>
+        </section>
+        <section id="containment">
+          <h2><a href="#containment">Containment</a></h2>
+          <dl class="m-doc">
+            <dt id="aadaadb1e9704233dd3b66ae9e05b81ab">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aadaadb1e9704233dd3b66ae9e05b81ab">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a bounding sphere contains a point.</dd>
+            <dt id="a863f80bbefe421f3195209468d1a2270">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a863f80bbefe421f3195209468d1a2270">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the bounding sphere contains a point.</dd>
           </dl>
         </section>
         <section id="equality-approximate">
@@ -280,6 +296,20 @@
             <dd>Calculates the volume of the sphere.</dd>
           </dl>
         </section>
+        <section id="intersection">
+          <h2><a href="#intersection">Intersection</a></h2>
+          <dl class="m-doc">
+            <dt id="a4edefcf21c74550528fcec04034cb80e">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4edefcf21c74550528fcec04034cb80e">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs1,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two bounding spheres intersect.</dd>
+            <dt id="a18f5f5994b901a647c86c42cc0937112">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a18f5f5994b901a647c86c42cc0937112">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two bounding spheres intersect.</dd>
+          </dl>
+        </section>
         <section id="scalar-accessors">
           <h2><a href="#scalar-accessors">Scalar accessors</a></h2>
           <dl class="m-doc">
@@ -347,17 +377,17 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga98d7ed90e349510d6d5f305664a1eb37">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs,
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a> are approximately equal to zero.</dd>
-            <dt id="a236cb7c134ac66ab7b2e98ef8744d2ba">
+            <dd>Returns true if all the scalar components of a bounding sphere are approximately equal to zero.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a236cb7c134ac66ab7b2e98ef8744d2ba">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#ga236cb7c134ac66ab7b2e98ef8744d2ba">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if the sphere is degenerate (i.e. its radius is less than or equal to zero).</dd>
+            <dd>Returns true if a bounding sphere is degenerate (i.e. its radius is less than or equal to zero).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga96fa1ad0d535b49feb40932d4b36e602">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a> are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a bounding sphere are infinity or NaN.</dd>
           </dl>
         </section>
         <section>

@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.7" name="generator"/>
+  <meta content="Poxy v0.6.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.7.css" rel="stylesheet"/>
-  <link href="poxy-0.5.7-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.7.js"></script>
+  <link href="poxy-0.6.1.css" rel="stylesheet"/>
+  <link href="poxy-0.6.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.6.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -939,6 +939,11 @@
             </dt>
             <dd>Is a type a pre-C++11 unscoped enum, or reference to one?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga1edac78f9c21a3d456c36805d6c99925">is_mutex_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a type has a lock interface compatible with <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/thread/mutex.html" target="_blank">std::<wbr/>mutex</a>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga090993f769edb7c30da887d3b6f71f23">is_nothrow_convertible</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -958,6 +963,11 @@
               bool <a class="m-doc" href="group__meta.html#ga54c8d27010a9c661dba826d90f0c9ace">is_scoped_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type a C++11 scoped enum class, or reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga6d740ced211f96c15a8f979f8d3af237">is_shared_mutex_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a type has a lock interface compatible with <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/thread/shared_mutex.html" target="_blank">std::<wbr/>shared_mutex</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga8692cd4c2e3c8e2b0167a5a586f1f6e1">is_signed</a> <span class="m-label m-flat m-primary">constexpr</span>

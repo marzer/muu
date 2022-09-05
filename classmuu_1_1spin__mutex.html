@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::constants&lt;bounding_box&lt;Scalar&gt;&gt; struct | muu Miscellaneous useful utilities for C++</title>
+  <title>muu::spin_mutex class | muu Miscellaneous useful utilities for C++</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" rel="stylesheet"/>
   <link href="m-dark+documentation.compiled.css" rel="stylesheet"/>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
@@ -57,35 +57,68 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__box_8h.html">&lt;muu/bounding_box.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>constants&lt;<a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;Scalar&gt;&gt; <span class="m-thin">struct</span>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>spin_mutex <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="spin__mutex_8h.html">&lt;muu/spin_mutex.h&gt;</a></div>
         </h1>
-        <p>Axis-aligned <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> constants.</p>
+        <p>A mutex that acquires locks by-spin waiting.</p>
         <nav class="m-block m-default poxy-toc">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#pub-static-attribs">Public static variables</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="structmuu_1_1bounding__box.html">muu::<wbr/>bounding_box</a></p></aside>
-        <section id="pub-static-attribs">
-          <h2><a href="#pub-static-attribs">Public static variables</a></h2>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a56cbe722b7befabab32b9b243da23f93">
-              static <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;Scalar&gt; <a class="m-doc-self" href="#a56cbe722b7befabab32b9b243da23f93">unit</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a171f1bdee051530e893882b6f5d2e21a">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a171f1bdee051530e893882b6f5d2e21a">spin_mutex</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> centered at the origin with sides of length 1.</dd>
-            <dt id="a21c8de9a8aa29b887edf667df36cc095">
-              static <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;Scalar&gt; <a class="m-doc-self" href="#a21c8de9a8aa29b887edf667df36cc095">zero</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dd>Default constructor.</dd>
+            <dt id="a2065d2d73725a3c951abee57a5ab9214">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a2065d2d73725a3c951abee57a5ab9214">~spin_mutex</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> with all members initialized to zero.</dd>
+            <dd>Destructor.</dd>
           </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a7ac86f639feda3cb781ca6a354ff783a">
+              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#a7ac86f639feda3cb781ca6a354ff783a">lock</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Acquires a lock on the mutex.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3e8ba537ee38877b3b860851fbe3283a">try_lock</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Tries to acquire a lock on the mutex.</dd>
+            <dt id="ad4012bc6c46e67ce208da28c95e96dc4">
+              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#ad4012bc6c46e67ce208da28c95e96dc4">unlock</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Releases the held lock on the mutex.</dd>
+          </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a3e8ba537ee38877b3b860851fbe3283a"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>spin_mutex::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3e8ba537ee38877b3b860851fbe3283a">try_lock</a>(</span><span class="m-doc-wrap">) <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Tries to acquire a lock on the mutex.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <tfoot>
+                <tr>
+                  <th style="width: 1%">Returns</th>
+                  <td><code>true</code> if the lock was acquired.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
         </section>
       </div>
     </div>

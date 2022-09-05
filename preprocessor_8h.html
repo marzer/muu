@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.7" name="generator"/>
+  <meta content="Poxy v0.6.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.7.css" rel="stylesheet"/>
-  <link href="poxy-0.5.7-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.7.js"></script>
+  <link href="poxy-0.6.1.css" rel="stylesheet"/>
+  <link href="poxy-0.6.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.6.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -204,6 +204,10 @@
             </dt>
             <dd>Disables interactive code analysis warnings (e.g. Visual Studio's background analysis engine).</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga0ba9b3960e068dc858d53e351c405e30">MUU_DISABLE_DEPRECATION_WARNINGS</a></span>
+            </dt>
+            <dd>Disables compiler warnings relating to deprecated functions, types, etc.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga94a89890f03584dd7d3fda2bb9d80013">MUU_DISABLE_LIFETIME_WARNINGS</a></span>
             </dt>
             <dd>Disables compiler warnings relating to object lifetime (initialization, destruction, magic statics, et cetera).</dd>
@@ -382,7 +386,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga208185e62d9dd3604e348e153ffc976b">MUU_NOOP</a></span>
             </dt>
-            <dd>Expands to a no-op expression, e.g. <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a>&lt;void&gt;(0)</code>.</dd>
+            <dd>Expands to a no-op expression.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga8f304d74e983202dd94830798b27d10d">MUU_NO_UNIQUE_ADDRESS</a></span>
             </dt>
@@ -460,7 +464,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga60d6410ec59d9127e60193e48d911c19">MUU_UNUSED</a>(</span><span class="m-doc-wrap">...)</span>
             </dt>
-            <dd>Explicitly denotes the result of an expression as being explicitly unused.</dd>
+            <dd>Explicitly denotes the result of an expression as being unused.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga4eea4cd448c2f1324dc6fcfac8587688">MUU_VECTORCALL</a></span>
             </dt>

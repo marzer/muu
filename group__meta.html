@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.7" name="generator"/>
+  <meta content="Poxy v0.6.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.7.css" rel="stylesheet"/>
-  <link href="poxy-0.5.7-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.7.js"></script>
+  <link href="poxy-0.6.1.css" rel="stylesheet"/>
+  <link href="poxy-0.6.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.6.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -941,6 +941,11 @@
             </dt>
             <dd>Is a type a pre-C++11 unscoped enum, or reference to one?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga1edac78f9c21a3d456c36805d6c99925">is_mutex_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a type has a lock interface compatible with <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/thread/mutex.html" target="_blank">std::<wbr/>mutex</a>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
               bool <a class="m-doc" href="#ga090993f769edb7c30da887d3b6f71f23">is_nothrow_convertible</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -960,6 +965,11 @@
               bool <a class="m-doc" href="#ga54c8d27010a9c661dba826d90f0c9ace">is_scoped_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type a C++11 scoped enum class, or reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="#ga6d740ced211f96c15a8f979f8d3af237">is_shared_mutex_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a type has a lock interface compatible with <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/thread/shared_mutex.html" target="_blank">std::<wbr/>shared_mutex</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="#ga8692cd4c2e3c8e2b0167a5a586f1f6e1">is_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -2790,6 +2800,16 @@
             </h3>
             <p>Is a type a pre-C++11 unscoped enum, or reference to one?</p>
           </div></section>
+          <section class="m-doc-details" id="ga1edac78f9c21a3d456c36805d6c99925"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga1edac78f9c21a3d456c36805d6c99925">is_mutex_like</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if a type has a lock interface compatible with <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/thread/mutex.html" target="_blank">std::<wbr/>mutex</a>.</p>
+          </div></section>
           <section class="m-doc-details" id="ga090993f769edb7c30da887d3b6f71f23"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
@@ -2829,6 +2849,16 @@
               bool <a class="m-doc-self" href="#ga54c8d27010a9c661dba826d90f0c9ace">is_scoped_enum</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>Is a type a C++11 scoped enum class, or reference to one?</p>
+          </div></section>
+          <section class="m-doc-details" id="ga6d740ced211f96c15a8f979f8d3af237"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T&gt;
+              </div>
+              bool <a class="m-doc-self" href="#ga6d740ced211f96c15a8f979f8d3af237">is_shared_mutex_like</a> <span class="m-label m-primary">constexpr</span>
+            </h3>
+            <p>True if a type has a lock interface compatible with <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/thread/shared_mutex.html" target="_blank">std::<wbr/>shared_mutex</a>.</p>
           </div></section>
           <section class="m-doc-details" id="ga8692cd4c2e3c8e2b0167a5a586f1f6e1"><div>
             <h3>
@@ -2948,7 +2978,7 @@
 <span class="k">namespace</span> <span class="ns">muu</span>
 <span class="p">{</span>
     <span class="k">template</span> <span class="o">&lt;&gt;</span>
-    <span class="k">inline</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">type_name</span><span class="o">&lt;</span><span class="n">foo</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">static_string</span><span class="p">{</span> <span class="s">"bar"</span> <span class="p">};</span>
+    <span class="k">inline</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">type_name</span><span class="o">&lt;</span><span class="n">foo</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n"><a class="m-doc poxy-injected" href="classmuu_1_1static__string.html">static_string</a></span><span class="p">{</span> <span class="s">"bar"</span> <span class="p">};</span>
 <span class="p">}</span>
 
 <span class="ns">std</span><span class="o">::</span><span class="ut">cout</span> <span class="o">&lt;&lt;</span> <span class="ns">muu</span><span class="o">::</span><span class="n">type_name</span><span class="o">&lt;</span><span class="n">foo</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>

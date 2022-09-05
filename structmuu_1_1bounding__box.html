@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.7" name="generator"/>
+  <meta content="Poxy v0.6.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.7.css" rel="stylesheet"/>
-  <link href="poxy-0.5.7-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.7.js"></script>
+  <link href="poxy-0.6.1.css" rel="stylesheet"/>
+  <link href="poxy-0.6.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.6.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -286,11 +286,11 @@
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a74ac77d9285cd7d4bcb74838cd0c4aeb">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; seg) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Adds a line segment to the bounding box (in-place), expanding the bounded region to contain it if necessary.</dd>
+            <dd>Adds a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a> to the bounding box (in-place), expanding the bounded region to contain it if necessary.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#af5dbf8d38cd76c7df073e2cf64257aad">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; tri) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Adds a triangle to the bounding box (in-place), expanding the bounded region to contain it if necessary.</dd>
+            <dd>Adds a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a> to the bounding box (in-place), expanding the bounded region to contain it if necessary.</dd>
           </dl>
         </section>
         <section id="containment">
@@ -511,24 +511,24 @@
               const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; start,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; end) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a bounding box intersects a line segment.</dd>
+            <dd>Returns true if a bounding box intersects a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a>.</dd>
             <dt id="a7ce5ba519ae3bed600f07ba1cd2fbb95">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a7ce5ba519ae3bed600f07ba1cd2fbb95">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
               const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a bounding box intersects a line segment.</dd>
+            <dd>Returns true if a bounding box intersects a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a>.</dd>
             <dt id="a57cd60a2e823d94f28592ed26841b7c6">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a57cd60a2e823d94f28592ed26841b7c6">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; p0,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; p1,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; p2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a bounding box intersects a triangle.</dd>
+            <dd>Returns true if a bounding box intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
             <dt id="a53aaa74149026b6c347d182d232c33d2">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a53aaa74149026b6c347d182d232c33d2">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb,
               const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a bounding box intersects a triangle.</dd>
+            <dd>Returns true if a bounding box intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
             <dt id="ab549b7013e227b7e1a3015b65d75432f">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ab549b7013e227b7e1a3015b65d75432f">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb1,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -546,11 +546,11 @@
             <dt id="afed6c15c4df6806f09770073ed1bb487">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afed6c15c4df6806f09770073ed1bb487">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; seg) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if the bounding box intersects a line segment.</dd>
+            <dd>Returns true if the bounding box intersects a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a>.</dd>
             <dt id="ad32e8d2c31361c262ad9fec27d4a5f12">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad32e8d2c31361c262ad9fec27d4a5f12">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; tri) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if the bounding box intersects a triangle.</dd>
+            <dd>Returns true if the bounding box intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
             <dt id="a8b6752cb23ed16b834f8bdd0b9e7b2b0">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a8b6752cb23ed16b834f8bdd0b9e7b2b0">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -636,23 +636,23 @@
               const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;T&gt;&amp; bb2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two bounding_boxes are approximately equal.</dd>
+            <dd>Returns true if two bounding boxes are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gaeeb04e6775d269c7f2f76c7a16d9acf1">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;S&gt;&amp; bb,
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> are approximately equal to zero.</dd>
-            <dt id="ae3ec909573716c292520f7e5319407b4">
+            <dd>Returns true if all the scalar components of a bounding box are approximately equal to zero.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae3ec909573716c292520f7e5319407b4">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#gae3ec909573716c292520f7e5319407b4">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a box is degenerate (i.e. any of its extents are less than or equal to zero).</dd>
+            <dd>Returns true if a bounding box is degenerate (i.e. any of its extents are less than or equal to zero).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga61bc070f6ce184ae3a0d8763b99c1da4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a bounding box are infinity or NaN.</dd>
           </dl>
         </section>
         <section>
@@ -980,7 +980,7 @@ template&lt;typename... T&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a74ac77d9285cd7d4bcb74838cd0c4aeb">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; seg) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Adds a line segment to the bounding box (in-place), expanding the bounded region to contain it if necessary.</p>
+            <p>Adds a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a> to the bounding box (in-place), expanding the bounded region to contain it if necessary.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -988,7 +988,7 @@ template&lt;typename... T&gt;
               <tbody>
                 <tr>
                   <td style="width: 1%">seg</td>
-                  <td>The line segment being added to the box's volume.</td>
+                  <td>The <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a> being added to the box's volume.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -1006,7 +1006,7 @@ template&lt;typename... T&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; muu::<wbr/>bounding_box&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af5dbf8d38cd76c7df073e2cf64257aad">append</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; tri) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
-            <p>Adds a triangle to the bounding box (in-place), expanding the bounded region to contain it if necessary.</p>
+            <p>Adds a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a> to the bounding box (in-place), expanding the bounded region to contain it if necessary.</p>
             <table class="m-table m-fullwidth m-flat">
               <thead>
                 <tr><th colspan="2">Parameters</th></tr>
@@ -1014,7 +1014,7 @@ template&lt;typename... T&gt;
               <tbody>
                 <tr>
                   <td style="width: 1%">tri</td>
-                  <td>The triangle being added to the box's volume.</td>
+                  <td>The <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a> being added to the box's volume.</td>
                 </tr>
               </tbody>
               <tfoot>

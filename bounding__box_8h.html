@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.7" name="generator"/>
+  <meta content="Poxy v0.6.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.7.css" rel="stylesheet"/>
-  <link href="poxy-0.5.7-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.7.js"></script>
+  <link href="poxy-0.6.1.css" rel="stylesheet"/>
+  <link href="poxy-0.6.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.6.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -87,7 +87,7 @@
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1bounding__box.html">muu::bounding_box</a>
             </dt>
-            <dd>An axis-aligned bounding box.</dd>
+            <dd>An axis-aligned <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structstd_1_1tuple__size_3_01muu_1_1bounding__box_3_01_scalar_01_4_01_4.html">std::tuple_size&lt;muu::bounding_box&lt;Scalar&gt;&gt;</a>
@@ -102,7 +102,7 @@
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01bounding__box_3_01_scalar_01_4_01_4.html">muu::constants&lt;bounding_box&lt;Scalar&gt;&gt;</a>
             </dt>
-            <dd>Axis-aligned bounding box constants.</dd>
+            <dd>Axis-aligned <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> constants.</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -114,23 +114,23 @@
               const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;T&gt;&amp; bb2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_boxes</a> are approximately equal.</dd>
+            <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding boxes</a> are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gaeeb04e6775d269c7f2f76c7a16d9acf1">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; bb,
               S epsilon = default_epsilon&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu.html#ae3ec909573716c292520f7e5319407b4">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#gae3ec909573716c292520f7e5319407b4">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a box is degenerate (i.e. any of its extents are less than or equal to zero).</dd>
+            <dd>Returns true if a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> is degenerate (i.e. any of its extents are less than or equal to zero).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga61bc070f6ce184ae3a0d8763b99c1da4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> are infinity or NaN.</dd>
           </dl>
         </section>
       </div>

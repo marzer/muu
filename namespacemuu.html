@@ -15,11 +15,11 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.5.7" name="generator"/>
+  <meta content="Poxy v0.6.1" name="generator"/>
   <meta content="no-referrer-when-downgrade" name="referrer"/>
-  <link href="poxy-0.5.7.css" rel="stylesheet"/>
-  <link href="poxy-0.5.7-dark.css" rel="stylesheet"/>
-  <script src="poxy-0.5.7.js"></script>
+  <link href="poxy-0.6.1.css" rel="stylesheet"/>
+  <link href="poxy-0.6.1-dark.css" rel="stylesheet"/>
+  <script src="poxy-0.6.1.js"></script>
 </head>
 <body>
 <header><nav id="navigation">
@@ -108,12 +108,12 @@
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_box</a>
             </dt>
-            <dd>An axis-aligned bounding box.</dd>
+            <dd>An axis-aligned <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>
             </dt>
-            <dd>A bounding sphere.</dd>
+            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding sphere</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename First, typename Second&gt;</div>
               class <a class="m-doc" href="classmuu_1_1compressed__pair.html">compressed_pair</a>
@@ -138,7 +138,7 @@
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01bounding__box_3_01_scalar_01_4_01_4.html">constants&lt;bounding_box&lt;Scalar&gt;&gt;</a>
             </dt>
-            <dd>Axis-aligned bounding box constants.</dd>
+            <dd>Axis-aligned <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01bounding__sphere_3_01_scalar_01_4_01_4.html">constants&lt;bounding_sphere&lt;Scalar&gt;&gt;</a>
@@ -208,7 +208,7 @@
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01oriented__bounding__box_3_01_scalar_01_4_01_4.html">constants&lt;oriented_bounding_box&lt;Scalar&gt;&gt;</a>
             </dt>
-            <dd>Oriented bounding box constants.</dd>
+            <dd>Oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> constants.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Integer, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1constants_3_01packed__unit__vector_3_01_integer_00_01_dimensions_01_4_01_4.html">constants&lt;packed_unit_vector&lt;Integer, Dimensions&gt;&gt;</a>
@@ -341,7 +341,7 @@
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1line__segment.html">line_segment</a>
             </dt>
-            <dd>A line segment.</dd>
+            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>
@@ -351,7 +351,7 @@
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>
             </dt>
-            <dd>An oriented bounding box.</dd>
+            <dd>An <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented bounding box</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Integer, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1packed__unit__vector.html">packed_unit_vector</a>
@@ -397,6 +397,10 @@
             </dt>
             <dd>A non-owning view of contiguous elements.</dd>
             <dt>
+              class <a class="m-doc" href="classmuu_1_1spin__mutex.html">spin_mutex</a>
+            </dt>
+            <dd>A mutex that acquires locks by-spin waiting.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;</div>
               class <a class="m-doc" href="classmuu_1_1static__string.html">static_string</a>
             </dt>
@@ -423,7 +427,7 @@
               <div class="m-doc-template">template&lt;typename Scalar&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>
             </dt>
-            <dd>A triangle.</dd>
+            <dd>A <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1type__list.html">type_list</a>
@@ -911,14 +915,14 @@
               const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;T&gt;&amp; bb2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_boxes</a> are approximately equal.</dd>
+            <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding boxes</a> are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga8976372243128129e8c98bc13031a28d">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs1,
               const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;T&gt;&amp; bs2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two bounding spheres are approximately equal.</dd>
+            <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding spheres</a> are approximately equal.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga87bf7f92a62590f695617cea9bb941fe">approx_equal</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> a,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> b,
@@ -931,7 +935,7 @@
               const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; seg2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two line segments are approximately equal.</dd>
+            <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segments</a> are approximately equal.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gaec4759ac5b40da6afc50eb0b3585f0fe">approx_equal</a>(</span><span class="m-doc-wrap">float a,
               float b,
@@ -987,7 +991,7 @@
               const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;T&gt;&amp; bb2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two oriented bounding boxes are approximately equal.</dd>
+            <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented bounding boxes</a> are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#gae2d90458dab99f2b1ff2283177ba5835">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p1,
@@ -1008,7 +1012,7 @@
               const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;T&gt;&amp; tri2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if two triangles are approximately equal.</dd>
+            <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangles</a> are approximately equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga5d86e15710b89e3c79399cd98f597efe">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
@@ -1021,13 +1025,13 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gaeeb04e6775d269c7f2f76c7a16d9acf1">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;S&gt;&amp; bb,
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga98d7ed90e349510d6d5f305664a1eb37">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs,
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a> are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding sphere</a> are approximately equal to zero.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga5df3be4319d056f5a12b082177b1f8dd">approx_zero</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x,
               <a class="m-doc" href="structmuu_1_1half.html">half</a> epsilon = <a class="m-doc" href="structmuu_1_1constants.html">constants</a>&lt;<a class="m-doc" href="structmuu_1_1half.html">half</a>&gt;::<a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1038,7 +1042,7 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gac5e6b9f30f0e565a9893ba7c7fea821b">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg,
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the points in line segment are approximately equal to zero.</dd>
+            <dd>Returns true if all the points in <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a> are approximately equal to zero.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga3156cd82de6c0da5a9054c544ee99725">approx_zero</a>(</span><span class="m-doc-wrap">float x,
               float epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;float&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1085,7 +1089,7 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gaf8829f85689d029709149ec6c33ac60d">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;S&gt;&amp; bb,
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are approximately equal to zero.</dd>
+            <dd>Returns true if all the scalar components of an <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented bounding box</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gaffffd5920be4c9358ad1e0e0e57a7e15">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p,
@@ -1103,7 +1107,7 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga634f1c2a41e507ca065b3783a0401c3c">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri,
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if all the points in triangle are approximately equal to zero.</dd>
+            <dd>Returns true if all the points in <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a> are approximately equal to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gaa7e15ecff78c10af4eaa5b463eee9ca6">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v,
@@ -1459,29 +1463,41 @@
             <dd>Returns the cross product of two three-dimensional <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae3ec909573716c292520f7e5319407b4">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#gae3ec909573716c292520f7e5319407b4">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a box is degenerate (i.e. any of its extents are less than or equal to zero).</dd>
+            <dd>Returns true if a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> is degenerate (i.e. any of its extents are less than or equal to zero).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a236cb7c134ac66ab7b2e98ef8744d2ba">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#ga236cb7c134ac66ab7b2e98ef8744d2ba">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if the sphere is degenerate (i.e. its radius is less than or equal to zero).</dd>
+            <dd>Returns true if a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding sphere</a> is degenerate (i.e. its radius is less than or equal to zero).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8e6014f4408e18bb6eabd6743abb3d52">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#ga8e6014f4408e18bb6eabd6743abb3d52">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a line segment is degenerate (i.e. its points are coincident).</dd>
+            <dd>Returns true if a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a> is degenerate (i.e. its points are coincident).</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#gafd015a10ac401fc58d319f6961b0dcbe">degenerate</a>(</span><span class="m-doc-wrap">const T(&amp;vals)[N]) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any value in array is in a degenerate state.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U, typename... V&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#ga0bfc7a5fc4ab09f4b73dd22c295f4e5a">degenerate</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              const U&amp; val2,
+              const V&amp;... vals) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the given values in a degenerate state.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a1b0d0e8f19cca6bb195e997fb48ac3be">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#ga1b0d0e8f19cca6bb195e997fb48ac3be">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a box is degenerate (i.e. any of its extents are less than or equal to zero).</dd>
+            <dd>Returns true if an <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented bounding box</a> is degenerate (i.e. any of its extents are less than or equal to zero).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa05ebbda3b946e8314e714eabe1037fc">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#gaa05ebbda3b946e8314e714eabe1037fc">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a triangle is degenerate (i.e. two or more of its points are coincident).</dd>
+            <dd>Returns true if a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a> is degenerate (i.e. two or more of its points are coincident).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4cb7a56d0f2260af3ceb0b0c5204ed0b">determinant</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; determinant_type <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1600,12 +1616,12 @@
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga61bc070f6ce184ae3a0d8763b99c1da4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga96fa1ad0d535b49feb40932d4b36e602">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of a <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a> are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding sphere</a> are infinity or NaN.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gafea7a631de7f6399fb55e1dffbe79c00">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1half.html">half</a> x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -1614,7 +1630,7 @@
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gafe018cc9e24195a2edf98017340c2263">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the points in a line segment are infinity or NaN.</dd>
+            <dd>Returns true if any of the points in a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a> are infinity or NaN.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga244d41fcb34e53c950eddd916a6d5396">infinity_or_nan</a>(</span><span class="m-doc-wrap">float x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -1645,11 +1661,6 @@
             </dt>
             <dd>Returns true if an arithmetic value is infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga7165ec00307546834b2cfec5dcd18920">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; obj) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Checks if an object is infinity or NaN.</dd>
-            <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gac83f0d0b00f182e5cfa6ae4dfa9ad12c">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T(&amp;vals)[N]) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -1660,7 +1671,7 @@
               const U&amp; val2,
               const V&amp;... vals) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any value of the given values is infinity or NaN.</dd>
+            <dd>Returns true if any of the given values is infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1670,7 +1681,7 @@
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gafb8c126371ec2dcbf6bd36237d1a7e2d">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the scalar components of an <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a> are infinity or NaN.</dd>
+            <dd>Returns true if any of the scalar components of an <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented bounding box</a> are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gaa55cd1d8c3534c8ffc01aea226c26997">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1685,7 +1696,7 @@
               <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga73ae74e7ab9484fb2ee90a67e91c1b08">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if any of the points in a triangle are infinity or NaN.</dd>
+            <dd>Returns true if any of the points in a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a> are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename S, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga302affada638f7a69a77c925b1f38d93">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -3620,6 +3631,11 @@
             </dt>
             <dd>Is a type a pre-C++11 unscoped enum, or reference to one?</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga1edac78f9c21a3d456c36805d6c99925">is_mutex_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a type has a lock interface compatible with <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/thread/mutex.html" target="_blank">std::<wbr/>mutex</a>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename From, typename To&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga090993f769edb7c30da887d3b6f71f23">is_nothrow_convertible</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
@@ -3639,6 +3655,11 @@
               bool <a class="m-doc" href="group__meta.html#ga54c8d27010a9c661dba826d90f0c9ace">is_scoped_enum</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Is a type a C++11 scoped enum class, or reference to one?</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#ga6d740ced211f96c15a8f979f8d3af237">is_shared_mutex_like</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>True if a type has a lock interface compatible with <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/thread/shared_mutex.html" target="_blank">std::<wbr/>shared_mutex</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga8692cd4c2e3c8e2b0167a5a586f1f6e1">is_signed</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -3902,56 +3923,6 @@
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;S, 3&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the cross product of two three-dimensional <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a>.</p>
-          </div></section>
-          <section class="m-doc-details" id="ae3ec909573716c292520f7e5319407b4"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__box_8h.html">&lt;muu/bounding_box.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename S&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae3ec909573716c292520f7e5319407b4">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;S&gt;&amp; bb) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns true if a box is degenerate (i.e. any of its extents are less than or equal to zero).</p>
-          </div></section>
-          <section class="m-doc-details" id="a236cb7c134ac66ab7b2e98ef8744d2ba"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__sphere_8h.html">&lt;muu/bounding_sphere.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename S&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a236cb7c134ac66ab7b2e98ef8744d2ba">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns true if the sphere is degenerate (i.e. its radius is less than or equal to zero).</p>
-          </div></section>
-          <section class="m-doc-details" id="a8e6014f4408e18bb6eabd6743abb3d52"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="line__segment_8h.html">&lt;muu/line_segment.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename S&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8e6014f4408e18bb6eabd6743abb3d52">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns true if a line segment is degenerate (i.e. its points are coincident).</p>
-          </div></section>
-          <section class="m-doc-details" id="a1b0d0e8f19cca6bb195e997fb48ac3be"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="oriented__bounding__box_8h.html">&lt;muu/oriented_bounding_box.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename S&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1b0d0e8f19cca6bb195e997fb48ac3be">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;S&gt;&amp; bb) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns true if a box is degenerate (i.e. any of its extents are less than or equal to zero).</p>
-          </div></section>
-          <section class="m-doc-details" id="aa05ebbda3b946e8314e714eabe1037fc"><div>
-            <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="triangle_8h.html">&lt;muu/triangle.h&gt;</a></div>
-              <div class="m-doc-template">
-                template&lt;typename S&gt;
-              </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa05ebbda3b946e8314e714eabe1037fc">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Returns true if a triangle is degenerate (i.e. two or more of its points are coincident).</p>
           </div></section>
           <section class="m-doc-details" id="a4cb7a56d0f2260af3ceb0b0c5204ed0b"><div>
             <h3>
