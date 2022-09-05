@@ -1776,6 +1776,19 @@ namespace muu
 		inline constexpr bool has_size_member_func_ = is_integer<decltype(std::declval<T>().size())>;
 		template <typename T>
 		inline constexpr bool has_size_member_func_<T, false> = false;
+
+		template <typename T>
+		using has_lock_member_func_ = decltype(std::declval<T>().lock());
+		template <typename T>
+		using has_try_lock_member_func_ = decltype(std::declval<T>().try_lock());
+		template <typename T>
+		using has_unlock_member_func_ = decltype(std::declval<T>().unlock());
+		template <typename T>
+		using has_lock_shared_member_func_ = decltype(std::declval<T>().lock_shared());
+		template <typename T>
+		using has_try_lock_shared_member_func_ = decltype(std::declval<T>().try_lock_shared());
+		template <typename T>
+		using has_unlock_shared_member_func_ = decltype(std::declval<T>().unlock_shared());
 	}
 	/// \endcond
 
@@ -1930,6 +1943,19 @@ namespace muu
 	/// \remark Returns 0 for types that do not implement std::tuple_size.
 	template <typename T>
 	inline constexpr size_t tuple_size = impl::tuple_size_<T>::value;
+
+	/// \brief True if a type has a lock interface compatible with std::mutex.
+	template <typename T>
+	inline constexpr bool is_mutex_like = is_detected<impl::has_lock_member_func_, T> //
+		&& is_detected<impl::has_try_lock_member_func_, T>							  //
+			&& is_detected<impl::has_unlock_member_func_, T>;
+
+	/// \brief True if a type has a lock interface compatible with std::shared_mutex.
+	template <typename T>
+	inline constexpr bool is_shared_mutex_like = is_mutex_like<T>	  //
+		&& is_detected<impl::has_lock_shared_member_func_, T>		  //
+			&& is_detected<impl::has_try_lock_shared_member_func_, T> //
+				&& is_detected<impl::has_unlock_shared_member_func_, T>;
 
 	/// \cond
 	namespace impl

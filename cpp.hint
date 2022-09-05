@@ -37,6 +37,7 @@
 #define MUU_DISABLE_ARITHMETIC_WARNINGS		static_assert(true)
 #define MUU_DISABLE_LIFETIME_WARNINGS		static_assert(true)
 #define MUU_DISABLE_SHADOW_WARNINGS			static_assert(true)
+#define MUU_DISABLE_DEPRECATION_WARNINGS 	static_assert(true)
 #define MUU_DISABLE_SPAM_WARNINGS			static_assert(true)
 #define MUU_DISABLE_SUGGEST_WARNINGS		static_assert(true)
 #define MUU_DISABLE_SWITCH_WARNINGS			static_assert(true)

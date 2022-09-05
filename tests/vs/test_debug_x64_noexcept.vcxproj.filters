@@ -191,6 +191,18 @@
     <ClCompile Include="..\vector_misc.cpp">
       <Filter>vector</Filter>
     </ClCompile>
+    <ClCompile Include="..\bounding_sphere_0.cpp">
+      <Filter>bounding_sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bounding_sphere_1.cpp">
+      <Filter>bounding_sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bounding_sphere_2.cpp">
+      <Filter>bounding_sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\bounding_sphere_3.cpp">
+      <Filter>bounding_sphere</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />
@@ -230,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="..\line_segment_tests.h">
       <Filter>line_segment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\bounding_sphere_tests.h">
+      <Filter>bounding_sphere</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -274,6 +289,9 @@
     </Filter>
     <Filter Include="line_segment">
       <UniqueIdentifier>{999a25f1-1bd9-4084-817e-ff154b94d2c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bounding_sphere">
+      <UniqueIdentifier>{ef894358-c296-4802-8c43-4715066fa598}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

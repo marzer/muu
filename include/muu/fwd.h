@@ -311,6 +311,7 @@ namespace muu
 	class bitset;
 	class blob;
 	class sha1;
+	class spin_mutex;
 	class string_param;
 	class thread_pool;
 	template <typename, typename>

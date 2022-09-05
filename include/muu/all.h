@@ -33,6 +33,7 @@
 #include "quaternion.h"
 #include "scope_guard.h"
 #include "span.h"
+#include "spin_mutex.h"
 #include "static_string.h"
 #include "string_param.h"
 #include "strings.h"

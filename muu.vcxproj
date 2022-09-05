@@ -118,6 +118,7 @@
     <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_gcc.h" />
     <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_msvc.h" />
     <ClInclude Include="include\muu\impl\quaternion_x_matrix.h" />
+    <ClInclude Include="include\muu\impl\pause.h" />
     <ClInclude Include="include\muu\impl\std_compare.h" />
     <ClInclude Include="include\muu\impl\std_initializer_list.h" />
     <ClInclude Include="include\muu\impl\std_tuple.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="include\muu\type_name.h" />
     <ClInclude Include="include\muu\uuid.h" />
     <ClInclude Include="include\muu\vector.h" />
+    <ClInclude Include="include\muu\spin_mutex.h" />
     <ClInclude Include="src\os.h" />
     <ClInclude Include="src\os_unix.h" />
     <ClInclude Include="src\os_windows.h" />

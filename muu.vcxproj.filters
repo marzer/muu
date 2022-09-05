@@ -298,6 +298,12 @@
     <ClInclude Include="include\muu\bounding_sphere.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\spin_mutex.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\pause.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".circleci\config.yml">

@@ -1002,11 +1002,11 @@ help me improve support for your target architecture. Thanks!
 
 #define MUU_UNUSED(...) static_cast<void>(__VA_ARGS__)
 /// \def MUU_UNUSED(expr)
-/// \brief Explicitly denotes the result of an expression as being explicitly unused.
+/// \brief Explicitly denotes the result of an expression as being unused.
 
 #define MUU_NOOP MUU_UNUSED(0)
 /// \def MUU_NOOP
-/// \brief Expands to a no-op expression, e.g. `static_cast<void>(0)`.
+/// \brief Expands to a no-op expression.
 
 // clang-format off
 #ifdef NDEBUG
@@ -1192,6 +1192,10 @@ help me improve support for your target architecture. Thanks!
 		__pragma(warning(disable : 4458))                                                                              \
 		static_assert(true)
 
+	#define MUU_DISABLE_DEPRECATION_WARNINGS                                                                           \
+		__pragma(warning(disable : 4996))                                                                              \
+		static_assert(true)
+
 	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
 		__pragma(warning(disable : 4127)) /* conditional expr is constant */                                           \
 		__pragma(warning(disable : 4324)) /* structure was padded due to alignment specifier */                        \
@@ -1236,6 +1240,7 @@ help me improve support for your target architecture. Thanks!
 		MUU_DISABLE_CODE_ANALYSIS_WARNINGS;                                                                            \
 		MUU_DISABLE_SWITCH_WARNINGS;                                                                                   \
 		MUU_DISABLE_SHADOW_WARNINGS;                                                                                   \
+		MUU_DISABLE_DEPRECATION_WARNINGS;                                                                              \
 		MUU_DISABLE_SPAM_WARNINGS;                                                                                     \
 		MUU_DISABLE_ARITHMETIC_WARNINGS;                                                                               \
 		static_assert(true)
@@ -1402,6 +1407,13 @@ help me improve support for your target architecture. Thanks!
 #endif
 /// \def MUU_DISABLE_SHADOW_WARNINGS
 /// \brief Disables compiler warnings relating to variable, class and function name shadowing.
+/// \see MUU_PUSH_WARNINGS
+
+#ifndef MUU_DISABLE_DEPRECATION_WARNINGS
+	#define MUU_DISABLE_DEPRECATION_WARNINGS static_assert(true)
+#endif
+/// \def MUU_DISABLE_DEPRECATION_WARNINGS
+/// \brief Disables compiler warnings relating to deprecated functions, types, etc.
 /// \see MUU_PUSH_WARNINGS
 
 #ifndef MUU_DISABLE_SUGGEST_WARNINGS

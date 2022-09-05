@@ -69,6 +69,8 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <PropertyGroup>
+    <PerfCriticalNoPCH Condition="$(Configuration.ToLower().Contains('debug'))">true</PerfCriticalNoPCH>
+    <PerfCriticalNoPCH Condition="!$(Configuration.ToLower().Contains('debug'))">false</PerfCriticalNoPCH>
     <IncludePath>$(ProjectDir)src;$(IncludePath)</IncludePath>
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
@@ -78,6 +80,7 @@
     <ClInclude Include="include\muu\all.h" />
     <ClInclude Include="include\muu\axis_angle.h" />
     <ClInclude Include="include\muu\bit.h" />
+    <ClInclude Include="include\muu\bounding_sphere.h" />
     <ClInclude Include="include\muu\euler_angles.h" />
     <ClInclude Include="include\muu\function_view.h" />
     <ClInclude Include="include\muu\impl\aligned_alloc.h" />
@@ -111,10 +114,12 @@
     <ClInclude Include="include\muu\impl\plane_x_line_segment.h" />
     <ClInclude Include="include\muu\impl\plane_x_triangle.h" />
     <ClInclude Include="include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="include\muu\impl\preprocessor_for_each_attributes.h" />
     <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_clang.h" />
     <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_gcc.h" />
     <ClInclude Include="include\muu\impl\preprocessor_macro_dispatch_msvc.h" />
     <ClInclude Include="include\muu\impl\quaternion_x_matrix.h" />
+    <ClInclude Include="include\muu\impl\pause.h" />
     <ClInclude Include="include\muu\impl\std_compare.h" />
     <ClInclude Include="include\muu\impl\std_initializer_list.h" />
     <ClInclude Include="include\muu\impl\std_tuple.h" />
@@ -166,6 +171,7 @@
     <ClInclude Include="include\muu\type_name.h" />
     <ClInclude Include="include\muu\uuid.h" />
     <ClInclude Include="include\muu\vector.h" />
+    <ClInclude Include="include\muu\spin_mutex.h" />
     <ClInclude Include="src\os.h" />
     <ClInclude Include="src\os_unix.h" />
     <ClInclude Include="src\os_windows.h" />
@@ -194,8 +200,10 @@
     <None Include="tools\generate_batched_tests.py" />
     <None Include="tools\generate_compiler_dispatch_macros.py" />
     <None Include="tools\generate_float_tests_header.py" />
+    <None Include="tools\generate_for_each_attribute_macros.py" />
     <None Include="tools\generate_unicode_functions.py" />
     <None Include="tools\generate_windows_targets.py" />
+    <None Include="tools\make_release.bat" />
     <None Include="tools\make_release.py" />
     <None Include="tools\utils.py" />
     <None Include=".runsettings" />
@@ -213,7 +221,10 @@
     <ClCompile Include="src\hashing.cpp" />
     <ClCompile Include="src\string_param.cpp" />
     <ClCompile Include="src\thread_name.cpp" />
-    <ClCompile Include="src\thread_pool.cpp" />
+    <ClCompile Include="src\thread_pool.cpp">
+      <PrecompiledHeader Condition="'$(PerfCriticalNoPCH)'=='true'">NotUsing</PrecompiledHeader>
+      <Optimization Condition="'$(PerfCriticalNoPCH)'=='true'">MaxSpeed</Optimization>
+    </ClCompile>
     <ClCompile Include="src\uuid.cpp" />
     <ClCompile Include="src\vector_types_common.cpp" />
   </ItemGroup>

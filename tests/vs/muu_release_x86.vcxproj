@@ -53,6 +53,8 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <PropertyGroup>
+    <PerfCriticalNoPCH Condition="$(Configuration.ToLower().Contains('debug'))">true</PerfCriticalNoPCH>
+    <PerfCriticalNoPCH Condition="!$(Configuration.ToLower().Contains('debug'))">false</PerfCriticalNoPCH>
     <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
     <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
@@ -62,6 +64,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\all.h" />
     <ClInclude Include="$(SolutionDir)include\muu\axis_angle.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bit.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\bounding_sphere.h" />
     <ClInclude Include="$(SolutionDir)include\muu\euler_angles.h" />
     <ClInclude Include="$(SolutionDir)include\muu\function_view.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\aligned_alloc.h" />
@@ -95,10 +98,12 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\plane_x_line_segment.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\plane_x_triangle.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_for_each.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_for_each_attributes.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_macro_dispatch_clang.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_macro_dispatch_gcc.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_macro_dispatch_msvc.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\quaternion_x_matrix.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\pause.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_compare.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_initializer_list.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_tuple.h" />
@@ -150,6 +155,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\type_name.h" />
     <ClInclude Include="$(SolutionDir)include\muu\uuid.h" />
     <ClInclude Include="$(SolutionDir)include\muu\vector.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\spin_mutex.h" />
     <ClInclude Include="$(SolutionDir)src\os.h" />
     <ClInclude Include="$(SolutionDir)src\os_unix.h" />
     <ClInclude Include="$(SolutionDir)src\os_windows.h" />
@@ -163,7 +169,10 @@
     <ClCompile Include="$(SolutionDir)src\hashing.cpp" />
     <ClCompile Include="$(SolutionDir)src\string_param.cpp" />
     <ClCompile Include="$(SolutionDir)src\thread_name.cpp" />
-    <ClCompile Include="$(SolutionDir)src\thread_pool.cpp" />
+    <ClCompile Include="$(SolutionDir)src\thread_pool.cpp">
+      <PrecompiledHeader Condition="'$(PerfCriticalNoPCH)'=='true'">NotUsing</PrecompiledHeader>
+      <Optimization Condition="'$(PerfCriticalNoPCH)'=='true'">MaxSpeed</Optimization>
+    </ClCompile>
     <ClCompile Include="$(SolutionDir)src\uuid.cpp" />
     <ClCompile Include="$(SolutionDir)src\vector_types_common.cpp" />
   </ItemGroup>

@@ -112,6 +112,10 @@
     <ClCompile Include="..\bounding_box_1.cpp" />
     <ClCompile Include="..\bounding_box_2.cpp" />
     <ClCompile Include="..\bounding_box_3.cpp" />
+    <ClCompile Include="..\bounding_sphere_0.cpp" />
+    <ClCompile Include="..\bounding_sphere_1.cpp" />
+    <ClCompile Include="..\bounding_sphere_2.cpp" />
+    <ClCompile Include="..\bounding_sphere_3.cpp" />
     <ClCompile Include="..\compressed_pair.cpp" />
     <ClCompile Include="..\bit.cpp" />
     <ClCompile Include="..\core_other.cpp" />
@@ -194,6 +198,7 @@
   <ItemGroup>
     <ClInclude Include="..\batching.h" />
     <ClInclude Include="..\bounding_box_tests.h" />
+    <ClInclude Include="..\bounding_sphere_tests.h" />
     <ClInclude Include="..\catch2.h" />
     <ClInclude Include="..\float_test_data.h" />
     <ClInclude Include="..\line_segment_tests.h" />

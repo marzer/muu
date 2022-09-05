@@ -11,6 +11,7 @@
 #include "muu/scope_guard.h"
 #include "muu/math.h"
 #include "muu/impl/std_string.h"
+#include "muu/impl/pause.h"
 #include "os.h"
 #if !MUU_HAS_EXCEPTIONS
 	#include "muu/impl/std_exception.h" // std::terminate()
@@ -22,14 +23,6 @@ MUU_DISABLE_WARNINGS;
 #include <condition_variable>
 #include <thread>
 #include <optional>
-#if MUU_ISET_SSE2
-	#if MUU_LINUX
-		#include <emmintrin.h>
-	#endif
-	#define spin_wait_iteration() _mm_pause()
-#else
-	#define spin_wait_iteration() MUU_NOOP
-#endif
 MUU_ENABLE_WARNINGS;
 
 #include "source_start.h"
@@ -361,7 +354,7 @@ namespace
 									 {
 										 for (size_t i = worker_index, e = i + tries; i < e && !t; i++)
 										 {
-											 spin_wait_iteration();
+											 MUU_PAUSE();
 											 t = queues[i % queues.size()].try_pop(pop_buffer);
 										 }
 										 if (!t)
@@ -539,7 +532,7 @@ namespace
 					if (auto q = static_cast<decltype(action)&&>(action)())
 						return q;
 
-					spin_wait_iteration();
+					MUU_PAUSE();
 				}
 			}
 
@@ -571,7 +564,7 @@ namespace
 							return std::optional<size_t>{ queue_index };
 						q.unlock();
 					}
-					spin_wait_iteration();
+					MUU_PAUSE();
 				}
 				return std::optional<size_t>{};
 			};
@@ -602,7 +595,7 @@ namespace
 							return std::optional<size_t>{ queue_index };
 						q.unlock();
 					}
-					spin_wait_iteration();
+					MUU_PAUSE();
 				}
 				return std::optional<size_t>{};
 			};
