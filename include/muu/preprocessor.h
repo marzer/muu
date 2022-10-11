@@ -1185,6 +1185,8 @@ help me improve support for your target architecture. Thanks!
 		__pragma(warning(disable : 4061))                                                                              \
 		__pragma(warning(disable : 4062))                                                                              \
 		__pragma(warning(disable : 4063))                                                                              \
+		__pragma(warning(disable : 4468))  /* 'fallthrough': attribute must be followed by a case label */             \
+		__pragma(warning(disable : 5262))  /* implicit through */                                                      \
 		__pragma(warning(disable : 26819)) /* cg: unannotated fallthrough */                                           \
 		static_assert(true)
 
