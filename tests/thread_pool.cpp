@@ -23,7 +23,7 @@ TEST_CASE("thread_pool - initialization")
 	};
 
 	{
-		INFO("single worker, queue size == 1")
+		TEST_INFO("single worker, queue size == 1");
 
 		thread_pool pool{ 1u, 1u };
 		CHECK(pool.workers() == 1u);
@@ -37,7 +37,7 @@ TEST_CASE("thread_pool - initialization")
 	}
 
 	{
-		INFO("single worker, queue size == 10")
+		TEST_INFO("single worker, queue size == 10");
 
 		thread_pool pool { 1u, 10u };
 		CHECK(pool.workers() == 1u);
@@ -47,7 +47,7 @@ TEST_CASE("thread_pool - initialization")
 	}
 
 	{
-		INFO("auto workers, auto queue size")
+		TEST_INFO("auto workers, auto queue size");
 
 		thread_pool pool;
 		CHECK(pool.workers() == std::thread::hardware_concurrency());
@@ -57,7 +57,7 @@ TEST_CASE("thread_pool - initialization")
 	}
 
 	{
-		INFO("auto workers, queue size == 10")
+		TEST_INFO("auto workers, queue size == 10");
 		thread_pool pool { 0u, 10u };
 		pool.for_each(0_sz, pool.workers(), anti_hang);
 
@@ -134,9 +134,9 @@ TEST_CASE("thread_pool - enqueue")
 	thread_pool pool{ min(std::thread::hardware_concurrency(), 16u) };
 
 	{
-		INFO("tasks with no state at all")
+		TEST_INFO("tasks with no state at all");
 		{
-			INFO("# 1")
+			TEST_INFO("# 1");
 			test_value = {};
 
 			pool.enqueue([]() noexcept { test_value++; });
@@ -145,7 +145,7 @@ TEST_CASE("thread_pool - enqueue")
 			CHECK(test_value == 1);
 		}
 		{
-			INFO("# 2")
+			TEST_INFO("# 2");
 			test_value = {};
 			test_worker_index = 0xFFFFFFFFu;
 
@@ -156,7 +156,7 @@ TEST_CASE("thread_pool - enqueue")
 			CHECK(test_worker_index < pool.workers());
 		}
 		{
-			INFO("# 3")
+			TEST_INFO("# 3");
 			test_value = {};
 			test_worker_index = 0xFFFFFFFFu;
 
@@ -169,9 +169,9 @@ TEST_CASE("thread_pool - enqueue")
 	}
 
 	{
-		INFO("a task with state but still small enough to fit in storage")
+		TEST_INFO("a task with state but still small enough to fit in storage");
 		{
-			INFO("# 1")
+			TEST_INFO("# 1");
 			std::atomic_int i = 0;
 			auto task = [&]() noexcept { i++; };
 			static_assert(sizeof(task) <= storage_threshold);
@@ -182,7 +182,7 @@ TEST_CASE("thread_pool - enqueue")
 			CHECK(i == 1);
 		}
 		{
-			INFO("# 2")
+			TEST_INFO("# 2");
 			std::atomic_size_t val = 0_sz;
 			static_assert(sizeof(callable_counter<size_t>) <= storage_threshold);
 
@@ -192,7 +192,7 @@ TEST_CASE("thread_pool - enqueue")
 			CHECK(val == 1_sz);
 		}
 		{
-			INFO("# 3")
+			TEST_INFO("# 3");
 			std::atomic_size_t val = 0_sz;
 			static_assert(sizeof(callable_counter<size_t>) <= storage_threshold);
 
@@ -205,7 +205,7 @@ TEST_CASE("thread_pool - enqueue")
 	}
 
 	{
-		INFO("a task with state large enough to require pointer indirection")
+		TEST_INFO("a task with state large enough to require pointer indirection");
 
 		std::atomic_int i = 0;
 		struct Kek
@@ -225,7 +225,7 @@ TEST_CASE("thread_pool - enqueue")
 	}
 
 	{
-		INFO("a small task that has alignment requirements high enough to require pointer indirection")
+		TEST_INFO("a small task that has alignment requirements high enough to require pointer indirection");
 
 		std::atomic_int i = 0;
 		struct Kek
@@ -243,7 +243,7 @@ TEST_CASE("thread_pool - enqueue")
 	}
 
 	{
-		INFO("a bunch of tasks all at once")
+		TEST_INFO("a bunch of tasks all at once");
 
 		std::atomic_int i = 0;
 		for (int j = 0; j < 200; j++)
@@ -273,7 +273,7 @@ TEST_CASE("thread_pool - for_each (integral inputs)")
 	};
 
 	{
-		INFO("[A, B)")
+		TEST_INFO("[A, B)");
 		reset();
 		pool.for_each(0_sz, values.size(), [&](auto i) noexcept { values[i]++; });
 		pool.wait();
@@ -294,7 +294,7 @@ TEST_CASE("thread_pool - for_each (integral inputs)")
 	}
 
 	{
-		INFO("[A, B)")
+		TEST_INFO("[A, B)");
 		pool.for_each(10u, 100u, [&](auto i) noexcept { values[i]--; });
 		pool.wait();
 		for (size_t i = 0; i < 10; i++)
@@ -306,7 +306,7 @@ TEST_CASE("thread_pool - for_each (integral inputs)")
 	}
 
 	{
-		INFO("[A, B) where A > B")
+		TEST_INFO("[A, B) where A > B");
 		reset();
 		pool.for_each(500u, 300u, [&](auto i) noexcept { values[i] = 69; });
 		pool.wait();
@@ -319,7 +319,7 @@ TEST_CASE("thread_pool - for_each (integral inputs)")
 	}
 
 	{
-		INFO("[A, A)")
+		TEST_INFO("[A, A)");
 		reset();
 		pool.for_each(100u, 100u, [&](auto i) noexcept { values[i] = 100; });
 		pool.wait();
@@ -328,7 +328,7 @@ TEST_CASE("thread_pool - for_each (integral inputs)")
 	}
 
 	{
-		INFO("copy semantics")
+		TEST_INFO("copy semantics");
 		std::atomic_size_t val = 0_sz;
 		auto callable = callable_counter{ val };
 		pool.for_each(0_sz, values.size(), callable);
@@ -336,7 +336,7 @@ TEST_CASE("thread_pool - for_each (integral inputs)")
 		CHECK(val == values.size());
 	}
 	{
-		INFO("move semantics")
+		TEST_INFO("move semantics");
 		std::atomic_size_t val = 0_sz;
 		pool.for_each(0_sz, values.size(), callable_counter{ val });
 		pool.wait();
@@ -358,7 +358,7 @@ TEST_CASE("thread_pool - for_each (iterators)")
 	};
 
 	{
-		INFO("collection")
+		TEST_INFO("collection");
 		reset();
 		pool.for_each(values, [](auto& v) noexcept { v++; });
 		pool.wait();
@@ -367,7 +367,7 @@ TEST_CASE("thread_pool - for_each (iterators)")
 	}
 
 	{
-		INFO("collection with batch index")
+		TEST_INFO("collection with batch index");
 		reset();
 		pool.for_each(values, [&](auto& v, auto batch) noexcept
 		{
@@ -382,7 +382,7 @@ TEST_CASE("thread_pool - for_each (iterators)")
 	}
 
 	{
-		INFO("[begin, end)")
+		TEST_INFO("[begin, end)");
 		reset();
 		pool.for_each(values.begin(), values.end(), [](auto& v) noexcept { v++; });
 		pool.wait();
@@ -391,7 +391,7 @@ TEST_CASE("thread_pool - for_each (iterators)")
 	}
 
 	{
-		INFO("[end, begin)")
+		TEST_INFO("[end, begin)");
 		reset();
 		pool.for_each(values.end(), values.begin(), [](auto& v) noexcept { v++; });
 		pool.wait();
@@ -400,7 +400,7 @@ TEST_CASE("thread_pool - for_each (iterators)")
 	}
 
 	{
-		INFO("copy semantics")
+		TEST_INFO("copy semantics");
 			std::atomic_size_t val = 0_sz;
 		auto callable = callable_counter{ val };
 		pool.for_each(values, callable);
@@ -408,7 +408,7 @@ TEST_CASE("thread_pool - for_each (iterators)")
 		CHECK(val == values.size());
 	}
 	{
-		INFO("move semantics")
+		TEST_INFO("move semantics");
 			std::atomic_size_t val = 0_sz;
 		pool.for_each(values, callable_counter{ val });
 		pool.wait();

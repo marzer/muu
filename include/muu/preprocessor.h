@@ -1183,6 +1183,7 @@ help me improve support for your target architecture. Thanks!
 		__pragma(warning(disable : 5039))  /* potentially throwing function passed to 'extern "C"' function */         \
 		__pragma(warning(disable : 5045))  /* Compiler will insert Spectre mitigation */                               \
 		__pragma(warning(disable : 5246))  /* initialization of a subobject should be wrapped in braces */             \
+		__pragma(warning(disable : 5264))  /* const variable is not used (false-positive) */                           \
 		__pragma(warning(disable : 26490)) /* cg: dont use reinterpret_cast */                                         \
 		__pragma(warning(disable : 26812)) /* cg: Prefer 'enum class' over 'enum' */                                   \
 		static_assert(true)

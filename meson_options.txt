@@ -4,3 +4,4 @@ option('pedantic',			    type: 'boolean',	value: false,	description: 'Enable as 
 option('time_trace',			type: 'boolean',	value: false,	description: 'Enable the -ftime-trace option (Clang only)')
 option('static_dllexport',		type: 'boolean',	value: false,	description: 'Defines MUU_API as __declspec(dllexport) even when building as a static library (Windows only)')
 option('test_set',				type: 'integer',	min: 0, max: 4, value: 0)
+option('use_vendored_libs',		type: 'boolean',	value: true,	description: 'Use the libs from the vendor dir when building tests.')

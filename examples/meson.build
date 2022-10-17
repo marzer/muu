@@ -1,8 +1,7 @@
 example1 = executable(
 	'example',
 	[ 'example.cpp' ],
-	include_directories: include_dirs,
-	cpp_args: additional_arguments,
-	override_options: overrides,
-	link_with: [ muu_lib ]
+	cpp_args: [ universal_args, devel_args ],
+	dependencies: muu_dep,
+	override_options: overrides
 )

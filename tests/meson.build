@@ -84,9 +84,12 @@ test_sources += [
 	'vector_misc.cpp',
 ]
 
-test_dependencies = []
+test_deps = [ muu_dep ]
+if not get_option('use_vendored_libs')
+	test_deps += dependency('catch2')
+endif
 if compiler_supports_float128
-	test_dependencies += compiler.find_library('quadmath')
+	test_deps += compiler.find_library('quadmath')
 endif
 
 #######################################################################################################################
@@ -105,12 +108,12 @@ compiler_supports_fast_math = compiler.links('''
 	#include <iostream>
 	int main()
 	{
-		std::cout << std::exp2(2.0) << std::pow(2.0, 3.0) << std::endl;
+		std::cout << std::exp2(2.0) << std::pow(2.0, 3.0) << "\n";
 		return 0;
 	}
 	''',
-	name : 'supports fast-math',
-	args : compiler_supports_fast_math_args
+	name: 'supports fast-math',
+	args: compiler_supports_fast_math_args
 )
 
 #######################################################################################################################
@@ -121,10 +124,12 @@ fast_math_modes = [ false, true  ]
 exception_modes = [ true , false  ]
 cpp20_modes     = [ true , false ]
 test_executables = []
-test_additional_arguments = []
+test_base_args = []
+test_base_args += universal_args
+test_base_args += devel_args
 if is_gcc
 	# precompiled headers fuck up warning pragmas in GCC =/
-	test_additional_arguments += [
+	test_base_args += [
 		'-Wno-float-equal',
 		'-Wno-sign-conversion',
 		'-Wno-attributes',
@@ -154,8 +159,7 @@ foreach cpp20 : cpp20_modes
 			test_overrides = []
 			test_overrides += overrides
 			test_args = []
-			test_args += additional_arguments
-			test_args += test_additional_arguments
+			test_args += test_base_args
 	
 			if cpp20
 				test_name = 'cpp20'
@@ -203,20 +207,18 @@ foreach cpp20 : cpp20_modes
 				test_args += '-DSHOULD_HAVE_FLOAT128=1'
 			endif
 
-			# if is_release and (is_gcc or is_clang)
-			# 	test_overrides += 'optimization=2'
-			# endif
+			if not get_option('use_vendored_libs')
+				test_args += '-DUSE_VENDORED_LIBS=0'
+			endif
 
 			test_executables += [[
 				test_name,
 				executable(
 					test_name,
 					test_sources,
-					include_directories: include_dirs,
 					cpp_args: test_args,
+					dependencies: test_deps,
 					override_options: test_overrides,
-					link_with: [ muu_lib ],
-					dependencies: test_dependencies,
 					cpp_pch : 'pch/gcc_pch.h'
 				)
 			]]

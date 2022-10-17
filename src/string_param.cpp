@@ -7,6 +7,7 @@
 #include "muu/strings.h"
 #include "source_start.h"
 MUU_DISABLE_SUGGEST_WARNINGS;
+MUU_DISABLE_SWITCH_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 namespace

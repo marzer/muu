@@ -42,9 +42,10 @@ is_windows = host_machine.system() == 'windows'
 is_x64 = host_machine.cpu_family() == 'x86_64'
 is_subproject = meson.is_subproject()
 has_exceptions = get_option('cpp_eh') != 'none'
-include_dirs = include_directories('include', 'external')
+include_dir = include_directories('include')
 overrides = []
-additional_arguments = []
+universal_args = [] # args used in tests, examples, lib, everything
+devel_args = [] # args used in everything *but* the lib
 
 message('is_release: @0@'.format(is_release))
 message('is_windows: @0@'.format(is_windows))
@@ -59,23 +60,17 @@ message('has_exceptions: @0@'.format(has_exceptions))
 
 # GCC or Clang
 if is_gcc or is_clang
-	if is_release
-		add_project_arguments(
-			'-mfma',
-			language : 'cpp'
-		)
-	endif
+	devel_args += [ '-march=native', '-mfma' ]
 endif
 
 # GCC
 if is_gcc
-	add_project_arguments(
+	universal_args += [
 		'-fmax-errors=5',
 		'-Wno-init-list-lifetime',
-		language : 'cpp'
-	)
+	]
 	if is_pedantic
-		add_project_arguments(
+		universal_args += [
 			'-Wcast-align',
 			'-Wcast-qual',
 			'-Wctor-dtor-privacy',
@@ -89,7 +84,6 @@ if is_gcc
 			'-Wmissing-format-attribute',
 			'-Wmissing-include-dirs',
 			'-Wmissing-noreturn',
-			'-Wnoexcept',
 			'-Wold-style-cast',
 			'-Woverloaded-virtual',
 			'-Wpacked',
@@ -111,24 +105,22 @@ if is_gcc
 			'-Wvariadic-macros',
 			'-Wwrite-strings',
 			'-Wmissing-noreturn',
-			language : 'cpp'
-		)
-		if is_release
-			add_project_arguments(
-				'-Wsuggest-attribute=const',
-				'-Wsuggest-attribute=pure',
-				language : 'cpp'
-			)
-		endif
+		]
+	endif
+	if is_release and is_pedantic
+		universal_args += [
+			'-Wsuggest-attribute=const',
+			'-Wsuggest-attribute=pure',
+		]
 	endif
 endif
 
 # Clang
 if is_clang
 	if is_pedantic
-		add_project_arguments('-Weverything', language : 'cpp')
+		universal_args += '-Weverything'
 	endif
-	add_project_arguments(
+	universal_args += [
 		'-ferror-limit=5',
 		'-Wno-unused-command-line-argument',
 
@@ -140,16 +132,15 @@ if is_clang
 		'-Wno-switch-enum',
 		'-Wno-covered-switch-default',
 		'-Wno-pch-date-time',
-		language : 'cpp'
-	)
+	]
 	if get_option('time_trace')
-		add_project_arguments('-ftime-trace', language : 'cpp')
+		universal_args += ['-ftime-trace']
 	endif
 endif
 
 # MSVC or icc-cl
 if is_msvc or is_icc_cl
-	add_project_arguments(
+	universal_args += [
 		'/bigobj',
 		'/fp:except-', # disable floating-point exceptions
 		'/Gy', # function-level linking
@@ -161,67 +152,35 @@ if is_msvc or is_icc_cl
 		'/volatile:iso',
 		'/Zc:__cplusplus',
 		'/Zc:inline',
-		'/Zc:throwingNew',
 		'/Zi', # generate debug info (doesn't affect optimization)
-		language : 'cpp'
-	)
-	add_project_link_arguments('/DEBUG', language : 'cpp') # generate PDB (doesn't affect optimization)
+	]
+	if has_exceptions
+		universal_args += '/Zc:throwingNew'
+	endif
 	if is_release
-		add_project_arguments(
+		universal_args += [
 			'/GL', # whole program optimization
 			'/Gw', # Optimize Global Data
 			'/Ob3', # aggressive inlining
 			'/Oy', # omit frame pointers
 			'/Oi', # generate intrinsics
-			language : 'cpp'
-		) 
-		add_project_link_arguments('/ltcg', language : 'cpp')
+		]
+		add_project_link_arguments('/ltcg', language: 'cpp')
 	endif
 	if is_pedantic
-		add_project_arguments('/W4', language : 'cpp')
+		universal_args += '/W4'
 	endif
-	if is_x64
-		add_project_arguments('/arch:AVX', language : 'cpp')
-	endif
-endif
-
-# icc-cl
-if is_icc_cl
-	add_project_arguments(
-		'/wd82', # storage class is not first
-		'/wd177', # unreferenced var
-		'/wd280', # selector expression is constant (why the fuck is that a warning?)
-		'/wd411', # class provides no constructor (duh, it's an aggregate)
-		'/wd869', # parameter "blah" was never referenced
-		'/wd1011', # missing return statement (false negative)
-		'/wd1628', # function marked [[noreturn]] returns (false positive)
-		'/wd2261', # assume with side effects discarded
-		'/wd2557', # mismatched sign compare
-		'/wd3280', # declaration hides member (triggered in Catch2)
-		language : 'cpp'
-	)
-endif
-
-# icc (any)
-if is_icc
-	add_project_arguments(
-		'/Qdiag-error-limit:5',
-		'/Qoption,cpp,--unicode_source_kind,UTF-8',
-		'/D__builtin_bit_cast(T, v)=([&]()noexcept{ T val; memcpy(&val, &v, sizeof(T)); return val; })()', # __builtin_bit_cast workaround
-		language : 'cpp'
-	)
 endif
 
 # windows stuff
 if is_windows
-	add_project_arguments(has_exceptions ? '-D_HAS_EXCEPTIONS=1' : '-D_HAS_EXCEPTIONS=0', language : 'cpp')
-	add_project_arguments(get_option('default_library') == 'shared' ? '-DMUU_DLL=1' : '-DMUU_DLL=0', language : 'cpp')
-else
+	universal_args += has_exceptions ? '-D_HAS_EXCEPTIONS=1' : '-D_HAS_EXCEPTIONS=0'
+elif is_release
 	overrides += 'strip=true'
 endif
 
 # LTO
-if is_lld or is_debug
+if is_lld or is_debug or (is_windows and is_clang)
 	overrides += 'b_lto=false'
 endif
 
@@ -229,7 +188,15 @@ endif
 # c++ 20 check
 #######################################################################################################################
 
-compiler_supports_cpp20_test_program = '''
+compiler_supports_cpp20_args = []
+if is_gcc or is_clang
+	compiler_supports_cpp20_args += '-std=c++2a'
+elif is_icc
+	compiler_supports_cpp20_args += '/Qstd=c++2a'
+elif is_msvc
+	compiler_supports_cpp20_args += '/std:c++latest'
+endif
+compiler_supports_cpp20 = compiler_supports_cpp20_args.length() > 0 and compiler.links('''
 	#include <version>
 	#include <string>
 	#include <iostream>
@@ -250,28 +217,10 @@ compiler_supports_cpp20_test_program = '''
 		std::cout << s << std::endl;
 		return 0;
 	}
-'''
-compiler_supports_cpp20_args = []
-if is_gcc or is_clang
-	compiler_supports_cpp20_args += '-std=c++20'
-elif is_icc
-	compiler_supports_cpp20_args += '/Qstd=c++2a'
-elif is_msvc
-	compiler_supports_cpp20_args += '/std:c++latest'
-endif
-compiler_supports_cpp20 = compiler_supports_cpp20_args.length() > 0 and compiler.links(
-	compiler_supports_cpp20_test_program,
-	name : 'supports c++20',
-	args : compiler_supports_cpp20_args
+	''',
+	name: 'supports c++20',
+	args: compiler_supports_cpp20_args
 )
-if (is_gcc or is_clang) and not compiler_supports_cpp20
-	compiler_supports_cpp20_args = ['-std=c++2a', '-fconcepts']
-	compiler_supports_cpp20 = compiler_supports_cpp20_args.length() > 0 and compiler.links(
-		compiler_supports_cpp20_test_program,
-		name : 'supports c++2a',
-		args : compiler_supports_cpp20_args
-	)
-endif
 
 #######################################################################################################################
 # char8_t check
@@ -281,9 +230,6 @@ compiler_supports_char8_args = []
 if is_gcc or is_clang
 	compiler_supports_char8_args += '-fchar8_t'
 endif
-compiler_supports_char8_args_private = []
-compiler_supports_char8_args_private += compiler_supports_cpp20_args
-compiler_supports_char8_args_private += compiler_supports_char8_args
 compiler_supports_char8 = compiler_supports_cpp20 and compiler.links('''
 	#include <version>
 	#include <string_view>
@@ -291,7 +237,7 @@ compiler_supports_char8 = compiler_supports_cpp20 and compiler.links('''
 	#include <type_traits>
 	using namespace std::string_view_literals;
 
-	#if !defined(__cpp_char8_t) || __cpp_char8_t < 201811 || !defined(__cpp_lib_char8_t) || __cpp_lib_char8_t < 201907
+	#if !defined(__cpp_char8_t)	|| __cpp_char8_t < 201811 || !defined(__cpp_lib_char8_t) || __cpp_lib_char8_t < 201907
 		#error oh noes
 	#endif
 
@@ -308,8 +254,8 @@ compiler_supports_char8 = compiler_supports_cpp20 and compiler.links('''
 		return 0;
 	}
 	''',
-	name : 'supports char8_t',
-	args : compiler_supports_char8_args_private
+	name: 'supports char8_t',
+	args: [ compiler_supports_cpp20_args, compiler_supports_char8_args ]
 )
 
 #######################################################################################################################
@@ -330,8 +276,8 @@ compiler_supports_consteval = compiler_supports_cpp20 and compiler.compiles('''
 		return val;
 	}
 	''',
-	name : 'supports consteval keyword',
-	args : compiler_supports_cpp20_args
+	name: 'supports consteval keyword',
+	args: compiler_supports_cpp20_args
 )
 
 compiler_supports_consteval_properly = compiler_supports_consteval and not compiler.compiles('''
@@ -348,8 +294,8 @@ compiler_supports_consteval_properly = compiler_supports_consteval and not compi
 		return test(get_value()); // test() should not be runtime-callable
 	}
 	''',
-	name : 'consteval is just renamed constexpr',
-	args : compiler_supports_cpp20_args
+	name: 'consteval is just renamed constexpr',
+	args: compiler_supports_cpp20_args
 )
 
 #######################################################################################################################
@@ -387,7 +333,7 @@ compiler_supports_float16 = compiler.links('''
 	args : compiler_supports_float16_args
 )
 if compiler_supports_fp16 or compiler_supports_float16
-	additional_arguments += compiler_supports_float16_args
+	devel_args += compiler_supports_float16_args
 endif
 
 #######################################################################################################################
@@ -412,7 +358,7 @@ compiler_supports_int128 = compiler.links('''
 		return 0;
 	}
 	''',
-	name : 'supports __int128_t'
+	name: 'supports __int128_t'
 )
 
 #######################################################################################################################
@@ -442,22 +388,23 @@ compiler_supports_float128 = compiler.links('''
 		return 0;
 	}
 	''',
-	name : 'supports __float128'
+	name: 'supports __float128'
 )
 
 if compiler_supports_float128 and is_gcc and not is_subproject
-	add_global_arguments('-fext-numeric-literals', language : 'cpp')
+	add_global_arguments('-fext-numeric-literals', language: 'cpp')
 endif
 
 #######################################################################################################################
 # subdirectories
 #######################################################################################################################
 
+muu_dep = dependency('', required: false)
+
 subdir('src')
 
 build_tests = get_option('build_tests') and not is_subproject
 if build_tests
-	run_command('git', 'submodule', 'update', '--init', 'external/Catch2')
 	subdir('tests')
 endif
 
@@ -467,26 +414,8 @@ if build_examples
 endif
 
 if not is_subproject
-	install_subdir('include' / 'muu',
-		strip_directory: true,
-		install_dir: get_option('includedir') / 'muu'
-	)
+	install_subdir('include'/'muu', install_dir: get_option('includedir'))
 endif
 
-#######################################################################################################################
-# dependencies
-#######################################################################################################################
-
-muu_dep = declare_dependency(
-	include_directories : include_directories('include'),
-	version : meson.project_version(),
-)
-
-meson.override_dependency('muu', muu_dep)
-
-if not is_subproject
-	import('pkgconfig').generate(
-		name: meson.project_name(),
-		description: 'Miscellaneous useful utilities for C++'
-	)
-endif
+# Allow subproject usage
+meson.override_dependency(meson.project_name(), muu_dep)

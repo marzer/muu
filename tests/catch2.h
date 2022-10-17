@@ -2,8 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-
 #pragma once
+
 #include "settings.h"
 
 #ifdef __clang__
@@ -20,16 +20,18 @@
 	#pragma warning(disable : 4365)
 	#pragma warning(disable : 4868)
 	#pragma warning(disable : 5105)
+	#pragma warning(disable : 5262)
+	#pragma warning(disable : 5264)
 #endif
 
-#ifdef __has_include
-	#if __has_include(<Catch2/single_include/catch2/catch.hpp>)
-		#include <Catch2/single_include/catch2/catch.hpp>
-	#else
-		#error Catch2 is missing! You probably need to fetch submodules ("git submodule update --init external/Catch2")
-	#endif
-#else
+#if !defined(USE_VENDORED_LIBS) || USE_VENDORED_LIBS
+	#include "../vendor/catch.hpp"
+#elif __has_include(<Catch2/single_include/catch2/catch.hpp>)
 	#include <Catch2/single_include/catch2/catch.hpp>
+#elif __has_include(<catch2/catch.hpp>)
+	#include <catch2/catch.hpp>
+#else
+	#error Catch2 is missing!
 #endif
 
 #ifdef __clang__

@@ -87,6 +87,7 @@ using namespace std::string_view_literals;
 using namespace std::chrono_literals;
 
 MUU_ENABLE_WARNINGS;
+MUU_DISABLE_SPAM_WARNINGS;
 
 // macros --------------------------------------------------------------------------------------------------------------
 

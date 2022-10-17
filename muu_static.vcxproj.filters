@@ -306,9 +306,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include=".circleci\config.yml">
-      <Filter>.circleci</Filter>
-    </None>
     <None Include=".editorconfig" />
     <None Include="CONTRIBUTING.md" />
     <None Include="meson.build" />
@@ -372,11 +369,29 @@
     <None Include="tools\generate_for_each_attribute_macros.py">
       <Filter>tools</Filter>
     </None>
+    <None Include=".github\ISSUE_TEMPLATE\bug_report.md">
+      <Filter>.github\ISSUE_TEMPLATE</Filter>
+    </None>
+    <None Include=".github\ISSUE_TEMPLATE\config.yml">
+      <Filter>.github\ISSUE_TEMPLATE</Filter>
+    </None>
+    <None Include=".github\ISSUE_TEMPLATE\feature_request.md">
+      <Filter>.github\ISSUE_TEMPLATE</Filter>
+    </None>
+    <None Include=".github\workflows\ci.yaml">
+      <Filter>.github\workflows</Filter>
+    </None>
+    <None Include=".github\workflows\gh-pages.yaml">
+      <Filter>.github\workflows</Filter>
+    </None>
+    <None Include=".github\FUNDING.yml">
+      <Filter>.github</Filter>
+    </None>
+    <None Include=".github\pull_request_template.md">
+      <Filter>.github</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include=".circleci">
-      <UniqueIdentifier>{87a27fc2-7864-4140-a7ff-a42a7fdc9e63}</UniqueIdentifier>
-    </Filter>
     <Filter Include="docs">
       <UniqueIdentifier>{20e0e0c1-be5a-4c5b-9dba-9c351a948a81}</UniqueIdentifier>
     </Filter>
@@ -397,6 +412,15 @@
     </Filter>
     <Filter Include="tools">
       <UniqueIdentifier>{040c1d6c-588e-4f98-978b-8d5934ad901c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=".github">
+      <UniqueIdentifier>{55acfcf4-d54b-4396-b973-0d1685bc1615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=".github\workflows">
+      <UniqueIdentifier>{09d7cb50-0302-41d9-855f-97b45670eb8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include=".github\ISSUE_TEMPLATE">
+      <UniqueIdentifier>{fa84fb02-d378-4bd1-981d-90b9dff6b6fc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

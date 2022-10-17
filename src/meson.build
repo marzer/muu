@@ -1,4 +1,4 @@
-muu_lib_sources = [
+lib_sources = [
 	'hashing.cpp',
 	'vector_types_common.cpp',
 	'string_param.cpp',
@@ -7,52 +7,61 @@ muu_lib_sources = [
 	'uuid.cpp',
 ]
 
-muu_lib_args = [ '-DMUU_BUILDING=1' ]
-muu_lib_args += additional_arguments
-muu_lib_suffix = []
+lib_public_args = []
+if get_option('default_library') != 'static'
+	lib_public_args += '-DMUU_DLL=1'
+endif
+
+lib_internal_args = [ '-DMUU_BUILDING=1']
+lib_internal_args += universal_args
+if compiler_supports_cpp20
+	lib_internal_args += compiler_supports_cpp20_args
+endif
+if compiler_supports_char8
+	lib_internal_args += compiler_supports_char8_args
+endif
+if is_windows
+	lib_internal_args += '-D_CRT_SECURE_NO_WARNINGS=1'
+endif
+
+lib_suffix = []
 if is_windows
 	if get_option('default_library') == 'shared'
-		muu_lib_suffix = 'dll'
+		lib_suffix = 'dll'
 	else
-		muu_lib_suffix = 'lib'
-		if get_option('static_dllexport')
-			muu_lib_args += '-DMUU_API=__declspec(dllexport)'
-		endif
+		lib_suffix = 'lib'
 	endif
 endif
-if is_gcc or is_clang
-	muu_lib_args += [ '-fvisibility=hidden', '-fvisibility-inlines-hidden' ]
-endif
 
-muu_lib_overrides = []
-muu_lib_overrides +=  overrides
+lib_overrides = []
+lib_overrides += overrides
 if compiler_supports_cpp20
-	muu_lib_overrides += 'cpp_std=none'
-	muu_lib_args += compiler_supports_cpp20_args
-	if compiler_supports_char8
-		muu_lib_args += compiler_supports_char8_args
-	endif
+	lib_overrides += 'cpp_std=none'
 endif
 
-# if is_release and (is_gcc or is_clang)
-# 	muu_lib_overrides += 'optimization=2'
-# endif
-
-muu_dependencies = []
+lib_dependencies = []
 if not is_windows
-	muu_dependencies += dependency('threads')
+	lib_dependencies += dependency('threads')
 endif
 if compiler_supports_float128
-	muu_dependencies += compiler.find_library('quadmath')
+	lib_dependencies += compiler.find_library('quadmath')
 endif
 
-muu_lib = library(
-	'muu',
-	muu_lib_sources,
-	include_directories: include_dirs,
-	override_options: muu_lib_overrides,
-	cpp_args: muu_lib_args,
-	name_suffix: muu_lib_suffix,
-	dependencies: muu_dependencies,
-	install: true
+lib = library(
+	meson.project_name(),
+	lib_sources,
+	cpp_args: [ lib_internal_args, lib_public_args ],
+	gnu_symbol_visibility: 'hidden',
+	include_directories: include_dir,
+	install: not is_subproject,
+	version: meson.project_version(),
+	override_options: lib_overrides,
+	name_suffix: lib_suffix,
+	dependencies: lib_dependencies
+)
+
+muu_dep = declare_dependency(
+	compile_args: lib_public_args,
+	include_directories: include_dir,
+	link_with: lib
 )

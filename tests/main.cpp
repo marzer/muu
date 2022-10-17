@@ -3,6 +3,11 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
+#ifdef _MSC_VER
+	#pragma warning(disable : 5262)
+	#pragma warning(disable : 5264)
+#endif
+
 #include "settings.h"
 #include "../include/muu/preprocessor.h"
 
