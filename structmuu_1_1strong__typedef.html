@@ -11,12 +11,14 @@
   <meta content="muu" name="twitter:title"/>
   <meta content="muu" property="og:title"/>
   <meta content="muu" itemprop="name"/>
+  <meta content="Mark Gillard" name="author"/>
+  <meta content="Mark Gillard" property="article:author"/>
   <meta content="Miscellaneous useful utilities for C++" name="description"/>
   <meta content="Miscellaneous useful utilities for C++" name="twitter:description"/>
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.9.1" name="generator"/>
+  <meta content="Poxy v0.10.2" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -56,7 +58,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right" id="include-directive"><span class="cp">#include</span> <a class="cpf" href="strong__typedef_8h.html">&lt;muu/strong_typedef.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="strong__typedef_8h.html">&lt;muu/strong_typedef.h&gt;</a></div>
           <div class="m-doc-template">template&lt;typename ValueType, typename Tag, template&lt;typename&gt; typename... Traits&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>strong_typedef <span class="m-thin">struct</span>
         </h1>
@@ -94,7 +96,7 @@
             </li>
           </ul>
         </nav>
-<p>Strong typedefs use the C++ type system to create compile-time guarantees for values that otherwise might only be represented by regular typedefs, and thus lose their semantic meaning when passed to the compiler. Doing so prevents an entire class of bugs where incompatible values can be accidentally used interchangeably because they were of same/convertible type:</p><pre class="m-code"><span class="cp">#ifdef DO_BAD_STUFF</span>
+<p>Strong typedefs use the C++ type system to create compile-time guarantees for values that otherwise might only be represented by regular typedefs, and thus lose their semantic meaning when passed to the compiler. Doing so prevents an entire class of bugs where incompatible values can be accidentally used interchangeably because they were of same/convertible type:</p><pre class="m-code"><span class="cp">#ifdef </span><span class="fm">DO_BAD_STUFF</span>
 <span class="k">using</span> <span class="nc">thing_id</span>    <span class="o">=</span> <span class="k">int</span><span class="p">;</span>
 <span class="k">using</span> <span class="nc">thing_index</span> <span class="o">=</span> <span class="k">int</span><span class="p">;</span>
 <span class="cp">#else</span>
@@ -112,7 +114,7 @@
     <span class="n">do_important_stuff</span><span class="p">(</span><span class="n">index</span><span class="p">);</span> <span class="c1">// won't compile with strong typedefs</span>
 <span class="p">}</span></pre><p>By default the only operations provided are:</p><ul><li>explicit construction with an initializer</li><li>default construction (if supported by the value type)</li><li>copy construction + assignment (if supported by the value type)</li><li>move construction + assignment (if supported by the value type)</li><li>explicit casts to references of the underlying value type</li></ul><pre class="m-code"><span class="k">using</span> <span class="nc">strong_string</span> <span class="o">=</span> <span class="nn">muu</span><span class="o">::</span><span class="nc">strong_typedef</span><span class="o">&lt;</span><span class="nn">std</span><span class="o">::</span><span class="nc">string</span><span class="p">,</span> <span class="k">struct</span> <span class="nc">strong_string_tag</span><span class="o">&gt;</span><span class="p">;</span>
 
-<span class="n">strong_string</span> <span class="n">s</span><span class="p">{</span> <span class="s">"my string could beat up your string"</span><span class="sa">s</span> <span class="p">};</span>
+<span class="n">strong_string</span> <span class="n">s</span><span class="p">{</span> <span class="s">"my string could beat up your string"s</span> <span class="p">};</span>
 <span class="k">auto</span><span class="o">&amp;</span> <span class="n">ref</span> <span class="o">=</span> <span class="k"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/static_cast" target="_blank">static_cast</a></span><span class="o">&lt;</span><span class="nn">std</span><span class="o">::</span><span class="nc">string</span><span class="o">&amp;&gt;</span><span class="p">(</span><span class="n">s</span><span class="p">);</span></pre><p>Additional operations can be added using CRTP-based 'traits':</p><pre class="m-code"><span class="k">using</span> <span class="nc">thing_index</span> <span class="o">=</span> <span class="nn">muu</span><span class="o">::</span><span class="nc">strong_typedef</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">struct</span> <span class="nc">thing_index_tag</span><span class="p">,</span>
     <span class="nn"><a class="m-doc poxy-injected" href="namespacemuu_1_1strong__typedef__traits.html">muu::strong_typedef_traits</a></span><span class="o">::</span><span class="nc">incrementable</span><span class="p">,</span> <span class="c1">// adds ++</span>
     <span class="nn"><a class="m-doc poxy-injected" href="namespacemuu_1_1strong__typedef__traits.html">muu::strong_typedef_traits</a></span><span class="o">::</span><span class="nc">decrementable</span><span class="p">,</span> <span class="c1">// adds --</span>
@@ -159,12 +161,12 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a45ec076a4caa9598ee7841948b5baf5c">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a45ec076a4caa9598ee7841948b5baf5c">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
+            <dt id="a752d4f74c06fe15e04f7a5dc6748fc34">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a752d4f74c06fe15e04f7a5dc6748fc34">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
             </dt>
             <dd>Copy-assignment operator.</dd>
-            <dt id="a0ff05ef3e1cc407b2a7f76eb3c400f34">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0ff05ef3e1cc407b2a7f76eb3c400f34">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;&amp;) -&gt; <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
+            <dt id="a3dbe075089d67983f847ee2e449803b9">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3dbe075089d67983f847ee2e449803b9">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp;&amp;) -&gt; <a class="m-doc" href="structmuu_1_1strong__typedef.html">strong_<wbr/>typedef</a>&amp; <span class="m-label m-flat m-info">defaulted</span></span>
             </dt>
             <dd>Move-assignment operator.</dd>
           </dl>

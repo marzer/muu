@@ -11,12 +11,14 @@
   <meta content="muu" name="twitter:title"/>
   <meta content="muu" property="og:title"/>
   <meta content="muu" itemprop="name"/>
+  <meta content="Mark Gillard" name="author"/>
+  <meta content="Mark Gillard" property="article:author"/>
   <meta content="Miscellaneous useful utilities for C++" name="description"/>
   <meta content="Miscellaneous useful utilities for C++" name="twitter:description"/>
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.9.1" name="generator"/>
+  <meta content="Poxy v0.10.2" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -56,7 +58,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right" id="include-directive"><span class="cp">#include</span> <a class="cpf" href="sat__tester_8h.html">&lt;muu/sat_tester.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="sat__tester_8h.html">&lt;muu/sat_tester.h&gt;</a></div>
           <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>sat_tester <span class="m-thin">struct</span>
         </h1>
@@ -155,35 +157,35 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a2cec6985184700e7dcc340d4adb14fe6">
+            <dt id="a4616b430172dd006ef1bfe0d2b8c4de8">
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2cec6985184700e7dcc340d4adb14fe6">add</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; axis,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4616b430172dd006ef1bfe0d2b8c4de8">add</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; axis,
               const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; point,
               const T&amp;... points) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Adds one or more points to the SAT test projection range.</dd>
-            <dt id="ad00a843d8e594a30910546f6ec90ee6b">
+            <dt id="a95aaae3e645c4ed2120bd4b2d26c0b0e">
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension, typename... T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad00a843d8e594a30910546f6ec90ee6b">add</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a95aaae3e645c4ed2120bd4b2d26c0b0e">add</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
               const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; point,
               const T&amp;... points) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Adds one or more points to the SAT test projection range.</dd>
-            <dt id="a1a0219d35e6c87199222c6419fc1ec8a">
+            <dt id="a1f9a851e5c1f7ec319918777cd6dbb36">
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1a0219d35e6c87199222c6419fc1ec8a">add</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; axis,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1f9a851e5c1f7ec319918777cd6dbb36">add</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; axis,
               const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>(&amp;points)[N]) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Adds an array of points to the SAT test projection range.</dd>
-            <dt id="ab20bddde12b773cc249047d2b4f72bb4">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab20bddde12b773cc249047d2b4f72bb4">add</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; axis,
+            <dt id="a843364951d6df62611e05401adf84b18">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a843364951d6df62611e05401adf84b18">add</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>&amp; axis,
               const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>* begin,
               const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>* end) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Adds a range of points to the SAT test projection range.</dd>
-            <dt id="a3deec01df336ccbf333dcea33dc9ed86">
+            <dt id="a7d69608e88867480ef6df09a83ceacd2">
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3deec01df336ccbf333dcea33dc9ed86">add</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7d69608e88867480ef6df09a83ceacd2">add</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
               const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>* begin,
               const <a class="m-doc" href="structmuu_1_1sat__tester.html#abfe6b1b2608453df1b1e30db8238d54d">vector_<wbr/>type</a>* end) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -201,8 +203,8 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7424a2e1bc685cfd212c9194e5c0ff46">operator()</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; other) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the SAT test projection range seen so far overlaps that of another <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>.</dd>
-            <dt id="af898e107afb627dbee4a8d077bb7f596">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af898e107afb627dbee4a8d077bb7f596">reset</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="aec97f746c95da884725c532c644cd1eb">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aec97f746c95da884725c532c644cd1eb">reset</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1sat__tester.html">sat_<wbr/>tester</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Resets the SAT tester to the default-constructed state.</dd>
           </dl>

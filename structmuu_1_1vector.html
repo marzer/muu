@@ -11,12 +11,14 @@
   <meta content="muu" name="twitter:title"/>
   <meta content="muu" property="og:title"/>
   <meta content="muu" itemprop="name"/>
+  <meta content="Mark Gillard" name="author"/>
+  <meta content="Mark Gillard" property="article:author"/>
   <meta content="Miscellaneous useful utilities for C++" name="description"/>
   <meta content="Miscellaneous useful utilities for C++" name="twitter:description"/>
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.9.1" name="generator"/>
+  <meta content="Poxy v0.10.2" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -56,7 +58,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <div class="m-doc-include m-code m-inverted m-right-m m-text-right" id="include-directive"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
           <div class="m-doc-template">template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>vector <span class="m-thin">struct</span>
         </h1>
@@ -311,12 +313,12 @@
             </dt>
             <dd>Returns a copy of the vector with all scalar components set to the highest integer not greater than their original values.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a861c95312f359b219748ae117574d436">lerp</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; target,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad243e21f319b718cfeb09cf764bfae47">lerp</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; target,
               <a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a> alpha) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Linearly interpolates this vector towards another (in-place).</dd>
-            <dt id="a110b0bad8da61328dc19cfdcfb4f3995">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a110b0bad8da61328dc19cfdcfb4f3995">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="aa5528d6bcdd1bbeddb41d7b075588239">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa5528d6bcdd1bbeddb41d7b075588239">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Copy-assigment operator.</dd>
           </dl>
@@ -357,16 +359,16 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a002ce4751b12edcefd80a5451e71f0cb">operator+</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a componentwise copy of a vector.</dd>
-            <dt id="a882ed443d0e3f05b03f54e657e8123eb">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a882ed443d0e3f05b03f54e657e8123eb">operator+=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ae8249c7cdec6c2f724d859da10d267c3">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae8249c7cdec6c2f724d859da10d267c3">operator+=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise adds another vector to this one.</dd>
             <dt id="a38152f13dcda92e4c1528f2266ab4778">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a38152f13dcda92e4c1528f2266ab4778">sum</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the sum of all the scalar components in the vector.</dd>
-            <dt id="a4b54abe8bbd52a16bb64d13bfbb28484">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4b54abe8bbd52a16bb64d13bfbb28484">operator+</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+            <dt id="a737a51630047ffe0056dd07c7d54a253">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a737a51630047ffe0056dd07c7d54a253">operator+</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the componentwise addition of two vectors.</dd>
@@ -377,20 +379,20 @@
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>These functions are only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is an integral type.</p></aside>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a96d3a508c4f7d9994c645d3ce723144d">operator&lt;&lt;=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a72577831ca2dda199875e6efa6570c57">operator&lt;&lt;=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise left-shifts each scalar component in the vector by the given number of bits.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a54af87f2e7b4c799fc207cc3df92d2b5">operator&gt;&gt;=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a84313883b2f311952f90de978b0266a8">operator&gt;&gt;=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise right-shifts each scalar component in the vector by the given number of bits.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a74be9bedf79217e6c26e5c54d5ba34c2">operator&lt;&lt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aacb5bac0b8b2894322d1656f4f22ad5b">operator&lt;&lt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               <a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a vector with each scalar component left-shifted the given number of bits.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#afd4b4e9d85b146a78365ec3aa0b063e5">operator&gt;&gt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a975b0ca5834b0fcbcf8c33a708d83a46">operator&gt;&gt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               <a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a vector with each scalar component right-shifted the given number of bits.</dd>
@@ -401,37 +403,37 @@
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>These functions are only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a55719371ee717ad76fa5d28e24278344">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v1,
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aec1a9209279370efbd69285dfa3dea25">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v1,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v2) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the cross product of two vectors.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a0cda73c1b6d8d758cb5e4f06db29fc45">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v,
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a3f46aeaba0726851240658208215283d">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v,
               <a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the cross product of a vector and a principal axis.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a3a5b7e70bb031f403f7d981519f52535">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a453df8120c3994384bcacc6b2818195f">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the cross product of a principal axis and a vector.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a798546d2891f883d37daf90ddcdc7dc2">orthogonal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ab47ef130230323386f87f98afa48a022">orthogonal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a vector orthogonal to another.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a79ef9d7cc5c50009151a32256226d9a5">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a0fcdf9ba37b224490deb748434cd99a6">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the cross product of this vector and another.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aaeb2f60f873e78011846bcc39f82716e">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a5f1c62facf4dd1e1c3ff511344fe633d">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the cross product of this vector and a principal axis.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a5adba8336be58303167c36839ad333f6">orthogonal</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a31c99b2d8a7846437da18c020bc144c0">orthogonal</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a vector orthogonal to this one.</dd>
           </dl>
@@ -465,21 +467,21 @@
         <section id="division">
           <h2><a href="#division">Division</a></h2>
           <dl class="m-doc">
-            <dt id="a38041affca344940ad8e7919d50922d0">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a38041affca344940ad8e7919d50922d0">operator/=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a0f70dff055f1065a70c0586f3bce90f7">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0f70dff055f1065a70c0586f3bce90f7">operator/=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise divides this vector by another.</dd>
-            <dt id="a2e815494ef568124e5ed587a98f77aea">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2e815494ef568124e5ed587a98f77aea">operator/=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a2a80a0191973dffc783c55a90b4566c1">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2a80a0191973dffc783c55a90b4566c1">operator/=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise divides this vector by a scalar.</dd>
-            <dt id="a952b8ffe2f57c1f1d6de141d0a044ad6">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a952b8ffe2f57c1f1d6de141d0a044ad6">operator/</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+            <dt id="a761bd6941bb57890e7d98586ed0b2cdf">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a761bd6941bb57890e7d98586ed0b2cdf">operator/</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the componentwise division of one vector by another.</dd>
-            <dt id="a1ad97c9f673e1175e9844e1098f3b4f4">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1ad97c9f673e1175e9844e1098f3b4f4">operator/</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+            <dt id="af97d05689557b81495f7298838c91e50">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af97d05689557b81495f7298838c91e50">operator/</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the componentwise division of a vector and a scalar.</dd>
@@ -564,13 +566,13 @@
             <dd>Returns true if all the scalar components of the vector are exactly zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6a42ea429501a372c40fa7799fc4b4fd">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#adcfdde45a653c70c7c7f7dcbbb803187">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two vectors are not exactly equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ab8aaf9b6dcb54a7b2512bf26b84f57bf">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a15f03865fb6816dde6f49bcff548aa31">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two vectors are exactly equal.</dd>
@@ -608,28 +610,28 @@
         <section id="iterators-adl">
           <h2><a href="#iterators-adl">Iterators (ADL)</a></h2>
           <dl class="m-doc">
-            <dt id="a072ba2759b288b15963887d74fecd277">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a072ba2759b288b15963887d74fecd277">begin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#aaee97133e6f66be9c816eaa532987bdf">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="add24cb0ba86225bed21647fc729ab9a4">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#add24cb0ba86225bed21647fc729ab9a4">begin</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#aaee97133e6f66be9c816eaa532987bdf">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an iterator to the first scalar component in a vector.</dd>
-            <dt id="ae423119e0bdfbbee72988f546a58d9fd">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae423119e0bdfbbee72988f546a58d9fd">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="aea668c11a14e981b000b84f00aaa5331">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aea668c11a14e981b000b84f00aaa5331">begin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a const iterator to the first scalar component in a vector.</dd>
-            <dt id="ab76b38d7c2d6406c434f8bb589c073ea">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab76b38d7c2d6406c434f8bb589c073ea">cbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a03a0c7039fab5088fc662226a03df579">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a03a0c7039fab5088fc662226a03df579">cbegin</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a const iterator to the first scalar component in a vector.</dd>
-            <dt id="a29fa2209bbaa1542881ab8293e680646">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a29fa2209bbaa1542881ab8293e680646">cend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ab3471155e437f5488eb69ae1f887c3eb">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab3471155e437f5488eb69ae1f887c3eb">cend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a const iterator to the one-past-the-last scalar component in a vector.</dd>
-            <dt id="ab837a1246db560433337a3c1c24affee">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab837a1246db560433337a3c1c24affee">end</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#aaee97133e6f66be9c816eaa532987bdf">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="aa48f9b293509dae35fba115096f6adbe">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa48f9b293509dae35fba115096f6adbe">end</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#aaee97133e6f66be9c816eaa532987bdf">iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns an iterator to the one-past-the-last scalar component in a vector.</dd>
-            <dt id="a10bc39751925224817204975587a5641">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a10bc39751925224817204975587a5641">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a147b3cfc8aa862d4fbfb5b23c504c0be">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a147b3cfc8aa862d4fbfb5b23c504c0be">end</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#a851f2bde2b5c8a45cb0f02ac53cf85d0">const_<wbr/>iterator</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a const iterator to the one-past-the-last scalar component in a vector.</dd>
           </dl>
@@ -724,7 +726,7 @@
             </dt>
             <dd>Returns the componentwise minimum of a list of vectors.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae2e0536dff64be900206fcbf5d23a70e">clamp</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; low,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ac26d0d79742ae6071d55a8c9d5a5c205">clamp</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; low,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; high) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise clamps the vector between two others (in-place).</dd>
@@ -733,21 +735,21 @@
         <section id="modulo">
           <h2><a href="#modulo">Modulo</a></h2>
           <dl class="m-doc">
-            <dt id="a6e1ec667d68aa4222c0f1bc010b01159">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6e1ec667d68aa4222c0f1bc010b01159">operator%=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a04d0c006aebcfcd8f1284630c9404ed3">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a04d0c006aebcfcd8f1284630c9404ed3">operator%=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Assigns the result of componentwise dividing this vector by another.</dd>
-            <dt id="aacbb6000957c79a92264153310b244bd">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aacbb6000957c79a92264153310b244bd">operator%=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a21794dd482735225a8aaacdd03c619be">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a21794dd482735225a8aaacdd03c619be">operator%=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Assigns the result of componentwise dividing this vector by a scalar.</dd>
-            <dt id="ad3c206d2367de1aba3a270a23fce64a6">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad3c206d2367de1aba3a270a23fce64a6">operator%</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+            <dt id="a113a3ad328d7032b6f42a0d75ce25d94">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a113a3ad328d7032b6f42a0d75ce25d94">operator%</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the remainder of componentwise dividing of one vector by another.</dd>
-            <dt id="a9b01fe2e7642f921bc114382251778c9">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9b01fe2e7642f921bc114382251778c9">operator%</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+            <dt id="ac63c71691a825afe67cece28fdba53c7">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac63c71691a825afe67cece28fdba53c7">operator%</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the remainder of componentwise dividing vector by a scalar.</dd>
@@ -760,30 +762,30 @@
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a9b6539edd89f0d4640eae20569161a53">product</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the product of all the scalar components in a vector.</dd>
-            <dt id="a37ca8b644294870b49a3624a024ad80a">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a37ca8b644294870b49a3624a024ad80a">operator*=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ac5c9c24652e49eddc8e52d3976acbc42">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac5c9c24652e49eddc8e52d3976acbc42">operator*=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise multiplies this vector by another.</dd>
-            <dt id="ae6da16a9c85f3da2b57bcde4ccecd99d">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae6da16a9c85f3da2b57bcde4ccecd99d">operator*=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ad8c00bc687372ecd46157fc8c9a8be4f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad8c00bc687372ecd46157fc8c9a8be4f">operator*=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise multiplies this vector by a scalar.</dd>
             <dt id="a2027697a8ab331b0c178ee092c9007b7">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2027697a8ab331b0c178ee092c9007b7">product</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the product of all the scalar components in the vector.</dd>
-            <dt id="a9c18ba7c63d516edc1b44d3b34d97f8f">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9c18ba7c63d516edc1b44d3b34d97f8f">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+            <dt id="a2639869451be8d5dc079c170eeafc42c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2639869451be8d5dc079c170eeafc42c">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the componentwise multiplication of two vectors.</dd>
-            <dt id="a377875f9428f0c0a45072ae8085d96be">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a377875f9428f0c0a45072ae8085d96be">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+            <dt id="a84dcdfc3073d2e56d2293e4e20aae726">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a84dcdfc3073d2e56d2293e4e20aae726">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the componentwise multiplication of a vector and a scalar.</dd>
-            <dt id="afabbdaf1a0e26c72658c2811e03cbbab">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afabbdaf1a0e26c72658c2811e03cbbab">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> lhs,
+            <dt id="a651b3963cde5d36a596d62fe262014b5">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a651b3963cde5d36a596d62fe262014b5">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the componentwise multiplication of a vector and a scalar.</dd>
@@ -816,15 +818,15 @@
             </dt>
             <dd>Returns true if a vector is normalized (i.e. has a length of 1).</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a29dcad1a3376dc7fb73034b56ef175f1">normalize</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a>&amp; length_out) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a5276fb1a21f118bfdebf44e4978925f7">normalize</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a>&amp; length_out) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Normalizes the vector (in-place).</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a9add1f486663510193249e69745c3856">normalize</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a50df7e2f2a425306e5f9ca6eb5ea238a">normalize</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Normalizes the vector (in-place).</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4949f785f4a9bf76ba8f50b25178ed8e">normalize_lensq</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a> lensq) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae1485d63575cf38abed80e4a9c28453d">normalize_lensq</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a> lensq) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Normalizes the vector using a pre-calculated squared-length (in-place).</dd>
             <dt id="ad375771f19e2d46e15239018a5b52126">
@@ -836,30 +838,30 @@
         <section id="scalar-accessors">
           <h2><a href="#scalar-accessors">Scalar accessors</a></h2>
           <dl class="m-doc">
-            <dt id="a6645c377ccfc635ddcc331cdd01f9256">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6645c377ccfc635ddcc331cdd01f9256">data</a>(</span><span class="m-doc-wrap">) const -&gt; const<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a327aeec103ecdd63e56aad1e6cb848c4">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a327aeec103ecdd63e56aad1e6cb848c4">data</a>(</span><span class="m-doc-wrap">) const -&gt; const<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a pointer to the first scalar component in the vector.</dd>
-            <dt id="a24f7be704e05ddc538e94e1c35e9c65c">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a24f7be704e05ddc538e94e1c35e9c65c">data</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ab1b91b830e01911f67ffd6c52ae21295">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab1b91b830e01911f67ffd6c52ae21295">data</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a pointer to the first scalar component in the vector.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6c9dc88b7400a51411156d4147b03b96">get</a>(</span><span class="m-doc-wrap">) const -&gt; const<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aab213796fa9effdab3a176b227ccd60a">get</a>(</span><span class="m-doc-wrap">) const -&gt; const<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the scalar component at a specific index.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a0d9b9b73cbc2caa305f06f91234d4476">get</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8e977c26df3cacf60ff88ae9cd4be3ec">get</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the scalar component at a specific index.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae70bab749dba6c5e53255a1a41e0c5f5">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) const -&gt; const<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ac0fb1f45c88d50ccf54b2e26a26aafe1">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) const -&gt; const<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the Nth scalar component.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad1fd1e088703c0b1b4704874e28aaa44">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4d0ed9417f23fe5b65f472836e6af06a">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) -&gt; <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Gets a reference to the Nth scalar component.</dd>
           </dl>
@@ -871,12 +873,12 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7bbd962860ee3708ef34032f0c5f039f">operator-</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the componentwise negation of a vector.</dd>
-            <dt id="abcc7aeaedd318b0478b08cb1ce2b79f9">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#abcc7aeaedd318b0478b08cb1ce2b79f9">operator-=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a702fdb366fbcb3f6c6e6540c06845ad0">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a702fdb366fbcb3f6c6e6540c06845ad0">operator-=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Componentwise subtracts another vector from this one.</dd>
-            <dt id="a58ad62fa3554a8c54b21da1a576f5d90">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a58ad62fa3554a8c54b21da1a576f5d90">operator-</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+            <dt id="a0054b0c10bed1a1a8cbde70f90f4f653">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0054b0c10bed1a1a8cbde70f90f4f653">operator-</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the componentwise subtraction of one vector from another.</dd>
@@ -887,36 +889,36 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... Indices&gt;</div>
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aad56aced14ee8bab3932f5bb71e5a629">swizzle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, sizeof...(Indices)&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#af40dc03826a6eb02d7244886f7636f48">swizzle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, sizeof...(Indices)&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a vector by selecting and re-packing scalar components from another vector in an abitrary order.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... Indices&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#afa84ed878b3e20e9d3ac5b467142edca">swizzle</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, sizeof...(Indices)&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4c9af315d2422593d6c3ba1b680dd99e">swizzle</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, sizeof...(Indices)&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a vector by selecting and re-packing the scalar components from this vector in an abitrary order.</dd>
-            <dt id="a94ce8b6378bf09ec5a986f93158fd2a1">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a94ce8b6378bf09ec5a986f93158fd2a1">xy</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 2&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a9e36187acef2560bcd8a4d97f6b5ab0b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9e36187acef2560bcd8a4d97f6b5ab0b">xy</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 2&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a two-dimensional vector containing <code>{ x, y }</code>.</dd>
-            <dt id="aac0617343d3f899677a8bd726e2af138">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aac0617343d3f899677a8bd726e2af138">xyz</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="af8211bc3a3463f16e95374992320b0f9">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af8211bc3a3463f16e95374992320b0f9">xyz</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 3&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a three-dimensional vector containing <code>{ x, y, z }</code>.</dd>
-            <dt id="ac03954cbdf1897b819551f9b2fa423a2">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac03954cbdf1897b819551f9b2fa423a2">xyz0</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 4&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ab908ca041c7e93cd2530842305751776">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab908ca041c7e93cd2530842305751776">xyz0</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 4&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a four-dimensional vector containing <code>{ x, y, z, 0 }</code>.</dd>
-            <dt id="aa6f10bf2b3ff4de2eebb762b10a9063d">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa6f10bf2b3ff4de2eebb762b10a9063d">xyz1</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 4&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a826df1615e5a9e6c432e712eb7972c53">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a826df1615e5a9e6c432e712eb7972c53">xyz1</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 4&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a four-dimensional vector containing <code>{ x, y, z, 1 }</code>.</dd>
-            <dt id="a4813f16a5dddcf87d5cce346977d788b">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4813f16a5dddcf87d5cce346977d788b">xz</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 2&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a193365a30e531109a0bde9afdd7f5a16">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a193365a30e531109a0bde9afdd7f5a16">xz</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 2&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a two-dimensional vector containing <code>{ x, z }</code>.</dd>
-            <dt id="a80b0003d6048b3e41d78d032ad8ba294">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a80b0003d6048b3e41d78d032ad8ba294">yx</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 2&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a6e8b4692b0d850fcdb4b7ae826ae3849">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6e8b4692b0d850fcdb4b7ae826ae3849">yx</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, 2&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a two-dimensional vector containing <code>{ y, x }</code>.</dd>
           </dl>
@@ -924,9 +926,9 @@
         <section id="friends">
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
-            <dt id="a31bf388115e8fbe083aa056f5523bbbc">
+            <dt id="a1e7c17788a132d6cd754b36bf42fbe71">
               <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a31bf388115e8fbe083aa056f5523bbbc">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1e7c17788a132d6cd754b36bf42fbe71">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
             <dd>Writes a vector out to a text stream.</dd>
@@ -1083,7 +1085,7 @@
             <dd>Returns true if a vector is normalized (i.e. has a length of 1).</dd>
           </dl>
         </section>
-        <section id="func-documentation">
+        <section>
           <h2>Function documentation</h2>
           <section class="m-doc-details" id="aa4ba0c7b3918ad947415990410d410b0"><div>
             <h3>
@@ -1725,11 +1727,11 @@ template&lt;typename T&gt;
             </table>
 <aside class="m-note m-default"><h4>Remark</h4><p>The angle returned is the unsigned angle between the two vectors; the smaller of the two possible angles between the two vectors is used. The result is never greater than <code>pi</code> radians (180 degrees).</p></aside><aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 2 or 3.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a861c95312f359b219748ae117574d436"><div>
+          <section class="m-doc-details" id="ad243e21f319b718cfeb09cf764bfae47"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a861c95312f359b219748ae117574d436">lerp</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; target,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad243e21f319b718cfeb09cf764bfae47">lerp</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; target,
               <a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a> alpha) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Linearly interpolates this vector towards another (in-place).</p>
@@ -1755,106 +1757,106 @@ template&lt;typename T&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a96d3a508c4f7d9994c645d3ce723144d"><div>
+          <section class="m-doc-details" id="a72577831ca2dda199875e6efa6570c57"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a96d3a508c4f7d9994c645d3ce723144d">operator&lt;&lt;=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a72577831ca2dda199875e6efa6570c57">operator&lt;&lt;=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Componentwise left-shifts each scalar component in the vector by the given number of bits.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is an integral type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a54af87f2e7b4c799fc207cc3df92d2b5"><div>
+          <section class="m-doc-details" id="a84313883b2f311952f90de978b0266a8"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a54af87f2e7b4c799fc207cc3df92d2b5">operator&gt;&gt;=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a84313883b2f311952f90de978b0266a8">operator&gt;&gt;=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Componentwise right-shifts each scalar component in the vector by the given number of bits.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is an integral type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a74be9bedf79217e6c26e5c54d5ba34c2"><div>
+          <section class="m-doc-details" id="aacb5bac0b8b2894322d1656f4f22ad5b"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a74be9bedf79217e6c26e5c54d5ba34c2">operator&lt;&lt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aacb5bac0b8b2894322d1656f4f22ad5b">operator&lt;&lt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               <a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns a vector with each scalar component left-shifted the given number of bits.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is an integral type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="afd4b4e9d85b146a78365ec3aa0b063e5"><div>
+          <section class="m-doc-details" id="a975b0ca5834b0fcbcf8c33a708d83a46"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afd4b4e9d85b146a78365ec3aa0b063e5">operator&gt;&gt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a> muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a975b0ca5834b0fcbcf8c33a708d83a46">operator&gt;&gt;</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               <a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a> rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns a vector with each scalar component right-shifted the given number of bits.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is an integral type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a55719371ee717ad76fa5d28e24278344"><div>
+          <section class="m-doc-details" id="aec1a9209279370efbd69285dfa3dea25"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a55719371ee717ad76fa5d28e24278344">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v1,
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aec1a9209279370efbd69285dfa3dea25">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v1,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the cross product of two vectors.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a0cda73c1b6d8d758cb5e4f06db29fc45"><div>
+          <section class="m-doc-details" id="a3f46aeaba0726851240658208215283d"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0cda73c1b6d8d758cb5e4f06db29fc45">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v,
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3f46aeaba0726851240658208215283d">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v,
               <a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the cross product of a vector and a principal axis.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a3a5b7e70bb031f403f7d981519f52535"><div>
+          <section class="m-doc-details" id="a453df8120c3994384bcacc6b2818195f"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3a5b7e70bb031f403f7d981519f52535">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a453df8120c3994384bcacc6b2818195f">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the cross product of a principal axis and a vector.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a798546d2891f883d37daf90ddcdc7dc2"><div>
+          <section class="m-doc-details" id="ab47ef130230323386f87f98afa48a022"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a798546d2891f883d37daf90ddcdc7dc2">orthogonal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab47ef130230323386f87f98afa48a022">orthogonal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns a vector orthogonal to another.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a79ef9d7cc5c50009151a32256226d9a5"><div>
+          <section class="m-doc-details" id="a0fcdf9ba37b224490deb748434cd99a6"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a79ef9d7cc5c50009151a32256226d9a5">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0fcdf9ba37b224490deb748434cd99a6">cross</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the cross product of this vector and another.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aaeb2f60f873e78011846bcc39f82716e"><div>
+          <section class="m-doc-details" id="a5f1c62facf4dd1e1c3ff511344fe633d"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aaeb2f60f873e78011846bcc39f82716e">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5f1c62facf4dd1e1c3ff511344fe633d">cross</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_<wbr/>tag</a>&lt;Dimension&gt;) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the cross product of this vector and a principal axis.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a5adba8336be58303167c36839ad333f6"><div>
+          <section class="m-doc-details" id="a31c99b2d8a7846437da18c020bc144c0"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5adba8336be58303167c36839ad333f6">orthogonal</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#a636679a1c6d383e2ab954ca3eb81d65d">product_<wbr/>scalar_<wbr/>type</a>, 3&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a31c99b2d8a7846437da18c020bc144c0">orthogonal</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns a vector orthogonal to this one.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a> == 3.</p></aside>
@@ -2031,23 +2033,23 @@ template&lt;typename T&gt;
             <p>Returns true if all the scalar components of the vector are exactly zero.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact equality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#a397a1a85527bdd10d525e7b909f6266f">approx_<wbr/>zero()</a>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a6a42ea429501a372c40fa7799fc4b4fd"><div>
+          <section class="m-doc-details" id="adcfdde45a653c70c7c7f7dcbbb803187"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/>
 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6a42ea429501a372c40fa7799fc4b4fd">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#adcfdde45a653c70c7c7f7dcbbb803187">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two vectors are not exactly equal.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is a componentwise exact inequality check; if you want an epsilon-based "near-enough" for floating-point vectors, use <a class="m-doc" href="structmuu_1_1vector.html#a35fe1423143996ce50300eeeeeda2eb5">approx_<wbr/>equal()</a>.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ab8aaf9b6dcb54a7b2512bf26b84f57bf"><div>
+          <section class="m-doc-details" id="a15f03865fb6816dde6f49bcff548aa31"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/>
 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab8aaf9b6dcb54a7b2512bf26b84f57bf">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a15f03865fb6816dde6f49bcff548aa31">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1vector.html#a8c5d32031f530edbe83b5464c497e33c">dimensions</a>&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two vectors are exactly equal.</p>
@@ -2107,11 +2109,11 @@ template&lt;typename T&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ae2e0536dff64be900206fcbf5d23a70e"><div>
+          <section class="m-doc-details" id="ac26d0d79742ae6071d55a8c9d5a5c205"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae2e0536dff64be900206fcbf5d23a70e">clamp</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; low,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac26d0d79742ae6071d55a8c9d5a5c205">clamp</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; low,
               const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; high) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Componentwise clamps the vector between two others (in-place).</p>
@@ -2251,11 +2253,11 @@ template&lt;typename T&gt;
             </table>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is a floating-point type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a29dcad1a3376dc7fb73034b56ef175f1"><div>
+          <section class="m-doc-details" id="a5276fb1a21f118bfdebf44e4978925f7"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a29dcad1a3376dc7fb73034b56ef175f1">normalize</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a>&amp; length_out) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5276fb1a21f118bfdebf44e4978925f7">normalize</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a>&amp; length_out) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Normalizes the vector (in-place).</p>
             <table class="m-table m-fullwidth m-flat">
@@ -2277,11 +2279,11 @@ template&lt;typename T&gt;
             </table>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is a floating-point type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a9add1f486663510193249e69745c3856"><div>
+          <section class="m-doc-details" id="a50df7e2f2a425306e5f9ca6eb5ea238a"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9add1f486663510193249e69745c3856">normalize</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a50df7e2f2a425306e5f9ca6eb5ea238a">normalize</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Normalizes the vector (in-place).</p>
             <table class="m-table m-fullwidth m-flat">
@@ -2294,11 +2296,11 @@ template&lt;typename T&gt;
             </table>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is a floating-point type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a4949f785f4a9bf76ba8f50b25178ed8e"><div>
+          <section class="m-doc-details" id="ae1485d63575cf38abed80e4a9c28453d"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4949f785f4a9bf76ba8f50b25178ed8e">normalize_lensq</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a> lensq) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae1485d63575cf38abed80e4a9c28453d">normalize_lensq</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1vector.html#af0501cc0152058287509d48f0f31f628">delta_<wbr/>scalar_<wbr/>type</a> lensq) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Normalizes the vector using a pre-calculated squared-length (in-place).</p>
             <table class="m-table m-fullwidth m-flat">
@@ -2320,11 +2322,11 @@ template&lt;typename T&gt;
             </table>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when <a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a> is a floating-point type.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a6c9dc88b7400a51411156d4147b03b96"><div>
+          <section class="m-doc-details" id="aab213796fa9effdab3a176b227ccd60a"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6c9dc88b7400a51411156d4147b03b96">get</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">const<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aab213796fa9effdab3a176b227ccd60a">get</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Gets a reference to the scalar component at a specific index.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -2345,11 +2347,11 @@ template&lt;typename T&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a0d9b9b73cbc2caa305f06f91234d4476"><div>
+          <section class="m-doc-details" id="a8e977c26df3cacf60ff88ae9cd4be3ec"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimension&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0d9b9b73cbc2caa305f06f91234d4476">get</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8e977c26df3cacf60ff88ae9cd4be3ec">get</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Gets a reference to the scalar component at a specific index.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -2370,11 +2372,11 @@ template&lt;typename T&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ae70bab749dba6c5e53255a1a41e0c5f5"><div>
+          <section class="m-doc-details" id="ac0fb1f45c88d50ccf54b2e26a26aafe1"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper">const<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae70bab749dba6c5e53255a1a41e0c5f5">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">const<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac0fb1f45c88d50ccf54b2e26a26aafe1">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Gets a reference to the Nth scalar component.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -2386,11 +2388,11 @@ template&lt;typename T&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="ad1fd1e088703c0b1b4704874e28aaa44"><div>
+          <section class="m-doc-details" id="a4d0ed9417f23fe5b65f472836e6af06a"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad1fd1e088703c0b1b4704874e28aaa44">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>&amp; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4d0ed9417f23fe5b65f472836e6af06a">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> dim) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Gets a reference to the Nth scalar component.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -2402,11 +2404,11 @@ template&lt;typename T&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="aad56aced14ee8bab3932f5bb71e5a629"><div>
+          <section class="m-doc-details" id="af40dc03826a6eb02d7244886f7636f48"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... Indices&gt;
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, sizeof...(Indices)&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aad56aced14ee8bab3932f5bb71e5a629">swizzle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, sizeof...(Indices)&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af40dc03826a6eb02d7244886f7636f48">swizzle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Creates a vector by selecting and re-packing scalar components from another vector in an abitrary order.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -2449,11 +2451,11 @@ template&lt;typename T&gt;
 <span class="go">swizzle&lt;3, 2, 3&gt;:    { 9, 5, 9 }</span>
 <span class="go">swizzle&lt;0, 1, 0, 1&gt;: { 10, 7, 10, 7 }</span></pre>
           </div></section>
-          <section class="m-doc-details" id="afa84ed878b3e20e9d3ac5b467142edca"><div>
+          <section class="m-doc-details" id="a4c9af315d2422593d6c3ba1b680dd99e"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... Indices&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, sizeof...(Indices)&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afa84ed878b3e20e9d3ac5b467142edca">swizzle</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1vector.html#ad9d2b50a3d332271a3e7301e68bb356e">scalar_<wbr/>type</a>, sizeof...(Indices)&gt; muu::<wbr/>vector&lt;Scalar, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4c9af315d2422593d6c3ba1b680dd99e">swizzle</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Creates a vector by selecting and re-packing the scalar components from this vector in an abitrary order.</p>
             <table class="m-table m-fullwidth m-flat">

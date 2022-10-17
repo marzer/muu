@@ -11,12 +11,14 @@
   <meta content="muu" name="twitter:title"/>
   <meta content="muu" property="og:title"/>
   <meta content="muu" itemprop="name"/>
+  <meta content="Mark Gillard" name="author"/>
+  <meta content="Mark Gillard" property="article:author"/>
   <meta content="Miscellaneous useful utilities for C++" name="description"/>
   <meta content="Miscellaneous useful utilities for C++" name="twitter:description"/>
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.9.1" name="generator"/>
+  <meta content="Poxy v0.10.2" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -288,7 +290,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gab2a752151f65377391481d1597297eca">MUU_HAS_FP16</a></span>
             </dt>
-            <dd><code>1</code> when the target environment has the 16-bit floating point 'interchange' type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dd><code>1</code> when the target environment has the storage-only 16-bit floating point type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaa46769772ecacae384f202d2288b5ef9">MUU_HAS_INCLUDE</a>(</span><span class="m-doc-wrap">header)</span>
             </dt>
@@ -477,7 +479,7 @@
             <dd><code>1</code> when building for the Windows operating system, otherwise <code>0</code>.</dd>
           </dl>
         </section>
-        <section id="define-documentation">
+        <section>
           <h2>Define documentation</h2>
           <section class="m-doc-details" id="gafab84de7e09a93180841a788f0123c4a"><div>
             <h3>
@@ -485,9 +487,9 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Marks a class being interface-only and not requiring a vtable.</p>
-<p>Useful for abstract base classes:</p><pre class="m-code"><span class="k">class</span> <span class="m">MUU_ABSTRACT_INTERFACE</span> <span class="nc">virtual_base</span>
+<p>Useful for abstract base classes:</p><pre class="m-code"><span class="k">class</span> <span class="fm">MUU_ABSTRACT_INTERFACE</span> <span class="nc">virtual_base</span>
 <span class="p">{</span>
-    <span class="k">virtual</span> <span class="k">void</span> <span class="n">fooify</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="k">void</span> <span class="nf">fooify</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="k">virtual</span> <span class="o">~</span><span class="nc">virtual_base</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 <span class="p">};</span></pre>
           </div></section>
@@ -497,7 +499,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>The same linkage semantics as the <code>inline</code> keyword, with an additional hint to the optimizer that you'd really, <em>really</em> like a function inlined.</p>
-<pre class="m-code"><span class="m">MUU_ALWAYS_INLINE</span>
+<pre class="m-code"><span class="fm">MUU_ALWAYS_INLINE</span>
 <span class="k">void</span> <span class="n">always_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// ...</span>
@@ -568,7 +570,7 @@
             <p>Optimizer hint for signalling various assumptions about state at specific points in code.</p>
 <pre class="m-code"><span class="k">void</span> <span class="nf">do_the_thing</span><span class="p">(</span><span class="k">int</span> <span class="n">flags</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
-    <span class="m">MUU_ASSUME</span><span class="p">(</span><span class="n">flags</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="fm">MUU_ASSUME</span><span class="p">(</span><span class="n">flags</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">);</span>
     <span class="c1">// ... do some some performance-critical code stuff that assumes flags is &gt; 0 here ...</span>
 <span class="p">}</span></pre><aside class="m-note m-danger"><h4>Warning</h4><p>Using this incorrectly can lead to seriously mis-compiled code!</p></aside>
           </div></section>
@@ -687,7 +689,7 @@
 <pre class="m-code"><span class="k">class</span> <span class="nc">copyable</span>
 <span class="p">{</span>
     <span class="n">copyable</span><span class="p">()</span> <span class="p">{}</span>
-    <span class="m">MUU_DEFAULT_COPY</span><span class="p">(</span><span class="n">copyable</span><span class="p">);</span>
+    <span class="fm">MUU_DEFAULT_COPY</span><span class="p">(</span><span class="n">copyable</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
@@ -709,7 +711,7 @@
 <span class="p">{</span>
     <span class="n">movable</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="m">MUU_DEFAULT_MOVE</span><span class="p">(</span><span class="n">movable</span><span class="p">);</span>
+    <span class="fm">MUU_DEFAULT_MOVE</span><span class="p">(</span><span class="n">movable</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
@@ -730,7 +732,7 @@
 <pre class="m-code"><span class="k">class</span> <span class="nc">uncopyable</span>
 <span class="p">{</span>
     <span class="nc">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
-    <span class="m">MUU_DELETE_COPY</span><span class="p">(</span><span class="nc">uncopyable</span><span class="p">);</span>
+    <span class="fm">MUU_DELETE_COPY</span><span class="p">(</span><span class="nc">uncopyable</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
@@ -752,7 +754,7 @@
 <span class="p">{</span>
     <span class="nc">immovable</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="m">MUU_DELETE_MOVE</span><span class="p">(</span><span class="nc">immovable</span><span class="p">);</span>
+    <span class="fm">MUU_DELETE_MOVE</span><span class="p">(</span><span class="nc">immovable</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
@@ -853,7 +855,7 @@
     <span class="k">using</span> <span class="nc">value_type</span> <span class="o">=</span> <span class="k">int</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="k">class</span> <span class="m">MUU_EMPTY_BASES</span> <span class="nc">nonempty_child</span> <span class="p">:</span> <span class="nc">empty_parent</span>
+<span class="k">class</span> <span class="fm">MUU_EMPTY_BASES</span> <span class="nc">nonempty_child</span> <span class="o">:</span> <span class="nc">empty_parent</span>
 <span class="p">{</span>
     <span class="k">using</span> <span class="n">empty_parent</span><span class="o">::</span><span class="n">value_type</span><span class="p">;</span>
 
@@ -955,7 +957,7 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gab2a752151f65377391481d1597297eca">MUU_HAS_FP16</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p><code>1</code> when the target environment has the 16-bit floating point 'interchange' type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</p>
+            <p><code>1</code> when the target environment has the storage-only 16-bit floating point type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is completely unrelated to the class <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>, which is always available.</p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa46769772ecacae384f202d2288b5ef9"><div>
@@ -1052,7 +1054,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Expands a conditional to include an optimizer intrinsic (or C++20's [[likely]], if available) indicating that an if/else conditional is the likely path.</p>
-<pre class="m-code"><span class="k">if</span> <span class="m">MUU_LIKELY</span><span class="p">(</span><span class="n">condition_that_is_almost_always_true</span><span class="p">)</span>
+<pre class="m-code"><span class="k">if</span> <span class="fm">MUU_LIKELY</span><span class="p">(</span><span class="n">condition_that_is_almost_always_true</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">do_the_thing</span><span class="p">();</span>
 <span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/attributes/likely" target="_blank">[[likely]]</a></li><li><a class="poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">_<wbr/>_<wbr/>builtin_<wbr/>expect()</a></li></ul></aside>
@@ -1085,7 +1087,7 @@
     <span class="n">beta</span>   <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
     <span class="n">gamma</span>  <span class="o">=</span> <span class="mi">4</span>
 <span class="p">};</span>
-<span class="m">MUU_MAKE_FLAGS</span><span class="p">(</span><span class="nc">my_flags</span><span class="p">);</span>
+<span class="fm">MUU_MAKE_FLAGS</span><span class="p">(</span><span class="nc">my_flags</span><span class="p">);</span>
 
 <span class="c1">// emits these operators:</span>
 <span class="k">constexpr</span> <span class="nc">my_flags</span>  <span class="k">operator</span> <span class="o">&amp;</span>  <span class="p">(</span><span class="nc">my_flags</span><span class="p">,</span>  <span class="nc">my_flags</span><span class="p">)</span> <span class="k">noexcept</span><span class="p">;</span>
@@ -1104,7 +1106,7 @@
             </h3>
             <p>Stringifies the input, converting it verbatim into a raw string literal.</p>
 <pre class="m-code"><span class="c1">// these are equivalent:</span>
-<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str1</span> <span class="o">=</span> <span class="m">MUU_MAKE_RAW_STRING</span><span class="p">(</span><span class="s">"It's trap!"</span> <span class="n">the</span> <span class="n">admiral</span> <span class="n">cried</span><span class="p">.);</span>
+<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str1</span> <span class="o">=</span> <span class="fm">MUU_MAKE_RAW_STRING</span><span class="p">(</span><span class="s">"It's trap!"</span> <span class="n">the</span> <span class="n">admiral</span> <span class="n">cried</span><span class="p">.);</span>
 <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga2fb0fd64a97ececb26a198c1072d223c"><div>
@@ -1114,7 +1116,7 @@
             </h3>
             <p>Stringifies the input, converting it into a string literal.</p>
 <pre class="m-code"><span class="c1">// these are equivalent:</span>
-<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str1</span> <span class="o">=</span> <span class="m">MUU_MAKE_STRING</span><span class="p">(</span><span class="n">Oh</span> <span class="n">noes</span><span class="o">!</span><span class="p">);</span>
+<span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str1</span> <span class="o">=</span> <span class="fm">MUU_MAKE_STRING</span><span class="p">(</span><span class="n">Oh</span> <span class="n">noes</span><span class="o">!</span><span class="p">);</span>
 <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">str2</span> <span class="o">=</span> <span class="s">"Oh noes!"</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gabf47b45b883c9646ed6f8ed0b73f8aaa"><div>
@@ -1124,8 +1126,8 @@
             </h3>
             <p>Stringifies the input, converting it verbatim into a raw string view literal.</p>
 <pre class="m-code"><span class="c1">// these are equivalent:</span>
-<span class="k">constexpr</span> <span class="nn">std</span><span class="o">::</span><span class="nc">string_view</span> <span class="n">str1</span> <span class="o">=</span> <span class="m">MUU_MAKE_STRING_VIEW</span><span class="p">(</span><span class="s">"It's trap!"</span> <span class="n">the</span> <span class="n">admiral</span> <span class="n">cried</span><span class="p">.);</span>
-<span class="k">constexpr</span> <span class="nn">std</span><span class="o">::</span><span class="nc">string_view</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"</span><span class="sa">sv</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
+<span class="k">constexpr</span> <span class="nn">std</span><span class="o">::</span><span class="nc">string_view</span> <span class="n">str1</span> <span class="o">=</span> <span class="fm">MUU_MAKE_STRING_VIEW</span><span class="p">(</span><span class="s">"It's trap!"</span> <span class="n">the</span> <span class="n">admiral</span> <span class="n">cried</span><span class="p">.);</span>
+<span class="k">constexpr</span> <span class="nn">std</span><span class="o">::</span><span class="nc">string_view</span> <span class="n">str2</span> <span class="o">=</span> <span class="sa">R</span><span class="s">"</span><span class="dl">(</span><span class="s">"It's trap!" the admiral cried.</span><span class="dl">)</span><span class="s">"sv</span><span class="p">;</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/string_literal" target="_blank">String literals in C++</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga5e16d39be451564f4e4938ebf5b799ac"><div>
             <h3>
@@ -1149,7 +1151,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>A strong hint to the optimizer that you really, <em>really</em> do not want a function inlined.</p>
-<pre class="m-code"><span class="m">MUU_NEVER_INLINE</span>
+<pre class="m-code"><span class="fm">MUU_NEVER_INLINE</span>
 <span class="k">int</span> <span class="n">never_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// ...</span>
@@ -1170,7 +1172,7 @@
             <p>Expands to <code>[[nodiscard]]</code> if your compiler supports it on constructors.</p>
 <p>This is useful for RAII helper types like locks:</p><pre class="m-code"><span class="k">class</span> <span class="nc">raii_lock</span>
 <span class="p">{</span>
-    <span class="m">MUU_NODISCARD_CTOR</span>
+    <span class="fm">MUU_NODISCARD_CTOR</span>
     <span class="nf">raii_lock</span><span class="p">()</span> <span class="k">noexcept</span>
     <span class="p">{</span>
         <span class="n">super_special_global_lock</span><span class="p">();</span>
@@ -1294,21 +1296,21 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Pushes the current compiler warning state onto the stack.</p>
-<p>Use this in tandem with the other warning macros to demarcate regions of code that should have different warning semantics, e.g.:</p><pre class="m-code"><span class="m">MUU_PUSH_WARNINGS</span><span class="p">;</span>
-<span class="m">MUU_DISABLE_SWITCH_WARNINGS</span><span class="p">;</span>
+<p>Use this in tandem with the other warning macros to demarcate regions of code that should have different warning semantics, e.g.:</p><pre class="m-code"><span class="fm">MUU_PUSH_WARNINGS</span><span class="p">;</span>
+<span class="fm">MUU_DISABLE_SWITCH_WARNINGS</span><span class="p">;</span>
 
 <span class="k">int</span> <span class="nf">do_the_thing</span><span class="p">(</span><span class="nc">my_enum</span> <span class="n">val</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="k">switch</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="k">case</span> <span class="n">my_enum</span><span class="o">::</span><span class="nl">one</span><span class="p">:</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="k">case</span> <span class="n">my_enum</span><span class="o">::</span><span class="nl">two</span><span class="p">:</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="k">case</span> <span class="no">my_enum</span><span class="o">::</span><span class="no">one</span><span class="p">:</span> <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">case</span> <span class="no">my_enum</span><span class="o">::</span><span class="no">two</span><span class="p">:</span> <span class="k">return</span> <span class="mi">2</span><span class="p">;</span>
         <span class="c1">//case my_enum::three: return 3;</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="m">MUU_POP_WARNINGS</span><span class="p">;</span></pre>
+<span class="fm">MUU_POP_WARNINGS</span><span class="p">;</span></pre>
           </div></section>
           <section class="m-doc-details" id="gaff60752ea9802d5cb7f09835672bd801"><div>
             <h3>
@@ -1317,7 +1319,7 @@
             </h3>
             <p>Marks a simple type which might otherwise be considered non-trivial as being trivial over ABI boundaries.</p>
 <p>This is useful for simple wrappers and '<a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong typedef</a>' types, e.g.:</p><pre class="m-code"><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">&gt;</span>
-<span class="k">struct</span> <span class="m">MUU_TRIVIAL_ABI</span> <span class="nc"><a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong_typedef</a></span>
+<span class="k">struct</span> <span class="fm">MUU_TRIVIAL_ABI</span> <span class="nc"><a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong_typedef</a></span>
 <span class="p">{</span>
     <span class="nc">T</span> <span class="n">value</span><span class="p">;</span>
     <span class="o">~</span><span class="nc"><a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong_typedef</a></span><span class="p">()</span> <span class="k">noexcept</span>
@@ -1339,7 +1341,7 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Expands a conditional to include an optimizer intrinsic (or C++20's [[unlikely]], if available) indicating that an if/else conditional is the unlikely path.</p>
-<pre class="m-code"><span class="k">if</span> <span class="m">MUU_UNLIKELY</span><span class="p">(</span><span class="n">condition_that_is_almost_always_false</span><span class="p">)</span>
+<pre class="m-code"><span class="k">if</span> <span class="fm">MUU_UNLIKELY</span><span class="p">(</span><span class="n">condition_that_is_almost_always_false</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">do_the_thing</span><span class="p">();</span>
 <span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/attributes/likely" target="_blank">[[unlikely]]</a></li><li><a class="poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">_<wbr/>_<wbr/>builtin_<wbr/>expect()</a></li></ul></aside>

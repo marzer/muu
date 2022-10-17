@@ -11,12 +11,14 @@
   <meta content="muu" name="twitter:title"/>
   <meta content="muu" property="og:title"/>
   <meta content="muu" itemprop="name"/>
+  <meta content="Mark Gillard" name="author"/>
+  <meta content="Mark Gillard" property="article:author"/>
   <meta content="Miscellaneous useful utilities for C++" name="description"/>
   <meta content="Miscellaneous useful utilities for C++" name="twitter:description"/>
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.9.1" name="generator"/>
+  <meta content="Poxy v0.10.2" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -57,7 +59,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>sha1 <span class="m-thin">class</span>
-          <div class="m-doc-include m-code m-inverted m-text-right" id="include-directive"><span class="cp">#include</span> <a class="cpf" href="hashing_8h.html">&lt;muu/hashing.h&gt;</a></div>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="hashing_8h.html">&lt;muu/hashing.h&gt;</a></div>
         </h1>
         <p>SHA-1 hasher.</p>
         <nav class="m-block m-default poxy-toc" id="poxy-toc">
@@ -74,7 +76,7 @@
           </ul>
         </nav>
 <pre class="m-code"><span class="n">sha1</span> <span class="n">hasher</span><span class="p">;</span>
-<span class="n">hasher</span><span class="p">(</span><span class="s">"The quick brown fox jumps over the lazy dog"</span><span class="sa">sv</span><span class="p">);</span>
+<span class="n">hasher</span><span class="p">(</span><span class="s">"The quick brown fox jumps over the lazy dog"sv</span><span class="p">);</span>
 <span class="n">hasher</span><span class="p">.</span><span class="n">finish</span><span class="p">();</span>
 <span class="nn">std</span><span class="o">::</span><span class="nc">cout</span> <span class="o">&lt;&lt;</span> <span class="n">hasher</span> <span class="o">&lt;&lt;</span> <span class="nn">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span></pre><pre class="m-console"><span class="go">2fd4e1c67a2d28fced849ee1bb76e7391b93eb12</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.wikipedia.org/wiki/SHA-1" target="_blank">SHA-1</a></p></aside>
         <section id="typeless-methods">
@@ -90,44 +92,44 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a78d696ccc194131132ffdc5792571415">finish</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a0b05c4013a583a0dc8414c86ac7cc6c9">finish</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Finishes calculating the hash.</dd>
-            <dt id="ac039bd5671573a6ec0f61e1101286e20">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac039bd5671573a6ec0f61e1101286e20">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="aa6e85036772afa80891b07df409e868e">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa6e85036772afa80891b07df409e868e">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a single byte to the hash function's input.</dd>
-            <dt id="a2cfc2f933f53af2ba83d2b85daf3f0b6">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2cfc2f933f53af2ba83d2b85daf3f0b6">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="aad0e1c17543e43fa1c8ed7d97944404c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aad0e1c17543e43fa1c8ed7d97944404c">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a> byte) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a single byte to the hash function's input.</dd>
-            <dt id="a03f22b6388d84cc768d060c8316afc3b">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a03f22b6388d84cc768d060c8316afc3b">operator()</a>(</span><span class="m-doc-wrap">const void* data,
+            <dt id="aa2e8081187645373db59a1fa3f286f20">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa2e8081187645373db59a1fa3f286f20">operator()</a>(</span><span class="m-doc-wrap">const void* data,
               <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a sequence of raw data to the hash function's input.</dd>
-            <dt id="ac9ed2ee364a7d0a3cf32af0fe292d6cb">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ac9ed2ee364a7d0a3cf32af0fe292d6cb">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a9751a943c0b696bd88da6902dcc52b6d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9751a943c0b696bd88da6902dcc52b6d">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a string to the hash function's input.</dd>
-            <dt id="a0dfb107c3588a2cf043122aaa4293cc2">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0dfb107c3588a2cf043122aaa4293cc2">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ab23c7d9b0845679eb169960fd5f80420">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab23c7d9b0845679eb169960fd5f80420">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>wstring_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a wide string to the hash function's input.</dd>
-            <dt id="a663e577e76f1bfca07b242b7e6d8b7cb">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a663e577e76f1bfca07b242b7e6d8b7cb">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a15fc1eb9d432bd0fcb5d617b34c9b1ec">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a15fc1eb9d432bd0fcb5d617b34c9b1ec">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u32string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a UTF-32 string to the hash function's input.</dd>
-            <dt id="a38a9f1fefb6706abd2a6b17575706249">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a38a9f1fefb6706abd2a6b17575706249">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u16string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ae804c285a251c038cf786ada59480eb4">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae804c285a251c038cf786ada59480eb4">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u16string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a UTF-16 string to the hash function's input.</dd>
-            <dt id="a0c0fa278c442a6e169d8ca9007e4e3d3">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0c0fa278c442a6e169d8ca9007e4e3d3">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a876bbe0631f2b875b8c6ba2d40e58f1f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a876bbe0631f2b875b8c6ba2d40e58f1f">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/string/basic_string_view.html" target="_blank">std::<wbr/>u8string_view</a> str) -&gt; <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Appends a UTF-8 string to the hash function's input.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a653ab6f85c2ce69355b5e45e3c7edca6">value</a>(</span><span class="m-doc-wrap">) const -&gt; const hash_type&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a0da86b3f23396c86afdc5d415cf0bc9b">value</a>(</span><span class="m-doc-wrap">) const -&gt; const hash_type&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the calculated hash value.</dd>
           </dl>
@@ -137,38 +139,38 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a830b5f6209cf1b5f958fe56c0d5953eb">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; lhs,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad73c196aada7476bd4104d7d0e5d1f58">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; lhs,
               const <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; rhs) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
             <dd>Writes an SHA-1 hash to a text stream.</dd>
           </dl>
         </section>
-        <section id="func-documentation">
+        <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a78d696ccc194131132ffdc5792571415"><div>
+          <section class="m-doc-details" id="a0b05c4013a583a0dc8414c86ac7cc6c9"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; muu::<wbr/>sha1::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a78d696ccc194131132ffdc5792571415">finish</a>(</span><span class="m-doc-wrap">) <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; muu::<wbr/>sha1::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0b05c4013a583a0dc8414c86ac7cc6c9">finish</a>(</span><span class="m-doc-wrap">) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Finishes calculating the hash.</p>
-<p>Appending to the hash function's input has no effect after <a class="m-doc" href="classmuu_1_1sha1.html#a78d696ccc194131132ffdc5792571415">finish()</a> is called.</p>
+<p>Appending to the hash function's input has no effect after <a class="m-doc" href="classmuu_1_1sha1.html#a0b05c4013a583a0dc8414c86ac7cc6c9">finish()</a> is called.</p>
           </div></section>
-          <section class="m-doc-details" id="a653ab6f85c2ce69355b5e45e3c7edca6"><div>
+          <section class="m-doc-details" id="a0da86b3f23396c86afdc5d415cf0bc9b"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">const hash_type&amp; muu::<wbr/>sha1::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a653ab6f85c2ce69355b5e45e3c7edca6">value</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">const hash_type&amp; muu::<wbr/>sha1::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0da86b3f23396c86afdc5d415cf0bc9b">value</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns the calculated hash value.</p>
-<aside class="m-note m-danger"><h4>Warning</h4><p>Calling this before <a class="m-doc" href="classmuu_1_1sha1.html#a78d696ccc194131132ffdc5792571415">finish()</a> has been called is undefined behaviour.</p></aside>
+<aside class="m-note m-danger"><h4>Warning</h4><p>Calling this before <a class="m-doc" href="classmuu_1_1sha1.html#a0b05c4013a583a0dc8414c86ac7cc6c9">finish()</a> has been called is undefined behaviour.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a830b5f6209cf1b5f958fe56c0d5953eb"><div>
+          <section class="m-doc-details" id="ad73c196aada7476bd4104d7d0e5d1f58"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Char, typename Traits&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a830b5f6209cf1b5f958fe56c0d5953eb">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; lhs,
+              <span class="m-doc-wrap-bumper"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad73c196aada7476bd4104d7d0e5d1f58">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; lhs,
               const <a class="m-doc" href="classmuu_1_1sha1.html">sha1</a>&amp; rhs)</span></span>
             </h3>
             <p>Writes an SHA-1 hash to a text stream.</p>
-<aside class="m-note m-danger"><h4>Warning</h4><p>Calling this before <a class="m-doc" href="classmuu_1_1sha1.html#a78d696ccc194131132ffdc5792571415">finish()</a> has been called is undefined behaviour.</p></aside>
+<aside class="m-note m-danger"><h4>Warning</h4><p>Calling this before <a class="m-doc" href="classmuu_1_1sha1.html#a0b05c4013a583a0dc8414c86ac7cc6c9">finish()</a> has been called is undefined behaviour.</p></aside>
           </div></section>
         </section>
       </div>
