@@ -386,13 +386,6 @@ namespace muu
 		{
 			using type = kahan_accumulator<half>;
 		};
-#if MUU_HAS_FP16
-		template <>
-		struct default_accumulator<__fp16>
-		{
-			using type = kahan_accumulator<__fp16>;
-		};
-#endif
 #if MUU_HAS_FLOAT16
 		template <>
 		struct default_accumulator<_Float16>

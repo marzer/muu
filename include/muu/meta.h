@@ -866,13 +866,13 @@ namespace muu
 
 	/// \brief	True if `From` is implicitly convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_implicitly_convertible_to_all = ((sizeof...(To) > 0) && ...
-															  && is_implicitly_convertible<From, To>);
+	inline constexpr bool is_implicitly_convertible_to_all =
+		((sizeof...(To) > 0) && ... && is_implicitly_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are implicitly convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_implicitly_convertible_to = ((sizeof...(From) > 0) && ...
-														   && is_implicitly_convertible<From, To>);
+	inline constexpr bool all_implicitly_convertible_to =
+		((sizeof...(From) > 0) && ... && is_implicitly_convertible<From, To>);
 
 	/// \brief	True if `From` is explicitly convertible to `To`.
 	template <typename From, typename To>
@@ -885,13 +885,13 @@ namespace muu
 
 	/// \brief	True if `From` is explicitly convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_explicitly_convertible_to_all = ((sizeof...(To) > 0) && ...
-															  && is_explicitly_convertible<From, To>);
+	inline constexpr bool is_explicitly_convertible_to_all =
+		((sizeof...(To) > 0) && ... && is_explicitly_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are explicitly convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_explicitly_convertible_to = ((sizeof...(From) > 0) && ...
-														   && is_explicitly_convertible<From, To>);
+	inline constexpr bool all_explicitly_convertible_to =
+		((sizeof...(From) > 0) && ... && is_explicitly_convertible<From, To>);
 
 	/// \brief	True if `From` is implicitly _or_ explicitly convertible to `To`.
 	template <typename From, typename To>
@@ -915,18 +915,18 @@ namespace muu
 
 	/// \brief	True if `From` is implicitly nothrow-convertible to any of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_implicitly_nothrow_convertible_to_any = (false || ...
-																	  || is_implicitly_nothrow_convertible<From, To>);
+	inline constexpr bool is_implicitly_nothrow_convertible_to_any =
+		(false || ... || is_implicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if `From` is implicitly nothrow-convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_implicitly_nothrow_convertible_to_all = ((sizeof...(To) > 0) && ...
-																	  && is_implicitly_nothrow_convertible<From, To>);
+	inline constexpr bool is_implicitly_nothrow_convertible_to_all =
+		((sizeof...(To) > 0) && ... && is_implicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are implicitly nothrow-convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_implicitly_nothrow_convertible_to = ((sizeof...(From) > 0) && ...
-																   && is_implicitly_nothrow_convertible<From, To>);
+	inline constexpr bool all_implicitly_nothrow_convertible_to =
+		((sizeof...(From) > 0) && ... && is_implicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if `From` is explicitly nothrow-convertible to `To`.
 	template <typename From, typename To>
@@ -935,18 +935,18 @@ namespace muu
 
 	/// \brief	True if `From` is explicitly nothrow-convertible to any of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_explicitly_nothrow_convertible_to_any = (false || ...
-																	  || is_explicitly_nothrow_convertible<From, To>);
+	inline constexpr bool is_explicitly_nothrow_convertible_to_any =
+		(false || ... || is_explicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if `From` is explicitly nothrow-convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_explicitly_nothrow_convertible_to_all = ((sizeof...(To) > 0) && ...
-																	  && is_explicitly_nothrow_convertible<From, To>);
+	inline constexpr bool is_explicitly_nothrow_convertible_to_all =
+		((sizeof...(To) > 0) && ... && is_explicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are explicitly nothrow-convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_explicitly_nothrow_convertible_to = ((sizeof...(From) > 0) && ...
-																   && is_explicitly_nothrow_convertible<From, To>);
+	inline constexpr bool all_explicitly_nothrow_convertible_to =
+		((sizeof...(From) > 0) && ... && is_explicitly_nothrow_convertible<From, To>);
 
 	/// \brief	True if `From` is implicitly _or_ explicitly nothrow-convertible to `To`.
 	template <typename From, typename To>
@@ -959,13 +959,13 @@ namespace muu
 
 	/// \brief	True if `From` is implicitly _or_ explicitly nothrow-convertible to all of the types named by `To`.
 	template <typename From, typename... To>
-	inline constexpr bool is_nothrow_convertible_to_all = ((sizeof...(To) > 0) && ...
-														   && is_nothrow_convertible<From, To>);
+	inline constexpr bool is_nothrow_convertible_to_all =
+		((sizeof...(To) > 0) && ... && is_nothrow_convertible<From, To>);
 
 	/// \brief	True if all of the types named by `From` are implicitly _or_ explicitly nothrow-convertible to `To`.
 	template <typename To, typename... From>
-	inline constexpr bool all_nothrow_convertible_to = ((sizeof...(From) > 0) && ...
-														&& is_nothrow_convertible<From, To>);
+	inline constexpr bool all_nothrow_convertible_to =
+		((sizeof...(From) > 0) && ... && is_nothrow_convertible<From, To>);
 
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>
@@ -995,7 +995,7 @@ namespace muu
 	/// \brief Is a type a pre-C++11 unscoped enum, or reference to one?
 	template <typename T>
 	inline constexpr bool is_legacy_enum =
-		is_enum<T>&& std::is_convertible_v<remove_cvref<T>, remove_enum<remove_cvref<T>>>;
+		is_enum<T> && std::is_convertible_v<remove_cvref<T>, remove_enum<remove_cvref<T>>>;
 
 	/// \brief Are any of the named types pre-C++11 unscoped enums, or references to one?
 	template <typename... T>
@@ -1031,20 +1031,20 @@ namespace muu
 	/// \remarks True for #int128_t, __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_signed = std::is_signed_v<remove_enum<remove_cvref<T>>>
-		|| any_same<remove_enum<remove_cvref<T>>,
+								   || any_same<remove_enum<remove_cvref<T>>,
 #if MUU_HAS_INT128
-		int128_t,
+											   int128_t,
 #endif
 #if MUU_HAS_FLOAT128
-		float128_t,
+											   float128_t,
 #endif
 #if MUU_HAS_FLOAT16
-		_Float16,
+											   _Float16,
 #endif
 #if MUU_HAS_FP16
-		__fp16,
+											   __fp16,
 #endif
-		half>;
+											   half>;
 
 	/// \brief Are any of the named types signed or reference-to-signed?
 	/// \remarks True for enums backed by signed integers.
@@ -1115,18 +1115,17 @@ namespace muu
 	/// \remarks True for __fp16, _Float16 and #float128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_floating_point = std::is_floating_point_v<std::remove_reference_t<T>>
-		|| any_same<remove_cvref<T>,
+										   || any_same<remove_cvref<T>,
 #if MUU_HAS_FLOAT128
-		float128_t,
+													   float128_t,
 #endif
 #if MUU_HAS_FLOAT16
-		_Float16,
+													   _Float16,
 #endif
 #if MUU_HAS_FP16
-		__fp16,
+													   __fp16,
 #endif
-		half>
-		;
+													   half>;
 
 	/// \brief Are any of the named types floating-point or reference-to-floating-point?
 	/// \remarks True for muu::half.
@@ -1437,7 +1436,7 @@ namespace muu
 	/// \brief Is a type a free/static function pointer, or reference to one?
 	template <typename T>
 	inline constexpr bool is_function_pointer = std::is_pointer_v<std::remove_reference_t<T>> //
-		&& is_function<std::remove_pointer_t<std::remove_reference_t<T>>>;
+											 && is_function<std::remove_pointer_t<std::remove_reference_t<T>>>;
 
 	/// \brief Are any of the named types free/static function pointers, or references to them?
 	template <typename... T>
@@ -1937,7 +1936,7 @@ namespace muu
 	/// \brief True if the type implements std::tuple_size and std::tuple_element.
 	template <typename T>
 	inline constexpr bool is_tuple_like =
-		is_detected<impl::has_tuple_size_, T>&& is_detected<impl::has_tuple_element_, T>;
+		is_detected<impl::has_tuple_size_, T> && is_detected<impl::has_tuple_element_, T>;
 
 	/// \brief Equivalent to std::tuple_size_v, but safe to use in SFINAE contexts.
 	/// \remark Returns 0 for types that do not implement std::tuple_size.
@@ -1946,30 +1945,30 @@ namespace muu
 
 	/// \brief True if a type has a lock interface compatible with std::mutex.
 	template <typename T>
-	inline constexpr bool is_mutex_like = is_detected<impl::has_lock_member_func_, T> //
-		&& is_detected<impl::has_try_lock_member_func_, T>							  //
-			&& is_detected<impl::has_unlock_member_func_, T>;
+	inline constexpr bool is_mutex_like = is_detected<impl::has_lock_member_func_, T>	  //
+									   && is_detected<impl::has_try_lock_member_func_, T> //
+									   && is_detected<impl::has_unlock_member_func_, T>;
 
 	/// \brief True if a type has a lock interface compatible with std::shared_mutex.
 	template <typename T>
-	inline constexpr bool is_shared_mutex_like = is_mutex_like<T>	  //
-		&& is_detected<impl::has_lock_shared_member_func_, T>		  //
-			&& is_detected<impl::has_try_lock_shared_member_func_, T> //
-				&& is_detected<impl::has_unlock_shared_member_func_, T>;
+	inline constexpr bool is_shared_mutex_like = is_mutex_like<T>										//
+											  && is_detected<impl::has_lock_shared_member_func_, T>		//
+											  && is_detected<impl::has_try_lock_shared_member_func_, T> //
+											  && is_detected<impl::has_unlock_shared_member_func_, T>;
 
 	/// \cond
 	namespace impl
 	{
 		template <typename T>
-		inline constexpr bool is_small_float_ = is_floating_point<T> && sizeof(T) <= sizeof(float)
-											 && is_extended_arithmetic<T>;
+		inline constexpr bool is_small_float_ =
+			is_floating_point<T> && sizeof(T) <= sizeof(float) && is_extended_arithmetic<T>;
 
 		template <typename... T>
 		inline constexpr bool any_small_float_ = MUU_ANY_VARIADIC_T(is_small_float_);
 
 		template <typename T>
-		inline constexpr bool is_large_float_ = is_floating_point<T> && sizeof(T) >= sizeof(long double)
-											 && is_extended_arithmetic<T>;
+		inline constexpr bool is_large_float_ =
+			is_floating_point<T> && sizeof(T) >= sizeof(long double) && is_extended_arithmetic<T>;
 	}
 	/// \endcond
 
@@ -2224,22 +2223,22 @@ namespace muu
 
 			using raw_type = std::remove_cv_t<T>;
 
-			using type = std::conditional_t<
-				is_floating_point<raw_type>																			 //
-					|| is_integral<raw_type>																		 //
-					|| std::is_scalar_v<raw_type>																	 //
-					|| std::is_fundamental_v<raw_type>																 //
-					|| std::is_same_v<raw_type, muu::half>															 //
-					|| always_pass_readonly_param_by_value<raw_type>												 //
-					|| (Vector																						 //
-						&& MUU_HAS_VECTORCALL																		 //
-						&& (is_vectorcall_simd_intrinsic<raw_type> || is_hva<raw_type>))							 //
-					|| ((std::is_class_v<raw_type> || std::is_union_v<raw_type>)									 //
-						&&(std::is_trivially_copyable_v<raw_type> || std::is_nothrow_copy_constructible_v<raw_type>) //
-						&&std::is_nothrow_destructible_v<raw_type>													 //
-						&& sizeof(raw_type) <= (sizeof(void*) * 2u)),
-				raw_type,
-				std::add_lvalue_reference_t<std::add_const_t<T>>>;
+			using type = std::conditional_t<is_floating_point<raw_type>												 //
+												|| is_integral<raw_type>											 //
+												|| std::is_scalar_v<raw_type>										 //
+												|| std::is_fundamental_v<raw_type>									 //
+												|| std::is_same_v<raw_type, muu::half>								 //
+												|| always_pass_readonly_param_by_value<raw_type>					 //
+												|| (Vector															 //
+													&& MUU_HAS_VECTORCALL											 //
+													&& (is_vectorcall_simd_intrinsic<raw_type> || is_hva<raw_type>)) //
+												|| ((std::is_class_v<raw_type> || std::is_union_v<raw_type>)		 //
+													&&(std::is_trivially_copyable_v<raw_type>
+													   || std::is_nothrow_copy_constructible_v<raw_type>) //
+													&&std::is_nothrow_destructible_v<raw_type>			  //
+													&& sizeof(raw_type) <= (sizeof(void*) * 2u)),
+											raw_type,
+											std::add_lvalue_reference_t<std::add_const_t<T>>>;
 		};
 		template <typename T>
 		struct readonly_param_ : readonly_param_base_<T, false>

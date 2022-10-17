@@ -28,10 +28,9 @@
 - [ ] I've added new test cases to verify my change
 - [ ] I've updated any affected documentation
 - [ ] I've rebuilt and run the tests with at least one of:
-    - [ ] Clang 6 or higher
-    - [ ] GCC 7 or higher
+    - [ ] Clang 9 or higher
+    - [ ] GCC 9 or higher
     - [ ] Visual Studio 2019
-- [ ] I've added myself to the list of contributors in [README.md](https://github.com/marzer/muu/blob/master/README.md)
 
 
 

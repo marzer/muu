@@ -122,13 +122,6 @@ namespace muu::impl
 	}
 #endif
 
-#if MUU_HAS_FP16
-	void MUU_CALLCONV print_vector(std::ostream& os, const __fp16* x, size_t dims)
-	{
-		::print_vector(os, x, dims);
-	}
-#endif
-
 #if MUU_HAS_FLOAT128
 	void MUU_CALLCONV print_vector(std::ostream& os, const float128_t* x, size_t dims)
 	{
@@ -220,13 +213,6 @@ namespace muu::impl
 
 #if MUU_HAS_FLOAT16
 	void MUU_CALLCONV print_vector(std::wostream& os, const _Float16* x, size_t dims)
-	{
-		::print_vector(os, x, dims);
-	}
-#endif
-
-#if MUU_HAS_FP16
-	void MUU_CALLCONV print_vector(std::wostream& os, const __fp16* x, size_t dims)
 	{
 		::print_vector(os, x, dims);
 	}
@@ -387,13 +373,6 @@ namespace muu::impl
 	}
 #endif
 
-#if MUU_HAS_FP16
-	void MUU_CALLCONV print_matrix(std::ostream& os, const __fp16* m, size_t rows, size_t cols)
-	{
-		::print_matrix(os, m, rows, cols);
-	}
-#endif
-
 #if MUU_HAS_FLOAT128
 	void MUU_CALLCONV print_matrix(std::ostream& os, const float128_t* m, size_t rows, size_t cols)
 	{
@@ -485,13 +464,6 @@ namespace muu::impl
 
 #if MUU_HAS_FLOAT16
 	void MUU_CALLCONV print_matrix(std::wostream& os, const _Float16* m, size_t rows, size_t cols)
-	{
-		::print_matrix(os, m, rows, cols);
-	}
-#endif
-
-#if MUU_HAS_FP16
-	void MUU_CALLCONV print_matrix(std::wostream& os, const __fp16* m, size_t rows, size_t cols)
 	{
 		::print_matrix(os, m, rows, cols);
 	}
@@ -595,13 +567,7 @@ namespace muu::impl
 		return ::print_compound_vector(os, elems, count);
 	}
 #endif
-#if MUU_HAS_FP16
 
-	void MUU_CALLCONV print_compound_vector(std::ostream& os, const compound_vector_elem<__fp16>* elems, size_t count)
-	{
-		return ::print_compound_vector(os, elems, count);
-	}
-#endif
 #if MUU_HAS_FLOAT128
 
 	void MUU_CALLCONV print_compound_vector(std::ostream& os,
@@ -728,13 +694,7 @@ namespace muu::impl
 		return ::print_compound_vector(os, elems, count);
 	}
 #endif
-#if MUU_HAS_FP16
 
-	void MUU_CALLCONV print_compound_vector(std::wostream& os, const compound_vector_elem<__fp16>* elems, size_t count)
-	{
-		return ::print_compound_vector(os, elems, count);
-	}
-#endif
 #if MUU_HAS_FLOAT128
 
 	void MUU_CALLCONV print_compound_vector(std::wostream& os,

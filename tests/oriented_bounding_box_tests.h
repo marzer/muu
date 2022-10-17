@@ -48,6 +48,8 @@ namespace
 
 	template <typename... T>
 	using oriented_bounding_boxes = type_list<oriented_bounding_box<T>...>;
+
+	using all_oriented_bounding_boxes = oriented_bounding_boxes<NON_FP16_FLOATS>;
 }
 
 namespace muu
@@ -56,7 +58,7 @@ namespace muu
 	inline constexpr bool allow_implicit_bit_cast<blittable<T>, oriented_bounding_box<T>> = true;
 }
 
-BATCHED_TEST_CASE("oriented_bounding_box constructors", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box constructors", all_oriented_bounding_boxes)
 {
 	using obb  = TestType;
 	using T	   = typename obb::scalar_type;
@@ -206,7 +208,7 @@ BATCHED_TEST_CASE("oriented_bounding_box constructors", oriented_bounding_boxes<
 	}
 }
 
-BATCHED_TEST_CASE("oriented_bounding_box equality", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box equality", all_oriented_bounding_boxes)
 {
 	using obb = TestType;
 	using T	  = typename obb::scalar_type;
@@ -259,7 +261,7 @@ BATCHED_TEST_CASE("oriented_bounding_box equality", oriented_bounding_boxes<ALL_
 	}
 }
 
-BATCHED_TEST_CASE("oriented_bounding_box zero()", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box zero()", all_oriented_bounding_boxes)
 {
 	using obb = TestType;
 	using T	  = typename obb::scalar_type;
@@ -306,7 +308,7 @@ BATCHED_TEST_CASE("oriented_bounding_box zero()", oriented_bounding_boxes<ALL_FL
 	}
 }
 
-BATCHED_TEST_CASE("oriented_bounding_box infinity_or_nan()", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box infinity_or_nan()", all_oriented_bounding_boxes)
 {
 	using obb = TestType;
 	using T	  = typename obb::scalar_type;
@@ -359,7 +361,7 @@ BATCHED_TEST_CASE("oriented_bounding_box infinity_or_nan()", oriented_bounding_b
 	}
 }
 
-BATCHED_TEST_CASE("oriented_bounding_box degenerate()", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box degenerate()", all_oriented_bounding_boxes)
 {
 	using obb  = TestType;
 	using T	   = typename obb::scalar_type;
@@ -398,7 +400,7 @@ BATCHED_TEST_CASE("oriented_bounding_box degenerate()", oriented_bounding_boxes<
 	}
 }
 
-BATCHED_TEST_CASE("oriented_bounding_box corners", oriented_bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("oriented_bounding_box corners", all_oriented_bounding_boxes)
 {
 	using obb  = TestType;
 	using T	   = typename obb::scalar_type;

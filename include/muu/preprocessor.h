@@ -12,6 +12,14 @@
 /// @{
 
 //======================================================================================================================
+// LIBRARY VERSION
+//======================================================================================================================
+
+#define MUU_VERSION_MAJOR 0
+#define MUU_VERSION_MINOR 1
+#define MUU_VERSION_PATCH 0
+
+//======================================================================================================================
 // C++ VERSION
 //======================================================================================================================
 
@@ -363,51 +371,6 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_HAS_RTTI
 /// \brief `1` when C++ run-time type identification (RTTI) is supported and enabled, otherwise `0`.
 /// \see build::supports_rtti
-
-#if (MUU_ARCH_ARM && (MUU_GCC || MUU_CLANG))
-	#define MUU_HAS_FP16 1
-#else
-	#define MUU_HAS_FP16 MUU_DOXYGEN
-#endif
-/// \def MUU_HAS_FP16
-/// \brief `1` when the target environment has the 16-bit floating point 'interchange' type __fp16.
-/// \remarks This is completely unrelated to the class muu::half, which is always available.
-
-#ifdef __FLT16_MANT_DIG__
-	// #pragma message("__FLT_RADIX__        " MUU_MAKE_STRING(__FLT_RADIX__))
-	// #pragma message("__FLT16_MANT_DIG__   " MUU_MAKE_STRING(__FLT16_MANT_DIG__))
-	// #pragma message("__FLT16_DIG__        " MUU_MAKE_STRING(__FLT16_DIG__))
-	// #pragma message("__FLT16_MIN_EXP__    " MUU_MAKE_STRING(__FLT16_MIN_EXP__))
-	// #pragma message("__FLT16_MIN_10_EXP__ " MUU_MAKE_STRING(__FLT16_MIN_10_EXP__))
-	// #pragma message("__FLT16_MAX_EXP__    " MUU_MAKE_STRING(__FLT16_MAX_EXP__))
-	// #pragma message("__FLT16_MAX_10_EXP__ " MUU_MAKE_STRING(__FLT16_MAX_10_EXP__))
-	#if __FLT_RADIX__ == 2 && __FLT16_MANT_DIG__ == 11 && __FLT16_DIG__ == 3 && __FLT16_MIN_EXP__ == -13               \
-		&& __FLT16_MIN_10_EXP__ == -4 && __FLT16_MAX_EXP__ == 16 && __FLT16_MAX_10_EXP__ == 4
-		#if MUU_ARCH_ARM && MUU_CLANG // not present in g++
-			#define MUU_HAS_FLOAT16 1
-		#endif
-	#endif
-#else
-	#define MUU_HAS_FLOAT16 MUU_DOXYGEN
-#endif
-/// \def MUU_HAS_FLOAT16
-/// \brief `1` when the target environment has the 16-bit floating point type _Float16.
-/// \remarks This is completely unrelated to the class muu::half, which is always available.
-
-#if defined(__SIZEOF_FLOAT128__) && defined(__FLT128_MANT_DIG__)
-	#define MUU_HAS_FLOAT128 1
-#else
-	#define MUU_HAS_FLOAT128 MUU_DOXYGEN
-#endif
-/// \def MUU_HAS_FLOAT128
-/// \brief `1` when the target environment has 128-bit floats, otherwise `0`.
-/// \see #muu::float128_t
-
-#if MUU_HAS_FLOAT128 && MUU_HAS_INCLUDE(<quadmath.h>)
-	#define MUU_HAS_QUADMATH 1
-#else
-	#define MUU_HAS_QUADMATH 0
-#endif
 
 #if defined(__SIZEOF_INT128__)
 	#define MUU_HAS_INT128 1
@@ -1657,12 +1620,118 @@ namespace muu::impl
 #endif
 
 //======================================================================================================================
-// VERSIONS AND NAMESPACES
+// EXTENDED FLOAT TYPES
 //======================================================================================================================
 
-#define MUU_VERSION_MAJOR 0
-#define MUU_VERSION_MINOR 1
-#define MUU_VERSION_PATCH 0
+#ifdef __FLT16_MANT_DIG__
+	#define MUU_FLOAT16_MANT_DIG   __FLT16_MANT_DIG__
+	#define MUU_FLOAT16_DIG		   __FLT16_DIG__
+	#define MUU_FLOAT16_MIN_EXP	   __FLT16_MIN_EXP__
+	#define MUU_FLOAT16_MIN_10_EXP __FLT16_MIN_10_EXP__
+	#define MUU_FLOAT16_MAX_EXP	   __FLT16_MAX_EXP__
+	#define MUU_FLOAT16_MAX_10_EXP __FLT16_MAX_10_EXP__
+	#if 0
+		#pragma message("__FLT16_MANT_DIG__   " MUU_MAKE_STRING(__FLT16_MANT_DIG__))
+		#pragma message("__FLT16_DIG__        " MUU_MAKE_STRING(__FLT16_DIG__))
+		#pragma message("__FLT16_MIN_EXP__    " MUU_MAKE_STRING(__FLT16_MIN_EXP__))
+		#pragma message("__FLT16_MIN_10_EXP__ " MUU_MAKE_STRING(__FLT16_MIN_10_EXP__))
+		#pragma message("__FLT16_MAX_EXP__    " MUU_MAKE_STRING(__FLT16_MAX_EXP__))
+		#pragma message("__FLT16_MAX_10_EXP__ " MUU_MAKE_STRING(__FLT16_MAX_10_EXP__))
+	#endif
+#else
+	#define MUU_FLOAT16_MANT_DIG   0
+	#define MUU_FLOAT16_DIG		   0
+	#define MUU_FLOAT16_MIN_EXP	   0
+	#define MUU_FLOAT16_MIN_10_EXP 0
+	#define MUU_FLOAT16_MAX_EXP	   0
+	#define MUU_FLOAT16_MAX_10_EXP 0
+#endif
+
+#if (MUU_FLOAT16_MANT_DIG && MUU_FLOAT16_DIG && MUU_FLOAT16_MIN_EXP && MUU_FLOAT16_MIN_10_EXP && MUU_FLOAT16_MAX_EXP   \
+	 && MUU_FLOAT16_MAX_10_EXP)
+	#define MUU_FLOAT16_LIMITS_SET 1
+#else
+	#define MUU_FLOAT16_LIMITS_SET 0
+#endif
+
+#if (MUU_FLOAT16_MANT_DIG == 11 && MUU_FLOAT16_DIG == 3 && MUU_FLOAT16_MIN_EXP == -13 && MUU_FLOAT16_MIN_10_EXP == -4  \
+	 && MUU_FLOAT16_MAX_EXP == 16 && MUU_FLOAT16_MAX_10_EXP == 4)
+	#define MUU_FLOAT16_LIMITS_IEEE754 1
+#else
+	#define MUU_FLOAT16_LIMITS_IEEE754 0
+#endif
+
+#if MUU_CLANG // >= 15
+	/*
+		_Float16 is currently only supported on the following targets,
+		with further targets pending ABI standardization:
+
+			32-bit ARM
+			64-bit ARM (AArch64)
+			AMDGPU
+			SPIR
+			X86 as long as SSE2 is available
+
+		- https://clang.llvm.org/docs/LanguageExtensions.html
+	*/
+	#if (MUU_ARCH_ARM || MUU_ARCH_X86 || MUU_ARCH_AMD64) && MUU_FLOAT16_LIMITS_SET
+		#define MUU_HAS_FLOAT16 1
+		#define MUU_HAS_FP16	1
+	#endif
+#elif MUU_GCC
+	/*
+		The _Float16 type is supported on AArch64 systems by default, on ARM systems when the IEEE format for
+		16-bit floating-point types is selected with -mfp16-format=ieee and,
+		for both C and C++, on x86 systems with SSE2 enabled.
+
+		- https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html
+
+		*** except: the bit about x86 seems incorrect?? ***
+	 */
+	#if (MUU_ARCH_ARM /*|| MUU_ARCH_X86 || MUU_ARCH_AMD64*/) && MUU_FLOAT16_LIMITS_SET
+		#define MUU_HAS_FLOAT16 1
+		#define MUU_HAS_FP16	1
+	#endif
+#endif
+#ifndef MUU_HAS_FLOAT16
+	#define MUU_HAS_FLOAT16 MUU_DOXYGEN
+#endif
+/// \def MUU_HAS_FLOAT16
+/// \brief `1` when the target environment has the 16-bit floating point type _Float16.
+/// \remarks This is completely unrelated to the class muu::half, which is always available.
+
+#ifndef MUU_HAS_FP16
+	#if MUU_CLANG
+		#if MUU_CLANG >= 15 || MUU_ARCH_ARM
+			#define MUU_HAS_FP16 1
+		#endif
+	#elif MUU_GCC
+		#if MUU_ARCH_ARM
+			#define MUU_HAS_FP16 1
+		#endif
+	#endif
+#endif
+#ifndef MUU_HAS_FP16
+	#define MUU_HAS_FP16 MUU_DOXYGEN
+#endif
+/// \def MUU_HAS_FP16
+/// \brief `1` when the target environment has the storage-only 16-bit floating point type __fp16.
+/// \remarks This is completely unrelated to the class muu::half, which is always available.
+
+#if defined(__SIZEOF_FLOAT128__) && defined(__FLT128_MANT_DIG__)
+	#define MUU_HAS_FLOAT128 1
+#else
+	#define MUU_HAS_FLOAT128 MUU_DOXYGEN
+#endif
+/// \def MUU_HAS_FLOAT128
+/// \brief `1` when the target environment has 128-bit floats, otherwise `0`.
+/// \see #muu::float128_t
+
+#if MUU_HAS_FLOAT128 && MUU_HAS_INCLUDE(<quadmath.h>)
+	#define MUU_HAS_QUADMATH 1
+#else
+	#define MUU_HAS_QUADMATH 0
+#endif
 
 //======================================================================================================================
 // ASSERT

@@ -44,6 +44,8 @@ namespace
 
 	template <typename... T>
 	using bounding_boxes = type_list<bounding_box<T>...>;
+
+	using all_bounding_boxes = bounding_boxes<NON_FP16_FLOATS>;
 }
 
 namespace muu
@@ -52,7 +54,7 @@ namespace muu
 	inline constexpr bool allow_implicit_bit_cast<::blittable<T>, bounding_box<T>> = true;
 }
 
-BATCHED_TEST_CASE("bounding_box constructors", bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_box constructors", all_bounding_boxes)
 {
 	using aabb = TestType;
 	using T	   = typename aabb::scalar_type;
@@ -194,7 +196,7 @@ BATCHED_TEST_CASE("bounding_box constructors", bounding_boxes<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("bounding_box equality", bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_box equality", all_bounding_boxes)
 {
 	using aabb = TestType;
 	using T	   = typename aabb::scalar_type;
@@ -249,7 +251,7 @@ BATCHED_TEST_CASE("bounding_box equality", bounding_boxes<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("bounding_box zero()", bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_box zero()", all_bounding_boxes)
 {
 	using aabb = TestType;
 	using T	   = typename aabb::scalar_type;
@@ -296,7 +298,7 @@ BATCHED_TEST_CASE("bounding_box zero()", bounding_boxes<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("bounding_box infinity_or_nan()", bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_box infinity_or_nan()", all_bounding_boxes)
 {
 	using aabb = TestType;
 	using T	   = typename aabb::scalar_type;
@@ -349,7 +351,7 @@ BATCHED_TEST_CASE("bounding_box infinity_or_nan()", bounding_boxes<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("bounding_box degenerate()", bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_box degenerate()", all_bounding_boxes)
 {
 	using aabb = TestType;
 	using T	   = typename aabb::scalar_type;
@@ -385,7 +387,7 @@ BATCHED_TEST_CASE("bounding_box degenerate()", bounding_boxes<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("bounding_box intersections", bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_box intersections", all_bounding_boxes)
 {
 	using aabb = TestType;
 	using T	   = typename aabb::scalar_type;
@@ -489,7 +491,7 @@ BATCHED_TEST_CASE("bounding_box intersections", bounding_boxes<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("bounding_box corners", bounding_boxes<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_box corners", all_bounding_boxes)
 {
 	using aabb = TestType;
 	using T	   = typename aabb::scalar_type;

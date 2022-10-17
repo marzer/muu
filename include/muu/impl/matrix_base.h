@@ -215,7 +215,7 @@ namespace muu::impl
 	inline constexpr bool is_floating_point_matrix_ = false;
 	template <template <typename, size_t, size_t> typename Matrix, typename T, size_t R, size_t C>
 	inline constexpr bool is_floating_point_matrix_<Matrix<T, R, C>> = is_matrix_<Matrix<T, R, C>> //
-		&& is_floating_point<T>;
+																	&& is_floating_point<T>;
 
 	// "common matrix" == a matrix which is of a common size (has special constructor overloads)
 	template <typename T>
@@ -260,21 +260,21 @@ namespace muu::impl
 	template <typename T>
 	inline constexpr bool is_2d_rotation_matrix_ = false;
 	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_2d_rotation_matrix_<Matrix<T, 2, 2>> = is_matrix_<Matrix<T, 2, 2>>&& is_floating_point<T>;
+	inline constexpr bool is_2d_rotation_matrix_<Matrix<T, 2, 2>> = is_matrix_<Matrix<T, 2, 2>> && is_floating_point<T>;
 	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_2d_rotation_matrix_<Matrix<T, 2, 3>> = is_matrix_<Matrix<T, 2, 3>>&& is_floating_point<T>;
+	inline constexpr bool is_2d_rotation_matrix_<Matrix<T, 2, 3>> = is_matrix_<Matrix<T, 2, 3>> && is_floating_point<T>;
 	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_2d_rotation_matrix_<Matrix<T, 3, 3>> = is_matrix_<Matrix<T, 3, 3>>&& is_floating_point<T>;
+	inline constexpr bool is_2d_rotation_matrix_<Matrix<T, 3, 3>> = is_matrix_<Matrix<T, 3, 3>> && is_floating_point<T>;
 
 	// "3d rotation matrix" == any 3d transform matrix with floating-point scalars
 	template <typename T>
 	inline constexpr bool is_3d_rotation_matrix_ = false;
 	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_3d_rotation_matrix_<Matrix<T, 3, 3>> = is_matrix_<Matrix<T, 3, 3>>&& is_floating_point<T>;
+	inline constexpr bool is_3d_rotation_matrix_<Matrix<T, 3, 3>> = is_matrix_<Matrix<T, 3, 3>> && is_floating_point<T>;
 	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_3d_rotation_matrix_<Matrix<T, 3, 4>> = is_matrix_<Matrix<T, 3, 4>>&& is_floating_point<T>;
+	inline constexpr bool is_3d_rotation_matrix_<Matrix<T, 3, 4>> = is_matrix_<Matrix<T, 3, 4>> && is_floating_point<T>;
 	template <template <typename, size_t, size_t> typename Matrix, typename T>
-	inline constexpr bool is_3d_rotation_matrix_<Matrix<T, 4, 4>> = is_matrix_<Matrix<T, 4, 4>>&& is_floating_point<T>;
+	inline constexpr bool is_3d_rotation_matrix_<Matrix<T, 4, 4>> = is_matrix_<Matrix<T, 4, 4>> && is_floating_point<T>;
 
 	// "rotation matrix" == a matrix which satisfies is_2d_rotation_matrix_ or is_3d_rotation_matrix_
 	template <typename T>

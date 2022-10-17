@@ -178,10 +178,16 @@
     <ClInclude Include="src\stream_printer.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".circleci\config.yml" />
     <None Include=".clang-format" />
     <None Include=".editorconfig" />
     <None Include=".gitattributes" />
+    <None Include=".github\FUNDING.yml" />
+    <None Include=".github\ISSUE_TEMPLATE\bug_report.md" />
+    <None Include=".github\ISSUE_TEMPLATE\config.yml" />
+    <None Include=".github\ISSUE_TEMPLATE\feature_request.md" />
+    <None Include=".github\pull_request_template.md" />
+    <None Include=".github\workflows\ci.yaml" />
+    <None Include=".github\workflows\gh-pages.yaml" />
     <None Include=".gitignore" />
     <None Include="CODE_OF_CONDUCT.md" />
     <None Include="CONTRIBUTING.md" />

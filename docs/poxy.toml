@@ -2,17 +2,19 @@
 # https://github.com/marzer/poxy
 
 name                = 'muu'
+author              = 'Mark Gillard'
 description         = 'Miscellaneous useful utilities for C++'
 cpp                 = 17
 github              = 'marzer/muu'
 license             = [ 'MIT', 'https://github.com/marzer/muu/blob/master/LICENSE' ]
 show_includes       = true
-generate_tagfile    = true
 logo                = 'images/logo.png'
 favicon             = 'images/favicon.ico'
 extra_files         = [
     'images/banner.png',
     'images/banner-small.png',
+    'images/badge-gitter.svg',
+    'images/badge-sponsor.svg',
 ]
 
 
@@ -49,13 +51,6 @@ types = [
     'thing_index',
 ]
 macros = [ 'MUU_[A-Z0-9_]+?' ]
-string_literals = [ '_uuid' ]
-numeric_literals = [
-    '_sz',
-    '_[kmg]?b',
-    '_[iu](?:8|16|32|64|128)',
-    '_f16',
-]
 
 
 
@@ -77,11 +72,9 @@ numeric_literals = [
     'muu/impl/core_literals.h',
     'muu/impl/core_utils.h'
 ]
-
 'muu/meta.h' = [
     'muu/impl/is_constant_evaluated.h'
 ]
-
 'muu/preprocessor.h' = [
     'muu/impl/preprocessor_for_each.h',
     'muu/impl/preprocessor_for_each_attributes.h',
@@ -92,7 +85,19 @@ numeric_literals = [
 
 
 [badges]
-'CircleCI' = [ 'https://circleci.com/gh/marzer/muu.svg?style=shield', 'https://circleci.com/gh/marzer/muu' ]
+'1. CI'     = [
+    'https://github.com/marzer/muu/actions/workflows/ci.yaml/badge.svg?branch=master',
+    'https://github.com/marzer/muu/actions/workflows/ci.yaml'
+]
+'2. Sponsor'        = [
+    'badge-sponsor.svg',
+    'https://github.com/sponsors/marzer'
+ ]
+'3. Gitter'        = [
+    'badge-gitter.svg',
+    'https://gitter.im/marzer/muu'
+ ]
+
 
 
 

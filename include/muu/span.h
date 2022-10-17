@@ -92,8 +92,9 @@ namespace muu
 		};
 
 		template <typename From, typename To>
-		inline constexpr bool is_qualifier_conversion_only = std::is_same_v<remove_cvref<From>, remove_cvref<To>>&&
-			is_qualifier_compatible<std::remove_reference_t<From>, std::remove_reference_t<To>>::value;
+		inline constexpr bool is_qualifier_conversion_only =
+			std::is_same_v<remove_cvref<From>, remove_cvref<To>>
+			&& is_qualifier_compatible<std::remove_reference_t<From>, std::remove_reference_t<To>>::value;
 
 		template <typename T, size_t Extent>
 		inline constexpr size_t as_bytes_extent = Extent == dynamic_extent ? dynamic_extent : (sizeof(T) * Extent);

@@ -342,7 +342,8 @@ namespace muu
 		}
 
 		template <auto N>
-		inline constexpr auto type_name_int_to_str = []() noexcept {
+		inline constexpr auto type_name_int_to_str = []() noexcept
+		{
 			using T = decltype(N);
 			static_string<char, type_name_int_to_str_length(N)> str{};
 
@@ -490,9 +491,8 @@ namespace muu
 			static constexpr std::string_view base =
 				type_name_trim_right_from_last(type_name_source_string<T<U, N...>>(), '<');
 
-			static constexpr auto value = static_string<char, base.length()>{ base } + '<'
-										+ type_name<U> + static_string{ ", " } + type_name_nttp_list_<N...>::value
-										+ '>';
+			static constexpr auto value = static_string<char, base.length()>{ base } + '<' + type_name<U>
+										+ static_string{ ", " } + type_name_nttp_list_<N...>::value + '>';
 		};
 
 		// two types then one or more NTTPs
@@ -503,9 +503,8 @@ namespace muu
 			static constexpr std::string_view base =
 				type_name_trim_right_from_last(type_name_source_string<T<U0, U1, N...>>(), '<');
 
-			static constexpr auto value = static_string<char, base.length()>{ base } + '<'
-										+ type_name_list<U0, U1> + static_string{ ", " }
-										+ type_name_nttp_list_<N...>::value + '>';
+			static constexpr auto value = static_string<char, base.length()>{ base } + '<' + type_name_list<U0, U1>
+										+ static_string{ ", " } + type_name_nttp_list_<N...>::value + '>';
 		};
 
 		// three types then one or more NTTPs
@@ -520,9 +519,8 @@ namespace muu
 			static constexpr std::string_view base =
 				type_name_trim_right_from_last(type_name_source_string<T<U0, U1, U2, N...>>(), '<');
 
-			static constexpr auto value = static_string<char, base.length()>{ base } + '<'
-										+ type_name_list<U0, U1, U2> + static_string{ ", " }
-										+ type_name_nttp_list_<N...>::value + '>';
+			static constexpr auto value = static_string<char, base.length()>{ base } + '<' + type_name_list<U0, U1, U2>
+										+ static_string{ ", " } + type_name_nttp_list_<N...>::value + '>';
 		};
 
 		// free/static functions

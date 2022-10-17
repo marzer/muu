@@ -21,11 +21,7 @@ MUU_PRAGMA_MSVC(warning(disable : 26495)) // core guidelines: uninitialized memb
 /// \cond
 namespace muu::impl
 {
-#ifdef __cpp_lib_hardware_interference_size
-	inline constexpr size_t thread_pool_alignment = max(std::hardware_destructive_interference_size, 64_sz);
-#else
 	inline constexpr size_t thread_pool_alignment = 64;
-#endif
 
 	/*
 		All of the following is a combination of type-erasure, devirtualization and small function optimization,
@@ -211,30 +207,31 @@ namespace muu::impl
 	struct thread_pool_task_store_ok
 		: std::bool_constant<
 
-			// not a function pointer or some other weird junk
-			(std::is_class_v<BareT> || std::is_union_v<BareT>)
+			  // not a function pointer or some other weird junk
+			  (std::is_class_v<BareT> || std::is_union_v<BareT>)
 
-			// small enough to entirely fit in a task buffer
-			&& ((sizeof(BareT) + StoragePenalty) <= thread_pool_task::buffer_capacity)
+			  // small enough to entirely fit in a task buffer
+			  &&((sizeof(BareT) + StoragePenalty) <= thread_pool_task::buffer_capacity)
 
-			// alignment compatible with task buffers
-			&& (alignof(BareT) <= thread_pool_alignment)
+			  // alignment compatible with task buffers
+			  && (alignof(BareT) <= thread_pool_alignment)
 
-			// nothrow-destructible
-			&& std::is_nothrow_destructible_v<BareT>
+			  // nothrow-destructible
+			  && std::is_nothrow_destructible_v<BareT>
 
-			// can actually be moved or copied into storage
-			&& (std::is_trivially_copyable_v<BareT> || (
+			  // can actually be moved or copied into storage
+			  && (std::is_trivially_copyable_v<BareT>
+				  || (
 
-				// initial move into storage
-				(std::is_nothrow_constructible_v<BareT, T> || (std::is_nothrow_default_constructible_v<BareT> && std::is_nothrow_assignable_v<BareT&, T>))
+					  // initial move into storage
+					  (std::is_nothrow_constructible_v<BareT, T>
+					   || (std::is_nothrow_default_constructible_v<BareT> && std::is_nothrow_assignable_v<BareT&, T>))
 
-				// move or copy from queue -> local scope during invocation
-				&& (std::is_nothrow_move_constructible_v<BareT>
-					|| std::is_nothrow_copy_constructible_v<BareT>
-					|| (std::is_nothrow_default_constructible_v<BareT> && (std::is_nothrow_move_assignable_v<BareT> || std::is_nothrow_copy_assignable_v<BareT>)))
-			))
-		>
+					  // move or copy from queue -> local scope during invocation
+					  && (std::is_nothrow_move_constructible_v<BareT> || std::is_nothrow_copy_constructible_v<BareT>
+						  || (std::is_nothrow_default_constructible_v<BareT>
+							  && (std::is_nothrow_move_assignable_v<BareT>
+								  || std::is_nothrow_copy_assignable_v<BareT>)))))>
 	{};
 
 	template <typename T>

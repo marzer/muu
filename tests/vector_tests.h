@@ -1087,6 +1087,10 @@ BATCHED_TEST_CASE("vector normalization", vectors<ALL_FLOATS>)
 	using T		   = typename vector_t::scalar_type;
 	TEST_INFO("vector<"sv << nameof<T> << ", "sv << vector_t::dimensions << ">"sv);
 
+	auto epsilon = default_epsilon<T>;
+	if constexpr (impl::is_small_float_<T>)
+		epsilon *= T{ 10 };
+
 	RANDOM_ITERATIONS
 	{
 		const vector_t x{ random_array<T, vector_t::dimensions>(2, 10) };
@@ -1099,7 +1103,7 @@ BATCHED_TEST_CASE("vector normalization", vectors<ALL_FLOATS>)
 			vector_t vec{ x };
 			vec.normalize();
 			CHECK(vec.normalized());
-			CHECK(vec.length() == approx(T{ 1 }));
+			CHECK_APPROX_EQUAL_EPS(vec.length(), T{ 1 }, epsilon);
 		}
 
 		{
@@ -1107,7 +1111,7 @@ BATCHED_TEST_CASE("vector normalization", vectors<ALL_FLOATS>)
 
 			const auto vec = vector_t::normalize(x);
 			CHECK(vec.normalized());
-			CHECK(vec.length() == approx(T{ 1 }));
+			CHECK_APPROX_EQUAL_EPS(vec.length(), T{ 1 }, epsilon);
 		}
 
 		{
@@ -1115,7 +1119,7 @@ BATCHED_TEST_CASE("vector normalization", vectors<ALL_FLOATS>)
 
 			const auto vec = muu::normalize(x);
 			CHECK(vec.normalized());
-			CHECK(vec.length() == approx(T{ 1 }));
+			CHECK_APPROX_EQUAL_EPS(vec.length(), T{ 1 }, epsilon);
 		}
 	}
 }

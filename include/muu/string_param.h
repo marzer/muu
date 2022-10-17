@@ -38,17 +38,16 @@ namespace muu
 		inline constexpr bool is_string_or_string_view = is_string_or_string_view_<remove_cvref<T>>::value;
 
 		template <typename T>
-		inline constexpr bool is_string_view_ish = !is_string_or_string_view<T>
-			&& !std::is_pointer_v<T>
-			&& is_convertible_to_any<T,
-				std::string_view,
-				std::wstring_view,
-				std::u16string_view,
-				std::u32string_view
+		inline constexpr bool is_string_view_ish = !is_string_or_string_view<T> //
+												&& !std::is_pointer_v<T>
+												&& is_convertible_to_any<T,
 #if MUU_HAS_CHAR8_STRINGS
-				, std::u8string_view
+																		 std::u8string_view,
 #endif
-			>;
+																		 std::string_view,
+																		 std::wstring_view,
+																		 std::u16string_view,
+																		 std::u32string_view>;
 	}
 	/// \endcond
 

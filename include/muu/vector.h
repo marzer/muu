@@ -3040,7 +3040,8 @@ namespace muu
 			/// \brief	A unit-length vector representing the principal axis of the given dimension.
 			template <size_t Dimension>
 			static constexpr vector<Scalar, Dimensions> axis = POXY_IMPLEMENTATION_DETAIL( //
-				[](auto dim_idx) constexpr noexcept {
+				[](auto dim_idx) constexpr noexcept
+				{
 					constexpr auto dim = remove_cvref<decltype(dim_idx)>::value;
 					static_assert(dim < Dimensions, "Dimension index out of range");
 

@@ -69,10 +69,6 @@ namespace muu::impl
 	MUU_API
 	void MUU_CALLCONV print_vector(std::ostream& stream, const _Float16*, size_t);
 #endif
-#if MUU_HAS_FP16
-	MUU_API
-	void MUU_CALLCONV print_vector(std::ostream& stream, const __fp16*, size_t);
-#endif
 #if MUU_HAS_FLOAT128
 	MUU_API
 	void MUU_CALLCONV print_vector(std::ostream& stream, const float128_t*, size_t);
@@ -115,10 +111,6 @@ namespace muu::impl
 #if MUU_HAS_FLOAT16
 	MUU_API
 	void MUU_CALLCONV print_vector(std::wostream& stream, const _Float16*, size_t);
-#endif
-#if MUU_HAS_FP16
-	MUU_API
-	void MUU_CALLCONV print_vector(std::wostream& stream, const __fp16*, size_t);
 #endif
 #if MUU_HAS_FLOAT128
 	MUU_API
@@ -163,10 +155,6 @@ namespace muu::impl
 	MUU_API
 	void MUU_CALLCONV print_matrix(std::ostream& stream, const _Float16*, size_t, size_t);
 #endif
-#if MUU_HAS_FP16
-	MUU_API
-	void MUU_CALLCONV print_matrix(std::ostream& stream, const __fp16*, size_t, size_t);
-#endif
 #if MUU_HAS_FLOAT128
 	MUU_API
 	void MUU_CALLCONV print_matrix(std::ostream& stream, const float128_t*, size_t, size_t);
@@ -210,10 +198,6 @@ namespace muu::impl
 	MUU_API
 	void MUU_CALLCONV print_matrix(std::wostream& stream, const _Float16*, size_t, size_t);
 #endif
-#if MUU_HAS_FP16
-	MUU_API
-	void MUU_CALLCONV print_matrix(std::wostream& stream, const __fp16*, size_t, size_t);
-#endif
 #if MUU_HAS_FLOAT128
 	MUU_API
 	void MUU_CALLCONV print_matrix(std::wostream& stream, const float128_t*, size_t, size_t);
@@ -242,10 +226,6 @@ namespace muu::impl
 #if MUU_HAS_FLOAT16
 	MUU_API
 	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<_Float16>*, size_t);
-#endif
-#if MUU_HAS_FP16
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::ostream&, const compound_vector_elem<__fp16>*, size_t);
 #endif
 #if MUU_HAS_FLOAT128
 	MUU_API
@@ -293,10 +273,6 @@ namespace muu::impl
 #if MUU_HAS_FLOAT16
 	MUU_API
 	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<_Float16>*, size_t);
-#endif
-#if MUU_HAS_FP16
-	MUU_API
-	void MUU_CALLCONV print_compound_vector(std::wostream&, const compound_vector_elem<__fp16>*, size_t);
 #endif
 #if MUU_HAS_FLOAT128
 	MUU_API

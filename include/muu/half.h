@@ -11,10 +11,8 @@
 #include "impl/std_iosfwd.h"
 
 // see if we can just wrap a 'real' fp16 type (better codegen while still being binary-compatible)
-#if MUU_HAS_FLOAT16
+#if MUU_HAS_FLOAT16 && MUU_FLOAT16_LIMITS_IEEE754
 	#define MUU_HALF_IMPL_TYPE _Float16
-#elif MUU_HAS_FP16
-	#define MUU_HALF_IMPL_TYPE __fp16
 #endif
 #ifdef MUU_HALF_IMPL_TYPE
 	#define MUU_HALF_EMULATED		0
@@ -103,7 +101,7 @@ namespace muu
 
 	/// \endcond
 
-	/// \brief	A 16-bit "half-precision" floating point type.
+	/// \brief	A 16-bit "half-precision" IEEE754 floating point type.
 	/// \ingroup core
 	///
 	/// \details This type is equipped with the full set of operators you'd expect from a float type,
@@ -226,16 +224,9 @@ namespace muu
 #endif
 #undef HALF_EXPLICIT_CONSTRUCTOR
 
-#if MUU_HAS_FP16
-		/* implicit */
-		constexpr half(__fp16 val) noexcept : impl_{ static_cast<impl_type>(val) }
-		{
-			static_assert(!std::is_same_v<impl_type, uint16_t>);
-		}
-#endif
-
 #if MUU_HAS_FLOAT16
-		explicit constexpr half(_Float16 val) noexcept : impl_{ static_cast<impl_type>(val) }
+		explicit constexpr half(_Float16 val) noexcept //
+			: impl_{ static_cast<impl_type>(val) }
 		{
 			static_assert(!std::is_same_v<impl_type, uint16_t>);
 		}
@@ -254,14 +245,6 @@ namespace muu
 			return static_cast<bool>(impl_);
 #endif
 		}
-
-#if MUU_HAS_FP16
-		MUU_PURE_INLINE_GETTER
-		explicit constexpr operator __fp16() const noexcept
-		{
-			return static_cast<__fp16>(impl_);
-		}
-#endif
 
 #if MUU_HAS_FLOAT16
 		MUU_PURE_INLINE_GETTER
@@ -410,9 +393,6 @@ namespace muu
 	func(bool, input_type, >);                                                                                         \
 	func(bool, input_type, >=)
 
-#if MUU_HAS_FP16
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, __fp16);
-#endif
 #if MUU_HAS_FLOAT16
 		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP, _Float16);
 #endif
@@ -473,9 +453,6 @@ namespace muu
 	func(return_type, input_type, *);                                                                                  \
 	func(return_type, input_type, /)
 
-#if MUU_HAS_FP16
-		HALF_BINARY_OPS(HALF_CONVERTING_BINARY_OP, half, __fp16);
-#endif
 #if MUU_HAS_FLOAT16
 		HALF_BINARY_OPS(HALF_PROMOTING_BINARY_OP, _Float16, _Float16);
 #endif
@@ -604,9 +581,6 @@ namespace muu
 	func(input_type, *);                                                                                               \
 	func(input_type, /)
 
-#if MUU_HAS_FP16
-		HALF_BINARY_OPS(HALF_CONVERTING_ASSIGN_OP, __fp16);
-#endif
 #if MUU_HAS_FLOAT16
 		HALF_BINARY_OPS(HALF_CASTING_ASSIGN_OP, _Float16);
 #endif
@@ -835,9 +809,6 @@ namespace muu
 			static constexpr half three_over_five		 = half::from_bits(0b0'01110'0011001101_u16);
 			static constexpr half sqrt_three			 = half::from_bits(0b0'01111'1011101110_u16);
 			static constexpr half one_over_sqrt_three	 = half::from_bits(0b0'01110'0010011111_u16);
-			static constexpr half one_over_ten			 = half::from_bits(0b0'01011'1001100111_u16);
-			static constexpr half one_over_one_hundred	 = half::from_bits(0b0'01000'0100011111_u16);
-			static constexpr half one_over_one_thousand	 = half::from_bits(0b0'00101'0000011001_u16);
 			static constexpr half pi					 = half::from_bits(0b0'10000'1001001001_u16);
 			static constexpr half one_over_pi			 = half::from_bits(0b0'01101'0100011000_u16);
 			static constexpr half pi_over_two			 = half::from_bits(0b0'01111'1001001001_u16);
@@ -878,6 +849,9 @@ namespace muu
 			static constexpr half phi_over_six			 = half::from_bits(0b0'01101'0001010001_u16);
 			static constexpr half sqrt_phi				 = half::from_bits(0b0'01111'0100010111_u16);
 			static constexpr half one_over_sqrt_phi		 = half::from_bits(0b0'01110'1001001010_u16);
+			static constexpr half one_over_ten			 = half::from_bits(0b0'01011'1001100111_u16);
+			static constexpr half one_over_one_hundred	 = half::from_bits(0b0'01000'0100011111_u16);
+			static constexpr half one_over_one_thousand	 = half::from_bits(0b0'00101'0000011001_u16);
 			static constexpr half degrees_to_radians	 = half::from_bits(0b0'01001'0001111000_u16);
 			static constexpr half radians_to_degrees	 = half::from_bits(0b0'10100'1100101010_u16);
 #else
@@ -933,6 +907,9 @@ namespace muu
 			static constexpr half phi_over_six			 = half{ impl_type::phi_over_six };
 			static constexpr half sqrt_phi				 = half{ impl_type::sqrt_phi };
 			static constexpr half one_over_sqrt_phi		 = half{ impl_type::one_over_sqrt_phi };
+			static constexpr half one_over_ten			 = half{ impl_type::one_over_ten };
+			static constexpr half one_over_one_hundred	 = half{ impl_type::one_over_one_hundred };
+			static constexpr half one_over_one_thousand	 = half{ impl_type::one_over_one_thousand };
 			static constexpr half degrees_to_radians	 = half{ impl_type::degrees_to_radians };
 			static constexpr half radians_to_degrees	 = half{ impl_type::radians_to_degrees };
 #endif
@@ -1005,7 +982,7 @@ namespace muu
 		return half::from_bits(x.impl_ & 0b0111111111111111_u16);
 
 #else
-		return muu::abs(x);
+		return half{ muu::abs(x.impl_) };
 #endif
 	}
 
@@ -1372,12 +1349,12 @@ namespace std
 		static constexpr auto is_bounded		= true;
 		static constexpr auto is_modulo			= false;
 		static constexpr auto radix				= 2;
-		static constexpr auto digits			= 11;  // equivalent to __FLT16_MANT_DIG__
-		static constexpr auto digits10			= 3;   // equivalent to __FLT16_DIG__
-		static constexpr auto min_exponent		= -13; // equivalent to __FLT16_MIN_EXP__
-		static constexpr auto min_exponent10	= -4;  // equivalent to __FLT16_MIN_10_EXP__
-		static constexpr auto max_exponent		= 16;  // equivalent to __FLT16_MAX_EXP__
-		static constexpr auto max_exponent10	= 4;   // equivalent to __FLT16_MAX_10_EXP__
+		static constexpr auto digits			= 11;  // IEE754-compliant FLT16_MANT_DIG
+		static constexpr auto digits10			= 3;   // IEE754-compliant FLT16_DIG
+		static constexpr auto min_exponent		= -13; // IEE754-compliant FLT16_MIN_EXP
+		static constexpr auto min_exponent10	= -4;  // IEE754-compliant FLT16_MIN_10_EXP
+		static constexpr auto max_exponent		= 16;  // IEE754-compliant FLT16_MAX_EXP
+		static constexpr auto max_exponent10	= 4;   // IEE754-compliant FLT16_MAX_10_EXP
 		static constexpr auto max_digits10		= 5;
 		static constexpr auto traps				= false;
 		static constexpr auto tinyness_before	= false;

@@ -200,17 +200,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns true if a __fp16 is infinity or NaN.
-	MUU_CONST_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL infinity_or_nan(__fp16 x) noexcept
-	{
-		return impl::infinity_or_nan_(x);
-	}
-
-	#endif
-
 	/// \brief	Returns true if an arithmetic value is infinity or NaN.
 	MUU_CONSTRAINED_TEMPLATE(is_arithmetic<T>, typename T)
 	MUU_CONST_INLINE_GETTER
@@ -402,17 +391,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the absolute value of an __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL abs(__fp16 x) noexcept
-	{
-		return impl::abs_(x);
-	}
-
-	#endif
-
 	/// \brief	Returns the absolute value of a signed char.
 	MUU_CONST_INLINE_GETTER
 	constexpr signed char MUU_VECTORCALL abs(signed char x) noexcept
@@ -526,19 +504,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns true if two __fp16 are approximately equal.
-	MUU_CONST_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL approx_equal(__fp16 a, __fp16 b, __fp16 epsilon = default_epsilon<__fp16>) noexcept
-	{
-		MUU_ASSUME(epsilon >= __fp16{});
-
-		return abs(b - a) < epsilon;
-	}
-
-	#endif
-
 	/// \brief	Returns true if two scalar values are approximately equal.
 	/// \remark This reduces to `a == b` for non-float types.
 	MUU_CONSTRAINED_TEMPLATE((std::is_scalar_v<T> && std::is_scalar_v<U>), typename T, typename U)
@@ -604,17 +569,6 @@ namespace muu
 	constexpr bool MUU_VECTORCALL approx_zero(_Float16 x, _Float16 epsilon = default_epsilon<_Float16>) noexcept
 	{
 		return approx_equal(x, _Float16{}, epsilon);
-	}
-
-	#endif
-
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns true if a __fp16 is approximately equal to zero.
-	MUU_CONST_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL approx_zero(__fp16 x, __fp16 epsilon = default_epsilon<__fp16>) noexcept
-	{
-		return approx_equal(x, __fp16{}, epsilon);
 	}
 
 	#endif
@@ -759,17 +713,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the floor of a __fp16 value.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL floor(__fp16 x) noexcept
-	{
-		return impl::floor_(x);
-	}
-
-	#endif
-
 	/// \brief	Returns the floor of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_CONST_INLINE_GETTER
@@ -904,17 +847,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the ceiling of a __fp16 value.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL ceil(__fp16 x) noexcept
-	{
-		return impl::ceil_(x);
-	}
-
-	#endif
-
 	/// \brief	Returns the ceiling of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_CONST_INLINE_GETTER
@@ -1027,17 +959,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the square-root of a __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 consteval_sqrt(__fp16 x) noexcept
-	{
-		return impl::sqrt_naive(x);
-	}
-
-	#endif
-
 	/// \brief	Returns the square-root of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_CONST_INLINE_GETTER
@@ -1135,17 +1056,6 @@ namespace muu
 	/// \brief	Returns the square-root of a _Float16.
 	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL sqrt(_Float16 x) noexcept
-	{
-		return impl::sqrt_(x);
-	}
-
-	#endif
-
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the square-root of a __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL sqrt(__fp16 x) noexcept
 	{
 		return impl::sqrt_(x);
 	}
@@ -1308,17 +1218,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the cosine of a __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL cos(__fp16 x) noexcept
-	{
-		return impl::cos_(x);
-	}
-
-	#endif
-
 	/// \brief	Returns the cosine of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_CONST_INLINE_GETTER
@@ -1470,17 +1369,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the sine of a __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL sin(__fp16 x) noexcept
-	{
-		return impl::sin_(x);
-	}
-
-	#endif
-
 	/// \brief	Returns the sine of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_CONST_INLINE_GETTER
@@ -1623,17 +1511,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the tangent of a __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL tan(__fp16 x) noexcept
-	{
-		return impl::tan_(x);
-	}
-
-	#endif
-
 	/// \brief	Returns the tangent of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_CONST_INLINE_GETTER
@@ -1765,17 +1642,6 @@ namespace muu
 	/// \brief	Returns the arc cosine of a _Float16.
 	MUU_CONST_INLINE_GETTER
 	constexpr _Float16 MUU_VECTORCALL acos(_Float16 x) noexcept
-	{
-		return impl::acos_(x);
-	}
-
-	#endif
-
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the arc cosine of a __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL acos(__fp16 x) noexcept
 	{
 		return impl::acos_(x);
 	}
@@ -1932,17 +1798,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the arc sine of a __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL asin(__fp16 x) noexcept
-	{
-		return impl::asin_(x);
-	}
-
-	#endif
-
 	/// \brief	Returns the arc sine of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_CONST_INLINE_GETTER
@@ -2092,17 +1947,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the arc tangent of a __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL atan(__fp16 x) noexcept
-	{
-		return impl::atan_(x);
-	}
-
-	#endif
-
 	/// \brief	Returns the arc tangent of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_CONST_INLINE_GETTER
@@ -2244,17 +2088,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns the arc tangent of a __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL atan2(__fp16 y, __fp16 x) noexcept
-	{
-		return impl::atan2_(y, x);
-	}
-
-	#endif
-
 	/// \brief	Returns the arc tangent of two arithmetic values.
 	///
 	/// \details Integer arguments are promoted to double.
@@ -2319,18 +2152,6 @@ namespace muu
 	constexpr _Float16 MUU_VECTORCALL lerp(_Float16 start, _Float16 finish, _Float16 alpha) noexcept
 	{
 		return static_cast<_Float16>(
-			lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
-	}
-
-	#endif
-
-	#if MUU_HAS_FP16
-
-	/// \brief	Returns a linear interpolation between two __fp16s.
-	MUU_CONST_GETTER
-	constexpr __fp16 MUU_VECTORCALL lerp(__fp16 start, __fp16 finish, __fp16 alpha) noexcept
-	{
-		return static_cast<__fp16>(
 			lerp(static_cast<float>(start), static_cast<float>(finish), static_cast<float>(alpha)));
 	}
 
@@ -2418,17 +2239,6 @@ namespace muu
 
 	#endif
 
-	#if MUU_HAS_FP16
-
-	/// \brief	Normalizes the angle value of a __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL normalize_angle(__fp16 x) noexcept
-	{
-		return static_cast<__fp16>(impl::normalize_angle_(static_cast<float>(x)));
-	}
-
-	#endif
-
 	/// \brief	Normalizes the angle of an integer.
 	MUU_CONSTRAINED_TEMPLATE(is_integer<T>, typename T)
 	MUU_CONST_INLINE_GETTER
@@ -2505,17 +2315,6 @@ namespace muu
 	constexpr _Float16 MUU_VECTORCALL normalize_angle_signed(_Float16 x) noexcept
 	{
 		return static_cast<_Float16>(impl::normalize_angle_signed_(static_cast<float>(x)));
-	}
-
-	#endif
-
-	#if MUU_HAS_FP16
-
-	/// \brief	Normalizes the angle value of a __fp16.
-	MUU_CONST_INLINE_GETTER
-	constexpr __fp16 MUU_VECTORCALL normalize_angle_signed(__fp16 x) noexcept
-	{
-		return static_cast<__fp16>(impl::normalize_angle_signed_(static_cast<float>(x)));
 	}
 
 	#endif

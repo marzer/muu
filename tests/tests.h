@@ -233,11 +233,7 @@ MUU_ENABLE_WARNINGS;
 	#define STANDARD_FLOATS float, double, long double
 #endif
 
-#if MUU_HAS_FP16
-	#define SMALL_FLOATS_1 , __fp16
-#else
-	#define SMALL_FLOATS_1
-#endif
+#define SMALL_FLOATS_1
 
 #if MUU_HAS_FLOAT16
 	#define SMALL_FLOATS_2 , _Float16
@@ -261,11 +257,7 @@ MUU_ENABLE_WARNINGS;
 
 // todo: refactor this crap out
 
-#if MUU_HAS_FP16
-	#define FOREACH_FLOAT_VARARGS_1(func, ...) func(__fp16, __VA_ARGS__)
-#else
-	#define FOREACH_FLOAT_VARARGS_1(func, ...)
-#endif
+#define FOREACH_FLOAT_VARARGS_1(func, ...)
 
 #if MUU_HAS_FLOAT16
 	#define FOREACH_FLOAT_VARARGS_2(func, ...) func(_Float16, __VA_ARGS__)
@@ -539,3 +531,29 @@ namespace muu
 
 #undef EXTERN_ARITHMETIC_TEMPLATES
 #undef EXTERN_FLOAT_TEMPLATES
+
+#if MUU_CPP >= 20 && MUU_CLANG && MUU_CLANG <= 14 // https://github.com/llvm/llvm-project/issues/55560
+
+	#define CLANG_LIBSTDCPP_STRINGS_LINK_ERROR_WORKAROUND                                                              \
+		namespace                                                                                                      \
+		{                                                                                                              \
+			[[maybe_unused]] static std::u16string clang_string_workaround_1(const char16_t* a, const char16_t* b)     \
+			{                                                                                                          \
+				return { a, b };                                                                                       \
+			}                                                                                                          \
+			[[maybe_unused]] static std::u32string clang_string_workaround_2(const char32_t* a, const char32_t* b)     \
+			{                                                                                                          \
+				return { a, b };                                                                                       \
+			}                                                                                                          \
+			[[maybe_unused]] static std::u8string clang_string_workaround_3(const char8_t* a, const char8_t* b)        \
+			{                                                                                                          \
+				return { a, b };                                                                                       \
+			}                                                                                                          \
+		}                                                                                                              \
+		static_assert(true)
+
+#else
+
+	#define CLANG_LIBSTDCPP_STRINGS_LINK_ERROR_WORKAROUND static_assert(true)
+
+#endif

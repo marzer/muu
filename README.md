@@ -1,10 +1,12 @@
 # ⚠&#xFE0F; this project is still in development and is not even remotely release-ready; please do not use it yet ⚠&#xFE0F;
 
 ![banner](docs/images/banner-small.png)  
+[![Releases](https://img.shields.io/github/release/marzer/muu.svg)](https://github.com/marzer/muu/releases)
 [![C++](https://img.shields.io/badge/c%2B%2B-17%2C%2020-informational)][cpp_compilers]
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![Releases](https://img.shields.io/github/release/marzer/muu.svg)](https://github.com/marzer/muu/releases)
-[![CircleCI](https://circleci.com/gh/marzer/muu.svg?style=shield)](https://circleci.com/gh/marzer/muu)
+[![ci](https://github.com/marzer/muu/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/marzer/muu/actions/workflows/ci.yaml)
+[![Sponsor](docs/images/badge-sponsor.svg)](https://github.com/sponsors/marzer)
+[![Gitter](docs/images/badge-gitter.svg)](https://gitter.im/marzer/muu)
  ====
 
 <br>

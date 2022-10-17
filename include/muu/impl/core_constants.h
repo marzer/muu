@@ -130,16 +130,6 @@ namespace muu
 
 		/// \cond
 
-#if MUU_HAS_FP16
-		template <>
-		struct floating_point_traits<__fp16>
-		{
-			static constexpr int significand_digits = 11;
-			static constexpr int decimal_digits		= 3;
-			static constexpr __fp16 default_epsilon = static_cast<__fp16>(0.001);
-		};
-#endif
-
 #if MUU_HAS_FLOAT16
 		template <>
 		struct floating_point_traits<_Float16>
@@ -497,13 +487,6 @@ namespace muu
 	template <>
 	struct constants<long double> : impl::floating_point_constants<long double>
 	{};
-
-#if MUU_HAS_FP16
-	/// \brief	`__fp16` constants.
-	template <>
-	struct constants<__fp16> : impl::floating_point_constants<__fp16>
-	{};
-#endif
 
 #if MUU_HAS_FLOAT16
 	/// \brief	`_Float16` constants.

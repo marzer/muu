@@ -289,6 +289,10 @@ BATCHED_TEST_CASE("quaternion normalization", all_quaternions)
 	using T		 = typename quat_t::scalar_type;
 	TEST_INFO("quaternion<"sv << nameof<T> << ">");
 
+	auto epsilon = default_epsilon<T>;
+	if constexpr (impl::is_small_float_<T>)
+		epsilon *= T{ 10 };
+
 	const quat_t q{ random<T>(2, 10), random<T>(2, 10), random<T>(2, 10), random<T>(2, 10) };
 
 	BATCHED_SECTION("quaternion.normalize()")
@@ -298,7 +302,7 @@ BATCHED_TEST_CASE("quaternion normalization", all_quaternions)
 		CHECK(q2.normalized());
 		const vector<T, 4> v{ q2.s, q2.v.x, q2.v.y, q2.v.z };
 		CHECK(v.normalized());
-		CHECK(v.length() == approx(T{ 1 }));
+		CHECK_APPROX_EQUAL_EPS(v.length(), T{ 1 }, epsilon);
 	}
 
 	BATCHED_SECTION("quaternion::normalize(quaternion)")
@@ -307,7 +311,7 @@ BATCHED_TEST_CASE("quaternion normalization", all_quaternions)
 		CHECK(q2.normalized());
 		const vector<T, 4> v{ q2.s, q2.v.x, q2.v.y, q2.v.z };
 		CHECK(v.normalized());
-		CHECK(v.length() == approx(T{ 1 }));
+		CHECK_APPROX_EQUAL_EPS(v.length(), T{ 1 }, epsilon);
 	}
 
 	BATCHED_SECTION("muu::normalize(quaternion)")
@@ -316,7 +320,7 @@ BATCHED_TEST_CASE("quaternion normalization", all_quaternions)
 		CHECK(q2.normalized());
 		const vector<T, 4> v{ q2.s, q2.v.x, q2.v.y, q2.v.z };
 		CHECK(v.normalized());
-		CHECK(v.length() == approx(T{ 1 }));
+		CHECK_APPROX_EQUAL_EPS(v.length(), T{ 1 }, epsilon);
 	}
 }
 

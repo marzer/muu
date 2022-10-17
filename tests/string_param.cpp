@@ -6,20 +6,22 @@
 #include "tests.h"
 #include "../include/muu/string_param.h"
 
+CLANG_LIBSTDCPP_STRINGS_LINK_ERROR_WORKAROUND;
+
 template <typename T, size_t N>
-static void string_param_test(const T(&str_)[N]) noexcept
+static void string_param_test(const T (&str_)[N]) noexcept
 {
 	// make sure it's a null-terminated string literal
 	static_assert(N >= 1u);
 	CHECK(str_[N - 1u] == T{});
 
-	using string = std::basic_string<T>;
+	using string	  = std::basic_string<T>;
 	using string_view = std::basic_string_view<T>;
 	using char_traits = std::char_traits<T>;
 
 	constexpr auto actual_length = N - 1u;
-	constexpr auto actual_empty = !actual_length;
-	const auto strlen_length = char_traits::length(str_); // different if there's a null in the middle of the string
+	constexpr auto actual_empty	 = !actual_length;
+	const auto strlen_length	 = char_traits::length(str_); // different if there's a null in the middle of the string
 	CHECK(strlen_length <= actual_length);
 
 	INFO(nameof<T>)
@@ -37,7 +39,7 @@ static void string_param_test(const T(&str_)[N]) noexcept
 	{
 		INFO("const string&")
 
-		const auto source = string( str_, actual_length);
+		const auto source = string(str_, actual_length);
 		string_param s{ source };
 		CHECK(s.empty() == actual_empty);
 		CHECK(s.owning() == false);

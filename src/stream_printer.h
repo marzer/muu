@@ -272,13 +272,6 @@ namespace muu
 			print_number(stream, val);
 			return *this;
 		}
-#if MUU_HAS_FP16
-		stream_printer& operator()(__fp16 val)
-		{
-			print_number(stream, val);
-			return *this;
-		}
-#endif
 #if MUU_HAS_FLOAT16
 		stream_printer& operator()(_Float16 val)
 		{
