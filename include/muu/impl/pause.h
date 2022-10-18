@@ -47,3 +47,4 @@ MUU_DISABLE_WARNINGS;
 #endif
 
 MUU_ENABLE_WARNINGS;
+/// \endcond
