@@ -1297,6 +1297,7 @@ help me improve support for your target architecture. Thanks!
 		MUU_PRAGMA_GCC(diagnostic ignored "-Wall")                                                                     \
 		MUU_PRAGMA_GCC(diagnostic ignored "-Wextra")                                                                   \
 		MUU_PRAGMA_GCC(diagnostic ignored "-Wpedantic")                                                                \
+		MUU_PRAGMA_GCC_GE(12, diagnostic ignored "-Winterference-size")                                                \
 		MUU_DISABLE_SWITCH_WARNINGS;                                                                                   \
 		MUU_DISABLE_LIFETIME_WARNINGS;                                                                                 \
 		MUU_DISABLE_ARITHMETIC_WARNINGS;                                                                               \
