@@ -53,7 +53,7 @@ def main():
 	test_project_filters = read_utf8_file_and_strip_bom(test_project_filters_template_path)
 
 	# generate test permutations
-	mode_keys = [ '!!debug', '!x86', 'cpplatest', 'noexcept' ]
+	mode_keys = [ '!!debug', 'cpplatest', 'noexcept' ] #, '!x86', ]
 	modes = [ [], [k for k in mode_keys] ]
 	for n in range(1, len(mode_keys)):
 		for combo in itertools.combinations(mode_keys, n):

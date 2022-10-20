@@ -15,6 +15,11 @@
 				<MuuOutRoot>$(MuuRepoRoot)</MuuOutRoot>
 			</PropertyGroup>
 		</When>
+		<When Condition="'$(SolutionDir)'!=''">
+			<PropertyGroup>
+				<MuuOutRoot>$(SolutionDir)</MuuOutRoot>
+			</PropertyGroup>
+		</When>
 		<Otherwise>
 			<PropertyGroup>
 				<MuuOutRoot>$(ProjectDir)</MuuOutRoot>
@@ -83,7 +88,6 @@
 	</Choose>
 	<PropertyGroup>
 		<MuuConfigurationFolder>$(Configuration)</MuuConfigurationFolder>
-		<MuuBinFolder Condition="'$(MuuExternalDependency_)'=='True'">external\$(MuuBinFolder)</MuuBinFolder>
 		<OutDir>$(MuuOutRoot)$(MuuBinFolder)\win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(MuuConfigurationFolder)_$(ConfigurationType)\</OutDir>
 		<IntDir>$(MuuOutRoot)build\$(ProjectName)_win$(PlatformArchitecture)_vc$(PlatformToolsetVersion)_$(MuuConfigurationFolder)_$(MuuInstructionSet_)_$(ConfigurationType)\</IntDir>
 	</PropertyGroup>
@@ -224,4 +228,3 @@
 	</Target>
 
 </Project>
-
