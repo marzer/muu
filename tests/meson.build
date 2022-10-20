@@ -1,3 +1,8 @@
+# This file is a part of muu and is subject to the the terms of the MIT license.
+# Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
+# See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+# SPDX-License-Identifier: MIT
+
 test_sources = [
 	'main.cpp',
 	'tests.cpp'
@@ -84,25 +89,36 @@ test_sources += [
 	'vector_misc.cpp',
 ]
 
-test_deps = [ muu_dep ]
+test_base_args = []
+test_base_args += internal_args
+test_base_args += compiler.get_supported_arguments('-march=native', '-mfma')
+if is_gcc
+	# precompiled headers fuck up warning pragmas in GCC =/
+	test_base_args += compiler.get_supported_arguments(
+		'-Wno-float-equal',
+		'-Wno-sign-conversion',
+		'-Wno-attributes',
+		'-Wno-shadow',
+		'-Wno-all',
+		'-Wno-extra',
+		'-Wno-pedantic',
+	)
+endif
+
+test_dependencies = [ muu_dep ]
+test_dependencies += internal_dependencies
 if not get_option('use_vendored_libs')
-	test_deps += dependency('catch2')
+	test_dependencies += dependency('catch2')
 endif
-if compiler_supports_float128
-	test_deps += compiler.find_library('quadmath')
-endif
+
+test_base_overrides = []
+test_base_overrides += internal_overrides
 
 #######################################################################################################################
 # fast math check
 #######################################################################################################################
 
-compiler_supports_fast_math_args = []
-if is_gcc or is_clang
-	compiler_supports_fast_math_args += '-ffast-math'
-	compiler_supports_fast_math_args += '-ffp-contract=fast'
-elif is_msvc or is_icc_cl
-	compiler_supports_fast_math_args += '/fp:fast'
-endif
+compiler_supports_fast_math_args = compiler.get_supported_arguments('-ffast-math', '-ffp-contract=fast', '/fp:fast')
 compiler_supports_fast_math = compiler.links('''
 	#include <cmath>
 	#include <iostream>
@@ -124,22 +140,6 @@ fast_math_modes = [ false, true  ]
 exception_modes = [ true , false  ]
 cpp20_modes     = [ true , false ]
 test_executables = []
-test_base_args = []
-test_base_args += universal_args
-test_base_args += devel_args
-if is_gcc
-	# precompiled headers fuck up warning pragmas in GCC =/
-	test_base_args += [
-		'-Wno-float-equal',
-		'-Wno-sign-conversion',
-		'-Wno-attributes',
-		'-Wno-shadow',
-		'-Wno-all',
-		'-Wno-extra',
-		'-Wno-pedantic',
-	]
-endif
-
 foreach cpp20 : cpp20_modes
 	if cpp20 and not compiler_supports_cpp20
 		continue
@@ -156,11 +156,11 @@ foreach cpp20 : cpp20_modes
 			endif
 
 			test_name = ''
-			test_overrides = []
-			test_overrides += overrides
 			test_args = []
 			test_args += test_base_args
-	
+			test_overrides = []
+			test_overrides += test_base_overrides
+
 			if cpp20
 				test_name = 'cpp20'
 				test_overrides += 'cpp_std=none'
@@ -171,7 +171,7 @@ foreach cpp20 : cpp20_modes
 			else
 				test_name = 'cpp17'
 			endif
-				
+
 			if exceptions
 				test_overrides += 'cpp_eh=default'
 				test_args += '-DSHOULD_HAVE_EXCEPTIONS=1'
@@ -186,7 +186,7 @@ foreach cpp20 : cpp20_modes
 					test_args += '-D_HAS_EXCEPTIONS=0'
 				endif
 			endif
-	
+
 			if fast_math
 				test_name = test_name + '_fastmath'
 				test_args += compiler_supports_fast_math_args
@@ -217,7 +217,7 @@ foreach cpp20 : cpp20_modes
 					test_name,
 					test_sources,
 					cpp_args: test_args,
-					dependencies: test_deps,
+					dependencies: test_dependencies,
 					override_options: test_overrides,
 					cpp_pch : 'pch/gcc_pch.h'
 				)

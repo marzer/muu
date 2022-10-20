@@ -1,76 +1,78 @@
+# This file is a part of muu and is subject to the the terms of the MIT license.
+# Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
+# See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+# SPDX-License-Identifier: MIT
+
 project(
 	'muu',
 	'cpp',
-	version : '0.1.0',
-	meson_version : '>=0.60.0',
 	license : 'MIT',
+	version : '0.1.0',
+	meson_version : '>=0.63.0',
 	default_options : [ # https://mesonbuild.com/Builtin-options.html
 		# core options
 		'buildtype=release',
-		'warning_level=3',
-		'werror=true',
-
+		'default_library=shared',
 		# base options
 		'b_lto=true',
 		'b_ndebug=if-release',
-
 		# compiler options
 		'cpp_std=c++17'
 	]
 )
 
-#######################################################################################################################
-# compiler management and build options
-#######################################################################################################################
+is_devel = get_option('devel')
+is_debug = get_option('debug')
+is_release = not is_debug
+is_pedantic = get_option('pedantic') or is_devel
+is_windows = host_machine.system() == 'windows'
+is_x64 = host_machine.cpu_family() == 'x86_64'
+is_subproject = meson.is_subproject()
 
 compiler = meson.get_compiler('cpp')
-message('target cpu_family: @0@'.format(host_machine.cpu_family()))
-message('target cpu: @0@'.format(host_machine.cpu()))
-message('target system: @0@'.format(host_machine.system()))
-message('target endian: @0@'.format(host_machine.endian()))
-
 is_gcc = compiler.get_id() == 'gcc'
 is_clang = compiler.get_id() == 'clang'
 is_msvc = compiler.get_id() == 'msvc'
 is_icc_cl = compiler.get_id() == 'intel-cl'
 is_icc = is_icc_cl or compiler.get_id() == 'intel'
 is_lld = compiler.get_linker_id() == 'ld.lld'
-is_debug = get_option('debug')
-is_release = not is_debug
-is_pedantic = get_option('pedantic')
-is_windows = host_machine.system() == 'windows'
-is_x64 = host_machine.cpu_family() == 'x86_64'
-is_subproject = meson.is_subproject()
+
 has_exceptions = get_option('cpp_eh') != 'none'
-include_dir = include_directories('include')
-overrides = []
-universal_args = [] # args used in tests, examples, lib, everything
-devel_args = [] # args used in everything *but* the lib
 
-message('is_release: @0@'.format(is_release))
-message('is_windows: @0@'.format(is_windows))
-message('is_x64: @0@'.format(is_x64))
-message('has_exceptions: @0@'.format(has_exceptions))
+#=======================================================================================================================
+# internal_args
+#
+# these are the arguments common internally when compiling the library and tests.
+# *** they are not forwarded to dependents when using this as a submodule. ***
+#=======================================================================================================================
 
-# compiler argument references:
-# msvc: https://docs.microsoft.com/en-us/cpp/build/reference/compiler-options-listed-alphabetically?view=vs-2019
-# intel and intel-cl: https://software.intel.com/content/www/us/en/develop/documentation/cpp-compiler-oneapi-dev-guide-and-reference/top/compiler-reference/compiler-options/alphabetical-list-of-compiler-options.html
-# gcc:
-# clang:
+internal_args = []
 
-# GCC or Clang
-if is_gcc or is_clang
-	devel_args += [ '-march=native', '-mfma' ]
+# internal args on clang
+if is_clang
+	if is_pedantic
+		internal_args += '-Weverything'
+	endif
+	if get_option('time_trace')
+		internal_args += '-ftime-trace'
+	endif
+	internal_args += [
+		'-ferror-limit=5',
+		'-Wno-unused-command-line-argument',
+		'-Wno-c++98-compat',
+		'-Wno-c++98-compat-pedantic',
+		'-Wno-documentation',
+		'-Wno-documentation-unknown-command',
+		'-Wno-switch-enum',
+		'-Wno-covered-switch-default',
+		'-Wno-pch-date-time',
+	]
 endif
 
-# GCC
+# internal args on GCC
 if is_gcc
-	universal_args += [
-		'-fmax-errors=5',
-		'-Wno-init-list-lifetime',
-	]
 	if is_pedantic
-		universal_args += [
+		internal_args += [
 			'-Wcast-align',
 			'-Wcast-qual',
 			'-Wctor-dtor-privacy',
@@ -108,94 +110,77 @@ if is_gcc
 		]
 	endif
 	if is_release and is_pedantic
-		universal_args += [
+		internal_args += [
 			'-Wsuggest-attribute=const',
 			'-Wsuggest-attribute=pure',
 		]
 	endif
-endif
-
-# Clang
-if is_clang
-	if is_pedantic
-		universal_args += '-Weverything'
-	endif
-	universal_args += [
-		'-ferror-limit=5',
-		'-Wno-unused-command-line-argument',
-
-		# flags from here down are disabling stupidly pedantic warnings that only appear with -Weverything
-		'-Wno-c++98-compat',
-		'-Wno-c++98-compat-pedantic',
-		'-Wno-documentation',
-		'-Wno-documentation-unknown-command',
-		'-Wno-switch-enum',
-		'-Wno-covered-switch-default',
-		'-Wno-pch-date-time',
+	internal_args += [
+		'-fmax-errors=5',
+		'-Wno-init-list-lifetime',
 	]
-	if get_option('time_trace')
-		universal_args += ['-ftime-trace']
-	endif
 endif
 
-# MSVC or icc-cl
-if is_msvc or is_icc_cl
-	universal_args += [
+# internal args on MSVC
+if is_msvc
+	internal_args += [
 		'/bigobj',
-		'/fp:except-', # disable floating-point exceptions
 		'/Gy', # function-level linking
 		'/GF', # string pooling
 		'/openmp-',
 		'/permissive-',
-		'/sdl-', 
 		'/utf-8',
 		'/volatile:iso',
 		'/Zc:__cplusplus',
 		'/Zc:inline',
-		'/Zi', # generate debug info (doesn't affect optimization)
+		'/Zc:throwingNew',
+		'/Zc:externConstexpr',
+		'/Zc:preprocessor'
 	]
-	if has_exceptions
-		universal_args += '/Zc:throwingNew'
-	endif
-	if is_release
-		universal_args += [
-			'/GL', # whole program optimization
-			'/Gw', # Optimize Global Data
-			'/Ob3', # aggressive inlining
-			'/Oy', # omit frame pointers
-			'/Oi', # generate intrinsics
-		]
-		add_project_link_arguments('/ltcg', language: 'cpp')
-	endif
 	if is_pedantic
-		universal_args += '/W4'
+		internal_args += '/W4'
 	endif
 endif
 
-# windows stuff
+# internal args when targeting windows
 if is_windows
-	universal_args += has_exceptions ? '-D_HAS_EXCEPTIONS=1' : '-D_HAS_EXCEPTIONS=0'
-elif is_release
-	overrides += 'strip=true'
+	internal_args += '-D_CRT_SECURE_NO_WARNINGS=1'
 endif
 
-# LTO
+#=======================================================================================================================
+# internal_dependencies
+#
+# these are the dependencies common internally when compiling the library and tests.
+# *** they are not forwarded to dependents when using this as a submodule. ***
+#=======================================================================================================================
+
+internal_dependencies = []
+
+if not is_windows
+	internal_dependencies += dependency('threads')
+endif
+
+#=======================================================================================================================
+# internal_overrides
+#
+# these are the dependencies common internally when compiling the library and tests.
+# *** they are not forwarded to dependents when using this as a submodule. ***
+#=======================================================================================================================
+
+internal_overrides = []
+
 if is_lld or is_debug or (is_windows and is_clang)
-	overrides += 'b_lto=false'
+	internal_overrides += 'b_lto=false'
+endif
+if is_pedantic
+	internal_overrides += [ 'werror=true', 'warning_level=3' ]
 endif
 
-#######################################################################################################################
+#=======================================================================================================================
 # c++ 20 check
-#######################################################################################################################
+#=======================================================================================================================
 
-compiler_supports_cpp20_args = []
-if is_gcc or is_clang
-	compiler_supports_cpp20_args += '-std=c++2a'
-elif is_icc
-	compiler_supports_cpp20_args += '/Qstd=c++2a'
-elif is_msvc
-	compiler_supports_cpp20_args += '/std:c++latest'
-endif
+compiler_supports_cpp20_args = compiler.first_supported_argument('-std=c++20', '-std=c++2a', '/Qstd=c++20', '/Qstd=c++2a', '/std:c++20', '/std:c++latest')
 compiler_supports_cpp20 = compiler_supports_cpp20_args.length() > 0 and compiler.links('''
 	#include <version>
 	#include <string>
@@ -222,14 +207,11 @@ compiler_supports_cpp20 = compiler_supports_cpp20_args.length() > 0 and compiler
 	args: compiler_supports_cpp20_args
 )
 
-#######################################################################################################################
+#=======================================================================================================================
 # char8_t check
-#######################################################################################################################
+#=======================================================================================================================
 
-compiler_supports_char8_args = []
-if is_gcc or is_clang
-	compiler_supports_char8_args += '-fchar8_t'
-endif
+compiler_supports_char8_args = compiler.first_supported_argument('-fchar8_t')
 compiler_supports_char8 = compiler_supports_cpp20 and compiler.links('''
 	#include <version>
 	#include <string_view>
@@ -258,49 +240,9 @@ compiler_supports_char8 = compiler_supports_cpp20 and compiler.links('''
 	args: [ compiler_supports_cpp20_args, compiler_supports_char8_args ]
 )
 
-#######################################################################################################################
-# consteval check
-# (this doesn't inform the build in any way; it's just so i can see who supports it properly)
-#######################################################################################################################
-
-compiler_supports_consteval = compiler_supports_cpp20 and compiler.compiles('''
-
-	consteval int test() noexcept
-	{
-		return 42;
-	}
-
-	int main()
-	{
-		constexpr auto val = test(); // test() should be compiletime-callable
-		return val;
-	}
-	''',
-	name: 'supports consteval keyword',
-	args: compiler_supports_cpp20_args
-)
-
-compiler_supports_consteval_properly = compiler_supports_consteval and not compiler.compiles('''
-
-	consteval int test(int i) noexcept
-	{
-		return 42 + i;
-	}
-
-	int get_value() noexcept;
-
-	int main()
-	{
-		return test(get_value()); // test() should not be runtime-callable
-	}
-	''',
-	name: 'consteval is just renamed constexpr',
-	args: compiler_supports_cpp20_args
-)
-
-#######################################################################################################################
+#=======================================================================================================================
 # __fp16 and _Float16 checks
-#######################################################################################################################
+#=======================================================================================================================
 
 compiler_supports_float16_args = []
 if is_gcc
@@ -333,12 +275,12 @@ compiler_supports_float16 = compiler.links('''
 	args : compiler_supports_float16_args
 )
 if compiler_supports_fp16 or compiler_supports_float16
-	devel_args += compiler_supports_float16_args
+	internal_args += compiler_supports_float16_args
 endif
 
-#######################################################################################################################
+#=======================================================================================================================
 # int128 check
-#######################################################################################################################
+#=======================================================================================================================
 
 compiler_supports_int128 = compiler.links('''
 	#ifndef __SIZEOF_INT128__
@@ -361,9 +303,9 @@ compiler_supports_int128 = compiler.links('''
 	name: 'supports __int128_t'
 )
 
-#######################################################################################################################
+#=======================================================================================================================
 # float128 check
-#######################################################################################################################
+#=======================================================================================================================
 
 compiler_supports_float128 = compiler.links('''
 	#ifndef __SIZEOF_FLOAT128__
@@ -390,32 +332,30 @@ compiler_supports_float128 = compiler.links('''
 	''',
 	name: 'supports __float128'
 )
-
-if compiler_supports_float128 and is_gcc and not is_subproject
-	add_global_arguments('-fext-numeric-literals', language: 'cpp')
+if compiler_supports_float128
+	internal_dependencies += compiler.find_library('quadmath')
 endif
 
-#######################################################################################################################
-# subdirectories
-#######################################################################################################################
+#=======================================================================================================================
+# fext-numeric-literals
+#=======================================================================================================================
 
-muu_dep = dependency('', required: false)
+if compiler_supports_fp16 or compiler_supports_float16 or compiler_supports_float128 or compiler_supports_int128
+	internal_args += compiler.get_supported_arguments('-fext-numeric-literals')
+endif
+
+#=======================================================================================================================
+# subdirectories
+#=======================================================================================================================
+
+subdir('include')
 
 subdir('src')
 
-build_tests = get_option('build_tests') and not is_subproject
-if build_tests
+if (get_option('build_tests') or is_devel) and not is_subproject
 	subdir('tests')
 endif
 
-build_examples = get_option('build_examples') and not is_subproject
-if build_examples
+if (get_option('build_examples') or is_devel) and not is_subproject
 	subdir('examples')
 endif
-
-if not is_subproject
-	install_subdir('include'/'muu', install_dir: get_option('includedir'))
-endif
-
-# Allow subproject usage
-meson.override_dependency(meson.project_name(), muu_dep)
