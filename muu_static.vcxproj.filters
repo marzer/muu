@@ -145,9 +145,6 @@
     <ClInclude Include="include\muu\impl\core_constants.h">
       <Filter>include\impl</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\core_literals.h">
-      <Filter>include\impl</Filter>
-    </ClInclude>
     <ClInclude Include="include\muu\impl\core_utils.h">
       <Filter>include\impl</Filter>
     </ClInclude>
@@ -308,6 +305,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\pointer_cast.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\size_t_literals.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

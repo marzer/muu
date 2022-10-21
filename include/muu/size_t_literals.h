@@ -4,8 +4,11 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
-#include "../fwd.h"
-#include "header_start.h"
+/// \file
+/// \brief  Contains the definitions of a number of literal operators for std::size_t.
+
+#include "fwd.h"
+#include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 
 namespace muu
@@ -184,4 +187,4 @@ namespace muu
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
-#include "header_end.h"
+#include "impl/header_end.h"

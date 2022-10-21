@@ -9,5 +9,5 @@
 
 #include "build.h"
 #include "impl/core_constants.h"
-#include "impl/core_literals.h"
+#include "size_t_literals.h"
 #include "impl/core_utils.h"

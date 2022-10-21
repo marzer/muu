@@ -63,7 +63,6 @@ macros = [ 'MUU_[A-Z0-9_]+?' ]
 ]
 'muu/core.h' = [
     'muu/impl/core_constants.h',
-    'muu/impl/core_literals.h',
     'muu/impl/core_utils.h'
 ]
 'muu/preprocessor.h' = [

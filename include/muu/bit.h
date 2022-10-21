@@ -9,7 +9,7 @@
 
 #include "bit_cast.h"
 #include "build.h"
-#include "impl/core_literals.h"
+#include "size_t_literals.h"
 #include "impl/core_utils.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"

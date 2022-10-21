@@ -38,6 +38,7 @@
 #include "pointer_cast.h"
 #include "quaternion.h"
 #include "scope_guard.h"
+#include "size_t_literals.h"
 #include "span.h"
 #include "spin_mutex.h"
 #include "static_string.h"

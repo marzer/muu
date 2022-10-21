@@ -88,7 +88,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\generic_allocator.h" />
     <ClInclude Include="$(SolutionDir)include\muu\half.h" />
     <ClInclude Include="$(SolutionDir)include\muu\hashing.h" />
-    <ClInclude Include="$(SolutionDir)include\muu\impl\core_literals.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\size_t_literals.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\environment_checks.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\geometry_common.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_end.h" />

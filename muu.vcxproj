@@ -82,7 +82,7 @@
     <ClInclude Include="include\muu\generic_allocator.h" />
     <ClInclude Include="include\muu\half.h" />
     <ClInclude Include="include\muu\hashing.h" />
-    <ClInclude Include="include\muu\impl\core_literals.h" />
+    <ClInclude Include="include\muu\size_t_literals.h" />
     <ClInclude Include="include\muu\impl\environment_checks.h" />
     <ClInclude Include="include\muu\impl\geometry_common.h" />
     <ClInclude Include="include\muu\impl\header_end.h" />
