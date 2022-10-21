@@ -42,6 +42,7 @@
     <includes id="pointer__cast_8h" name="pointer_cast.h" local="yes" imported="no">pointer_cast.h</includes>
     <includes id="quaternion_8h" name="quaternion.h" local="yes" imported="no">quaternion.h</includes>
     <includes id="scope__guard_8h" name="scope_guard.h" local="yes" imported="no">scope_guard.h</includes>
+    <includes id="size__t__literals_8h" name="size_t_literals.h" local="yes" imported="no">size_t_literals.h</includes>
     <includes id="span_8h" name="span.h" local="yes" imported="no">span.h</includes>
     <includes id="spin__mutex_8h" name="spin_mutex.h" local="yes" imported="no">spin_mutex.h</includes>
     <includes id="static__string_8h" name="static_string.h" local="yes" imported="no">static_string.h</includes>
@@ -82,6 +83,7 @@
     <filename>bit_8h.html</filename>
     <includes id="bit__cast_8h" name="bit_cast.h" local="yes" imported="no">bit_cast.h</includes>
     <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
+    <includes id="size__t__literals_8h" name="size_t_literals.h" local="yes" imported="no">size_t_literals.h</includes>
     <namespace>muu</namespace>
     <member kind="function">
       <type>constexpr int</type>
@@ -422,6 +424,7 @@
     <name>core.h</name>
     <filename>core_8h.html</filename>
     <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
+    <includes id="size__t__literals_8h" name="size_t_literals.h" local="yes" imported="no">size_t_literals.h</includes>
   </compound>
   <compound kind="file">
     <name>emplacement_array.h</name>
@@ -3907,6 +3910,119 @@
     <class kind="class">muu::scope_fail</class>
     <class kind="class">muu::scope_success</class>
     <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
+    <name>size_t_literals.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>size__t__literals_8h.html</filename>
+    <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
+    <namespace>muu</namespace>
+    <namespace>muu::literals</namespace>
+    <member kind="function">
+      <type>consteval size_t</type>
+      <name>operator&quot;&quot;_sz</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a4ed24f686cd4d1bc02a08d49723524e4</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval size_t</type>
+      <name>operator&quot;&quot;_b</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>ae611e3cdfb3c6d4731dd7f600d50e1a8</anchor>
+      <arglist>(unsigned long long b) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval size_t</type>
+      <name>operator&quot;&quot;_kb</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a1aafa6a4433ed8ba20e7009e18e3001f</anchor>
+      <arglist>(unsigned long long kb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval size_t</type>
+      <name>operator&quot;&quot;_mb</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a9139d3fc5cb832d87d6d9701aa93b351</anchor>
+      <arglist>(unsigned long long mb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval size_t</type>
+      <name>operator&quot;&quot;_gb</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a98a2294177231968f6f9f042d402619c</anchor>
+      <arglist>(unsigned long long gb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval uint8_t</type>
+      <name>operator&quot;&quot;_u8</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>aebd70ea52d54027572688ebfda931440</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval uint16_t</type>
+      <name>operator&quot;&quot;_u16</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a76a079fced111d7ccf855e813a2f5356</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval uint32_t</type>
+      <name>operator&quot;&quot;_u32</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a3e2767a13c0198cdbf2b992840070fbc</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval uint64_t</type>
+      <name>operator&quot;&quot;_u64</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a4e0d840a84730f9a8c0d3884e348f3ec</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval int8_t</type>
+      <name>operator&quot;&quot;_i8</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a96020b0fcf18ae03ed09f9013f44237d</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval int16_t</type>
+      <name>operator&quot;&quot;_i16</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a7e6172ce8840190a09044aa8a16182c0</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval int32_t</type>
+      <name>operator&quot;&quot;_i32</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>aa49717181930042c1491b11d94c94134</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval int64_t</type>
+      <name>operator&quot;&quot;_i64</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>aa621e75746c24672c98a7395560985e6</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval int128_t</type>
+      <name>operator&quot;&quot;_i128</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a974965c4f700560278e31614bb38fc92</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval uint128_t</type>
+      <name>operator&quot;&quot;_u128</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a029f1ed1b5268a44c18ab45754d300f6</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>span.h</name>
@@ -21294,20 +21410,6 @@
       <arglist>(unsigned long long val) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>consteval auto</type>
-      <name>operator&quot;&quot;_ss</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>ac4b1112aae002fe8962e5e624cdde438</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval uuid</type>
-      <name>operator&quot;&quot;_uuid</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a03372c885efd4ad9b5dafb757ed61f8f</anchor>
-      <arglist>(const char *str, size_t len) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>consteval size_t</type>
       <name>operator&quot;&quot;_sz</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
@@ -21411,6 +21513,20 @@
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
       <anchor>a029f1ed1b5268a44c18ab45754d300f6</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval auto</type>
+      <name>operator&quot;&quot;_ss</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>ac4b1112aae002fe8962e5e624cdde438</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval uuid</type>
+      <name>operator&quot;&quot;_uuid</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a03372c885efd4ad9b5dafb757ed61f8f</anchor>
+      <arglist>(const char *str, size_t len) noexcept</arglist>
     </member>
   </compound>
   <compound kind="namespace">
