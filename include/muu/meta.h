@@ -50,7 +50,7 @@ namespace muu
 	/// else
 	///		static_assert(always_false<T>, "Oh no, T wasn't fancy enough!");
 	/// \ecpp
-	template <typename T>
+	template <typename... T>
 	inline constexpr bool always_false = false;
 
 	/// \cond
