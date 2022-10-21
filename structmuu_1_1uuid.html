@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.10.2" name="generator"/>
+  <meta content="Poxy v0.11.0" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -473,38 +473,22 @@
               impl::uuid_bytes muu::<wbr/>uuid::<wbr/><a class="m-doc-self" href="#a6f04e89c59ce24cb6d2f19bc149f2277">bytes</a>
             </h3>
             <p>The raw bytes in the UUID.</p>
-<p>The byte layout of the UUID is always the same regardless of the target platform:<br/><br/><code>[ 0]</code>
-						 
-						  time_low - most significant byte<br/><code>[ 1]</code>
-						 
-						  ...<br/><code>[ 2]</code>
-						 
-						  ...<br/><code>[ 3]</code>
-						 
-						  time_low - least significant byte<br/><code>[ 4]</code>
-						 
-						  time_mid - most significante byte<br/><code>[ 5]</code>
-						 
-						  time_mid - least significante byte<br/><code>[ 6]</code>
-						 
-						  time_high_and_version - most significante byte<br/><code>[ 7]</code>
-						 
-						  time_high_and_version - least significante byte<br/><code>[ 8]</code>
-						 
-						  clock_seq_high_and_reserved<br/><code>[ 9]</code>
-						 
-						  clock_seq_low<br/><code>[10]</code>
-						 
-						  node - most significant byte<br/><code>[11]</code>
-						 
-						  ...<br/><code>[12]</code>
-						 
-						  ...<br/><code>[13]</code>
-						 
-						  ...<br/><code>[14]</code>
-						 
-						  ...<br/><code>[15]</code>
-						 
+<p>The byte layout of the UUID is always the same regardless of the target platform:<br/><br/><code>[ 0]</code> 
+						  time_low - most significant byte<br/><code>[ 1]</code> 
+						  ...<br/><code>[ 2]</code> 
+						  ...<br/><code>[ 3]</code> 
+						  time_low - least significant byte<br/><code>[ 4]</code> 
+						  time_mid - most significante byte<br/><code>[ 5]</code> 
+						  time_mid - least significante byte<br/><code>[ 6]</code> 
+						  time_high_and_version - most significante byte<br/><code>[ 7]</code> 
+						  time_high_and_version - least significante byte<br/><code>[ 8]</code> 
+						  clock_seq_high_and_reserved<br/><code>[ 9]</code> 
+						  clock_seq_low<br/><code>[10]</code> 
+						  node - most significant byte<br/><code>[11]</code> 
+						  ...<br/><code>[12]</code> 
+						  ...<br/><code>[13]</code> 
+						  ...<br/><code>[14]</code> 
+						  ...<br/><code>[15]</code> 
 						  node - least significant byte<br/><br/>Relevant excerpt from the UUID RFC:</p><pre class="m-console"><span class="go">In the absence of explicit application or presentation protocol</span>
 <span class="go">specification to the contrary, a UUID is encoded as a 128-bit object,</span>
 <span class="go">as follows:</span>

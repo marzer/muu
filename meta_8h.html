@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.10.2" name="generator"/>
+  <meta content="Poxy v0.11.0" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -69,7 +69,6 @@
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#typedef-members">Typedefs</a></li>
-                <li><a href="#func-members">Functions</a></li>
                 <li><a href="#var-members">Variables</a></li>
               </ul>
             </li>
@@ -80,8 +79,6 @@
           <dl class="m-doc">
             <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
             <dd>The root namespace for all muu functions and types.</dd>
-            <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">muu::build</a></dt>
-            <dd>Build environment information (compiler, date/time, support for various things...)</dd>
           </dl>
         </section>
         <section id="typedef-members">
@@ -333,15 +330,6 @@
               using <a class="m-doc" href="group__meta.html#ga480c8ad7ee9e1cc7bcafa16d817bca1e">z_axis_tag</a> = index_tag&lt;2&gt;
             </dt>
             <dd>An index_tag specialization for representing the Z axis.</dd>
-          </dl>
-        </section>
-        <section id="func-members">
-          <h2><a href="#func-members">Functions</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">is_constant_evaluated</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/is_constant_evaluated" target="_blank">std::is_constant_evaluated</a>.</dd>
           </dl>
         </section>
         <section id="var-members">
@@ -1016,10 +1004,6 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div> <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="group__meta.html#gabe21403c5219a3959df510427b829038">tuple_size</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Equivalent to <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/utility/tuple/tuple_size" target="_blank">std::tuple_size_v</a>, but safe to use in SFINAE contexts.</dd>
-            <dt>
-              bool <a class="m-doc" href="namespacemuu_1_1build.html#a8398d41dfdf02da1234b776f754bbb3d">supports_is_constant_evaluated</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>True if <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">is_<wbr/>constant_<wbr/>evaluated()</a> is properly supported on this compiler.</dd>
           </dl>
         </section>
       </div>

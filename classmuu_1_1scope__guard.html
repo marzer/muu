@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.10.2" name="generator"/>
+  <meta content="Poxy v0.11.0" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -88,22 +88,22 @@
         </nav>
 <p>Use a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a> to simplify cleanup routines or code that has acquire/release semantics, e.g. locking:</p><pre class="m-code"><span class="k">void</span> <span class="nf">do_work</span><span class="p">()</span>
 <span class="p">{</span>
-    <span class="n">acquire_magic_lock</span><span class="p">();</span>
+    <span class="nf">acquire_magic_lock</span><span class="p">();</span>
     <span class="nn">muu</span><span class="o">::</span><span class="nc">scope_guard</span> <span class="n">sg</span><span class="p">{</span> <span class="n">release_magic_lock</span> <span class="p">};</span>
-    <span class="n">something_that_throws</span><span class="p">();</span>
+    <span class="nf">something_that_throws</span><span class="p">();</span>
 <span class="p">}</span></pre><p>For comparison's sake, here's the same function without a <a class="m-doc" href="classmuu_1_1scope__guard.html">scope_<wbr/>guard</a>:</p><pre class="m-code"><span class="k">void</span> <span class="nf">do_work</span><span class="p">()</span>
 <span class="p">{</span>
-    <span class="n">acquire_magic_lock</span><span class="p">();</span>
+    <span class="nf">acquire_magic_lock</span><span class="p">();</span>
     <span class="k">try</span>
     <span class="p">{</span>
-        <span class="n">something_that_throws</span><span class="p">();</span>
+        <span class="nf">something_that_throws</span><span class="p">();</span>
     <span class="p">}</span>
     <span class="k">catch</span> <span class="p">(...)</span>
     <span class="p">{</span>
-        <span class="n">release_magic_lock</span><span class="p">();</span>
+        <span class="nf">release_magic_lock</span><span class="p">();</span>
         <span class="k">throw</span><span class="p">;</span>
     <span class="p">}</span>
-    <span class="n">release_magic_lock</span><span class="p">();</span>
+    <span class="nf">release_magic_lock</span><span class="p">();</span>
 <span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="m-doc" href="classmuu_1_1scope__fail.html">scope_<wbr/>fail</a></li><li><a class="m-doc" href="classmuu_1_1scope__success.html">scope_<wbr/>success</a></li></ul></aside>
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>

@@ -13,10 +13,13 @@
     <filename>all_8h.html</filename>
     <includes id="accumulator_8h" name="accumulator.h" local="yes" imported="no">accumulator.h</includes>
     <includes id="axis__angle_8h" name="axis_angle.h" local="yes" imported="no">axis_angle.h</includes>
+    <includes id="assume__aligned_8h" name="assume_aligned.h" local="yes" imported="no">assume_aligned.h</includes>
     <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
+    <includes id="bit__cast_8h" name="bit_cast.h" local="yes" imported="no">bit_cast.h</includes>
     <includes id="blob_8h" name="blob.h" local="yes" imported="no">blob.h</includes>
     <includes id="bounding__box_8h" name="bounding_box.h" local="yes" imported="no">bounding_box.h</includes>
     <includes id="bounding__sphere_8h" name="bounding_sphere.h" local="yes" imported="no">bounding_sphere.h</includes>
+    <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
     <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
     <includes id="compressed__pair_8h" name="compressed_pair.h" local="yes" imported="no">compressed_pair.h</includes>
     <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
@@ -27,13 +30,16 @@
     <includes id="half_8h" name="half.h" local="yes" imported="no">half.h</includes>
     <includes id="hashing_8h" name="hashing.h" local="yes" imported="no">hashing.h</includes>
     <includes id="integral__range_8h" name="integral_range.h" local="yes" imported="no">integral_range.h</includes>
+    <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
     <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
     <includes id="line__segment_8h" name="line_segment.h" local="yes" imported="no">line_segment.h</includes>
     <includes id="math_8h" name="math.h" local="yes" imported="no">math.h</includes>
     <includes id="matrix_8h" name="matrix.h" local="yes" imported="no">matrix.h</includes>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
     <includes id="oriented__bounding__box_8h" name="oriented_bounding_box.h" local="yes" imported="no">oriented_bounding_box.h</includes>
+    <includes id="pause_8h" name="pause.h" local="yes" imported="no">pause.h</includes>
     <includes id="plane_8h" name="plane.h" local="yes" imported="no">plane.h</includes>
+    <includes id="pointer__cast_8h" name="pointer_cast.h" local="yes" imported="no">pointer_cast.h</includes>
     <includes id="quaternion_8h" name="quaternion.h" local="yes" imported="no">quaternion.h</includes>
     <includes id="scope__guard_8h" name="scope_guard.h" local="yes" imported="no">scope_guard.h</includes>
     <includes id="span_8h" name="span.h" local="yes" imported="no">span.h</includes>
@@ -43,6 +49,7 @@
     <includes id="strings_8h" name="strings.h" local="yes" imported="no">strings.h</includes>
     <includes id="strong__typedef_8h" name="strong_typedef.h" local="yes" imported="no">strong_typedef.h</includes>
     <includes id="tagged__ptr_8h" name="tagged_ptr.h" local="yes" imported="no">tagged_ptr.h</includes>
+    <includes id="thread__name_8h" name="thread_name.h" local="yes" imported="no">thread_name.h</includes>
     <includes id="thread__pool_8h" name="thread_pool.h" local="yes" imported="no">thread_pool.h</includes>
     <includes id="triangle_8h" name="triangle.h" local="yes" imported="no">triangle.h</includes>
     <includes id="type__list_8h" name="type_list.h" local="yes" imported="no">type_list.h</includes>
@@ -50,6 +57,18 @@
     <includes id="uuid_8h" name="uuid.h" local="yes" imported="no">uuid.h</includes>
     <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
     <includes id="packed__unit__vector_8h" name="packed_unit_vector.h" local="yes" imported="no">packed_unit_vector.h</includes>
+  </compound>
+  <compound kind="file">
+    <name>assume_aligned.h</name>
+    <filename>assume__aligned_8h.html</filename>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>assume_aligned</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga6c27d79835642aff715e084eef57eb66</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>axis_angle.h</name>
@@ -61,7 +80,8 @@
   <compound kind="file">
     <name>bit.h</name>
     <filename>bit_8h.html</filename>
-    <includes id="bit__cast_8h" name="bit_cast.h" local="yes" imported="no">impl/bit_cast.h</includes>
+    <includes id="bit__cast_8h" name="bit_cast.h" local="yes" imported="no">bit_cast.h</includes>
+    <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
     <namespace>muu</namespace>
     <member kind="function">
       <type>constexpr int</type>
@@ -177,6 +197,27 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>bit_cast.h</name>
+    <filename>bit__cast_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <namespace>muu</namespace>
+    <namespace>muu::build</namespace>
+    <member kind="function">
+      <type>constexpr To</type>
+      <name>bit_cast</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
+      <arglist>(const From &amp;from) noexcept</arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_constexpr_bit_cast</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a5ee6b53a87bd46b2bf84f2bea9e2a0b5</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>blob.h</name>
     <filename>blob_8h.html</filename>
     <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
@@ -260,6 +301,111 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>build.h</name>
+    <filename>build_8h.html</filename>
+    <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
+    <namespace>muu</namespace>
+    <namespace>muu::build</namespace>
+    <member kind="variable">
+      <type>constexpr uint32_t</type>
+      <name>cpp_version</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ab15a2e5c61489ea57d76304612871b2c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr uint32_t</type>
+      <name>year</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a60ed708127e16b82cccf0db04f219969</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr uint32_t</type>
+      <name>month</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a1b206904913622e2851364180dffa147</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr uint32_t</type>
+      <name>day</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a8d9bd9685ff101794faacdc43206d662</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr uint32_t</type>
+      <name>hour</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a3a236f2f2246b352c3d0fddb6f898307</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr uint32_t</type>
+      <name>minute</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>af7c47c598d8d8be8f43083f593a89f6e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr uint32_t</type>
+      <name>second</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a0a58816aa6112236ab15e6f83ef7ccb5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr size_t</type>
+      <name>bitness</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a059f47a1fea406df07928d18ba89e7c7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr size_t</type>
+      <name>bits_per_byte</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ac1422aad32070ebc2bdba6500e87bc6c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr size_t</type>
+      <name>pointer_size</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ae50337fa6f6a72d069a0a0898e36dd08</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_exceptions</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a1cc9e6160fa6088fa7b763d5eba09aee</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_rtti</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a564c99820bacd7c3cc5bc2bc1ab5e0ee</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_little_endian</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>af693226bafb2cf34c54e24b92be66c25</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_big_endian</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a4d2e05f091c6116d15b6de7ec51c213c</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>chars.h</name>
     <filename>chars_8h.html</filename>
   </compound>
@@ -275,6 +421,7 @@
   <compound kind="file">
     <name>core.h</name>
     <filename>core_8h.html</filename>
+    <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
   </compound>
   <compound kind="file">
     <name>emplacement_array.h</name>
@@ -299,6 +446,7 @@
   </compound>
   <compound kind="file">
     <name>fwd.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
     <filename>fwd_8h.html</filename>
     <includes id="preprocessor_8h" name="preprocessor.h" local="yes" imported="no">preprocessor.h</includes>
     <class kind="struct">muu::constants</class>
@@ -336,12 +484,14 @@
   </compound>
   <compound kind="file">
     <name>generic_allocator.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
     <filename>generic__allocator_8h.html</filename>
     <class kind="struct">muu::generic_allocator</class>
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
     <name>half.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
     <filename>half_8h.html</filename>
     <includes id="math_8h" name="math.h" local="yes" imported="no">math.h</includes>
     <class kind="struct">muu::half</class>
@@ -509,28 +659,6 @@
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
-    <name>bit_cast.h</name>
-    <path>/__w/muu/muu/include/muu/impl/</path>
-    <filename>bit__cast_8h.html</filename>
-    <includes id="meta_8h" name="meta.h" local="yes" imported="no">../meta.h</includes>
-    <namespace>muu</namespace>
-    <namespace>muu::build</namespace>
-    <member kind="function">
-      <type>constexpr To</type>
-      <name>bit_cast</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
-      <arglist>(const From &amp;from) noexcept</arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_constexpr_bit_cast</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>a5ee6b53a87bd46b2bf84f2bea9e2a0b5</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="file">
     <name>integral_range.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>integral__range_8h.html</filename>
@@ -564,6 +692,42 @@
       <name>byteptr_range</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>gab0ee666138056710136d9532965d1565</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>is_constant_evaluated.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>is__constant__evaluated_8h.html</filename>
+    <includes id="preprocessor_8h" name="preprocessor.h" local="yes" imported="no">preprocessor.h</includes>
+    <namespace>muu</namespace>
+    <namespace>muu::build</namespace>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_IF_CONSTEVAL</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga072c5d854641f349b774706f7f935250</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_IF_RUNTIME</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gaaeae5cc5b2aacdea8932d21d5b511e14</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>is_constant_evaluated</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga8a9b0aaf9860b30f93639333a5214d34</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_is_constant_evaluated</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>a8398d41dfdf02da1234b776f754bbb3d</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -1561,6 +1725,7 @@
     <path>/__w/muu/muu/include/muu/</path>
     <filename>meta_8h.html</filename>
     <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
+    <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
     <namespace>muu</namespace>
     <member kind="typedef">
       <type>std::remove_cv_t&lt; std::remove_reference_t&lt; T &gt; &gt;</type>
@@ -2907,6 +3072,19 @@
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
+    <name>pause.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>pause_8h.html</filename>
+    <includes id="preprocessor_8h" name="preprocessor.h" local="yes" imported="no">preprocessor.h</includes>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PAUSE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga6f1ef4b1e1462a09015b320e2938fd75</anchor>
+      <arglist>()</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>plane.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>plane_8h.html</filename>
@@ -2942,6 +3120,20 @@
       <anchorfile>namespacemuu.html</anchorfile>
       <anchor>a3d29ca53ac092c2e6f66617be57f61b2</anchor>
       <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>pointer_cast.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>pointer__cast_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr To</type>
+      <name>pointer_cast</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab714a50e01b58e7d4117d5ef9d403d39</anchor>
+      <arglist>(From from) noexcept</arglist>
     </member>
   </compound>
   <compound kind="file">
@@ -3777,6 +3969,7 @@
     <path>/__w/muu/muu/include/muu/</path>
     <filename>spin__mutex_8h.html</filename>
     <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
+    <includes id="pause_8h" name="pause.h" local="yes" imported="no">pause.h</includes>
     <class kind="class">muu::spin_mutex</class>
     <namespace>muu</namespace>
   </compound>
@@ -3828,6 +4021,7 @@
     <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="thread__name_8h" name="thread_name.h" local="yes" imported="no">thread_name.h</includes>
     <namespace>muu</namespace>
     <member kind="function">
       <type>constexpr std::string_view</type>
@@ -4047,6 +4241,20 @@
     <class kind="class">muu::tagged_ptr</class>
     <class kind="struct">std::pointer_traits&lt; muu::tagged_ptr&lt; T, MinAlign &gt; &gt;</class>
     <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
+    <name>thread_name.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>thread__name_8h.html</filename>
+    <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>void</type>
+      <name>set_thread_name</name>
+      <anchorfile>group__strings.html</anchorfile>
+      <anchor>ga208801d95047a6cff7dd75291d55601b</anchor>
+      <arglist>(string_param name) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>thread_pool.h</name>
@@ -16723,6 +16931,13 @@
       <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
     </member>
     <member kind="function">
+      <type>constexpr T *</type>
+      <name>assume_aligned</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga6c27d79835642aff715e084eef57eb66</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr int</type>
       <name>countl_zero</name>
       <anchorfile>group__core.html</anchorfile>
@@ -16833,6 +17048,13 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga1aaa24bb10d08ad78c86695baabc1857</anchor>
       <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr To</type>
+      <name>bit_cast</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
+      <arglist>(const From &amp;from) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -17015,6 +17237,13 @@
       <anchorfile>group__normalize__angle__signed.html</anchorfile>
       <anchor>ga7569b01664a740bf2ecc532e22c3b487</anchor>
       <arglist>(half x) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>is_constant_evaluated</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga8a9b0aaf9860b30f93639333a5214d34</anchor>
+      <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr auto</type>
@@ -18011,6 +18240,13 @@
       <arglist>(const plane&lt; S &gt; &amp;p) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr To</type>
+      <name>pointer_cast</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab714a50e01b58e7d4117d5ef9d403d39</anchor>
+      <arglist>(From from) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
@@ -18212,6 +18448,13 @@
       <anchorfile>group__transcode.html</anchorfile>
       <anchor>ga5570310ee3553cf27ce8467edcd2e170</anchor>
       <arglist>(std::u8string_view str) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>set_thread_name</name>
+      <anchorfile>group__strings.html</anchorfile>
+      <anchor>ga208801d95047a6cff7dd75291d55601b</anchor>
+      <arglist>(string_param name) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -18417,13 +18660,6 @@
       <arglist>(const vector&lt; S, D &gt; &amp;v) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr To</type>
-      <name>bit_cast</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
-      <arglist>(const From &amp;from) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr std::underlying_type_t&lt; T &gt;</type>
       <name>unwrap</name>
       <anchorfile>group__core.html</anchorfile>
@@ -18466,13 +18702,6 @@
       <arglist>(T *ptr) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr To</type>
-      <name>pointer_cast</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab714a50e01b58e7d4117d5ef9d403d39</anchor>
-      <arglist>(From from) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr T *</type>
       <name>apply_offset</name>
       <anchorfile>group__core.html</anchorfile>
@@ -18492,13 +18721,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga4ba4d37d254803b31a71fca161a46420</anchor>
       <arglist>(const Ptr &amp;p) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>assume_aligned</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga6c27d79835642aff715e084eef57eb66</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr void</type>
@@ -18541,20 +18763,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga1a38db130c8a0f40826547cc722dd634</anchor>
       <arglist>(T *ptr, size_t alignment) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>is_constant_evaluated</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga8a9b0aaf9860b30f93639333a5214d34</anchor>
-      <arglist>() noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>set_thread_name</name>
-      <anchorfile>group__strings.html</anchorfile>
-      <anchor>ga208801d95047a6cff7dd75291d55601b</anchor>
-      <arglist>(string_param name) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -20921,41 +21129,6 @@
     <filename>namespacemuu_1_1build.html</filename>
     <member kind="variable">
       <type>constexpr bool</type>
-      <name>supports_constexpr_half</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ae33023a7463b68374575d0cb9f42af43</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_constexpr_math</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ae1f632796abc91c58e0667c38ecc384e</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_constexpr_infinity_or_nan</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ac2ed8c664a3937f1d6beca3916098ebd</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_static_string_literals</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ad135127eb0889116bcc2d4db72f41673</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
-      <name>supports_type_name</name>
-      <anchorfile>namespacemuu_1_1build.html</anchorfile>
-      <anchor>ad4ed37ffabb38340c21bc4b899db2646</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>constexpr bool</type>
       <name>supports_constexpr_bit_cast</name>
       <anchorfile>namespacemuu_1_1build.html</anchorfile>
       <anchor>a5ee6b53a87bd46b2bf84f2bea9e2a0b5</anchor>
@@ -21061,9 +21234,44 @@
     </member>
     <member kind="variable">
       <type>constexpr bool</type>
+      <name>supports_constexpr_half</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ae33023a7463b68374575d0cb9f42af43</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
       <name>supports_is_constant_evaluated</name>
       <anchorfile>namespacemuu_1_1build.html</anchorfile>
       <anchor>a8398d41dfdf02da1234b776f754bbb3d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_constexpr_math</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ae1f632796abc91c58e0667c38ecc384e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_constexpr_infinity_or_nan</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ac2ed8c664a3937f1d6beca3916098ebd</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_static_string_literals</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ad135127eb0889116bcc2d4db72f41673</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>supports_type_name</name>
+      <anchorfile>namespacemuu_1_1build.html</anchorfile>
+      <anchor>ad4ed37ffabb38340c21bc4b899db2646</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -21409,6 +21617,13 @@
       <arglist></arglist>
     </member>
     <member kind="function">
+      <type>constexpr T *</type>
+      <name>assume_aligned</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga6c27d79835642aff715e084eef57eb66</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr int</type>
       <name>countl_zero</name>
       <anchorfile>group__core.html</anchorfile>
@@ -21528,6 +21743,20 @@
       <arglist>(const From &amp;from) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr bool</type>
+      <name>is_constant_evaluated</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga8a9b0aaf9860b30f93639333a5214d34</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr To</type>
+      <name>pointer_cast</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab714a50e01b58e7d4117d5ef9d403d39</anchor>
+      <arglist>(From from) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr std::underlying_type_t&lt; T &gt;</type>
       <name>unwrap</name>
       <anchorfile>group__core.html</anchorfile>
@@ -21570,13 +21799,6 @@
       <arglist>(T *ptr) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr To</type>
-      <name>pointer_cast</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab714a50e01b58e7d4117d5ef9d403d39</anchor>
-      <arglist>(From from) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr T *</type>
       <name>apply_offset</name>
       <anchorfile>group__core.html</anchorfile>
@@ -21596,13 +21818,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga4ba4d37d254803b31a71fca161a46420</anchor>
       <arglist>(const Ptr &amp;p) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>assume_aligned</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga6c27d79835642aff715e084eef57eb66</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr void</type>
@@ -21645,13 +21860,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga1a38db130c8a0f40826547cc722dd634</anchor>
       <arglist>(T *ptr, size_t alignment) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>is_constant_evaluated</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga8a9b0aaf9860b30f93639333a5214d34</anchor>
-      <arglist>() noexcept</arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -23166,6 +23374,27 @@
     <name>preprocessor</name>
     <title>Preprocessor</title>
     <filename>group__preprocessor.html</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_IF_CONSTEVAL</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga072c5d854641f349b774706f7f935250</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_IF_RUNTIME</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gaaeae5cc5b2aacdea8932d21d5b511e14</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_PAUSE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga6f1ef4b1e1462a09015b320e2938fd75</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="define">
       <type>#define</type>
       <name>MUU_CPP</name>

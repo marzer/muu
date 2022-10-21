@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.10.2" name="generator"/>
+  <meta content="Poxy v0.11.0" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -248,11 +248,11 @@
                 </tr>
               </tfoot>
             </table>
-<p>Tasks must be callables with no parameters, or one parameter to recieve the index of the worker invoking the task:</p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="n">enqueue</span><span class="p">([](</span><span class="nc"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">worker_index</span><span class="p">)</span> <span class="k">noexcept</span>
+<p>Tasks must be callables with no parameters, or one parameter to recieve the index of the worker invoking the task:</p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="nf">enqueue</span><span class="p">([](</span><span class="nc"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">worker_index</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// worker_index is in the range [0, pool.workers() - 1]</span>
 <span class="p">});</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">enqueue</span><span class="p">([]()</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="nf">enqueue</span><span class="p">([]()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">//...</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and <a class="m-doc" href="classmuu_1_1thread__pool.html#a0be5fc12fedc8dbb694b614a6e53ec23">wait()</a> calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
@@ -305,16 +305,16 @@
                 </tr>
               </tfoot>
             </table>
-<p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current value from the range<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">,</span> <span class="nc"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
+<p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current value from the range<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">,</span> <span class="nc"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// i is in the range [0, 9]</span>
     <span class="c1">// batch_index is in the range [0, pool.workers() - 1]</span>
 <span class="p">});</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// i is in the range [0, 9]</span>
 <span class="p">});</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[]()</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">[]()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// no args is OK too</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and Wait() calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
@@ -362,16 +362,16 @@
                 </tr>
               </tfoot>
             </table>
-<p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current value from the range<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">,</span> <span class="nc"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
+<p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current value from the range<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">,</span> <span class="nc"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// i is in the range [0, 9]</span>
     <span class="c1">// batch_index is in the range [0, pool.workers() - 1]</span>
 <span class="p">});</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span> <span class="n">i</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// i is in the range [0, 9]</span>
 <span class="p">});</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">[]()</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">[]()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// no args is OK too</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and Wait() calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
@@ -425,16 +425,16 @@
               </tfoot>
             </table>
 <p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current element from the collection<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="nn">std</span><span class="o">::</span><span class="nc">array</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">10</span><span class="o">&gt;</span> <span class="n">vals</span><span class="p">;</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vals</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">,</span> <span class="nc"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span> <span class="n">vals</span><span class="p">.</span><span class="nf">end</span><span class="p">(),</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">,</span> <span class="nc"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// i is one of the elements of vals</span>
     <span class="c1">// batch_index is in the range [0, pool.workers() - 1]</span>
 <span class="p">});</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vals</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span> <span class="n">vals</span><span class="p">.</span><span class="nf">end</span><span class="p">(),</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// i is one of the elements of vals</span>
 <span class="p">});</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">vals</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="p">[]()</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span> <span class="n">vals</span><span class="p">.</span><span class="nf">end</span><span class="p">(),</span> <span class="p">[]()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// no args is OK too (though unusual)</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and <a class="m-doc" href="classmuu_1_1thread__pool.html#a0be5fc12fedc8dbb694b614a6e53ec23">wait()</a> calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
@@ -483,16 +483,16 @@
               </tfoot>
             </table>
 <p>Tasks must be callables which accept at most two arguments:<br/>Argument 0: The current element from the collection<br/>Argument 1: The task's batch (in the range <code>[0, pool.workers() - 1]</code>)<br/></p><pre class="m-code"><span class="nn">std</span><span class="o">::</span><span class="nc">array</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="mi">10</span><span class="o">&gt;</span> <span class="n">vals</span><span class="p">;</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">,</span> <span class="nc"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">,</span> <span class="nc"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a></span> <span class="n">batch_index</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// i is one of the elements of vals</span>
     <span class="c1">// batch_index is in the range [0, pool.workers() - 1]</span>
 <span class="p">});</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">)</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="p">[](</span><span class="k">int</span><span class="o">&amp;</span> <span class="n">i</span><span class="p">)</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// i is one of the elements of vals</span>
 <span class="p">});</span>
-<span class="n">pool</span><span class="p">.</span><span class="n">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="p">[]()</span> <span class="k">noexcept</span>
+<span class="n">pool</span><span class="p">.</span><span class="nf">for_each</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="p">[]()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// no args is OK too (though unusual)</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and <a class="m-doc" href="classmuu_1_1thread__pool.html#a0be5fc12fedc8dbb694b614a6e53ec23">wait()</a> calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>

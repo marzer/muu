@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.10.2" name="generator"/>
+  <meta content="Poxy v0.11.0" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -312,6 +312,14 @@
             </dt>
             <dd>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by ICC, otherwise <code>0</code>.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga072c5d854641f349b774706f7f935250">MUU_IF_CONSTEVAL</a></span>
+            </dt>
+            <dd>Begins an <code>if consteval</code> block if supported, otherwise falls back on <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">muu::<wbr/>is_constant_evaluated()</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaaeae5cc5b2aacdea8932d21d5b511e14">MUU_IF_RUNTIME</a></span>
+            </dt>
+            <dd>Begins an <code>if !consteval</code> block if supported, otherwise falls back on <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">muu::<wbr/>is_constant_evaluated()</a>.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga0f1d961fa4c5109d8e007ddbaf868339">MUU_INTELLISENSE</a></span>
             </dt>
             <dd><code>1</code> when the code being compiled by an IDE's 'intellisense' compiler, otherwise <code>0</code>.</dd>
@@ -395,6 +403,10 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga8f304d74e983202dd94830798b27d10d">MUU_NO_UNIQUE_ADDRESS</a></span>
             </dt>
             <dd>Expands to C++20's <code>[[no_unique_address]]</code> if supported by your compiler.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga6f1ef4b1e1462a09015b320e2938fd75">MUU_PAUSE</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd>Expands to a platform-specific intrinsic for pausing/yielding the CPU (e.g. <code>_mm_pause()</code>).</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga70d1ba7b4018ae5521eed5b23e98d41c">MUU_POP_WARNINGS</a></span>
             </dt>
@@ -490,7 +502,7 @@
 <p>Useful for abstract base classes:</p><pre class="m-code"><span class="k">class</span> <span class="fm">MUU_ABSTRACT_INTERFACE</span> <span class="nc">virtual_base</span>
 <span class="p">{</span>
     <span class="k">virtual</span> <span class="k">void</span> <span class="nf">fooify</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">virtual</span> <span class="o">~</span><span class="nc">virtual_base</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="k">virtual</span> <span class="o">~</span><span class="nf">virtual_base</span><span class="p">()</span> <span class="k">noexcept</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 <span class="p">};</span></pre>
           </div></section>
           <section class="m-doc-details" id="ga364a90dd5bcbbbc7b58bbaae2b0ed904"><div>
@@ -500,7 +512,7 @@
             </h3>
             <p>The same linkage semantics as the <code>inline</code> keyword, with an additional hint to the optimizer that you'd really, <em>really</em> like a function inlined.</p>
 <pre class="m-code"><span class="fm">MUU_ALWAYS_INLINE</span>
-<span class="k">void</span> <span class="n">always_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
+<span class="k">void</span> <span class="nf">always_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">}</span></pre>
@@ -686,19 +698,19 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Explicitly defaults the copy constructor and copy-assignment operator of a class or struct.</p>
-<pre class="m-code"><span class="k">class</span> <span class="nc">copyable</span>
+<pre class="m-code"><span class="k">class</span> <span class="nc">copyable_type</span>
 <span class="p">{</span>
-    <span class="n">copyable</span><span class="p">()</span> <span class="p">{}</span>
-    <span class="fm">MUU_DEFAULT_COPY</span><span class="p">(</span><span class="n">copyable</span><span class="p">);</span>
+    <span class="nf">copyable_type</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="fm">MUU_DEFAULT_COPY</span><span class="p">(</span><span class="nc">copyable_type</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
-<span class="k">class</span> <span class="nc">copyable</span>
+<span class="k">class</span> <span class="nc">copyable_type</span>
 <span class="p">{</span>
-    <span class="n">copyable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="nf">copyable_type</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="n">copyable</span><span class="p">(</span><span class="k">const</span> <span class="n">copyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-    <span class="n">copyable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">copyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="nf">copyable_type</span><span class="p">(</span><span class="k">const</span> <span class="nc">copyable_type</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="nc">copyable_type</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="nc">copyable_type</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gae0f485363e80f9b712ba588c38a6913c"><div>
@@ -707,20 +719,20 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Explicitly defaults the move constructor and move-assignment operator of a class or struct.</p>
-<pre class="m-code"><span class="k">class</span> <span class="nc">movable</span>
+<pre class="m-code"><span class="k">class</span> <span class="nc">movable_type</span>
 <span class="p">{</span>
-    <span class="n">movable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="nf">movable_type</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="fm">MUU_DEFAULT_MOVE</span><span class="p">(</span><span class="n">movable</span><span class="p">);</span>
+    <span class="fm">MUU_DEFAULT_MOVE</span><span class="p">(</span><span class="nc">movable_type</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
-<span class="k">class</span> <span class="nc">movable</span>
+<span class="k">class</span> <span class="nc">movable_type</span>
 <span class="p">{</span>
-    <span class="n">movable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="nf">movable_type</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="n">movable</span><span class="p">(</span><span class="n">movable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
-    <span class="n">movable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">movable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="nf">movable_type</span><span class="p">(</span><span class="nc">movable_type</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+    <span class="nc">movable_type</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="nc">movable_type</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga25a02df45c3dbd56ef86ba14b3e89ce3"><div>
@@ -731,17 +743,17 @@
             <p>Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.</p>
 <pre class="m-code"><span class="k">class</span> <span class="nc">uncopyable</span>
 <span class="p">{</span>
-    <span class="nc">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
-    <span class="fm">MUU_DELETE_COPY</span><span class="p">(</span><span class="nc">uncopyable</span><span class="p">);</span>
+    <span class="nf">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="fm">MUU_DELETE_COPY</span><span class="p">(</span><span class="n">uncopyable</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
 <span class="k">class</span> <span class="nc">uncopyable</span>
 <span class="p">{</span>
-    <span class="nc">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="nf">uncopyable</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="nc">uncopyable</span><span class="p">(</span><span class="k">const</span> <span class="nc">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
-    <span class="nc">uncopyable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="nc">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="nf">uncopyable</span><span class="p">(</span><span class="k">const</span> <span class="n">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="n">uncopyable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span> <span class="n">uncopyable</span><span class="o">&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga7e2f4118dd8fcd04ed314cc433b8f1af"><div>
@@ -750,20 +762,20 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Explicitly deletes the move constructor and move-assignment operator of a class or struct.</p>
-<pre class="m-code"><span class="k">class</span> <span class="nc">immovable</span>
+<pre class="m-code"><span class="k">class</span> <span class="nc">immovable_type</span>
 <span class="p">{</span>
-    <span class="nc">immovable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="nf">immovable_type</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="fm">MUU_DELETE_MOVE</span><span class="p">(</span><span class="nc">immovable</span><span class="p">);</span>
+    <span class="fm">MUU_DELETE_MOVE</span><span class="p">(</span><span class="nc">immovable_type</span><span class="p">);</span>
 <span class="p">};</span>
 
 <span class="c1">//equivalent to:</span>
-<span class="k">class</span> <span class="nc">immovable</span>
+<span class="k">class</span> <span class="nc">immovable_type</span>
 <span class="p">{</span>
-    <span class="nc">immovable</span><span class="p">()</span> <span class="p">{}</span>
+    <span class="nf">immovable_type</span><span class="p">()</span> <span class="p">{}</span>
 
-    <span class="nc">immovable</span><span class="p">(</span><span class="nc">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
-    <span class="nc">immovable</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="nc">immovable</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="nf">immovable_type</span><span class="p">(</span><span class="nc">immovable_type</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
+    <span class="nc">immovable_type</span><span class="o">&amp;</span> <span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="nc">immovable_type</span><span class="o">&amp;&amp;</span><span class="p">)</span> <span class="o">=</span> <span class="k">delete</span><span class="p">;</span>
 <span class="p">};</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://cpppatterns.com/patterns/rule-of-five.html" target="_blank">https:/<wbr/>/<wbr/>cpppatterns.com/<wbr/>patterns/<wbr/>rule-of-five.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga02a7d4cbc36ab3a02d1c9e153af196be"><div>
@@ -857,12 +869,12 @@
 
 <span class="k">class</span> <span class="fm">MUU_EMPTY_BASES</span> <span class="nc">nonempty_child</span> <span class="o">:</span> <span class="nc">empty_parent</span>
 <span class="p">{</span>
-    <span class="k">using</span> <span class="n">empty_parent</span><span class="o">::</span><span class="n">value_type</span><span class="p">;</span>
+    <span class="k">using</span> <span class="nc">empty_parent</span><span class="o">::</span><span class="nc">value_type</span><span class="p">;</span>
 
     <span class="nc">value_type</span> <span class="n">value</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="nc">nonempty_child</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">nonempty_child</span><span class="o">::</span><span class="n">value_type</span><span class="p">));</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/" target="_blank">_<wbr/>_<wbr/>declspec(empty_<wbr/>bases)</a></p></aside>
+<span class="k">static_assert</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="nc">nonempty_child</span><span class="p">)</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="nc">nonempty_child</span><span class="o">::</span><span class="nc">value_type</span><span class="p">));</span></pre><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/" target="_blank">_<wbr/>_<wbr/>declspec(empty_<wbr/>bases)</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga7328d95e2ec9777bbbd7e81c7b4ffa68"><div>
             <h3>
@@ -999,6 +1011,36 @@
             <p>The value of <code>__INTEL_COMPILER</code> when the code is being compiled by ICC, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="http://scv.bu.edu/computation/bladecenter/manpages/icc.html" target="_blank">http:/<wbr/>/<wbr/>scv.bu.edu/<wbr/>computation/<wbr/>bladecenter/<wbr/>manpages/<wbr/>icc.html</a></p></aside>
           </div></section>
+          <section class="m-doc-details" id="ga072c5d854641f349b774706f7f935250"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga072c5d854641f349b774706f7f935250">MUU_IF_CONSTEVAL</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="is__constant__evaluated_8h.html">&lt;muu/is_constant_evaluated.h&gt;</a></div>
+            </h3>
+            <p>Begins an <code>if consteval</code> block if supported, otherwise falls back on <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">muu::<wbr/>is_constant_evaluated()</a>.</p>
+<pre class="m-code"><span class="fm">MUU_IF_CONSTEVAL</span>
+<span class="p">{</span>
+    <span class="nf">this_code_runs_at_compile_time</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="nf">this_code_runs_at_runtime</span><span class="p">();</span>
+<span class="p">}</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="gaaeae5cc5b2aacdea8932d21d5b511e14"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gaaeae5cc5b2aacdea8932d21d5b511e14">MUU_IF_RUNTIME</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="is__constant__evaluated_8h.html">&lt;muu/is_constant_evaluated.h&gt;</a></div>
+            </h3>
+            <p>Begins an <code>if !consteval</code> block if supported, otherwise falls back on <a class="m-doc" href="group__core.html#ga8a9b0aaf9860b30f93639333a5214d34">muu::<wbr/>is_constant_evaluated()</a>.</p>
+<pre class="m-code"><span class="fm">MUU_IF_RUNTIME</span>
+<span class="p">{</span>
+    <span class="nf">this_code_runs_at_runtime</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="nf">this_code_runs_at_compile_time</span><span class="p">();</span>
+<span class="p">}</span></pre>
+          </div></section>
           <section class="m-doc-details" id="ga0f1d961fa4c5109d8e007ddbaf868339"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga0f1d961fa4c5109d8e007ddbaf868339">MUU_INTELLISENSE</a></span>
@@ -1056,7 +1098,7 @@
             <p>Expands a conditional to include an optimizer intrinsic (or C++20's [[likely]], if available) indicating that an if/else conditional is the likely path.</p>
 <pre class="m-code"><span class="k">if</span> <span class="fm">MUU_LIKELY</span><span class="p">(</span><span class="n">condition_that_is_almost_always_true</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="n">do_the_thing</span><span class="p">();</span>
+    <span class="nf">do_the_thing</span><span class="p">();</span>
 <span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/attributes/likely" target="_blank">[[likely]]</a></li><li><a class="poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">_<wbr/>_<wbr/>builtin_<wbr/>expect()</a></li></ul></aside>
           </div></section>
           <section class="m-doc-details" id="ga1e4e923ae71486fc6d9ac2bb0448231f"><div>
@@ -1152,7 +1194,7 @@
             </h3>
             <p>A strong hint to the optimizer that you really, <em>really</em> do not want a function inlined.</p>
 <pre class="m-code"><span class="fm">MUU_NEVER_INLINE</span>
-<span class="k">int</span> <span class="n">never_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
+<span class="k">int</span> <span class="nf">never_inline_me</span><span class="p">()</span> <span class="k">noexcept</span>
 <span class="p">{</span>
     <span class="c1">// ...</span>
 <span class="p">}</span></pre>
@@ -1175,12 +1217,12 @@
     <span class="fm">MUU_NODISCARD_CTOR</span>
     <span class="nf">raii_lock</span><span class="p">()</span> <span class="k">noexcept</span>
     <span class="p">{</span>
-        <span class="n">super_special_global_lock</span><span class="p">();</span>
+        <span class="nf">super_special_global_lock</span><span class="p">();</span>
     <span class="p">}</span>
 
-    <span class="o">~</span><span class="n">raii_lock</span><span class="p">()</span> <span class="k">noexcept</span>
+    <span class="o">~</span><span class="nf">raii_lock</span><span class="p">()</span> <span class="k">noexcept</span>
     <span class="p">{</span>
-        <span class="n">super_special_global_unlock</span><span class="p">();</span>
+        <span class="nf">super_special_global_unlock</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
 
@@ -1189,7 +1231,7 @@
     <span class="n">raii_lock</span><span class="p">{};</span> <span class="c1">// oh noes! forgot to give a name; would be destroyed immediately.</span>
                  <span class="c1">// MUU_NODISCARD_CTOR makes the compiler emit a warning here.</span>
 
-    <span class="n">something_that_requires_the_lock</span><span class="p">();</span>
+    <span class="nf">something_that_requires_the_lock</span><span class="p">();</span>
 <span class="p">}</span></pre>
           </div></section>
           <section class="m-doc-details" id="ga208185e62d9dd3604e348e153ffc976b"><div>
@@ -1205,6 +1247,13 @@
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
             <p>Expands to C++20's <code>[[no_unique_address]]</code> if supported by your compiler.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga6f1ef4b1e1462a09015b320e2938fd75"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga6f1ef4b1e1462a09015b320e2938fd75">MUU_PAUSE</a>(</span><span class="m-doc-wrap">)</span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="pause_8h.html">&lt;muu/pause.h&gt;</a></div>
+            </h3>
+            <p>Expands to a platform-specific intrinsic for pausing/yielding the CPU (e.g. <code>_mm_pause()</code>).</p>
           </div></section>
           <section class="m-doc-details" id="ga70d1ba7b4018ae5521eed5b23e98d41c"><div>
             <h3>
@@ -1322,7 +1371,7 @@
 <span class="k">struct</span> <span class="fm">MUU_TRIVIAL_ABI</span> <span class="nc"><a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong_typedef</a></span>
 <span class="p">{</span>
     <span class="nc">T</span> <span class="n">value</span><span class="p">;</span>
-    <span class="o">~</span><span class="nc"><a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong_typedef</a></span><span class="p">()</span> <span class="k">noexcept</span>
+    <span class="o">~</span><span class="nf"><a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong_typedef</a></span><span class="p">()</span> <span class="k">noexcept</span>
     <span class="p">{</span>
         <span class="c1">// non-trivial for some reason, maybe debug checks</span>
     <span class="p">}</span>
@@ -1343,7 +1392,7 @@
             <p>Expands a conditional to include an optimizer intrinsic (or C++20's [[unlikely]], if available) indicating that an if/else conditional is the unlikely path.</p>
 <pre class="m-code"><span class="k">if</span> <span class="fm">MUU_UNLIKELY</span><span class="p">(</span><span class="n">condition_that_is_almost_always_false</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="n">do_the_thing</span><span class="p">();</span>
+    <span class="nf">do_the_thing</span><span class="p">();</span>
 <span class="p">}</span></pre><aside class="m-note m-default"><h4>See also</h4><ul><li><a class="poxy-external" href="https://en.cppreference.com/w/cpp/language/attributes/likely" target="_blank">[[unlikely]]</a></li><li><a class="poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html" target="_blank">_<wbr/>_<wbr/>builtin_<wbr/>expect()</a></li></ul></aside>
           </div></section>
           <section class="m-doc-details" id="ga5180303025bb345be8bf831f1e84abed"><div>

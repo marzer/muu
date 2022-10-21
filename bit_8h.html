@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.10.2" name="generator"/>
+  <meta content="Poxy v0.11.0" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -69,7 +69,6 @@
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
                 <li><a href="#func-members">Functions</a></li>
-                <li><a href="#var-members">Variables</a></li>
               </ul>
             </li>
           </ul>
@@ -79,8 +78,6 @@
           <dl class="m-doc">
             <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
             <dd>The root namespace for all muu functions and types.</dd>
-            <dt>namespace <a class="m-doc" href="namespacemuu_1_1build.html">muu::build</a></dt>
-            <dd>Build environment information (compiler, date/time, support for various things...)</dd>
           </dl>
         </section>
         <section id="func-members">
@@ -169,20 +166,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1aaa24bb10d08ad78c86695baabc1857">swizzle</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Select and re-pack arbitrary bytes from an integer.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename To, typename From&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gaadb4c6332c738c248f84f43ece303657">bit_cast</a>(</span><span class="m-doc-wrap">const From&amp; from) -&gt; To <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Equivalent to C++20's <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/numeric/bit_cast" target="_blank">std::bit_cast</a>.</dd>
-          </dl>
-        </section>
-        <section id="var-members">
-          <h2><a href="#var-members">Variables</a></h2>
-          <dl class="m-doc">
-            <dt>
-              bool <a class="m-doc" href="namespacemuu_1_1build.html#a5ee6b53a87bd46b2bf84f2bea9e2a0b5">supports_constexpr_bit_cast</a> <span class="m-label m-flat m-primary">constexpr</span>
-            </dt>
-            <dd>True if using <a class="m-doc" href="group__core.html#gaadb4c6332c738c248f84f43ece303657">bit_<wbr/>cast()</a> in constexpr contexts is supported on this compiler.</dd>
           </dl>
         </section>
       </div>
