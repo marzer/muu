@@ -3,7 +3,7 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 
-#include "muu/impl/thread_name.h"
+#include "muu/thread_name.h"
 #include "muu/strings.h"
 #include "os.h"
 

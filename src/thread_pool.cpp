@@ -11,7 +11,7 @@
 #include "muu/scope_guard.h"
 #include "muu/math.h"
 #include "muu/impl/std_string.h"
-#include "muu/impl/pause.h"
+#include "muu/pause.h"
 #include "os.h"
 #if !MUU_HAS_EXCEPTIONS
 	#include "muu/impl/std_exception.h" // std::terminate()

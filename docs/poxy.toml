@@ -45,8 +45,6 @@ types = [
     'virtual_base',
     'empty_parent',
     'nonempty_child',
-    'immovable',
-    'uncopyable',
     'thing_id',
     'thing_index',
 ]
@@ -55,9 +53,6 @@ macros = [ 'MUU_[A-Z0-9_]+?' ]
 
 
 [implementation_headers]
-'muu/bit.h' = [
-    'muu/impl/bit_cast.h'
-]
 'muu/chars.h' = [
     'muu/impl/unicode_char.h',
     'muu/impl/unicode_char16_t.h',
@@ -67,20 +62,13 @@ macros = [ 'MUU_[A-Z0-9_]+?' ]
     'muu/impl/unicode_wchar_t.h'
 ]
 'muu/core.h' = [
-    'muu/impl/core_build.h',
     'muu/impl/core_constants.h',
     'muu/impl/core_literals.h',
     'muu/impl/core_utils.h'
 ]
-'muu/meta.h' = [
-    'muu/impl/is_constant_evaluated.h'
-]
 'muu/preprocessor.h' = [
     'muu/impl/preprocessor_for_each.h',
     'muu/impl/preprocessor_for_each_attributes.h',
-]
-'muu/strings.h' = [
-    'muu/impl/thread_name.h'
 ]
 
 

@@ -145,9 +145,6 @@
     <ClInclude Include="include\muu\impl\core_constants.h">
       <Filter>include\impl</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\bit_cast.h">
-      <Filter>include\impl</Filter>
-    </ClInclude>
     <ClInclude Include="include\muu\impl\core_literals.h">
       <Filter>include\impl</Filter>
     </ClInclude>
@@ -214,12 +211,6 @@
     <ClInclude Include="include\muu\bit.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\core_build.h">
-      <Filter>include\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="include\muu\impl\thread_name.h">
-      <Filter>include\impl</Filter>
-    </ClInclude>
     <ClInclude Include="include\muu\impl\std_initializer_list.h">
       <Filter>include\impl</Filter>
     </ClInclude>
@@ -243,9 +234,6 @@
     </ClInclude>
     <ClInclude Include="include\muu\packed_unit_vector.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\muu\impl\is_constant_evaluated.h">
-      <Filter>include\impl</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\meta.h">
       <Filter>include</Filter>
@@ -301,8 +289,26 @@
     <ClInclude Include="include\muu\spin_mutex.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\pause.h">
-      <Filter>include\impl</Filter>
+    <ClInclude Include="include\muu\bit_cast.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\is_constant_evaluated.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\thread_name.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\pause.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\build.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\assume_aligned.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\pointer_cast.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

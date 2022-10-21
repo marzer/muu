@@ -3,9 +3,11 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 #pragma once
-/// \cond
 
-#include "../preprocessor.h"
+/// \file
+/// \brief Contains the definition of #MUU_PAUSE.
+
+#include "preprocessor.h"
 MUU_DISABLE_WARNINGS;
 
 // msvc-specific
@@ -46,5 +48,8 @@ MUU_DISABLE_WARNINGS;
 	#define MUU_PAUSE() MUU_NOOP
 #endif
 
+/// \def MUU_PAUSE()
+/// \ingroup preprocessor
+/// \brief Expands to a platform-specific intrinsic for pausing/yielding the CPU (e.g. `_mm_pause()`).
+
 MUU_ENABLE_WARNINGS;
-/// \endcond

@@ -11,12 +11,12 @@
 #include "chars.h"
 #include "string_param.h"
 #include "meta.h"
+#include "thread_name.h"
 #include "impl/core_constants.h"
 #include "impl/std_string.h"
 #include "impl/std_string_view.h"
 #include "impl/std_iosfwd.h"
 #include "impl/std_memcpy.h"
-#include "impl/thread_name.h"
 #include "impl/header_start.h"
 MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;

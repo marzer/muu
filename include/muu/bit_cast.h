@@ -5,11 +5,11 @@
 #pragma once
 
 /// \file
-/// \brief Contains the definition of muu::bit_cast.
+/// \brief Contains the definition of #muu::bit_cast().
 
-#include "../meta.h"
-#include "std_memcpy.h"
-#include "header_start.h"
+#include "meta.h"
+#include "impl/std_memcpy.h"
+#include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 MUU_DISABLE_LIFETIME_WARNINGS;
 
@@ -90,4 +90,4 @@ namespace muu
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
-#include "header_end.h"
+#include "impl/header_end.h"

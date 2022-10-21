@@ -7,7 +7,7 @@
 /// \file
 /// \brief Core functions and typedefs.
 
-#include "impl/core_build.h"
+#include "build.h"
 #include "impl/core_constants.h"
 #include "impl/core_literals.h"
 #include "impl/core_utils.h"

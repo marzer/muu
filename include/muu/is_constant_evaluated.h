@@ -5,11 +5,14 @@
 // clang-format off
 #pragma once
 
-#include "../preprocessor.h"
+/// \file
+/// \brief Contains the definitions of #muu::is_constant_evaluated(), #MUU_IF_CONSTEVAL and #MUU_IF_RUNTIME.
+
+#include "preprocessor.h"
 #if !MUU_HAS_CONSTEVAL_IF
-	#include "std_type_traits.h"
+	#include "impl/std_type_traits.h"
 #endif
-#include "header_start.h"
+#include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 
 namespace muu
@@ -67,6 +70,34 @@ namespace muu
 	#define MUU_IF_RUNTIME		if (!::muu::is_constant_evaluated())
 #endif
 
+/// \def MUU_IF_CONSTEVAL
+/// \ingroup preprocessor
+/// \brief Begins an `if consteval` block if supported, otherwise falls back on #muu::is_constant_evaluated().
+/// \detail \cpp
+/// MUU_IF_CONSTEVAL
+/// {
+///		this_code_runs_at_compile_time();
+/// }
+/// else
+/// {
+///		this_code_runs_at_runtime();
+/// }
+/// \endcpp
+
+/// \def MUU_IF_RUNTIME
+/// \ingroup preprocessor
+/// \brief Begins an `if !consteval` block if supported, otherwise falls back on #muu::is_constant_evaluated().
+/// \detail \cpp
+/// MUU_IF_RUNTIME
+/// {
+///		this_code_runs_at_runtime();
+/// }
+/// else
+/// {
+///		this_code_runs_at_compile_time();
+/// }
+/// \endcpp
+
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
-#include "header_end.h"
+#include "impl/header_end.h"
 // clang-format on

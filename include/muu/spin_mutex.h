@@ -8,7 +8,7 @@
 /// \brief  Contains the definition of muu::spin_mutex.
 
 #include "fwd.h"
-#include "muu/impl/pause.h"
+#include "pause.h"
 MUU_DISABLE_WARNINGS;
 #include <atomic>
 MUU_ENABLE_WARNINGS;

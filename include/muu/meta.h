@@ -10,7 +10,7 @@
 #include "fwd.h"
 #include "impl/std_type_traits.h"
 #include "impl/std_utility.h"
-#include "impl/is_constant_evaluated.h"
+#include "is_constant_evaluated.h"
 MUU_DISABLE_WARNINGS;
 #if MUU_HAS_VECTORCALL
 	#include <intrin.h>

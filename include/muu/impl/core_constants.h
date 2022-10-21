@@ -122,7 +122,7 @@ namespace muu
 			/// \brief The number of significant decimal digits that can be exactly represented.
 			static constexpr int decimal_digits = std::numeric_limits<T>::digits10;
 
-			/// \brief The default epsilon used by #approx_equal().
+			/// \brief The default epsilon used by #approx_equal.
 			static constexpr T default_epsilon = T{ 10 } * power_<T, 10, -std::numeric_limits<T>::digits10>::value;
 
 			/// @}

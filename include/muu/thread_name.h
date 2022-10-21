@@ -4,8 +4,11 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
-#include "../string_param.h"
-#include "header_start.h"
+/// \file
+/// \brief Contains the definition of #muu::set_thread_name().
+
+#include "string_param.h"
+#include "impl/header_start.h"
 
 /// \cond
 extern "C" //
@@ -20,10 +23,11 @@ namespace muu
 {
 	/// \brief		Sets the name of the current thread for debuggers.
 	/// \ingroup	strings
-	inline void set_thread_name(string_param name) noexcept
+	MUU_ALWAYS_INLINE
+	void set_thread_name(string_param name) noexcept
 	{
 		::muu_impl_set_thread_name(&name);
 	}
 }
 
-#include "header_end.h"
+#include "impl/header_end.h"

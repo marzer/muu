@@ -574,9 +574,6 @@ extern "C" //
 	MUU_API
 	size_t MUU_CALLCONV muu_impl_thread_pool_capacity(void*) noexcept;
 }
-
-/// \endcond
-
 /// \endcond
 
 namespace muu

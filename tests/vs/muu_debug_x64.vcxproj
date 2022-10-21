@@ -62,6 +62,7 @@
   <ItemGroup>
     <ClInclude Include="$(SolutionDir)include\muu\accumulator.h" />
     <ClInclude Include="$(SolutionDir)include\muu\all.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\assume_aligned.h" />
     <ClInclude Include="$(SolutionDir)include\muu\axis_angle.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bit.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bounding_sphere.h" />
@@ -76,8 +77,8 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_box_x_line_segment.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_box_x_oriented_bounding_box.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_box_x_triangle.h" />
-    <ClInclude Include="$(SolutionDir)include\muu\impl\core_build.h" />
-    <ClInclude Include="$(SolutionDir)include\muu\impl\bit_cast.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\build.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\bit_cast.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_utils.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_constants.h" />
     <ClInclude Include="$(SolutionDir)include\muu\core.h" />
@@ -92,7 +93,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\geometry_common.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_end.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\header_start.h" />
-    <ClInclude Include="$(SolutionDir)include\muu\impl\is_constant_evaluated.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\is_constant_evaluated.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\matrix_base.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_box_x_plane.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\plane_x_line_segment.h" />
@@ -103,11 +104,12 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_macro_dispatch_gcc.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\preprocessor_macro_dispatch_msvc.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\quaternion_x_matrix.h" />
-    <ClInclude Include="$(SolutionDir)include\muu\impl\pause.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\pause.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_compare.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_initializer_list.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_tuple.h" />
-    <ClInclude Include="$(SolutionDir)include\muu\impl\thread_name.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\pointer_cast.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\thread_name.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_cstdlib.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_exception.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_iosfwd.h" />

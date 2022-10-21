@@ -875,20 +875,20 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_DELETE_MOVE(T)
 /// \brief Explicitly deletes the move constructor and move-assignment operator of a class or struct.
 /// \details \cpp
-/// class immovable
+/// class immovable_type
 /// {
-/// 	immovable() {}
+/// 	immovable_type() {}
 ///
-/// 	MUU_DELETE_MOVE(immovable);
+/// 	MUU_DELETE_MOVE(immovable_type);
 /// };
 ///
 /// //equivalent to:
-/// class immovable
+/// class immovable_type
 /// {
-/// 	immovable() {}
+/// 	immovable_type() {}
 ///
-/// 	immovable(immovable&&) = delete;
-/// 	immovable& operator=(immovable&&) = delete;
+/// 	immovable_type(immovable_type&&) = delete;
+/// 	immovable_type& operator=(immovable_type&&) = delete;
 /// };
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
@@ -922,20 +922,20 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_DEFAULT_MOVE
 /// \brief Explicitly defaults the move constructor and move-assignment operator of a class or struct.
 /// \details \cpp
-/// class movable
+/// class movable_type
 /// {
-/// 	movable() {}
+/// 	movable_type() {}
 ///
-/// 	MUU_DEFAULT_MOVE(movable);
+/// 	MUU_DEFAULT_MOVE(movable_type);
 /// };
 ///
 /// //equivalent to:
-/// class movable
+/// class movable_type
 /// {
-/// 	movable() {}
+/// 	movable_type() {}
 ///
-/// 	movable(movable&&) = default;
-/// 	movable& operator=(movable&&) = default;
+/// 	movable_type(movable_type&&) = default;
+/// 	movable_type& operator=(movable_type&&) = default;
 /// };
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
@@ -946,19 +946,19 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_DEFAULT_COPY
 /// \brief Explicitly defaults the copy constructor and copy-assignment operator of a class or struct.
 /// \details \cpp
-/// class copyable
+/// class copyable_type
 /// {
-/// 	copyable() {}
-/// 	MUU_DEFAULT_COPY(copyable);
+/// 	copyable_type() {}
+/// 	MUU_DEFAULT_COPY(copyable_type);
 /// };
 ///
 /// //equivalent to:
-/// class copyable
+/// class copyable_type
 /// {
-/// 	copyable() {}
+/// 	copyable_type() {}
 ///
-/// 	copyable(const copyable&) = default;
-/// 	copyable& operator=(const copyable&) = default;
+/// 	copyable_type(const copyable_type&) = default;
+/// 	copyable_type& operator=(const copyable_type&) = default;
 /// };
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html

@@ -4,8 +4,11 @@
 // SPDX-License-Identifier: MIT
 #pragma once
 
-#include "../fwd.h"
-#include "header_start.h"
+/// \file
+/// \brief Contains the definition of many constants in the #muu::build namespace.
+
+#include "fwd.h"
+#include "impl/header_start.h"
 MUU_PRAGMA_MSVC(warning(disable : 4296)) // condition always true/false
 
 /// \cond
@@ -115,4 +118,4 @@ namespace muu::build
 	// clang-format on
 }
 
-#include "header_end.h"
+#include "impl/header_end.h"
