@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.11.0" name="generator"/>
+  <meta content="Poxy v0.11.1" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -246,7 +246,11 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga4e615ca6ddf99207d0d46055db0a9aaa">MUU_GCC</a></span>
             </dt>
-            <dd>The value of <code>__GNUC__</code> when the code is being compiled by GCC, otherwise <code>0</code>.</dd>
+            <dd>The value of <code>__GNUC__</code> when the code is being compiled by GCC specifically, otherwise <code>0</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaf26ac4a9fe6bdc47bd06251c73592b6f">MUU_GCC_LIKE</a></span>
+            </dt>
+            <dd>The value of <code>__GNUC__</code> when it is defined by the compiler, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaa6d403786a6e43ae12a7e6d2fabaf7bc">MUU_HAS_ATTR</a>(</span><span class="m-doc-wrap">attr)</span>
             </dt>
@@ -382,7 +386,11 @@
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gacf33ca59cc4d469b40b34ea471a0f57d">MUU_MSVC</a></span>
             </dt>
-            <dd>The value of <code>_MSC_VER</code> when the code is being compiled by MSVC, otherwise <code>0</code>.</dd>
+            <dd>The value of <code>_MSC_VER</code> when the code is being compiled by MSVC specifically, otherwise <code>0</code>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga3b9e388846c28302ffbfcc1a3fbb9ee5">MUU_MSVC_LIKE</a></span>
+            </dt>
+            <dd>The value of <code>_MSC_VER</code> when it is defined by the compiler, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga00e7d0da1019e1fc64eff53311eab35e">MUU_NEVER_INLINE</a></span>
             </dt>
@@ -888,7 +896,15 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga4e615ca6ddf99207d0d46055db0a9aaa">MUU_GCC</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>The value of <code>__GNUC__</code> when the code is being compiled by GCC, otherwise <code>0</code>.</p>
+            <p>The value of <code>__GNUC__</code> when the code is being compiled by GCC specifically, otherwise <code>0</code>.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html" target="_blank">https:/<wbr/>/<wbr/>gcc.gnu.org/<wbr/>onlinedocs/<wbr/>cpp/<wbr/>Common-Predefined-Macros.html</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaf26ac4a9fe6bdc47bd06251c73592b6f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gaf26ac4a9fe6bdc47bd06251c73592b6f">MUU_GCC_LIKE</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>The value of <code>__GNUC__</code> when it is defined by the compiler, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html" target="_blank">https:/<wbr/>/<wbr/>gcc.gnu.org/<wbr/>onlinedocs/<wbr/>cpp/<wbr/>Common-Predefined-Macros.html</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="gaa6d403786a6e43ae12a7e6d2fabaf7bc"><div>
@@ -1184,7 +1200,15 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gacf33ca59cc4d469b40b34ea471a0f57d">MUU_MSVC</a></span>
               <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
             </h3>
-            <p>The value of <code>_MSC_VER</code> when the code is being compiled by MSVC, otherwise <code>0</code>.</p>
+            <p>The value of <code>_MSC_VER</code> when the code is being compiled by MSVC specifically, otherwise <code>0</code>.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros" target="_blank">https:/<wbr/>/<wbr/>docs.microsoft.com/<wbr/>en-us/<wbr/>cpp/<wbr/>preprocessor/<wbr/>predefined-macros</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga3b9e388846c28302ffbfcc1a3fbb9ee5"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga3b9e388846c28302ffbfcc1a3fbb9ee5">MUU_MSVC_LIKE</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p>The value of <code>_MSC_VER</code> when it is defined by the compiler, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros" target="_blank">https:/<wbr/>/<wbr/>docs.microsoft.com/<wbr/>en-us/<wbr/>cpp/<wbr/>preprocessor/<wbr/>predefined-macros</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga00e7d0da1019e1fc64eff53311eab35e"><div>

@@ -16,6 +16,10 @@
     <includes id="assume__aligned_8h" name="assume_aligned.h" local="yes" imported="no">assume_aligned.h</includes>
     <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
     <includes id="bit__cast_8h" name="bit_cast.h" local="yes" imported="no">bit_cast.h</includes>
+    <includes id="bit__ceil_8h" name="bit_ceil.h" local="yes" imported="no">bit_ceil.h</includes>
+    <includes id="bit__fill_8h" name="bit_fill.h" local="yes" imported="no">bit_fill.h</includes>
+    <includes id="bit__floor_8h" name="bit_floor.h" local="yes" imported="no">bit_floor.h</includes>
+    <includes id="bit__pack_8h" name="bit_pack.h" local="yes" imported="no">bit_pack.h</includes>
     <includes id="blob_8h" name="blob.h" local="yes" imported="no">blob.h</includes>
     <includes id="bounding__box_8h" name="bounding_box.h" local="yes" imported="no">bounding_box.h</includes>
     <includes id="bounding__sphere_8h" name="bounding_sphere.h" local="yes" imported="no">bounding_sphere.h</includes>
@@ -23,15 +27,19 @@
     <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
     <includes id="compressed__pair_8h" name="compressed_pair.h" local="yes" imported="no">compressed_pair.h</includes>
     <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
+    <includes id="countr__zero_8h" name="countr_zero.h" local="yes" imported="no">countr_zero.h</includes>
+    <includes id="countl__zero_8h" name="countl_zero.h" local="yes" imported="no">countl_zero.h</includes>
     <includes id="emplacement__array_8h" name="emplacement_array.h" local="yes" imported="no">emplacement_array.h</includes>
     <includes id="euler__angles_8h" name="euler_angles.h" local="yes" imported="no">euler_angles.h</includes>
     <includes id="function__view_8h" name="function_view.h" local="yes" imported="no">function_view.h</includes>
     <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <includes id="half_8h" name="half.h" local="yes" imported="no">half.h</includes>
     <includes id="hashing_8h" name="hashing.h" local="yes" imported="no">hashing.h</includes>
+    <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
     <includes id="integral__range_8h" name="integral_range.h" local="yes" imported="no">integral_range.h</includes>
     <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
     <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
+    <includes id="launder_8h" name="launder.h" local="yes" imported="no">launder.h</includes>
     <includes id="line__segment_8h" name="line_segment.h" local="yes" imported="no">line_segment.h</includes>
     <includes id="math_8h" name="math.h" local="yes" imported="no">math.h</includes>
     <includes id="matrix_8h" name="matrix.h" local="yes" imported="no">matrix.h</includes>
@@ -40,6 +48,7 @@
     <includes id="pause_8h" name="pause.h" local="yes" imported="no">pause.h</includes>
     <includes id="plane_8h" name="plane.h" local="yes" imported="no">plane.h</includes>
     <includes id="pointer__cast_8h" name="pointer_cast.h" local="yes" imported="no">pointer_cast.h</includes>
+    <includes id="popcount_8h" name="popcount.h" local="yes" imported="no">popcount.h</includes>
     <includes id="quaternion_8h" name="quaternion.h" local="yes" imported="no">quaternion.h</includes>
     <includes id="scope__guard_8h" name="scope_guard.h" local="yes" imported="no">scope_guard.h</includes>
     <includes id="size__t__literals_8h" name="size_t_literals.h" local="yes" imported="no">size_t_literals.h</includes>
@@ -82,23 +91,16 @@
     <name>bit.h</name>
     <filename>bit_8h.html</filename>
     <includes id="bit__cast_8h" name="bit_cast.h" local="yes" imported="no">bit_cast.h</includes>
+    <includes id="bit__ceil_8h" name="bit_ceil.h" local="yes" imported="no">bit_ceil.h</includes>
+    <includes id="bit__fill_8h" name="bit_fill.h" local="yes" imported="no">bit_fill.h</includes>
+    <includes id="bit__floor_8h" name="bit_floor.h" local="yes" imported="no">bit_floor.h</includes>
+    <includes id="bit__pack_8h" name="bit_pack.h" local="yes" imported="no">bit_pack.h</includes>
+    <includes id="countl__zero_8h" name="countl_zero.h" local="yes" imported="no">countl_zero.h</includes>
+    <includes id="countr__zero_8h" name="countr_zero.h" local="yes" imported="no">countr_zero.h</includes>
     <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
-    <includes id="size__t__literals_8h" name="size_t_literals.h" local="yes" imported="no">size_t_literals.h</includes>
+    <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
+    <includes id="popcount_8h" name="popcount.h" local="yes" imported="no">popcount.h</includes>
     <namespace>muu</namespace>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countl_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
     <member kind="function">
       <type>constexpr int</type>
       <name>countl_one</name>
@@ -114,27 +116,6 @@
       <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_ceil</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>bit_pack</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga952a65241777f79e5561239f57ec9295</anchor>
-      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>popcount</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr bool</type>
       <name>has_single_bit</name>
       <anchorfile>group__core.html</anchorfile>
@@ -143,31 +124,10 @@
     </member>
     <member kind="function">
       <type>constexpr T</type>
-      <name>bit_floor</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
       <name>bit_width</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga1a764507fe486799f60eac32c622e63e</anchor>
       <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_right</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
-      <arglist>(size_t count) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_left</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
-      <arglist>(size_t count) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr uint8_t</type>
@@ -217,6 +177,68 @@
       <anchorfile>namespacemuu_1_1build.html</anchorfile>
       <anchor>a5ee6b53a87bd46b2bf84f2bea9e2a0b5</anchor>
       <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>bit_ceil.h</name>
+    <filename>bit__ceil_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="countl__zero_8h" name="countl_zero.h" local="yes" imported="no">countl_zero.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_ceil</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>bit_fill.h</name>
+    <filename>bit__fill_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_right</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_left</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>bit_floor.h</name>
+    <filename>bit__floor_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="countl__zero_8h" name="countl_zero.h" local="yes" imported="no">countl_zero.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_floor</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>bit_pack.h</name>
+    <filename>bit__pack_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="bit__ceil_8h" name="bit_ceil.h" local="yes" imported="no">bit_ceil.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>bit_pack</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga952a65241777f79e5561239f57ec9295</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
     </member>
   </compound>
   <compound kind="file">
@@ -422,19 +444,53 @@
   </compound>
   <compound kind="file">
     <name>core.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
     <filename>core_8h.html</filename>
     <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
-    <includes id="size__t__literals_8h" name="size_t_literals.h" local="yes" imported="no">size_t_literals.h</includes>
+    <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
+  </compound>
+  <compound kind="file">
+    <name>countl_zero.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>countl__zero_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countl_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>countr_zero.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>countr__zero_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>emplacement_array.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
     <filename>emplacement__array_8h.html</filename>
     <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
+    <includes id="launder_8h" name="launder.h" local="yes" imported="no">launder.h</includes>
     <class kind="class">muu::emplacement_array</class>
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
     <name>euler_angles.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
     <filename>euler__angles_8h.html</filename>
     <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
     <class kind="struct">muu::euler_angles</class>
@@ -442,6 +498,7 @@
   </compound>
   <compound kind="file">
     <name>function_view.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
     <filename>function__view_8h.html</filename>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
     <class kind="class">muu::function_view</class>
@@ -662,6 +719,85 @@
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
+    <name>integer_literals.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>integer__literals_8h.html</filename>
+    <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
+    <includes id="size__t__literals_8h" name="size_t_literals.h" local="yes" imported="no">size_t_literals.h</includes>
+    <namespace>muu</namespace>
+    <namespace>muu::literals</namespace>
+    <member kind="function">
+      <type>consteval uint8_t</type>
+      <name>operator&quot;&quot;_u8</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>aebd70ea52d54027572688ebfda931440</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval uint16_t</type>
+      <name>operator&quot;&quot;_u16</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a76a079fced111d7ccf855e813a2f5356</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval uint32_t</type>
+      <name>operator&quot;&quot;_u32</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a3e2767a13c0198cdbf2b992840070fbc</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval uint64_t</type>
+      <name>operator&quot;&quot;_u64</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a4e0d840a84730f9a8c0d3884e348f3ec</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval int8_t</type>
+      <name>operator&quot;&quot;_i8</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a96020b0fcf18ae03ed09f9013f44237d</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval int16_t</type>
+      <name>operator&quot;&quot;_i16</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a7e6172ce8840190a09044aa8a16182c0</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval int32_t</type>
+      <name>operator&quot;&quot;_i32</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>aa49717181930042c1491b11d94c94134</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval int64_t</type>
+      <name>operator&quot;&quot;_i64</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>aa621e75746c24672c98a7395560985e6</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval int128_t</type>
+      <name>operator&quot;&quot;_i128</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a974965c4f700560278e31614bb38fc92</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval uint128_t</type>
+      <name>operator&quot;&quot;_u128</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a029f1ed1b5268a44c18ab45754d300f6</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>integral_range.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>integral__range_8h.html</filename>
@@ -760,6 +896,20 @@
       <anchorfile>group__iterators.html</anchorfile>
       <anchor>ga005a07ba4450155afd1ef02e317a9d9b</anchor>
       <arglist>(B begin, E end) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>launder.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>launder_8h.html</filename>
+    <includes id="preprocessor_8h" name="preprocessor.h" local="yes" imported="no">preprocessor.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>launder</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaf6afc81640e8d05e5c0f809c06adfb42</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
     </member>
   </compound>
   <compound kind="file">
@@ -3141,6 +3291,23 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>popcount.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>popcount_8h.html</filename>
+    <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="bit__pack_8h" name="bit_pack.h" local="yes" imported="no">bit_pack.h</includes>
+    <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>popcount</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>preprocessor.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>preprocessor_8h.html</filename>
@@ -3188,9 +3355,23 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_MSVC_LIKE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga3b9e388846c28302ffbfcc1a3fbb9ee5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_MSVC</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>gacf33ca59cc4d469b40b34ea471a0f57d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_GCC_LIKE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gaf26ac4a9fe6bdc47bd06251c73592b6f</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
@@ -3952,76 +4133,6 @@
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
       <anchor>a98a2294177231968f6f9f042d402619c</anchor>
       <arglist>(unsigned long long gb) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval uint8_t</type>
-      <name>operator&quot;&quot;_u8</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aebd70ea52d54027572688ebfda931440</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval uint16_t</type>
-      <name>operator&quot;&quot;_u16</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a76a079fced111d7ccf855e813a2f5356</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval uint32_t</type>
-      <name>operator&quot;&quot;_u32</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a3e2767a13c0198cdbf2b992840070fbc</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval uint64_t</type>
-      <name>operator&quot;&quot;_u64</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a4e0d840a84730f9a8c0d3884e348f3ec</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval int8_t</type>
-      <name>operator&quot;&quot;_i8</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a96020b0fcf18ae03ed09f9013f44237d</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval int16_t</type>
-      <name>operator&quot;&quot;_i16</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a7e6172ce8840190a09044aa8a16182c0</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval int32_t</type>
-      <name>operator&quot;&quot;_i32</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aa49717181930042c1491b11d94c94134</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval int64_t</type>
-      <name>operator&quot;&quot;_i64</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>aa621e75746c24672c98a7395560985e6</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval int128_t</type>
-      <name>operator&quot;&quot;_i128</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a974965c4f700560278e31614bb38fc92</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval uint128_t</type>
-      <name>operator&quot;&quot;_u128</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a029f1ed1b5268a44c18ab45754d300f6</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
     </member>
   </compound>
   <compound kind="file">
@@ -17056,20 +17167,6 @@
     </member>
     <member kind="function">
       <type>constexpr int</type>
-      <name>countl_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
       <name>countl_one</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
@@ -17083,27 +17180,6 @@
       <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_ceil</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>bit_pack</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga952a65241777f79e5561239f57ec9295</anchor>
-      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>popcount</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr bool</type>
       <name>has_single_bit</name>
       <anchorfile>group__core.html</anchorfile>
@@ -17112,31 +17188,10 @@
     </member>
     <member kind="function">
       <type>constexpr T</type>
-      <name>bit_floor</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
       <name>bit_width</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga1a764507fe486799f60eac32c622e63e</anchor>
       <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_right</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
-      <arglist>(size_t count) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_left</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
-      <arglist>(size_t count) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr uint8_t</type>
@@ -17172,6 +17227,41 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>gaadb4c6332c738c248f84f43ece303657</anchor>
       <arglist>(const From &amp;from) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_ceil</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_right</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_left</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_floor</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>bit_pack</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga952a65241777f79e5561239f57ec9295</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -17228,6 +17318,20 @@
       <anchorfile>group__degenerate.html</anchorfile>
       <anchor>ga236cb7c134ac66ab7b2e98ef8744d2ba</anchor>
       <arglist>(const bounding_sphere&lt; S &gt; &amp;bs) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countl_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
+      <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -17382,6 +17486,13 @@
       <anchorfile>group__iterators.html</anchorfile>
       <anchor>ga005a07ba4450155afd1ef02e317a9d9b</anchor>
       <arglist>(B begin, E end) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>launder</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaf6afc81640e8d05e5c0f809c06adfb42</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -18364,6 +18475,13 @@
       <arglist>(From from) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr int</type>
+      <name>popcount</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
@@ -18810,13 +18928,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga4ff100d8bb39742b764c341678f60a7d</anchor>
       <arglist>(const T &amp;val, const U &amp;low, const U &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>launder</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaf6afc81640e8d05e5c0f809c06adfb42</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr T *</type>
@@ -21410,41 +21521,6 @@
       <arglist>(unsigned long long val) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>consteval size_t</type>
-      <name>operator&quot;&quot;_sz</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a4ed24f686cd4d1bc02a08d49723524e4</anchor>
-      <arglist>(unsigned long long n) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval size_t</type>
-      <name>operator&quot;&quot;_b</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>ae611e3cdfb3c6d4731dd7f600d50e1a8</anchor>
-      <arglist>(unsigned long long b) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval size_t</type>
-      <name>operator&quot;&quot;_kb</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a1aafa6a4433ed8ba20e7009e18e3001f</anchor>
-      <arglist>(unsigned long long kb) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval size_t</type>
-      <name>operator&quot;&quot;_mb</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a9139d3fc5cb832d87d6d9701aa93b351</anchor>
-      <arglist>(unsigned long long mb) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>consteval size_t</type>
-      <name>operator&quot;&quot;_gb</name>
-      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
-      <anchor>a98a2294177231968f6f9f042d402619c</anchor>
-      <arglist>(unsigned long long gb) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>consteval uint8_t</type>
       <name>operator&quot;&quot;_u8</name>
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
@@ -21513,6 +21589,41 @@
       <anchorfile>namespacemuu_1_1literals.html</anchorfile>
       <anchor>a029f1ed1b5268a44c18ab45754d300f6</anchor>
       <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval size_t</type>
+      <name>operator&quot;&quot;_sz</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a4ed24f686cd4d1bc02a08d49723524e4</anchor>
+      <arglist>(unsigned long long n) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval size_t</type>
+      <name>operator&quot;&quot;_b</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>ae611e3cdfb3c6d4731dd7f600d50e1a8</anchor>
+      <arglist>(unsigned long long b) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval size_t</type>
+      <name>operator&quot;&quot;_kb</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a1aafa6a4433ed8ba20e7009e18e3001f</anchor>
+      <arglist>(unsigned long long kb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval size_t</type>
+      <name>operator&quot;&quot;_mb</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a9139d3fc5cb832d87d6d9701aa93b351</anchor>
+      <arglist>(unsigned long long mb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval size_t</type>
+      <name>operator&quot;&quot;_gb</name>
+      <anchorfile>namespacemuu_1_1literals.html</anchorfile>
+      <anchor>a98a2294177231968f6f9f042d402619c</anchor>
+      <arglist>(unsigned long long gb) noexcept</arglist>
     </member>
     <member kind="function">
       <type>consteval auto</type>
@@ -21742,20 +21853,6 @@
     </member>
     <member kind="function">
       <type>constexpr int</type>
-      <name>countl_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_zero</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
       <name>countl_one</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
@@ -21769,27 +21866,6 @@
       <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_ceil</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr auto</type>
-      <name>bit_pack</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga952a65241777f79e5561239f57ec9295</anchor>
-      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>popcount</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
       <type>constexpr bool</type>
       <name>has_single_bit</name>
       <anchorfile>group__core.html</anchorfile>
@@ -21798,31 +21874,10 @@
     </member>
     <member kind="function">
       <type>constexpr T</type>
-      <name>bit_floor</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
       <name>bit_width</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga1a764507fe486799f60eac32c622e63e</anchor>
       <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_right</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
-      <arglist>(size_t count) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>bit_fill_left</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
-      <arglist>(size_t count) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr uint8_t</type>
@@ -21860,6 +21915,55 @@
       <arglist>(const From &amp;from) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_ceil</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gae62fd9413cd433a4e15c0fdf89913a1b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_right</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5cb8d563f61573ca1e2827ddd085d3d</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_fill_left</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaf41f6cc12b0e9ac1de1bdf63e2a28fdf</anchor>
+      <arglist>(size_t count) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>bit_floor</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga0ef1d5961e901e2d52b3d6be07efe201</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr auto</type>
+      <name>bit_pack</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga952a65241777f79e5561239f57ec9295</anchor>
+      <arglist>(T val1, U val2, V... vals) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countl_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_zero</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr bool</type>
       <name>is_constant_evaluated</name>
       <anchorfile>group__core.html</anchorfile>
@@ -21867,11 +21971,25 @@
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr T *</type>
+      <name>launder</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gaf6afc81640e8d05e5c0f809c06adfb42</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr To</type>
       <name>pointer_cast</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>gab714a50e01b58e7d4117d5ef9d403d39</anchor>
       <arglist>(From from) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>popcount</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
+      <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr std::underlying_type_t&lt; T &gt;</type>
@@ -21907,13 +22025,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga4ff100d8bb39742b764c341678f60a7d</anchor>
       <arglist>(const T &amp;val, const U &amp;low, const U &amp;high) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>launder</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gaf6afc81640e8d05e5c0f809c06adfb42</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr T *</type>
@@ -23556,9 +23667,23 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_MSVC_LIKE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga3b9e388846c28302ffbfcc1a3fbb9ee5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_MSVC</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>gacf33ca59cc4d469b40b34ea471a0f57d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_GCC_LIKE</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gaf26ac4a9fe6bdc47bd06251c73592b6f</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">

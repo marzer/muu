@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.11.0" name="generator"/>
+  <meta content="Poxy v0.11.1" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -85,33 +85,6 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gae62fd9413cd433a4e15c0fdf89913a1b">bit_ceil</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Finds the smallest integral power of two not less than the given value.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gaf41f6cc12b0e9ac1de1bdf63e2a28fdf">bit_fill_left</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns an unsigned integer filled from the left with the desired number of consecutive ones.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gab5cb8d563f61573ca1e2827ddd085d3d">bit_fill_right</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> count) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns an unsigned integer filled from the right with the desired number of consecutive ones.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga0ef1d5961e901e2d52b3d6be07efe201">bit_floor</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Finds the largest integral power of two not greater than the given value.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Return = void, typename T, typename U, typename... V&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga952a65241777f79e5561239f57ec9295">bit_pack</a>(</span><span class="m-doc-wrap">T val1,
-              U val2,
-              V... vals) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Bitwise-packs integers left-to-right into a larger integer.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1a764507fe486799f60eac32c622e63e">bit_width</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Finds the smallest number of bits needed to represent the given value.</dd>
@@ -138,29 +111,14 @@
             <dd>Counts the number of consecutive 1 bits, starting from the left.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga12cd318fdcf736ca99f5bf66aa615fd1">countl_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Counts the number of consecutive 0 bits, starting from the left.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga84963e1a7bf75ec7464cda53b26dec8a">countr_one</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Counts the number of consecutive 1 bits, starting from the right.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gab5b51a3c121984cfddb8d5da4e9bf070">countr_zero</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Counts the number of consecutive 0 bits, starting from the right.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga309ac880015add971ee06b148191060f">has_single_bit</a>(</span><span class="m-doc-wrap">T val) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Checks if an integral value has only a single bit set.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gab392bc74729da41c4d226f8d45e58599">popcount</a>(</span><span class="m-doc-wrap">T val) -&gt; int <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Counts the number of set bits (the 'population count') of an unsigned integer.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... ByteIndices, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1aaa24bb10d08ad78c86695baabc1857">swizzle</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
