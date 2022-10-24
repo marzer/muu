@@ -228,7 +228,7 @@ MUU_DISABLE_SPAM_WARNINGS;
 	#define ALL_INTS		  STANDARD_INTS
 #endif
 
-#ifdef _MSC_VER // double and long double are identical on msvc so we just ignore long double
+#if MUU_MSVC_LIKE // double and long double are identical on msvc so we just ignore long double
 	#define STANDARD_FLOATS float, double
 #else
 	#define STANDARD_FLOATS float, double, long double

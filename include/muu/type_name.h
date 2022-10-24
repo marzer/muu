@@ -185,13 +185,13 @@ namespace muu
 		MUU_CONSTEVAL
 		auto type_name_source_string() noexcept
 		{
-#if defined(__GNUC__)
+#if MUU_GCC_LIKE
 
 			auto str = std::string_view{ __PRETTY_FUNCTION__ };
 			str		 = type_name_trim_left_from_first(str, '[');
 			str		 = type_name_trim_right_from_last(str, ']');
 
-#elif defined(_MSC_VER)
+#elif MUU_MSVC_LIKE
 
 			auto str = std::string_view{ __FUNCSIG__ };
 			str		 = type_name_trim_left_from_first(str, '<');

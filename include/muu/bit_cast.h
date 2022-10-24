@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the definition of #muu::bit_cast().
+/// \brief Contains the implementation of #muu::bit_cast().
 
 #include "meta.h"
 #include "impl/std_memcpy.h"

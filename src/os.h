@@ -12,6 +12,6 @@
 	#include "os_unix.h"
 #endif
 
-#if defined(_MSC_VER) && !(defined(NDEBUG) ^ defined(_DEBUG))
+#if MUU_MSVC_LIKE && !(defined(NDEBUG) ^ defined(_DEBUG))
 	#error muu requires one of NDEBUG or _DEBUG to be defined when building with MSVC.
 #endif

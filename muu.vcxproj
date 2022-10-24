@@ -59,7 +59,13 @@
     <ClInclude Include="include\muu\assume_aligned.h" />
     <ClInclude Include="include\muu\axis_angle.h" />
     <ClInclude Include="include\muu\bit.h" />
+    <ClInclude Include="include\muu\bit_ceil.h" />
+    <ClInclude Include="include\muu\bit_fill.h" />
+    <ClInclude Include="include\muu\bit_floor.h" />
+    <ClInclude Include="include\muu\bit_pack.h" />
     <ClInclude Include="include\muu\bounding_sphere.h" />
+    <ClInclude Include="include\muu\countl_zero.h" />
+    <ClInclude Include="include\muu\countr_zero.h" />
     <ClInclude Include="include\muu\euler_angles.h" />
     <ClInclude Include="include\muu\function_view.h" />
     <ClInclude Include="include\muu\impl\aligned_alloc.h" />
@@ -82,6 +88,9 @@
     <ClInclude Include="include\muu\generic_allocator.h" />
     <ClInclude Include="include\muu\half.h" />
     <ClInclude Include="include\muu\hashing.h" />
+    <ClInclude Include="include\muu\integer_literals.h" />
+    <ClInclude Include="include\muu\launder.h" />
+    <ClInclude Include="include\muu\popcount.h" />
     <ClInclude Include="include\muu\size_t_literals.h" />
     <ClInclude Include="include\muu\impl\environment_checks.h" />
     <ClInclude Include="include\muu\impl\geometry_common.h" />
@@ -107,7 +116,6 @@
     <ClInclude Include="include\muu\impl\std_cstdlib.h" />
     <ClInclude Include="include\muu\impl\std_exception.h" />
     <ClInclude Include="include\muu\impl\std_iosfwd.h" />
-    <ClInclude Include="include\muu\impl\std_launder.h" />
     <ClInclude Include="include\muu\impl\std_memory.h" />
     <ClInclude Include="include\muu\impl\std_new.h" />
     <ClInclude Include="include\muu\impl\std_memcpy.h" />

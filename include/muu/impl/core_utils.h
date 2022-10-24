@@ -8,7 +8,7 @@
 #include "../is_constant_evaluated.h"
 #include "../assume_aligned.h"
 #include "../pointer_cast.h"
-#include "std_launder.h"
+#include "../launder.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 
@@ -134,22 +134,6 @@ namespace muu
 		}
 		else
 			return low <= val && val <= high; // user-defined <= operator, ideally
-	}
-
-	/// \brief	Equivalent to C++17's std::launder
-	/// \ingroup core
-	///
-	/// \note	Older implementations don't provide this as an intrinsic or have a placeholder
-	/// 		 for it in their standard library. Using this version allows you to get around that
-	/// 		 by writing code 'as if' it were there and have it compile just the same.
-	template <class T>
-	MUU_CONST_INLINE_GETTER
-	constexpr T* launder(T* ptr) noexcept
-	{
-		static_assert(!std::is_function_v<T> && !std::is_void_v<T>,
-					  "launder() may not be used on pointers to functions or void.");
-
-		return MUU_LAUNDER(ptr);
 	}
 
 	/// \brief	Applies a byte offset to a pointer.

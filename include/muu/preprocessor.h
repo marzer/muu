@@ -97,22 +97,40 @@
 /// \brief The value of `__INTEL_COMPILER` when the code is being compiled by ICC, otherwise `0`.
 /// \see http://scv.bu.edu/computation/bladecenter/manpages/icc.html
 
-#if defined(_MSC_VER) && !MUU_CLANG && !MUU_ICC
-	#define MUU_MSVC _MSC_VER
+#ifdef _MSC_VER
+	#define MUU_MSVC_LIKE _MSC_VER
+#else
+	#define MUU_MSVC_LIKE 0
+#endif
+/// \def MUU_MSVC_LIKE
+/// \brief The value of `_MSC_VER` when it is defined by the compiler, otherwise `0`.
+/// \see https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
+
+#if MUU_MSVC_LIKE && !MUU_CLANG && !MUU_ICC
+	#define MUU_MSVC MUU_MSVC_LIKE
 #else
 	#define MUU_MSVC 0
 #endif
 /// \def MUU_MSVC
-/// \brief The value of `_MSC_VER` when the code is being compiled by MSVC, otherwise `0`.
+/// \brief The value of `_MSC_VER` when the code is being compiled by MSVC specifically, otherwise `0`.
 /// \see https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
 
-#if defined(__GNUC__) && !MUU_CLANG && !MUU_ICC
-	#define MUU_GCC __GNUC__
+#ifdef __GNUC__
+	#define MUU_GCC_LIKE __GNUC__
+#else
+	#define MUU_GCC_LIKE 0
+#endif
+/// \def MUU_GCC_LIKE
+/// \brief The value of `__GNUC__` when it is defined by the compiler, otherwise `0`.
+/// \see https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
+
+#if MUU_GCC_LIKE && !MUU_CLANG && !MUU_ICC
+	#define MUU_GCC MUU_GCC_LIKE
 #else
 	#define MUU_GCC 0
 #endif
 /// \def MUU_GCC
-/// \brief The value of `__GNUC__` when the code is being compiled by GCC, otherwise `0`.
+/// \brief The value of `__GNUC__` when the code is being compiled by GCC specifically, otherwise `0`.
 /// \see https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
 
 /// \cond
@@ -288,7 +306,7 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_ISET_AVX512
 /// \brief `1` when the target supports any of the AVX512 instruction sets, otherwise `0`.
 
-#if defined(_MSC_VER) || MUU_DOXYGEN
+#if MUU_MSVC_LIKE || MUU_DOXYGEN
 	#define MUU_LITTLE_ENDIAN 1
 	#define MUU_BIG_ENDIAN	  0
 #elif defined(__BYTE_ORDER__)
@@ -420,11 +438,11 @@ help me improve support for your target architecture. Thanks!
 // EXPORT VISIBILITY
 //======================================================================================================================
 
-#ifndef _MSC_VER
+#if !MUU_MSVC_LIKE
 	#undef MUU_DLL
 #endif
 #ifndef MUU_DLL
-	#ifdef _MSC_VER
+	#if MUU_MSVC_LIKE
 		#define MUU_DLL 1
 	#else
 		#define MUU_DLL 0
@@ -436,7 +454,7 @@ help me improve support for your target architecture. Thanks!
 #endif
 
 #ifndef MUU_API
-	#if defined(_MSC_VER) && MUU_DLL
+	#if MUU_MSVC_LIKE && MUU_DLL
 		#if MUU_BUILDING
 			#define MUU_API __declspec(dllexport)
 		#else
@@ -459,7 +477,7 @@ help me improve support for your target architecture. Thanks!
 // ATTRIBUTES, UTILITY MACROS ETC
 //======================================================================================================================
 
-#if MUU_CLANG || MUU_GCC
+#if MUU_CLANG || MUU_GCC_LIKE
 	#define MUU_ATTR(...) __attribute__((__VA_ARGS__))
 #else
 	#define MUU_ATTR(...)
@@ -476,7 +494,7 @@ help me improve support for your target architecture. Thanks!
 /// \brief Expands to `__attribute__(( ... ))` when compiling with a compiler that supports GNU-style attributes
 /// 	   and NDEBUG is defined.
 
-#ifdef _MSC_VER
+#if MUU_MSVC_LIKE
 	#define MUU_DECLSPEC(...) __declspec(__VA_ARGS__)
 #else
 	#define MUU_DECLSPEC(...)
@@ -484,9 +502,9 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_DECLSPEC(...)
 /// \brief Expands to `__declspec( ... )` when compiling with MSVC (or another compiler in MSVC-mode).
 
-#ifdef _MSC_VER
+#if MUU_MSVC_LIKE
 	#define MUU_UNREACHABLE __assume(0)
-#elif MUU_ICC || MUU_CLANG || MUU_GCC || MUU_HAS_BUILTIN(__builtin_unreachable)
+#elif MUU_ICC || MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_BUILTIN(__builtin_unreachable)
 	#define MUU_UNREACHABLE __builtin_unreachable()
 #else
 	#define MUU_UNREACHABLE static_assert(true)
@@ -495,7 +513,7 @@ help me improve support for your target architecture. Thanks!
 /// \brief Marks a position in the code as being unreachable.
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
 
-#ifdef _MSC_VER
+#if MUU_MSVC_LIKE
 	#define MUU_ASSUME(cond) __assume(cond)
 #elif MUU_ICC || MUU_CLANG || MUU_HAS_BUILTIN(__builtin_assume)
 	#define MUU_ASSUME(cond) __builtin_assume(cond)
@@ -513,9 +531,9 @@ help me improve support for your target architecture. Thanks!
 /// \ecpp
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
 
-#ifdef _MSC_VER
+#if MUU_MSVC_LIKE
 	#define MUU_MALLOC MUU_DECLSPEC(restrict)
-#elif MUU_CLANG || MUU_GCC || MUU_HAS_ATTR(__malloc__)
+#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(__malloc__)
 	#define MUU_MALLOC MUU_ATTR(__malloc__)
 #else
 	#define MUU_MALLOC
@@ -533,9 +551,9 @@ help me improve support for your target architecture. Thanks!
 /// \brief Expands to C++20's `consteval` if supported by your compiler, otherwise `constexpr`.
 /// \see [consteval](https://en.cppreference.com/w/cpp/language/consteval)
 
-#ifdef _MSC_VER
+#if MUU_MSVC_LIKE
 	#define MUU_ALWAYS_INLINE __forceinline
-#elif MUU_GCC || MUU_CLANG || MUU_HAS_ATTR(__always_inline__)
+#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(__always_inline__)
 	#define MUU_ALWAYS_INLINE                                                                                          \
 		MUU_ATTR(__always_inline__)                                                                                    \
 		inline
@@ -553,9 +571,9 @@ help me improve support for your target architecture. Thanks!
 /// 	}
 /// \ecpp
 
-#ifdef _MSC_VER
+#if MUU_MSVC_LIKE
 	#define MUU_NEVER_INLINE MUU_DECLSPEC(noinline)
-#elif MUU_GCC || MUU_CLANG || MUU_HAS_ATTR(__noinline__)
+#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(__noinline__)
 	#define MUU_NEVER_INLINE MUU_ATTR(__noinline__)
 #else
 	#define MUU_NEVER_INLINE
@@ -570,7 +588,7 @@ help me improve support for your target architecture. Thanks!
 /// 	}
 /// \ecpp
 
-#ifdef _MSC_VER
+#if MUU_MSVC_LIKE
 	#define MUU_ABSTRACT_INTERFACE MUU_DECLSPEC(novtable)
 #else
 	#define MUU_ABSTRACT_INTERFACE
@@ -585,7 +603,7 @@ help me improve support for your target architecture. Thanks!
 /// 	};
 /// \ecpp
 
-#ifdef _MSC_VER
+#if MUU_MSVC_LIKE
 	#define MUU_EMPTY_BASES MUU_DECLSPEC(empty_bases)
 #else
 	#define MUU_EMPTY_BASES
@@ -632,7 +650,7 @@ help me improve support for your target architecture. Thanks!
 
 #if MUU_CPP >= 20 && MUU_HAS_CPP_ATTR(likely) >= 201803
 	#define MUU_LIKELY(...) (__VA_ARGS__) [[likely]]
-#elif MUU_GCC || MUU_CLANG || MUU_HAS_BUILTIN(__builtin_expect)
+#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_BUILTIN(__builtin_expect)
 	#define MUU_LIKELY(...) (__builtin_expect(!!(__VA_ARGS__), 1))
 #else
 	#define MUU_LIKELY(...) (__VA_ARGS__)
@@ -652,7 +670,7 @@ help me improve support for your target architecture. Thanks!
 
 #if MUU_CPP >= 20 && MUU_HAS_CPP_ATTR(unlikely) >= 201803
 	#define MUU_UNLIKELY(...) (__VA_ARGS__) [[unlikely]]
-#elif MUU_GCC || MUU_CLANG || MUU_HAS_BUILTIN(__builtin_expect)
+#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_BUILTIN(__builtin_expect)
 	#define MUU_UNLIKELY(...) (__builtin_expect(!!(__VA_ARGS__), 0))
 #else
 	#define MUU_UNLIKELY(...) (__VA_ARGS__)
@@ -681,7 +699,7 @@ help me improve support for your target architecture. Thanks!
 #if MUU_HAS_CPP_ATTR(nodiscard) >= 201603
 	#define MUU_NODISCARD		[[nodiscard]]
 	#define MUU_NODISCARD_CLASS [[nodiscard]]
-#elif MUU_CLANG || MUU_GCC || MUU_HAS_ATTR(warn_unused_result)
+#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(warn_unused_result)
 	#define MUU_NODISCARD MUU_ATTR(warn_unused_result)
 #else
 	#define MUU_NODISCARD
@@ -989,7 +1007,7 @@ help me improve support for your target architecture. Thanks!
 #endif
 // clang-format on
 
-#if defined(_MSC_VER) && (MUU_ARCH_X86 || MUU_ARCH_AMD64) && MUU_ISET_SSE2
+#if MUU_MSVC_LIKE && (MUU_ARCH_X86 || MUU_ARCH_AMD64) && MUU_ISET_SSE2
 	#define MUU_VECTORCALL	   __vectorcall
 	#define MUU_HAS_VECTORCALL 1
 #else
@@ -1417,7 +1435,7 @@ help me improve support for your target architecture. Thanks!
 MUU_DISABLE_WARNINGS;
 #if MUU_HAS_INCLUDE(<version>)
 	#include <version>
-#elif defined(_MSC_VER) && MUU_HAS_INCLUDE(<yvals_core.h>)
+#elif MUU_MSVC_LIKE && MUU_HAS_INCLUDE(<yvals_core.h>)
 	#include <yvals_core.h>
 #elif MUU_CPP <= 17
 	#include <ciso646>
@@ -1525,7 +1543,7 @@ namespace muu::impl
 	#define POXY_IMPLEMENTATION_DETAIL(...) __VA_ARGS__
 #endif
 
-#if MUU_GCC || MUU_CLANG || MUU_ICC || defined(_MSC_VER) || MUU_HAS_BUILTIN(__builtin_offsetof)
+#if MUU_CLANG || MUU_GCC_LIKE || MUU_ICC || MUU_MSVC_LIKE || MUU_HAS_BUILTIN(__builtin_offsetof)
 	#define MUU_OFFSETOF(type, member) __builtin_offsetof(type, member)
 #else
 	#ifndef offsetof

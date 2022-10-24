@@ -37,7 +37,7 @@
 #endif
 
 #ifndef MUU_HAS_INTEGER_SEQ
-	#if defined(__clang__) || defined(_MSC_VER)
+	#if MUU_CLANG || MUU_MSVC_LIKE
 		#define MUU_HAS_INTEGER_SEQ 1
 	#else
 		#define MUU_HAS_INTEGER_SEQ 0

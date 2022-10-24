@@ -181,9 +181,6 @@
     <ClInclude Include="include\muu\impl\std_new.h">
       <Filter>include\impl</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\impl\std_launder.h">
-      <Filter>include\impl</Filter>
-    </ClInclude>
     <ClInclude Include="include\muu\impl\std_exception.h">
       <Filter>include\impl</Filter>
     </ClInclude>
@@ -308,6 +305,33 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\size_t_literals.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\popcount.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\integer_literals.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\launder.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\bit_pack.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\bit_fill.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\countl_zero.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\countr_zero.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\bit_ceil.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\bit_floor.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

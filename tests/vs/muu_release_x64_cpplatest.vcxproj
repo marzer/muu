@@ -65,7 +65,13 @@
     <ClInclude Include="$(SolutionDir)include\muu\assume_aligned.h" />
     <ClInclude Include="$(SolutionDir)include\muu\axis_angle.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bit.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\bit_ceil.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\bit_fill.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\bit_floor.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\bit_pack.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bounding_sphere.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\countl_zero.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\countr_zero.h" />
     <ClInclude Include="$(SolutionDir)include\muu\euler_angles.h" />
     <ClInclude Include="$(SolutionDir)include\muu\function_view.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\aligned_alloc.h" />
@@ -88,6 +94,9 @@
     <ClInclude Include="$(SolutionDir)include\muu\generic_allocator.h" />
     <ClInclude Include="$(SolutionDir)include\muu\half.h" />
     <ClInclude Include="$(SolutionDir)include\muu\hashing.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\integer_literals.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\launder.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\popcount.h" />
     <ClInclude Include="$(SolutionDir)include\muu\size_t_literals.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\environment_checks.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\geometry_common.h" />
@@ -113,7 +122,6 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_cstdlib.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_exception.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_iosfwd.h" />
-    <ClInclude Include="$(SolutionDir)include\muu\impl\std_launder.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_memory.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_new.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\std_memcpy.h" />

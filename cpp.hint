@@ -34,6 +34,8 @@
 #define MUU_DECLSPEC(...)
 #define MUU_DELETE_COPY(...)				static_assert(true)
 #define MUU_DELETE_MOVE(...)				static_assert(true)
+#define MUU_DEFAULT_COPY(...)				static_assert(true)
+#define MUU_DEFAULT_MOVE(...)				static_assert(true)
 #define MUU_DISABLE_ARITHMETIC_WARNINGS		static_assert(true)
 #define MUU_DISABLE_LIFETIME_WARNINGS		static_assert(true)
 #define MUU_DISABLE_SHADOW_WARNINGS			static_assert(true)

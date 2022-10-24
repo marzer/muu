@@ -8,9 +8,9 @@
 /// \brief Contains the definition of muu::emplacement_array.
 
 #include "generic_allocator.h"
+#include "launder.h"
 #include "impl/core_utils.h"
 #include "impl/std_new.h"
-#include "impl/std_launder.h"
 #if !MUU_HAS_EXCEPTIONS
 	#include "impl/std_exception.h" // std::terminate()
 #endif
