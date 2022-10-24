@@ -921,33 +921,49 @@ namespace muu
 	/// \brief		Transcodes a UTF-8 string into another UTF encoding.
 	template <typename Char>
 	MUU_NODISCARD
-	MUU_CONSTEXPR_STD_STRING std::basic_string<Char> transcode(std::string_view str) noexcept
+	MUU_CONSTEXPR_STD_STRING auto transcode(std::string_view str) noexcept
+		-> std::conditional_t<std::is_same_v<Char, char>, std::string_view, std::basic_string<Char>>
 	{
-		return impl::utf_transcode<Char>(str);
+		if constexpr (std::is_same_v<Char, char>)
+			return str;
+		else
+			return impl::utf_transcode<Char>(str);
 	}
 
 	/// \brief		Transcodes a UTF wide string into another UTF encoding.
 	template <typename Char>
 	MUU_NODISCARD
-	MUU_CONSTEXPR_STD_STRING std::basic_string<Char> transcode(std::wstring_view str) noexcept
+	MUU_CONSTEXPR_STD_STRING auto transcode(std::wstring_view str) noexcept
+		-> std::conditional_t<std::is_same_v<Char, wchar_t>, std::wstring_view, std::basic_string<Char>>
 	{
-		return impl::utf_transcode<Char>(str);
+		if constexpr (std::is_same_v<Char, wchar_t>)
+			return str;
+		else
+			return impl::utf_transcode<Char>(str);
 	}
 
 	/// \brief		Transcodes a UTF-16 string into another UTF encoding.
 	template <typename Char>
 	MUU_NODISCARD
-	MUU_CONSTEXPR_STD_STRING std::basic_string<Char> transcode(std::u16string_view str) noexcept
+	MUU_CONSTEXPR_STD_STRING auto transcode(std::u16string_view str) noexcept
+		-> std::conditional_t<std::is_same_v<Char, char16_t>, std::u16string_view, std::basic_string<Char>>
 	{
-		return impl::utf_transcode<Char>(str);
+		if constexpr (std::is_same_v<Char, char16_t>)
+			return str;
+		else
+			return impl::utf_transcode<Char>(str);
 	}
 
 	/// \brief		Transcodes a UTF-32 string into another UTF encoding.
 	template <typename Char>
 	MUU_NODISCARD
-	MUU_CONSTEXPR_STD_STRING std::basic_string<Char> transcode(std::u32string_view str) noexcept
+	MUU_CONSTEXPR_STD_STRING auto transcode(std::u32string_view str) noexcept
+		-> std::conditional_t<std::is_same_v<Char, char32_t>, std::u32string_view, std::basic_string<Char>>
 	{
-		return impl::utf_transcode<Char>(str);
+		if constexpr (std::is_same_v<Char, char32_t>)
+			return str;
+		else
+			return impl::utf_transcode<Char>(str);
 	}
 
 	#if MUU_HAS_CHAR8_STRINGS
@@ -955,9 +971,13 @@ namespace muu
 	/// \brief		Transcodes a UTF-8 string into another UTF encoding.
 	template <typename Char>
 	MUU_NODISCARD
-	MUU_CONSTEXPR_STD_STRING std::basic_string<Char> transcode(std::u8string_view str) noexcept
+	MUU_CONSTEXPR_STD_STRING auto transcode(std::u8string_view str) noexcept
+		-> std::conditional_t<std::is_same_v<Char, char8_t>, std::u8string_view, std::basic_string<Char>>
 	{
-		return impl::utf_transcode<Char>(str);
+		if constexpr (std::is_same_v<Char, char8_t>)
+			return str;
+		else
+			return impl::utf_transcode<Char>(str);
 	}
 
 	#endif // MUU_HAS_CHAR8_STRINGS
