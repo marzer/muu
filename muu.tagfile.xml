@@ -4357,39 +4357,39 @@
       <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gabe232ebc86e5634bb675943d55f2f9f4</anchor>
-      <arglist>(std::string_view str) noexcept</arglist>
+      <anchor>gae53746a092292586cd9a0bd679b056f5</anchor>
+      <arglist>(std::string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char &gt;, std::string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga22a40da022ead7f6d467fec9c34fc8a5</anchor>
-      <arglist>(std::wstring_view str) noexcept</arglist>
+      <anchor>ga3de88c097f39e8c314f4f2d74f6e762f</anchor>
+      <arglist>(std::wstring_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, wchar_t &gt;, std::wstring_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gabdc0fb5ca00ef8f3e5e36fe8bb9f92dc</anchor>
-      <arglist>(std::u16string_view str) noexcept</arglist>
+      <anchor>gaf56163464892863592a8b6ff18cee010</anchor>
+      <arglist>(std::u16string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char16_t &gt;, std::u16string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gae134fe21381f065ba7cd0380c276631e</anchor>
-      <arglist>(std::u32string_view str) noexcept</arglist>
+      <anchor>ga6f6282ea8907e1dc683407bcfcd82342</anchor>
+      <arglist>(std::u32string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char32_t &gt;, std::u32string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga5570310ee3553cf27ce8467edcd2e170</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
+      <anchor>ga0245d9b4bbc3e0e28b8c1a98ae001507</anchor>
+      <arglist>(std::u8string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char8_t &gt;, std::u8string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
   </compound>
   <compound kind="file">
@@ -18650,39 +18650,39 @@
       <arglist>(std::u8string_view str) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gabe232ebc86e5634bb675943d55f2f9f4</anchor>
-      <arglist>(std::string_view str) noexcept</arglist>
+      <anchor>gae53746a092292586cd9a0bd679b056f5</anchor>
+      <arglist>(std::string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char &gt;, std::string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga22a40da022ead7f6d467fec9c34fc8a5</anchor>
-      <arglist>(std::wstring_view str) noexcept</arglist>
+      <anchor>ga3de88c097f39e8c314f4f2d74f6e762f</anchor>
+      <arglist>(std::wstring_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, wchar_t &gt;, std::wstring_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gabdc0fb5ca00ef8f3e5e36fe8bb9f92dc</anchor>
-      <arglist>(std::u16string_view str) noexcept</arglist>
+      <anchor>gaf56163464892863592a8b6ff18cee010</anchor>
+      <arglist>(std::u16string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char16_t &gt;, std::u16string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gae134fe21381f065ba7cd0380c276631e</anchor>
-      <arglist>(std::u32string_view str) noexcept</arglist>
+      <anchor>ga6f6282ea8907e1dc683407bcfcd82342</anchor>
+      <arglist>(std::u32string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char32_t &gt;, std::u32string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga5570310ee3553cf27ce8467edcd2e170</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
+      <anchor>ga0245d9b4bbc3e0e28b8c1a98ae001507</anchor>
+      <arglist>(std::u8string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char8_t &gt;, std::u8string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -27576,39 +27576,39 @@
     <title>transcode()</title>
     <filename>group__transcode.html</filename>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gabe232ebc86e5634bb675943d55f2f9f4</anchor>
-      <arglist>(std::string_view str) noexcept</arglist>
+      <anchor>gae53746a092292586cd9a0bd679b056f5</anchor>
+      <arglist>(std::string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char &gt;, std::string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga22a40da022ead7f6d467fec9c34fc8a5</anchor>
-      <arglist>(std::wstring_view str) noexcept</arglist>
+      <anchor>ga3de88c097f39e8c314f4f2d74f6e762f</anchor>
+      <arglist>(std::wstring_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, wchar_t &gt;, std::wstring_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gabdc0fb5ca00ef8f3e5e36fe8bb9f92dc</anchor>
-      <arglist>(std::u16string_view str) noexcept</arglist>
+      <anchor>gaf56163464892863592a8b6ff18cee010</anchor>
+      <arglist>(std::u16string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char16_t &gt;, std::u16string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>gae134fe21381f065ba7cd0380c276631e</anchor>
-      <arglist>(std::u32string_view str) noexcept</arglist>
+      <anchor>ga6f6282ea8907e1dc683407bcfcd82342</anchor>
+      <arglist>(std::u32string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char32_t &gt;, std::u32string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
     <member kind="function">
-      <type>std::basic_string&lt; Char &gt;</type>
+      <type>auto</type>
       <name>transcode</name>
       <anchorfile>group__transcode.html</anchorfile>
-      <anchor>ga5570310ee3553cf27ce8467edcd2e170</anchor>
-      <arglist>(std::u8string_view str) noexcept</arglist>
+      <anchor>ga0245d9b4bbc3e0e28b8c1a98ae001507</anchor>
+      <arglist>(std::u8string_view str) noexcept -&gt; std::conditional_t&lt; std::is_same_v&lt; Char, char8_t &gt;, std::u8string_view, std::basic_string&lt; Char &gt; &gt;</arglist>
     </member>
   </compound>
   <compound kind="group">
