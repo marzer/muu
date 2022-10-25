@@ -77,6 +77,7 @@
     <includes id="quaternion_8h" name="quaternion.h" local="yes" imported="no">quaternion.h</includes>
     <includes id="scope__guard_8h" name="scope_guard.h" local="yes" imported="no">scope_guard.h</includes>
     <includes id="size__t__literals_8h" name="size_t_literals.h" local="yes" imported="no">size_t_literals.h</includes>
+    <includes id="source__location_8h" name="source_location.h" local="yes" imported="no">source_location.h</includes>
     <includes id="span_8h" name="span.h" local="yes" imported="no">span.h</includes>
     <includes id="spin__mutex_8h" name="spin_mutex.h" local="yes" imported="no">spin_mutex.h</includes>
     <includes id="static__array_8h" name="static_array.h" local="yes" imported="no">static_array.h</includes>
@@ -4266,6 +4267,14 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>source_location.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>source__location_8h.html</filename>
+    <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
+    <class kind="class">muu::source_location</class>
+    <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
     <name>span.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>span_8h.html</filename>
@@ -4305,14 +4314,14 @@
     <member kind="function">
       <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
       <name>as_bytes</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>gad865424b406396afa3b05a4c49313996</anchor>
       <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
     </member>
     <member kind="function">
       <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
       <name>as_writable_bytes</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>ga4bb56e355ae623e691df5c66f9842620</anchor>
       <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
     </member>
@@ -11859,6 +11868,38 @@
     </member>
   </compound>
   <compound kind="class">
+    <name>muu::source_location</name>
+    <filename>classmuu_1_1source__location.html</filename>
+    <member kind="function">
+      <type>constexpr uint_least32_t</type>
+      <name>line</name>
+      <anchorfile>classmuu_1_1source__location.html</anchorfile>
+      <anchor>a10aad00ecda0a0971983169d5faa82cc</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr uint_least32_t</type>
+      <name>column</name>
+      <anchorfile>classmuu_1_1source__location.html</anchorfile>
+      <anchor>a6358275a8e192d1f6ddecb88c7fef983</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const char *</type>
+      <name>file_name</name>
+      <anchorfile>classmuu_1_1source__location.html</anchorfile>
+      <anchor>a084c4cd321570c46e33b1f37df1b6644</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const char *</type>
+      <name>function_name</name>
+      <anchorfile>classmuu_1_1source__location.html</anchorfile>
+      <anchor>ae73d68af26bd62a9c8cbf498eb05aab9</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
     <name>muu::span</name>
     <filename>classmuu_1_1span.html</filename>
     <templarg>typename T</templarg>
@@ -12161,14 +12202,14 @@
     <member kind="function">
       <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
       <name>as_bytes</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>gad865424b406396afa3b05a4c49313996</anchor>
       <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
     </member>
     <member kind="function">
       <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
       <name>as_writable_bytes</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>ga4bb56e355ae623e691df5c66f9842620</anchor>
       <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
     </member>
@@ -17238,6 +17279,7 @@
     <class kind="class">muu::scope_guard</class>
     <class kind="class">muu::scope_success</class>
     <class kind="class">muu::sha1</class>
+    <class kind="class">muu::source_location</class>
     <class kind="class">muu::span</class>
     <class kind="class">muu::spin_mutex</class>
     <class kind="struct">muu::static_array</class>
@@ -19187,14 +19229,14 @@
     <member kind="function">
       <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
       <name>as_bytes</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>gad865424b406396afa3b05a4c49313996</anchor>
       <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
     </member>
     <member kind="function">
       <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
       <name>as_writable_bytes</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>ga4bb56e355ae623e691df5c66f9842620</anchor>
       <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
     </member>
@@ -22313,6 +22355,48 @@
     </member>
   </compound>
   <compound kind="group">
+    <name>cpp20</name>
+    <title>C++20</title>
+    <filename>group__cpp20.html</filename>
+    <file>assume_aligned.h</file>
+    <file>bit.h</file>
+    <file>bit_cast.h</file>
+    <file>bit_ceil.h</file>
+    <file>bit_floor.h</file>
+    <file>is_constant_evaluated.h</file>
+    <file>source_location.h</file>
+    <class kind="class">muu::source_location</class>
+    <class kind="class">muu::span</class>
+    <member kind="function">
+      <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
+      <name>as_bytes</name>
+      <anchorfile>group__cpp20.html</anchorfile>
+      <anchor>gad865424b406396afa3b05a4c49313996</anchor>
+      <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
+      <name>as_writable_bytes</name>
+      <anchorfile>group__cpp20.html</anchorfile>
+      <anchor>ga4bb56e355ae623e691df5c66f9842620</anchor>
+      <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
+      <name>as_bytes</name>
+      <anchorfile>group__cpp20.html</anchorfile>
+      <anchor>gad865424b406396afa3b05a4c49313996</anchor>
+      <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
+      <name>as_writable_bytes</name>
+      <anchorfile>group__cpp20.html</anchorfile>
+      <anchor>ga4bb56e355ae623e691df5c66f9842620</anchor>
+      <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="group">
     <name>code_units</name>
     <title>Code units</title>
     <filename>group__code__units.html</filename>
@@ -22888,34 +22972,6 @@
       <anchorfile>group__memory.html</anchorfile>
       <anchor>ga3eab514dcbb52de9004c572c8a1dd5a9</anchor>
       <arglist></arglist>
-    </member>
-    <member kind="function">
-      <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
-      <name>as_bytes</name>
-      <anchorfile>group__memory.html</anchorfile>
-      <anchor>gad865424b406396afa3b05a4c49313996</anchor>
-      <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
-      <name>as_writable_bytes</name>
-      <anchorfile>group__memory.html</anchorfile>
-      <anchor>ga4bb56e355ae623e691df5c66f9842620</anchor>
-      <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
-      <name>as_bytes</name>
-      <anchorfile>group__memory.html</anchorfile>
-      <anchor>gad865424b406396afa3b05a4c49313996</anchor>
-      <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>span&lt; std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
-      <name>as_writable_bytes</name>
-      <anchorfile>group__memory.html</anchorfile>
-      <anchor>ga4bb56e355ae623e691df5c66f9842620</anchor>
-      <arglist>(span&lt; T, E, A &gt; s) noexcept</arglist>
     </member>
     <member kind="variable">
       <type>constexpr size_t</type>
