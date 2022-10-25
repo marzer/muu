@@ -139,9 +139,6 @@
     <ClInclude Include="include\muu\impl\environment_checks.h">
       <Filter>include\impl</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\generic_allocator.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\muu\impl\core_constants.h">
       <Filter>include\impl</Filter>
     </ClInclude>
@@ -188,9 +185,6 @@
       <Filter>include\impl</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\impl\std_utility.h">
-      <Filter>include\impl</Filter>
-    </ClInclude>
-    <ClInclude Include="include\muu\impl\aligned_alloc.h">
       <Filter>include\impl</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\impl\std_cstdlib.h">
@@ -322,16 +316,40 @@
     <ClInclude Include="include\muu\bit_fill.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\countl_zero.h">
+    <ClInclude Include="include\muu\countl.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\muu\countr_zero.h">
+    <ClInclude Include="include\muu\countr.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\bit_ceil.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\bit_floor.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\static_array.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\aligned_alloc.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\byte_reverse.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\for_sequence.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\apply_alignment.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\utf8_decoder.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\utf16_decoder.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\utf_decode.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

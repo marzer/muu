@@ -4,12 +4,14 @@
 // SPDX-License-Identifier: MIT
 
 #include "muu/thread_pool.h"
+#include "muu/apply_alignment.h"
 #include "muu/span.h"
 #include "muu/blob.h"
 #include "muu/emplacement_array.h"
 #include "muu/strings.h"
 #include "muu/scope_guard.h"
 #include "muu/math.h"
+#include "muu/thread_name.h"
 #include "muu/impl/std_string.h"
 #include "muu/pause.h"
 #include "os.h"
@@ -638,7 +640,6 @@ namespace
 
 	struct thread_pool_storage
 	{
-		generic_allocator* allocator;
 		thread_pool_byte_span buffer;
 		thread_pool_impl impl;
 	};
@@ -662,7 +663,7 @@ extern "C" //
 	void* MUU_CALLCONV muu_impl_thread_pool_create(size_t worker_count,
 												   size_t task_queue_size,
 												   string_param* name,
-												   generic_allocator* allocator)
+												   void* /*unused - future proofing*/)
 	{
 		MUU_ASSUME(name != nullptr);
 
@@ -684,7 +685,7 @@ extern "C" //
 
 		static_assert(alignof(thread_pool_storage) <= impl::thread_pool_alignment);
 		auto buffer_ptr = muu::assume_aligned<impl::thread_pool_alignment>(
-			impl::generic_alloc(allocator, total_allocation, impl::thread_pool_alignment));
+			muu::aligned_alloc(total_allocation, impl::thread_pool_alignment));
 
 #if !MUU_HAS_EXCEPTIONS
 		{
@@ -694,7 +695,7 @@ extern "C" //
 		}
 #endif
 
-		const auto unwind = scope_fail{ [=]() noexcept { impl::generic_free(allocator, buffer_ptr); } };
+		const auto unwind = scope_fail{ [=]() noexcept { muu::aligned_free(buffer_ptr); } };
 
 		thread_pool_byte_span buffer{ static_cast<std::byte*>(buffer_ptr), total_allocation };
 		thread_pool_byte_span queue_buffer{ buffer.data() + queues_start, queues_end - queues_start };
@@ -702,8 +703,7 @@ extern "C" //
 		thread_pool_byte_span task_buffer{ buffer.data() + tasks_start, tasks_end - tasks_start };
 
 		return ::new (buffer_ptr)
-			thread_pool_storage{ allocator,
-								 buffer,
+			thread_pool_storage{ buffer,
 								 thread_pool_impl{ MUU_MOVE(*name), queue_buffer, worker_buffer, task_buffer } };
 	}
 
@@ -711,11 +711,10 @@ extern "C" //
 	{
 		MUU_ASSUME(storage_ != nullptr);
 
-		auto& storage  = storage_cast(storage_);
-		auto buffer	   = storage.buffer;
-		auto allocator = storage.allocator;
+		auto& storage = storage_cast(storage_);
+		auto buffer	  = storage.buffer;
 		storage.~thread_pool_storage();
-		impl::generic_free(allocator, buffer.data());
+		muu::aligned_free(buffer.data());
 	}
 
 	size_t MUU_CALLCONV muu_impl_thread_pool_lock_multiple(void* storage_, size_t required) noexcept

@@ -8,7 +8,7 @@
 /// \brief Contains the implementation of #muu::bit_floor().
 
 #include "meta.h"
-#include "countl_zero.h"
+#include "countl.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 MUU_DISABLE_ARITHMETIC_WARNINGS;

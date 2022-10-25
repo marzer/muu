@@ -19,4 +19,12 @@ MUU_ENABLE_WARNINGS;
 	#endif
 #endif
 
+namespace muu
+{
+	inline namespace literals
+	{
+		using namespace ::std::string_view_literals;
+	}
+}
+
 #endif // MUU_STD_STRING_VIEW_H

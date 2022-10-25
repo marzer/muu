@@ -5,9 +5,9 @@
 #pragma once
 
 /// \file
-/// \brief Contains the definition of muu::blob.
+/// \brief Contains the implementation of #muu::blob.
 
-#include "generic_allocator.h"
+#include "aligned_alloc.h"
 #include "impl/std_memcpy.h"
 #include "impl/std_utility.h"
 #include "impl/header_start.h"
@@ -23,20 +23,15 @@ namespace muu
 	class blob
 	{
 	  private:
-		generic_allocator* allocator_;
 		size_t alignment_;
 		size_t size_ = 0;
 		void* data_	 = nullptr;
 
 	  public:
 		/// \brief Creates an empty blob.
-		///
-		/// \param	allocator 	The #muu::generic_allocator used for allocations.
-		///						Leave as `nullptr` to use the default global allocator.
 		MUU_NODISCARD_CTOR
-		explicit blob(generic_allocator* allocator = nullptr) noexcept
-			: allocator_{ allocator },
-			  alignment_{ impl::aligned_alloc_min_align }
+		explicit blob() noexcept //
+			: alignment_{ impl::aligned_alloc_min_align }
 		{}
 
 		/// \brief Creates a blob of a fixed size and alignment.
@@ -45,14 +40,11 @@ namespace muu
 		/// \param	src	 		The source data to copy, if any.
 		/// \param	align		The alignment of the blob's data.
 		///						Leave as `0` to use `__STDCPP_DEFAULT_NEW_ALIGNMENT__`.
-		/// \param	allocator 	The #muu::generic_allocator used for allocations.
-		///						Leave as `nullptr` to use the default global allocator.
 		MUU_NODISCARD_CTOR
-		explicit blob(size_t size, const void* src = nullptr, size_t align = {}, generic_allocator* allocator = nullptr)
-			: allocator_{ allocator },
-			  alignment_{ impl::aligned_alloc_actual_align(size, align) },
+		explicit blob(size_t size, const void* src = nullptr, size_t align = {})
+			: alignment_{ impl::aligned_alloc_actual_align(size, align) },
 			  size_{ size },
-			  data_{ size_ ? impl::generic_alloc(allocator_, size_, alignment_) : nullptr }
+			  data_{ size_ ? aligned_alloc(size_, alignment_) : nullptr }
 		{
 			if (data_ && src)
 				MUU_MEMCPY(data_, src, size_);
@@ -61,7 +53,7 @@ namespace muu
 		/// \brief Copy constructor.
 		MUU_NODISCARD_CTOR
 		blob(const blob& other) //
-			: blob{ other.size_, other.data_, other.alignment_, other.allocator_ }
+			: blob{ other.size_, other.data_, other.alignment_ }
 		{}
 
 		/// \brief Copy constructor.
@@ -69,22 +61,16 @@ namespace muu
 		/// \param	other		The blob to copy.
 		/// \param	align		The alignment of the blob's data.
 		///						Leave as `0` to copy the source alignment.
-		/// \param	allocator 	The #muu::generic_allocator used for allocations.
-		///						Leave as `nullptr` to copy the source allocator.
 		MUU_NODISCARD_CTOR
-		blob(const blob& other, size_t align, generic_allocator* allocator = nullptr) //
-			: blob{ other.size_,
-					other.data_,
-					align ? align : other.alignment_,
-					allocator ? allocator : other.allocator_ }
+		blob(const blob& other, size_t align) //
+			: blob{ other.size_, other.data_, align ? align : other.alignment_ }
 		{}
 
 		/// \brief Move constructor.
 		MUU_NODISCARD_CTOR
-		blob(blob&& other) noexcept
-			: allocator_{ other.allocator_ },
-			  alignment_{ std::exchange(other.alignment_, impl::aligned_alloc_min_align) },
-			  size_{ std::exchange(other.size_, 0_sz) },
+		blob(blob&& other) noexcept //
+			: alignment_{ std::exchange(other.alignment_, impl::aligned_alloc_min_align) },
+			  size_{ std::exchange(other.size_, size_t{}) },
 			  data_{ std::exchange(other.data_, nullptr) }
 		{}
 
@@ -92,29 +78,27 @@ namespace muu
 		~blob() noexcept
 		{
 			if (auto data = std::exchange(data_, nullptr))
-				impl::generic_free(allocator_, data);
+				aligned_free(data);
 		}
 
 		/// Replaces the contents of the blob with the given data.
 		///
 		/// \param	src	 		The data to copy.
 		/// \param	sz 			The size of the data.
-		/// \param	align		The alignment to use.
+		/// \param	new_align	The new alignment to use.
 		///						Leave as `0` to use `__STDCPP_DEFAULT_NEW_ALIGNMENT__`.
-		/// \param	allocator 	The #muu::generic_allocator used for allocations.
-		///						Leave as `nullptr` to keep using the current allocator.
 		///
 		/// \return	A reference to the input blob.
-		blob& assign(size_t sz, const void* src, size_t align = {}, generic_allocator* allocator = nullptr)
+		blob& assign(size_t sz, const void* src, size_t new_align = {})
 		{
-			align = impl::aligned_alloc_actual_align(sz, align);
-			if (!allocator)
-				allocator = allocator_;
+			new_align = impl::aligned_alloc_actual_align(sz, new_align);
 
 			// check if this is effectively a resize with a copy or move
-			if (align == alignment_ && allocator == allocator_)
+			if (new_align <= alignment_)
 			{
-				resize(sz); // no-op if the same as current
+				new_align = alignment_;
+
+				resize(sz); // no-op if the same size as current
 				MUU_ASSERT(size_ == sz);
 
 				if (src && data_ && src != data_)
@@ -123,13 +107,12 @@ namespace muu
 				return *this;
 			}
 
-			// changing alignment or allocator; must deallocate and reallocate
+			// changing alignment; must deallocate and reallocate
 			if (data_)
-				impl::generic_free(allocator_, data_);
-			allocator_ = allocator;
-			alignment_ = align;
+				aligned_free(data_);
+			alignment_ = new_align;
 			size_	   = sz;
-			data_	   = size_ ? impl::generic_alloc(allocator_, size_, alignment_) : nullptr;
+			data_	   = size_ ? aligned_alloc(size_, alignment_) : nullptr;
 			if (src && data_)
 				MUU_MEMCPY(data_, src, size_);
 			return *this;
@@ -154,11 +137,10 @@ namespace muu
 			if (&rhs != this)
 			{
 				if (data_)
-					impl::generic_free(allocator_, data_);
+					aligned_free(data_);
 
-				allocator_ = rhs.allocator_;
 				alignment_ = std::exchange(rhs.alignment_, impl::aligned_alloc_min_align);
-				size_	   = std::exchange(rhs.size_, 0_sz);
+				size_	   = std::exchange(rhs.size_, size_t{});
 				data_	   = std::exchange(rhs.data_, nullptr);
 			}
 			return *this;
@@ -176,31 +158,41 @@ namespace muu
 		/// \param	sz New size.
 		///
 		/// \return	A reference to the blob.
-		blob& resize(size_t sz)
+		blob& resize(size_t sz) noexcept
 		{
 			if (size_ == sz)
 				return *this;
 
-			// something -> nothing
-			if (!size_)
+			// something -> *
+			if (size_)
 			{
 				MUU_ASSERT(data_);
-				impl::generic_free(allocator_, data_);
-				data_ = nullptr;
-			}
 
-			// something -> something
-			else if (data_)
-			{
-				auto new_data = impl::generic_alloc(allocator_, sz, alignment_);
-				MUU_MEMCPY(new_data, data_, min(sz, size_));
-				impl::generic_free(allocator_, data_);
-				data_ = new_data;
+				// something -> nothing
+				if (!sz)
+				{
+					aligned_free(data_);
+					data_ = nullptr;
+				}
+
+				// something -> something
+				else
+				{
+					auto new_data = aligned_alloc(sz, alignment_);
+					MUU_ASSERT(new_data);
+
+					MUU_MEMCPY(new_data, data_, min(sz, size_));
+					aligned_free(data_);
+					data_ = new_data;
+				}
 			}
 
 			// nothing -> something
 			else
-				data_ = impl::generic_alloc(allocator_, sz, alignment_);
+			{
+				data_ = aligned_alloc(sz, alignment_);
+				MUU_ASSERT(data_);
+			}
 
 			size_ = sz;
 			return *this;

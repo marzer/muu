@@ -9,6 +9,7 @@
 
 #include "core.h"
 #include "bit.h"
+#include "assume_aligned.h"
 #include "impl/std_memcpy.h"
 #include "impl/std_memory.h" // addressof
 #include "impl/header_start.h"

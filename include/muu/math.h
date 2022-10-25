@@ -7,9 +7,10 @@
 /// \file
 /// \brief Math functions, mostly constexpr-friendly alternatives to functions from `<cmath>`.
 
-#include "core.h"
 #include "meta.h"
-#include "bit.h"
+#include "bit_cast.h"
+#include "bit_pack.h"
+#include "integer_literals.h"
 MUU_DISABLE_WARNINGS;
 #include <cmath>
 #if MUU_HAS_QUADMATH
@@ -23,6 +24,7 @@ MUU_DISABLE_WARNINGS;
 #endif
 #include <numeric>
 MUU_ENABLE_WARNINGS;
+#include "impl/core_constants.h"
 #include "impl/header_start.h"
 MUU_DISABLE_ARITHMETIC_WARNINGS;
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
@@ -1548,7 +1550,7 @@ namespace muu
 		{
 			static_assert(std::is_same_v<impl::highest_ranked<T, long double>, T>);
 
-			if (!between(x, T{ -1 }, T{ 1 }))
+			if (x < T{ -1 } || x > T{ 1 })
 			{
 	#if MUU_HAS_EXCEPTIONS
 				throw "acos_naive() input out-of-range"; // force compilation failure
@@ -1680,7 +1682,7 @@ namespace muu
 
 			if (x == T{} || x != x) // accounts for -0.0 and NaN
 				return x;
-			if (!between(x, T{ -1 }, T{ 1 }))
+			if (x < T{ -1 } || x > T{ 1 })
 			{
 	#if MUU_HAS_EXCEPTIONS
 				throw "asin_naive() input out-of-range"; // force compilation failure

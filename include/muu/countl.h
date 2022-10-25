@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementation of #muu::countl_zero().
+/// \brief Contains the implementations of #muu::countl_zero() and #muu::countl_one().
 
 #include "meta.h"
 #include "is_constant_evaluated.h"
@@ -147,6 +147,26 @@ namespace muu
 				}
 			}
 		}
+	}
+
+	/// \brief	Counts the number of consecutive 1 bits, starting from the left.
+	/// \ingroup core
+	///
+	/// \remark This is equivalent to C++20's std::countl_one, with the addition of also being
+	/// 		 extended to work with enum types.
+	///
+	/// \tparam	T		An unsigned integer or enum type.
+	/// \param 	val		The value to test.
+	///
+	/// \returns	The number of consecutive ones from the left end of an integer's bits.
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
+	MUU_CONST_GETTER
+	constexpr int MUU_VECTORCALL countl_one(T val) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return countl_one(static_cast<std::underlying_type_t<T>>(val));
+		else
+			return countl_zero(static_cast<T>(~val));
 	}
 }
 

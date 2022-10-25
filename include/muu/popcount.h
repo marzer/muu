@@ -5,9 +5,8 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementation of #muu::popcount().
+/// \brief Contains the implementations of #muu::popcount() and #muu::has_single_bit().
 
-#include "integer_literals.h"
 #include "meta.h"
 #include "bit_pack.h"
 #include "is_constant_evaluated.h"
@@ -24,40 +23,40 @@ namespace muu::impl
 	template <>
 	struct popcount_traits<8>
 	{
-		static constexpr uint8_t m1	 = 0x55_u8;
-		static constexpr uint8_t m2	 = 0x33_u8;
-		static constexpr uint8_t m4	 = 0x0f_u8;
-		static constexpr uint8_t h01 = 0x01_u8;
+		static constexpr uint8_t m1	 = 0x55u;
+		static constexpr uint8_t m2	 = 0x33u;
+		static constexpr uint8_t m4	 = 0x0fu;
+		static constexpr uint8_t h01 = 0x01u;
 		static constexpr int rsh	 = 0;
 	};
 
 	template <>
 	struct popcount_traits<16>
 	{
-		static constexpr uint16_t m1  = 0x5555_u16;
-		static constexpr uint16_t m2  = 0x3333_u16;
-		static constexpr uint16_t m4  = 0x0f0f_u16;
-		static constexpr uint16_t h01 = 0x0101_u16;
+		static constexpr uint16_t m1  = 0x5555u;
+		static constexpr uint16_t m2  = 0x3333u;
+		static constexpr uint16_t m4  = 0x0f0fu;
+		static constexpr uint16_t h01 = 0x0101u;
 		static constexpr int rsh	  = 8;
 	};
 
 	template <>
 	struct popcount_traits<32>
 	{
-		static constexpr uint32_t m1  = 0x55555555_u32;
-		static constexpr uint32_t m2  = 0x33333333_u32;
-		static constexpr uint32_t m4  = 0x0f0f0f0f_u32;
-		static constexpr uint32_t h01 = 0x01010101_u32;
+		static constexpr uint32_t m1  = 0x55555555u;
+		static constexpr uint32_t m2  = 0x33333333u;
+		static constexpr uint32_t m4  = 0x0f0f0f0fu;
+		static constexpr uint32_t h01 = 0x01010101u;
 		static constexpr int rsh	  = 24;
 	};
 
 	template <>
 	struct popcount_traits<64>
 	{
-		static constexpr uint64_t m1  = 0x5555555555555555_u64;
-		static constexpr uint64_t m2  = 0x3333333333333333_u64;
-		static constexpr uint64_t m4  = 0x0f0f0f0f0f0f0f0f_u64;
-		static constexpr uint64_t h01 = 0x0101010101010101_u64;
+		static constexpr uint64_t m1  = 0x5555555555555555u;
+		static constexpr uint64_t m2  = 0x3333333333333333u;
+		static constexpr uint64_t m4  = 0x0f0f0f0f0f0f0f0fu;
+		static constexpr uint64_t h01 = 0x0101010101010101u;
 		static constexpr int rsh	  = 56;
 	};
 
@@ -65,10 +64,10 @@ namespace muu::impl
 	template <>
 	struct popcount_traits<128>
 	{
-		static constexpr uint128_t m1  = bit_pack(0x5555555555555555_u64, 0x5555555555555555_u64);
-		static constexpr uint128_t m2  = bit_pack(0x3333333333333333_u64, 0x3333333333333333_u64);
-		static constexpr uint128_t m4  = bit_pack(0x0f0f0f0f0f0f0f0f_u64, 0x0f0f0f0f0f0f0f0f_u64);
-		static constexpr uint128_t h01 = bit_pack(0x0101010101010101_u64, 0x0101010101010101_u64);
+		static constexpr uint128_t m1  = bit_pack(0x5555555555555555u, 0x5555555555555555u);
+		static constexpr uint128_t m2  = bit_pack(0x3333333333333333u, 0x3333333333333333u);
+		static constexpr uint128_t m4  = bit_pack(0x0f0f0f0f0f0f0f0fu, 0x0f0f0f0f0f0f0f0fu);
+		static constexpr uint128_t h01 = bit_pack(0x0101010101010101u, 0x0101010101010101u);
 		static constexpr int rsh	   = 120;
 	};
 #endif
@@ -188,6 +187,40 @@ namespace muu
 				else
 				{
 					return static_cast<int>(impl::popcount_intrinsic(val));
+				}
+			}
+		}
+	}
+
+	/// \brief	Checks if an integral value has only a single bit set.
+	/// \ingroup core
+	///
+	/// \remark	This is equivalent to C++20's std::has_single_bit, with the addition of also being
+	/// 		extended to work with enum types.
+	///
+	/// \tparam	T		An unsigned integer or enum type.
+	/// \param 	val		The value to test.
+	///
+	/// \returns	True if the input value had only a single bit set (and thus was a power of two).
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
+	MUU_CONST_GETTER
+	constexpr bool MUU_VECTORCALL has_single_bit(T val) noexcept
+	{
+		if constexpr (is_enum<T>)
+			return has_single_bit(static_cast<std::underlying_type_t<T>>(val));
+		else
+		{
+			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_POPCOUNT)
+				return val != T{} && (val & (val - T{ 1 })) == T{};
+			else
+			{
+				MUU_IF_CONSTEVAL
+				{
+					return val != T{} && (val & (val - T{ 1 })) == T{};
+				}
+				else
+				{
+					return impl::popcount_intrinsic(val) == 1;
 				}
 			}
 		}

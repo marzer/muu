@@ -7,8 +7,9 @@
 
 #pragma once
 #include "settings.h"
-#include "../include/muu/core.h"
-#include "../include/muu/bit.h"
+#include "../include/muu/integer_literals.h"
+#include "../include/muu/bit_pack.h"
+#include "../include/muu/impl/core_constants.h"
 MUU_DISABLE_WARNINGS;
 #include <array>
 MUU_ENABLE_WARNINGS;

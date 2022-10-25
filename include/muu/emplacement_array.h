@@ -7,8 +7,8 @@
 /// \file
 /// \brief Contains the definition of muu::emplacement_array.
 
-#include "generic_allocator.h"
 #include "launder.h"
+#include "aligned_alloc.h"
 #include "impl/core_utils.h"
 #include "impl/std_new.h"
 #if !MUU_HAS_EXCEPTIONS
@@ -32,7 +32,6 @@ namespace muu
 	  private:
 		///  \cond
 
-		generic_allocator* allocator_;
 		size_t count_		= {}, capacity_;
 		std::byte* storage_ = nullptr;
 
@@ -72,7 +71,7 @@ namespace muu
 			if (storage_)
 			{
 				destroy_all_elements();
-				impl::generic_free(allocator_, storage_);
+				aligned_free(storage_);
 				storage_ = nullptr;
 			}
 		}
@@ -110,16 +109,13 @@ namespace muu
 		/// \brief	Constructor.
 		///
 		/// \param	capacity	The maximum number of elements the array needs to be able to store.
-		/// \param	allocator 	The #muu::generic_allocator used for allocations. Set to `nullptr` to use the default global allocator.
 		MUU_NODISCARD_CTOR
-		explicit emplacement_array(size_t capacity = 0, generic_allocator* allocator = nullptr)
-			: allocator_{ allocator },
-			  capacity_{ capacity }
+		explicit emplacement_array(size_t capacity = 0) : capacity_{ capacity }
 		{
 			if (capacity_)
 			{
-				storage_ = static_cast<std::byte*>(impl::generic_alloc(allocator_, sizeof(T) * capacity_, alignof(T)));
-				MUU_ASSERT(storage_ && "allocate() failed!");
+				storage_ = static_cast<std::byte*>(muu::aligned_alloc(sizeof(T) * capacity_, alignof(T)));
+				MUU_ASSERT(storage_ && "aligned_alloc() failed!");
 #if !MUU_HAS_EXCEPTIONS
 				{
 					if (!storage_)
@@ -132,8 +128,7 @@ namespace muu
 		/// \brief	Move constructor.
 		MUU_NODISCARD_CTOR
 		emplacement_array(emplacement_array&& other) noexcept
-			: allocator_{ other.allocator_ },
-			  count_{ other.count_ },
+			: count_{ other.count_ },
 			  capacity_{ other.capacity_ },
 			  storage_{ other.storage_ }
 		{
@@ -146,7 +141,6 @@ namespace muu
 		emplacement_array& operator=(emplacement_array&& rhs) noexcept
 		{
 			release();
-			allocator_	  = rhs.allocator_;
 			count_		  = rhs.count_;
 			capacity_	  = rhs.capacity_;
 			storage_	  = rhs.storage_;
@@ -267,14 +261,14 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		reference back() noexcept
 		{
-			return (*this)[count_ - 1_sz];
+			return (*this)[count_ - 1u];
 		}
 
 		/// \brief	Returns the last element in the array.
 		MUU_PURE_INLINE_GETTER
 		const_reference back() const noexcept
 		{
-			return (*this)[count_ - 1_sz];
+			return (*this)[count_ - 1u];
 		}
 
 		/// \name Iterators

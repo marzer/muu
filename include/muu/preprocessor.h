@@ -409,7 +409,7 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_HAS_CHAR8
 /// \brief `1` when the compiler supports C++20's char8_t, otherwise `0`.
 
-#if defined(__cpp_consteval) && __cpp_consteval >= 201811 && !MUU_MSVC
+#if defined(__cpp_consteval) && __cpp_consteval >= 201811 && (!MUU_MSVC || MUU_MSVC >= 1934)
 
 // Q: "why !MUU_MSVC?"
 //

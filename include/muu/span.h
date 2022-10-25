@@ -5,9 +5,11 @@
 #pragma once
 
 /// \file
-/// \brief  Contains the definition of muu::span.
+/// \brief  Contains the implementation of #muu::span.
 
 #include "iterators.h"
+#include "pointer_cast.h"
+#include "assume_aligned.h"
 #include "impl/header_start.h"
 
 namespace muu
@@ -208,7 +210,7 @@ namespace muu
 				: ptr_{ p },
 				  extent_{ e }
 			{
-				MUU_CONSTEXPR_SAFE_ASSERT((extent_ == 0_sz || ptr_) && "a nullptr span is undefined behaviour");
+				MUU_CONSTEXPR_SAFE_ASSERT((extent_ == 0u || ptr_) && "a nullptr span is undefined behaviour");
 
 				if constexpr (Alignment > alignof(T))
 					MUU_CONSTEXPR_SAFE_ASSERT(reinterpret_cast<uintptr_t>(ptr_) % Alignment == 0u

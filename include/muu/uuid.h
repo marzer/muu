@@ -8,10 +8,15 @@
 
 #pragma once
 #include "hashing.h"
+#include "bit.h"
+#include "build.h"
+#include "chars.h"
+#include "integer_literals.h"
+#include "utf8_decoder.h"
 MUU_DISABLE_WARNINGS;
 #include <optional>
-#include <typeindex> // std::hash on-the-cheap
 MUU_ENABLE_WARNINGS;
+#include "impl/std_string_view.h"
 #include "impl/std_iosfwd.h"
 #include "impl/header_start.h"
 MUU_DISABLE_SWITCH_WARNINGS;
@@ -785,7 +790,7 @@ namespace muu
 			return {};
 
 		impl::uuid_parser parser;
-		impl::utf_decode(str, parser);
+		utf_decode(str, parser);
 		if (parser)
 			return parser.value;
 		return {};

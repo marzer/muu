@@ -25,6 +25,14 @@ MUU_ENABLE_WARNINGS;
 	#define MUU_CONSTEXPR_STD_STRING inline
 #endif
 
+namespace muu
+{
+	inline namespace literals
+	{
+		using namespace ::std::string_literals;
+	}
+}
+
 #include "type_name_specializations.h"
 
 #endif // MUU_STD_STRING_H

@@ -8,14 +8,15 @@
 /// \brief Type traits and metafunctions.
 
 #include "fwd.h"
+#include "build.h"
 #include "impl/std_type_traits.h"
 #include "impl/std_utility.h"
 #include "is_constant_evaluated.h"
-#include "build.h"
 MUU_DISABLE_WARNINGS;
 #if MUU_HAS_VECTORCALL
 	#include <intrin.h>
 #endif
+#include <typeindex> // std::hash on-the-cheap
 MUU_ENABLE_WARNINGS;
 #include "impl/header_start.h"
 MUU_PRAGMA_MSVC(warning(disable : 4296)) // condition always true/false

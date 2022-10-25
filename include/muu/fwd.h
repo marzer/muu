@@ -349,6 +349,9 @@ namespace muu
 	using intptr_range	= integral_range<intptr_t>;
 	using byteptr_range = integral_range<std::byte*>;
 
+	class utf8_decoder;
+	class utf16_decoder;
+
 	namespace impl
 	{
 		template <typename>

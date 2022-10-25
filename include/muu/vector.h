@@ -44,9 +44,11 @@
 		unnecessary codegen and improve debug build performance for non-trivial scalar_types (e.g. muu::half).
 */
 
+#include "pointer_cast.h"
 #include "impl/std_initializer_list.h"
 #include "impl/vector_types_common.h"
 #include "impl/vector_base.h"
+#include "impl/core_utils.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_DISABLE_SHADOW_WARNINGS;

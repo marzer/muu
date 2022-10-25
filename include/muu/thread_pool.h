@@ -7,10 +7,10 @@
 /// \file
 /// \brief  Contains the definition of muu::thread_pool.
 
-#include "core.h"
-#include "generic_allocator.h"
 #include "string_param.h"
 #include "iterators.h"
+#include "aligned_alloc.h"
+#include "launder.h"
 #include "impl/std_utility.h"
 #include "impl/std_memcpy.h"
 #include "impl/header_start.h"
@@ -535,7 +535,7 @@ extern "C" //
 	MUU_NODISCARD
 	MUU_API
 	MUU_ATTR(returns_nonnull)
-	void* MUU_CALLCONV muu_impl_thread_pool_create(size_t, size_t, muu::string_param*, muu::generic_allocator*);
+	void* MUU_CALLCONV muu_impl_thread_pool_create(size_t, size_t, muu::string_param*, void*);
 
 	MUU_API
 	MUU_ATTR(nonnull)
@@ -652,22 +652,17 @@ namespace muu
 		/// \param	worker_count		The number of worker threads in the pool. Leave as `0` for 'automatic'.
 		/// \param	task_queue_size		Max tasks that can be stored in the internal queue without blocking. Leave as `0` for 'automatic'.
 		/// \param	name 				The name of your threadpool (for debugging purposes).
-		/// \param	allocator 			The #muu::generic_allocator used for allocations. Leave as `nullptr` to use the default global allocator.
 		MUU_NODISCARD_CTOR
-		explicit thread_pool(size_t worker_count		  = 0,
-							 size_t task_queue_size		  = 0,
-							 string_param name			  = {},
-							 generic_allocator* allocator = nullptr)
-			: storage_{ ::muu_impl_thread_pool_create(worker_count, task_queue_size, &name, allocator) }
+		explicit thread_pool(size_t worker_count = 0, size_t task_queue_size = 0, string_param name = {}) //
+			: storage_{ ::muu_impl_thread_pool_create(worker_count, task_queue_size, &name, nullptr) }
 		{}
 
 		/// \brief	Constructs a thread pool.
 		///
 		/// \param	name 		The name of your thread pool (for debugging purposes).
-		/// \param	allocator 	The #muu::generic_allocator used for allocations. Leave as `nullptr` to use the default global allocator.
 		MUU_NODISCARD_CTOR
-		explicit thread_pool(string_param name, generic_allocator* allocator = nullptr) //
-			: thread_pool{ 0, 0, static_cast<string_param&&>(name), allocator }
+		explicit thread_pool(string_param name) //
+			: thread_pool{ 0, 0, static_cast<string_param&&>(name) }
 		{}
 
 		/// \brief	Move constructor.
@@ -858,7 +853,7 @@ namespace muu
 			auto batch_generator		 = impl::batch_size_generator<size_type>{ job_count, worker_count };
 			offset_type next_batch_start = unwrap(start);
 			size_type next_batch_size	 = batch_generator();
-			auto batch_index			 = 0_sz;
+			size_t batch_index			 = 0u;
 			auto batch_count			 = muu::min(job_count, worker_count);
 
 			// try to get a shared queue for all the allocations
@@ -996,7 +991,7 @@ namespace muu
 			size_t next_batch_size	= batch_generator();
 			auto batch_start		= begin;
 			auto batch_end			= std::next(begin, static_cast<ptrdiff_t>(next_batch_size));
-			auto batch_index		= 0_sz;
+			size_t batch_index		= 0u;
 			auto batch_count		= muu::min(job_count, worker_count);
 
 			// try to get a shared queue for all the allocations

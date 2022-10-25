@@ -77,7 +77,7 @@ TEST_CASE("strings - utf_decode")
 			string_view{ pointer_cast<const code_unit*>(input_buffer.data()), input_buffer.size() / sizeof(code_unit) };
 
 		std::vector<char32_t> output_buffer;
-		impl::utf_decode(input, [&](char32_t cp) noexcept { output_buffer.push_back(cp); });
+		utf_decode(input, [&](char32_t cp) noexcept { output_buffer.push_back(cp); });
 		const auto output = std::u32string_view{ output_buffer.data(), output_buffer.size() };
 		CHECK(output == UTF_TEST_TEXT_EXPECTED(U));
 	};

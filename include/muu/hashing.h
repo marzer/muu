@@ -7,6 +7,8 @@
 /// \file
 /// \brief Contains the definitions of functions and types related to the generation of hashes.
 
+#include "integer_literals.h"
+#include "pointer_cast.h"
 #include "strings.h"
 #include "impl/std_iosfwd.h"
 #include "impl/header_start.h"
@@ -266,7 +268,7 @@ namespace muu
 		friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& lhs, const fnv1a& rhs)
 		{
 			for (unsigned i = sizeof(value_); i-- > 0u;)
-				lhs << impl::byte_to_hex(byte_select(rhs.value_, i));
+				lhs << byte_to_hex(byte_select(rhs.value_, i));
 			return lhs;
 		}
 	};
@@ -408,7 +410,7 @@ namespace muu
 		friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& lhs, const sha1& rhs)
 		{
 			for (auto byte : rhs.value().value)
-				lhs << impl::byte_to_hex(unwrap(byte));
+				lhs << byte_to_hex(unwrap(byte));
 			return lhs;
 		}
 	};
