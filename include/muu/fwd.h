@@ -75,6 +75,9 @@ MUU_ENABLE_WARNINGS;
 // TYPEDEFS AND FORWARD DECLARATIONS
 //======================================================================================================================
 
+/// \defgroup	cpp20		C++20
+/// \brief		C++ 20 language and library features backported to C++17.
+
 /// \addtogroup core			Core
 /// \brief		Small, generally-useful functions and types.
 /// @{

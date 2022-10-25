@@ -5,6 +5,7 @@
 #pragma once
 
 /// \file
+/// \ingroup cpp20
 /// \brief Contains the implementation of #muu::bit_cast().
 
 #include "meta.h"

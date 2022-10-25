@@ -6,6 +6,7 @@
 #pragma once
 
 /// \file
+/// \ingroup cpp20
 /// \brief Contains the definitions of #muu::is_constant_evaluated(), #MUU_IF_CONSTEVAL and #MUU_IF_RUNTIME.
 
 #include "preprocessor.h"

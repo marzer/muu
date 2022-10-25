@@ -5,6 +5,7 @@
 #pragma once
 
 /// \file
+/// \ingroup cpp20
 /// \brief Contains the definition of #muu::assume_aligned().
 
 #include "impl/std_type_traits.h"

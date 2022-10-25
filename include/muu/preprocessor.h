@@ -1097,6 +1097,7 @@ help me improve support for your target architecture. Thanks!
 
 	#define MUU_DISABLE_SWITCH_WARNINGS                                                                                \
 		MUU_PRAGMA_CLANG(diagnostic ignored "-Wswitch")                                                                \
+		MUU_PRAGMA_CLANG(diagnostic ignored "-Wcovered-switch-default")                                                \
 		static_assert(true)
 
 	#define MUU_DISABLE_LIFETIME_WARNINGS                                                                              \
@@ -1119,6 +1120,8 @@ help me improve support for your target architecture. Thanks!
 		static_assert(true)
 
 	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
+		MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++98-compat-pedantic")                                                 \
+		MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++98-compat")                                                          \
 		MUU_PRAGMA_CLANG(diagnostic ignored "-Wweak-vtables")                                                          \
 		MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")                                                      \
 		MUU_PRAGMA_CLANG(diagnostic ignored "-Wweak-template-vtables")                                                 \
@@ -1129,7 +1132,9 @@ help me improve support for your target architecture. Thanks!
 		MUU_PRAGMA_CLANG(diagnostic ignored "-Wpacked")                                                                \
 		MUU_PRAGMA_CLANG(diagnostic ignored "-Wdisabled-macro-expansion")                                              \
 		MUU_PRAGMA_CLANG(diagnostic ignored "-Wused-but-marked-unused")                                                \
+		MUU_PRAGMA_CLANG(diagnostic ignored "-Wcovered-switch-default")                                                \
 		MUU_PRAGMA_CLANG_GE(9, diagnostic ignored "-Wctad-maybe-unsupported")                                          \
+		MUU_PRAGMA_CLANG_GE(13, diagnostic ignored "-Wc++20-compat")                                                   \
 		static_assert(true)
 
 	#define MUU_POP_WARNINGS                                                                                           \
@@ -1682,36 +1687,39 @@ namespace muu::impl
 	#define MUU_FLOAT16_LIMITS_IEEE754 0
 #endif
 
-#if MUU_CLANG // >= 15
-	/*
-		_Float16 is currently only supported on the following targets,
-		with further targets pending ABI standardization:
+#ifndef MUU_HAS_FLOAT16
+	#if MUU_CLANG // >= 15
+		/*
+			_Float16 is currently only supported on the following targets,
+			with further targets pending ABI standardization:
 
-			32-bit ARM
-			64-bit ARM (AArch64)
-			AMDGPU
-			SPIR
-			X86 as long as SSE2 is available
+				32-bit ARM
+				64-bit ARM (AArch64)
+				AMDGPU
+				SPIR
+				X86 as long as SSE2 is available
 
-		- https://clang.llvm.org/docs/LanguageExtensions.html
-	*/
-	#if (MUU_ARCH_ARM || MUU_ARCH_X86 || MUU_ARCH_AMD64) && MUU_FLOAT16_LIMITS_SET
-		#define MUU_HAS_FLOAT16 1
-		#define MUU_HAS_FP16	1
-	#endif
-#elif MUU_GCC
-	/*
-		The _Float16 type is supported on AArch64 systems by default, on ARM systems when the IEEE format for
-		16-bit floating-point types is selected with -mfp16-format=ieee and,
-		for both C and C++, on x86 systems with SSE2 enabled.
+			- https://clang.llvm.org/docs/LanguageExtensions.html
+		*/
+		#if (MUU_ARCH_ARM || MUU_ARCH_AMD64 || MUU_ARCH_X86) && MUU_FLOAT16_LIMITS_SET
+			#define MUU_HAS_FLOAT16 1
+		#endif
 
-		- https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html
+	#elif MUU_GCC
 
-		*** except: the bit about x86 seems incorrect?? ***
-	 */
-	#if (MUU_ARCH_ARM /*|| MUU_ARCH_X86 || MUU_ARCH_AMD64*/) && MUU_FLOAT16_LIMITS_SET
-		#define MUU_HAS_FLOAT16 1
-		#define MUU_HAS_FP16	1
+		/*
+			The _Float16 type is supported on AArch64 systems by default, on ARM systems when the IEEE format for
+			16-bit floating-point types is selected with -mfp16-format=ieee and,
+			for both C and C++, on x86 systems with SSE2 enabled.
+
+			- https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html
+
+			*** except: the bit about x86 seems incorrect?? ***
+		 */
+		#if (MUU_ARCH_ARM || MUU_ARCH_AMD64 /* || MUU_ARCH_X86*/) && MUU_FLOAT16_LIMITS_SET
+			#define MUU_HAS_FLOAT16 1
+		#endif
+
 	#endif
 #endif
 #ifndef MUU_HAS_FLOAT16

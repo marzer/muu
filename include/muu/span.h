@@ -12,6 +12,343 @@
 #include "assume_aligned.h"
 #include "impl/header_start.h"
 
+/// \cond
+namespace muu::impl
+{
+	template <typename From, typename To>
+	struct is_qualifier_compatible
+	{
+		static constexpr bool value = true;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<From, const To>
+	{
+		static constexpr bool value = true;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<From, volatile To>
+	{
+		static constexpr bool value = true;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<From, const volatile To>
+	{
+		static constexpr bool value = true;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<const From, const To>
+	{
+		static constexpr bool value = true;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<const From, volatile To>
+	{
+		static constexpr bool value = false;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<const From, const volatile To>
+	{
+		static constexpr bool value = true;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<volatile From, const To>
+	{
+		static constexpr bool value = false;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<volatile From, volatile To>
+	{
+		static constexpr bool value = true;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<volatile From, const volatile To>
+	{
+		static constexpr bool value = true;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<const volatile From, const To>
+	{
+		static constexpr bool value = false;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<const volatile From, volatile To>
+	{
+		static constexpr bool value = false;
+	};
+	template <typename From, typename To>
+	struct is_qualifier_compatible<const volatile From, const volatile To>
+	{
+		static constexpr bool value = true;
+	};
+
+	template <typename From, typename To>
+	inline constexpr bool is_qualifier_conversion_only =
+		std::is_same_v<remove_cvref<From>, remove_cvref<To>>
+		&& is_qualifier_compatible<std::remove_reference_t<From>, std::remove_reference_t<To>>::value;
+
+	template <typename T, size_t Extent>
+	inline constexpr size_t as_bytes_extent = Extent == dynamic_extent ? dynamic_extent : (sizeof(T) * Extent);
+
+	// span storage base - static extent
+	template <typename T, size_t Extent, size_t Alignment>
+	class MUU_TRIVIAL_ABI span_storage
+	{
+	  public:
+		using element_type = T;
+		using pointer	   = std::add_pointer_t<T>;
+
+	  protected:
+		pointer ptr_ = {};
+
+	  public:
+		span_storage()													= delete;
+		constexpr span_storage(const span_storage&) noexcept			= default;
+		constexpr span_storage& operator=(const span_storage&) noexcept = default;
+
+		constexpr span_storage(pointer p, size_t) noexcept //
+			: ptr_{ p }
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(ptr_ && "a nullptr span is undefined behaviour");
+
+			if constexpr (Alignment > alignof(T))
+				MUU_CONSTEXPR_SAFE_ASSERT(reinterpret_cast<uintptr_t>(ptr_) % Alignment == 0u
+										  && "pointer alignment must be >= span's Alignment parameter");
+		}
+
+		MUU_CONST_INLINE_GETTER
+		constexpr size_t size() const noexcept
+		{
+			return Extent;
+		}
+
+		MUU_CONST_INLINE_GETTER
+		constexpr size_t size_bytes() const noexcept
+		{
+			return Extent * sizeof(element_type);
+		}
+
+		MUU_CONST_INLINE_GETTER
+		constexpr bool empty() const noexcept
+		{
+			return false;
+		}
+	};
+
+	// span storage base - 0 extent
+	template <typename T, size_t Alignment>
+	class MUU_TRIVIAL_ABI span_storage<T, 0, Alignment>
+	{
+	  public:
+		using element_type = T;
+		using pointer	   = std::add_pointer_t<T>;
+
+	  protected:
+		pointer ptr_ = {};
+
+	  public:
+		constexpr span_storage() noexcept								= default;
+		constexpr span_storage(const span_storage&) noexcept			= default;
+		constexpr span_storage& operator=(const span_storage&) noexcept = default;
+
+		constexpr span_storage(pointer p, size_t) noexcept //
+			: ptr_{ p }
+		{
+			if constexpr (Alignment > alignof(T))
+				MUU_CONSTEXPR_SAFE_ASSERT(reinterpret_cast<uintptr_t>(ptr_) % Alignment == 0u
+										  && "pointer alignment must be >= span's Alignment parameter");
+		}
+
+		MUU_CONST_INLINE_GETTER
+		constexpr size_t size() const noexcept
+		{
+			return 0;
+		}
+
+		MUU_CONST_INLINE_GETTER
+		constexpr size_t size_bytes() const noexcept
+		{
+			return 0;
+		}
+
+		MUU_CONST_INLINE_GETTER
+		constexpr bool empty() const noexcept
+		{
+			return true;
+		}
+	};
+
+	// span storage base - dynamic extent
+	template <typename T, size_t Alignment>
+	class MUU_TRIVIAL_ABI span_storage<T, dynamic_extent, Alignment>
+	{
+	  public:
+		using element_type = T;
+		using pointer	   = std::add_pointer_t<T>;
+
+	  protected:
+		pointer ptr_   = {};
+		size_t extent_ = {};
+
+	  public:
+		constexpr span_storage() noexcept								= default;
+		constexpr span_storage(const span_storage&) noexcept			= default;
+		constexpr span_storage& operator=(const span_storage&) noexcept = default;
+
+		constexpr span_storage(pointer p, size_t e) noexcept //
+			: ptr_{ p },
+			  extent_{ e }
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT((extent_ == 0u || ptr_) && "a nullptr span is undefined behaviour");
+
+			if constexpr (Alignment > alignof(T))
+				MUU_CONSTEXPR_SAFE_ASSERT(reinterpret_cast<uintptr_t>(ptr_) % Alignment == 0u
+										  && "pointer alignment must be >= span's Alignment parameter");
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr size_t size() const noexcept
+		{
+			return extent_;
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr size_t size_bytes() const noexcept
+		{
+			return extent_ * sizeof(element_type);
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr bool empty() const noexcept
+		{
+			return !extent_;
+		}
+	};
+
+	// span constructor base - static extents
+	template <typename T, size_t Extent, size_t Alignment>
+	class MUU_TRIVIAL_ABI span_constructors : public span_storage<T, Extent, Alignment>
+	{
+	  private:
+		using base = span_storage<T, Extent, Alignment>;
+
+	  public:
+		using element_type = T;
+		using pointer	   = std::add_pointer_t<T>;
+
+		using span_storage<T, Extent, Alignment>::span_storage; // bring base class constructors into scope
+
+		MUU_NODISCARD_CTOR
+		constexpr span_constructors() noexcept = default;
+		MUU_NODISCARD_CTOR
+		constexpr span_constructors(const span_constructors&) noexcept			  = default;
+		constexpr span_constructors& operator=(const span_constructors&) noexcept = default;
+
+		// `explicit` when #extent != #dynamic_extent
+		MUU_CONSTRAINED_TEMPLATE((is_qualifier_conversion_only<iter_reference_t<It>, element_type> //
+								  && MUU_STD_CONCEPT(std::contiguous_iterator<It>)),			   //
+								 typename It)
+		MUU_NODISCARD_CTOR
+		explicit constexpr span_constructors(It first, size_t count) noexcept //
+			: base{ pointer_cast<pointer>(muu::to_address(first)), count }
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(count == Extent
+									  && "count must be equal to span extent for statically-sized spans");
+		}
+
+		// `explicit` when #extent != #dynamic_extent
+		MUU_CONSTRAINED_TEMPLATE((is_qualifier_conversion_only<iter_reference_t<It>, element_type> //
+								  && !is_implicitly_convertible<End, size_t>					   //
+								  && MUU_STD_CONCEPT(std::contiguous_iterator<It>)				   //
+								  && MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)),
+								 typename It,
+								 typename End)
+		MUU_NODISCARD_CTOR
+		explicit constexpr span_constructors(It first, End last) noexcept(noexcept(last - first))
+			: base{ pointer_cast<pointer>(muu::to_address(first)), static_cast<size_t>(last - first) }
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(static_cast<size_t>(last - first) == base::size()
+									  && "(last - first) must be equal to span extent for statically-sized spans");
+		}
+
+		// `explicit` when #extent != #dynamic_extent && E == #dynamic_extent.
+		MUU_CONSTRAINED_TEMPLATE((E == dynamic_extent									   //
+								  && impl::is_qualifier_conversion_only<U, element_type>), //
+								 typename U,
+								 size_t E,
+								 size_t A,
+								 size_t Extent_ = Extent)
+		MUU_NODISCARD_CTOR
+		explicit constexpr span_constructors(const span<U, E, A>& s) noexcept
+			: base{ pointer_cast<pointer>(s.data()), s.size() }
+		{}
+
+		// `explicit` when #extent != #dynamic_extent && E == #dynamic_extent.
+		MUU_CONSTRAINED_TEMPLATE((E != dynamic_extent									   //
+								  && impl::is_qualifier_conversion_only<U, element_type>), //
+								 typename U,
+								 size_t E,
+								 size_t A,
+								 size_t Extent_ = Extent)
+		MUU_NODISCARD_CTOR
+		/* implicit */ constexpr span_constructors(const span<U, E, A>& s) noexcept
+			: base{ pointer_cast<pointer>(s.data()), s.size() }
+		{}
+	};
+
+	// span constructor base - dynamic extents
+	template <typename T, size_t Alignment>
+	class MUU_TRIVIAL_ABI span_constructors<T, dynamic_extent, Alignment>
+		: public span_storage<T, dynamic_extent, Alignment>
+	{
+	  private:
+		using base = span_storage<T, dynamic_extent, Alignment>;
+
+	  public:
+		using element_type = T;
+		using pointer	   = std::add_pointer_t<T>;
+
+		using span_storage<T, dynamic_extent, Alignment>::span_storage; // bring base class constructors into scope
+
+		MUU_NODISCARD_CTOR
+		constexpr span_constructors() noexcept = default;
+		MUU_NODISCARD_CTOR
+		constexpr span_constructors(const span_constructors&) noexcept			  = default;
+		constexpr span_constructors& operator=(const span_constructors&) noexcept = default;
+
+		// `explicit` when #extent != #dynamic_extent
+		MUU_CONSTRAINED_TEMPLATE((is_qualifier_conversion_only<iter_reference_t<It>, element_type> //
+								  && MUU_STD_CONCEPT(std::contiguous_iterator<It>)),			   //
+								 typename It)
+		MUU_NODISCARD_CTOR
+		/* implicit */ constexpr span_constructors(It first, size_t count) noexcept //
+			: base{ pointer_cast<pointer>(muu::to_address(first)), count }
+		{}
+
+		// `explicit` when #extent != #dynamic_extent
+		MUU_CONSTRAINED_TEMPLATE((is_qualifier_conversion_only<iter_reference_t<It>, element_type> //
+								  && !is_implicitly_convertible<End, size_t>					   //
+								  && MUU_STD_CONCEPT(std::contiguous_iterator<It>)				   //
+								  && MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)),
+								 typename It,
+								 typename End)
+		MUU_NODISCARD_CTOR
+		/* implicit */ constexpr span_constructors(It first, End last) noexcept(noexcept(last - first))
+			: base{ pointer_cast<pointer>(muu::to_address(first)), static_cast<size_t>(last - first) }
+		{}
+
+		// `explicit` when #extent != #dynamic_extent && E == #dynamic_extent.
+		MUU_CONSTRAINED_TEMPLATE((impl::is_qualifier_conversion_only<U, element_type>), //
+								 typename U,
+								 size_t E,
+								 size_t A)
+		MUU_NODISCARD_CTOR
+		/* implicit */ constexpr span_constructors(const span<U, E, A>& s) noexcept
+			: base{ pointer_cast<pointer>(s.data()), s.size() }
+		{}
+	};
+}
+/// \endcond
+
 namespace muu
 {
 #if MUU_DOXYGEN
@@ -24,345 +361,8 @@ namespace muu
 
 #endif // DOXYGEN
 
-	/// \cond
-	namespace impl
-	{
-		template <typename From, typename To>
-		struct is_qualifier_compatible
-		{
-			static constexpr bool value = true;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<From, const To>
-		{
-			static constexpr bool value = true;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<From, volatile To>
-		{
-			static constexpr bool value = true;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<From, const volatile To>
-		{
-			static constexpr bool value = true;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<const From, const To>
-		{
-			static constexpr bool value = true;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<const From, volatile To>
-		{
-			static constexpr bool value = false;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<const From, const volatile To>
-		{
-			static constexpr bool value = true;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<volatile From, const To>
-		{
-			static constexpr bool value = false;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<volatile From, volatile To>
-		{
-			static constexpr bool value = true;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<volatile From, const volatile To>
-		{
-			static constexpr bool value = true;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<const volatile From, const To>
-		{
-			static constexpr bool value = false;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<const volatile From, volatile To>
-		{
-			static constexpr bool value = false;
-		};
-		template <typename From, typename To>
-		struct is_qualifier_compatible<const volatile From, const volatile To>
-		{
-			static constexpr bool value = true;
-		};
-
-		template <typename From, typename To>
-		inline constexpr bool is_qualifier_conversion_only =
-			std::is_same_v<remove_cvref<From>, remove_cvref<To>>
-			&& is_qualifier_compatible<std::remove_reference_t<From>, std::remove_reference_t<To>>::value;
-
-		template <typename T, size_t Extent>
-		inline constexpr size_t as_bytes_extent = Extent == dynamic_extent ? dynamic_extent : (sizeof(T) * Extent);
-
-		// span storage base - static extent
-		template <typename T, size_t Extent, size_t Alignment>
-		class MUU_TRIVIAL_ABI span_storage
-		{
-		  public:
-			using element_type = T;
-			using pointer	   = std::add_pointer_t<T>;
-
-		  protected:
-			pointer ptr_ = {};
-
-		  public:
-			span_storage()													= delete;
-			constexpr span_storage(const span_storage&) noexcept			= default;
-			constexpr span_storage& operator=(const span_storage&) noexcept = default;
-
-			constexpr span_storage(pointer p, size_t) noexcept //
-				: ptr_{ p }
-			{
-				MUU_CONSTEXPR_SAFE_ASSERT(ptr_ && "a nullptr span is undefined behaviour");
-
-				if constexpr (Alignment > alignof(T))
-					MUU_CONSTEXPR_SAFE_ASSERT(reinterpret_cast<uintptr_t>(ptr_) % Alignment == 0u
-											  && "pointer alignment must be >= span's Alignment parameter");
-			}
-
-			MUU_CONST_INLINE_GETTER
-			constexpr size_t size() const noexcept
-			{
-				return Extent;
-			}
-
-			MUU_CONST_INLINE_GETTER
-			constexpr size_t size_bytes() const noexcept
-			{
-				return Extent * sizeof(element_type);
-			}
-
-			MUU_CONST_INLINE_GETTER
-			constexpr bool empty() const noexcept
-			{
-				return false;
-			}
-		};
-
-		// span storage base - 0 extent
-		template <typename T, size_t Alignment>
-		class MUU_TRIVIAL_ABI span_storage<T, 0, Alignment>
-		{
-		  public:
-			using element_type = T;
-			using pointer	   = std::add_pointer_t<T>;
-
-		  protected:
-			pointer ptr_ = {};
-
-		  public:
-			constexpr span_storage() noexcept								= default;
-			constexpr span_storage(const span_storage&) noexcept			= default;
-			constexpr span_storage& operator=(const span_storage&) noexcept = default;
-
-			constexpr span_storage(pointer p, size_t) noexcept //
-				: ptr_{ p }
-			{
-				if constexpr (Alignment > alignof(T))
-					MUU_CONSTEXPR_SAFE_ASSERT(reinterpret_cast<uintptr_t>(ptr_) % Alignment == 0u
-											  && "pointer alignment must be >= span's Alignment parameter");
-			}
-
-			MUU_CONST_INLINE_GETTER
-			constexpr size_t size() const noexcept
-			{
-				return 0;
-			}
-
-			MUU_CONST_INLINE_GETTER
-			constexpr size_t size_bytes() const noexcept
-			{
-				return 0;
-			}
-
-			MUU_CONST_INLINE_GETTER
-			constexpr bool empty() const noexcept
-			{
-				return true;
-			}
-		};
-
-		// span storage base - dynamic extent
-		template <typename T, size_t Alignment>
-		class MUU_TRIVIAL_ABI span_storage<T, dynamic_extent, Alignment>
-		{
-		  public:
-			using element_type = T;
-			using pointer	   = std::add_pointer_t<T>;
-
-		  protected:
-			pointer ptr_   = {};
-			size_t extent_ = {};
-
-		  public:
-			constexpr span_storage() noexcept								= default;
-			constexpr span_storage(const span_storage&) noexcept			= default;
-			constexpr span_storage& operator=(const span_storage&) noexcept = default;
-
-			constexpr span_storage(pointer p, size_t e) noexcept //
-				: ptr_{ p },
-				  extent_{ e }
-			{
-				MUU_CONSTEXPR_SAFE_ASSERT((extent_ == 0u || ptr_) && "a nullptr span is undefined behaviour");
-
-				if constexpr (Alignment > alignof(T))
-					MUU_CONSTEXPR_SAFE_ASSERT(reinterpret_cast<uintptr_t>(ptr_) % Alignment == 0u
-											  && "pointer alignment must be >= span's Alignment parameter");
-			}
-
-			MUU_PURE_INLINE_GETTER
-			constexpr size_t size() const noexcept
-			{
-				return extent_;
-			}
-
-			MUU_PURE_INLINE_GETTER
-			constexpr size_t size_bytes() const noexcept
-			{
-				return extent_ * sizeof(element_type);
-			}
-
-			MUU_PURE_INLINE_GETTER
-			constexpr bool empty() const noexcept
-			{
-				return !extent_;
-			}
-		};
-
-		// span constructor base - static extents
-		template <typename T, size_t Extent, size_t Alignment>
-		class MUU_TRIVIAL_ABI span_constructors : public span_storage<T, Extent, Alignment>
-		{
-		  private:
-			using base = span_storage<T, Extent, Alignment>;
-
-		  public:
-			using element_type = T;
-			using pointer	   = std::add_pointer_t<T>;
-
-			using span_storage<T, Extent, Alignment>::span_storage; // bring base class constructors into scope
-
-			MUU_NODISCARD_CTOR
-			constexpr span_constructors() noexcept = default;
-			MUU_NODISCARD_CTOR
-			constexpr span_constructors(const span_constructors&) noexcept			  = default;
-			constexpr span_constructors& operator=(const span_constructors&) noexcept = default;
-
-			// `explicit` when #extent != #dynamic_extent
-			MUU_CONSTRAINED_TEMPLATE((is_qualifier_conversion_only<iter_reference_t<It>, element_type> //
-									  && MUU_STD_CONCEPT(std::contiguous_iterator<It>)),			   //
-									 typename It)
-			MUU_NODISCARD_CTOR
-			explicit constexpr span_constructors(It first, size_t count) noexcept //
-				: base{ pointer_cast<pointer>(muu::to_address(first)), count }
-			{
-				MUU_CONSTEXPR_SAFE_ASSERT(count == Extent
-										  && "count must be equal to span extent for statically-sized spans");
-			}
-
-			// `explicit` when #extent != #dynamic_extent
-			MUU_CONSTRAINED_TEMPLATE((is_qualifier_conversion_only<iter_reference_t<It>, element_type> //
-									  && !is_implicitly_convertible<End, size_t>					   //
-									  && MUU_STD_CONCEPT(std::contiguous_iterator<It>)				   //
-									  && MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)),
-									 typename It,
-									 typename End)
-			MUU_NODISCARD_CTOR
-			explicit constexpr span_constructors(It first, End last) noexcept(noexcept(last - first))
-				: base{ pointer_cast<pointer>(muu::to_address(first)), static_cast<size_t>(last - first) }
-			{
-				MUU_CONSTEXPR_SAFE_ASSERT(static_cast<size_t>(last - first) == base::size()
-										  && "(last - first) must be equal to span extent for statically-sized spans");
-			}
-
-			// `explicit` when #extent != #dynamic_extent && E == #dynamic_extent.
-			MUU_CONSTRAINED_TEMPLATE((E == dynamic_extent									   //
-									  && impl::is_qualifier_conversion_only<U, element_type>), //
-									 typename U,
-									 size_t E,
-									 size_t A,
-									 size_t Extent_ = Extent)
-			MUU_NODISCARD_CTOR
-			explicit constexpr span_constructors(const span<U, E, A>& s) noexcept
-				: base{ pointer_cast<pointer>(s.data()), s.size() }
-			{}
-
-			// `explicit` when #extent != #dynamic_extent && E == #dynamic_extent.
-			MUU_CONSTRAINED_TEMPLATE((E != dynamic_extent									   //
-									  && impl::is_qualifier_conversion_only<U, element_type>), //
-									 typename U,
-									 size_t E,
-									 size_t A,
-									 size_t Extent_ = Extent)
-			MUU_NODISCARD_CTOR
-			/* implicit */ constexpr span_constructors(const span<U, E, A>& s) noexcept
-				: base{ pointer_cast<pointer>(s.data()), s.size() }
-			{}
-		};
-
-		// span constructor base - dynamic extents
-		template <typename T, size_t Alignment>
-		class MUU_TRIVIAL_ABI span_constructors<T, dynamic_extent, Alignment>
-			: public span_storage<T, dynamic_extent, Alignment>
-		{
-		  private:
-			using base = span_storage<T, dynamic_extent, Alignment>;
-
-		  public:
-			using element_type = T;
-			using pointer	   = std::add_pointer_t<T>;
-
-			using span_storage<T, dynamic_extent, Alignment>::span_storage; // bring base class constructors into scope
-
-			MUU_NODISCARD_CTOR
-			constexpr span_constructors() noexcept = default;
-			MUU_NODISCARD_CTOR
-			constexpr span_constructors(const span_constructors&) noexcept			  = default;
-			constexpr span_constructors& operator=(const span_constructors&) noexcept = default;
-
-			// `explicit` when #extent != #dynamic_extent
-			MUU_CONSTRAINED_TEMPLATE((is_qualifier_conversion_only<iter_reference_t<It>, element_type> //
-									  && MUU_STD_CONCEPT(std::contiguous_iterator<It>)),			   //
-									 typename It)
-			MUU_NODISCARD_CTOR
-			/* implicit */ constexpr span_constructors(It first, size_t count) noexcept //
-				: base{ pointer_cast<pointer>(muu::to_address(first)), count }
-			{}
-
-			// `explicit` when #extent != #dynamic_extent
-			MUU_CONSTRAINED_TEMPLATE((is_qualifier_conversion_only<iter_reference_t<It>, element_type> //
-									  && !is_implicitly_convertible<End, size_t>					   //
-									  && MUU_STD_CONCEPT(std::contiguous_iterator<It>)				   //
-									  && MUU_STD_CONCEPT(std::sized_sentinel_for<End, It>)),
-									 typename It,
-									 typename End)
-			MUU_NODISCARD_CTOR
-			/* implicit */ constexpr span_constructors(It first, End last) noexcept(noexcept(last - first))
-				: base{ pointer_cast<pointer>(muu::to_address(first)), static_cast<size_t>(last - first) }
-			{}
-
-			// `explicit` when #extent != #dynamic_extent && E == #dynamic_extent.
-			MUU_CONSTRAINED_TEMPLATE((impl::is_qualifier_conversion_only<U, element_type>), //
-									 typename U,
-									 size_t E,
-									 size_t A)
-			MUU_NODISCARD_CTOR
-			/* implicit */ constexpr span_constructors(const span<U, E, A>& s) noexcept
-				: base{ pointer_cast<pointer>(s.data()), s.size() }
-			{}
-		};
-	}
-	/// \endcond
-
 	/// \brief	A non-owning view of contiguous elements.
-	/// \ingroup	core mem
+	/// \ingroup	core mem cpp20
 	///
 	/// \remarks This is equivalent to C++20's std::span.
 	///
@@ -728,7 +728,7 @@ namespace muu
 	using aligned_byte_span = span<std::byte, dynamic_extent, Alignment>;
 
 	/// \brief	Reinterprets a span as an immutable view of the underlying bytes.
-	/// \ingroup	memory
+	/// \ingroup	memory cpp20
 	/// \relatesalso	muu::span
 	///
 	/// \details Equivalent to C++20's std::as_bytes.
@@ -747,7 +747,7 @@ namespace muu
 	}
 
 	/// \brief	Reinterprets a span as a view of the underlying bytes.
-	/// \ingroup	memory
+	/// \ingroup	memory cpp20
 	/// \relatesalso	muu::span
 	///
 	/// \details Equivalent to C++20's std::as_writable_bytes.

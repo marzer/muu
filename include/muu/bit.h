@@ -6,6 +6,7 @@
 
 /// \file
 /// \brief Bit manipulation functions. C++20's &lt;bit&gt; with extra steps.
+/// \ingroup cpp20
 /// \detail This header includes a number of others:
 ///		- bit_cast.h
 ///		- bit_ceil.h

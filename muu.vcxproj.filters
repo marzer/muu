@@ -352,6 +352,9 @@
     <ClInclude Include="include\muu\utf_decode.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\source_location.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

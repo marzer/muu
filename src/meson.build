@@ -16,6 +16,10 @@ lib_public_args = []
 if compiler_supports_fp16 or compiler_supports_float16 or compiler_supports_float128 or compiler_supports_int128
 	lib_public_args += compiler.get_supported_arguments('-fext-numeric-literals')
 endif
+if not get_option('float16')
+	lib_public_args += '-DMUU_HAS_FP16=0'
+	lib_public_args += '-DMUU_HAS_FLOAT16=0'
+endif
 lib_static_public_args = lib_public_args + [ '-DMUU_DLL=0' ]
 lib_shared_public_args = lib_public_args + [ '-DMUU_DLL=1' ]
 

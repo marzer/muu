@@ -52,6 +52,7 @@
 #include "quaternion.h"
 #include "scope_guard.h"
 #include "size_t_literals.h"
+#include "source_location.h"
 #include "span.h"
 #include "spin_mutex.h"
 #include "static_array.h"

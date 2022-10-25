@@ -23,7 +23,8 @@ namespace
 
 		if constexpr (is_floating_point<T>)
 		{
-			constexpr std::streamsize precision = std::streamsize{ 3 } + (sizeof(T) >= sizeof(float) ? 3 : 0)
+			constexpr std::streamsize precision = std::streamsize{ 3 } //
+												+ (sizeof(T) >= sizeof(float) ? 3 : 0)
 												+ (sizeof(T) >= sizeof(double) ? 3 : 0)
 												+ (sizeof(T) > sizeof(double) ? 3 : 0);
 			os.precision(precision);

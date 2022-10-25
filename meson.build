@@ -63,8 +63,6 @@ if is_clang
 		'-Wno-c++98-compat-pedantic',
 		'-Wno-documentation',
 		'-Wno-documentation-unknown-command',
-		'-Wno-switch-enum',
-		'-Wno-covered-switch-default',
 		'-Wno-pch-date-time',
 	]
 endif
@@ -180,7 +178,9 @@ endif
 # c++ 20 check
 #=======================================================================================================================
 
-compiler_supports_cpp20_args = compiler.first_supported_argument('-std=c++20', '-std=c++2a', '/Qstd=c++20', '/Qstd=c++2a', '/std:c++20', '/std:c++latest')
+compiler_supports_cpp20_args = compiler.first_supported_argument(
+	'-std=c++20', '/Qstd=c++20', '/std:c++20',
+	'-std=c++2a', '/Qstd=c++2a', '/std:c++latest')
 compiler_supports_cpp20 = compiler_supports_cpp20_args.length() > 0 and compiler.links('''
 	#include <version>
 	#include <string>
@@ -241,14 +241,17 @@ compiler_supports_char8 = compiler_supports_cpp20 and compiler.links('''
 )
 
 #=======================================================================================================================
-# __fp16 and _Float16 checks
+# __fp16 and _Float16
 #=======================================================================================================================
 
 compiler_supports_float16_args = []
-if is_gcc
-	compiler_supports_float16_args += '-mfp16-format=ieee'
+if get_option('float16')
+	compiler_supports_float16_args += compiler.get_supported_arguments('-mfp16-format=ieee')
+else
+	internal_args += '-DMUU_HAS_FP16=0'
+	internal_args += '-DMUU_HAS_FLOAT16=0'
 endif
-compiler_supports_fp16 = compiler.links('''
+compiler_supports_fp16 = get_option('float16') and compiler.links('''
 	int main()
 	{
 		static_assert(sizeof(__fp16) == 2);
@@ -261,7 +264,7 @@ compiler_supports_fp16 = compiler.links('''
 	name : 'supports __fp16',
 	args : compiler_supports_float16_args
 )
-compiler_supports_float16 = compiler.links('''
+compiler_supports_float16 = get_option('float16') and compiler.links('''
 	int main()
 	{
 		static_assert(sizeof(_Float16) == 2);
