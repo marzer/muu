@@ -68,6 +68,7 @@
               Reference
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
                 <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
@@ -80,9 +81,42 @@
             <dd>The root namespace for all muu functions and types.</dd>
           </dl>
         </section>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename Char = char&gt;</div>
+              struct <a class="m-doc" href="structmuu_1_1hex__char__pair.html">muu::hex_char_pair</a>
+            </dt>
+            <dd>A pair of code units in a byte pair.</dd>
+          </dl>
+        </section>
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename Char = char&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__code__units.html#ga2c4374839eff99aa04107a7bef2aeb77">byte_to_hex</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> byte,
+              Char a = constants&lt;Char&gt;::letter_a) -&gt; hex_char_pair&lt;Char&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converts a byte value to it's equivalent pair of code units in the range <code>[0x0, 0xF]</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Char = char&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__code__units.html#ga214e58065626e4ba65c898b6c4136f6d">byte_to_hex</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a> byte,
+              Char a = constants&lt;Char&gt;::letter_a) -&gt; hex_char_pair&lt;Char&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converts a byte value to it's equivalent pair of code units in the range <code>[0x0, 0xF]</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename Char = char&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__code__units.html#ga2d6051c218758b6715931c77dd4d0b49">dec_to_hex</a>(</span><span class="m-doc-wrap">unsigned val,
+              Char a = constants&lt;Char&gt;::letter_a) -&gt; Char <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converts an unsigned integer in the range <code>[0x0, 0xF]</code> to it's equivalent code units <code>[0-9, a-f, A-F]</code>.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__code__units.html#ga4e71f9d5db491b09cbd27df611780521">hex_to_dec</a>(</span><span class="m-doc-wrap">T codepoint) -&gt; unsigned <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converts a code units containing a hex value <code>[0-9, a-f, A-F]</code> to it's equivalent unsigned integer <code>[0x0, 0xF]</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__is__ascii__code__point.html#gae507888b5091f49902fabb62297cf035">is_ascii_code_point</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> c) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>

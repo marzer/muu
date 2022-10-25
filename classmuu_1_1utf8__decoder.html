@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/bit.h file | muu Miscellaneous useful utilities for C++</title>
+  <title>muu::utf8_decoder class | muu Miscellaneous useful utilities for C++</title>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <meta content="#22272e" name="theme-color"/>
@@ -58,53 +58,57 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>bit.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>utf8_decoder <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="utf8__decoder_8h.html">&lt;muu/utf8_decoder.h&gt;</a></div>
         </h1>
-        <p>Bit manipulation functions. C++20's &lt;bit&gt; with extra steps.</p>
+        <p>A state machine for decoding UTF-8 data.</p>
         <nav class="m-block m-default poxy-toc" id="poxy-toc">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#func-members">Functions</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-<p>This header includes a number of others:</p><ul><li><a class="m-doc" href="bit__cast_8h.html">bit_<wbr/>cast.h</a></li><li><a class="m-doc" href="bit__ceil_8h.html">bit_<wbr/>ceil.h</a></li><li><a class="m-doc" href="bit__fill_8h.html">bit_<wbr/>fill.h</a></li><li><a class="m-doc" href="bit__floor_8h.html">bit_<wbr/>floor.h</a></li><li><a class="m-doc" href="bit__pack_8h.html">bit_<wbr/>pack.h</a></li><li><a class="m-doc" href="countl_8h.html">countl.h</a></li><li><a class="m-doc" href="countr_8h.html">countr.h</a></li><li><a class="m-doc" href="popcount_8h.html">popcount.h</a></li><li><a class="m-doc" href="byte__reverse_8h.html">byte_<wbr/>reverse.h</a></li></ul>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+<p>The implementation of this decoder is based on this: <a class="poxy-external" href="https://bjoern.hoehrmann.de/utf-8/decoder/dfa/" target="_blank">https:/<wbr/>/<wbr/>bjoern.hoehrmann.de/<wbr/>utf-8/<wbr/>decoder/<wbr/>dfa/<wbr/></a></p>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a class="m-doc" href="namespacemuu.html">muu</a></dt>
-            <dd>The root namespace for all muu functions and types.</dd>
-          </dl>
-        </section>
-        <section id="func-members">
-          <h2><a href="#func-members">Functions</a></h2>
-          <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1a764507fe486799f60eac32c622e63e">bit_width</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ad00282e394d85b031cbc95907b08e05f">
+              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#ad00282e394d85b031cbc95907b08e05f">clear_error</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Finds the smallest number of bits needed to represent the given value.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gae644160cd7d978d95922af233afc5ddd">byte_select</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dd>Clears the error state.</dd>
+            <dt id="ab6ab30274c736d2fccf1a2c2e1412e14">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab6ab30274c736d2fccf1a2c2e1412e14">error</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Gets a specific byte from an integer.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga18d1da41b1d53329c0d0605596494010">byte_select</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> index) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dd>Returns true if the decoder has entered an error state.</dd>
+            <dt id="a3ef0c6362cb10f89a9f10c024a55c611">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3ef0c6362cb10f89a9f10c024a55c611">has_value</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Gets a specific byte from an integer.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... ByteIndices, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1aaa24bb10d08ad78c86695baabc1857">swizzle</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dd>Returns <code>true</code> if the decoder has a decoded a full UTF-32 codepoint.</dd>
+            <dt id="abffb2d30abe3ec308b47bc3c0f678b38">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#abffb2d30abe3ec308b47bc3c0f678b38">needs_more_input</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Select and re-pack arbitrary bytes from an integer.</dd>
+            <dd>Returns <code>true</code> if the decoder needs more input before it can yield a UTF-32 codepoint.</dd>
+            <dt id="a432a68428bf00c595feb376f9ca157c9">
+              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#a432a68428bf00c595feb376f9ca157c9">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> code_unit) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a UTF-8 code unit to the stream being decoded.</dd>
+            <dt id="a5ab7f1dcd15cc5a3000abf2367ecc8d5">
+              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#a5ab7f1dcd15cc5a3000abf2367ecc8d5">operator()</a>(</span><span class="m-doc-wrap">char code_unit) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a UTF-8 code unit to the stream being decoded.</dd>
+            <dt id="a8a93b8b63b8f8414aa8f65e6aea56ecd">
+              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#a8a93b8b63b8f8414aa8f65e6aea56ecd">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char8_t</a> code_unit) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a UTF-8 code unit to the stream being decoded.</dd>
+            <dt id="a34dd9b91dcf14103abf331ecd33d8001">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a34dd9b91dcf14103abf331ecd33d8001">value</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the currently-decoded UTF-32 codepoint.</dd>
           </dl>
         </section>
       </div>

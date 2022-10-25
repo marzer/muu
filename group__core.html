@@ -171,6 +171,15 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gad57726dc8177fff89f34e5049c060c8f">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; void* <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Allocates memory on a specific alignment boundary.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="#ga980d079c5d73e2b8bf65a4130f3793b0">aligned_free</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Frees memory that was allocated using <a class="m-doc" href="group__core.html#gad57726dc8177fff89f34e5049c060c8f">muu::<wbr/>aligned_alloc()</a>.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -417,9 +426,25 @@
         </section>
         <section>
           <h2>Function documentation</h2>
+          <section class="m-doc-details" id="gad57726dc8177fff89f34e5049c060c8f"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gad57726dc8177fff89f34e5049c060c8f">aligned_alloc</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="aligned__alloc_8h.html">&lt;muu/aligned_alloc.h&gt;</a></div>
+            </h3>
+            <p>Allocates memory on a specific alignment boundary.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga980d079c5d73e2b8bf65a4130f3793b0"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga980d079c5d73e2b8bf65a4130f3793b0">aligned_free</a>(</span><span class="m-doc-wrap">void* ptr) <span class="m-label m-success">noexcept</span></span></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="aligned__alloc_8h.html">&lt;muu/aligned_alloc.h&gt;</a></div>
+            </h3>
+            <p>Frees memory that was allocated using <a class="m-doc" href="group__core.html#gad57726dc8177fff89f34e5049c060c8f">muu::<wbr/>aligned_alloc()</a>.</p>
+<aside class="m-note m-danger"><h4>Warning</h4><p>Do not use this to free memory that was not allocated using <a class="m-doc" href="group__core.html#gad57726dc8177fff89f34e5049c060c8f">muu::<wbr/>aligned_alloc()</a>!</p></aside>
+          </div></section>
           <section class="m-doc-details" id="ga6aae2e7be0cb15bed51d7cb636602c5f"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="apply__alignment_8h.html">&lt;muu/apply_alignment.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">T </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
@@ -452,7 +477,7 @@
           </div></section>
           <section class="m-doc-details" id="ga1541e136d463a3c08a2047c3d448080f"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="apply__alignment_8h.html">&lt;muu/apply_alignment.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;
               </div>
               <span class="m-doc-wrap-bumper">T* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga1541e136d463a3c08a2047c3d448080f">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
@@ -485,7 +510,7 @@
           </div></section>
           <section class="m-doc-details" id="ga7cd587549d099b4323fda37f23097e04"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="apply__alignment_8h.html">&lt;muu/apply_alignment.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
@@ -520,7 +545,7 @@
           </div></section>
           <section class="m-doc-details" id="ga1a38db130c8a0f40826547cc722dd634"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="apply__alignment_8h.html">&lt;muu/apply_alignment.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
@@ -887,7 +912,7 @@
           </div></section>
           <section class="m-doc-details" id="gab3e8f4f75d417dc6880311de6c9306e9"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bit_8h.html">&lt;muu/bit.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="byte__reverse_8h.html">&lt;muu/byte_reverse.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
@@ -1046,7 +1071,7 @@
           </div></section>
           <section class="m-doc-details" id="gadf75326611fa43dbacc1ff601e9e969b"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bit_8h.html">&lt;muu/bit.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="countl_8h.html">&lt;muu/countl.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
@@ -1083,7 +1108,7 @@
           </div></section>
           <section class="m-doc-details" id="ga12cd318fdcf736ca99f5bf66aa615fd1"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="countl__zero_8h.html">&lt;muu/countl_zero.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="countl_8h.html">&lt;muu/countl.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
@@ -1120,7 +1145,7 @@
           </div></section>
           <section class="m-doc-details" id="ga84963e1a7bf75ec7464cda53b26dec8a"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bit_8h.html">&lt;muu/bit.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="countr_8h.html">&lt;muu/countr.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
@@ -1157,7 +1182,7 @@
           </div></section>
           <section class="m-doc-details" id="gab5b51a3c121984cfddb8d5da4e9bf070"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="countr__zero_8h.html">&lt;muu/countr_zero.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="countr_8h.html">&lt;muu/countr.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>
@@ -1194,7 +1219,7 @@
           </div></section>
           <section class="m-doc-details" id="ga5f6c6004ed4016c437442e80f0b22421"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="for__sequence_8h.html">&lt;muu/for_sequence.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;auto N1, auto N2, typename Func&gt;
               </div>
@@ -1220,7 +1245,7 @@
                 </tr>
               </tbody>
             </table>
-<p>Generates a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a> product sequence, [0...N1) * [0...N2), which is passed into the callable:</p><pre class="m-code"><span class="k">auto</span> <span class="n">vals_1</span> <span class="o">=</span> <span class="nn">std</span><span class="o">::</span><span class="nc">pair</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">};</span>
+<p>Generates a <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a> cartesian product sequence, [0...N1) * [0...N2), which is passed into the callable:</p><pre class="m-code"><span class="k">auto</span> <span class="n">vals_1</span> <span class="o">=</span> <span class="nn">std</span><span class="o">::</span><span class="nc">pair</span><span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="p">};</span>
 <span class="k">auto</span> <span class="n">vals_2</span> <span class="o">=</span> <span class="nn">std</span><span class="o">::</span><span class="nc">pair</span><span class="p">{</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span> <span class="p">};</span>
 <span class="n">for_product</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span><span class="p">([</span><span class="o">&amp;</span><span class="p">](</span><span class="k">auto</span> <span class="n">i</span><span class="p">,</span> <span class="k">auto</span> <span class="n">j</span><span class="p">)</span>
 <span class="p">{</span>
@@ -1238,7 +1263,7 @@
           </div></section>
           <section class="m-doc-details" id="gab64801b0b03f54c51a21000e8bb95ea1"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="core_8h.html">&lt;muu/core.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="for__sequence_8h.html">&lt;muu/for_sequence.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;auto N, typename Func&gt;
               </div>
@@ -1270,7 +1295,7 @@
           </div></section>
           <section class="m-doc-details" id="ga309ac880015add971ee06b148191060f"><div>
             <h3>
-              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bit_8h.html">&lt;muu/bit.h&gt;</a></div>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="popcount_8h.html">&lt;muu/popcount.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T&gt;
               </div>

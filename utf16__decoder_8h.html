@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/bit.h file | muu Miscellaneous useful utilities for C++</title>
+  <title>muu/utf16_decoder.h file | muu Miscellaneous useful utilities for C++</title>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <meta content="#22272e" name="theme-color"/>
@@ -58,9 +58,9 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>bit.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>utf16_decoder.h <span class="m-thin">file</span>
         </h1>
-        <p>Bit manipulation functions. C++20's &lt;bit&gt; with extra steps.</p>
+        <p>Contains the implementation of# <a class="m-doc" href="classmuu_1_1utf16__decoder.html">muu::<wbr/>utf16_decoder</a>.</p>
         <nav class="m-block m-default poxy-toc" id="poxy-toc">
           <h3>Contents</h3>
           <ul>
@@ -68,12 +68,11 @@
               Reference
               <ul>
                 <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#func-members">Functions</a></li>
+                <li><a href="#nested-classes">Classes</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-<p>This header includes a number of others:</p><ul><li><a class="m-doc" href="bit__cast_8h.html">bit_<wbr/>cast.h</a></li><li><a class="m-doc" href="bit__ceil_8h.html">bit_<wbr/>ceil.h</a></li><li><a class="m-doc" href="bit__fill_8h.html">bit_<wbr/>fill.h</a></li><li><a class="m-doc" href="bit__floor_8h.html">bit_<wbr/>floor.h</a></li><li><a class="m-doc" href="bit__pack_8h.html">bit_<wbr/>pack.h</a></li><li><a class="m-doc" href="countl_8h.html">countl.h</a></li><li><a class="m-doc" href="countr_8h.html">countr.h</a></li><li><a class="m-doc" href="popcount_8h.html">popcount.h</a></li><li><a class="m-doc" href="byte__reverse_8h.html">byte_<wbr/>reverse.h</a></li></ul>
         <section id="namespaces">
           <h2><a href="#namespaces">Namespaces</a></h2>
           <dl class="m-doc">
@@ -81,30 +80,13 @@
             <dd>The root namespace for all muu functions and types.</dd>
           </dl>
         </section>
-        <section id="func-members">
-          <h2><a href="#func-members">Functions</a></h2>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1a764507fe486799f60eac32c622e63e">bit_width</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              class <a class="m-doc" href="classmuu_1_1utf16__decoder.html">muu::utf16_decoder</a>
             </dt>
-            <dd>Finds the smallest number of bits needed to represent the given value.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gae644160cd7d978d95922af233afc5ddd">byte_select</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Gets a specific byte from an integer.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga18d1da41b1d53329c0d0605596494010">byte_select</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> index) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Gets a specific byte from an integer.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>... ByteIndices, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1aaa24bb10d08ad78c86695baabc1857">swizzle</a>(</span><span class="m-doc-wrap">T val) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Select and re-pack arbitrary bytes from an integer.</dd>
+            <dd>A state machine for decoding UTF-16 data.</dd>
           </dl>
         </section>
       </div>

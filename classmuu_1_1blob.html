@@ -78,15 +78,14 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aff73dd986db121f5b149e0312c13f40a">blob</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ace3622ad60d900b0b0a67642ff9a0792">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ace3622ad60d900b0b0a67642ff9a0792">blob</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates an empty blob.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a068199f67ff2268f1cb31e3e5552cad6">blob</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a4d6a1e199f94403c234fa25edd2a08fa">blob</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size,
               const void* src = nullptr,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> align = {},
-              <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-flat m-info">explicit</span> </span>
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> align = {}) <span class="m-label m-flat m-info">explicit</span> </span>
             </dt>
             <dd>Creates a blob of a fixed size and alignment.</dd>
             <dt id="a08e7c8ce582ad17b8b1794d63fd4b57b">
@@ -94,9 +93,8 @@
             </dt>
             <dd>Copy constructor.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a1d1032bd23cedfb554238870bedb6c4b">blob</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp; other,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> align,
-              <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr)</span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a13e965ac37817401e7961b1a090e437c">blob</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp; other,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> align)</span>
             </dt>
             <dd>Copy constructor.</dd>
             <dt id="a6cb13d57c8e3a15225a7297889dc9b51">
@@ -121,10 +119,9 @@
             </dt>
             <dd>Returns the alignment of the blob's data, in bytes.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aaa0cd6a82c21a153515ae8023beee432">assign</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> sz,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#af2f3476d305129b002d408ad5dfac819">assign</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> sz,
               const void* src,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> align = {},
-              <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) -&gt; <a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp;</span>
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> new_align = {}) -&gt; <a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp;</span>
             </dt>
             <dd></dd>
             <dt id="a6485020b574410fcae5dd9958940599f">
@@ -144,7 +141,7 @@
             </dt>
             <dd>Move-assignment operator.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aabbfd06768d9acac93b59ec36d9a9484">resize</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> sz) -&gt; <a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp;</span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8ce2bcecd1141da9582d9c4d04bf3a04">resize</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> sz) -&gt; <a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Resizes the blob, keeping the region of <code>min(newSize, oldSize)</code> intact.</dd>
             <dt id="a01b59949a0f872c4480d01e483628859">
@@ -155,29 +152,11 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="aff73dd986db121f5b149e0312c13f40a"><div>
+          <section class="m-doc-details" id="a4d6a1e199f94403c234fa25edd2a08fa"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>blob::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aff73dd986db121f5b149e0312c13f40a">blob</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-info">explicit</span>  <span class="m-label m-success">noexcept</span></span></span>
-            </h3>
-            <p>Creates an empty blob.</p>
-            <table class="m-table m-fullwidth m-flat">
-              <thead>
-                <tr><th colspan="2">Parameters</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="width: 1%">allocator</td>
-                  <td>The <a class="m-doc" href="structmuu_1_1generic__allocator.html">muu::<wbr/>generic_allocator</a> used for allocations. Leave as <code>nullptr</code> to use the default global allocator.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div></section>
-          <section class="m-doc-details" id="a068199f67ff2268f1cb31e3e5552cad6"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>blob::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a068199f67ff2268f1cb31e3e5552cad6">blob</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size,
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>blob::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4d6a1e199f94403c234fa25edd2a08fa">blob</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size,
               const void* src = nullptr,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> align = {},
-              <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr) <span class="m-label m-info">explicit</span> </span></span>
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> align = {}) <span class="m-label m-info">explicit</span> </span></span>
             </h3>
             <p>Creates a blob of a fixed size and alignment.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -197,18 +176,13 @@
                   <td>align</td>
                   <td>The alignment of the blob's data. Leave as <code>0</code> to use <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/preprocessor/replace" target="_blank">__STDCPP_DEFAULT_NEW_ALIGNMENT__</a></code>.</td>
                 </tr>
-                <tr>
-                  <td>allocator</td>
-                  <td>The <a class="m-doc" href="structmuu_1_1generic__allocator.html">muu::<wbr/>generic_allocator</a> used for allocations. Leave as <code>nullptr</code> to use the default global allocator.</td>
-                </tr>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a1d1032bd23cedfb554238870bedb6c4b"><div>
+          <section class="m-doc-details" id="a13e965ac37817401e7961b1a090e437c"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>blob::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1d1032bd23cedfb554238870bedb6c4b">blob</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp; other,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> align,
-              <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr)</span></span>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>blob::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a13e965ac37817401e7961b1a090e437c">blob</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp; other,
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> align)</span></span>
             </h3>
             <p>Copy constructor.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -224,19 +198,14 @@
                   <td>align</td>
                   <td>The alignment of the blob's data. Leave as <code>0</code> to copy the source alignment.</td>
                 </tr>
-                <tr>
-                  <td>allocator</td>
-                  <td>The <a class="m-doc" href="structmuu_1_1generic__allocator.html">muu::<wbr/>generic_allocator</a> used for allocations. Leave as <code>nullptr</code> to copy the source allocator.</td>
-                </tr>
               </tbody>
             </table>
           </div></section>
-          <section class="m-doc-details" id="aaa0cd6a82c21a153515ae8023beee432"><div>
+          <section class="m-doc-details" id="af2f3476d305129b002d408ad5dfac819"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp; muu::<wbr/>blob::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aaa0cd6a82c21a153515ae8023beee432">assign</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> sz,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp; muu::<wbr/>blob::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af2f3476d305129b002d408ad5dfac819">assign</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> sz,
               const void* src,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> align = {},
-              <a class="m-doc" href="structmuu_1_1generic__allocator.html">generic_<wbr/>allocator</a>* allocator = nullptr)</span></span>
+              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> new_align = {})</span></span>
             </h3>
             <table class="m-table m-fullwidth m-flat">
               <thead>
@@ -252,12 +221,8 @@
                   <td>The data to copy.</td>
                 </tr>
                 <tr>
-                  <td>align</td>
-                  <td>The alignment to use. Leave as <code>0</code> to use <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/preprocessor/replace" target="_blank">__STDCPP_DEFAULT_NEW_ALIGNMENT__</a></code>.</td>
-                </tr>
-                <tr>
-                  <td>allocator</td>
-                  <td>The <a class="m-doc" href="structmuu_1_1generic__allocator.html">muu::<wbr/>generic_allocator</a> used for allocations. Leave as <code>nullptr</code> to keep using the current allocator.</td>
+                  <td>new_align</td>
+                  <td>The new alignment to use. Leave as <code>0</code> to use <code><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/preprocessor/replace" target="_blank">__STDCPP_DEFAULT_NEW_ALIGNMENT__</a></code>.</td>
                 </tr>
               </tbody>
               <tfoot>
@@ -291,11 +256,11 @@
                 </tr>
               </tfoot>
             </table>
-<aside class="m-note m-default"><h4>Remark</h4><p>Alignment will be made to match the source blob; use <a class="m-doc" href="classmuu_1_1blob.html#aaa0cd6a82c21a153515ae8023beee432">assign()</a> if you wish to be explicit about alignment when copying another blob.</p></aside>
+<aside class="m-note m-default"><h4>Remark</h4><p>Alignment will be made to match the source blob; use <a class="m-doc" href="classmuu_1_1blob.html#af2f3476d305129b002d408ad5dfac819">assign()</a> if you wish to be explicit about alignment when copying another blob.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="aabbfd06768d9acac93b59ec36d9a9484"><div>
+          <section class="m-doc-details" id="a8ce2bcecd1141da9582d9c4d04bf3a04"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp; muu::<wbr/>blob::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aabbfd06768d9acac93b59ec36d9a9484">resize</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> sz)</span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1blob.html">blob</a>&amp; muu::<wbr/>blob::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8ce2bcecd1141da9582d9c4d04bf3a04">resize</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> sz) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Resizes the blob, keeping the region of <code>min(newSize, oldSize)</code> intact.</p>
             <table class="m-table m-fullwidth m-flat">

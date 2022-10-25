@@ -60,7 +60,7 @@
         <h1>
           <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>core.h <span class="m-thin">file</span>
         </h1>
-        <p>Core functions and typedefs.</p>
+        <p>Helper header for including most of the core useful bits in the library.</p>
         <nav class="m-block m-default poxy-toc" id="poxy-toc">
           <h3>Contents</h3>
           <ul>
@@ -73,6 +73,7 @@
             </li>
           </ul>
         </nav>
+<p>Includes the following headers:</p><ul><li><a class="m-doc" href="apply__alignment_8h.html">apply_<wbr/>alignment.h</a></li><li><a class="m-doc" href="assume__aligned_8h.html">assume_<wbr/>aligned.h</a></li><li><a class="m-doc" href="bit_8h.html">bit.h</a></li><li><a class="m-doc" href="bit__cast_8h.html">bit_<wbr/>cast.h</a></li><li><a class="m-doc" href="build_8h.html">build.h</a></li><li><a class="m-doc" href="for__sequence_8h.html">for_<wbr/>sequence.h</a></li><li><a class="m-doc" href="integer__literals_8h.html">integer_<wbr/>literals.h</a></li><li><a class="m-doc" href="is__constant__evaluated_8h.html">is_<wbr/>constant_<wbr/>evaluated.h</a></li><li><a class="m-doc" href="launder_8h.html">launder.h</a></li><li><a class="m-doc" href="meta_8h.html">meta.h</a></li><li><a class="m-doc" href="pointer__cast_8h.html">pointer_<wbr/>cast.h</a></li><li><a class="m-doc" href="scope__guard_8h.html">scope_<wbr/>guard.h</a></li><li><a class="m-doc" href="size__t__literals_8h.html">size_<wbr/>t_<wbr/>literals.h</a></li><li><a class="m-doc" href="strong__typedef_8h.html">strong_<wbr/>typedef.h</a></li><li><a class="m-doc" href="type__list_8h.html">type_<wbr/>list.h</a></li></ul>
         <section id="namespaces">
           <h2><a href="#namespaces">Namespaces</a></h2>
           <dl class="m-doc">
@@ -83,28 +84,6 @@
         <section id="func-members">
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga6aae2e7be0cb15bed51d7cb636602c5f">apply_alignment</a>(</span><span class="m-doc-wrap">T val) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment, typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1541e136d463a3c08a2047c3d448080f">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga7cd587549d099b4323fda37f23097e04">apply_alignment</a>(</span><span class="m-doc-wrap">T val,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Rounds an unsigned value up to the next multiple of the given alignment.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1a38db130c8a0f40826547cc722dd634">apply_alignment</a>(</span><span class="m-doc-wrap">T* ptr,
-              <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Rounds a pointer up to the byte offset that is the next multiple of the given alignment.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename Offset&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1b1744dba2ed4d6d222a2087c41198e2">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
@@ -125,16 +104,6 @@
               const T&amp; high) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a value clamped between two bounds (inclusive).</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;auto N1, auto N2, typename Func&gt;</div>
-              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="group__core.html#ga5f6c6004ed4016c437442e80f0b22421">for_product</a>(</span><span class="m-doc-wrap">Func&amp;&amp; func) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
-            </dt>
-            <dd>Generates a series of sequential function calls by pack expansion.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;auto N, typename Func&gt;</div>
-              <span class="m-doc-wrap-bumper">void <a class="m-doc" href="group__core.html#gab64801b0b03f54c51a21000e8bb95ea1">for_sequence</a>(</span><span class="m-doc-wrap">Func&amp;&amp; func) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept(…)</span></span>
-            </dt>
-            <dd>Generates a series of sequential function calls by pack expansion.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga3f4aebd5127f7d34e7c0db6f0cf8a486">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,

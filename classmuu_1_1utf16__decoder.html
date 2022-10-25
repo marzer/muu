@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu::generic_allocator struct | muu Miscellaneous useful utilities for C++</title>
+  <title>muu::utf16_decoder class | muu Miscellaneous useful utilities for C++</title>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <meta content="#22272e" name="theme-color"/>
@@ -58,50 +58,52 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>generic_allocator <span class="m-thin">struct</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="generic__allocator_8h.html">&lt;muu/generic_allocator.h&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>utf16_decoder <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="utf16__decoder_8h.html">&lt;muu/utf16_decoder.h&gt;</a></div>
         </h1>
-        <p>An interface for encapsulating generic allocators.</p>
+        <p>A state machine for decoding UTF-16 data.</p>
         <nav class="m-block m-default poxy-toc" id="poxy-toc">
           <h3>Contents</h3>
           <ul>
             <li>
               Reference
               <ul>
-                <li><a href="#pub-types">Public types</a></li>
-                <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </nav>
-        <section id="pub-types">
-          <h2><a href="#pub-types">Public types</a></h2>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a52e898cce336e1b58148a2bb33abab45">
-              using <a class="m-doc-self" href="#a52e898cce336e1b58148a2bb33abab45">allocate_func</a> = void*(*)(void*<a class="m-doc" href="structmuu_1_1generic__allocator.html#a9403892a02b19fb82e6202961c14d94d">data</a>, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> size, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> alignment) noexcept
+            <dt id="aa70a1096c20355b1b883eec1c30057a3">
+              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#aa70a1096c20355b1b883eec1c30057a3">clear_error</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Allocation callback.</dd>
-            <dt id="a8384b617463c8f114ebb971ddd5e9e25">
-              using <a class="m-doc-self" href="#a8384b617463c8f114ebb971ddd5e9e25">deallocate_func</a> = void(*)(void*<a class="m-doc" href="structmuu_1_1generic__allocator.html#a9403892a02b19fb82e6202961c14d94d">data</a>, void*ptr) noexcept
+            <dd>Clears the error state.</dd>
+            <dt id="a296be36d0db5e442990d865a5bb26287">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a296be36d0db5e442990d865a5bb26287">error</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Deallocation callback.</dd>
-          </dl>
-        </section>
-        <section id="pub-attribs">
-          <h2><a href="#pub-attribs">Public variables</a></h2>
-          <dl class="m-doc">
-            <dt id="a9403892a02b19fb82e6202961c14d94d">
-              void* <a class="m-doc-self" href="#a9403892a02b19fb82e6202961c14d94d">data</a>
+            <dd>Returns true if the decoder has entered an error state.</dd>
+            <dt id="a2e909f8e9c8dbf588788ef39e7a1c6bc">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2e909f8e9c8dbf588788ef39e7a1c6bc">has_value</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Generic data tag to pass to allocation and deallocation callbacks.</dd>
-            <dt id="a333fbdb60203d9088f90e31fc5e4556a">
-              <a class="m-doc" href="structmuu_1_1generic__allocator.html#a52e898cce336e1b58148a2bb33abab45">allocate_<wbr/>func</a> <a class="m-doc-self" href="#a333fbdb60203d9088f90e31fc5e4556a">allocate</a>
+            <dd>Returns <code>true</code> if the decoder has a decoded a full UTF-32 codepoint.</dd>
+            <dt id="a7cf5daf2153e9004d0f98f9a7905ee70">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7cf5daf2153e9004d0f98f9a7905ee70">needs_more_input</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Pointer to a function which allocates memory.</dd>
-            <dt id="a7ff57b86bbbfa5fc47cb4cf96a5993f2">
-              <a class="m-doc" href="structmuu_1_1generic__allocator.html#a8384b617463c8f114ebb971ddd5e9e25">deallocate_<wbr/>func</a> <a class="m-doc-self" href="#a7ff57b86bbbfa5fc47cb4cf96a5993f2">deallocate</a>
+            <dd>Returns <code>true</code> if the decoder needs more input before it can yield a UTF-32 codepoint.</dd>
+            <dt id="a20d2905e5e0524561a9d2955504371e7">
+              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#a20d2905e5e0524561a9d2955504371e7">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint16_t</a> code_unit) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Pointer to a function which deallocates memory.</dd>
+            <dd>Appends a UTF-16 code unit to the stream being decoded.</dd>
+            <dt id="aed7f34e460f7cda5db35742148d98491">
+              <span class="m-doc-wrap-bumper">void <a class="m-doc-self" href="#aed7f34e460f7cda5db35742148d98491">operator()</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char16_t</a> code_unit) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Appends a UTF-16 code unit to the stream being decoded.</dd>
+            <dt id="a06c1a407ffa364149031a3e35e14894b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a06c1a407ffa364149031a3e35e14894b">value</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/language/types#Character_types" target="_blank">char32_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the currently-decoded UTF-32 codepoint.</dd>
           </dl>
         </section>
       </div>

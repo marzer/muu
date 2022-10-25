@@ -9,11 +9,34 @@
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
+    <name>aligned_alloc.h</name>
+    <filename>aligned__alloc_8h.html</filename>
+    <includes id="bit__ceil_8h" name="bit_ceil.h" local="yes" imported="no">bit_ceil.h</includes>
+    <includes id="assume__aligned_8h" name="assume_aligned.h" local="yes" imported="no">assume_aligned.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>void *</type>
+      <name>aligned_alloc</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gad57726dc8177fff89f34e5049c060c8f</anchor>
+      <arglist>(size_t size, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>aligned_free</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga980d079c5d73e2b8bf65a4130f3793b0</anchor>
+      <arglist>(void *ptr) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>all.h</name>
     <filename>all_8h.html</filename>
     <includes id="accumulator_8h" name="accumulator.h" local="yes" imported="no">accumulator.h</includes>
-    <includes id="axis__angle_8h" name="axis_angle.h" local="yes" imported="no">axis_angle.h</includes>
+    <includes id="aligned__alloc_8h" name="aligned_alloc.h" local="yes" imported="no">aligned_alloc.h</includes>
+    <includes id="apply__alignment_8h" name="apply_alignment.h" local="yes" imported="no">apply_alignment.h</includes>
     <includes id="assume__aligned_8h" name="assume_aligned.h" local="yes" imported="no">assume_aligned.h</includes>
+    <includes id="axis__angle_8h" name="axis_angle.h" local="yes" imported="no">axis_angle.h</includes>
     <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
     <includes id="bit__cast_8h" name="bit_cast.h" local="yes" imported="no">bit_cast.h</includes>
     <includes id="bit__ceil_8h" name="bit_ceil.h" local="yes" imported="no">bit_ceil.h</includes>
@@ -24,15 +47,16 @@
     <includes id="bounding__box_8h" name="bounding_box.h" local="yes" imported="no">bounding_box.h</includes>
     <includes id="bounding__sphere_8h" name="bounding_sphere.h" local="yes" imported="no">bounding_sphere.h</includes>
     <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
+    <includes id="byte__reverse_8h" name="byte_reverse.h" local="yes" imported="no">byte_reverse.h</includes>
     <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
     <includes id="compressed__pair_8h" name="compressed_pair.h" local="yes" imported="no">compressed_pair.h</includes>
     <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
-    <includes id="countr__zero_8h" name="countr_zero.h" local="yes" imported="no">countr_zero.h</includes>
-    <includes id="countl__zero_8h" name="countl_zero.h" local="yes" imported="no">countl_zero.h</includes>
+    <includes id="countl_8h" name="countl.h" local="yes" imported="no">countl.h</includes>
+    <includes id="countr_8h" name="countr.h" local="yes" imported="no">countr.h</includes>
     <includes id="emplacement__array_8h" name="emplacement_array.h" local="yes" imported="no">emplacement_array.h</includes>
     <includes id="euler__angles_8h" name="euler_angles.h" local="yes" imported="no">euler_angles.h</includes>
+    <includes id="for__sequence_8h" name="for_sequence.h" local="yes" imported="no">for_sequence.h</includes>
     <includes id="function__view_8h" name="function_view.h" local="yes" imported="no">function_view.h</includes>
-    <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <includes id="half_8h" name="half.h" local="yes" imported="no">half.h</includes>
     <includes id="hashing_8h" name="hashing.h" local="yes" imported="no">hashing.h</includes>
     <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
@@ -45,6 +69,7 @@
     <includes id="matrix_8h" name="matrix.h" local="yes" imported="no">matrix.h</includes>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
     <includes id="oriented__bounding__box_8h" name="oriented_bounding_box.h" local="yes" imported="no">oriented_bounding_box.h</includes>
+    <includes id="packed__unit__vector_8h" name="packed_unit_vector.h" local="yes" imported="no">packed_unit_vector.h</includes>
     <includes id="pause_8h" name="pause.h" local="yes" imported="no">pause.h</includes>
     <includes id="plane_8h" name="plane.h" local="yes" imported="no">plane.h</includes>
     <includes id="pointer__cast_8h" name="pointer_cast.h" local="yes" imported="no">pointer_cast.h</includes>
@@ -54,6 +79,7 @@
     <includes id="size__t__literals_8h" name="size_t_literals.h" local="yes" imported="no">size_t_literals.h</includes>
     <includes id="span_8h" name="span.h" local="yes" imported="no">span.h</includes>
     <includes id="spin__mutex_8h" name="spin_mutex.h" local="yes" imported="no">spin_mutex.h</includes>
+    <includes id="static__array_8h" name="static_array.h" local="yes" imported="no">static_array.h</includes>
     <includes id="static__string_8h" name="static_string.h" local="yes" imported="no">static_string.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
     <includes id="strings_8h" name="strings.h" local="yes" imported="no">strings.h</includes>
@@ -64,9 +90,46 @@
     <includes id="triangle_8h" name="triangle.h" local="yes" imported="no">triangle.h</includes>
     <includes id="type__list_8h" name="type_list.h" local="yes" imported="no">type_list.h</includes>
     <includes id="type__name_8h" name="type_name.h" local="yes" imported="no">type_name.h</includes>
+    <includes id="utf__decode_8h" name="utf_decode.h" local="yes" imported="no">utf_decode.h</includes>
+    <includes id="utf8__decoder_8h" name="utf8_decoder.h" local="yes" imported="no">utf8_decoder.h</includes>
+    <includes id="utf16__decoder_8h" name="utf16_decoder.h" local="yes" imported="no">utf16_decoder.h</includes>
     <includes id="uuid_8h" name="uuid.h" local="yes" imported="no">uuid.h</includes>
     <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
-    <includes id="packed__unit__vector_8h" name="packed_unit_vector.h" local="yes" imported="no">packed_unit_vector.h</includes>
+  </compound>
+  <compound kind="file">
+    <name>apply_alignment.h</name>
+    <filename>apply__alignment_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="assume__aligned_8h" name="assume_aligned.h" local="yes" imported="no">assume_aligned.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga6aae2e7be0cb15bed51d7cb636602c5f</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1541e136d463a3c08a2047c3d448080f</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga7cd587549d099b4323fda37f23097e04</anchor>
+      <arglist>(T val, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1a38db130c8a0f40826547cc722dd634</anchor>
+      <arglist>(T *ptr, size_t alignment) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>assume_aligned.h</name>
@@ -95,33 +158,11 @@
     <includes id="bit__fill_8h" name="bit_fill.h" local="yes" imported="no">bit_fill.h</includes>
     <includes id="bit__floor_8h" name="bit_floor.h" local="yes" imported="no">bit_floor.h</includes>
     <includes id="bit__pack_8h" name="bit_pack.h" local="yes" imported="no">bit_pack.h</includes>
-    <includes id="countl__zero_8h" name="countl_zero.h" local="yes" imported="no">countl_zero.h</includes>
-    <includes id="countr__zero_8h" name="countr_zero.h" local="yes" imported="no">countr_zero.h</includes>
-    <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
-    <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
+    <includes id="countl_8h" name="countl.h" local="yes" imported="no">countl.h</includes>
+    <includes id="countr_8h" name="countr.h" local="yes" imported="no">countr.h</includes>
     <includes id="popcount_8h" name="popcount.h" local="yes" imported="no">popcount.h</includes>
+    <includes id="byte__reverse_8h" name="byte_reverse.h" local="yes" imported="no">byte_reverse.h</includes>
     <namespace>muu</namespace>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countl_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>has_single_bit</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga309ac880015add971ee06b148191060f</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
     <member kind="function">
       <type>constexpr T</type>
       <name>bit_width</name>
@@ -142,13 +183,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga18d1da41b1d53329c0d0605596494010</anchor>
       <arglist>(T val, size_t index) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>byte_reverse</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
-      <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr auto</type>
@@ -183,7 +217,7 @@
     <name>bit_ceil.h</name>
     <filename>bit__ceil_8h.html</filename>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
-    <includes id="countl__zero_8h" name="countl_zero.h" local="yes" imported="no">countl_zero.h</includes>
+    <includes id="countl_8h" name="countl.h" local="yes" imported="no">countl.h</includes>
     <namespace>muu</namespace>
     <member kind="function">
       <type>constexpr T</type>
@@ -217,7 +251,7 @@
     <name>bit_floor.h</name>
     <filename>bit__floor_8h.html</filename>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
-    <includes id="countl__zero_8h" name="countl_zero.h" local="yes" imported="no">countl_zero.h</includes>
+    <includes id="countl_8h" name="countl.h" local="yes" imported="no">countl.h</includes>
     <namespace>muu</namespace>
     <member kind="function">
       <type>constexpr T</type>
@@ -244,7 +278,7 @@
   <compound kind="file">
     <name>blob.h</name>
     <filename>blob_8h.html</filename>
-    <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
+    <includes id="aligned__alloc_8h" name="aligned_alloc.h" local="yes" imported="no">aligned_alloc.h</includes>
     <class kind="class">muu::blob</class>
     <namespace>muu</namespace>
   </compound>
@@ -430,11 +464,58 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>byte_reverse.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>byte__reverse_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>byte_reverse</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>chars.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
     <filename>chars_8h.html</filename>
+    <class kind="struct">muu::hex_char_pair</class>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr unsigned</type>
+      <name>hex_to_dec</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga4e71f9d5db491b09cbd27df611780521</anchor>
+      <arglist>(T codepoint) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr Char</type>
+      <name>dec_to_hex</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga2d6051c218758b6715931c77dd4d0b49</anchor>
+      <arglist>(unsigned val, Char a=constants&lt; Char &gt;::letter_a) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr hex_char_pair&lt; Char &gt;</type>
+      <name>byte_to_hex</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga2c4374839eff99aa04107a7bef2aeb77</anchor>
+      <arglist>(uint8_t byte, Char a=constants&lt; Char &gt;::letter_a) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr hex_char_pair&lt; Char &gt;</type>
+      <name>byte_to_hex</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga214e58065626e4ba65c898b6c4136f6d</anchor>
+      <arglist>(std::byte byte, Char a=constants&lt; Char &gt;::letter_a) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>compressed_pair.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
     <filename>compressed__pair_8h.html</filename>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
     <class kind="class">muu::compressed_pair</class>
@@ -446,13 +527,26 @@
     <name>core.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>core_8h.html</filename>
+    <includes id="apply__alignment_8h" name="apply_alignment.h" local="yes" imported="no">apply_alignment.h</includes>
+    <includes id="assume__aligned_8h" name="assume_aligned.h" local="yes" imported="no">assume_aligned.h</includes>
+    <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
+    <includes id="bit__cast_8h" name="bit_cast.h" local="yes" imported="no">bit_cast.h</includes>
     <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
+    <includes id="for__sequence_8h" name="for_sequence.h" local="yes" imported="no">for_sequence.h</includes>
     <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
+    <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
+    <includes id="launder_8h" name="launder.h" local="yes" imported="no">launder.h</includes>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="pointer__cast_8h" name="pointer_cast.h" local="yes" imported="no">pointer_cast.h</includes>
+    <includes id="scope__guard_8h" name="scope_guard.h" local="yes" imported="no">scope_guard.h</includes>
+    <includes id="size__t__literals_8h" name="size_t_literals.h" local="yes" imported="no">size_t_literals.h</includes>
+    <includes id="strong__typedef_8h" name="strong_typedef.h" local="yes" imported="no">strong_typedef.h</includes>
+    <includes id="type__list_8h" name="type_list.h" local="yes" imported="no">type_list.h</includes>
   </compound>
   <compound kind="file">
-    <name>countl_zero.h</name>
+    <name>countl.h</name>
     <path>/__w/muu/muu/include/muu/</path>
-    <filename>countl__zero_8h.html</filename>
+    <filename>countl_8h.html</filename>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
     <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
     <namespace>muu</namespace>
@@ -463,11 +557,18 @@
       <anchor>ga12cd318fdcf736ca99f5bf66aa615fd1</anchor>
       <arglist>(T val) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countl_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="file">
-    <name>countr_zero.h</name>
+    <name>countr.h</name>
     <path>/__w/muu/muu/include/muu/</path>
-    <filename>countr__zero_8h.html</filename>
+    <filename>countr_8h.html</filename>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
     <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
     <namespace>muu</namespace>
@@ -478,13 +579,20 @@
       <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
       <arglist>(T val) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>emplacement_array.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>emplacement__array_8h.html</filename>
-    <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <includes id="launder_8h" name="launder.h" local="yes" imported="no">launder.h</includes>
+    <includes id="aligned__alloc_8h" name="aligned_alloc.h" local="yes" imported="no">aligned_alloc.h</includes>
     <class kind="class">muu::emplacement_array</class>
     <namespace>muu</namespace>
   </compound>
@@ -495,6 +603,26 @@
     <includes id="vector_8h" name="vector.h" local="yes" imported="no">vector.h</includes>
     <class kind="struct">muu::euler_angles</class>
     <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
+    <name>for_sequence.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>for__sequence_8h.html</filename>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>for_sequence</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab64801b0b03f54c51a21000e8bb95ea1</anchor>
+      <arglist>(Func &amp;&amp;func) noexcept(impl::for_sequence_noexcept_&lt; N, Func &gt;)</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>for_product</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga5f6c6004ed4016c437442e80f0b22421</anchor>
+      <arglist>(Func &amp;&amp;func) noexcept(impl::for_product_noexcept_&lt; N1, N2, Func &gt;)</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>function_view.h</name>
@@ -541,13 +669,6 @@
       <anchor>ga824ac2b58e006d4be8d4b0d6a0f7180d</anchor>
       <arglist></arglist>
     </member>
-  </compound>
-  <compound kind="file">
-    <name>generic_allocator.h</name>
-    <path>/__w/muu/muu/include/muu/</path>
-    <filename>generic__allocator_8h.html</filename>
-    <class kind="struct">muu::generic_allocator</class>
-    <namespace>muu</namespace>
   </compound>
   <compound kind="file">
     <name>half.h</name>
@@ -712,6 +833,8 @@
     <name>hashing.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>hashing_8h.html</filename>
+    <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
+    <includes id="pointer__cast_8h" name="pointer_cast.h" local="yes" imported="no">pointer_cast.h</includes>
     <includes id="strings_8h" name="strings.h" local="yes" imported="no">strings.h</includes>
     <class kind="class">muu::hash_combiner</class>
     <class kind="class">muu::fnv1a</class>
@@ -954,9 +1077,10 @@
     <name>math.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>math_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
-    <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
+    <includes id="bit__cast_8h" name="bit_cast.h" local="yes" imported="no">bit_cast.h</includes>
+    <includes id="bit__pack_8h" name="bit_pack.h" local="yes" imported="no">bit_pack.h</includes>
+    <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
     <namespace>muu</namespace>
     <namespace>muu::build</namespace>
     <member kind="function">
@@ -1878,8 +2002,8 @@
     <path>/__w/muu/muu/include/muu/</path>
     <filename>meta_8h.html</filename>
     <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
-    <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
     <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
+    <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
     <namespace>muu</namespace>
     <member kind="typedef">
       <type>std::remove_cv_t&lt; std::remove_reference_t&lt; T &gt; &gt;</type>
@@ -3294,7 +3418,6 @@
     <name>popcount.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>popcount_8h.html</filename>
-    <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
     <includes id="bit__pack_8h" name="bit_pack.h" local="yes" imported="no">bit_pack.h</includes>
     <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
@@ -3304,6 +3427,13 @@
       <name>popcount</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>has_single_bit</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga309ac880015add971ee06b148191060f</anchor>
       <arglist>(T val) noexcept</arglist>
     </member>
   </compound>
@@ -4140,6 +4270,8 @@
     <path>/__w/muu/muu/include/muu/</path>
     <filename>span_8h.html</filename>
     <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
+    <includes id="pointer__cast_8h" name="pointer_cast.h" local="yes" imported="no">pointer_cast.h</includes>
+    <includes id="assume__aligned_8h" name="assume_aligned.h" local="yes" imported="no">assume_aligned.h</includes>
     <class kind="class">muu::span</class>
     <namespace>muu</namespace>
     <member kind="typedef">
@@ -4202,6 +4334,14 @@
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
+    <name>static_array.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>static__array_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <class kind="struct">muu::static_array</class>
+    <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
     <name>static_string.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>static__string_8h.html</filename>
@@ -4247,9 +4387,8 @@
     <filename>strings_8h.html</filename>
     <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
     <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
-    <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
-    <includes id="thread__name_8h" name="thread_name.h" local="yes" imported="no">thread_name.h</includes>
+    <includes id="utf__decode_8h" name="utf_decode.h" local="yes" imported="no">utf_decode.h</includes>
     <namespace>muu</namespace>
     <member kind="function">
       <type>constexpr std::string_view</type>
@@ -4466,6 +4605,7 @@
     <filename>tagged__ptr_8h.html</filename>
     <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
     <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
+    <includes id="assume__aligned_8h" name="assume_aligned.h" local="yes" imported="no">assume_aligned.h</includes>
     <class kind="class">muu::tagged_ptr</class>
     <class kind="struct">std::pointer_traits&lt; muu::tagged_ptr&lt; T, MinAlign &gt; &gt;</class>
     <namespace>muu</namespace>
@@ -4488,10 +4628,10 @@
     <name>thread_pool.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>thread__pool_8h.html</filename>
-    <includes id="core_8h" name="core.h" local="yes" imported="no">core.h</includes>
-    <includes id="generic__allocator_8h" name="generic_allocator.h" local="yes" imported="no">generic_allocator.h</includes>
     <includes id="string__param_8h" name="string_param.h" local="yes" imported="no">string_param.h</includes>
     <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
+    <includes id="aligned__alloc_8h" name="aligned_alloc.h" local="yes" imported="no">aligned_alloc.h</includes>
+    <includes id="launder_8h" name="launder.h" local="yes" imported="no">launder.h</includes>
     <class kind="class">muu::thread_pool</class>
     <namespace>muu</namespace>
   </compound>
@@ -4579,10 +4719,43 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>utf16_decoder.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>utf16__decoder_8h.html</filename>
+    <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
+    <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
+    <class kind="class">muu::utf16_decoder</class>
+    <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
+    <name>utf8_decoder.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>utf8__decoder_8h.html</filename>
+    <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
+    <class kind="class">muu::utf8_decoder</class>
+    <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
+    <name>utf_decode.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>utf__decode_8h.html</filename>
+    <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
+    <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
+    <includes id="utf8__decoder_8h" name="utf8_decoder.h" local="yes" imported="no">utf8_decoder.h</includes>
+    <includes id="utf16__decoder_8h" name="utf16_decoder.h" local="yes" imported="no">utf16_decoder.h</includes>
+    <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
     <name>uuid.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>uuid_8h.html</filename>
     <includes id="hashing_8h" name="hashing.h" local="yes" imported="no">hashing.h</includes>
+    <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
+    <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
+    <includes id="chars_8h" name="chars.h" local="yes" imported="no">chars.h</includes>
+    <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
+    <includes id="utf8__decoder_8h" name="utf8_decoder.h" local="yes" imported="no">utf8_decoder.h</includes>
     <class kind="struct">muu::uuid</class>
     <class kind="struct">muu::constants&lt; uuid &gt;</class>
     <class kind="struct">std::hash&lt; muu::uuid &gt;</class>
@@ -4626,6 +4799,7 @@
     <name>vector.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>vector_8h.html</filename>
+    <includes id="pointer__cast_8h" name="pointer_cast.h" local="yes" imported="no">pointer_cast.h</includes>
     <class kind="struct">muu::vector</class>
     <class kind="struct">std::tuple_size&lt; muu::vector&lt; Scalar, Dimensions &gt; &gt;</class>
     <class kind="struct">std::tuple_element&lt; I, muu::vector&lt; Scalar, Dimensions &gt; &gt;</class>
@@ -5028,15 +5202,15 @@
       <type></type>
       <name>blob</name>
       <anchorfile>classmuu_1_1blob.html</anchorfile>
-      <anchor>aff73dd986db121f5b149e0312c13f40a</anchor>
-      <arglist>(generic_allocator *allocator=nullptr) noexcept</arglist>
+      <anchor>ace3622ad60d900b0b0a67642ff9a0792</anchor>
+      <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>blob</name>
       <anchorfile>classmuu_1_1blob.html</anchorfile>
-      <anchor>a068199f67ff2268f1cb31e3e5552cad6</anchor>
-      <arglist>(size_t size, const void *src=nullptr, size_t align={}, generic_allocator *allocator=nullptr)</arglist>
+      <anchor>a4d6a1e199f94403c234fa25edd2a08fa</anchor>
+      <arglist>(size_t size, const void *src=nullptr, size_t align={})</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -5049,8 +5223,8 @@
       <type></type>
       <name>blob</name>
       <anchorfile>classmuu_1_1blob.html</anchorfile>
-      <anchor>a1d1032bd23cedfb554238870bedb6c4b</anchor>
-      <arglist>(const blob &amp;other, size_t align, generic_allocator *allocator=nullptr)</arglist>
+      <anchor>a13e965ac37817401e7961b1a090e437c</anchor>
+      <arglist>(const blob &amp;other, size_t align)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -5070,8 +5244,8 @@
       <type>blob &amp;</type>
       <name>assign</name>
       <anchorfile>classmuu_1_1blob.html</anchorfile>
-      <anchor>aaa0cd6a82c21a153515ae8023beee432</anchor>
-      <arglist>(size_t sz, const void *src, size_t align={}, generic_allocator *allocator=nullptr)</arglist>
+      <anchor>af2f3476d305129b002d408ad5dfac819</anchor>
+      <arglist>(size_t sz, const void *src, size_t new_align={})</arglist>
     </member>
     <member kind="function">
       <type>blob &amp;</type>
@@ -5098,8 +5272,8 @@
       <type>blob &amp;</type>
       <name>resize</name>
       <anchorfile>classmuu_1_1blob.html</anchorfile>
-      <anchor>aabbfd06768d9acac93b59ec36d9a9484</anchor>
-      <arglist>(size_t sz)</arglist>
+      <anchor>a8ce2bcecd1141da9582d9c4d04bf3a04</anchor>
+      <arglist>(size_t sz) noexcept</arglist>
     </member>
     <member kind="function">
       <type>size_t</type>
@@ -7073,8 +7247,8 @@
       <type></type>
       <name>emplacement_array</name>
       <anchorfile>classmuu_1_1emplacement__array.html</anchorfile>
-      <anchor>ada6dae88c98550ebc959dcaebed5eaf3</anchor>
-      <arglist>(size_t capacity=0, generic_allocator *allocator=nullptr)</arglist>
+      <anchor>afe54bbd2c9fc337123307d5206a5cd40</anchor>
+      <arglist>(size_t capacity=0)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -7597,45 +7771,6 @@
     </member>
   </compound>
   <compound kind="struct">
-    <name>muu::generic_allocator</name>
-    <filename>structmuu_1_1generic__allocator.html</filename>
-    <member kind="typedef">
-      <type>void *(*)(void *data, size_t size, size_t alignment) noexcept</type>
-      <name>allocate_func</name>
-      <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
-      <anchor>a52e898cce336e1b58148a2bb33abab45</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>void(*)(void *data, void *ptr) noexcept</type>
-      <name>deallocate_func</name>
-      <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
-      <anchor>a8384b617463c8f114ebb971ddd5e9e25</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>void *</type>
-      <name>data</name>
-      <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
-      <anchor>a9403892a02b19fb82e6202961c14d94d</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>allocate_func</type>
-      <name>allocate</name>
-      <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
-      <anchor>a333fbdb60203d9088f90e31fc5e4556a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>deallocate_func</type>
-      <name>deallocate</name>
-      <anchorfile>structmuu_1_1generic__allocator.html</anchorfile>
-      <anchor>a7ff57b86bbbfa5fc47cb4cf96a5993f2</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="struct">
     <name>muu::half</name>
     <filename>structmuu_1_1half.html</filename>
     <member kind="typedef">
@@ -7808,6 +7943,11 @@
     <name>muu::hash_combiner</name>
     <filename>classmuu_1_1hash__combiner.html</filename>
     <templarg>size_t Bits</templarg>
+  </compound>
+  <compound kind="struct">
+    <name>muu::hex_char_pair</name>
+    <filename>structmuu_1_1hex__char__pair.html</filename>
+    <templarg>typename Char</templarg>
   </compound>
   <compound kind="struct">
     <name>muu::integral_range</name>
@@ -12198,6 +12338,320 @@
       <arglist>() noexcept</arglist>
     </member>
   </compound>
+  <compound kind="struct">
+    <name>muu::static_array</name>
+    <filename>structmuu_1_1static__array.html</filename>
+    <templarg>typename T</templarg>
+    <templarg>T... Elements</templarg>
+    <member kind="typedef">
+      <type>std::add_const_t&lt; T &gt;</type>
+      <name>value_type</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a6068f8f03b8a9f9127143ffe49fb85f8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>size_t</type>
+      <name>size_type</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a56466317f5493faad4972c017dec2199</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>ptrdiff_t</type>
+      <name>difference_type</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a3e8e2197c60fa23258c0f32128af5c66</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>const value_type &amp;</type>
+      <name>reference</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>aed221a92380d7c051f3e71423744948f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>const value_type &amp;</type>
+      <name>const_reference</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>ac7c462c28f58ead4ab9d94e6004a1a26</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>const value_type *</type>
+      <name>pointer</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a2d46d4dd504439ce9f91c194080ed5b4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>const value_type *</type>
+      <name>const_pointer</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a5dbca7e3ce4ff32ff03a32ff0dc03572</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>const value_type *</type>
+      <name>iterator</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a5d5249056f89e77a6b70ae3c714e33fb</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>const value_type *</type>
+      <name>const_iterator</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a4a1ddd1ee1ca71750235ffef686b7768</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const_reference</type>
+      <name>operator[]</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a2a3b87c1ff59241f2b51db54daff773c</anchor>
+      <arglist>(size_t index) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval size_type</type>
+      <name>size</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a6ecad7c3de8941d1d29b25a07158d787</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval bool</type>
+      <name>empty</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a4c33e3c142d2bb709c90fea6365d5ab8</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval const_reference</type>
+      <name>front</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a4ee331f6f60cdfebfed9f9b08dd81b8d</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval const_reference</type>
+      <name>back</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a7c1b016b525b3ce48590ef81a4f11e7a</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval const_pointer</type>
+      <name>data</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a57c659447145fe6544e15b216f768eae</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a952ec3c011a46f566c15bc2afadf5900</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a6a7347e5bd2aff949d15c194dcc60dab</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a0c9abb68acdb4bf798494db9d783fa84</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>adad91a4e949e87e34756cf28a3045176</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="variable" static="yes">
+      <type>static constexpr value_type</type>
+      <name>values</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a4ef5c1f309094424aa5dd810db644fe3</anchor>
+      <arglist>[sizeof...(Elements)]</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a36591b568fa6b6b3c33f6f7d5a141626</anchor>
+      <arglist>(static_array) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a1cdde0487dffed97996c68f17ad4ddbe</anchor>
+      <arglist>(static_array) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>ad5e764f709970c5837250d9a18059e32</anchor>
+      <arglist>(static_array) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>af9d3e843b19e9d563c5a6f73f7195c09</anchor>
+      <arglist>(static_array) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>af201542e3b9d2210943a469bf97175b6</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>aec78d6acfa615c55d3113426ba79923b</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend constexpr bool</type>
+      <name>operator&lt;</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a6883e794a00f0e9756c5d4fa88d28291</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend constexpr bool</type>
+      <name>operator&lt;=</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a018b9a81defed705481302f2a91ea0ba</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend constexpr bool</type>
+      <name>operator&gt;</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a57d9570322a459d0a71639e1e9c777bf</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend constexpr bool</type>
+      <name>operator&gt;=</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>ae433477d2466ee01161d443ca6748a43</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a952ec3c011a46f566c15bc2afadf5900</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a6a7347e5bd2aff949d15c194dcc60dab</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a0c9abb68acdb4bf798494db9d783fa84</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>consteval const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>adad91a4e949e87e34756cf28a3045176</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend const_iterator</type>
+      <name>begin</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a36591b568fa6b6b3c33f6f7d5a141626</anchor>
+      <arglist>(static_array) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend const_iterator</type>
+      <name>end</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a1cdde0487dffed97996c68f17ad4ddbe</anchor>
+      <arglist>(static_array) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend const_iterator</type>
+      <name>cbegin</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>ad5e764f709970c5837250d9a18059e32</anchor>
+      <arglist>(static_array) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend const_iterator</type>
+      <name>cend</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>af9d3e843b19e9d563c5a6f73f7195c09</anchor>
+      <arglist>(static_array) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>af201542e3b9d2210943a469bf97175b6</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>consteval friend bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>aec78d6acfa615c55d3113426ba79923b</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend constexpr bool</type>
+      <name>operator&lt;</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a6883e794a00f0e9756c5d4fa88d28291</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend constexpr bool</type>
+      <name>operator&lt;=</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a018b9a81defed705481302f2a91ea0ba</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend constexpr bool</type>
+      <name>operator&gt;</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>a57d9570322a459d0a71639e1e9c777bf</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend constexpr bool</type>
+      <name>operator&gt;=</name>
+      <anchorfile>structmuu_1_1static__array.html</anchorfile>
+      <anchor>ae433477d2466ee01161d443ca6748a43</anchor>
+      <arglist>(static_array, static_array&lt; T, E... &gt;) noexcept</arglist>
+    </member>
+  </compound>
   <compound kind="class">
     <name>muu::static_string</name>
     <filename>classmuu_1_1static__string.html</filename>
@@ -14076,15 +14530,15 @@
       <type></type>
       <name>thread_pool</name>
       <anchorfile>classmuu_1_1thread__pool.html</anchorfile>
-      <anchor>a816fa41cb2488dfe46f29799b32d76b6</anchor>
-      <arglist>(size_t worker_count=0, size_t task_queue_size=0, string_param name={}, generic_allocator *allocator=nullptr)</arglist>
+      <anchor>adae0aa6df551cbbc410b7f225f66abdc</anchor>
+      <arglist>(size_t worker_count=0, size_t task_queue_size=0, string_param name={})</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>thread_pool</name>
       <anchorfile>classmuu_1_1thread__pool.html</anchorfile>
-      <anchor>aefe68216d89fa74fdf0a0ac446503e3f</anchor>
-      <arglist>(string_param name, generic_allocator *allocator=nullptr)</arglist>
+      <anchor>ad61aebc251183310e5c12df7e5498ea0</anchor>
+      <arglist>(string_param name)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -14990,6 +15444,119 @@
       <anchorfile>structmuu_1_1type__list.html</anchorfile>
       <anchor>ac721e0f97de92f684b6caa3423253800</anchor>
       <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>muu::utf16_decoder</name>
+    <filename>classmuu_1_1utf16__decoder.html</filename>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>error</name>
+      <anchorfile>classmuu_1_1utf16__decoder.html</anchorfile>
+      <anchor>a296be36d0db5e442990d865a5bb26287</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>clear_error</name>
+      <anchorfile>classmuu_1_1utf16__decoder.html</anchorfile>
+      <anchor>aa70a1096c20355b1b883eec1c30057a3</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>has_value</name>
+      <anchorfile>classmuu_1_1utf16__decoder.html</anchorfile>
+      <anchor>a2e909f8e9c8dbf588788ef39e7a1c6bc</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr char32_t</type>
+      <name>value</name>
+      <anchorfile>classmuu_1_1utf16__decoder.html</anchorfile>
+      <anchor>a06c1a407ffa364149031a3e35e14894b</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>needs_more_input</name>
+      <anchorfile>classmuu_1_1utf16__decoder.html</anchorfile>
+      <anchor>a7cf5daf2153e9004d0f98f9a7905ee70</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>operator()</name>
+      <anchorfile>classmuu_1_1utf16__decoder.html</anchorfile>
+      <anchor>a20d2905e5e0524561a9d2955504371e7</anchor>
+      <arglist>(uint16_t code_unit) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>operator()</name>
+      <anchorfile>classmuu_1_1utf16__decoder.html</anchorfile>
+      <anchor>aed7f34e460f7cda5db35742148d98491</anchor>
+      <arglist>(char16_t code_unit) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>muu::utf8_decoder</name>
+    <filename>classmuu_1_1utf8__decoder.html</filename>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>error</name>
+      <anchorfile>classmuu_1_1utf8__decoder.html</anchorfile>
+      <anchor>ab6ab30274c736d2fccf1a2c2e1412e14</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>clear_error</name>
+      <anchorfile>classmuu_1_1utf8__decoder.html</anchorfile>
+      <anchor>ad00282e394d85b031cbc95907b08e05f</anchor>
+      <arglist>() noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>has_value</name>
+      <anchorfile>classmuu_1_1utf8__decoder.html</anchorfile>
+      <anchor>a3ef0c6362cb10f89a9f10c024a55c611</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr char32_t</type>
+      <name>value</name>
+      <anchorfile>classmuu_1_1utf8__decoder.html</anchorfile>
+      <anchor>a34dd9b91dcf14103abf331ecd33d8001</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>needs_more_input</name>
+      <anchorfile>classmuu_1_1utf8__decoder.html</anchorfile>
+      <anchor>abffb2d30abe3ec308b47bc3c0f678b38</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>operator()</name>
+      <anchorfile>classmuu_1_1utf8__decoder.html</anchorfile>
+      <anchor>a432a68428bf00c595feb376f9ca157c9</anchor>
+      <arglist>(uint8_t code_unit) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>operator()</name>
+      <anchorfile>classmuu_1_1utf8__decoder.html</anchorfile>
+      <anchor>a5ab7f1dcd15cc5a3000abf2367ecc8d5</anchor>
+      <arglist>(char code_unit) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>operator()</name>
+      <anchorfile>classmuu_1_1utf8__decoder.html</anchorfile>
+      <anchor>a8a93b8b63b8f8414aa8f65e6aea56ecd</anchor>
+      <arglist>(char8_t code_unit) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -16656,9 +17223,9 @@
     <class kind="struct">muu::euler_angles</class>
     <class kind="class">muu::fnv1a</class>
     <class kind="class">muu::function_view</class>
-    <class kind="struct">muu::generic_allocator</class>
     <class kind="struct">muu::half</class>
     <class kind="class">muu::hash_combiner</class>
+    <class kind="struct">muu::hex_char_pair</class>
     <class kind="struct">muu::integral_range</class>
     <class kind="struct">muu::line_segment</class>
     <class kind="struct">muu::matrix</class>
@@ -16673,6 +17240,7 @@
     <class kind="class">muu::sha1</class>
     <class kind="class">muu::span</class>
     <class kind="class">muu::spin_mutex</class>
+    <class kind="struct">muu::static_array</class>
     <class kind="class">muu::static_string</class>
     <class kind="class">muu::string_param</class>
     <class kind="struct">muu::strong_typedef</class>
@@ -16680,6 +17248,8 @@
     <class kind="class">muu::thread_pool</class>
     <class kind="struct">muu::triangle</class>
     <class kind="struct">muu::type_list</class>
+    <class kind="class">muu::utf16_decoder</class>
+    <class kind="class">muu::utf8_decoder</class>
     <class kind="struct">muu::uuid</class>
     <class kind="struct">muu::vector</class>
     <member kind="typedef">
@@ -17159,32 +17729,53 @@
       <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
     </member>
     <member kind="function">
+      <type>void *</type>
+      <name>aligned_alloc</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gad57726dc8177fff89f34e5049c060c8f</anchor>
+      <arglist>(size_t size, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>aligned_free</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga980d079c5d73e2b8bf65a4130f3793b0</anchor>
+      <arglist>(void *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga6aae2e7be0cb15bed51d7cb636602c5f</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1541e136d463a3c08a2047c3d448080f</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga7cd587549d099b4323fda37f23097e04</anchor>
+      <arglist>(T val, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1a38db130c8a0f40826547cc722dd634</anchor>
+      <arglist>(T *ptr, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr T *</type>
       <name>assume_aligned</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga6c27d79835642aff715e084eef57eb66</anchor>
       <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countl_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>has_single_bit</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga309ac880015add971ee06b148191060f</anchor>
-      <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr T</type>
@@ -17206,13 +17797,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga18d1da41b1d53329c0d0605596494010</anchor>
       <arglist>(T val, size_t index) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>byte_reverse</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
-      <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr auto</type>
@@ -17320,6 +17904,41 @@
       <arglist>(const bounding_sphere&lt; S &gt; &amp;bs) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr T</type>
+      <name>byte_reverse</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr unsigned</type>
+      <name>hex_to_dec</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga4e71f9d5db491b09cbd27df611780521</anchor>
+      <arglist>(T codepoint) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr Char</type>
+      <name>dec_to_hex</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga2d6051c218758b6715931c77dd4d0b49</anchor>
+      <arglist>(unsigned val, Char a=constants&lt; Char &gt;::letter_a) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr hex_char_pair&lt; Char &gt;</type>
+      <name>byte_to_hex</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga2c4374839eff99aa04107a7bef2aeb77</anchor>
+      <arglist>(uint8_t byte, Char a=constants&lt; Char &gt;::letter_a) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr hex_char_pair&lt; Char &gt;</type>
+      <name>byte_to_hex</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga214e58065626e4ba65c898b6c4136f6d</anchor>
+      <arglist>(std::byte byte, Char a=constants&lt; Char &gt;::letter_a) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr int</type>
       <name>countl_zero</name>
       <anchorfile>group__core.html</anchorfile>
@@ -17328,10 +17947,38 @@
     </member>
     <member kind="function">
       <type>constexpr int</type>
+      <name>countl_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
       <name>countr_zero</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
       <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>for_sequence</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab64801b0b03f54c51a21000e8bb95ea1</anchor>
+      <arglist>(Func &amp;&amp;func) noexcept(impl::for_sequence_noexcept_&lt; N, Func &gt;)</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>for_product</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga5f6c6004ed4016c437442e80f0b22421</anchor>
+      <arglist>(Func &amp;&amp;func) noexcept(impl::for_product_noexcept_&lt; N1, N2, Func &gt;)</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -18483,6 +19130,13 @@
     </member>
     <member kind="function">
       <type>constexpr bool</type>
+      <name>has_single_bit</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga309ac880015add971ee06b148191060f</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>gaffcaea7f39fc17894285d8221923387e</anchor>
@@ -18949,48 +19603,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga4ba4d37d254803b31a71fca161a46420</anchor>
       <arglist>(const Ptr &amp;p) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr void</type>
-      <name>for_sequence</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab64801b0b03f54c51a21000e8bb95ea1</anchor>
-      <arglist>(Func &amp;&amp;func) noexcept(impl::for_sequence_noexcept_&lt; N, Func &gt;)</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr void</type>
-      <name>for_product</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga5f6c6004ed4016c437442e80f0b22421</anchor>
-      <arglist>(Func &amp;&amp;func) noexcept(impl::for_product_noexcept_&lt; N1, N2, Func &gt;)</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga6aae2e7be0cb15bed51d7cb636602c5f</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga1541e136d463a3c08a2047c3d448080f</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga7cd587549d099b4323fda37f23097e04</anchor>
-      <arglist>(T val, size_t alignment) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga1a38db130c8a0f40826547cc722dd634</anchor>
-      <arglist>(T *ptr, size_t alignment) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -21737,6 +22349,37 @@
     <subgroup>is_octal_digit</subgroup>
     <subgroup>is_uppercase</subgroup>
     <subgroup>is_whitespace</subgroup>
+    <class kind="struct">muu::hex_char_pair</class>
+    <class kind="class">muu::utf16_decoder</class>
+    <class kind="class">muu::utf8_decoder</class>
+    <member kind="function">
+      <type>constexpr unsigned</type>
+      <name>hex_to_dec</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga4e71f9d5db491b09cbd27df611780521</anchor>
+      <arglist>(T codepoint) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr Char</type>
+      <name>dec_to_hex</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga2d6051c218758b6715931c77dd4d0b49</anchor>
+      <arglist>(unsigned val, Char a=constants&lt; Char &gt;::letter_a) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr hex_char_pair&lt; Char &gt;</type>
+      <name>byte_to_hex</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga2c4374839eff99aa04107a7bef2aeb77</anchor>
+      <arglist>(uint8_t byte, Char a=constants&lt; Char &gt;::letter_a) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr hex_char_pair&lt; Char &gt;</type>
+      <name>byte_to_hex</name>
+      <anchorfile>group__code__units.html</anchorfile>
+      <anchor>ga214e58065626e4ba65c898b6c4136f6d</anchor>
+      <arglist>(std::byte byte, Char a=constants&lt; Char &gt;::letter_a) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="group">
     <name>constants</name>
@@ -21845,32 +22488,53 @@
       <arglist></arglist>
     </member>
     <member kind="function">
+      <type>void *</type>
+      <name>aligned_alloc</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gad57726dc8177fff89f34e5049c060c8f</anchor>
+      <arglist>(size_t size, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>aligned_free</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga980d079c5d73e2b8bf65a4130f3793b0</anchor>
+      <arglist>(void *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga6aae2e7be0cb15bed51d7cb636602c5f</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1541e136d463a3c08a2047c3d448080f</anchor>
+      <arglist>(T *ptr) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga7cd587549d099b4323fda37f23097e04</anchor>
+      <arglist>(T val, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr T *</type>
+      <name>apply_alignment</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga1a38db130c8a0f40826547cc722dd634</anchor>
+      <arglist>(T *ptr, size_t alignment) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr T *</type>
       <name>assume_aligned</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga6c27d79835642aff715e084eef57eb66</anchor>
       <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countl_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr int</type>
-      <name>countr_one</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr bool</type>
-      <name>has_single_bit</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga309ac880015add971ee06b148191060f</anchor>
-      <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr T</type>
@@ -21892,13 +22556,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga18d1da41b1d53329c0d0605596494010</anchor>
       <arglist>(T val, size_t index) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>byte_reverse</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
-      <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr auto</type>
@@ -21950,6 +22607,13 @@
       <arglist>(T val1, U val2, V... vals) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr T</type>
+      <name>byte_reverse</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr int</type>
       <name>countl_zero</name>
       <anchorfile>group__core.html</anchorfile>
@@ -21958,10 +22622,38 @@
     </member>
     <member kind="function">
       <type>constexpr int</type>
+      <name>countl_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gadf75326611fa43dbacc1ff601e9e969b</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
       <name>countr_zero</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>gab5b51a3c121984cfddb8d5da4e9bf070</anchor>
       <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr int</type>
+      <name>countr_one</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga84963e1a7bf75ec7464cda53b26dec8a</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>for_sequence</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>gab64801b0b03f54c51a21000e8bb95ea1</anchor>
+      <arglist>(Func &amp;&amp;func) noexcept(impl::for_sequence_noexcept_&lt; N, Func &gt;)</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr void</type>
+      <name>for_product</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga5f6c6004ed4016c437442e80f0b22421</anchor>
+      <arglist>(Func &amp;&amp;func) noexcept(impl::for_product_noexcept_&lt; N1, N2, Func &gt;)</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -21989,6 +22681,13 @@
       <name>popcount</name>
       <anchorfile>group__core.html</anchorfile>
       <anchor>gab392bc74729da41c4d226f8d45e58599</anchor>
+      <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>has_single_bit</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga309ac880015add971ee06b148191060f</anchor>
       <arglist>(T val) noexcept</arglist>
     </member>
     <member kind="function">
@@ -22046,48 +22745,6 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>ga4ba4d37d254803b31a71fca161a46420</anchor>
       <arglist>(const Ptr &amp;p) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr void</type>
-      <name>for_sequence</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>gab64801b0b03f54c51a21000e8bb95ea1</anchor>
-      <arglist>(Func &amp;&amp;func) noexcept(impl::for_sequence_noexcept_&lt; N, Func &gt;)</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr void</type>
-      <name>for_product</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga5f6c6004ed4016c437442e80f0b22421</anchor>
-      <arglist>(Func &amp;&amp;func) noexcept(impl::for_product_noexcept_&lt; N1, N2, Func &gt;)</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga6aae2e7be0cb15bed51d7cb636602c5f</anchor>
-      <arglist>(T val) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga1541e136d463a3c08a2047c3d448080f</anchor>
-      <arglist>(T *ptr) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga7cd587549d099b4323fda37f23097e04</anchor>
-      <arglist>(T val, size_t alignment) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr T *</type>
-      <name>apply_alignment</name>
-      <anchorfile>group__core.html</anchorfile>
-      <anchor>ga1a38db130c8a0f40826547cc722dd634</anchor>
-      <arglist>(T *ptr, size_t alignment) noexcept</arglist>
     </member>
   </compound>
   <compound kind="group">
@@ -22204,7 +22861,6 @@
     <title>Memory management</title>
     <filename>group__memory.html</filename>
     <class kind="class">muu::blob</class>
-    <class kind="struct">muu::generic_allocator</class>
     <member kind="typedef">
       <type>span&lt; const T, Extent, Alignment &gt;</type>
       <name>const_span</name>
