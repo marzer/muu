@@ -1022,12 +1022,12 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               auto <a class="m-doc" href="#gaf8f9ff89791f3aa70312cef66f4894f4">type_name</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>A <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> containing the name of a type.</dd>
+            <dd>A <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a> containing the name of a type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               auto <a class="m-doc" href="#ga7a9b12967ad4e5e7da9cd73de5cc56d6">type_name_list</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>A <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> containing a comma-delimited list of type names.</dd>
+            <dd>A <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a> containing a comma-delimited list of type names.</dd>
           </dl>
         </section>
         <section>
@@ -2973,13 +2973,13 @@
               </div>
               auto <a class="m-doc-self" href="#gaf8f9ff89791f3aa70312cef66f4894f4">type_name</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>A <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> containing the name of a type.</p>
+            <p>A <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a> containing the name of a type.</p>
 <pre class="m-code"><span class="nn">std</span><span class="o">::</span><span class="nc">cout</span> <span class="o">&lt;&lt;</span> <span class="nn">muu</span><span class="o">::</span><span class="n">type_name</span><span class="o">&lt;</span><span class="k">int</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">int</span></pre><p>Specialize the variable template if you wish to override the default name for a type:</p><pre class="m-code"><span class="k">struct</span> <span class="nc">foo</span> <span class="p">{};</span>
 
 <span class="k">namespace</span> <span class="nn">muu</span>
 <span class="p">{</span>
     <span class="k">template</span> <span class="o">&lt;&gt;</span>
-    <span class="k">inline</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">type_name</span><span class="o">&lt;</span><span class="n">foo</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n"><a class="m-doc poxy-injected" href="classmuu_1_1static__string.html">static_string</a></span><span class="p">{</span> <span class="s">"bar"</span> <span class="p">};</span>
+    <span class="k">inline</span> <span class="k">constexpr</span> <span class="k">auto</span> <span class="n">type_name</span><span class="o">&lt;</span><span class="n">foo</span><span class="o">&gt;</span> <span class="o">=</span> <span class="n">fixed_string</span><span class="p">{</span> <span class="s">"bar"</span> <span class="p">};</span>
 <span class="p">}</span>
 
 <span class="nn">std</span><span class="o">::</span><span class="nc">cout</span> <span class="o">&lt;&lt;</span> <span class="nn">muu</span><span class="o">::</span><span class="n">type_name</span><span class="o">&lt;</span><span class="n">foo</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
@@ -2994,7 +2994,7 @@
               </div>
               auto <a class="m-doc-self" href="#ga7a9b12967ad4e5e7da9cd73de5cc56d6">type_name_list</a> <span class="m-label m-primary">constexpr</span>
             </h3>
-            <p>A <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> containing a comma-delimited list of type names.</p>
+            <p>A <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a> containing a comma-delimited list of type names.</p>
 <pre class="m-code"><span class="nn">std</span><span class="o">::</span><span class="nc">cout</span> <span class="o">&lt;&lt;</span> <span class="nn">muu</span><span class="o">::</span><span class="n">type_name_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span></pre><pre class="m-console"><span class="go">int, float, char</span></pre><aside class="m-block m-special"><h4>Conditional availability </h4><p>Older compilers have limitations preventing the generation of (unspecialized) type names. Check for support by examining <a class="m-doc" href="namespacemuu_1_1build.html#ad4ed37ffabb38340c21bc4b899db2646">build::<wbr/>supports_type_name</a>.</p></aside>
           </div></section>
         </section>

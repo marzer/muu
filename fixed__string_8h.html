@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8"/>
-  <title>muu/static_string.h file | muu Miscellaneous useful utilities for C++</title>
+  <title>muu/fixed_string.h file | muu Miscellaneous useful utilities for C++</title>
   <link href="favicon.ico" rel="icon" type="image/vnd.microsoft.icon"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <meta content="#22272e" name="theme-color"/>
@@ -58,9 +58,9 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span><a class="m-doc poxy-injected" href="classmuu_1_1static__string.html">static_string</a>.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_5cb38a323660fb49265892f778d173c1.html">muu</a>/</span>fixed_string.h <span class="m-thin">file</span>
         </h1>
-        <p>Contains the definition of <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a>.</p>
+        <p>Contains the definition of <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a>.</p>
         <nav class="m-block m-default poxy-toc" id="poxy-toc">
           <h3>Contents</h3>
           <ul>
@@ -92,7 +92,7 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1static__string.html">muu::static_string</a>
+              class <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::fixed_string</a>
             </dt>
             <dd>A null-terminated string for compile-time string manipulation.</dd>
           </dl>
@@ -101,28 +101,28 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;impl::static_string_udl_impl Str&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#ac4b1112aae002fe8962e5e624cdde438">operator""_ss</a>(</span><span class="m-doc-wrap">) -&gt; auto <span class="m-label m-flat m-primary">consteval</span></span>
+              <div class="m-doc-template">template&lt;impl::fixed_string_udl_impl Str&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a8dc462266712f3b766666fd962199309">operator""_fs</a>(</span><span class="m-doc-wrap">) -&gt; auto <span class="m-label m-flat m-primary">consteval</span></span>
             </dt>
-            <dd>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> directly using a string literal.</dd>
+            <dd>Constructs a <a class="m-doc" href="classmuu_1_1fixed__string.html">fixed_<wbr/>string</a> directly using a string literal.</dd>
           </dl>
         </section>
         <section id="var-members">
           <h2><a href="#var-members">Variables</a></h2>
           <dl class="m-doc">
             <dt>
-              bool <a class="m-doc" href="namespacemuu_1_1build.html#ad135127eb0889116bcc2d4db72f41673">supports_static_string_literals</a> <span class="m-label m-flat m-primary">constexpr</span>
+              bool <a class="m-doc" href="namespacemuu_1_1build.html#a45b1f9cdbb35e5ea62a59051ef386a7e">supports_fixed_string_literals</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>Indicates whether <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> string literals (e.g. <code>"hello"_ss</code>) are supported by the compiler.</dd>
+            <dd>Indicates whether <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a> string literals (e.g. <code>"hello"_fs</code>) are supported by the compiler.</dd>
           </dl>
         </section>
         <section id="define-members">
           <h2><a href="#define-members">Defines</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#gad1a4aea6de6cd311e2d75437f7980756">MUU_HAS_STATIC_STRING_LITERALS</a></span>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="group__preprocessor.html#ga8fac1269bbb8698b9570f108ae1523bb">MUU_HAS_FIXED_STRING_LITERALS</a></span>
             </dt>
-            <dd>Indicates whether <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> string literals (e.g. <code>"hello"_ss</code>) are supported by the compiler.</dd>
+            <dd>Indicates whether <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a> string literals (e.g. <code>"hello"_fs</code>) are supported by the compiler.</dd>
           </dl>
         </section>
       </div>

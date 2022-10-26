@@ -284,6 +284,10 @@
             </dt>
             <dd>The result of <code>__has_feature(name)</code> if supported by the compiler, otherwise <code>0</code>.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga8fac1269bbb8698b9570f108ae1523bb">MUU_HAS_FIXED_STRING_LITERALS</a></span>
+            </dt>
+            <dd>Indicates whether <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a> string literals (e.g. <code>"hello"_fs</code>) are supported by the compiler.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad6cf2ebac5d966916c61f46e79f035b2">MUU_HAS_FLOAT128</a></span>
             </dt>
             <dd><code>1</code> when the target environment has 128-bit floats, otherwise <code>0</code>.</dd>
@@ -307,10 +311,6 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga3a719188641393747cd874964992274e">MUU_HAS_RTTI</a></span>
             </dt>
             <dd><code>1</code> when C++ run-time type identification (RTTI) is supported and enabled, otherwise <code>0</code>.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gad1a4aea6de6cd311e2d75437f7980756">MUU_HAS_STATIC_STRING_LITERALS</a></span>
-            </dt>
-            <dd>Indicates whether <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> string literals (e.g. <code>"hello"_ss</code>) are supported by the compiler.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga909a6807c9b69a3b6e146a709c2a248d">MUU_ICC</a></span>
             </dt>
@@ -964,6 +964,14 @@
             </h3>
             <p>The result of <code>__has_feature(name)</code> if supported by the compiler, otherwise <code>0</code>.</p>
           </div></section>
+          <section class="m-doc-details" id="ga8fac1269bbb8698b9570f108ae1523bb"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga8fac1269bbb8698b9570f108ae1523bb">MUU_HAS_FIXED_STRING_LITERALS</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="fixed__string_8h.html">&lt;muu/fixed_string.h&gt;</a></div>
+            </h3>
+            <p>Indicates whether <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a> string literals (e.g. <code>"hello"_fs</code>) are supported by the compiler.</p>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a></p></aside>
+          </div></section>
           <section class="m-doc-details" id="gad6cf2ebac5d966916c61f46e79f035b2"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gad6cf2ebac5d966916c61f46e79f035b2">MUU_HAS_FLOAT128</a></span>
@@ -1010,14 +1018,6 @@
             </h3>
             <p><code>1</code> when C++ run-time type identification (RTTI) is supported and enabled, otherwise <code>0</code>.</p>
 <aside class="m-note m-default"><h4>See also</h4><p>build::supports_rtti</p></aside>
-          </div></section>
-          <section class="m-doc-details" id="gad1a4aea6de6cd311e2d75437f7980756"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gad1a4aea6de6cd311e2d75437f7980756">MUU_HAS_STATIC_STRING_LITERALS</a></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="static__string_8h.html">&lt;muu/static_string.h&gt;</a></div>
-            </h3>
-            <p>Indicates whether <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> string literals (e.g. <code>"hello"_ss</code>) are supported by the compiler.</p>
-<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a></p></aside>
           </div></section>
           <section class="m-doc-details" id="ga909a6807c9b69a3b6e146a709c2a248d"><div>
             <h3>

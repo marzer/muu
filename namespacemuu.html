@@ -306,6 +306,11 @@
             </dt>
             <dd>A set of euler angles used for rotation.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;</div>
+              class <a class="m-doc" href="classmuu_1_1fixed__string.html">fixed_string</a>
+            </dt>
+            <dd>A null-terminated string for compile-time string manipulation.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits = (sizeof(<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>)* CHAR_BIT)&gt;</div>
               class <a class="m-doc" href="classmuu_1_1fnv1a.html">fnv1a</a>
             </dt>
@@ -406,11 +411,6 @@
               struct <a class="m-doc" href="structmuu_1_1static__array.html">static_array</a>
             </dt>
             <dd>A statically-defined array.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename Character, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length&gt;</div>
-              class <a class="m-doc" href="classmuu_1_1static__string.html">static_string</a>
-            </dt>
-            <dd>A null-terminated string for compile-time string manipulation.</dd>
             <dt>
               class <a class="m-doc" href="classmuu_1_1string__param.html">string_param</a>
             </dt>
@@ -2705,6 +2705,11 @@
             </dt>
             <dd>Literal for creating a half-precision float.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;impl::fixed_string_udl_impl Str&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a8dc462266712f3b766666fd962199309">operator""_fs</a>(</span><span class="m-doc-wrap">) -&gt; auto <span class="m-label m-flat m-primary">consteval</span></span>
+            </dt>
+            <dd>Constructs a <a class="m-doc" href="classmuu_1_1fixed__string.html">fixed_<wbr/>string</a> directly using a string literal.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a98a2294177231968f6f9f042d402619c">operator""_gb</a>(</span><span class="m-doc-wrap">unsigned long long gb) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">consteval</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of gigabytes.</dd>
@@ -2736,11 +2741,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a9139d3fc5cb832d87d6d9701aa93b351">operator""_mb</a>(</span><span class="m-doc-wrap">unsigned long long mb) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">consteval</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> for a given number of megabytes.</dd>
-            <dt>
-              <div class="m-doc-template">template&lt;impl::static_string_udl_impl Str&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#ac4b1112aae002fe8962e5e624cdde438">operator""_ss</a>(</span><span class="m-doc-wrap">) -&gt; auto <span class="m-label m-flat m-primary">consteval</span></span>
-            </dt>
-            <dd>Constructs a <a class="m-doc" href="classmuu_1_1static__string.html">static_<wbr/>string</a> directly using a string literal.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="namespacemuu_1_1literals.html#a4ed24f686cd4d1bc02a08d49723524e4">operator""_sz</a>(</span><span class="m-doc-wrap">unsigned long long n) -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <span class="m-label m-flat m-primary">consteval</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -3679,12 +3679,12 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               auto <a class="m-doc" href="group__meta.html#gaf8f9ff89791f3aa70312cef66f4894f4">type_name</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>A <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> containing the name of a type.</dd>
+            <dd>A <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a> containing the name of a type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename... T&gt;</div>
               auto <a class="m-doc" href="group__meta.html#ga7a9b12967ad4e5e7da9cd73de5cc56d6">type_name_list</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
-            <dd>A <a class="m-doc" href="classmuu_1_1static__string.html">muu::<wbr/>static_string</a> containing a comma-delimited list of type names.</dd>
+            <dd>A <a class="m-doc" href="classmuu_1_1fixed__string.html">muu::<wbr/>fixed_string</a> containing a comma-delimited list of type names.</dd>
           </dl>
         </section>
         <section>
