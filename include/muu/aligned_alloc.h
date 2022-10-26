@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementation of #muu::aligned_alloc().
+/// \brief Contains the definition of #muu::aligned_alloc().
 
 #include "bit_ceil.h"
 #include "assume_aligned.h"

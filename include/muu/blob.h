@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementation of #muu::blob.
+/// \brief Contains the definition of #muu::blob.
 
 #include "aligned_alloc.h"
 #include "impl/std_memcpy.h"

@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementation of #muu::byte_reverse().
+/// \brief Contains the definition of #muu::byte_reverse().
 
 #include "meta.h"
 #include "is_constant_evaluated.h"

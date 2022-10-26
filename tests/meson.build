@@ -21,6 +21,7 @@ test_sources += [
 	'bounding_sphere_3.cpp',
 	'compressed_pair.cpp',
 	'core_other.cpp',
+	'fixed_string.cpp',
 	'function_view.cpp',
 	'half.cpp',
 	'hashing.cpp',
@@ -61,7 +62,6 @@ test_sources += [
 	'quaternion_3.cpp',
 	'scope_guard.cpp',
 	'span.cpp',
-	'static_string.cpp',
 	'string_param.cpp',
 	'strings.cpp',
 	'tagged_ptr.cpp',
@@ -219,7 +219,8 @@ foreach cpp20 : cpp20_modes
 					cpp_args: test_args,
 					dependencies: test_dependencies,
 					override_options: test_overrides,
-					cpp_pch : 'pch/gcc_pch.h'
+					cpp_pch : 'pch/gcc_pch.h',
+					install: false
 				)
 			]]
 

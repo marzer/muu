@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementations of #muu::for_sequence() and #muu::for_product().
+/// \brief Contains the definitions of #muu::for_sequence() and #muu::for_product().
 
 #include "impl/std_utility.h"
 #include "impl/std_type_traits.h"

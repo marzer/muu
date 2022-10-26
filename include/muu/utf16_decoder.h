@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief  Contains the implementation of# muu::utf16_decoder.
+/// \brief  Contains the definition of #muu::utf16_decoder.
 
 #include "fwd.h"
 #include "integer_literals.h"

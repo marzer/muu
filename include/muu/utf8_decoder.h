@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief  Contains the implementation of #muu::utf8_decoder.
+/// \brief  Contains the definition of #muu::utf8_decoder.
 
 #include "fwd.h"
 #include "impl/header_start.h"

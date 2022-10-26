@@ -6,7 +6,7 @@
 
 /// \file
 /// \ingroup cpp20
-/// \brief Contains the implementation of #muu::source_location.
+/// \brief Contains the definition of #muu::source_location.
 
 #include "fwd.h"
 #include "impl/header_start.h"

@@ -152,7 +152,7 @@
     <ClInclude Include="include\muu\scope_guard.h" />
     <ClInclude Include="include\muu\semver.h" />
     <ClInclude Include="include\muu\span.h" />
-    <ClInclude Include="include\muu\static_string.h" />
+    <ClInclude Include="include\muu\fixed_string.h" />
     <ClInclude Include="include\muu\strings.h" />
     <ClInclude Include="include\muu\string_param.h" />
     <ClInclude Include="include\muu\strong_typedef.h" />
@@ -210,6 +210,7 @@
     <None Include=".runsettings" />
     <None Include="muu.props" />
     <None Include="tools\vcvars.bat" />
+    <None Include="tools\version.py" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="muu.natvis" />

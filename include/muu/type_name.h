@@ -8,7 +8,7 @@
 /// \file
 /// \brief  Contains the definition of muu::type_name.
 
-#include "static_string.h"
+#include "fixed_string.h"
 #include "type_list.h"
 #include "impl/header_start.h"
 
@@ -25,7 +25,7 @@ namespace muu
 	}
 	/// \endcond
 
-	/// \brief		A #muu::static_string containing the name of a type.
+	/// \brief		A #muu::fixed_string containing the name of a type.
 	/// \ingroup	meta
 	///
 	/// \detail \cpp
@@ -41,7 +41,7 @@ namespace muu
 	/// namespace muu
 	/// {
 	/// 	template <>
-	/// 	inline constexpr auto type_name<foo> = static_string{ "bar" };
+	/// 	inline constexpr auto type_name<foo> = fixed_string{ "bar" };
 	/// }
 	///
 	/// std::cout << muu::type_name<foo> << "\n";
@@ -57,7 +57,7 @@ namespace muu
 	template <typename T>
 	inline constexpr auto type_name = POXY_IMPLEMENTATION_DETAIL(impl::type_name_<T>::value);
 
-	/// \brief		A #muu::static_string containing a comma-delimited list of type names.
+	/// \brief		A #muu::fixed_string containing a comma-delimited list of type names.
 	/// \ingroup	meta
 	///
 	/// \detail \cpp
@@ -212,7 +212,7 @@ namespace muu
 		struct type_name_
 		{
 			static constexpr auto value =
-				static_string<char, type_name_source_string<T>().length()>{ type_name_source_string<T>() };
+				fixed_string<char, type_name_source_string<T>().length()>{ type_name_source_string<T>() };
 		};
 
 		// bare qualifiers
@@ -220,19 +220,19 @@ namespace muu
 		template <typename T>
 		struct type_name_<const T>
 		{
-			static constexpr auto value = static_string{ "const " } + type_name<T>;
+			static constexpr auto value = fixed_string{ "const " } + type_name<T>;
 		};
 
 		template <typename T>
 		struct type_name_<volatile T>
 		{
-			static constexpr auto value = static_string{ "volatile " } + type_name<T>;
+			static constexpr auto value = fixed_string{ "volatile " } + type_name<T>;
 		};
 
 		template <typename T>
 		struct type_name_<const volatile T>
 		{
-			static constexpr auto value = static_string{ "const volatile " } + type_name<T>;
+			static constexpr auto value = fixed_string{ "const volatile " } + type_name<T>;
 		};
 
 		// pointers
@@ -246,19 +246,19 @@ namespace muu
 		template <typename T>
 		struct type_name_<T* const>
 		{
-			static constexpr auto value = type_name<T> + static_string{ "* const" };
+			static constexpr auto value = type_name<T> + fixed_string{ "* const" };
 		};
 
 		template <typename T>
 		struct type_name_<T* volatile>
 		{
-			static constexpr auto value = type_name<T> + static_string{ "* volatile" };
+			static constexpr auto value = type_name<T> + fixed_string{ "* volatile" };
 		};
 
 		template <typename T>
 		struct type_name_<T* const volatile>
 		{
-			static constexpr auto value = type_name<T> + static_string{ "* const volatile" };
+			static constexpr auto value = type_name<T> + fixed_string{ "* const volatile" };
 		};
 
 		// references
@@ -272,7 +272,7 @@ namespace muu
 		template <typename T>
 		struct type_name_<T&&>
 		{
-			static constexpr auto value = type_name<T> + static_string{ "&&" };
+			static constexpr auto value = type_name<T> + fixed_string{ "&&" };
 		};
 
 		// unbounded arrays
@@ -280,37 +280,37 @@ namespace muu
 		template <typename T>
 		struct type_name_<T[]>
 		{
-			static constexpr auto value = type_name<T> + static_string{ "[]" };
+			static constexpr auto value = type_name<T> + fixed_string{ "[]" };
 		};
 
 		template <typename T>
 		struct type_name_<const T[]>
 		{
-			static constexpr auto value = type_name<const T> + static_string{ "[]" };
+			static constexpr auto value = type_name<const T> + fixed_string{ "[]" };
 		};
 
 		template <typename T>
 		struct type_name_<volatile T[]>
 		{
-			static constexpr auto value = type_name<volatile T> + static_string{ "[]" };
+			static constexpr auto value = type_name<volatile T> + fixed_string{ "[]" };
 		};
 
 		template <typename T>
 		struct type_name_<const volatile T[]>
 		{
-			static constexpr auto value = type_name<const volatile T> + static_string{ "[]" };
+			static constexpr auto value = type_name<const volatile T> + fixed_string{ "[]" };
 		};
 
 		template <typename T>
 		struct type_name_<T (&)[]>
 		{
-			static constexpr auto value = type_name<T> + static_string{ "(&)[]" };
+			static constexpr auto value = type_name<T> + fixed_string{ "(&)[]" };
 		};
 
 		template <typename T>
 		struct type_name_<T (&&)[]>
 		{
-			static constexpr auto value = type_name<T> + static_string{ "(&&)[]" };
+			static constexpr auto value = type_name<T> + fixed_string{ "(&&)[]" };
 		};
 
 		// bounded arrays
@@ -345,7 +345,7 @@ namespace muu
 		inline constexpr auto type_name_int_to_str = []() noexcept
 		{
 			using T = decltype(N);
-			static_string<char, type_name_int_to_str_length(N)> str{};
+			fixed_string<char, type_name_int_to_str_length(N)> str{};
 
 			T val	 = N;
 			size_t i = type_name_int_to_str_length(N) - 1_sz;
@@ -394,13 +394,13 @@ namespace muu
 		template <typename T, size_t N>
 		struct type_name_<T (&)[N]>
 		{
-			static constexpr auto value = type_name<T> + static_string{ "(&)[" } + type_name_int_to_str<N> + ']';
+			static constexpr auto value = type_name<T> + fixed_string{ "(&)[" } + type_name_int_to_str<N> + ']';
 		};
 
 		template <typename T, size_t N>
 		struct type_name_<T (&&)[N]>
 		{
-			static constexpr auto value = type_name<T> + static_string{ "(&&)[" } + type_name_int_to_str<N> + ']';
+			static constexpr auto value = type_name<T> + fixed_string{ "(&&)[" } + type_name_int_to_str<N> + ']';
 		};
 
 		// basic template unpacking
@@ -411,7 +411,7 @@ namespace muu
 		template <>
 		struct type_name_list_<>
 		{
-			static constexpr auto value = static_string{ "" };
+			static constexpr auto value = fixed_string{ "" };
 		};
 
 		template <typename T>
@@ -423,13 +423,13 @@ namespace muu
 		template <typename T, typename U>
 		struct type_name_list_<T, U>
 		{
-			static constexpr auto value = type_name<T> + static_string{ ", " } + type_name<U>;
+			static constexpr auto value = type_name<T> + fixed_string{ ", " } + type_name<U>;
 		};
 
 		template <typename T, typename U, typename... V>
 		struct type_name_list_<T, U, V...>
 		{
-			static constexpr auto value = type_name_list<T, U> + static_string{ ", " } + type_name_list<V...>;
+			static constexpr auto value = type_name_list<T, U> + fixed_string{ ", " } + type_name_list<V...>;
 		};
 
 		template <auto... N>
@@ -438,7 +438,7 @@ namespace muu
 		template <>
 		struct type_name_nttp_list_<>
 		{
-			static constexpr auto value = static_string{ "" };
+			static constexpr auto value = fixed_string{ "" };
 		};
 
 		template <auto N>
@@ -450,14 +450,14 @@ namespace muu
 		template <auto N, auto O>
 		struct type_name_nttp_list_<N, O>
 		{
-			static constexpr auto value = type_name_int_to_str<N> + static_string{ ", " } + type_name_int_to_str<O>;
+			static constexpr auto value = type_name_int_to_str<N> + fixed_string{ ", " } + type_name_int_to_str<O>;
 		};
 
 		template <auto N, auto O, auto... P>
 		struct type_name_nttp_list_<N, O, P...>
 		{
 			static constexpr auto value =
-				type_name_nttp_list_<N, O>::value + static_string{ ", " } + type_name_nttp_list_<P...>::value;
+				type_name_nttp_list_<N, O>::value + fixed_string{ ", " } + type_name_nttp_list_<P...>::value;
 		};
 
 		// only types
@@ -468,7 +468,7 @@ namespace muu
 			static constexpr std::string_view base =
 				type_name_trim_right_from_last(type_name_source_string<T<U...>>(), '<');
 
-			static constexpr auto value = static_string<char, base.length()>{ base } + '<' + type_name_list<U...> + '>';
+			static constexpr auto value = fixed_string<char, base.length()>{ base } + '<' + type_name_list<U...> + '>';
 		};
 
 		// only NTTPs
@@ -480,7 +480,7 @@ namespace muu
 				type_name_trim_right_from_last(type_name_source_string<T<N...>>(), '<');
 
 			static constexpr auto value =
-				static_string<char, base.length()>{ base } + '<' + type_name_nttp_list_<N...>::value + '>';
+				fixed_string<char, base.length()>{ base } + '<' + type_name_nttp_list_<N...>::value + '>';
 		};
 
 		// one type then one or more NTTPs
@@ -491,8 +491,8 @@ namespace muu
 			static constexpr std::string_view base =
 				type_name_trim_right_from_last(type_name_source_string<T<U, N...>>(), '<');
 
-			static constexpr auto value = static_string<char, base.length()>{ base } + '<' + type_name<U>
-										+ static_string{ ", " } + type_name_nttp_list_<N...>::value + '>';
+			static constexpr auto value = fixed_string<char, base.length()>{ base } + '<' + type_name<U>
+										+ fixed_string{ ", " } + type_name_nttp_list_<N...>::value + '>';
 		};
 
 		// two types then one or more NTTPs
@@ -503,8 +503,8 @@ namespace muu
 			static constexpr std::string_view base =
 				type_name_trim_right_from_last(type_name_source_string<T<U0, U1, N...>>(), '<');
 
-			static constexpr auto value = static_string<char, base.length()>{ base } + '<' + type_name_list<U0, U1>
-										+ static_string{ ", " } + type_name_nttp_list_<N...>::value + '>';
+			static constexpr auto value = fixed_string<char, base.length()>{ base } + '<' + type_name_list<U0, U1>
+										+ fixed_string{ ", " } + type_name_nttp_list_<N...>::value + '>';
 		};
 
 		// three types then one or more NTTPs
@@ -519,8 +519,8 @@ namespace muu
 			static constexpr std::string_view base =
 				type_name_trim_right_from_last(type_name_source_string<T<U0, U1, U2, N...>>(), '<');
 
-			static constexpr auto value = static_string<char, base.length()>{ base } + '<' + type_name_list<U0, U1, U2>
-										+ static_string{ ", " } + type_name_nttp_list_<N...>::value + '>';
+			static constexpr auto value = fixed_string<char, base.length()>{ base } + '<' + type_name_list<U0, U1, U2>
+										+ fixed_string{ ", " } + type_name_nttp_list_<N...>::value + '>';
 		};
 
 		// free/static functions
@@ -534,31 +534,31 @@ namespace muu
 		template <typename R, typename... P>
 		struct type_name_<R(P...) noexcept>
 		{
-			static constexpr auto value = type_name<R(P...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R(P...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R>
 		struct type_name_<R(...)>
 		{
-			static constexpr auto value = type_name<R> + static_string{ "(...)" };
+			static constexpr auto value = type_name<R> + fixed_string{ "(...)" };
 		};
 
 		template <typename R>
 		struct type_name_<R(...) noexcept>
 		{
-			static constexpr auto value = type_name<R(...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R(...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R(P..., ...)>
 		{
-			static constexpr auto value = type_name<R> + '(' + type_name_list<P...> + static_string{ ", ...)" };
+			static constexpr auto value = type_name<R> + '(' + type_name_list<P...> + fixed_string{ ", ...)" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R(P..., ...) noexcept>
 		{
-			static constexpr auto value = type_name<R(P..., ...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R(P..., ...)> + fixed_string{ " noexcept" };
 		};
 
 		// function pointers
@@ -566,38 +566,38 @@ namespace muu
 		template <typename R, typename... P>
 		struct type_name_<R (*)(P...)>
 		{
-			static constexpr auto value = type_name<R> + static_string{ "(*)(" } + type_name_list<P...> + ')';
+			static constexpr auto value = type_name<R> + fixed_string{ "(*)(" } + type_name_list<P...> + ')';
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*)(P...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*)(P...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*)(P...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R>
 		struct type_name_<R (*)(...)>
 		{
-			static constexpr auto value = type_name<R> + static_string{ "(*)(...)" };
+			static constexpr auto value = type_name<R> + fixed_string{ "(*)(...)" };
 		};
 
 		template <typename R>
 		struct type_name_<R (*)(...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*)(...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*)(...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*)(P..., ...)>
 		{
 			static constexpr auto value =
-				type_name<R> + static_string{ "(*)(" } + '(' + type_name_list<P...> + static_string{ ", ...)" };
+				type_name<R> + fixed_string{ "(*)(" } + '(' + type_name_list<P...> + fixed_string{ ", ...)" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*)(P..., ...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*)(P..., ...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*)(P..., ...)> + fixed_string{ " noexcept" };
 		};
 
 		// const function pointers
@@ -605,38 +605,38 @@ namespace muu
 		template <typename R, typename... P>
 		struct type_name_<R (*const)(P...)>
 		{
-			static constexpr auto value = type_name<R> + static_string{ "(*const)(" } + type_name_list<P...> + ')';
+			static constexpr auto value = type_name<R> + fixed_string{ "(*const)(" } + type_name_list<P...> + ')';
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*const)(P...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*const)(P...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*const)(P...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R>
 		struct type_name_<R (*const)(...)>
 		{
-			static constexpr auto value = type_name<R> + static_string{ "(*const)(...)" };
+			static constexpr auto value = type_name<R> + fixed_string{ "(*const)(...)" };
 		};
 
 		template <typename R>
 		struct type_name_<R (*const)(...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*const)(...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*const)(...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*const)(P..., ...)>
 		{
 			static constexpr auto value =
-				type_name<R> + static_string{ "(*const)(" } + '(' + type_name_list<P...> + static_string{ ", ...)" };
+				type_name<R> + fixed_string{ "(*const)(" } + '(' + type_name_list<P...> + fixed_string{ ", ...)" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*const)(P..., ...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*const)(P..., ...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*const)(P..., ...)> + fixed_string{ " noexcept" };
 		};
 
 		// volatile function pointers
@@ -644,38 +644,38 @@ namespace muu
 		template <typename R, typename... P>
 		struct type_name_<R (*volatile)(P...)>
 		{
-			static constexpr auto value = type_name<R> + static_string{ "(*volatile)(" } + type_name_list<P...> + ')';
+			static constexpr auto value = type_name<R> + fixed_string{ "(*volatile)(" } + type_name_list<P...> + ')';
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*volatile)(P...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*volatile)(P...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*volatile)(P...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R>
 		struct type_name_<R (*volatile)(...)>
 		{
-			static constexpr auto value = type_name<R> + static_string{ "(*volatile)(...)" };
+			static constexpr auto value = type_name<R> + fixed_string{ "(*volatile)(...)" };
 		};
 
 		template <typename R>
 		struct type_name_<R (*volatile)(...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*volatile)(...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*volatile)(...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*volatile)(P..., ...)>
 		{
 			static constexpr auto value =
-				type_name<R> + static_string{ "(*volatile)(" } + '(' + type_name_list<P...> + static_string{ ", ...)" };
+				type_name<R> + fixed_string{ "(*volatile)(" } + '(' + type_name_list<P...> + fixed_string{ ", ...)" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*volatile)(P..., ...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*volatile)(P..., ...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*volatile)(P..., ...)> + fixed_string{ " noexcept" };
 		};
 
 		// const volatile function pointers
@@ -684,38 +684,38 @@ namespace muu
 		struct type_name_<R (*const volatile)(P...)>
 		{
 			static constexpr auto value =
-				type_name<R> + static_string{ "(*const volatile)(" } + type_name_list<P...> + ')';
+				type_name<R> + fixed_string{ "(*const volatile)(" } + type_name_list<P...> + ')';
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*const volatile)(P...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*const volatile)(P...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*const volatile)(P...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R>
 		struct type_name_<R (*const volatile)(...)>
 		{
-			static constexpr auto value = type_name<R> + static_string{ "(*const volatile)(...)" };
+			static constexpr auto value = type_name<R> + fixed_string{ "(*const volatile)(...)" };
 		};
 
 		template <typename R>
 		struct type_name_<R (*const volatile)(...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*const volatile)(...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*const volatile)(...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*const volatile)(P..., ...)>
 		{
-			static constexpr auto value = type_name<R> + static_string{ "(*const volatile)(" } + '('
-										+ type_name_list<P...> + static_string{ ", ...)" };
+			static constexpr auto value = type_name<R> + fixed_string{ "(*const volatile)(" } + '('
+										+ type_name_list<P...> + fixed_string{ ", ...)" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (*const volatile)(P..., ...) noexcept>
 		{
-			static constexpr auto value = type_name<R (*const volatile)(P..., ...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (*const volatile)(P..., ...)> + fixed_string{ " noexcept" };
 		};
 
 		// function references
@@ -723,38 +723,38 @@ namespace muu
 		template <typename R, typename... P>
 		struct type_name_<R (&)(P...)>
 		{
-			static constexpr auto value = type_name<R> + static_string{ "(&)(" } + type_name_list<P...> + ')';
+			static constexpr auto value = type_name<R> + fixed_string{ "(&)(" } + type_name_list<P...> + ')';
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (&)(P...) noexcept>
 		{
-			static constexpr auto value = type_name<R (&)(P...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (&)(P...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R>
 		struct type_name_<R (&)(...)>
 		{
-			static constexpr auto value = type_name<R> + static_string{ "(&)(...)" };
+			static constexpr auto value = type_name<R> + fixed_string{ "(&)(...)" };
 		};
 
 		template <typename R>
 		struct type_name_<R (&)(...) noexcept>
 		{
-			static constexpr auto value = type_name<R (&)(...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (&)(...)> + fixed_string{ " noexcept" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (&)(P..., ...)>
 		{
 			static constexpr auto value =
-				type_name<R> + static_string{ "(&)(" } + '(' + type_name_list<P...> + static_string{ ", ...)" };
+				type_name<R> + fixed_string{ "(&)(" } + '(' + type_name_list<P...> + fixed_string{ ", ...)" };
 		};
 
 		template <typename R, typename... P>
 		struct type_name_<R (&)(P..., ...) noexcept>
 		{
-			static constexpr auto value = type_name<R (&)(P..., ...)> + static_string{ " noexcept" };
+			static constexpr auto value = type_name<R (&)(P..., ...)> + fixed_string{ " noexcept" };
 		};
 
 		// todo: member function pointers
@@ -765,14 +765,14 @@ namespace muu
 	template <>                                                                                                        \
 	struct type_name_<T>                                                                                               \
 	{                                                                                                                  \
-		static constexpr auto value = static_string(MUU_MAKE_STRING(T));                                               \
+		static constexpr auto value = fixed_string(MUU_MAKE_STRING(T));                                               \
 	}
 
 #define MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(T)                                                                      \
 	template <typename T0>                                                                                             \
 	struct type_name_<T<T0>>                                                                                           \
 	{                                                                                                                  \
-		static constexpr auto value = static_string(MUU_MAKE_STRING(T)) + '<' + type_name<T0> + '>';                   \
+		static constexpr auto value = fixed_string(MUU_MAKE_STRING(T)) + '<' + type_name<T0> + '>';                   \
 	}
 
 		// built-ins (to reduce instantiations and ensure consistent behaviour)

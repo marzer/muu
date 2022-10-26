@@ -38,10 +38,10 @@ struct nttp_list;
 namespace muu
 {
 	template <>
-	inline constexpr auto type_name<named> = static_string{ "kek" };
+	inline constexpr auto type_name<named> = fixed_string{ "kek" };
 
 	template <>
-	inline constexpr auto type_name<named*> = static_string{ "kek_ptr" };
+	inline constexpr auto type_name<named*> = fixed_string{ "kek_ptr" };
 }
 
 TEST_CASE("type_name")

@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementation of #muu::bit_pack().
+/// \brief Contains the definition of #muu::bit_pack().
 
 #include "meta.h"
 #include "bit_ceil.h"

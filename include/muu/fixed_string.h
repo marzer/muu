@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief  Contains the definition of muu::static_string.
+/// \brief  Contains the definition of muu::fixed_string.
 
 #include "iterators.h"
 #include "meta.h"
@@ -18,15 +18,15 @@
 
 #if MUU_HAS_THREE_WAY_COMPARISON && defined(__cpp_nontype_template_args) && __cpp_nontype_template_args >= 201911      \
 	&& (!MUU_MSVC || MUU_MSVC >= 1933)
-	#define MUU_HAS_STATIC_STRING_LITERALS 1
+	#define MUU_HAS_FIXED_STRING_LITERALS 1
 #else
-	#define MUU_HAS_STATIC_STRING_LITERALS 0
+	#define MUU_HAS_FIXED_STRING_LITERALS 0
 #endif
 
-/// \def MUU_HAS_STATIC_STRING_LITERALS
+/// \def MUU_HAS_FIXED_STRING_LITERALS
 /// \ingroup	preprocessor
-/// \brief Indicates whether #muu::static_string string literals (e.g. `"hello"_ss`) are supported by the compiler.
-/// \see muu::static_string
+/// \brief Indicates whether #muu::fixed_string string literals (e.g. `"hello"_fs`) are supported by the compiler.
+/// \see muu::fixed_string
 
 namespace muu
 {
@@ -43,13 +43,13 @@ namespace muu
 	/// \tparam	Character	The character type of the string.
 	/// \tparam	Length 	The length of the string (not including the null terminator).
 	template <typename Character, size_t Length>
-	class static_string
+	class fixed_string
 	{
-		static_assert(!is_cvref<Character>, "static_string Character type cannot be const, volatile, or ref-qualified");
+		static_assert(!is_cvref<Character>, "fixed_string Character type cannot be const, volatile, or ref-qualified");
 		static_assert(std::is_trivially_constructible_v<Character>	 //
 						  && std::is_trivially_copyable_v<Character> //
 						  && std::is_trivially_destructible_v<Character>,
-					  "static_string Character type must be trivially constructible, copyable and destructible");
+					  "fixed_string Character type must be trivially constructible, copyable and destructible");
 
 	  public:
 		/// \brief The length of the string (not including the null-terminator).
@@ -96,40 +96,36 @@ namespace muu
 
 		/// \cond
 
-#if !MUU_HAS_STATIC_STRING_LITERALS
-	  private:
-#endif
-
 		// note that this is public only so this class qualifies as a 'structural type' per C++20's NTTP class rules.
 		// don't mess with this directly!
-		value_type chars_[Length + 1_sz];
+		value_type _chars_[Length + 1_sz];
 
 	  private:
 		template <typename, size_t>
-		friend class static_string;
+		friend class fixed_string;
 
-		using empty_string_type = static_string<Character, 0>;
+		using empty_string_type = fixed_string<Character, 0>;
 
 		template <typename Array, size_t... Indices>
 		MUU_NODISCARD_CTOR
-		explicit constexpr static_string(const Array& arr, std::index_sequence<Indices...>) noexcept //
-			: chars_{ arr[Indices]... }
+		explicit constexpr fixed_string(const Array& arr, std::index_sequence<Indices...>) noexcept //
+			: _chars_{ arr[Indices]... }
 		{
 			static_assert(sizeof...(Indices) <= Length);
 		}
 
 		template <size_t... Indices>
 		MUU_NODISCARD_CTOR
-		explicit constexpr static_string(value_type fill, std::index_sequence<Indices...>) noexcept //
-			: chars_{ (static_cast<void>(Indices), fill)... }
+		explicit constexpr fixed_string(value_type fill, std::index_sequence<Indices...>) noexcept //
+			: _chars_{ (static_cast<void>(Indices), fill)... }
 		{
 			static_assert(sizeof...(Indices) <= Length);
 		}
 
 		template <size_t... Indices>
 		MUU_NODISCARD_CTOR
-		explicit constexpr static_string(std::string_view str, std::index_sequence<Indices...>) noexcept //
-			: chars_{ (Indices < str.length() ? str[Indices] : '\0')... }
+		explicit constexpr fixed_string(std::string_view str, std::index_sequence<Indices...>) noexcept //
+			: _chars_{ (Indices < str.length() ? str[Indices] : '\0')... }
 		{
 			static_assert(sizeof...(Indices) <= Length);
 		}
@@ -140,28 +136,28 @@ namespace muu
 
 		/// \brief Default constructor. Characters are not initialized.
 		MUU_NODISCARD_CTOR
-		static_string() noexcept = default;
+		fixed_string() noexcept = default;
 
 		/// \brief Copy constructor.
 		MUU_NODISCARD_CTOR
-		constexpr static_string(const static_string&) noexcept = default;
+		constexpr fixed_string(const fixed_string&) noexcept = default;
 
 		/// \brief Copy-assigment operator.
-		constexpr static_string& operator=(const static_string&) noexcept = default;
+		constexpr fixed_string& operator=(const fixed_string&) noexcept = default;
 
 		/// \brief Constructs a string from a character array.
 		/// \details	Any extra characters not covered by the input argument are zero-initialized.
 		MUU_CONSTRAINED_TEMPLATE(N != 0 && Length != 0, size_t N)
 		MUU_NODISCARD_CTOR
-		explicit constexpr static_string(const value_type (&arr)[N]) noexcept //
-			: static_string{ arr, std::make_index_sequence<min(Length, N)>{} }
+		explicit constexpr fixed_string(const value_type (&arr)[N]) noexcept //
+			: fixed_string{ arr, std::make_index_sequence<min(Length, N)>{} }
 		{}
 
 		/// \cond
 		MUU_CONSTRAINED_TEMPLATE(N == 0 || Length == 0, size_t N)
 		MUU_NODISCARD_CTOR
-		explicit constexpr static_string(const value_type (&)[N]) noexcept //
-			: chars_{}
+		explicit constexpr fixed_string(const value_type (&)[N]) noexcept //
+			: _chars_{}
 		{}
 		/// \endcond
 
@@ -169,15 +165,15 @@ namespace muu
 		/// \details	Any extra characters not covered by the input argument are zero-initialized.
 		MUU_HIDDEN_CONSTRAINT(!!Len, size_t Len = Length)
 		MUU_NODISCARD_CTOR
-		explicit constexpr static_string(std::string_view str) noexcept //
-			: static_string{ str, std::make_index_sequence<Length>{} }
+		explicit constexpr fixed_string(std::string_view str) noexcept //
+			: fixed_string{ str, std::make_index_sequence<Length>{} }
 		{}
 
 		/// \cond
 		MUU_HIDDEN_CONSTRAINT(!Len, size_t Len = Length)
 		MUU_NODISCARD_CTOR
-		explicit constexpr static_string(std::string_view) noexcept //
-			: chars_{}
+		explicit constexpr fixed_string(std::string_view) noexcept //
+			: _chars_{}
 		{}
 		/// \endcond
 
@@ -185,37 +181,37 @@ namespace muu
 		/// \details	Any extra characters not covered by the input argument are zero-initialized.
 		MUU_CONSTRAINED_TEMPLATE(Len != 0 && Length != 0, size_t Len)
 		MUU_NODISCARD_CTOR
-		explicit constexpr static_string(const static_string<value_type, Len>& str) noexcept //
-			: static_string{ str, std::make_index_sequence<min(Length, Len)>{} }
+		explicit constexpr fixed_string(const fixed_string<value_type, Len>& str) noexcept //
+			: fixed_string{ str, std::make_index_sequence<min(Length, Len)>{} }
 		{}
 
 		/// \cond
 		MUU_CONSTRAINED_TEMPLATE(Len == 0 || Length == 0, size_t Len)
 		MUU_NODISCARD_CTOR
-		explicit constexpr static_string(const static_string<value_type, Len>&) noexcept //
-			: chars_{}
+		explicit constexpr fixed_string(const fixed_string<value_type, Len>&) noexcept //
+			: _chars_{}
 		{}
 		/// \endcond
 
 		/// \brief Constructs a string with each character equal to the given value.
 		MUU_NODISCARD_CTOR
-		explicit constexpr static_string(value_type fill) noexcept //
-			: static_string{ fill, std::make_index_sequence<Length>{} }
+		explicit constexpr fixed_string(value_type fill) noexcept //
+			: fixed_string{ fill, std::make_index_sequence<Length>{} }
 		{}
 
 		/// \brief Constructs a string from a raw c-string pointer and integral length constant.
 		MUU_CONSTRAINED_TEMPLATE(Len != 0 && Length != 0, size_t Len)
 		MUU_NODISCARD_CTOR
 		MUU_ATTR(nonnull)
-		explicit constexpr static_string(const value_type* str, index_tag<Len>) noexcept
-			: static_string{ str, std::make_index_sequence<min(Length, Len)>{} }
+		explicit constexpr fixed_string(const value_type* str, index_tag<Len>) noexcept
+			: fixed_string{ str, std::make_index_sequence<min(Length, Len)>{} }
 		{}
 
 		/// \cond
 		MUU_CONSTRAINED_TEMPLATE(Len == 0 || Length == 0, size_t Len)
 		MUU_NODISCARD_CTOR
-		explicit constexpr static_string(const value_type*, index_tag<Len>) noexcept //
-			: chars_{}
+		explicit constexpr fixed_string(const value_type*, index_tag<Len>) noexcept //
+			: _chars_{}
 		{}
 		/// \endcond
 
@@ -232,7 +228,7 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr reference front() noexcept
 		{
-			return chars_[0];
+			return _chars_[0];
 		}
 
 		/// \brief Returns a reference to the last character in the string.
@@ -242,7 +238,7 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr reference back() noexcept
 		{
-			return chars_[Length - 1_sz];
+			return _chars_[Length - 1_sz];
 		}
 
 		/// \brief Returns a const reference to the first character in the string.
@@ -252,7 +248,7 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr const_reference front() const noexcept
 		{
-			return chars_[0];
+			return _chars_[0];
 		}
 
 		/// \brief Returns a const reference to the last character in the string.
@@ -262,7 +258,7 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr const_reference back() const noexcept
 		{
-			return chars_[Length - 1_sz];
+			return _chars_[Length - 1_sz];
 		}
 
 		/// \brief	Returns a reference to the character at the given index.
@@ -272,7 +268,7 @@ namespace muu
 		{
 			static_assert(Index < Length, "Character index out of range");
 
-			return chars_[Index];
+			return _chars_[Index];
 		}
 
 		/// \brief	Returns a const reference to the character at the given index.
@@ -282,7 +278,7 @@ namespace muu
 		{
 			static_assert(Index < Length, "Character index out of range");
 
-			return chars_[Index];
+			return _chars_[Index];
 		}
 
 		/// \brief	Returns a reference to the character at the given index.
@@ -291,7 +287,7 @@ namespace muu
 		{
 			MUU_ASSUME(idx < Length);
 
-			return chars_[idx];
+			return _chars_[idx];
 		}
 
 		/// \brief	Returns a const reference to the character at the given index.
@@ -300,28 +296,28 @@ namespace muu
 		{
 			MUU_ASSUME(idx < Length);
 
-			return chars_[idx];
+			return _chars_[idx];
 		}
 
 		/// \brief	Returns a pointer to the first character in the string.
 		MUU_PURE_INLINE_GETTER
 		constexpr pointer data() noexcept
 		{
-			return chars_;
+			return _chars_;
 		}
 
 		/// \brief	Returns a const pointer to the first character in the string.
 		MUU_PURE_INLINE_GETTER
 		constexpr const_pointer data() const noexcept
 		{
-			return chars_;
+			return _chars_;
 		}
 
 		/// \brief	Returns a const pointer to the first character in the string.
 		MUU_PURE_INLINE_GETTER
 		constexpr const_pointer c_str() const noexcept
 		{
-			return chars_;
+			return _chars_;
 		}
 
 		/// @}
@@ -370,42 +366,42 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr iterator begin() noexcept
 		{
-			return chars_;
+			return _chars_;
 		}
 
 		/// \brief Returns an iterator to the one-past-the-last character in the string.
 		MUU_PURE_INLINE_GETTER
 		constexpr iterator end() noexcept
 		{
-			return chars_ + Length;
+			return _chars_ + Length;
 		}
 
 		/// \brief Returns a const iterator to the first character in the string.
 		MUU_PURE_INLINE_GETTER
 		constexpr const_iterator begin() const noexcept
 		{
-			return chars_;
+			return _chars_;
 		}
 
 		/// \brief Returns a const iterator to the one-past-the-last character in the string.
 		MUU_PURE_INLINE_GETTER
 		constexpr const_iterator end() const noexcept
 		{
-			return chars_ + Length;
+			return _chars_ + Length;
 		}
 
 		/// \brief Returns a const iterator to the first character in the string.
 		MUU_PURE_INLINE_GETTER
 		constexpr const_iterator cbegin() const noexcept
 		{
-			return chars_;
+			return _chars_;
 		}
 
 		/// \brief Returns a const iterator to the one-past-the-last character in the string.
 		MUU_PURE_INLINE_GETTER
 		constexpr const_iterator cend() const noexcept
 		{
-			return chars_ + Length;
+			return _chars_ + Length;
 		}
 
 		/// \brief Returns a reverse iterator to the last character in the string.
@@ -457,84 +453,84 @@ namespace muu
 
 		/// \brief Returns an iterator to the first character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr iterator begin(static_string& s) noexcept
+		friend constexpr iterator begin(fixed_string& s) noexcept
 		{
 			return s.begin();
 		}
 
 		/// \brief Returns an iterator to the one-past-the-last character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr iterator end(static_string& s) noexcept
+		friend constexpr iterator end(fixed_string& s) noexcept
 		{
 			return s.end();
 		}
 
 		/// \brief Returns a const iterator to the first character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr const_iterator begin(const static_string& s) noexcept
+		friend constexpr const_iterator begin(const fixed_string& s) noexcept
 		{
 			return s.begin();
 		}
 
 		/// \brief Returns a const iterator to the one-past-the-last character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr const_iterator end(const static_string& s) noexcept
+		friend constexpr const_iterator end(const fixed_string& s) noexcept
 		{
 			return s.end();
 		}
 
 		/// \brief Returns a const iterator to the first character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr const_iterator cbegin(const static_string& s) noexcept
+		friend constexpr const_iterator cbegin(const fixed_string& s) noexcept
 		{
 			return s.begin();
 		}
 
 		/// \brief Returns a const iterator to the one-past-the-last character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr const_iterator cend(const static_string& s) noexcept
+		friend constexpr const_iterator cend(const fixed_string& s) noexcept
 		{
 			return s.end();
 		}
 
 		/// \brief Returns a reverse iterator to the last character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr reverse_iterator rbegin(static_string& s) noexcept
+		friend constexpr reverse_iterator rbegin(fixed_string& s) noexcept
 		{
 			return s.rbegin();
 		}
 
 		/// \brief Returns a reverse iterator to one-before-the-first character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr reverse_iterator rend(static_string& s) noexcept
+		friend constexpr reverse_iterator rend(fixed_string& s) noexcept
 		{
 			return s.rend();
 		}
 
 		/// \brief Returns a const reverse iterator to the last character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr const_reverse_iterator rbegin(const static_string& s) noexcept
+		friend constexpr const_reverse_iterator rbegin(const fixed_string& s) noexcept
 		{
 			return s.rbegin();
 		}
 
 		/// \brief Returns a const reverse iterator to one-before-the-first character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr const_reverse_iterator rend(const static_string& s) noexcept
+		friend constexpr const_reverse_iterator rend(const fixed_string& s) noexcept
 		{
 			return s.rend();
 		}
 
 		/// \brief Returns a const reverse iterator to the last character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr const_reverse_iterator crbegin(const static_string& s) noexcept
+		friend constexpr const_reverse_iterator crbegin(const fixed_string& s) noexcept
 		{
 			return s.rbegin();
 		}
 
 		/// \brief Returns a const reverse iterator to one-before-the-first character in a string.
 		MUU_PURE_INLINE_GETTER
-		friend constexpr const_reverse_iterator crend(const static_string& s) noexcept
+		friend constexpr const_reverse_iterator crend(const fixed_string& s) noexcept
 		{
 			return s.rend();
 		}
@@ -549,19 +545,19 @@ namespace muu
 		/// \brief Concatenates two static strings.
 		template <size_t Len>
 		MUU_PURE_GETTER
-		friend constexpr static_string<value_type, Length + Len> operator+(
-			const static_string& lhs,
-			const static_string<value_type, Len>& rhs) noexcept
+		friend constexpr fixed_string<value_type, Length + Len> operator+(
+			const fixed_string& lhs,
+			const fixed_string<value_type, Len>& rhs) noexcept
 		{
 			if constexpr (!Length && !Len)
 				return empty_string_type{};
 			else if constexpr (!Len)
-				return static_string<value_type, Length>{ lhs };
+				return fixed_string<value_type, Length>{ lhs };
 			else if constexpr (!Length)
-				return static_string<value_type, Len>{ rhs };
+				return fixed_string<value_type, Len>{ rhs };
 			else
 			{
-				auto result = static_string<value_type, Length + Len>{ lhs };
+				auto result = fixed_string<value_type, Length + Len>{ lhs };
 				for (size_t i = 0; i < Len; i++)
 					result[Length + i] = rhs[i];
 				return result;
@@ -570,20 +566,20 @@ namespace muu
 
 		/// \brief Concatenates a static string and a single character.
 		MUU_PURE_GETTER
-		friend constexpr static_string<value_type, Length + 1> operator+(const static_string& lhs,
-																		 value_type rhs) noexcept
+		friend constexpr fixed_string<value_type, Length + 1> operator+(const fixed_string& lhs,
+																		value_type rhs) noexcept
 		{
-			auto result	   = static_string<value_type, Length + 1>{ lhs };
+			auto result	   = fixed_string<value_type, Length + 1>{ lhs };
 			result[Length] = rhs;
 			return result;
 		}
 
 		/// \brief Concatenates a static string and a single character.
 		MUU_PURE_GETTER
-		friend constexpr static_string<value_type, Length + 1> operator+(value_type lhs,
-																		 const static_string& rhs) noexcept
+		friend constexpr fixed_string<value_type, Length + 1> operator+(value_type lhs,
+																		const fixed_string& rhs) noexcept
 		{
-			auto result = static_string<value_type, Length + 1>{ lhs };
+			auto result = fixed_string<value_type, Length + 1>{ lhs };
 			if constexpr (Length > 0_sz)
 			{
 				for (size_t i = 0; i < Length; i++)
@@ -603,14 +599,14 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr view_type view() const noexcept
 		{
-			return view_type{ chars_, Length };
+			return view_type{ _chars_, Length };
 		}
 
 		/// \brief	Returns a view of the string (not including the null terminator).
 		MUU_PURE_INLINE_GETTER
 		constexpr operator view_type() const noexcept
 		{
-			return view_type{ chars_, Length };
+			return view_type{ _chars_, Length };
 		}
 
 		/// @}
@@ -665,9 +661,9 @@ namespace muu
 				if constexpr (!substring_length)
 					return empty_string_type{};
 				else if constexpr (!Start)
-					return static_string<value_type, substring_length>{ *this };
+					return fixed_string<value_type, substring_length>{ *this };
 				else
-					return static_string<value_type, substring_length>{ chars_ + Start, index_tag<substring_length>{} };
+					return fixed_string<value_type, substring_length>{ _chars_ + Start, index_tag<substring_length>{} };
 			}
 		}
 
@@ -733,7 +729,7 @@ namespace muu
 		/// \brief	Returns true if two strings contain the same character sequence.
 		template <size_t Len>
 		MUU_PURE_GETTER
-		friend constexpr bool operator==(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
+		friend constexpr bool operator==(const fixed_string& lhs, const fixed_string<value_type, Len>& rhs) noexcept
 		{
 			if constexpr (Length == Len && Length > 0_sz)
 			{
@@ -758,7 +754,7 @@ namespace muu
 		/// \brief	Returns true if two strings do not contain the same character sequence.
 		template <size_t Len>
 		MUU_PURE_GETTER
-		friend constexpr bool operator!=(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
+		friend constexpr bool operator!=(const fixed_string& lhs, const fixed_string<value_type, Len>& rhs) noexcept
 		{
 			return !(lhs == rhs);
 		}
@@ -766,7 +762,7 @@ namespace muu
 		/// \brief	Returns the lexicographical ordering of two strings.
 		template <size_t Len>
 		MUU_PURE_GETTER
-		static constexpr int compare(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
+		static constexpr int compare(const fixed_string& lhs, const fixed_string<value_type, Len>& rhs) noexcept
 		{
 			// neither empty
 			if constexpr (!!Length && !!Len)
@@ -777,7 +773,7 @@ namespace muu
 					if (&lhs == &rhs)
 						return true;
 
-					return traits_type::compare(lhs.chars_, rhs.c_str(), Length);
+					return traits_type::compare(lhs._chars_, rhs.c_str(), Length);
 				}
 
 				// different lengths
@@ -785,7 +781,7 @@ namespace muu
 				{
 					constexpr size_t compare_length = min(Length, Len);
 					constexpr int eq_result			= (Length < Len ? -1 : 1);
-					const auto result				= traits_type::compare(lhs.chars_, rhs.c_str(), compare_length);
+					const auto result				= traits_type::compare(lhs._chars_, rhs.c_str(), compare_length);
 					return result == 0 ? eq_result : result;
 				}
 			}
@@ -811,7 +807,7 @@ namespace muu
 		/// \brief	Returns the lexicographical ordering of this string with respect to another.
 		template <size_t Len>
 		MUU_PURE_GETTER
-		constexpr int compare(const static_string<value_type, Len>& rhs) noexcept
+		constexpr int compare(const fixed_string<value_type, Len>& rhs) noexcept
 		{
 			return compare(*this, rhs);
 		}
@@ -819,7 +815,7 @@ namespace muu
 		/// \brief	Returns true if the LHS is lexicographically ordered before the RHS.
 		template <size_t Len>
 		MUU_PURE_GETTER
-		friend constexpr bool operator<(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
+		friend constexpr bool operator<(const fixed_string& lhs, const fixed_string<value_type, Len>& rhs) noexcept
 		{
 			return compare(lhs, rhs) < 0;
 		}
@@ -827,7 +823,7 @@ namespace muu
 		/// \brief	Returns true if the LHS is lexicographically ordered before or equal to the RHS.
 		template <size_t Len>
 		MUU_PURE_GETTER
-		friend constexpr bool operator<=(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
+		friend constexpr bool operator<=(const fixed_string& lhs, const fixed_string<value_type, Len>& rhs) noexcept
 		{
 			return compare(lhs, rhs) <= 0;
 		}
@@ -835,7 +831,7 @@ namespace muu
 		/// \brief	Returns true if the LHS is lexicographically ordered after than the RHS.
 		template <size_t Len>
 		MUU_PURE_GETTER
-		friend constexpr bool operator>(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
+		friend constexpr bool operator>(const fixed_string& lhs, const fixed_string<value_type, Len>& rhs) noexcept
 		{
 			return compare(lhs, rhs) > 0;
 		}
@@ -843,13 +839,13 @@ namespace muu
 		/// \brief	Returns true if the LHS is lexicographically ordered after or equal to the RHS.
 		template <size_t Len>
 		MUU_PURE_GETTER
-		friend constexpr bool operator>=(const static_string& lhs, const static_string<value_type, Len>& rhs) noexcept
+		friend constexpr bool operator>=(const fixed_string& lhs, const fixed_string<value_type, Len>& rhs) noexcept
 		{
 			return compare(lhs, rhs) >= 0;
 		}
 
 	#if MUU_HAS_THREE_WAY_COMPARISON
-		friend constexpr auto operator<=>(const static_string&, const static_string&) noexcept = default;
+		friend constexpr auto operator<=>(const fixed_string&, const fixed_string&) noexcept = default;
 	#endif
 
 		/// @}
@@ -860,14 +856,14 @@ namespace muu
 		/// \brief Writes the string out to a text stream.
 		template <typename Char, typename Traits>
 		friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& os,
-															const static_string& str)
+															const fixed_string& str)
 		{
 			if constexpr (has_bitwise_lsh_operator<std::basic_ostream<Char, Traits>&, view_type>)
 				return os << str.view();
 			else if constexpr (has_bitwise_lsh_operator<std::basic_ostream<Char, Traits>&, const value_type*> //
 							   || has_bitwise_lsh_operator<std::basic_ostream<Char, Traits>&,
 														   const value_type(&)[Length + 1_sz]>)
-				return os << str.chars_;
+				return os << str._chars_;
 			else
 				static_assert(always_false<Char>, "stream operator not supported with this stream and character type");
 		}
@@ -878,51 +874,51 @@ namespace muu
 	/// \cond
 
 	MUU_CONSTRAINED_TEMPLATE(is_character<T>, typename T, size_t N)
-	static_string(const T (&)[N])->static_string<T, N - 1>;
+	fixed_string(const T (&)[N])->fixed_string<T, N - 1>;
 
 	MUU_CONSTRAINED_TEMPLATE(is_character<T>, typename T)
-	static_string(T)->static_string<T, 1>;
+	fixed_string(T)->fixed_string<T, 1>;
 
-#if MUU_HAS_STATIC_STRING_LITERALS
+#if MUU_HAS_FIXED_STRING_LITERALS
 	namespace impl
 	{
 		template <typename Char, size_t Length>
-		struct static_string_udl_impl
+		struct fixed_string_udl_impl
 		{
-			static_string<Char, Length - 1> value;
+			fixed_string<Char, Length - 1> value;
 
-			constexpr static_string_udl_impl(const Char (&str)[Length]) noexcept //
+			constexpr fixed_string_udl_impl(const Char (&str)[Length]) noexcept //
 				: value{ str }
 			{}
 
-			friend constexpr auto operator<=>(const static_string_udl_impl&,
-											  const static_string_udl_impl&) noexcept = default;
+			friend constexpr auto operator<=>(const fixed_string_udl_impl&,
+											  const fixed_string_udl_impl&) noexcept = default;
 		};
 
 		template <typename T, size_t N>
-		static_string_udl_impl(const T (&)[N]) -> static_string_udl_impl<T, N>;
+		fixed_string_udl_impl(const T (&)[N]) -> fixed_string_udl_impl<T, N>;
 	}
-#endif // MUU_HAS_STATIC_STRING_LITERALS
+#endif // MUU_HAS_FIXED_STRING_LITERALS
 
 	/// \endcond
 
 	inline namespace literals
 	{
-#if MUU_DOXYGEN || MUU_HAS_STATIC_STRING_LITERALS
+#if MUU_DOXYGEN || MUU_HAS_FIXED_STRING_LITERALS
 
-		/// \brief	Constructs a static_string directly using a string literal.
+		/// \brief	Constructs a fixed_string directly using a string literal.
 		/// \detail \cpp
-		/// constexpr auto str = "hello"_ss;
-		/// static_assert(str == static_string{ "hello" })
+		/// constexpr auto str = "hello"_fs;
+		/// static_assert(str == fixed_string{ "hello" })
 		/// \ecpp
 		///
 		/// \availability This operator depends on C++20's class-type NTTPs and three-way comparison operator.
-		/// Check for support using #MUU_HAS_STATIC_STRING_LITERALS and/or #build::supports_static_string_literals.
+		/// Check for support using #MUU_HAS_FIXED_STRING_LITERALS and/or #build::supports_fixed_string_literals.
 		///
-		/// \relatesalso muu::static_string
-		template <impl::static_string_udl_impl Str>
+		/// \relatesalso muu::fixed_string
+		template <impl::fixed_string_udl_impl Str>
 		MUU_CONSTEVAL
-		auto operator"" _ss()
+		auto operator"" _fs()
 		{
 			return Str.value;
 		}
@@ -931,9 +927,9 @@ namespace muu
 
 	namespace build
 	{
-		/// \brief Indicates whether #muu::static_string string literals (e.g. `"hello"_ss`) are supported by the compiler.
-		/// \see muu::static_string
-		inline constexpr bool supports_static_string_literals = !!MUU_HAS_STATIC_STRING_LITERALS;
+		/// \brief Indicates whether #muu::fixed_string string literals (e.g. `"hello"_fs`) are supported by the compiler.
+		/// \see muu::fixed_string
+		inline constexpr bool supports_fixed_string_literals = !!MUU_HAS_FIXED_STRING_LITERALS;
 	}
 }
 

@@ -48,6 +48,7 @@ elif compiler_supports_cpp20
 	lib_overrides += 'cpp_std=none' # switch is set above
 endif
 
+# static lib
 lib_static = false
 if get_option('default_library') in [ 'static', 'both' ]
 	lib_static = static_library(
@@ -58,10 +59,11 @@ if get_option('default_library') in [ 'static', 'both' ]
 		include_directories: include_dir,
 		dependencies: lib_dependencies,
 		override_options: lib_overrides,
-		install: true
+		install: false
 	)
 endif
 
+# shared lib
 lib_shared = false
 if get_option('default_library') in [ 'shared', 'both' ]
 	lib_shared = shared_library(

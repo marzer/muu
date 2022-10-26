@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief  Contains the implementation of #muu::utf_decode.
+/// \brief  Contains the definition of #muu::utf_decode.
 
 #include "meta.h"
 #include "bit.h"

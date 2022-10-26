@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementations of #muu::bit_fill_left() and #muu::bit_fill_right().
+/// \brief Contains the definitions of #muu::bit_fill_left() and #muu::bit_fill_right().
 
 #include "meta.h"
 #include "impl/header_start.h"

@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementations of #muu::countr_zero() and #muu::countr_one().
+/// \brief Contains the definitions of #muu::countr_zero() and #muu::countr_one().
 
 #include "meta.h"
 #include "is_constant_evaluated.h"

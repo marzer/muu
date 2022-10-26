@@ -270,7 +270,7 @@ namespace muu
 	template <typename... T>
 	struct type_list;
 	template <typename, size_t>
-	class static_string;
+	class fixed_string;
 
 	namespace impl
 	{

@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementations of #muu::countl_zero() and #muu::countl_one().
+/// \brief Contains the definitions of #muu::countl_zero() and #muu::countl_one().
 
 #include "meta.h"
 #include "is_constant_evaluated.h"

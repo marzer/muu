@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementation of #muu::launder().
+/// \brief Contains the definition of #muu::launder().
 
 #include "preprocessor.h"
 

@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief  Contains the implementation of #muu::span.
+/// \brief  Contains the definition of #muu::span.
 
 #include "iterators.h"
 #include "pointer_cast.h"

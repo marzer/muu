@@ -6,7 +6,7 @@
 
 /// \file
 /// \ingroup cpp20
-/// \brief Contains the implementation of #muu::bit_ceil().
+/// \brief Contains the definition of #muu::bit_ceil().
 
 #include "meta.h"
 #include "countl.h"

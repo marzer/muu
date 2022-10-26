@@ -266,62 +266,62 @@
 		</Expand>
 	</Type>
 
-	<Type Name="muu::static_string&lt;char,*&gt;">
+	<Type Name="muu::fixed_string&lt;char,*&gt;">
 		<DisplayString Condition="$T1 == 0">""</DisplayString>
-		<DisplayString Condition="$T1 != 0">{chars_,na}</DisplayString>
+		<DisplayString Condition="$T1 != 0">{_chars_,na}</DisplayString>
 		<Expand>
 			<Item Name="[size]" ExcludeView="simple">$T1</Item>
 			<ArrayItems>
 				<Size>$T1</Size>
-				<ValuePointer>chars_</ValuePointer>
+				<ValuePointer>_chars_</ValuePointer>
 			</ArrayItems>
 		</Expand>
 	</Type>
 
-	<Type Name="muu::static_string&lt;wchar_t,*&gt;">
+	<Type Name="muu::fixed_string&lt;wchar_t,*&gt;">
 		<DisplayString Condition="$T1 == 0">""</DisplayString>
-		<DisplayString Condition="$T1 != 0">{chars_,su}</DisplayString>
+		<DisplayString Condition="$T1 != 0">{_chars_,su}</DisplayString>
 		<Expand>
 			<Item Name="[size]" ExcludeView="simple">$T1</Item>
 			<ArrayItems>
 				<Size>$T1</Size>
-				<ValuePointer>chars_</ValuePointer>
+				<ValuePointer>_chars_</ValuePointer>
 			</ArrayItems>
 		</Expand>
 	</Type>
 
-	<Type Name="muu::static_string&lt;char8_t,*&gt;">
+	<Type Name="muu::fixed_string&lt;char8_t,*&gt;">
 		<DisplayString Condition="$T1 == 0">""</DisplayString>
-		<DisplayString Condition="$T1 != 0">{chars_,s8}</DisplayString>
+		<DisplayString Condition="$T1 != 0">{_chars_,s8}</DisplayString>
 		<Expand>
 			<Item Name="[size]" ExcludeView="simple">$T1</Item>
 			<ArrayItems>
 				<Size>$T1</Size>
-				<ValuePointer>chars_</ValuePointer>
+				<ValuePointer>_chars_</ValuePointer>
 			</ArrayItems>
 		</Expand>
 	</Type>
 
-	<Type Name="muu::static_string&lt;char16_t,*&gt;">
+	<Type Name="muu::fixed_string&lt;char16_t,*&gt;">
 		<DisplayString Condition="$T1 == 0">""</DisplayString>
-		<DisplayString Condition="$T1 != 0">{chars_,su}</DisplayString>
+		<DisplayString Condition="$T1 != 0">{_chars_,su}</DisplayString>
 		<Expand>
 			<Item Name="[size]" ExcludeView="simple">$T1</Item>
 			<ArrayItems>
 				<Size>$T1</Size>
-				<ValuePointer>chars_</ValuePointer>
+				<ValuePointer>_chars_</ValuePointer>
 			</ArrayItems>
 		</Expand>
 	</Type>
 
-	<Type Name="muu::static_string&lt;char32_t,*&gt;">
+	<Type Name="muu::fixed_string&lt;char32_t,*&gt;">
 		<DisplayString Condition="$T1 == 0">""</DisplayString>
-		<DisplayString Condition="$T1 != 0">{chars_,s32}</DisplayString>
+		<DisplayString Condition="$T1 != 0">{_chars_,s32}</DisplayString>
 		<Expand>
 			<Item Name="[size]" ExcludeView="simple">$T1</Item>
 			<ArrayItems>
 				<Size>$T1</Size>
-				<ValuePointer>chars_</ValuePointer>
+				<ValuePointer>_chars_</ValuePointer>
 			</ArrayItems>
 		</Expand>
 	</Type>

@@ -5,7 +5,7 @@
 #pragma once
 
 /// \file
-/// \brief Contains the implementations of #muu::popcount() and #muu::has_single_bit().
+/// \brief Contains the definitions of #muu::popcount() and #muu::has_single_bit().
 
 #include "meta.h"
 #include "bit_pack.h"

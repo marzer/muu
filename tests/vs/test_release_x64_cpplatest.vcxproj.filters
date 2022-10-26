@@ -146,7 +146,7 @@
     <ClCompile Include="..\infinity_or_nan_3.cpp">
       <Filter>infinity_or_nan</Filter>
     </ClCompile>
-    <ClCompile Include="..\static_string.cpp" />
+    <ClCompile Include="..\fixed_string.cpp" />
     <ClCompile Include="..\type_name.cpp" />
     <ClCompile Include="..\bit.cpp" />
     <ClCompile Include="..\integral_range.cpp" />
