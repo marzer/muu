@@ -7,7 +7,7 @@ project(
 	'muu',
 	'cpp',
 	license : 'MIT',
-	version : '0.2.0',
+	version : '0.1.0',
 	meson_version : '>=0.63.0',
 	default_options : [ # https://mesonbuild.com/Builtin-options.html
 		# core options

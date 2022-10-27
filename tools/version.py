@@ -27,7 +27,7 @@ def main():
 
 	version = re.fullmatch(r'\s*([0-9]+)\s*[.,;]\s*([0-9]+)\s*[.,;]\s*([0-9]+)\s*', args.version)
 	if not version:
-		print(rf"Couldn't parse version triplet from '{args.version}'", file=sys.sys.stderr)
+		print(rf"Couldn't parse version triplet from '{args.version}'", file=sys.stderr)
 		return 1
 	version = (int(version[1]), int(version[2]), int(version[3]))
 	version_str = rf'{version[0]}.{version[1]}.{version[2]}'
@@ -36,16 +36,20 @@ def main():
 	root = Path(utils.entry_script_dir(), r'..').resolve()
 
 	path = root / r'meson.build'
-	text = utils.read_all_text_from_file(path)
-	text = re.sub(r'''(\s|^)version\s*:\s*['"][.*?]['"]''', rf"\1version : '{version_str}'", text, count=1)
-	write_text_file(path, text)
+	old_text = utils.read_all_text_from_file(path)
+	text = old_text
+	text = re.sub(r'''(\s|^)version\s*:\s*['"].*?['"]''', rf"\1version : '{version_str}'", text, count=1)
+	if old_text != text:
+		write_text_file(path, text)
 
 	path = root / r'include/muu/preprocessor.h'
-	text = utils.read_all_text_from_file(path)
+	old_text = utils.read_all_text_from_file(path)
+	text = old_text
 	text = re.sub(r'''(\s*#\s*define\s+MUU_VERSION_MAJOR)\s+[0-9]+''', rf"\1 {version[0]}", text)
 	text = re.sub(r'''(\s*#\s*define\s+MUU_VERSION_MINOR)\s+[0-9]+''', rf"\1 {version[1]}", text)
 	text = re.sub(r'''(\s*#\s*define\s+MUU_VERSION_PATCH)\s+[0-9]+''', rf"\1 {version[2]}", text)
-	write_text_file(path, text)
+	if old_text != text:
+		write_text_file(path, text)
 
 
 
