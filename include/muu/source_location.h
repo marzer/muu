@@ -8,6 +8,14 @@
 /// \ingroup cpp20
 /// \brief Contains the definition of #muu::source_location.
 
+#ifndef MUU_SOURCE_LOCATION_COLUMN
+	#if MUU_GCC
+		#define MUU_SOURCE_LOCATION_COLUMN() 0
+	#else
+		#define MUU_SOURCE_LOCATION_COLUMN() __builtin_COLUMN()
+	#endif
+#endif
+
 #include "fwd.h"
 #include "impl/header_start.h"
 
@@ -29,7 +37,7 @@ namespace muu
 		MUU_NODISCARD
 		MUU_CONSTEVAL
 		static source_location current(const uint_least32_t line   = __builtin_LINE(),
-									   const uint_least32_t column = __builtin_COLUMN(),
+									   const uint_least32_t column = MUU_SOURCE_LOCATION_COLUMN(),
 									   const char* const file	   = __builtin_FILE(),
 									   const char* const function  = __builtin_FUNCTION()) noexcept
 		{
