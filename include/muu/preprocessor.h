@@ -409,19 +409,13 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_HAS_CHAR8
 /// \brief `1` when the compiler supports C++20's char8_t, otherwise `0`.
 
-#if defined(__cpp_consteval) && __cpp_consteval >= 201811 && (!MUU_MSVC || MUU_MSVC >= 1934)
-
-// Q: "why !MUU_MSVC?"
-//
-// A: consteval is basically fucked in msvc:
-// https://developercommunity.visualstudio.com/t/Erroneous-C7595-error-with-consteval-in/1404234
-// https://developercommunity.visualstudio.com/t/using-consteval-rvalues-results-in-compi/10083735
-// https://developercommunity.visualstudio.com/t/consteval-conversion-function-fails/1579014
-// https://developercommunity.visualstudio.com/t/Function-call-expression-of-consteval-fu/1557055
-
-	#define MUU_HAS_CONSTEVAL 1
-#else
-	#define MUU_HAS_CONSTEVAL MUU_DOXYGEN
+#ifndef MUU_HAS_CONSTEVAL
+	#if defined(__cpp_consteval) && __cpp_consteval >= 201811 && (!MUU_MSVC || MUU_MSVC >= 1934)                       \
+		&& (!MUU_CLANG || MUU_CLANG >= 15)
+		#define MUU_HAS_CONSTEVAL 1
+	#else
+		#define MUU_HAS_CONSTEVAL MUU_DOXYGEN
+	#endif
 #endif
 /// \def MUU_HAS_CONSTEVAL
 /// \brief `1` when the compiler supports C++20's `consteval` immediate functions, otherwise `0`.

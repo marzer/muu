@@ -16,7 +16,7 @@ namespace muu
 	/// \brief	A backport of C++20's std::source_location.
 	/// \ingroup cpp20
 	///
-	/// \availability This requires support for the `consteval` keyword, as well as some compiler intrinsics.
+	/// \availability This requires support some compiler intrinsics.
 	class MUU_TRIVIAL_ABI source_location
 	{
 	  private:
