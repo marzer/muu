@@ -68,23 +68,37 @@
             <li>
               Reference
               <ul>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </nav>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This requires support some compiler intrinsics.</p></aside>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="a871f78c3e4fcd1054dd5c544231ce3c8">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a871f78c3e4fcd1054dd5c544231ce3c8">source_location</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Default destructor.</dd>
+          </dl>
+        </section>
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a6358275a8e192d1f6ddecb88c7fef983">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6358275a8e192d1f6ddecb88c7fef983">column</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint_least32_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6358275a8e192d1f6ddecb88c7fef983">column</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint_least32_t</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>The calling column.</dd>
             <dt id="a084c4cd321570c46e33b1f37df1b6644">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a084c4cd321570c46e33b1f37df1b6644">file_name</a>(</span><span class="m-doc-wrap">) const -&gt; const char* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>The calling file name.</dd>
+            <dd>The calling file path.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a9b501606c8def92589156c834d37a74e">file_name_tail</a>(</span><span class="m-doc-wrap">) const -&gt; const char* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>The filename-only 'tail' of the calling file path.</dd>
             <dt id="ae73d68af26bd62a9c8cbf498eb05aab9">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae73d68af26bd62a9c8cbf498eb05aab9">function_name</a>(</span><span class="m-doc-wrap">) const -&gt; const char* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -94,6 +108,23 @@
             </dt>
             <dd>The calling line.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a6358275a8e192d1f6ddecb88c7fef983"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint_least32_t</a> muu::<wbr/>source_location::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6358275a8e192d1f6ddecb88c7fef983">column</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>The calling column.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This will always be <code>0</code> on some compilers.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a9b501606c8def92589156c834d37a74e"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">const char* muu::<wbr/>source_location::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9b501606c8def92589156c834d37a74e">file_name_tail</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>The filename-only 'tail' of the calling file path.</p>
+<aside class="m-note m-warning"><h4>Attention</h4><p>This method is a non-standard extension to <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/source_location.html" target="_blank">std::<wbr/>source_location</a>.</p></aside>
+          </div></section>
         </section>
       </div>
     </div>

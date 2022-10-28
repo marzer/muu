@@ -12745,6 +12745,13 @@
     <name>muu::source_location</name>
     <filename>classmuu_1_1source__location.html</filename>
     <member kind="function">
+      <type>constexpr</type>
+      <name>source_location</name>
+      <anchorfile>classmuu_1_1source__location.html</anchorfile>
+      <anchor>a871f78c3e4fcd1054dd5c544231ce3c8</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr uint_least32_t</type>
       <name>line</name>
       <anchorfile>classmuu_1_1source__location.html</anchorfile>
@@ -12770,6 +12777,13 @@
       <name>function_name</name>
       <anchorfile>classmuu_1_1source__location.html</anchorfile>
       <anchor>ae73d68af26bd62a9c8cbf498eb05aab9</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr const char *</type>
+      <name>file_name_tail</name>
+      <anchorfile>classmuu_1_1source__location.html</anchorfile>
+      <anchor>a9b501606c8def92589156c834d37a74e</anchor>
       <arglist>() const noexcept</arglist>
     </member>
   </compound>
