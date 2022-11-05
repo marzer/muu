@@ -1132,9 +1132,34 @@ namespace muu
 		MUU_ALWAYS_INLINE
 		thread_pool& for_each(T&& collection, Task&& task) noexcept
 		{
-			return for_each(begin_iterator(static_cast<T&&>(collection)),
-							end_iterator(static_cast<T&&>(collection)),
-							static_cast<Task&&>(task));
+#define iterator_based_foreach()                                                                                       \
+	for_each(begin_iterator(static_cast<T&&>(collection)),                                                             \
+			 end_iterator(static_cast<T&&>(collection)),                                                               \
+			 static_cast<Task&&>(task))
+
+			using it_type = decltype(begin_iterator(static_cast<T&&>(collection)));
+
+			// fallback to .data() when the iterator is large (e.g. MSVC iterator debugging =/)
+			if constexpr (sizeof(it_type) > sizeof(void*)		//
+						  && muu::has_data_member_function<T&&> //
+						  && muu::has_size_member_function<T&&>)
+			{
+				using it_ptr_type = remove_cvref<decltype(&(*begin_iterator(static_cast<T&&>(collection))))>;
+				using data_type	  = remove_cvref<decltype(static_cast<T&&>(collection).data())>;
+
+				if constexpr (std::is_same_v<it_ptr_type, data_type>)
+				{
+					return for_each(static_cast<T&&>(collection).data(),
+									static_cast<T&&>(collection).data() + static_cast<T&&>(collection).size(),
+									static_cast<Task&&>(task));
+				}
+				else
+					return iterator_based_foreach();
+			}
+			else
+				return iterator_based_foreach();
+
+#undef iterator_based_foreach
 		}
 	};
 }
