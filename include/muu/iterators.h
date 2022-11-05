@@ -11,6 +11,7 @@
 MUU_DISABLE_WARNINGS;
 #include <iterator>
 MUU_ENABLE_WARNINGS;
+#include "impl/core_utils.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
