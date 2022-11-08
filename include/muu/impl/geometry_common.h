@@ -639,7 +639,7 @@ namespace muu
 namespace muu::impl
 {
 	template <typename Scalar>
-	struct aabb_common : boxes_common<Scalar>
+	struct aabbs_common : boxes_common<Scalar>
 	{
 		using scalar_type  = Scalar;
 		using vector_type  = vector<scalar_type, 3>;
@@ -731,13 +731,13 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_sphere_min_max(vector_param min,
-																	   vector_param max,
-																	   vector_param sphere_center,
-																	   scalar_type sphere_radius) noexcept
+		static constexpr bool MUU_VECTORCALL intersects_sphere_min_max_radsq(vector_param min,
+																			 vector_param max,
+																			 vector_param sphere_center,
+																			 scalar_type sphere_radius_squared) noexcept
 		{
 			return vector_type::distance_squared(vector_type::clamp(sphere_center, min, max), sphere_center)
-				<= sphere_radius;
+				<= sphere_radius_squared;
 		}
 
 		MUU_PURE_GETTER
@@ -746,10 +746,10 @@ namespace muu::impl
 															   vector_param sphere_center,
 															   scalar_type sphere_radius) noexcept
 		{
-			return intersects_sphere_min_max(center - extents, //
-											 center + extents, //
-											 sphere_center,	   //
-											 sphere_radius);
+			return intersects_sphere_min_max_radsq(center - extents, //
+												   center + extents, //
+												   sphere_center,	 //
+												   sphere_radius * sphere_radius);
 		}
 
 		// the following functions are collectively the the Akenine-Moller algorithm:

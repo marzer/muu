@@ -53,7 +53,7 @@ namespace muu
 
 		using planes		   = impl::planes_common<Scalar>;
 		using triangles		   = impl::triangles_common<Scalar>;
-		using aabbs			   = impl::aabb_common<Scalar>;
+		using aabbs			   = impl::aabbs_common<Scalar>;
 		using scalar_constants = muu::constants<scalar_type>;
 
 		using promoted_scalar					 = promote_if_small_float<scalar_type>;

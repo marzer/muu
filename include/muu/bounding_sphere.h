@@ -55,7 +55,7 @@ namespace muu
 
 		using spheres	 = impl::spheres_common<scalar_type>;
 		using boxes		 = impl::boxes_common<scalar_type>;
-		using aabbs		 = impl::aabb_common<scalar_type>;
+		using aabbs		 = impl::aabbs_common<scalar_type>;
 		using triangles	 = impl::triangles_common<scalar_type>;
 		using sat_tester = muu::sat_tester<scalar_type, 3>;
 
@@ -448,6 +448,9 @@ namespace muu
 		  /// \name Intersection
 		  /// @{
 
+		MUU_PURE_INLINE_GETTER
+		constexpr muu::intersection_tester<bounding_sphere> MUU_VECTORCALL intersection_tester() noexcept;
+
 		//--------------------------------
 		// sphere x sphere
 		//--------------------------------
@@ -467,6 +470,19 @@ namespace muu
 		{
 			return intersects(*this, bs);
 		}
+
+		//--------------------------------
+		// sphere x aabb
+		//--------------------------------
+
+		/// \brief	Returns true if a bounding sphere intersects a bounding box.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere) bs,
+														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
+
+		/// \brief	Returns true if the bounding sphere intersects a bounding box.
+		MUU_PURE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept;
 
 			/// @}
 	#endif // intersection
@@ -518,6 +534,76 @@ namespace std
 		using type = std::conditional_t<I == 1, Scalar, muu::vector<Scalar, 3>>;
 	};
 }
+
+#endif //===============================================================================================================
+
+//======================================================================================================================
+// INTERSECTION TESTER
+#if 1
+
+/// \cond
+namespace muu
+{
+	template <typename Scalar>
+	struct intersection_tester<bounding_sphere<Scalar>>
+	{
+		using scalar_type = Scalar;
+		using vector_type = vector<scalar_type, 3>;
+		using sphere_type = bounding_sphere<scalar_type>;
+
+	  private:
+		using sat_tester = muu::sat_tester<scalar_type, 3>;
+		using aabbs		 = impl::aabbs_common<scalar_type>;
+		using spheres	 = impl::spheres_common<scalar_type>;
+		using triangles	 = impl::triangles_common<scalar_type>;
+
+	  public:
+		vector_type center;
+		scalar_type radius;
+		scalar_type radius_squared;
+		vector_type min;
+		vector_type max;
+
+		MUU_NODISCARD_CTOR
+		intersection_tester() noexcept = default;
+
+		MUU_NODISCARD_CTOR
+		explicit constexpr intersection_tester(const sphere_type& bs) noexcept //
+			: center{ bs.center },
+			  radius{ bs.radius },
+			  radius_squared{ bs.radius * bs.radius },
+			  min{ bs.center - vector_type{ radius } },
+			  max{ bs.center + vector_type{ radius } }
+		{}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(sphere_type) bs) const noexcept
+		{
+			return vector_type::distance_squared(center, bs.center) <= (radius_squared + bs.radius * bs.radius);
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(const intersection_tester& tester) const noexcept
+		{
+			return vector_type::distance_squared(center, tester.center) <= (radius_squared + tester.radius_squared);
+		}
+
+		MUU_PURE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(bounding_box<scalar_type>)) const noexcept;
+
+		MUU_PURE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(const intersection_tester<bounding_box<scalar_type>>&) const noexcept;
+	};
+
+	template <typename Scalar>
+	MUU_PURE_INLINE_GETTER
+	constexpr muu::intersection_tester<bounding_sphere<Scalar>> MUU_VECTORCALL bounding_sphere<
+		Scalar>::intersection_tester() noexcept
+	{
+		return muu::intersection_tester<bounding_sphere<Scalar>>{ *this };
+	}
+}
+/// \endcond
 
 #endif //===============================================================================================================
 
@@ -610,3 +696,7 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
+
+/// \cond
+#include "impl/bounding_box_x_bounding_sphere.h"
+/// \endcond

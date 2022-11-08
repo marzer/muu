@@ -1,0 +1,95 @@
+// This file is a part of muu and is subject to the the terms of the MIT license.
+// Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
+// See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+// SPDX-License-Identifier: MIT
+#pragma once
+/// \cond
+
+#include "../bounding_box.h"
+#include "../bounding_sphere.h"
+#include "header_start.h"
+MUU_FORCE_NDEBUG_OPTIMIZATIONS;
+MUU_PRAGMA_MSVC(float_control(except, off))
+
+//----------------------------------------------------------------------------------------------------------------------
+// bounding_box.h implementations
+//----------------------------------------------------------------------------------------------------------------------
+
+namespace muu
+{
+	template <typename Scalar>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(bounding_box) bb,
+																   MUU_VPARAM(bounding_sphere<Scalar>) bs) noexcept
+	{
+		return aabbs::intersects_sphere(bb.center, bb.extents, bs.center, bs.radius);
+	}
+
+	template <typename Scalar>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(bounding_sphere<Scalar>)
+																	   bs) const noexcept
+	{
+		return intersects(*this, bs);
+	}
+
+	template <typename Scalar>
+	MUU_PURE_GETTER
+	constexpr bool MUU_VECTORCALL intersection_tester<bounding_box<Scalar>>::operator()(
+		MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept
+	{
+		return aabbs::intersects_sphere_min_max_radsq(min, max, bs.center, bs.radius * bs.radius);
+	}
+
+	template <typename Scalar>
+	MUU_PURE_GETTER
+	constexpr bool MUU_VECTORCALL intersection_tester<bounding_box<Scalar>>::operator()(
+		const intersection_tester<bounding_sphere<scalar_type>>& bs_tester) const noexcept
+	{
+		return aabbs::intersects_sphere_min_max_radsq(min, max, bs_tester.center, bs_tester.radius_squared);
+	}
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// bounding_sphere.h implementations
+//----------------------------------------------------------------------------------------------------------------------
+
+namespace muu
+{
+	template <typename Scalar>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::intersects(MUU_VPARAM(bounding_sphere) bb,
+																	  MUU_VPARAM(bounding_box<Scalar>) bs) noexcept
+	{
+		return aabbs::intersects_sphere(bb.center, bb.extents, bs.center, bs.radius);
+	}
+
+	template <typename Scalar>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::intersects(MUU_VPARAM(bounding_box<Scalar>)
+																		  bs) const noexcept
+	{
+		return intersects(*this, bs);
+	}
+
+	template <typename Scalar>
+	MUU_PURE_GETTER
+	constexpr bool MUU_VECTORCALL intersection_tester<bounding_sphere<Scalar>>::operator()(
+		MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
+	{
+		return aabbs::intersects_sphere_min_max_radsq(bb.min_corner(), bb.max_corner(), center, radius_squared);
+	}
+
+	template <typename Scalar>
+	MUU_PURE_GETTER
+	constexpr bool MUU_VECTORCALL intersection_tester<bounding_sphere<Scalar>>::operator()(
+		const intersection_tester<bounding_box<scalar_type>>& tester) const noexcept
+	{
+		return aabbs::intersects_sphere_min_max_radsq(tester.min, tester.max, center, radius_squared);
+	}
+}
+
+MUU_RESET_NDEBUG_OPTIMIZATIONS;
+#include "header_end.h"
+/// \endcond

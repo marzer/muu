@@ -56,7 +56,7 @@ namespace muu
 		using base = impl::storage_base<line_segment<Scalar>>;
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2), "Line segments should not have padding");
 
-		using aabbs		= impl::aabb_common<Scalar>;
+		using aabbs		= impl::aabbs_common<Scalar>;
 		using lines		= impl::lines_common<Scalar>;
 		using segments	= impl::line_segments_common<Scalar>;
 		using triangles = impl::triangles_common<Scalar>;

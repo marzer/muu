@@ -54,7 +54,7 @@ namespace muu
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2), "Bounding boxes should not have padding");
 
 		using boxes		 = impl::boxes_common<Scalar>;
-		using aabbs		 = impl::aabb_common<Scalar>;
+		using aabbs		 = impl::aabbs_common<Scalar>;
 		using triangles	 = impl::triangles_common<Scalar>;
 		using sat_tester = muu::sat_tester<Scalar, 3>;
 
@@ -875,6 +875,9 @@ namespace muu
 		/// \name Intersection
 		/// @{
 
+		MUU_PURE_INLINE_GETTER
+		constexpr muu::intersection_tester<bounding_box> MUU_VECTORCALL intersection_tester() noexcept;
+
 		//--------------------------------
 		// aabb x plane
 		//--------------------------------
@@ -932,9 +935,6 @@ namespace muu
 		//--------------------------------
 		// aabb x triangle
 		//--------------------------------
-
-		MUU_PURE_INLINE_GETTER
-		constexpr muu::intersection_tester<bounding_box> MUU_VECTORCALL intersection_tester() noexcept;
 
 		/// \brief	Returns true if a bounding box intersects a triangle.
 		MUU_PURE_GETTER
@@ -1009,6 +1009,19 @@ namespace muu
 		/// \brief	Returns true if the axis-aligned bounding box intersects an oriented bounding_box.
 		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box<scalar_type>) obb) const noexcept;
+
+		//--------------------------------
+		// aabb x sphere
+		//--------------------------------
+
+		/// \brief	Returns true if a bounding box intersects a bounding sphere.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
+														MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept;
+
+		/// \brief	Returns true if the bounding box intersects a bounding sphere.
+		MUU_PURE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept;
 
 			/// @}
 	#endif // intersection
@@ -1091,10 +1104,11 @@ namespace muu
 
 	  private:
 		using sat_tester = muu::sat_tester<scalar_type, 3>;
-		using aabbs		 = impl::aabb_common<scalar_type>;
+		using aabbs		 = impl::aabbs_common<scalar_type>;
 		using triangles	 = impl::triangles_common<scalar_type>;
 
 	  public:
+		box_type box;
 		vector_type min;
 		vector_type max;
 		vector_type corners[8];
@@ -1104,7 +1118,8 @@ namespace muu
 
 		MUU_NODISCARD_CTOR
 		explicit constexpr intersection_tester(const box_type& bb) noexcept //
-			: min{ bb.min_corner() },
+			: box{ bb },
+			  min{ bb.min_corner() },
 			  max{ bb.max_corner() },
 			  corners{ min,
 					   aabbs::template corner_min_max<box_corner::x>(min, max),
@@ -1115,6 +1130,24 @@ namespace muu
 					   aabbs::template corner_min_max<box_corner::z>(min, max),
 					   max }
 		{}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(vector_type) point) const noexcept
+		{
+			return box_type::contains(box, point);
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(box_type) bb) const noexcept
+		{
+			return aabbs::intersects_aabb_min_max(min, max, bb.min_corner(), bb.max_corner());
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(const intersection_tester& tester) const noexcept
+		{
+			return aabbs::intersects_aabb_min_max(min, max, tester.min, tester.max);
+		}
 
 		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(vector_type) p0,
@@ -1135,32 +1168,17 @@ namespace muu
 		}
 
 		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept;
+		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(triangle<scalar_type>)) const noexcept;
+
+		MUU_PURE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(const intersection_tester<triangle<scalar_type>>&) const noexcept;
+
+		MUU_PURE_GETTER
+		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(bounding_sphere<scalar_type>)) const noexcept;
 
 		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL operator()(
-			const intersection_tester<triangle<scalar_type>>& tri_tester) const noexcept;
-
-	  private:
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects_aabb_min_max(MUU_VPARAM(vector_type) min2,
-															  MUU_VPARAM(vector_type) max2) const noexcept
-		{
-			return aabbs::intersects_aabb_min_max(min, max, min2, max2);
-		}
-
-	  public:
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(box_type) bb) const noexcept
-		{
-			return aabbs::intersects_aabb_min_max(min, max, bb.min_corner(), bb.max_corner());
-		}
-
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL operator()(const intersection_tester& bb_tester) const noexcept
-		{
-			return aabbs::intersects_aabb_min_max(min, max, bb_tester.min, bb_tester.max);
-		}
+			const intersection_tester<bounding_sphere<scalar_type>>&) const noexcept;
 	};
 
 	template <typename Scalar>
@@ -1268,4 +1286,5 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/bounding_box_x_triangle.h"
 #include "impl/bounding_box_x_line_segment.h"
 #include "impl/bounding_box_x_plane.h"
+#include "impl/bounding_box_x_bounding_sphere.h"
 /// \endcond

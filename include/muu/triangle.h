@@ -57,7 +57,7 @@ namespace muu
 		static_assert(sizeof(base) == (sizeof(vector_type) * 3), "Triangles should not have padding");
 
 		using triangles			 = impl::triangles_common<Scalar>;
-		using aabbs				 = impl::aabb_common<Scalar>;
+		using aabbs				 = impl::aabbs_common<Scalar>;
 		using intermediate_float = promote_if_small_float<scalar_type>;
 		static_assert(is_floating_point<intermediate_float>);
 
