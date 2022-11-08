@@ -6101,6 +6101,13 @@
       <anchor>a4a4bfa0d7559b33603c318b35991dba2</anchor>
       <arglist>(const oriented_bounding_box&lt; scalar_type &gt; &amp;obb) const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a65462c2e17a0d6e2ca8af0b1db161e66</anchor>
+      <arglist>(const bounding_sphere&lt; scalar_type &gt; &amp;bs) const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>intersects</name>
@@ -6149,6 +6156,13 @@
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a02266858c08d624d7f2051033bc27201</anchor>
       <arglist>(const bounding_box &amp;aabb, const oriented_bounding_box&lt; scalar_type &gt; &amp;obb) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a444c7a1345469bceb522ef32f3b7e821</anchor>
+      <arglist>(const bounding_box &amp;bb, const bounding_sphere&lt; scalar_type &gt; &amp;bs) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -6526,12 +6540,26 @@
       <anchor>a18f5f5994b901a647c86c42cc0937112</anchor>
       <arglist>(const bounding_sphere &amp;bs) const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__sphere.html</anchorfile>
+      <anchor>a636ca529cf8857df1b307a0672143f99</anchor>
+      <arglist>(const bounding_box&lt; scalar_type &gt; &amp;bb) const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>intersects</name>
       <anchorfile>structmuu_1_1bounding__sphere.html</anchorfile>
       <anchor>a4edefcf21c74550528fcec04034cb80e</anchor>
       <arglist>(const bounding_sphere &amp;bs1, const bounding_sphere &amp;bs2) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1bounding__sphere.html</anchorfile>
+      <anchor>a54389af093fac2b4db0f15d07649c913</anchor>
+      <arglist>(const bounding_sphere &amp;bs, const bounding_box&lt; scalar_type &gt; &amp;bb) noexcept</arglist>
     </member>
   </compound>
   <compound kind="class">
