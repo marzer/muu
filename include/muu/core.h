@@ -14,6 +14,7 @@
 ///		- build.h
 ///		- for_sequence.h
 ///		- integer_literals.h
+///		- integer_aliases.h
 ///		- is_constant_evaluated.h
 ///		- launder.h
 ///		- meta.h
@@ -30,6 +31,7 @@
 #include "build.h"
 #include "for_sequence.h"
 #include "integer_literals.h"
+#include "integer_aliases.h"
 #include "is_constant_evaluated.h"
 #include "launder.h"
 #include "meta.h"

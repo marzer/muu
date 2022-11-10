@@ -251,7 +251,7 @@ class FloatTraits(object):
 		dec = dec.normalize()
 		if dec.is_zero():
 			return '0' * self.total_bits
-		
+
 		#return ''.join('{:0>8b}'.format(c) for c in struct.pack('>e', float(dec)))
 
 		sign_bit = '1' if dec < D(0) else '0'
@@ -261,7 +261,7 @@ class FloatTraits(object):
 		dprint('----------------')
 		dprint(f'value:           {dec}')
 		dprint('sign_bit:        ' + sign_bit)
-		
+
 		integral = int(dec.to_integral_value(rounding=decimal.ROUND_FLOOR))
 		fractional = dec
 		if integral > 0:
@@ -274,11 +274,11 @@ class FloatTraits(object):
 		assert (integral + fractional) == dec, f"{integral}.{fractional} == {dec}"
 		dprint(f'integral:        {integral}')
 		dprint(f'fractional:      {fractional}')
-		
+
 		integral_bits = ''
 		if integral > 0:
 			integral_bits = bin(integral)[2:]
-		
+
 		float_exponent_offset = 0
 		fractional_bits = ''
 		prev_prec = decimal.getcontext().prec
@@ -306,19 +306,19 @@ class FloatTraits(object):
 
 		dprint('integral_bits:   ' + integral_bits)
 		dprint('fractional_bits: ' + fractional_bits)
-		
+
 		if (len(integral_bits) + len(fractional_bits)) > (self.significand_bits + 1):
 			if len(integral_bits) > (self.significand_bits + 1):
 				raise Exception("eh")
 			fractional_bits = round_binary(fractional_bits, self.significand_bits + 1 - len(integral_bits))
-		
+
 		mantissa_bits = (integral_bits + fractional_bits)#[:self.significand_bits]
 		if self.integer_part_bits == 0 and mantissa_bits[0] == '1':
 			mantissa_bits = mantissa_bits[1:]
 		if len(mantissa_bits) < self.significand_bits:
 			mantissa_bits = mantissa_bits + '0' * (self.significand_bits - len(mantissa_bits))
 		dprint('mantissa_bits:   ' + mantissa_bits)
-		
+
 		exponent = None
 		if integral > 0:
 			exponent = len(integral_bits) - 1
@@ -330,7 +330,7 @@ class FloatTraits(object):
 		if exponent is None:
 			exponent = 0
 		dprint(f'exponent:        {exponent}')
-		
+
 		exponent_bits = ''
 		exponent = exponent + self.exponent_bias
 		bit = 1 << (self.exponent_bits-1)
@@ -341,7 +341,7 @@ class FloatTraits(object):
 				exponent_bits = exponent_bits + '0'
 			bit = bit >> 1
 		dprint('exponent_bits:   ' + exponent_bits)
-		
+
 		return (self.padding_bits * '0') + sign_bit + "'" + exponent_bits + "'" + mantissa_bits
 
 
@@ -508,7 +508,7 @@ def write_float_data(file, traits):
 
 
 def main():
-	
+
 	file_path = Path(utils.entry_script_dir(), '..', 'tests', 'float_test_data.h').resolve()
 	with StringIO() as buf:
 		indent = 0
@@ -544,7 +544,7 @@ def main():
 		write('')
 		write('namespace muu')
 		write('{')
-		indent = indent + 1 
+		indent = indent + 1
 
 		# data tables
 		write('template <size_t TotalBits, size_t SignificandBits>')
@@ -573,7 +573,7 @@ def main():
 		write('template <typename T>')
 		write('struct float_test_data : float_test_data_by_traits<sizeof(T) * CHAR_BIT, constants<T>::significand_digits> {};')
 
-		indent = indent - 1 
+		indent = indent - 1
 		write('}')
 
 		write('')
@@ -582,7 +582,7 @@ def main():
 		print("Writing to {}".format(file_path))
 		with open(file_path, 'w', encoding='utf-8', newline='\n') as file:
 			file.write(utils.clang_format(buf.getvalue()))
-		
+
 
 if __name__ == '__main__':
 	utils.run(main)

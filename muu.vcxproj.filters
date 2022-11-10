@@ -304,6 +304,9 @@
     <ClInclude Include="include\muu\integer_literals.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\integer_aliases.h">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="include\muu\launder.h">
       <Filter>include</Filter>
     </ClInclude>

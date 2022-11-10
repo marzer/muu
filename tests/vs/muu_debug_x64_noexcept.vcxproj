@@ -97,6 +97,7 @@
     <ClInclude Include="$(SolutionDir)include\muu\half.h" />
     <ClInclude Include="$(SolutionDir)include\muu\hashing.h" />
     <ClInclude Include="$(SolutionDir)include\muu\integer_literals.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\integer_aliases.h" />
     <ClInclude Include="$(SolutionDir)include\muu\source_location.h" />
     <ClInclude Include="$(SolutionDir)include\muu\static_array.h" />
     <ClInclude Include="$(SolutionDir)include\muu\launder.h" />
