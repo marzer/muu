@@ -61,6 +61,7 @@
     <includes id="half_8h" name="half.h" local="yes" imported="no">half.h</includes>
     <includes id="hashing_8h" name="hashing.h" local="yes" imported="no">hashing.h</includes>
     <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
+    <includes id="integer__aliases_8h" name="integer_aliases.h" local="yes" imported="no">integer_aliases.h</includes>
     <includes id="integral__range_8h" name="integral_range.h" local="yes" imported="no">integral_range.h</includes>
     <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
     <includes id="iterators_8h" name="iterators.h" local="yes" imported="no">iterators.h</includes>
@@ -535,6 +536,7 @@
     <includes id="build_8h" name="build.h" local="yes" imported="no">build.h</includes>
     <includes id="for__sequence_8h" name="for_sequence.h" local="yes" imported="no">for_sequence.h</includes>
     <includes id="integer__literals_8h" name="integer_literals.h" local="yes" imported="no">integer_literals.h</includes>
+    <includes id="integer__aliases_8h" name="integer_aliases.h" local="yes" imported="no">integer_aliases.h</includes>
     <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
     <includes id="launder_8h" name="launder.h" local="yes" imported="no">launder.h</includes>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
@@ -872,6 +874,13 @@
     <class kind="class">muu::hash_combiner</class>
     <class kind="class">muu::fnv1a</class>
     <class kind="class">muu::sha1</class>
+    <namespace>muu</namespace>
+  </compound>
+  <compound kind="file">
+    <name>integer_aliases.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>integer__aliases_8h.html</filename>
+    <includes id="fwd_8h" name="fwd.h" local="yes" imported="no">fwd.h</includes>
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
