@@ -6061,6 +6061,13 @@
       <anchor>a7261a775662b1205754636f6d17bada9</anchor>
       <arglist>(const bounding_box &amp;bb) const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a1d1916a01f2d1961034fca1834c39f04</anchor>
+      <arglist>(const bounding_sphere&lt; Scalar &gt; &amp;bs) const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>contains</name>
@@ -6074,6 +6081,13 @@
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
       <anchor>a83f57efd52e4ca85711d02e84d0140bd</anchor>
       <arglist>(const bounding_box &amp;outer_bb, const bounding_box &amp;inner_bb) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
+      <anchor>a6428e3051b2900e66c7eb13bad46048d</anchor>
+      <arglist>(const bounding_box &amp;bb, const bounding_sphere&lt; Scalar &gt; &amp;bs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
