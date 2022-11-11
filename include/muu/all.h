@@ -36,6 +36,7 @@
 #include "half.h"
 #include "hashing.h"
 #include "integer_literals.h"
+#include "integer_aliases.h"
 #include "integral_range.h"
 #include "is_constant_evaluated.h"
 #include "iterators.h"

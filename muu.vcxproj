@@ -92,6 +92,7 @@
     <ClInclude Include="include\muu\half.h" />
     <ClInclude Include="include\muu\hashing.h" />
     <ClInclude Include="include\muu\integer_literals.h" />
+    <ClInclude Include="include\muu\integer_aliases.h" />
     <ClInclude Include="include\muu\source_location.h" />
     <ClInclude Include="include\muu\static_array.h" />
     <ClInclude Include="include\muu\launder.h" />
