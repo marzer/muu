@@ -688,8 +688,11 @@ namespace muu
 														MUU_VPARAM(bounding_box<scalar_type>) aabb) noexcept;
 
 		/// \brief	Returns true if the oriented bounding box intersects an axis-aligned bounding_box.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) aabb) const noexcept;
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) aabb) const noexcept
+		{
+			return intersects(*this, aabb);
+		}
 
 		//--------------------------------
 		// obb x obb
@@ -736,7 +739,7 @@ namespace muu
 		}
 
 		/// \brief	Returns true if two oriented bounding boxes intersect.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box) bb) const noexcept
 		{
 			return intersects(*this, bb);

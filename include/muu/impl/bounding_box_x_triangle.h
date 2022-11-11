@@ -27,13 +27,6 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept
-	{
-		return intersects(*this, tri.points[0], tri.points[1], tri.points[2]);
-	}
-
-	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL intersection_tester<bounding_box<Scalar>>::operator()(MUU_VPARAM(triangle<Scalar>)
 																							tri) const noexcept
 	{
@@ -96,13 +89,6 @@ namespace muu
 															   MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept
 	{
 		return bounding_box<scalar_type>::intersects(bb, tri.points[0], tri.points[1], tri.points[2]);
-	}
-
-	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL triangle<Scalar>::intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
-	{
-		return bounding_box<scalar_type>::intersects(bb, base::points[0], base::points[1], base::points[2]);
 	}
 }
 

@@ -481,8 +481,11 @@ namespace muu
 														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if the bounding sphere intersects a bounding box.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept;
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
+		{
+			return intersects(*this, bb);
+		}
 
 			/// @}
 	#endif // intersection

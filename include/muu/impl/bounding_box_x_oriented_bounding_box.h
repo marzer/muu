@@ -84,14 +84,6 @@ namespace muu
 
 		return true;
 	}
-
-	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(oriented_bounding_box<Scalar>)
-																	   obb) const noexcept
-	{
-		return intersects(*this, obb);
-	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -107,14 +99,6 @@ namespace muu
 																				aabb) noexcept
 	{
 		return bounding_box<Scalar>::intersects(aabb, obb);
-	}
-
-	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::intersects(MUU_VPARAM(bounding_box<Scalar>)
-																				aabb) const noexcept
-	{
-		return bounding_box<Scalar>::intersects(aabb, *this);
 	}
 }
 

@@ -848,17 +848,10 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) outer_bb,
 													  MUU_VPARAM(bounding_box) inner_bb) noexcept
 		{
-			const auto outer_min = outer_bb.min_corner();
-			const auto outer_max = outer_bb.max_corner();
-			const auto inner_min = inner_bb.min_corner();
-			const auto inner_max = inner_bb.max_corner();
-
-			return outer_min.x <= inner_min.x //
-				&& outer_max.x >= inner_max.x //
-				&& outer_min.y <= inner_min.y //
-				&& outer_max.y >= inner_max.y //
-				&& outer_min.z <= inner_min.z //
-				&& outer_max.z >= inner_max.z;
+			return aabbs::contains_aabb_min_max(outer_bb.min_corner(),
+												outer_bb.max_corner(),
+												inner_bb.min_corner(),
+												inner_bb.max_corner());
 		}
 
 		/// \brief	Returns true if a bounding box contains all the points of another bounding box.
@@ -866,6 +859,18 @@ namespace muu
 		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb) const noexcept
 		{
 			return contains(*this, bb);
+		}
+
+		/// \brief	Returns true if a bounding box contains all the points of a bounding sphere.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb,
+													  MUU_VPARAM(bounding_sphere<Scalar>) bs) noexcept;
+
+		/// \brief	Returns true if a bounding box contains all the points of a bounding sphere.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere<Scalar>) bs) const noexcept
+		{
+			return contains(*this, bs);
 		}
 
 			/// @}
@@ -888,8 +893,11 @@ namespace muu
 														MUU_VPARAM(plane<scalar_type>) p) noexcept;
 
 		/// \brief	Returns true if the bounding box intersects a plane.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(plane<scalar_type>) p) const noexcept;
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(plane<scalar_type>) p) const noexcept
+		{
+			return intersects(*this, p);
+		}
 
 		//--------------------------------
 		// aabb x line segment
@@ -929,8 +937,11 @@ namespace muu
 														MUU_VPARAM(line_segment<scalar_type>) seg) noexcept;
 
 		/// \brief	Returns true if the bounding box intersects a line segment.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment<scalar_type>) seg) const noexcept;
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment<scalar_type>) seg) const noexcept
+		{
+			return intersects(*this, seg);
+		}
 
 		//--------------------------------
 		// aabb x triangle
@@ -972,8 +983,11 @@ namespace muu
 														MUU_VPARAM(triangle<scalar_type>) tri) noexcept;
 
 		/// \brief	Returns true if the bounding box intersects a triangle.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept;
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept
+		{
+			return intersects(*this, tri);
+		}
 
 		//--------------------------------
 		// aabb x aabb
@@ -1007,8 +1021,12 @@ namespace muu
 														MUU_VPARAM(oriented_bounding_box<scalar_type>) obb) noexcept;
 
 		/// \brief	Returns true if the axis-aligned bounding box intersects an oriented bounding_box.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box<scalar_type>) obb) const noexcept;
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box<scalar_type>) obb) const noexcept
+
+		{
+			return intersects(*this, obb);
+		}
 
 		//--------------------------------
 		// aabb x sphere
@@ -1020,8 +1038,12 @@ namespace muu
 														MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept;
 
 		/// \brief	Returns true if the bounding box intersects a bounding sphere.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept;
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept
+
+		{
+			return intersects(*this, bs);
+		}
 
 			/// @}
 	#endif // intersection

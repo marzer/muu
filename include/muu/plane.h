@@ -416,8 +416,11 @@ namespace muu
 														MUU_VPARAM(line_segment<scalar_type>) seg) noexcept;
 
 		/// \brief	Returns true if the plane intersects a line segment.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment<scalar_type>) seg) const noexcept;
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment<scalar_type>) seg) const noexcept
+		{
+			return intersects(*this, seg);
+		}
 
 		/// \brief	Returns true if a plane intersects a bounding box.
 		MUU_PURE_GETTER
@@ -425,8 +428,11 @@ namespace muu
 														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if the plane intersects a bounding box.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept;
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
+		{
+			return intersects(*this, bb);
+		}
 
 			/// @}
 	#endif // intersection

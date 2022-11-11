@@ -499,7 +499,10 @@ namespace muu
 
 		/// \brief	Returns true if the triangle intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept;
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
+		{
+			return intersects(*this, bb);
+		}
 
 		MUU_PURE_INLINE_GETTER
 		constexpr muu::intersection_tester<triangle> MUU_VECTORCALL intersection_tester() noexcept;

@@ -752,6 +752,20 @@ namespace muu::impl
 												   sphere_radius * sphere_radius);
 		}
 
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains_aabb_min_max(vector_param outer_min,
+																   vector_param outer_max,
+																   vector_param inner_min,
+																   vector_param inner_max) noexcept
+		{
+			return outer_min.x <= inner_min.x //
+				&& outer_max.x >= inner_max.x //
+				&& outer_min.y <= inner_min.y //
+				&& outer_max.y >= inner_max.y //
+				&& outer_min.z <= inner_min.z //
+				&& outer_max.z >= inner_max.z;
+		}
+
 		// the following functions are collectively the the Akenine-Moller algorithm:
 		// https://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/pubs/tribox.pdf
 
