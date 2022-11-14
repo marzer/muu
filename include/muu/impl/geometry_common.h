@@ -716,6 +716,27 @@ namespace muu::impl
 			MUU_UNREACHABLE;
 		}
 
+		MUU_PURE_INLINE_GETTER
+		static constexpr vector_type MUU_VECTORCALL closest_min_max(vector_param min,
+																	vector_param max,
+																	vector_param pt) noexcept
+		{
+			return vector_type::clamp(pt, min, max);
+		}
+
+		MUU_PURE_GETTER
+		static constexpr vector_type MUU_VECTORCALL furthest_center_min_max(vector_param center,
+																			vector_param min,
+																			vector_param max,
+																			vector_param pt) noexcept
+		{
+			return vector_type{
+				pt.x >= center.x ? min.x : max.x,
+				pt.y >= center.y ? min.y : max.y,
+				pt.z >= center.z ? min.z : max.z,
+			};
+		}
+
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects_aabb_min_max(vector_param min1,
 																	 vector_param max1,
@@ -736,7 +757,7 @@ namespace muu::impl
 																			 vector_param sphere_center,
 																			 scalar_type sphere_radius_squared) noexcept
 		{
-			return vector_type::distance_squared(vector_type::clamp(sphere_center, min, max), sphere_center)
+			return vector_type::distance_squared(closest_min_max(min, max, sphere_center), sphere_center)
 				<= sphere_radius_squared;
 		}
 

@@ -485,6 +485,39 @@ namespace muu
 		  /// \name Intersection
 		  /// @{
 
+		MUU_PURE_INLINE_GETTER
+		constexpr muu::intersection_tester<triangle> MUU_VECTORCALL intersection_tester() noexcept;
+
+		//--------------------------------
+		// triangle x sphere
+		//--------------------------------
+
+		/// \brief	Returns true if a triangle intersects a bounding sphere.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(vector_type) p0,
+														MUU_VPARAM(vector_type) p1,
+														MUU_VPARAM(vector_type) p2,
+														MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept;
+
+		/// \brief	Returns true if a triangle intersects a bounding sphere.
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle) tri,
+														MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept
+		{
+			return intersects(tri.points[0], tri.points[1], tri.points[2], bs);
+		}
+
+		/// \brief	Returns true if the triangle intersects a bounding sphere.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept
+		{
+			return intersects(base::points[0], base::points[1], base::points[2], bs);
+		}
+
+		//--------------------------------
+		// triangle x aabb
+		//--------------------------------
+
 		/// \brief	Returns true if a triangle intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(vector_type) p0,
@@ -503,9 +536,6 @@ namespace muu
 		{
 			return intersects(*this, bb);
 		}
-
-		MUU_PURE_INLINE_GETTER
-		constexpr muu::intersection_tester<triangle> MUU_VECTORCALL intersection_tester() noexcept;
 
 			/// @}
 	#endif // intersection
@@ -836,5 +866,6 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 
 /// \cond
 #include "impl/bounding_box_x_triangle.h"
+#include "impl/bounding_sphere_x_triangle.h"
 #include "impl/plane_x_triangle.h"
 /// \endcond

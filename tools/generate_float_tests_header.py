@@ -59,6 +59,11 @@ def three_pi():
 
 
 
+def four_pi():
+	return pi_multiples()[3]
+
+
+
 __phi = dict()
 def phi():
 	global __phi
@@ -402,52 +407,63 @@ def write_float_data(file, traits):
 	####
 	write('')
 	constant_inputs = [
-		#(D(1), 'one'),
+		(D(1), 'one'),
 		(D(2), 'two'),
 		(D(3), 'three'),
+		(D(4), 'four'),
+		(D(4), 'five'),
 		(pi(), 'pi'),
 		(two_pi(), 'two_pi'),
 		(three_pi(), 'three_pi'),
 		(e(1), 'e'),
 		(phi(), 'phi')
 	]
-	constants = dict()
-	constants_skip_list = [
-		'one', 'two', 'three', 'four', 'five', 'six',
-		'three_pi_over_three', 'three_pi_over_six', 'three_pi_over_seven', 'three_pi_over_eight',
-		'e_over_seven', 'e_over_eight',
-		'phi_over_seven', 'phi_over_eight'
-	]
-	print_constant_ = lambda name, value: \
-		write(f'\t\tstatic constexpr {type} {name}{" " * (23 - len(name))}= {rounded(value)}{suffix};{" // "+traits.bit_representation(value) if traits.total_bits == 16 else ""}')
-	print_constant =  lambda n,v: (print_constant_(n, v), ) if n not in constants_skip_list else None
+	written_constants = set()
+	def write_constant(name, value):
+		nonlocal written_constants
+		nonlocal write
+		if value not in written_constants:
+			write(f'\t\tstatic constexpr {type} {name}{" " * (23 - len(name))}= {rounded(value)}{suffix};{" // "+traits.bit_representation(value) if traits.total_bits == 16 else ""}')
+			written_constants.add(value)
 	for val, name in constant_inputs:
-		print_constant(name, val)
-		print_constant(f'one_over_{name}', D(1) / val)
-		if val != two_pi():
-			if val != D(2):
-				print_constant(f'{name}_over_two', val / D(2))
-			if val != D(3):
-				print_constant(f'{name}_over_three', val / D(3))
-			if val != D(4) and val != D(2):
-				print_constant(f'{name}_over_four', val / D(4))
-			if val != D(5):
-				print_constant(f'{name}_over_five', val / D(5))
-			if val != D(6) and val != D(3) and val != D(2):
-				print_constant(f'{name}_over_six', val / D(6))
-			if val != D(7) and val != D(2) and val != D(3):
-				print_constant(f'{name}_over_seven', val / D(7))
-			if val != D(8) and val != D(2) and val != D(3):
-				print_constant(f'{name}_over_eight', val / D(8))
-
+		ratio = val.as_integer_ratio()
+		if ratio[1] != 1:
+			write_constant(name, val)
 		if val != D(1):
-			print_constant(f'sqrt_{name}', val.sqrt())
-			print_constant(f'one_over_sqrt_{name}', D(1) / val.sqrt())
-	print_constant("one_over_ten", D(1) / D(10))
-	print_constant("one_over_one_hundred", D(1) / D(100))
-	print_constant("one_over_one_thousand", D(1) / D(1000))
-	print_constant("degrees_to_radians", pi() / D(180))
-	print_constant("radians_to_degrees", D(180) / pi())
+			write_constant(f'one_over_{name}', D(1) / val)
+			write_constant(f'sqrt_{name}', val.sqrt())
+			write_constant(f'one_over_sqrt_{name}', D(1) / val.sqrt())
+		# constant / num
+		if ratio[0] % 2 != 0 and val not in (two_pi(), four_pi()):
+			write_constant(f'{name}_over_two', val / D(2))
+		if ratio[0] % 3 != 0 and val not in (three_pi(), ):
+			write_constant(f'{name}_over_three', val / D(3))
+		if ratio[0] % 4 != 0 and val not in (four_pi(), ):
+			write_constant(f'{name}_over_four', val / D(4))
+		if ratio[0] % 5 != 0:
+			write_constant(f'{name}_over_five', val / D(5))
+		if ratio[0] % 6 != 0:
+			write_constant(f'{name}_over_six', val / D(6))
+		if ratio[0] % 7 != 0:
+			write_constant(f'{name}_over_seven', val / D(7))
+		if ratio[0] % 8 != 0:
+			write_constant(f'{name}_over_eight', val / D(8))
+		# num / constant
+		if ratio[1] != 1: #1: #if ratio not in ((1,1), (2,1), (3,1), (4,1), (5,1), (6,1), (7,1), (8,1)):
+			write_constant(f'two_over_{name}', D(2) / val)
+			write_constant(f'three_over_{name}', D(3) / val)
+			write_constant(f'four_over_{name}', D(4) / val)
+			write_constant(f'five_over_{name}', D(5) / val)
+			write_constant(f'six_over_{name}', D(6) / val)
+			write_constant(f'seven_over_{name}', D(7) / val)
+			write_constant(f'eight_over_{name}', D(8) / val)
+
+	write_constant("one_over_ten", D(1) / D(10))
+	write_constant("one_over_one_hundred", D(1) / D(100))
+	write_constant("one_over_one_thousand", D(1) / D(1000))
+	write_constant("degrees_to_radians", pi() / D(180))
+	write_constant("radians_to_degrees", D(180) / pi())
+		
 
 	####
 	#### limits ###############################

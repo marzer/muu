@@ -284,6 +284,16 @@ namespace muu
 			: bounding_box{ from_obb(obb) }
 		{}
 
+		/// \brief	Constructs a bounding box completely containing a bounding sphere.
+		MUU_PURE_GETTER
+		static constexpr bounding_box MUU_VECTORCALL from_sphere(MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept;
+
+		/// \brief	Constructs a bounding box completely containing a bounding sphere.
+		MUU_NODISCARD_CTOR
+		explicit constexpr bounding_box(MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept //
+			: bounding_box{ from_sphere(bs) }
+		{}
+
 	#endif // constructors
 
 	#if 1 // scalar accessors ------------------------------------------------------------------------------------------
@@ -406,8 +416,8 @@ namespace muu
 	#endif // geometric properties
 
 	#if 1 // equality (exact) ------------------------------------------------------------------------------------------
-		  /// \name Equality (exact)
-		  /// @{
+		/// \name Equality (exact)
+		/// @{
 
 		/// \brief		Returns true if two bounding boxes are exactly equal.
 		///
@@ -505,8 +515,8 @@ namespace muu
 	#endif // equality (exact)
 
 	#if 1 // equality (approx) -----------------------------------------------------------------------------------------
-		  /// \name Equality (approximate)
-		  /// @{
+		/// \name Equality (approximate)
+		/// @{
 
 		/// \brief	Returns true if two bounding boxes are approximately equal.
 		template <typename T>
@@ -660,8 +670,8 @@ namespace muu
 	#endif // translation
 
 	#if 1 // scaling -------------------------------------------------------------------
-		  /// \name Scaling
-		  /// @{
+		/// \name Scaling
+		/// @{
 
 		/// \brief	Scales a bounding box.
 		///
@@ -691,8 +701,8 @@ namespace muu
 	#endif // scaling
 
 	#if 1 // transformation -------------------------------------------------------------------
-		  /// \name Transformation
-		  /// @{
+		/// \name Transformation
+		/// @{
 
 		/// \brief Transforms an axis-aligned bounding box from one coordinate space to another.
 		///
@@ -744,8 +754,8 @@ namespace muu
 	#endif // transformation
 
 	#if 1 // appending -------------------------------------------------------------------
-		  /// \name Appending
-		  /// @{
+		/// \name Appending
+		/// @{
 
 		/// \brief Adds a point to the bounding box (in-place), expanding the bounded region to contain it if necessary.
 		///
@@ -845,13 +855,13 @@ namespace muu
 
 		/// \brief	Returns true if a bounding box contains all the points of another bounding box.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) outer_bb,
-													  MUU_VPARAM(bounding_box) inner_bb) noexcept
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) outer,
+													  MUU_VPARAM(bounding_box) inner) noexcept
 		{
-			return aabbs::contains_aabb_min_max(outer_bb.min_corner(),
-												outer_bb.max_corner(),
-												inner_bb.min_corner(),
-												inner_bb.max_corner());
+			return aabbs::contains_aabb_min_max(outer.min_corner(),
+												outer.max_corner(),
+												inner.min_corner(),
+												inner.max_corner());
 		}
 
 		/// \brief	Returns true if a bounding box contains all the points of another bounding box.

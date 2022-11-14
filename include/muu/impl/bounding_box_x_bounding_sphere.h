@@ -19,6 +19,14 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_GETTER
+	constexpr bounding_box<Scalar> MUU_VECTORCALL bounding_box<Scalar>::from_sphere(MUU_VPARAM(bounding_sphere<Scalar>)
+																						bs) noexcept
+	{
+		return { bs.center, vector_type{ bs.radius } };
+	}
+
+	template <typename Scalar>
+	MUU_PURE_GETTER
 	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::contains(MUU_VPARAM(bounding_box) bb,
 																 MUU_VPARAM(bounding_sphere<Scalar>) bs) noexcept
 	{
@@ -65,6 +73,24 @@ namespace muu
 
 namespace muu
 {
+	template <typename Scalar>
+	MUU_PURE_GETTER
+	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::contains(MUU_VPARAM(bounding_sphere) outer,
+																	MUU_VPARAM(bounding_box<Scalar>) inner) noexcept
+	{
+		const auto outer_radius_squared = outer.radius * outer.radius;
+		const auto inner_min			= inner.min_corner();
+		const auto inner_max			= inner.max_corner();
+
+		if (!aabbs::intersects_sphere_min_max_radsq(inner_min, inner_max, outer.center, outer_radius_squared))
+			return false;
+
+		return vector_type::distance_squared(
+				   aabbs::furthest_center_min_max(inner.center, inner_min, inner_max, outer.center),
+				   outer.center)
+			<= outer_radius_squared;
+	}
+
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::intersects(MUU_VPARAM(bounding_sphere) bb,

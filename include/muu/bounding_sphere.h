@@ -441,6 +441,40 @@ namespace muu
 			return contains(*this, point);
 		}
 
+		/// \brief	Returns true if a bounding sphere contains all the points of another bounding sphere.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) outer,
+													  MUU_VPARAM(bounding_sphere) inner) noexcept
+		{
+			const auto dist_squared		 = vector_type::distance_squared(outer.center, inner.center);
+			const auto outer_rad_squared = outer.radius * outer.radius;
+			const auto inner_rad_squared = inner.radius * inner.radius;
+
+			if (dist_squared > (outer_rad_squared + inner_rad_squared))
+				return false;
+
+			return outer_rad_squared >= dist_squared + inner_rad_squared;
+		}
+
+		/// \brief	Returns true if the bounding sphere contains all the points of another bounding sphere.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) bs) const noexcept
+		{
+			return contains(*this, bs);
+		}
+
+		/// \brief	Returns true if a bounding sphere contains all the points of a bounding box.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) outer,
+													  MUU_VPARAM(bounding_box<scalar_type>) inner) noexcept;
+
+		/// \brief	Returns true if the bounding sphere contains all the points of a bounding box.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
+		{
+			return contains(*this, bb);
+		}
+
 			/// @}
 	#endif // containment
 
@@ -469,6 +503,77 @@ namespace muu
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere) bs) const noexcept
 		{
 			return intersects(*this, bs);
+		}
+
+		//--------------------------------
+		// sphere x triangle
+		//--------------------------------
+
+		/// \brief	Returns true if a bounding sphere intersects a triangle.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere) bs,
+														MUU_VPARAM(vector_type) p0,
+														MUU_VPARAM(vector_type) p1,
+														MUU_VPARAM(vector_type) p2) noexcept
+		{
+			// https://realtimecollisiondetection.net/blog/?p=103
+
+			p0 -= bs.center;
+			p1 -= bs.center;
+			p2 -= bs.center;
+			const auto rr = bs.radius * bs.radius;
+			const auto V  = vector_type::cross(p1 - p0, p2 - p0);
+			const auto d  = vector_type::dot(p0, V);
+			const auto e  = vector_type::dot(V, V);
+			if (d * d > rr * e)
+				return false;
+
+			const auto aa	= vector_type::dot(p0, p0);
+			const auto ab	= vector_type::dot(p0, p1);
+			const auto ac	= vector_type::dot(p0, p2);
+			const auto bb	= vector_type::dot(p1, p1);
+			const auto bc	= vector_type::dot(p1, p2);
+			const auto cc	= vector_type::dot(p2, p2);
+			const auto sep2 = (aa > rr) && (ab > aa) && (ac > aa);
+			const auto sep3 = (bb > rr) && (ab > bb) && (bc > bb);
+			const auto sep4 = (cc > rr) && (ac > cc) && (bc > cc);
+			if (sep2 || sep3 || sep4)
+				return false;
+
+			const auto AB	= p1 - p0;
+			const auto BC	= p2 - p1;
+			const auto CA	= p0 - p2;
+			const auto d1	= ab - aa;
+			const auto d2	= bc - bb;
+			const auto d3	= ac - cc;
+			const auto e1	= vector_type::dot(AB, AB);
+			const auto e2	= vector_type::dot(BC, BC);
+			const auto e3	= vector_type::dot(CA, CA);
+			const auto Q1	= p0 * e1 - d1 * AB;
+			const auto Q2	= p1 * e2 - d2 * BC;
+			const auto Q3	= p2 * e3 - d3 * CA;
+			const auto QC	= p2 * e1 - Q1;
+			const auto QA	= p0 * e2 - Q2;
+			const auto QB	= p1 * e3 - Q3;
+			const auto sep5 = (vector_type::dot(Q1, Q1) > rr * e1 * e1) && (vector_type::dot(Q1, QC) > scalar_type{});
+			const auto sep6 = (vector_type::dot(Q2, Q2) > rr * e2 * e2) && (vector_type::dot(Q2, QA) > scalar_type{});
+			const auto sep7 = (vector_type::dot(Q3, Q3) > rr * e3 * e3) && (vector_type::dot(Q3, QB) > scalar_type{});
+			if (sep5 || sep6 || sep7)
+				return false;
+
+			return true;
+		}
+
+		/// \brief	Returns true if a bounding sphere intersects a triangle.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere) bs,
+														MUU_VPARAM(triangle<scalar_type>) tri) noexcept;
+
+		/// \brief	Returns true if the bounding sphere intersects a triangle.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept
+		{
+			return intersects(*this, tri);
 		}
 
 		//--------------------------------
@@ -701,5 +806,6 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
 
 /// \cond
+#include "impl/bounding_sphere_x_triangle.h"
 #include "impl/bounding_box_x_bounding_sphere.h"
 /// \endcond
