@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.11.1" name="generator"/>
+  <meta content="Poxy v0.12.0" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -149,6 +149,10 @@
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4eb338465a4e0fc6f5a3dc10649b736f">from_points</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>(&amp;points)[N]) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a bounding box fitting an array of points.</dd>
+            <dt id="a2df2de8874321a2a0ab2d3ac5ec3cd94">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a2df2de8874321a2a0ab2d3ac5ec3cd94">from_sphere</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; bs) -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box completely containing a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding sphere</a>.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -242,6 +246,10 @@
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a40a2b4c2dc2fc7c39bf2749602fd2ce9">bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; obb) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a bounding box completely containing an oriented bounding-box.</dd>
+            <dt id="ad5bfbcabb576110f2d9a74469993cff4">
+              <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad5bfbcabb576110f2d9a74469993cff4">bounding_box</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; bs) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs a bounding box completely containing a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding sphere</a>.</dd>
           </dl>
         </section>
         <section id="pub-methods">
@@ -302,9 +310,9 @@
               const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a bounding box contains a point.</dd>
-            <dt id="a83f57efd52e4ca85711d02e84d0140bd">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a83f57efd52e4ca85711d02e84d0140bd">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; outer_bb,
-              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; inner_bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ae436b82c17f20a8bf02bac22db1df7a2">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ae436b82c17f20a8bf02bac22db1df7a2">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; outer,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&amp; inner) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a bounding box contains all the points of another bounding box.</dd>
             <dt id="a6428e3051b2900e66c7eb13bad46048d">
