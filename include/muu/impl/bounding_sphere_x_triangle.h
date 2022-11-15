@@ -19,6 +19,14 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::contains(MUU_VPARAM(bounding_sphere) bs,
+																	MUU_VPARAM(triangle<Scalar>) tri) noexcept
+	{
+		return contains(bs, tri.points[0], tri.points[1], tri.points[2]);
+	}
+
+	template <typename Scalar>
+	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::intersects(MUU_VPARAM(bounding_sphere) bs,
 																	  MUU_VPARAM(triangle<Scalar>) tri) noexcept
 	{

@@ -20,6 +20,24 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_GETTER
+	static constexpr bool MUU_VECTORCALL bounding_box<Scalar>::contains(MUU_VPARAM(bounding_box) bb,
+																		MUU_VPARAM(oriented_bounding_box<Scalar>)
+																			obb) noexcept
+	{
+		// todo: very likely a more efficient way of doing this
+
+		return bounding_box::contains(bb, obb.template corner<box_corner::min>())
+			&& bounding_box::contains(bb, obb.template corner<muu::box_corner::x>())
+			&& bounding_box::contains(bb, obb.template corner<box_corner::y>())
+			&& bounding_box::contains(bb, obb.template corner<muu::box_corner::xy>())
+			&& bounding_box::contains(bb, obb.template corner<box_corner::z>())
+			&& bounding_box::contains(bb, obb.template corner<muu::box_corner::xz>())
+			&& bounding_box::contains(bb, obb.template corner<box_corner::yz>())
+			&& bounding_box::contains(bb, obb.template corner<muu::box_corner::max>());
+	}
+
+	template <typename Scalar>
+	MUU_PURE_GETTER
 	inline constexpr bounding_box<Scalar> MUU_VECTORCALL bounding_box<Scalar>::from_obb(
 		MUU_VPARAM(oriented_bounding_box<Scalar>) obb) noexcept
 	{

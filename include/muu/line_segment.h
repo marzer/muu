@@ -785,5 +785,6 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 
 /// \cond
 #include "impl/bounding_box_x_line_segment.h"
+#include "impl/bounding_sphere_x_line_segment.h"
 #include "impl/plane_x_line_segment.h"
 /// \endcond

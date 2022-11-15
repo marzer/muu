@@ -716,6 +716,10 @@ namespace muu::impl
 			MUU_UNREACHABLE;
 		}
 
+		//--------------------------------
+		// aabb x point
+		//--------------------------------
+
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL closest_min_max(vector_param min,
 																	vector_param max,
@@ -738,54 +742,19 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_aabb_min_max(vector_param min1,
-																	 vector_param max1,
-																	 vector_param min2,
-																	 vector_param max2) noexcept
+		static constexpr bool MUU_VECTORCALL contains_point(vector_param center,
+															vector_param extents,
+															vector_param point) noexcept
 		{
-			return max1.x >= min2.x //
-				&& min1.x <= max2.x //
-				&& max1.y >= min2.y //
-				&& min1.y <= max2.y //
-				&& max1.z >= min2.z //
-				&& min1.z <= max2.z;
+			const auto adj = vector_type::abs(point - center);
+			return adj.x <= extents.x //
+				&& adj.y <= extents.y //
+				&& adj.z <= extents.z;
 		}
 
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_sphere_min_max_radsq(vector_param min,
-																			 vector_param max,
-																			 vector_param sphere_center,
-																			 scalar_type sphere_radius_squared) noexcept
-		{
-			return vector_type::distance_squared(closest_min_max(min, max, sphere_center), sphere_center)
-				<= sphere_radius_squared;
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects_sphere(vector_param center,
-															   vector_param extents,
-															   vector_param sphere_center,
-															   scalar_type sphere_radius) noexcept
-		{
-			return intersects_sphere_min_max_radsq(center - extents, //
-												   center + extents, //
-												   sphere_center,	 //
-												   sphere_radius * sphere_radius);
-		}
-
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains_aabb_min_max(vector_param outer_min,
-																   vector_param outer_max,
-																   vector_param inner_min,
-																   vector_param inner_max) noexcept
-		{
-			return outer_min.x <= inner_min.x //
-				&& outer_max.x >= inner_max.x //
-				&& outer_min.y <= inner_min.y //
-				&& outer_max.y >= inner_max.y //
-				&& outer_min.z <= inner_min.z //
-				&& outer_max.z >= inner_max.z;
-		}
+		//--------------------------------
+		// aabb x triangle
+		//--------------------------------
 
 		// the following functions are collectively the the Akenine-Moller algorithm:
 		// https://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/pubs/tribox.pdf
@@ -841,6 +810,64 @@ namespace muu::impl
 					return false;
 			}
 			return true;
+		}
+
+		//--------------------------------
+		// aabb x sphere
+		//--------------------------------
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects_sphere_min_max_radsq(vector_param min,
+																			 vector_param max,
+																			 vector_param sphere_center,
+																			 scalar_type sphere_radius_squared) noexcept
+		{
+			return vector_type::distance_squared(closest_min_max(min, max, sphere_center), sphere_center)
+				<= sphere_radius_squared;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects_sphere(vector_param center,
+															   vector_param extents,
+															   vector_param sphere_center,
+															   scalar_type sphere_radius) noexcept
+		{
+			return intersects_sphere_min_max_radsq(center - extents, //
+												   center + extents, //
+												   sphere_center,	 //
+												   sphere_radius * sphere_radius);
+		}
+
+		//--------------------------------
+		// aabb x aabb
+		//--------------------------------
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects_aabb_min_max(vector_param min1,
+																	 vector_param max1,
+																	 vector_param min2,
+																	 vector_param max2) noexcept
+		{
+			return max1.x >= min2.x //
+				&& min1.x <= max2.x //
+				&& max1.y >= min2.y //
+				&& min1.y <= max2.y //
+				&& max1.z >= min2.z //
+				&& min1.z <= max2.z;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains_aabb_min_max(vector_param outer_min,
+																   vector_param outer_max,
+																   vector_param inner_min,
+																   vector_param inner_max) noexcept
+		{
+			return outer_min.x <= inner_min.x //
+				&& outer_max.x >= inner_max.x //
+				&& outer_min.y <= inner_min.y //
+				&& outer_max.y >= inner_max.y //
+				&& outer_min.z <= inner_min.z //
+				&& outer_max.z >= inner_max.z;
 		}
 	};
 }

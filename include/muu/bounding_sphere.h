@@ -422,9 +422,17 @@ namespace muu
 			/// @}
 	#endif // scaling
 
-	#if 1 // containment ------------------------------------------------------------------------------
-		  /// \name Containment
-		  /// @{
+	#if 1 // collision detection ------------------------------------------------------------------------------
+		/// \name Collision detection
+		/// @{
+
+		/// \brief Creates an #muu::intersection_tester for this bounding sphere.
+		MUU_PURE_GETTER
+		constexpr muu::intersection_tester<bounding_sphere> MUU_VECTORCALL intersection_tester() noexcept;
+
+		//--------------------------------
+		// sphere x point
+		//--------------------------------
 
 		/// \brief	Returns true if a bounding sphere contains a point.
 		MUU_PURE_GETTER
@@ -441,73 +449,78 @@ namespace muu
 			return contains(*this, point);
 		}
 
-		/// \brief	Returns true if a bounding sphere contains all the points of another bounding sphere.
+		/// \brief	Returns true if the bounding sphere contains all the points in an arbitrary collection.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) outer,
-													  MUU_VPARAM(bounding_sphere) inner) noexcept
+		constexpr bool MUU_VECTORCALL contains(const vector_type* begin, const vector_type* end) noexcept
 		{
-			const auto dist_squared		 = vector_type::distance_squared(outer.center, inner.center);
-			const auto outer_rad_squared = outer.radius * outer.radius;
-			const auto inner_rad_squared = inner.radius * inner.radius;
-
-			if (dist_squared > (outer_rad_squared + inner_rad_squared))
+			if (begin == end)
 				return false;
 
-			return outer_rad_squared >= dist_squared + inner_rad_squared;
+			MUU_ASSUME(begin != nullptr);
+			MUU_ASSUME(end != nullptr);
+			MUU_ASSUME(begin < end);
+
+			for (; begin != end; begin++)
+				if (!contains(*begin))
+					return false;
+
+			return true;
 		}
-
-		/// \brief	Returns true if the bounding sphere contains all the points of another bounding sphere.
-		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) bs) const noexcept
-		{
-			return contains(*this, bs);
-		}
-
-		/// \brief	Returns true if a bounding sphere contains all the points of a bounding box.
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) outer,
-													  MUU_VPARAM(bounding_box<scalar_type>) inner) noexcept;
-
-		/// \brief	Returns true if the bounding sphere contains all the points of a bounding box.
-		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
-		{
-			return contains(*this, bb);
-		}
-
-			/// @}
-	#endif // containment
-
-	#if 1 // intersection ------------------------------------------------------------------------------
-		  /// \name Intersection
-		  /// @{
-
-		MUU_PURE_INLINE_GETTER
-		constexpr muu::intersection_tester<bounding_sphere> MUU_VECTORCALL intersection_tester() noexcept;
 
 		//--------------------------------
-		// sphere x sphere
+		// sphere x line segment
 		//--------------------------------
 
-		/// \brief	Returns true if two bounding spheres intersect.
+		/// \brief	Returns true if a bounding sphere contains a line segment.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere) bs1,
-														MUU_VPARAM(bounding_sphere) bs2) noexcept
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) bs,
+													  MUU_VPARAM(vector_type) start,
+													  MUU_VPARAM(vector_type) end) noexcept
 		{
-			return vector_type::distance_squared(bs1.center, bs2.center)
-				<= ((bs1.radius * bs1.radius) + (bs2.radius * bs2.radius));
+			return contains(bs, start) && contains(bs, end);
 		}
 
-		/// \brief	Returns true if two bounding spheres intersect.
+		/// \brief	Returns true if a bounding sphere contains a line segment.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) bb,
+													  MUU_VPARAM(line_segment<scalar_type>) seg) noexcept;
+
+		/// \brief	Returns true if the bounding sphere contains a line segment.
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere) bs) const noexcept
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(line_segment<scalar_type>) seg) const noexcept
 		{
-			return intersects(*this, bs);
+			return contains(*this, seg);
 		}
+
+		//--------------------------------
+		// sphere x plane
+		//--------------------------------
 
 		//--------------------------------
 		// sphere x triangle
 		//--------------------------------
+
+		/// \brief	Returns true if a bounding sphere contains a triangle.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) bs,
+													  MUU_VPARAM(vector_type) p0,
+													  MUU_VPARAM(vector_type) p1,
+													  MUU_VPARAM(vector_type) p2) noexcept
+		{
+			return contains(bs, p0) && contains(bs, p1) && contains(bs, p2);
+		}
+
+		/// \brief	Returns true if a bounding sphere contains a triangle.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) bs,
+													  MUU_VPARAM(triangle<scalar_type>) tri) noexcept;
+
+		/// \brief	Returns true if the bounding sphere contains a triangle.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept
+		{
+			return contains(*this, tri);
+		}
 
 		/// \brief	Returns true if a bounding sphere intersects a triangle.
 		MUU_PURE_GETTER
@@ -577,8 +590,62 @@ namespace muu
 		}
 
 		//--------------------------------
+		// sphere x sphere
+		//--------------------------------
+
+		/// \brief	Returns true if a bounding sphere contains all the points of another bounding sphere.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) outer,
+													  MUU_VPARAM(bounding_sphere) inner) noexcept
+		{
+			const auto dist_squared		 = vector_type::distance_squared(outer.center, inner.center);
+			const auto outer_rad_squared = outer.radius * outer.radius;
+			const auto inner_rad_squared = inner.radius * inner.radius;
+
+			if (dist_squared > (outer_rad_squared + inner_rad_squared))
+				return false;
+
+			return outer_rad_squared >= dist_squared + inner_rad_squared;
+		}
+
+		/// \brief	Returns true if the bounding sphere contains all the points of another bounding sphere.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) bs) const noexcept
+		{
+			return contains(*this, bs);
+		}
+
+		/// \brief	Returns true if two bounding spheres intersect.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere) bs1,
+														MUU_VPARAM(bounding_sphere) bs2) noexcept
+		{
+			return vector_type::distance_squared(bs1.center, bs2.center)
+				<= ((bs1.radius * bs1.radius) + (bs2.radius * bs2.radius));
+		}
+
+		/// \brief	Returns true if two bounding spheres intersect.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere) bs) const noexcept
+		{
+			return intersects(*this, bs);
+		}
+
+		//--------------------------------
 		// sphere x aabb
 		//--------------------------------
+
+		/// \brief	Returns true if a bounding sphere contains all the points of an axis-aligned bounding box.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere) outer,
+													  MUU_VPARAM(bounding_box<scalar_type>) inner) noexcept;
+
+		/// \brief	Returns true if the bounding sphere contains all the points of an axis-aligned bounding box.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
+		{
+			return contains(*this, bb);
+		}
 
 		/// \brief	Returns true if a bounding sphere intersects a bounding box.
 		MUU_PURE_GETTER
@@ -592,8 +659,12 @@ namespace muu
 			return intersects(*this, bb);
 		}
 
+			//--------------------------------
+			// sphere x obb
+			//--------------------------------
+
 			/// @}
-	#endif // intersection
+	#endif // collision detection
 
 	#if 1 // misc ---------------------------------------------------------------------------------------------------
 
@@ -807,5 +878,6 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 
 /// \cond
 #include "impl/bounding_sphere_x_triangle.h"
+#include "impl/bounding_sphere_x_line_segment.h"
 #include "impl/bounding_box_x_bounding_sphere.h"
 /// \endcond

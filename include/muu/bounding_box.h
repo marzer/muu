@@ -831,19 +831,24 @@ namespace muu
 	/// @}
 	#endif // appending
 
-	#if 1 // containment ------------------------------------------------------------------------------
-		/// \name Containment
+	#if 1 // collision detection ------------------------------------------------------------------------------
+		/// \name Collision detection
 		/// @{
 
-		/// \brief	Returns true if a bounding box contains a point.
+		/// \brief Creates an #muu::intersection_tester for this bounding box.
 		MUU_PURE_GETTER
+		constexpr muu::intersection_tester<bounding_box> MUU_VECTORCALL intersection_tester() noexcept;
+
+		//--------------------------------
+		// aabb x point
+		//--------------------------------
+
+		/// \brief	Returns true if a bounding box contains a point.
+		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb,
 													  MUU_VPARAM(vector_type) point) noexcept
 		{
-			const auto adj = vector_type::abs(point - bb.center);
-			return adj.x <= bb.extents.x //
-				&& adj.y <= bb.extents.y //
-				&& adj.z <= bb.extents.z;
+			return aabbs::contains_point(bb.center, bb.extents, point);
 		}
 
 		/// \brief	Returns true if the bounding box contains a point.
@@ -853,65 +858,48 @@ namespace muu
 			return contains(*this, point);
 		}
 
-		/// \brief	Returns true if a bounding box contains all the points of another bounding box.
+		/// \brief	Returns true if the bounding box contains all the points in an arbitrary collection.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) outer,
-													  MUU_VPARAM(bounding_box) inner) noexcept
+		constexpr bool MUU_VECTORCALL contains(const vector_type* begin, const vector_type* end) noexcept
 		{
-			return aabbs::contains_aabb_min_max(outer.min_corner(),
-												outer.max_corner(),
-												inner.min_corner(),
-												inner.max_corner());
-		}
+			if (begin == end)
+				return false;
 
-		/// \brief	Returns true if a bounding box contains all the points of another bounding box.
-		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb) const noexcept
-		{
-			return contains(*this, bb);
-		}
+			MUU_ASSUME(begin != nullptr);
+			MUU_ASSUME(end != nullptr);
+			MUU_ASSUME(begin < end);
 
-		/// \brief	Returns true if a bounding box contains all the points of a bounding sphere.
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb,
-													  MUU_VPARAM(bounding_sphere<Scalar>) bs) noexcept;
+			for (; begin != end; begin++)
+				if (!contains(*begin))
+					return false;
 
-		/// \brief	Returns true if a bounding box contains all the points of a bounding sphere.
-		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere<Scalar>) bs) const noexcept
-		{
-			return contains(*this, bs);
-		}
-
-			/// @}
-	#endif // containment
-
-	#if 1 // intersection ------------------------------------------------------------------------------
-		/// \name Intersection
-		/// @{
-
-		MUU_PURE_INLINE_GETTER
-		constexpr muu::intersection_tester<bounding_box> MUU_VECTORCALL intersection_tester() noexcept;
-
-		//--------------------------------
-		// aabb x plane
-		//--------------------------------
-
-		/// \brief	Returns true if a bounding box intersects a plane.
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
-														MUU_VPARAM(plane<scalar_type>) p) noexcept;
-
-		/// \brief	Returns true if the bounding box intersects a plane.
-		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(plane<scalar_type>) p) const noexcept
-		{
-			return intersects(*this, p);
+			return true;
 		}
 
 		//--------------------------------
 		// aabb x line segment
 		//--------------------------------
+
+		/// \brief	Returns true if a bounding box contains a line segment.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb,
+													  MUU_VPARAM(vector_type) start,
+													  MUU_VPARAM(vector_type) end) noexcept
+		{
+			return contains(bb, start) && contains(bb, end);
+		}
+
+		/// \brief	Returns true if a bounding box contains a line segment.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb,
+													  MUU_VPARAM(line_segment<scalar_type>) seg) noexcept;
+
+		/// \brief	Returns true if the bounding box contains a line segment.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(line_segment<scalar_type>) seg) const noexcept
+		{
+			return contains(*this, seg);
+		}
 
 		/// \brief	Returns true if a bounding box intersects a line segment.
 		MUU_PURE_GETTER
@@ -954,8 +942,46 @@ namespace muu
 		}
 
 		//--------------------------------
+		// aabb x plane
+		//--------------------------------
+
+		/// \brief	Returns true if a bounding box intersects a plane.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
+														MUU_VPARAM(plane<scalar_type>) p) noexcept;
+
+		/// \brief	Returns true if the bounding box intersects a plane.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(plane<scalar_type>) p) const noexcept
+		{
+			return intersects(*this, p);
+		}
+
+		//--------------------------------
 		// aabb x triangle
 		//--------------------------------
+
+		/// \brief	Returns true if a bounding box contains a triangle.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb,
+													  MUU_VPARAM(vector_type) p0,
+													  MUU_VPARAM(vector_type) p1,
+													  MUU_VPARAM(vector_type) p2) noexcept
+		{
+			return contains(bb, p0) && contains(bb, p1) && contains(bb, p2);
+		}
+
+		/// \brief	Returns true if a bounding box contains a triangle.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb,
+													  MUU_VPARAM(triangle<scalar_type>) tri) noexcept;
+
+		/// \brief	Returns true if the bounding box contains a triangle.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept
+		{
+			return contains(*this, tri);
+		}
 
 		/// \brief	Returns true if a bounding box intersects a triangle.
 		MUU_PURE_GETTER
@@ -1000,8 +1026,55 @@ namespace muu
 		}
 
 		//--------------------------------
+		// aabb x sphere
+		//--------------------------------
+
+		/// \brief	Returns true if a bounding box contains all the points of a bounding sphere.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb,
+													  MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept;
+
+		/// \brief	Returns true if a bounding box contains all the points of a bounding sphere.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept
+		{
+			return contains(*this, bs);
+		}
+
+		/// \brief	Returns true if a bounding box intersects a bounding sphere.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
+														MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept;
+
+		/// \brief	Returns true if the bounding box intersects a bounding sphere.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept
+
+		{
+			return intersects(*this, bs);
+		}
+
+		//--------------------------------
 		// aabb x aabb
 		//--------------------------------
+
+		/// \brief	Returns true if a bounding box contains all the points of another bounding box.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) outer,
+													  MUU_VPARAM(bounding_box) inner) noexcept
+		{
+			return aabbs::contains_aabb_min_max(outer.min_corner(),
+												outer.max_corner(),
+												inner.min_corner(),
+												inner.max_corner());
+		}
+
+		/// \brief	Returns true if a bounding box contains all the points of another bounding box.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb) const noexcept
+		{
+			return contains(*this, bb);
+		}
 
 		/// \brief	Returns true if two bounding boxes intersect.
 		MUU_PURE_GETTER
@@ -1025,12 +1098,24 @@ namespace muu
 		// aabb x obb
 		//--------------------------------
 
-		/// \brief	Returns true if an axis-aligned bounding box intersects an oriented bounding_box.
+		/// \brief	Returns true if an axis-aligned bounding box contains all the points of an oriented bounding box.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(bounding_box) bb,
+													  MUU_VPARAM(oriented_bounding_box<scalar_type>) obb) noexcept;
+
+		/// \brief	Returns true if an axis-aligned bounding box contains all the points of an oriented bounding box.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(oriented_bounding_box<scalar_type>) obb) const noexcept
+		{
+			return contains(*this, obb);
+		}
+
+		/// \brief	Returns true if an axis-aligned bounding box intersects an oriented bounding box.
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) aabb,
 														MUU_VPARAM(oriented_bounding_box<scalar_type>) obb) noexcept;
 
-		/// \brief	Returns true if the axis-aligned bounding box intersects an oriented bounding_box.
+		/// \brief	Returns true if the axis-aligned bounding box intersects an oriented bounding box.
 		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box<scalar_type>) obb) const noexcept
 
@@ -1038,25 +1123,8 @@ namespace muu
 			return intersects(*this, obb);
 		}
 
-		//--------------------------------
-		// aabb x sphere
-		//--------------------------------
-
-		/// \brief	Returns true if a bounding box intersects a bounding sphere.
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box) bb,
-														MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept;
-
-		/// \brief	Returns true if the bounding box intersects a bounding sphere.
-		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept
-
-		{
-			return intersects(*this, bs);
-		}
-
 			/// @}
-	#endif // intersection
+	#endif // collision detection
 
 	#if 1 // misc ---------------------------------------------------------------------------------------------------
 

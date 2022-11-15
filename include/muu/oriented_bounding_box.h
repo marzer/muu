@@ -674,9 +674,65 @@ namespace muu
 			/// @}
 	#endif // transformation
 
-	#if 1 // intersection ------------------------------------------------------------------------------
-		  /// \name Intersection
+	#if 1 // collision detection ------------------------------------------------------------------------------
+		  /// \name Collision detection
 		  /// @{
+
+		//--------------------------------
+		// obb x point
+		//--------------------------------
+
+		/// \brief	Returns true if an oriented bounding box contains a point.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(oriented_bounding_box) obb,
+													  MUU_VPARAM(vector_type) point) noexcept
+		{
+			const auto adj = vector_type::abs(axes_type::transpose(obb.axes) * (point - obb.center));
+			return adj.x <= obb.extents.x //
+				&& adj.y <= obb.extents.y //
+				&& adj.z <= obb.extents.z;
+		}
+
+		/// \brief	Returns true if the oriented bounding box contains a point.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point) const noexcept
+		{
+			return contains(*this, point);
+		}
+
+		/// \brief	Returns true if the oriented bounding box contains all the points in an arbitrary collection.
+		MUU_PURE_GETTER
+		constexpr bool MUU_VECTORCALL contains(const vector_type* begin, const vector_type* end) noexcept
+		{
+			if (begin == end)
+				return false;
+
+			MUU_ASSUME(begin != nullptr);
+			MUU_ASSUME(end != nullptr);
+			MUU_ASSUME(begin < end);
+
+			for (; begin != end; begin++)
+				if (!contains(*begin))
+					return false;
+
+			return true;
+		}
+
+		//--------------------------------
+		// obb x line segment
+		//--------------------------------
+
+		//--------------------------------
+		// obb x plane
+		//--------------------------------
+
+		//--------------------------------
+		// obb x triangle
+		//--------------------------------
+
+		//--------------------------------
+		// obb x sphere
+		//--------------------------------
 
 		//--------------------------------
 		// obb x aabb
@@ -746,7 +802,7 @@ namespace muu
 		}
 
 			/// @}
-	#endif // intersection
+	#endif // collision detection
 	};
 
 	/// \cond

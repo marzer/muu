@@ -93,8 +93,8 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::intersects(MUU_VPARAM(bounding_sphere) bb,
-																	  MUU_VPARAM(bounding_box<Scalar>) bs) noexcept
+	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::intersects(MUU_VPARAM(bounding_sphere) bs,
+																	  MUU_VPARAM(bounding_box<Scalar>) bb) noexcept
 	{
 		return aabbs::intersects_sphere(bb.center, bb.extents, bs.center, bs.radius);
 	}

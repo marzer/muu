@@ -83,6 +83,7 @@
     <ClInclude Include="include\muu\impl\bounding_box_x_triangle.h" />
     <ClInclude Include="include\muu\build.h" />
     <ClInclude Include="include\muu\bit_cast.h" />
+    <ClInclude Include="include\muu\impl\bounding_sphere_x_line_segment.h" />
     <ClInclude Include="include\muu\impl\bounding_sphere_x_triangle.h" />
     <ClInclude Include="include\muu\impl\core_utils.h" />
     <ClInclude Include="include\muu\impl\core_constants.h" />

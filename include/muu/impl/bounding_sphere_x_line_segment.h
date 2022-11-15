@@ -5,42 +5,25 @@
 #pragma once
 /// \cond
 
-#include "../bounding_box.h"
+#include "../bounding_sphere.h"
 #include "../line_segment.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 
 //----------------------------------------------------------------------------------------------------------------------
-// bounding_box.h implementations
+// bounding_sphere.h implementations
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace muu
 {
 	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::contains(MUU_VPARAM(bounding_box) bb,
-																 MUU_VPARAM(line_segment<scalar_type>) seg) noexcept
+	MUU_PURE_GETTER
+	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::contains(MUU_VPARAM(bounding_sphere) bb,
+																	MUU_VPARAM(line_segment<Scalar>) seg) noexcept
 	{
 		return contains(bb, seg.points[0], seg.points[1]);
 	}
-
-	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(bounding_box) bb,
-																   MUU_VPARAM(line_segment<scalar_type>) seg) noexcept
-	{
-		return intersects(bb, seg.points[0], seg.points[1]);
-	}
-
-	template <typename Scalar>
-	MUU_ALWAYS_INLINE
-	constexpr bounding_box<Scalar>& MUU_VECTORCALL bounding_box<Scalar>::append(MUU_VPARAM(line_segment<scalar_type>)
-																					seg) noexcept
-	{
-		return append(seg.points[0], seg.points[1]);
-	}
-
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -49,13 +32,7 @@ namespace muu
 
 namespace muu
 {
-	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL line_segment<Scalar>::intersects(MUU_VPARAM(line_segment) seg,
-																   MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept
-	{
-		return bounding_box<scalar_type>::intersects(bb, seg.points[0], seg.points[1]);
-	}
+
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

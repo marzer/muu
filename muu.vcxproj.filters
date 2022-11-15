@@ -362,6 +362,9 @@
     <ClInclude Include="include\muu\impl\bounding_sphere_x_triangle.h">
       <Filter>include\impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\impl\bounding_sphere_x_line_segment.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
