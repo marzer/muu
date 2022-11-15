@@ -20,9 +20,8 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_GETTER
-	static constexpr bool MUU_VECTORCALL bounding_box<Scalar>::contains(MUU_VPARAM(bounding_box) bb,
-																		MUU_VPARAM(oriented_bounding_box<Scalar>)
-																			obb) noexcept
+	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::contains(MUU_VPARAM(bounding_box) bb,
+																 MUU_VPARAM(oriented_bounding_box<Scalar>) obb) noexcept
 	{
 		// todo: very likely a more efficient way of doing this
 
@@ -38,7 +37,7 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_GETTER
-	inline constexpr bounding_box<Scalar> MUU_VECTORCALL bounding_box<Scalar>::from_obb(
+	constexpr bounding_box<Scalar> MUU_VECTORCALL bounding_box<Scalar>::from_obb(
 		MUU_VPARAM(oriented_bounding_box<Scalar>) obb) noexcept
 	{
 		const vector_type corners[] = {
@@ -53,9 +52,9 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_GETTER
-	inline constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(bounding_box) aabb,
-																		  MUU_VPARAM(oriented_bounding_box<Scalar>)
-																			  obb) noexcept
+	constexpr bool MUU_VECTORCALL bounding_box<Scalar>::intersects(MUU_VPARAM(bounding_box) aabb,
+																   MUU_VPARAM(oriented_bounding_box<Scalar>)
+																	   obb) noexcept
 	{
 		const vector_type obb_corners[] = {
 			obb.template corner<box_corner::min>(), obb.template corner<box_corner::x>(),

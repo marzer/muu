@@ -17,8 +17,8 @@ namespace muu
 	{
 		template <typename Scalar, size_t R, size_t C>
 		MUU_PURE_GETTER
-		inline constexpr quaternion<Scalar> MUU_VECTORCALL quat_from_rotation_matrix(MUU_VPARAM(matrix<Scalar, R, C>)
-																						 rot) noexcept
+		constexpr quaternion<Scalar> MUU_VECTORCALL quat_from_rotation_matrix(MUU_VPARAM(matrix<Scalar, R, C>)
+																				  rot) noexcept
 		{
 #define MAT_GET(r, c) rot.m[c].template get<r>()
 
@@ -79,7 +79,7 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_GETTER
-	inline constexpr quaternion<Scalar> quaternion<Scalar>::from_rotation(MUU_VPARAM(matrix<Scalar, 3, 3>) rot) noexcept
+	constexpr quaternion<Scalar> quaternion<Scalar>::from_rotation(MUU_VPARAM(matrix<Scalar, 3, 3>) rot) noexcept
 	{
 		if constexpr (is_small_float)
 			return quaternion{ promoted_quat::from_rotation(matrix<promoted_scalar, 3, 3>{ rot }) };
@@ -89,7 +89,7 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_GETTER
-	inline constexpr quaternion<Scalar> quaternion<Scalar>::from_rotation(MUU_VPARAM(matrix<Scalar, 3, 4>) rot) noexcept
+	constexpr quaternion<Scalar> quaternion<Scalar>::from_rotation(MUU_VPARAM(matrix<Scalar, 3, 4>) rot) noexcept
 	{
 		if constexpr (is_small_float)
 			return quaternion{ promoted_quat::from_rotation(matrix<promoted_scalar, 3, 3>{ rot }) };
@@ -99,7 +99,7 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_GETTER
-	inline constexpr quaternion<Scalar> quaternion<Scalar>::from_rotation(MUU_VPARAM(matrix<Scalar, 4, 4>) rot) noexcept
+	constexpr quaternion<Scalar> quaternion<Scalar>::from_rotation(MUU_VPARAM(matrix<Scalar, 4, 4>) rot) noexcept
 	{
 		if constexpr (is_small_float)
 			return quaternion{ promoted_quat::from_rotation(matrix<promoted_scalar, 3, 3>{ rot }) };
