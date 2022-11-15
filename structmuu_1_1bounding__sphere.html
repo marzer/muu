@@ -84,11 +84,10 @@
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
-                <li><a href="#containment">Containment</a></li>
+                <li><a href="#collision-detection">Collision detection</a></li>
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
-                <li><a href="#intersection">Intersection</a></li>
                 <li><a href="#scalar-accessors">Scalar accessors</a></li>
                 <li><a href="#scaling">Scaling</a></li>
                 <li><a href="#translation">Translation</a></li>
@@ -177,14 +176,37 @@
             <dd>The radius of the sphere.</dd>
           </dl>
         </section>
-        <section id="containment">
-          <h2><a href="#containment">Containment</a></h2>
+        <section id="collision-detection">
+          <h2><a href="#collision-detection">Collision detection</a></h2>
           <dl class="m-doc">
             <dt id="aadaadb1e9704233dd3b66ae9e05b81ab">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aadaadb1e9704233dd3b66ae9e05b81ab">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
               const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a bounding sphere contains a point.</dd>
+            <dt id="a54bd18c98e9ea54ae47aaf7f7f183a39">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a54bd18c98e9ea54ae47aaf7f7f183a39">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; start,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; end) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a bounding sphere contains a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a>.</dd>
+            <dt id="a4d6c1e117da922ae8a2a8cd9422df91a">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4d6c1e117da922ae8a2a8cd9422df91a">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a bounding sphere contains a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a>.</dd>
+            <dt id="a0fca2311804a00e82a0b1ec34291b22e">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a0fca2311804a00e82a0b1ec34291b22e">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; p2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a bounding sphere contains a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
+            <dt id="ad60c455499cd971baaba6a5a5c23a34a">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad60c455499cd971baaba6a5a5c23a34a">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a bounding sphere contains a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
             <dt id="a676fb2ee26f98ea6f4673bbb42f5e31a">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a676fb2ee26f98ea6f4673bbb42f5e31a">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; outer,
               const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; inner) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -194,11 +216,46 @@
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a3e881f5999d690f3ebb17aa82ee18a41">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; outer,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; inner) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if a bounding sphere contains all the points of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
+            <dd>Returns true if a bounding sphere contains all the points of an axis-aligned <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
+            <dt id="a97e78249b4c6ab926fbcdaef4d334862">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a97e78249b4c6ab926fbcdaef4d334862">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; p2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a bounding sphere intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
+            <dt id="a6fea5112ea506e85d10075ec8b62e3e9">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a6fea5112ea506e85d10075ec8b62e3e9">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a bounding sphere intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
+            <dt id="a4edefcf21c74550528fcec04034cb80e">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4edefcf21c74550528fcec04034cb80e">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs1,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two bounding spheres intersect.</dd>
+            <dt id="a54389af093fac2b4db0f15d07649c913">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a54389af093fac2b4db0f15d07649c913">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if a bounding sphere intersects a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
             <dt id="a863f80bbefe421f3195209468d1a2270">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a863f80bbefe421f3195209468d1a2270">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the bounding sphere contains a point.</dd>
+            <dt id="a54b516904cf9ebf46209fff27a46be44">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a54b516904cf9ebf46209fff27a46be44">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>* begin,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>* end) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the bounding sphere contains all the points in an arbitrary collection.</dd>
+            <dt id="aed342452a296975cf20d27ead1c3f1e9">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aed342452a296975cf20d27ead1c3f1e9">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; seg) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the bounding sphere contains a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a>.</dd>
+            <dt id="a77151c7a849bad52471fd7b1d5e40ef1">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a77151c7a849bad52471fd7b1d5e40ef1">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; tri) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the bounding sphere contains a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
             <dt id="a5bd3264fdb52114db687dd60eeb03508">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5bd3264fdb52114db687dd60eeb03508">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -206,7 +263,23 @@
             <dt id="a909185102aea55b4e06b65567af1e88d">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a909185102aea55b4e06b65567af1e88d">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
-            <dd>Returns true if the bounding sphere contains all the points of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
+            <dd>Returns true if the bounding sphere contains all the points of an axis-aligned <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
+            <dt id="a50a1c0b420fbc74c590ea8defb8c3cf2">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a50a1c0b420fbc74c590ea8defb8c3cf2">intersection_tester</a>(</span><span class="m-doc-wrap">) -&gt; muu::intersection_tester&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates an #muu::intersection_tester for this bounding sphere.</dd>
+            <dt id="a1e1469c77f3bb309970e6d095f2d0e46">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1e1469c77f3bb309970e6d095f2d0e46">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; tri) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the bounding sphere intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
+            <dt id="a18f5f5994b901a647c86c42cc0937112">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a18f5f5994b901a647c86c42cc0937112">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two bounding spheres intersect.</dd>
+            <dt id="a636ca529cf8857df1b307a0672143f99">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a636ca529cf8857df1b307a0672143f99">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the bounding sphere intersects a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
           </dl>
         </section>
         <section id="equality-approximate">
@@ -313,45 +386,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aef9d80e564eade0c1f4193562c93ae97">volume</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Calculates the volume of the sphere.</dd>
-          </dl>
-        </section>
-        <section id="intersection">
-          <h2><a href="#intersection">Intersection</a></h2>
-          <dl class="m-doc">
-            <dt id="a4edefcf21c74550528fcec04034cb80e">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a4edefcf21c74550528fcec04034cb80e">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs1,
-              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two bounding spheres intersect.</dd>
-            <dt id="a97e78249b4c6ab926fbcdaef4d334862">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a97e78249b4c6ab926fbcdaef4d334862">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
-              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; p0,
-              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; p1,
-              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; p2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a bounding sphere intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
-            <dt id="a6fea5112ea506e85d10075ec8b62e3e9">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a6fea5112ea506e85d10075ec8b62e3e9">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
-              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a bounding sphere intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
-            <dt id="a54389af093fac2b4db0f15d07649c913">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a54389af093fac2b4db0f15d07649c913">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
-              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if a bounding sphere intersects a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
-            <dt id="a18f5f5994b901a647c86c42cc0937112">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a18f5f5994b901a647c86c42cc0937112">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two bounding spheres intersect.</dd>
-            <dt id="a1e1469c77f3bb309970e6d095f2d0e46">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1e1469c77f3bb309970e6d095f2d0e46">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; tri) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if the bounding sphere intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
-            <dt id="a636ca529cf8857df1b307a0672143f99">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a636ca529cf8857df1b307a0672143f99">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__sphere.html#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>&gt;&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if the bounding sphere intersects a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a>.</dd>
           </dl>
         </section>
         <section id="scalar-accessors">

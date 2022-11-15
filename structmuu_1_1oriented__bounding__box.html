@@ -84,11 +84,11 @@
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
+                <li><a href="#collision-detection">Collision detection</a></li>
                 <li><a href="#corners">Corners</a></li>
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
-                <li><a href="#intersection">Intersection</a></li>
                 <li><a href="#scalar-accessors">Scalar accessors</a></li>
                 <li><a href="#scaling">Scaling</a></li>
                 <li><a href="#transformation">Transformation</a></li>
@@ -215,6 +215,43 @@
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a> <a class="m-doc-self" href="#a06266afb86562e550b7442dfd6d525ba">axes</a>
             </dt>
             <dd>The axes of the box's orientation.</dd>
+          </dl>
+        </section>
+        <section id="collision-detection">
+          <h2><a href="#collision-detection">Collision detection</a></h2>
+          <dl class="m-doc">
+            <dt id="a5ca7e9c9f825a9460b869bc256f9d4cb">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a5ca7e9c9f825a9460b869bc256f9d4cb">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; obb,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if an oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> contains a point.</dd>
+            <dt id="aceeebd08a3e2c01219536c8115b5fbde">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aceeebd08a3e2c01219536c8115b5fbde">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; obb,
+              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; aabb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if an oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> intersects an axis-aligned <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>.</dd>
+            <dt id="ad40a1aab831164ca6e42b8f98e3e2a79">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad40a1aab831164ca6e42b8f98e3e2a79">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb1,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding boxes</a> intersect.</dd>
+            <dt id="a2c2512af61957088c640334aee35cf08">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2c2512af61957088c640334aee35cf08">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> contains a point.</dd>
+            <dt id="a4beec34f4fb032a8b01ec5649c93e94b">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4beec34f4fb032a8b01ec5649c93e94b">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>* begin,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>* end) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> contains all the points in an arbitrary collection.</dd>
+            <dt id="ab1872cd9def090e649fe370cb4f36903">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab1872cd9def090e649fe370cb4f36903">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; aabb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> intersects an axis-aligned <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>.</dd>
+            <dt id="a0d132f82c8229850219d108af20032ee">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0d132f82c8229850219d108af20032ee">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if two oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding boxes</a> intersect.</dd>
           </dl>
         </section>
         <section id="corners">
@@ -397,29 +434,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a23fbae24deb285286d6b5f370419aab6">width</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the width of the box (x-axis).</dd>
-          </dl>
-        </section>
-        <section id="intersection">
-          <h2><a href="#intersection">Intersection</a></h2>
-          <dl class="m-doc">
-            <dt id="aceeebd08a3e2c01219536c8115b5fbde">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aceeebd08a3e2c01219536c8115b5fbde">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; obb,
-              const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; aabb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if an oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> intersects an axis-aligned <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>.</dd>
-            <dt id="ad40a1aab831164ca6e42b8f98e3e2a79">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad40a1aab831164ca6e42b8f98e3e2a79">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb1,
-              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding boxes</a> intersect.</dd>
-            <dt id="ab1872cd9def090e649fe370cb4f36903">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab1872cd9def090e649fe370cb4f36903">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; aabb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if the oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> intersects an axis-aligned <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>.</dd>
-            <dt id="a0d132f82c8229850219d108af20032ee">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0d132f82c8229850219d108af20032ee">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Returns true if two oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding boxes</a> intersect.</dd>
           </dl>
         </section>
         <section id="scalar-accessors">
