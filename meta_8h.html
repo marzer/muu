@@ -186,6 +186,11 @@
             <dd>The type with the smallest alignment (i.e. having the smallest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga752383c0f4374f49266f839873833f0c">make_cref</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/add_reference.html" target="_blank">std::<wbr/>add_lvalue_reference_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_const_t</a>&lt;remove_cvref&lt;T&gt;&gt;&gt;
+            </dt>
+            <dd>Makes a type into a const lvalue reference.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga8723b987045c7b40be5ce133a46e899c">make_signed</a> = typename impl::make_signed_&lt;T&gt;::type
             </dt>
             <dd>Converts a numeric type to the signed equivalent with the same rank.</dd>

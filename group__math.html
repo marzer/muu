@@ -208,6 +208,12 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaaf7dddff9f1adef9065cd13a4d482d86">contains</a>(</span><span class="m-doc-wrap">const T&amp; outer,
+              const U&amp; inner) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Checks if an object contains another object.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gabf640468db93ee9390f6809f2495a291">evenly_distribute</a>(</span><span class="m-doc-wrap">T total,
               T bucket_count,
@@ -221,6 +227,12 @@
               V... vals) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the lowest common multiple of two or more integers.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga268472307e826584a963e7451d3fd0d2">intersects</a>(</span><span class="m-doc-wrap">const T&amp; obj1,
+              const U&amp; obj2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Checks if two objects intersect.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U, typename... V&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga747762e03956634201248a153ce0ce5e">lcm</a>(</span><span class="m-doc-wrap">T val1,
@@ -301,6 +313,39 @@
         </section>
         <section>
           <h2>Function documentation</h2>
+          <section class="m-doc-details" id="gaaf7dddff9f1adef9065cd13a4d482d86"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename U&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaaf7dddff9f1adef9065cd13a4d482d86">contains</a>(</span><span class="m-doc-wrap">const T&amp; outer,
+              const U&amp; inner) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Checks if an object contains another object.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>The type of the outer object.</td>
+                </tr>
+                <tr>
+                  <td>U</td>
+                  <td>The type of the inner object.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Returns true if the outer object compltely contained the inner object.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>\conditional This method relies on there being an implementation of one of:</p><ul><li><code>T::contains(outer, inner)</code></li><li><code>outer.contains(inner)</code></li></ul>
+          </div></section>
           <section class="m-doc-details" id="gabf640468db93ee9390f6809f2495a291"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
@@ -325,6 +370,39 @@
             </h3>
             <p>Returns the lowest common multiple of two or more integers.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is a variadic version of std::gcd.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga268472307e826584a963e7451d3fd0d2"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename T, typename U&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga268472307e826584a963e7451d3fd0d2">intersects</a>(</span><span class="m-doc-wrap">const T&amp; obj1,
+              const U&amp; obj2) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Checks if two objects intersect.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>The type of object 1.</td>
+                </tr>
+                <tr>
+                  <td>U</td>
+                  <td>The type of object 2.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td>Returns true if the two objects intersect.</td>
+                </tr>
+              </tfoot>
+            </table>
+<p>\conditional This method relies on there being an implementation of one of:</p><ul><li><code>T::intersects(obj1, obj2)</code></li><li><code>T::intersects(obj2, obj1)</code></li><li><code>U::intersects(obj2, obj1)</code></li><li><code>U::intersects(obj1, obj2)</code></li><li><code>obj1.intersects(obj2)</code></li><li><code>obj2.intersects(obj1)</code></li></ul>
           </div></section>
           <section class="m-doc-details" id="ga747762e03956634201248a153ce0ce5e"><div>
             <h3>

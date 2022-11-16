@@ -1965,6 +1965,20 @@
       <anchor>gabf640468db93ee9390f6809f2495a291</anchor>
       <arglist>(T total, T bucket_count, T bucket_index) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>gaaf7dddff9f1adef9065cd13a4d482d86</anchor>
+      <arglist>(const T &amp;outer, const U &amp;inner) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga268472307e826584a963e7451d3fd0d2</anchor>
+      <arglist>(const T &amp;obj1, const U &amp;obj2) noexcept</arglist>
+    </member>
     <member kind="variable">
       <type>constexpr bool</type>
       <name>supports_constexpr_math</name>
@@ -2220,6 +2234,13 @@
       <name>copy_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga75bafae329db57745b406a02e6565007</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>std::add_lvalue_reference_t&lt; std::add_const_t&lt; remove_cvref&lt; T &gt; &gt; &gt;</type>
+      <name>make_cref</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga752383c0f4374f49266f839873833f0c</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -18004,6 +18025,13 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>std::add_lvalue_reference_t&lt; std::add_const_t&lt; remove_cvref&lt; T &gt; &gt; &gt;</type>
+      <name>make_cref</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga752383c0f4374f49266f839873833f0c</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>typename impl::rebase_pointer_&lt; Ptr, NewBase &gt;::type</type>
       <name>rebase_pointer</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -19535,6 +19563,20 @@
       <anchorfile>group__math.html</anchorfile>
       <anchor>gabf640468db93ee9390f6809f2495a291</anchor>
       <arglist>(T total, T bucket_count, T bucket_index) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>gaaf7dddff9f1adef9065cd13a4d482d86</anchor>
+      <arglist>(const T &amp;outer, const U &amp;inner) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga268472307e826584a963e7451d3fd0d2</anchor>
+      <arglist>(const T &amp;obj1, const U &amp;obj2) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -23424,6 +23466,20 @@
       <anchor>gabf640468db93ee9390f6809f2495a291</anchor>
       <arglist>(T total, T bucket_count, T bucket_index) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>contains</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>gaaf7dddff9f1adef9065cd13a4d482d86</anchor>
+      <arglist>(const T &amp;outer, const U &amp;inner) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga268472307e826584a963e7451d3fd0d2</anchor>
+      <arglist>(const T &amp;obj1, const U &amp;obj2) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="group">
     <name>memory</name>
@@ -23644,6 +23700,13 @@
       <name>copy_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga75bafae329db57745b406a02e6565007</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>std::add_lvalue_reference_t&lt; std::add_const_t&lt; remove_cvref&lt; T &gt; &gt; &gt;</type>
+      <name>make_cref</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga752383c0f4374f49266f839873833f0c</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
