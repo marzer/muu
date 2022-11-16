@@ -5,34 +5,33 @@
 #pragma once
 /// \cond
 
-#include "../bounding_sphere.h"
+#include "../oriented_bounding_box.h"
 #include "../triangle.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 
 //----------------------------------------------------------------------------------------------------------------------
-// bounding_sphere.h implementations
+// bounding_box.h implementations
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::contains(MUU_VPARAM(bounding_sphere) bs,
-																	MUU_VPARAM(triangle<Scalar>) tri) noexcept
+	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::contains(MUU_VPARAM(oriented_bounding_box) bb,
+																		  MUU_VPARAM(triangle<Scalar>) tri) noexcept
 	{
-		return contains(bs, tri.points[0], tri.points[1], tri.points[2]);
+		return contains(bb, tri.points[0], tri.points[1], tri.points[2]);
 	}
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::intersects(MUU_VPARAM(bounding_sphere) bs,
-																	  MUU_VPARAM(triangle<Scalar>) tri) noexcept
+	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::intersects(MUU_VPARAM(oriented_bounding_box) bb,
+																			MUU_VPARAM(triangle<Scalar>) tri) noexcept
 	{
-		return intersects(bs, tri.points[0], tri.points[1], tri.points[2]);
+		return intersects(bb, tri.points[0], tri.points[1], tri.points[2]);
 	}
-
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -46,9 +45,9 @@ namespace muu
 	constexpr bool MUU_VECTORCALL triangle<Scalar>::intersects(MUU_VPARAM(vector_type) p0,
 															   MUU_VPARAM(vector_type) p1,
 															   MUU_VPARAM(vector_type) p2,
-															   MUU_VPARAM(bounding_sphere<Scalar>) bs) noexcept
+															   MUU_VPARAM(oriented_bounding_box<Scalar>) bb) noexcept
 	{
-		return bounding_sphere<Scalar>::intersects(bs, p0, p1, p2);
+		return oriented_bounding_box<Scalar>::intersects(bb, p0, p1, p2);
 	}
 }
 

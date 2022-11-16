@@ -18,7 +18,7 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 namespace muu
 {
 	template <typename Scalar>
-	MUU_PURE_GETTER
+	MUU_PURE_INLINE_GETTER
 	constexpr bounding_box<Scalar> MUU_VECTORCALL bounding_box<Scalar>::from_sphere(MUU_VPARAM(bounding_sphere<Scalar>)
 																						bs) noexcept
 	{
@@ -35,10 +35,10 @@ namespace muu
 		if (!aabbs::intersects_sphere_min_max_radsq(min, max, bs.center, bs.radius * bs.radius))
 			return false;
 
-		return aabbs::contains_min_max(min,
-									   max,
-									   bs.center - vector_type{ bs.radius },
-									   bs.center + vector_type{ bs.radius });
+		return aabbs::contains_aabb_min_max(min,
+											max,
+											bs.center - vector_type{ bs.radius },
+											bs.center + vector_type{ bs.radius });
 	}
 
 	template <typename Scalar>
@@ -50,17 +50,17 @@ namespace muu
 	}
 
 	template <typename Scalar>
-	MUU_PURE_GETTER
-	constexpr bool MUU_VECTORCALL intersection_tester<bounding_box<Scalar>>::operator()(
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL collision_tester<bounding_box<Scalar>>::operator()(
 		MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept
 	{
 		return aabbs::intersects_sphere_min_max_radsq(min, max, bs.center, bs.radius * bs.radius);
 	}
 
 	template <typename Scalar>
-	MUU_PURE_GETTER
-	constexpr bool MUU_VECTORCALL intersection_tester<bounding_box<Scalar>>::operator()(
-		const intersection_tester<bounding_sphere<scalar_type>>& bs_tester) const noexcept
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL collision_tester<bounding_box<Scalar>>::operator()(
+		const collision_tester<bounding_sphere<scalar_type>>& bs_tester) const noexcept
 	{
 		return aabbs::intersects_sphere_min_max_radsq(min, max, bs_tester.center, bs_tester.radius_squared);
 	}
@@ -100,17 +100,17 @@ namespace muu
 	}
 
 	template <typename Scalar>
-	MUU_PURE_GETTER
-	constexpr bool MUU_VECTORCALL intersection_tester<bounding_sphere<Scalar>>::operator()(
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL collision_tester<bounding_sphere<Scalar>>::operator()(
 		MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
 	{
 		return aabbs::intersects_sphere_min_max_radsq(bb.min_corner(), bb.max_corner(), center, radius_squared);
 	}
 
 	template <typename Scalar>
-	MUU_PURE_GETTER
-	constexpr bool MUU_VECTORCALL intersection_tester<bounding_sphere<Scalar>>::operator()(
-		const intersection_tester<bounding_box<scalar_type>>& tester) const noexcept
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL collision_tester<bounding_sphere<Scalar>>::operator()(
+		const collision_tester<bounding_box<scalar_type>>& tester) const noexcept
 	{
 		return aabbs::intersects_sphere_min_max_radsq(tester.min, tester.max, center, radius_squared);
 	}

@@ -305,9 +305,9 @@ namespace muu
 	struct sat_tester;
 
 	template <typename>
-	struct intersection_tester;
+	struct collision_tester;
 	template <typename T>
-	intersection_tester(const T&) -> intersection_tester<T>;
+	collision_tester(const T&) -> collision_tester<T>;
 
 	template <typename T>
 	using axis_angle_rotation = axis_angle<T>;

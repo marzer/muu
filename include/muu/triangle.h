@@ -426,67 +426,131 @@ namespace muu
 			/// @}
 	#endif // equality (approx)
 
-	#if 1 // containment ------------------------------------------------------------------------------
-		  /// \name Containment
-		  /// @{
+	#if 1 // collision detection ------------------------------------------------------------------------------
+		/// \name Collision detection
+		/// @{
+
+		/// \brief Creates an #muu::collision_tester for this triangle.
+		MUU_PURE_GETTER
+		constexpr muu::collision_tester<triangle> MUU_VECTORCALL collision_tester() noexcept;
+
+		//--------------------------------
+		// triangle x point
+		//--------------------------------
 
 		/// \brief	Returns true if a triangle and a point are coplanar.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(vector_type) p0,
 													  MUU_VPARAM(vector_type) p1,
 													  MUU_VPARAM(vector_type) p2,
-													  MUU_VPARAM(vector_type) point) noexcept
+													  MUU_VPARAM(vector_type) point,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-			return triangles::coplanar(p0, p1, p2, point);
+			return triangles::coplanar(p0, p1, p2, point, epsilon);
 		}
 
 		/// \brief	Returns true if a triangle and a point are coplanar.
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(triangle) tri, MUU_VPARAM(vector_type) point) noexcept
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(triangle) tri,
+													  MUU_VPARAM(vector_type) point,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-			return triangles::coplanar(tri.points[0], tri.points[1], tri.points[2], point);
+			return triangles::coplanar(tri.points[0], tri.points[1], tri.points[2], point, epsilon);
 		}
 
 		/// \brief	Returns true if the triangle and a point are coplanar.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(vector_type) point) const noexcept
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL coplanar(MUU_VPARAM(vector_type) point,
+											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
-			return triangles::coplanar(base::points[0], base::points[1], base::points[2], point);
+			return triangles::coplanar(base::points[0], base::points[1], base::points[2], point, epsilon);
 		}
 
 		/// \brief	Returns true if a triangle contains a point.
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) p0,
+													  MUU_VPARAM(vector_type) p1,
+													  MUU_VPARAM(vector_type) p2,
+													  MUU_VPARAM(vector_type) point,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		{
+			return triangles::contains_point(p0, p1, p2, point, epsilon);
+		}
+
+		/// \brief	Returns true if a triangle contains a point.
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(triangle) tri,
+													  MUU_VPARAM(vector_type) point,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		{
+			return triangles::contains_point(tri.points[0], tri.points[1], tri.points[2], point, epsilon);
+		}
+
+		/// \brief	Returns true if the triangle contains a point.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point,
+											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
+		{
+			return triangles::contains_point(base::points[0], base::points[1], base::points[2], point, epsilon);
+		}
+
+		/// \brief	Returns true if the triangles contains all the points in an arbitrary collection.
+		MUU_PURE_GETTER
+		constexpr bool MUU_VECTORCALL contains(const vector_type* begin,
+											   const vector_type* end,
+											   scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		{
+			if (begin == end)
+				return false;
+
+			MUU_ASSUME(begin != nullptr);
+			MUU_ASSUME(end != nullptr);
+			MUU_ASSUME(begin < end);
+
+			for (; begin != end; begin++)
+				if (!contains(*begin, epsilon))
+					return false;
+
+			return true;
+		}
+
+		//--------------------------------
+		// triangle x line segment
+		//--------------------------------
+
+		/// \brief	Returns true if a triangle contains a line segment.
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) p0,
 													  MUU_VPARAM(vector_type) p1,
 													  MUU_VPARAM(vector_type) p2,
-													  MUU_VPARAM(vector_type) point) noexcept
+													  MUU_VPARAM(vector_type) start,
+													  MUU_VPARAM(vector_type) end,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-			return triangles::contains_point(p0, p1, p2, point);
+			return contains(p0, p1, p2, start, epsilon) && contains(p0, p1, p2, end, epsilon);
 		}
 
-		/// \brief	Returns true if a triangle contains a point.
+		/// \brief	Returns true if a triangle contains a line segment.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(triangle) tri, MUU_VPARAM(vector_type) point) noexcept
-		{
-			return triangles::contains_point(tri.points[0], tri.points[1], tri.points[2], point);
-		}
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(triangle) tri,
+													  MUU_VPARAM(line_segment<scalar_type>) seg,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept;
 
-		/// \brief	Returns true if the triangle contains a point.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point) const noexcept
-		{
-			return triangles::contains_point(base::points[0], base::points[1], base::points[2], point);
-		}
-
-			/// @}
-	#endif // containment
-
-	#if 1 // intersection ------------------------------------------------------------------------------
-		  /// \name Intersection
-		  /// @{
-
+		/// \brief	Returns true if the triangle contains a line segment.
 		MUU_PURE_INLINE_GETTER
-		constexpr muu::intersection_tester<triangle> MUU_VECTORCALL intersection_tester() noexcept;
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(line_segment<scalar_type>) seg,
+											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
+		{
+			return contains(*this, seg, epsilon);
+		}
+
+		//--------------------------------
+		// triangle x plane
+		//--------------------------------
+
+		//--------------------------------
+		// triangle x triangle
+		//--------------------------------
 
 		//--------------------------------
 		// triangle x sphere
@@ -519,26 +583,55 @@ namespace muu
 		//--------------------------------
 
 		/// \brief	Returns true if a triangle intersects a bounding box.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(vector_type) p0,
 														MUU_VPARAM(vector_type) p1,
 														MUU_VPARAM(vector_type) p2,
 														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
 
 		/// \brief	Returns true if a triangle intersects a bounding box.
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle) tri,
-														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
+														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept
+		{
+			return intersects(tri.points[0], tri.points[1], tri.points[2], bb);
+		}
 
 		/// \brief	Returns true if the triangle intersects a bounding box.
 		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
 		{
-			return intersects(*this, bb);
+			return intersects(base::points[0], base::points[1], base::points[2], bb);
+		}
+
+		//--------------------------------
+		// triangle x obb
+		//--------------------------------
+
+		/// \brief	Returns true if a triangle intersects an oriented bounding box.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(vector_type) p0,
+														MUU_VPARAM(vector_type) p1,
+														MUU_VPARAM(vector_type) p2,
+														MUU_VPARAM(oriented_bounding_box<scalar_type>) bb) noexcept;
+
+		/// \brief	Returns true if a triangle intersects an oriented bounding box.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle) tri,
+														MUU_VPARAM(oriented_bounding_box<scalar_type>) bb) noexcept
+		{
+			return intersects(tri.points[0], tri.points[1], tri.points[2], bb);
+		}
+
+		/// \brief	Returns true if the triangle intersects an oriented bounding box.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box<scalar_type>) bb) const noexcept
+		{
+			return intersects(base::points[0], base::points[1], base::points[2], bb);
 		}
 
 			/// @}
-	#endif // intersection
+	#endif // collision detection
 
 	#if 1 // barycentric coordinates ----------------------------------------------------------------------
 		  /// \name Barycentric coordinates
@@ -747,7 +840,7 @@ namespace std
 namespace muu
 {
 	template <typename Scalar>
-	struct intersection_tester<triangle<Scalar>>
+	struct collision_tester<triangle<Scalar>>
 	{
 		using scalar_type	= Scalar;
 		using vector_type	= vector<scalar_type, 3>;
@@ -758,10 +851,10 @@ namespace muu
 		vector_type normal;
 
 		MUU_NODISCARD_CTOR
-		intersection_tester() noexcept = default;
+		collision_tester() noexcept = default;
 
 		MUU_NODISCARD_CTOR
-		explicit constexpr intersection_tester(const triangle_type& t) noexcept //
+		explicit constexpr collision_tester(const triangle_type& t) noexcept //
 			: tri{ t },
 			  edges{ t[1] - t[0], t[2] - t[1], t[0] - t[2] },
 			  normal{ t.normal() }
@@ -770,9 +863,9 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr muu::intersection_tester<triangle<Scalar>> MUU_VECTORCALL triangle<Scalar>::intersection_tester() noexcept
+	constexpr muu::collision_tester<triangle<Scalar>> MUU_VECTORCALL triangle<Scalar>::collision_tester() noexcept
 	{
-		return muu::intersection_tester<triangle<Scalar>>{ *this };
+		return muu::collision_tester<triangle<Scalar>>{ *this };
 	}
 }
 /// \endcond
@@ -865,7 +958,9 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
 
 /// \cond
+#include "impl/triangle_x_line_segment.h"
 #include "impl/bounding_box_x_triangle.h"
 #include "impl/bounding_sphere_x_triangle.h"
 #include "impl/plane_x_triangle.h"
+#include "impl/oriented_bounding_box_x_triangle.h"
 /// \endcond

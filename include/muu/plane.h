@@ -65,6 +65,8 @@ namespace muu
 	#if MUU_DOXYGEN
 
 		/// \brief	The plane's normal direction.
+		/// \attention	All plane math assumes this normal to be unit-length;
+		///				if you assign to this member directly and do not ensure unit-length, there be dragons!
 		vector_type normal;
 
 		/// \brief	The `d` term of the plane equation.

@@ -5,24 +5,25 @@
 #pragma once
 /// \cond
 
-#include "../bounding_sphere.h"
+#include "../triangle.h"
 #include "../line_segment.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 
 //----------------------------------------------------------------------------------------------------------------------
-// bounding_sphere.h implementations
+// triangle.h implementations
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::contains(MUU_VPARAM(bounding_sphere) bb,
-																	MUU_VPARAM(line_segment<Scalar>) seg) noexcept
+	constexpr bool MUU_VECTORCALL triangle<Scalar>::contains(MUU_VPARAM(triangle) tri,
+															 MUU_VPARAM(line_segment<Scalar>) seg,
+															 Scalar epsilon) noexcept
 	{
-		return contains(bb, seg.points[0], seg.points[1]);
+		return contains(tri.points[0], tri.points[1], tri.points[2], seg.points[0], seg.points[1], epsilon);
 	}
 }
 

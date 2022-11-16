@@ -5,11 +5,27 @@
 #pragma once
 /// \cond
 
+#include "../oriented_bounding_box.h"
 #include "../bounding_sphere.h"
-#include "../line_segment.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
+
+//----------------------------------------------------------------------------------------------------------------------
+// oriented_bounding_box.h implementations
+//----------------------------------------------------------------------------------------------------------------------
+
+namespace muu
+{
+	template <typename Scalar>
+	MUU_PURE_GETTER
+	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::intersects(MUU_VPARAM(oriented_bounding_box) bb,
+																			MUU_VPARAM(bounding_sphere<Scalar>)
+																				bs) noexcept
+	{
+		return vector_type::distance_squared(bb.closest_point(bs.center), bs.center) <= bs.radius * bs.radius;
+	}
+}
 
 //----------------------------------------------------------------------------------------------------------------------
 // bounding_sphere.h implementations
@@ -19,20 +35,12 @@ namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::contains(MUU_VPARAM(bounding_sphere) bb,
-																	MUU_VPARAM(line_segment<Scalar>) seg) noexcept
+	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::intersects(MUU_VPARAM(bounding_sphere) bs,
+																	  MUU_VPARAM(oriented_bounding_box<scalar_type>)
+																		  bb) noexcept
 	{
-		return contains(bb, seg.points[0], seg.points[1]);
+		return oriented_bounding_box<Scalar>::intersects(bb, bs);
 	}
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-// line_segment.h implementations
-//----------------------------------------------------------------------------------------------------------------------
-
-namespace muu
-{
-
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

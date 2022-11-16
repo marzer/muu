@@ -35,16 +35,16 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL intersection_tester<bounding_box<Scalar>>::operator()(MUU_VPARAM(triangle<Scalar>)
-																							tri) const noexcept
+	constexpr bool MUU_VECTORCALL collision_tester<bounding_box<Scalar>>::operator()(MUU_VPARAM(triangle<Scalar>)
+																						 tri) const noexcept
 	{
 		return (*this)(tri.points[0], tri.points[1], tri.points[2]);
 	}
 
 	template <typename Scalar>
 	MUU_PURE_GETTER
-	constexpr bool MUU_VECTORCALL intersection_tester<bounding_box<Scalar>>::operator()(
-		const intersection_tester<triangle<Scalar>>& tri_tester) const noexcept
+	constexpr bool MUU_VECTORCALL collision_tester<bounding_box<Scalar>>::operator()(
+		const collision_tester<triangle<Scalar>>& tri_tester) const noexcept
 	{
 		if (!aabbs::intersects_tri_akenine_moller_1(min,
 													max,
@@ -68,7 +68,7 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_ALWAYS_INLINE
-	constexpr bounding_box<Scalar>& MUU_VECTORCALL bounding_box<Scalar>::append(MUU_VPARAM(triangle<scalar_type>)
+	constexpr bounding_box<Scalar>& MUU_VECTORCALL bounding_box<Scalar>::append(MUU_VPARAM(triangle<Scalar>)
 																					tri) noexcept
 	{
 		return append(tri.points[0], tri.points[1], tri.points[2]);
@@ -86,17 +86,9 @@ namespace muu
 	constexpr bool MUU_VECTORCALL triangle<Scalar>::intersects(MUU_VPARAM(vector_type) p0,
 															   MUU_VPARAM(vector_type) p1,
 															   MUU_VPARAM(vector_type) p2,
-															   MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept
+															   MUU_VPARAM(bounding_box<Scalar>) bb) noexcept
 	{
-		return bounding_box<scalar_type>::intersects(bb, p0, p1, p2);
-	}
-
-	template <typename Scalar>
-	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL triangle<Scalar>::intersects(MUU_VPARAM(triangle) tri,
-															   MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept
-	{
-		return bounding_box<scalar_type>::intersects(bb, tri.points[0], tri.points[1], tri.points[2]);
+		return bounding_box<Scalar>::intersects(bb, p0, p1, p2);
 	}
 }
 

@@ -5,25 +5,27 @@
 #pragma once
 /// \cond
 
-#include "../bounding_sphere.h"
+#include "../oriented_bounding_box.h"
 #include "../line_segment.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 
 //----------------------------------------------------------------------------------------------------------------------
-// bounding_sphere.h implementations
+// oriented_bounding_box.h implementations
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::contains(MUU_VPARAM(bounding_sphere) bb,
-																	MUU_VPARAM(line_segment<Scalar>) seg) noexcept
+	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::contains(MUU_VPARAM(oriented_bounding_box) bb,
+																		  MUU_VPARAM(line_segment<scalar_type>)
+																			  seg) noexcept
 	{
 		return contains(bb, seg.points[0], seg.points[1]);
 	}
+
 }
 
 //----------------------------------------------------------------------------------------------------------------------

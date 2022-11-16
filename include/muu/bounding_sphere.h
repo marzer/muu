@@ -422,13 +422,32 @@ namespace muu
 			/// @}
 	#endif // scaling
 
+	#if 1 // point queries ------------------------------------------------------------------------------
+		/// \name Point queries
+		/// @{
+
+		/// \brief Gets point contained by the bounding sphere closest to another arbitrary point.
+		MUU_PURE_GETTER
+		constexpr vector_type MUU_VECTORCALL closest_point(MUU_VPARAM(vector_type) point) const noexcept
+		{
+			const auto delta		= point - base::center;
+			const auto dist_squared = vector_type::length_squared(delta);
+			if (dist_squared <= base::radius * base::radius)
+				return point;
+
+			return vector_type::normalize_lensq(delta, dist_squared) * base::radius;
+		}
+
+			/// @}
+	#endif // point queries
+
 	#if 1 // collision detection ------------------------------------------------------------------------------
 		/// \name Collision detection
 		/// @{
 
-		/// \brief Creates an #muu::intersection_tester for this bounding sphere.
+		/// \brief Creates an #muu::collision_tester for this bounding sphere.
 		MUU_PURE_GETTER
-		constexpr muu::intersection_tester<bounding_sphere> MUU_VECTORCALL intersection_tester() noexcept;
+		constexpr muu::collision_tester<bounding_sphere> MUU_VECTORCALL collision_tester() noexcept;
 
 		//--------------------------------
 		// sphere x point
@@ -659,9 +678,21 @@ namespace muu
 			return intersects(*this, bb);
 		}
 
-			//--------------------------------
-			// sphere x obb
-			//--------------------------------
+		//--------------------------------
+		// sphere x obb
+		//--------------------------------
+
+		/// \brief	Returns true if a bounding sphere intersects an oriented bounding box.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere) bs,
+														MUU_VPARAM(oriented_bounding_box<scalar_type>) bb) noexcept;
+
+		/// \brief	Returns true if the bounding sphere intersects an oriented bounding box.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box<scalar_type>) bb) const noexcept
+		{
+			return intersects(*this, bb);
+		}
 
 			/// @}
 	#endif // collision detection
@@ -724,7 +755,7 @@ namespace std
 namespace muu
 {
 	template <typename Scalar>
-	struct intersection_tester<bounding_sphere<Scalar>>
+	struct collision_tester<bounding_sphere<Scalar>>
 	{
 		using scalar_type = Scalar;
 		using vector_type = vector<scalar_type, 3>;
@@ -744,10 +775,10 @@ namespace muu
 		vector_type max;
 
 		MUU_NODISCARD_CTOR
-		intersection_tester() noexcept = default;
+		collision_tester() noexcept = default;
 
 		MUU_NODISCARD_CTOR
-		explicit constexpr intersection_tester(const sphere_type& bs) noexcept //
+		explicit constexpr collision_tester(const sphere_type& bs) noexcept //
 			: center{ bs.center },
 			  radius{ bs.radius },
 			  radius_squared{ bs.radius * bs.radius },
@@ -762,7 +793,7 @@ namespace muu
 		}
 
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL operator()(const intersection_tester& tester) const noexcept
+		constexpr bool MUU_VECTORCALL operator()(const collision_tester& tester) const noexcept
 		{
 			return vector_type::distance_squared(center, tester.center) <= (radius_squared + tester.radius_squared);
 		}
@@ -771,15 +802,15 @@ namespace muu
 		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(bounding_box<scalar_type>)) const noexcept;
 
 		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL operator()(const intersection_tester<bounding_box<scalar_type>>&) const noexcept;
+		constexpr bool MUU_VECTORCALL operator()(const collision_tester<bounding_box<scalar_type>>&) const noexcept;
 	};
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr muu::intersection_tester<bounding_sphere<Scalar>> MUU_VECTORCALL bounding_sphere<
-		Scalar>::intersection_tester() noexcept
+	constexpr muu::collision_tester<bounding_sphere<Scalar>> MUU_VECTORCALL bounding_sphere<
+		Scalar>::collision_tester() noexcept
 	{
-		return muu::intersection_tester<bounding_sphere<Scalar>>{ *this };
+		return muu::collision_tester<bounding_sphere<Scalar>>{ *this };
 	}
 }
 /// \endcond
@@ -880,4 +911,5 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/bounding_sphere_x_triangle.h"
 #include "impl/bounding_sphere_x_line_segment.h"
 #include "impl/bounding_box_x_bounding_sphere.h"
+#include "impl/oriented_bounding_box_x_bounding_sphere.h"
 /// \endcond

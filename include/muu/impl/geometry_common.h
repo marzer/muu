@@ -334,9 +334,10 @@ namespace muu::impl
 		static constexpr bool MUU_VECTORCALL coplanar(vector_param p0,
 													  vector_param p1,
 													  vector_param p2,
-													  vector_param point) noexcept
+													  vector_param point,
+													  scalar_type epsilon) noexcept
 		{
-			return muu::approx_zero(vector_type::dot(point - p0, normal(p0, p1, p2)));
+			return muu::approx_zero(vector_type::dot(point - p0, normal(p0, p1, p2)), epsilon);
 		}
 
 		MUU_PURE_GETTER
@@ -428,9 +429,10 @@ namespace muu::impl
 		static constexpr bool MUU_VECTORCALL contains_point(vector_param p0,
 															vector_param p1,
 															vector_param p2,
-															vector_param point) noexcept
+															vector_param point,
+															scalar_type epsilon) noexcept
 		{
-			return coplanar(p0, p1, p2, point) && contains_coplanar_point(p0, p1, p2, point);
+			return coplanar(p0, p1, p2, point, epsilon) && contains_coplanar_point(p0, p1, p2, point);
 		}
 	};
 }
@@ -812,6 +814,44 @@ namespace muu::impl
 			return true;
 		}
 
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects_tri_min_max(vector_param min,
+																	vector_param max,
+																	vector_param p0,
+																	vector_param p1,
+																	vector_param p2) noexcept
+		{
+			if (!intersects_tri_akenine_moller_1(min, max, p0, p1, p2))
+				return false;
+
+			const vector_type corners[] = { min,
+											corner_min_max<box_corner::x>(min, max),
+											corner_min_max<box_corner::xy>(min, max),
+											corner_min_max<box_corner::xz>(min, max),
+											corner_min_max<box_corner::y>(min, max),
+											corner_min_max<box_corner::yz>(min, max),
+											corner_min_max<box_corner::z>(min, max),
+											max };
+			if (!intersects_tri_akenine_moller_2(corners, p0, triangles::normal(p0, p1, p2)))
+				return false;
+
+			const vector_type tri_edges[] = { p1 - p0, p2 - p1, p0 - p2 };
+			if (!intersects_tri_akenine_moller_3(corners, p0, p1, p2, tri_edges))
+				return false;
+
+			return true;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects_tri(vector_param center,
+															vector_param extents,
+															vector_param p0,
+															vector_param p1,
+															vector_param p2) noexcept
+		{
+			return intersects_tri_min_max(center - extents, center + extents, p0, p1, p2);
+		}
+
 		//--------------------------------
 		// aabb x sphere
 		//--------------------------------
@@ -895,7 +935,7 @@ namespace muu
 namespace muu::impl
 {
 	template <typename Scalar>
-	struct obb_common : boxes_common<Scalar>
+	struct obbs_common : boxes_common<Scalar>
 	{
 		using scalar_type  = Scalar;
 		using vector_type  = vector<scalar_type, 3>;

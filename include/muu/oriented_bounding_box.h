@@ -56,7 +56,8 @@ namespace muu
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2 + sizeof(axes_type)),
 					  "Oriented bounding boxes should not have padding");
 
-		using obbs		 = impl::obb_common<Scalar>;
+		using aabbs		 = impl::aabbs_common<Scalar>;
+		using obbs		 = impl::obbs_common<Scalar>;
 		using sat_tester = muu::sat_tester<Scalar, 3>;
 
 		using promoted_scalar					 = promote_if_small_float<scalar_type>;
@@ -76,6 +77,8 @@ namespace muu
 		vector_type extents;
 
 		/// \brief	The axes of the box's orientation.
+		/// \attention	All OBB math assumes these axes are orthonormalized;
+		///				if you assign to this member directly and do not ensure orthonormalization, there be dragons!
 		axes_type axes;
 
 	#endif // DOXYGEN
@@ -674,6 +677,28 @@ namespace muu
 			/// @}
 	#endif // transformation
 
+	#if 1 // point queries ------------------------------------------------------------------------------
+		/// \name Point queries
+		/// @{
+
+		/// \brief Gets point contained by the bounding box closest to another arbitrary point.
+		MUU_PURE_GETTER
+		constexpr vector_type MUU_VECTORCALL closest_point(MUU_VPARAM(vector_type) point) const noexcept
+		{
+			const auto adj		= point - base::center;
+			vector_type closest = base::center;
+			closest += muu::clamp(vector_type::dot(adj, base::axes.x_column()), -base::extents.x, base::extents.x)
+					 * base::axes.x_column();
+			closest += muu::clamp(vector_type::dot(adj, base::axes.y_column()), -base::extents.y, base::extents.y)
+					 * base::axes.y_column();
+			closest += muu::clamp(vector_type::dot(adj, base::axes.z_column()), -base::extents.z, base::extents.z)
+					 * base::axes.z_column();
+			return closest;
+		}
+
+			/// @}
+	#endif // point queries
+
 	#if 1 // collision detection ------------------------------------------------------------------------------
 		  /// \name Collision detection
 		  /// @{
@@ -684,13 +709,13 @@ namespace muu
 
 		/// \brief	Returns true if an oriented bounding box contains a point.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(oriented_bounding_box) obb,
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(oriented_bounding_box) bb,
 													  MUU_VPARAM(vector_type) point) noexcept
 		{
-			const auto adj = vector_type::abs(axes_type::transpose(obb.axes) * (point - obb.center));
-			return adj.x <= obb.extents.x //
-				&& adj.y <= obb.extents.y //
-				&& adj.z <= obb.extents.z;
+			const auto adj = point - bb.center;
+			return muu::abs(vector_type::dot(adj, bb.axes.x_column())) <= bb.extents.x //
+				&& muu::abs(vector_type::dot(adj, bb.axes.y_column())) <= bb.extents.y //
+				&& muu::abs(vector_type::dot(adj, bb.axes.z_column())) <= bb.extents.z;
 		}
 
 		/// \brief	Returns true if the oriented bounding box contains a point.
@@ -722,6 +747,27 @@ namespace muu
 		// obb x line segment
 		//--------------------------------
 
+		/// \brief	Returns true if an oriented bounding box contains a line segment.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(oriented_bounding_box) bb,
+													  MUU_VPARAM(vector_type) start,
+													  MUU_VPARAM(vector_type) end) noexcept
+		{
+			return contains(bb, start) && contains(bb, end);
+		}
+
+		/// \brief	Returns true if an oriented bounding box contains a line segment.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(oriented_bounding_box) bb,
+													  MUU_VPARAM(line_segment<scalar_type>) seg) noexcept;
+
+		/// \brief	Returns true if the oriented bounding box contains a line segment.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(line_segment<scalar_type>) seg) const noexcept
+		{
+			return contains(*this, seg);
+		}
+
 		//--------------------------------
 		// obb x plane
 		//--------------------------------
@@ -730,9 +776,71 @@ namespace muu
 		// obb x triangle
 		//--------------------------------
 
+		/// \brief	Returns true if an oriented bounding contains a triangle.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(oriented_bounding_box) bb,
+													  MUU_VPARAM(vector_type) p0,
+													  MUU_VPARAM(vector_type) p1,
+													  MUU_VPARAM(vector_type) p2) noexcept
+		{
+			return contains(bb, p0) && contains(bb, p1) && contains(bb, p2);
+		}
+
+		/// \brief	Returns true if an oriented bounding contains a triangle.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(oriented_bounding_box) bb,
+													  MUU_VPARAM(triangle<scalar_type>) tri) noexcept;
+
+		/// \brief	Returns true if the oriented bounding contains a triangle.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept
+		{
+			return contains(*this, tri);
+		}
+
+		/// \brief	Returns true if an oriented bounding intersects a triangle.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box) bb,
+														MUU_VPARAM(vector_type) p0,
+														MUU_VPARAM(vector_type) p1,
+														MUU_VPARAM(vector_type) p2) noexcept
+		{
+			const auto w2l_rot = axes_type::transpose(bb.axes);
+			return aabbs::intersects_tri_min_max(-bb.extents,
+												 bb.extents,
+												 w2l_rot * (p0 - bb.center),
+												 w2l_rot * (p1 - bb.center),
+												 w2l_rot * (p2 - bb.center));
+		}
+
+		/// \brief	Returns true if an oriented bounding intersects a triangle.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box) bb,
+														MUU_VPARAM(triangle<scalar_type>) tri) noexcept;
+
+		/// \brief	Returns true if the oriented bounding intersects a triangle.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept
+		{
+			return intersects(*this, tri);
+		}
+
 		//--------------------------------
 		// obb x sphere
 		//--------------------------------
+
+		/// \brief	Returns true if an oriented bounding box intersects a bounding sphere.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(oriented_bounding_box) bb,
+														MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept;
+
+		/// \brief	Returns true if the oriented bounding box intersects a bounding sphere.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept
+
+		{
+			return intersects(*this, bs);
+		}
 
 		//--------------------------------
 		// obb x aabb
@@ -915,8 +1023,7 @@ namespace muu
 	/// \ingroup	approx_zero
 	/// \relatesalso	muu::oriented_bounding_box
 	///
-	/// \brief		Returns true if all the scalar components of an oriented bounding box are approximately equal to
-	/// zero.
+	/// \brief	Returns true if all the scalar components of an oriented bounding box are approximately equal to zero.
 	template <typename S>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL approx_zero(const oriented_bounding_box<S>& bb,
@@ -943,5 +1050,8 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
 
 /// \cond
+#include "impl/oriented_bounding_box_x_bounding_sphere.h"
+#include "impl/oriented_bounding_box_x_triangle.h"
+#include "impl/oriented_bounding_box_x_line_segment.h"
 #include "impl/bounding_box_x_oriented_bounding_box.h"
 /// \endcond

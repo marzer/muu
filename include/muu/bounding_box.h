@@ -831,13 +831,27 @@ namespace muu
 	/// @}
 	#endif // appending
 
+	#if 1 // point queries ------------------------------------------------------------------------------
+		/// \name Point queries
+		/// @{
+
+		/// \brief Gets point contained by the bounding box closest to another arbitrary point.
+		MUU_PURE_GETTER
+		constexpr vector_type MUU_VECTORCALL closest_point(MUU_VPARAM(vector_type) point) const noexcept
+		{
+			return aabbs::closest_min_max(base::center - base::extents, base::center + base::extents, point);
+		}
+
+			/// @}
+	#endif // point queries
+
 	#if 1 // collision detection ------------------------------------------------------------------------------
 		/// \name Collision detection
 		/// @{
 
-		/// \brief Creates an #muu::intersection_tester for this bounding box.
+		/// \brief Creates an #muu::collision_tester for this bounding box.
 		MUU_PURE_GETTER
-		constexpr muu::intersection_tester<bounding_box> MUU_VECTORCALL intersection_tester() noexcept;
+		constexpr muu::collision_tester<bounding_box> MUU_VECTORCALL collision_tester() noexcept;
 
 		//--------------------------------
 		// aabb x point
@@ -990,27 +1004,7 @@ namespace muu
 														MUU_VPARAM(vector_type) p1,
 														MUU_VPARAM(vector_type) p2) noexcept
 		{
-			const auto min = bb.min_corner();
-			const auto max = bb.max_corner();
-			if (!aabbs::intersects_tri_akenine_moller_1(min, max, p0, p1, p2))
-				return false;
-
-			const vector_type corners[] = { min,
-											aabbs::template corner_min_max<box_corner::x>(min, max),
-											aabbs::template corner_min_max<box_corner::xy>(min, max),
-											aabbs::template corner_min_max<box_corner::xz>(min, max),
-											aabbs::template corner_min_max<box_corner::y>(min, max),
-											aabbs::template corner_min_max<box_corner::yz>(min, max),
-											aabbs::template corner_min_max<box_corner::z>(min, max),
-											max };
-			if (!aabbs::intersects_tri_akenine_moller_2(corners, p0, triangles::normal(p0, p1, p2)))
-				return false;
-
-			const vector_type tri_edges[] = { p1 - p0, p2 - p1, p0 - p2 };
-			if (!aabbs::intersects_tri_akenine_moller_3(corners, p0, p1, p2, tri_edges))
-				return false;
-
-			return true;
+			return aabbs::intersects_tri(bb.center, bb.extents, p0, p1, p2);
 		}
 
 		/// \brief	Returns true if a bounding box intersects a triangle.
@@ -1196,7 +1190,7 @@ namespace std
 namespace muu
 {
 	template <typename Scalar>
-	struct intersection_tester<bounding_box<Scalar>>
+	struct collision_tester<bounding_box<Scalar>>
 	{
 		using scalar_type = Scalar;
 		using vector_type = vector<scalar_type, 3>;
@@ -1214,10 +1208,10 @@ namespace muu
 		vector_type corners[8];
 
 		MUU_NODISCARD_CTOR
-		intersection_tester() noexcept = default;
+		collision_tester() noexcept = default;
 
 		MUU_NODISCARD_CTOR
-		explicit constexpr intersection_tester(const box_type& bb) noexcept //
+		explicit constexpr collision_tester(const box_type& bb) noexcept //
 			: box{ bb },
 			  min{ bb.min_corner() },
 			  max{ bb.max_corner() },
@@ -1244,7 +1238,7 @@ namespace muu
 		}
 
 		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL operator()(const intersection_tester& tester) const noexcept
+		constexpr bool MUU_VECTORCALL operator()(const collision_tester& tester) const noexcept
 		{
 			return aabbs::intersects_aabb_min_max(min, max, tester.min, tester.max);
 		}
@@ -1271,22 +1265,21 @@ namespace muu
 		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(triangle<scalar_type>)) const noexcept;
 
 		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL operator()(const intersection_tester<triangle<scalar_type>>&) const noexcept;
+		constexpr bool MUU_VECTORCALL operator()(const collision_tester<triangle<scalar_type>>&) const noexcept;
 
 		MUU_PURE_GETTER
 		constexpr bool MUU_VECTORCALL operator()(MUU_VPARAM(bounding_sphere<scalar_type>)) const noexcept;
 
 		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL operator()(
-			const intersection_tester<bounding_sphere<scalar_type>>&) const noexcept;
+		constexpr bool MUU_VECTORCALL operator()(const collision_tester<bounding_sphere<scalar_type>>&) const noexcept;
 	};
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr muu::intersection_tester<bounding_box<Scalar>> MUU_VECTORCALL bounding_box<
-		Scalar>::intersection_tester() noexcept
+	constexpr muu::collision_tester<bounding_box<Scalar>> MUU_VECTORCALL bounding_box<
+		Scalar>::collision_tester() noexcept
 	{
-		return muu::intersection_tester<bounding_box<Scalar>>{ *this };
+		return muu::collision_tester<bounding_box<Scalar>>{ *this };
 	}
 }
 /// \endcond
