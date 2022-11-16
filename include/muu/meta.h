@@ -1301,6 +1301,10 @@ namespace muu
 	template <typename T, typename CopyFrom>
 	using copy_cvref = copy_ref<copy_cv<std::remove_reference_t<T>, std::remove_reference_t<CopyFrom>>, CopyFrom>;
 
+	/// \brief Makes a type into a const lvalue reference.
+	template <typename T>
+	using make_cref = std::add_lvalue_reference_t<std::add_const_t<remove_cvref<T>>>;
+
 	/// \brief Does Child inherit from Parent?
 	/// \remarks This does _not_ consider `Child == Parent` as being an "inherits from" relationship, unlike std::is_base_of.
 	template <typename Child, typename Parent>

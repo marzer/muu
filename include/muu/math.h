@@ -2388,5 +2388,93 @@ namespace muu
 	/** @} */ // math
 }
 
+/// \cond
+namespace muu::impl
+{
+	template <typename T, typename U>
+	using has_static_contains_ =
+		decltype(remove_cvref<T>::contains(std::declval<make_cref<T>>(), std::declval<make_cref<U>>()));
+
+	template <typename T, typename U>
+	using has_member_contains_ = decltype(std::declval<make_cref<T>>().contains(std::declval<make_cref<U>>()));
+
+	template <typename T, typename U>
+	using has_static_intersects_TTU_ =
+		decltype(remove_cvref<T>::intersects(std::declval<make_cref<T>>(), std::declval<make_cref<U>>()));
+
+	template <typename T, typename U>
+	using has_static_intersects_TUT_ =
+		decltype(remove_cvref<T>::intersects(std::declval<make_cref<U>>(), std::declval<make_cref<T>>()));
+
+	template <typename T, typename U>
+	using has_member_intersects_ = decltype(std::declval<make_cref<T>>().intersects(std::declval<make_cref<U>>()));
+}
+/// \endcond
+
+namespace muu
+{
+	/// \brief Checks if an object contains another object.
+	/// \ingroup math
+	///
+	/// \tparam T		The type of the outer object.
+	/// \tparam U		The type of the inner object.
+	/// \tparam outer	The outer object.
+	/// \tparam inner	The inner object.
+	///
+	/// \returns Returns true if the outer object compltely contained the inner object.
+	///
+	/// \conditional This method relies on there being an implementation of one of:
+	///		- `T::contains(outer, inner)`
+	///		- `outer.contains(inner)`
+	template <typename T, typename U>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL contains(const T& outer, const U& inner) noexcept
+	{
+		if constexpr (is_detected<impl::has_static_contains_, const T&, const U&>)
+			return T::contains(outer, inner);
+		else if constexpr (is_detected<impl::has_member_contains_, const T&, const U&>)
+			return outer.contains(inner);
+		else
+			static_assert(always_false<T, U>, "could not resolve pairwise contains() method");
+	}
+
+	/// \brief Checks if two objects intersect.
+	/// \ingroup math
+	///
+	/// \tparam T		The type of object 1.
+	/// \tparam U		The type of object 2.
+	/// \tparam obj1	Object 1.
+	/// \tparam obj2	Object 2.
+	///
+	/// \returns Returns true if the two objects intersect.
+	///
+	/// \conditional This method relies on there being an implementation of one of:
+	///		- `T::intersects(obj1, obj2)`
+	///		- `T::intersects(obj2, obj1)`
+	///		- `U::intersects(obj2, obj1)`
+	///		- `U::intersects(obj1, obj2)`
+	///		- `obj1.intersects(obj2)`
+	///		- `obj2.intersects(obj1)`
+	template <typename T, typename U>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool MUU_VECTORCALL intersects(const T& obj1, const U& obj2) noexcept
+	{
+		if constexpr (is_detected<impl::has_static_intersects_TTU_, const T&, const U&>)
+			return T::intersects(obj1, obj2);
+		else if constexpr (is_detected<impl::has_static_intersects_TTU_, const U&, const T&>)
+			return U::intersects(obj2, obj1);
+		else if constexpr (is_detected<impl::has_static_intersects_TUT_, const T&, const U&>)
+			return T::intersects(obj2, obj1);
+		else if constexpr (is_detected<impl::has_static_intersects_TUT_, const U&, const T&>)
+			return U::intersects(obj1, obj2);
+		else if constexpr (is_detected<impl::has_member_intersects_, const T&, const U&>)
+			return obj1.intersects(obj2);
+		else if constexpr (is_detected<impl::has_member_intersects_, const U&, const T&>)
+			return obj2.intersects(obj1);
+		else
+			static_assert(always_false<T, U>, "could not resolve pairwise intersects() method");
+	}
+}
+
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
