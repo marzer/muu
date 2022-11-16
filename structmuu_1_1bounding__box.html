@@ -91,6 +91,7 @@
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
+                <li><a href="#point-queries">Point queries</a></li>
                 <li><a href="#scalar-accessors">Scalar accessors</a></li>
                 <li><a href="#scaling">Scaling</a></li>
                 <li><a href="#transformation">Transformation</a></li>
@@ -390,6 +391,10 @@
               const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; obb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if an axis-aligned bounding box intersects an <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented bounding box</a>.</dd>
+            <dt id="a777f12e9d71944c58f3ce2283b69e21f">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a777f12e9d71944c58f3ce2283b69e21f">collision_tester</a>(</span><span class="m-doc-wrap">) -&gt; muu::collision_tester&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates an #muu::collision_tester for this bounding box.</dd>
             <dt id="afd5ecc1f6389e35561f56b1e74677b52">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afd5ecc1f6389e35561f56b1e74677b52">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; point) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -419,10 +424,6 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a48beef61af60045c4389f70e47ba6604">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; obb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if an axis-aligned bounding box contains all the points of an <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented bounding box</a>.</dd>
-            <dt id="aee5886c9d9dc02d8bbba94ccac4a3a12">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aee5886c9d9dc02d8bbba94ccac4a3a12">intersection_tester</a>(</span><span class="m-doc-wrap">) -&gt; muu::intersection_tester&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
-            </dt>
-            <dd>Creates an #muu::intersection_tester for this bounding box.</dd>
             <dt id="afed6c15c4df6806f09770073ed1bb487">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afed6c15c4df6806f09770073ed1bb487">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a>&gt;&amp; seg) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -629,6 +630,15 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2a63fd23abca17ee46343911e748ed53">width</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html#a8bfddb93e7f09edcc207c492694ac254">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the width of the box (x-axis).</dd>
+          </dl>
+        </section>
+        <section id="point-queries">
+          <h2><a href="#point-queries">Point queries</a></h2>
+          <dl class="m-doc">
+            <dt id="aa1d5a09e5eef0d4bbd42c0d2603ef6b6">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa1d5a09e5eef0d4bbd42c0d2603ef6b6">closest_point</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a>&amp; point) const -&gt; <a class="m-doc" href="structmuu_1_1bounding__box.html#ac196b04da4951ebbe84dfb42228bd6c8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Gets point contained by the bounding box closest to another arbitrary point.</dd>
           </dl>
         </section>
         <section id="scalar-accessors">

@@ -89,6 +89,7 @@
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
+                <li><a href="#point-queries">Point queries</a></li>
                 <li><a href="#scalar-accessors">Scalar accessors</a></li>
                 <li><a href="#scaling">Scaling</a></li>
                 <li><a href="#transformation">Transformation</a></li>
@@ -211,8 +212,8 @@
               <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a> <a class="m-doc-self" href="#ac4542677a8de3faee8f11390bcffe84c">extents</a>
             </dt>
             <dd>The half-lengths of box (i.e. distances from the center to the sides).</dd>
-            <dt id="a06266afb86562e550b7442dfd6d525ba">
-              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a> <a class="m-doc-self" href="#a06266afb86562e550b7442dfd6d525ba">axes</a>
+            <dt>
+              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a> <a class="m-doc" href="#a06266afb86562e550b7442dfd6d525ba">axes</a>
             </dt>
             <dd>The axes of the box's orientation.</dd>
           </dl>
@@ -220,11 +221,51 @@
         <section id="collision-detection">
           <h2><a href="#collision-detection">Collision detection</a></h2>
           <dl class="m-doc">
-            <dt id="a5ca7e9c9f825a9460b869bc256f9d4cb">
-              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a5ca7e9c9f825a9460b869bc256f9d4cb">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; obb,
+            <dt id="aa84fc12d48c0416484ecd618168e433d">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aa84fc12d48c0416484ecd618168e433d">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
               const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; point) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if an oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> contains a point.</dd>
+            <dt id="aa5d1f3c3562e7b0fc1499be339ea1267">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aa5d1f3c3562e7b0fc1499be339ea1267">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; start,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; end) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if an oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> contains a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a>.</dd>
+            <dt id="ad33242fe14fb06e1274c9fe4cb1b322a">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad33242fe14fb06e1274c9fe4cb1b322a">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if an oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> contains a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a>.</dd>
+            <dt id="aef7b20827433aca09d332b20f6ae6e4c">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aef7b20827433aca09d332b20f6ae6e4c">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; p2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if an oriented bounding contains a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
+            <dt id="a95fb6d3b31fb84a7b745611ef03ec95c">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a95fb6d3b31fb84a7b745611ef03ec95c">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if an oriented bounding contains a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
+            <dt id="a46c012b38aa1f1159e76799a2848c84b">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a46c012b38aa1f1159e76799a2848c84b">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; p0,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; p1,
+              const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; p2) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if an oriented bounding intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
+            <dt id="a914d8d5bc73872539f498035b911eb97">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a914d8d5bc73872539f498035b911eb97">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if an oriented bounding intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
+            <dt id="a321c4ad552a9193bbd77ac0684338a4a">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a321c4ad552a9193bbd77ac0684338a4a">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; bb,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; bs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if an oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> intersects a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding sphere</a>.</dd>
             <dt id="aceeebd08a3e2c01219536c8115b5fbde">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#aceeebd08a3e2c01219536c8115b5fbde">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html">oriented_<wbr/>bounding_<wbr/>box</a>&amp; obb,
               const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; aabb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -244,6 +285,22 @@
               const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>* end) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if the oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> contains all the points in an arbitrary collection.</dd>
+            <dt id="a7c0a07585c6892c5d9f41c9b79b1c127">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7c0a07585c6892c5d9f41c9b79b1c127">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; seg) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> contains a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a>.</dd>
+            <dt id="afcc9a9860bc31eb7bfa1c81a0b3943dc">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afcc9a9860bc31eb7bfa1c81a0b3943dc">contains</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; tri) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the oriented bounding contains a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
+            <dt id="a6537c01ad9b998369bd75c925124a145">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6537c01ad9b998369bd75c925124a145">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; tri) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the oriented bounding intersects a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
+            <dt id="a02463f6b23866ad35699b6b6dd9e17fe">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a02463f6b23866ad35699b6b6dd9e17fe">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; bs) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if the oriented <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> intersects a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding sphere</a>.</dd>
             <dt id="ab1872cd9def090e649fe370cb4f36903">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab1872cd9def090e649fe370cb4f36903">intersects</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__box.html">bounding_<wbr/>box</a>&lt;<a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a>&gt;&amp; aabb) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -434,6 +491,15 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a23fbae24deb285286d6b5f370419aab6">width</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a2395efcd9d8cf5ae331a86fdcb5c9cd8">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the width of the box (x-axis).</dd>
+          </dl>
+        </section>
+        <section id="point-queries">
+          <h2><a href="#point-queries">Point queries</a></h2>
+          <dl class="m-doc">
+            <dt id="abfa3b2fd4e2d582d30a887173bec1359">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#abfa3b2fd4e2d582d30a887173bec1359">closest_point</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a>&amp; point) const -&gt; <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#a9c13ab31dc67846a59a7533c36c4fc54">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Gets point contained by the <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> closest to another arbitrary point.</dd>
           </dl>
         </section>
         <section id="scalar-accessors">
@@ -1017,6 +1083,19 @@ template&lt;typename T&gt;
                 </tr>
               </tfoot>
             </table>
+          </div></section>
+        </section>
+        <section>
+          <h2>Variable documentation</h2>
+          <section class="m-doc-details" id="a06266afb86562e550b7442dfd6d525ba"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <a class="m-doc" href="structmuu_1_1oriented__bounding__box.html#abf37942d5f32f6dcf31336990fca9fd2">axes_<wbr/>type</a> muu::<wbr/>oriented_bounding_box&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#a06266afb86562e550b7442dfd6d525ba">axes</a>
+            </h3>
+            <p>The axes of the box's orientation.</p>
+<aside class="m-note m-warning"><h4>Attention</h4><p>All OBB math assumes these axes are orthonormalized; if you assign to this member directly and do not ensure orthonormalization, there be dragons!</p></aside>
           </div></section>
         </section>
       </div>
