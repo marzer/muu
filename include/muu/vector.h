@@ -3160,6 +3160,16 @@ namespace muu
 			/// \brief	Forward direction (in a right-handed coordinate system).
 			static constexpr vector<Scalar, Dimensions> forward{ scalars::zero, scalars::zero, -scalars::one };
 
+			/// \brief	Forward-left direction (45 degrees left) (in a right-handed coordinate system).
+			static constexpr vector<Scalar, Dimensions> forward_left{ -scalars::one_over_sqrt_two,
+																	  scalars::zero,
+																	  -scalars::one_over_sqrt_two };
+
+			/// \brief	Forward-right direction (45 degrees right) (in a right-handed coordinate system).
+			static constexpr vector<Scalar, Dimensions> forward_right{ scalars::one_over_sqrt_two,
+																	   scalars::zero,
+																	   -scalars::one_over_sqrt_two };
+
 			/// @}
 		};
 

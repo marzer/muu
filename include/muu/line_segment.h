@@ -410,12 +410,16 @@ namespace muu
 			/// @}
 	#endif // equality (approx)
 
-	#if 1 // containment ------------------------------------------------------------------------------
-		  /// \name Containment
-		  /// @{
+	#if 1 // collision detection ------------------------------------------------------------------------------
+		/// \name Collision detection
+		/// @{
+
+		//--------------------------------
+		// line segment x point
+		//--------------------------------
 
 		/// \brief	Returns true if a line segment and a point are colinear (i.e. they lie on the same infinite line).
-		MUU_PURE_INLINE_GETTER
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL colinear(MUU_VPARAM(line_segment) seg,
 													  MUU_VPARAM(vector_type) point,
 													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
@@ -434,8 +438,59 @@ namespace muu
 			return colinear(*this, point, epsilon);
 		}
 
-		/// \brief	Returns true if a two line segments are colinear (i.e. they lie on the same infinite line).
+		/// \brief	Returns true if a point lies on a line segment.
 		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) start,
+													  MUU_VPARAM(vector_type) end,
+													  MUU_VPARAM(vector_type) point,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		{
+			return segments::contains_point(start, end, point, epsilon);
+		}
+
+		/// \brief	Returns true if a point lies on a line segment.
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(line_segment) seg,
+													  MUU_VPARAM(vector_type) point,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		{
+			return segments::contains_point(seg.points[0], seg.points[1], point, epsilon);
+		}
+
+		/// \brief	Returns true if a point lies on a line segment.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point,
+											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
+		{
+			return contains(*this, point, epsilon);
+		}
+
+		/// \brief	Returns true if all the points in an arbitrary collection lie on the line segment.
+		MUU_PURE_GETTER
+		constexpr bool MUU_VECTORCALL contains(const vector_type* begin,
+											   const vector_type* end,
+											   scalar_type epsilon = default_epsilon<scalar_type>) noexcept
+		{
+			if (begin == end)
+				return false;
+
+			MUU_ASSUME(begin != nullptr);
+			MUU_ASSUME(end != nullptr);
+			MUU_ASSUME(begin < end);
+
+			for (; begin != end; begin++)
+				if (!contains(*begin, epsilon))
+					return false;
+
+			return true;
+		}
+
+		//--------------------------------
+		// line segment x line segment
+		//--------------------------------
+
+		/// \brief	Returns true if a two line segments are colinear (i.e. they lie on the same infinite line).
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL colinear(MUU_VPARAM(line_segment) seg1,
 													  MUU_VPARAM(line_segment) seg2,
 													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
@@ -451,23 +506,6 @@ namespace muu
 											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
 			return colinear(*this, seg, epsilon);
-		}
-
-		/// \brief	Returns true if a point lies on a line segment.
-		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(line_segment) seg,
-													  MUU_VPARAM(vector_type) point,
-													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
-		{
-			return segments::contains_point(seg.points[0], seg.points[1], point, epsilon);
-		}
-
-		/// \brief	Returns true if a point lies on a line segment.
-		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point,
-											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
-		{
-			return contains(*this, point, epsilon);
 		}
 
 		/// \brief	Returns true if two line segments are coplanar.
@@ -488,24 +526,26 @@ namespace muu
 			return coplanar(*this, seg, epsilon);
 		}
 
-			/// @}
-	#endif // containment
-
-	#if 1 // intersection ------------------------------------------------------------------------------
-		  /// \name Intersection
-		  /// @{
-
-		/// \brief	Returns true if a line segment intersects a bounding box.
+		/// \brief	Returns true if a line segment contains another line segment.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment) seg,
-														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
-
-		/// \brief	Returns true if a line segment intersects a bounding box.
-		MUU_PURE_INLINE_GETTER
-		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(line_segment) outer,
+													  MUU_VPARAM(line_segment) inner,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-			return intersects(*this, bb);
+			return contains(outer, inner.points[0], epsilon) && contains(outer, inner.points[1], epsilon);
 		}
+
+		/// \brief	Returns true if the line segment contains another line segment.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(line_segment) seg,
+											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
+		{
+			return contains(*this, seg, epsilon);
+		}
+
+		//--------------------------------
+		// line segment x plane
+		//--------------------------------
 
 		/// \brief	Returns true if a line segment intersects a plane.
 		MUU_PURE_GETTER
@@ -519,8 +559,36 @@ namespace muu
 			return intersects(*this, p);
 		}
 
+		//--------------------------------
+		// line segment x triangle
+		//--------------------------------
+
+		//--------------------------------
+		// line segment x sphere
+		//--------------------------------
+
+		//--------------------------------
+		// line segment x aabb
+		//--------------------------------
+
+		/// \brief	Returns true if a line segment intersects a bounding box.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(line_segment) seg,
+														MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
+
+		/// \brief	Returns true if a line segment intersects a bounding box.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
+		{
+			return intersects(*this, bb);
+		}
+
+			//--------------------------------
+			// line segment x obb
+			//--------------------------------
+
 			/// @}
-	#endif // intersection
+	#endif // collision detection
 
 	#if 1 // reversal --------------------------------------------------------------------------------------------
 		  /// \name Reversal
