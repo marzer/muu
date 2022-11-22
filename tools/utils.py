@@ -21,11 +21,11 @@ def repeat_pattern(pattern, count):
 
 
 
-def make_divider(text = None, text_col = 40, pattern = '-', line_length = 120):
+def make_divider(text=None, text_col=40, pattern='-', line_length=120):
 	if (text is None):
-		return "//" + repeat_pattern(pattern, line_length-2)
+		return "//" + repeat_pattern(pattern, line_length - 2)
 	else:
-		text = "//{}  {}  ".format(repeat_pattern(pattern, text_col - 2), text);
+		text = "//{}  {}  ".format(repeat_pattern(pattern, text_col - 2), text)
 		if (len(text) < line_length):
 			return text + repeat_pattern(pattern, line_length - len(text))
 		else:
@@ -33,15 +33,27 @@ def make_divider(text = None, text_col = 40, pattern = '-', line_length = 120):
 
 
 
+def git_query(git_args, cwd=None):
+	assert git_args is not None
+	proc = subprocess.run(['git'] + str(git_args).strip().split(),
+		capture_output=True,
+		cwd=str(Path.cwd() if cwd is None else cwd),
+		encoding='utf-8',
+		check=True)
+	ret = proc.stdout.strip() if proc.stdout is not None else ''
+	if not ret and proc.stderr.strip():
+		raise Exception(rf'git exited with error: {proc.stderr.strip()}')
+	return ret
+
+
+
 def clang_format(s, cwd=None):
-	result = subprocess.run(
-		['clang-format', '--style=file'],
+	result = subprocess.run(['clang-format', '--style=file'],
 		capture_output=True,
 		cwd=str(Path.cwd() if cwd is None else cwd),
 		encoding='utf-8',
 		check=True,
-		input=s
-	)
+		input=s)
 	return str(result.stdout)
 
 
@@ -51,11 +63,17 @@ def __hash_combine_32(current_hash, next_hash):
 	next_hash = next_hash & 0xFFFFFFFF
 	current_hash = current_hash ^ (next_hash + 0x9E3779B9 + (current_hash << 6) + (current_hash >> 2))
 	return current_hash & 0xFFFFFFFF
+
+
+
 def __hash_combine_64(current_hash, next_hash):
 	current_hash = current_hash & 0xFFFFFFFFFFFFFFFF
 	next_hash = next_hash & 0xFFFFFFFFFFFFFFFF
 	current_hash = current_hash ^ (next_hash + 0x9E3779B97F4A7C15 + (current_hash << 12) + (current_hash >> 4))
 	return current_hash & 0xFFFFFFFFFFFFFFFF
+
+
+
 __hash_combine_func = None
 if sys.hash_info.width == 64:
 	__hash_combine_func = __hash_combine_64

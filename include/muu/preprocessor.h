@@ -73,11 +73,15 @@
 /// \def MUU_DOXYGEN
 /// \brief `1` when the code being interpreted by Doygen or some other documentation generator, otherwise `0`.
 
-#ifdef __clang__
-	#define MUU_CLANG __clang_major__
-#else
-	#define MUU_CLANG 0
+//% preprocessor::clang start
+#ifndef MUU_CLANG
+	#ifdef __clang__
+		#define MUU_CLANG __clang_major__
+	#else
+		#define MUU_CLANG 0
+	#endif
 #endif
+//% preprocessor::clang end
 /// \def MUU_CLANG
 /// \brief The value of `__clang_major__` when the code is being compiled by LLVM/Clang, otherwise `0`.
 /// \see https://sourceforge.net/p/predef/wiki/Compilers/
@@ -97,11 +101,15 @@
 /// \brief The value of `__INTEL_COMPILER` when the code is being compiled by ICC, otherwise `0`.
 /// \see http://scv.bu.edu/computation/bladecenter/manpages/icc.html
 
-#ifdef _MSC_VER
-	#define MUU_MSVC_LIKE _MSC_VER
-#else
-	#define MUU_MSVC_LIKE 0
+//% preprocessor::msvc_like start
+#ifndef MUU_MSVC_LIKE
+	#ifdef _MSC_VER
+		#define MUU_MSVC_LIKE _MSC_VER
+	#else
+		#define MUU_MSVC_LIKE 0
+	#endif
 #endif
+//% preprocessor::msvc_like end
 /// \def MUU_MSVC_LIKE
 /// \brief The value of `_MSC_VER` when it is defined by the compiler, otherwise `0`.
 /// \see https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
@@ -340,11 +348,15 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_HAS_INCLUDE(header)
 /// \brief The result of `__has_include(header)` if supported by the compiler, otherwise `0`.
 
-#ifdef __has_builtin
-	#define MUU_HAS_BUILTIN(name) __has_builtin(name)
-#else
-	#define MUU_HAS_BUILTIN(name) 0
+//% preprocessor::has_builtin start
+#ifndef MUU_HAS_BUILTIN
+	#ifdef __has_builtin
+		#define MUU_HAS_BUILTIN(name) __has_builtin(name)
+	#else
+		#define MUU_HAS_BUILTIN(name) 0
+	#endif
 #endif
+//% preprocessor::has_builtin end
 /// \def MUU_HAS_BUILTIN(name)
 /// \brief The result of `__has_builtin(name)` if supported by the compiler, otherwise `0`.
 
@@ -488,11 +500,15 @@ help me improve support for your target architecture. Thanks!
 /// \brief Expands to `__attribute__(( ... ))` when compiling with a compiler that supports GNU-style attributes
 /// 	   and NDEBUG is defined.
 
-#if MUU_MSVC_LIKE
-	#define MUU_DECLSPEC(...) __declspec(__VA_ARGS__)
-#else
-	#define MUU_DECLSPEC(...)
+//% preprocessor::declspec start
+#ifndef MUU_DECLSPEC
+	#if MUU_MSVC_LIKE
+		#define MUU_DECLSPEC(...) __declspec(__VA_ARGS__)
+	#else
+		#define MUU_DECLSPEC(...)
+	#endif
 #endif
+//% preprocessor::declspec end
 /// \def MUU_DECLSPEC(...)
 /// \brief Expands to `__declspec( ... )` when compiling with MSVC (or another compiler in MSVC-mode).
 
@@ -597,11 +613,15 @@ help me improve support for your target architecture. Thanks!
 /// 	};
 /// \ecpp
 
-#if MUU_MSVC_LIKE
-	#define MUU_EMPTY_BASES MUU_DECLSPEC(empty_bases)
-#else
-	#define MUU_EMPTY_BASES
+//% preprocessor::empty_bases start
+#ifndef MUU_EMPTY_BASES
+	#if MUU_MSVC_LIKE
+		#define MUU_EMPTY_BASES MUU_DECLSPEC(empty_bases)
+	#else
+		#define MUU_EMPTY_BASES
+	#endif
 #endif
+//% preprocessor::empty_bases end
 /// \def MUU_EMPTY_BASES
 /// \brief Marks a class as having only empty base classes.
 /// \details This is required for some compilers to use Empty Base Class Optimization:\cpp
@@ -735,8 +755,13 @@ help me improve support for your target architecture. Thanks!
 /// 	}
 /// \ecpp
 
-#define MUU_CONCAT_1(x, y) x##y
-#define MUU_CONCAT(x, y)   MUU_CONCAT_1(x, y)
+//% preprocessor::concat start
+#ifndef MUU_CONCAT
+	#define MUU_CONCAT_2(x, y) x##y
+	#define MUU_CONCAT_1(x, y) MUU_CONCAT_2(x, y)
+	#define MUU_CONCAT(x, y)   MUU_CONCAT_1(x, y)
+#endif
+//% preprocessor::concat end
 /// \def MUU_CONCAT(x, y)
 /// \brief Concatenates two preprocessor inputs. Equivalent to the `##` operator, but with macro expansion.
 
@@ -994,8 +1019,8 @@ help me improve support for your target architecture. Thanks!
 #else
 	#define MUU_PURE
 	#define MUU_CONST
-	#define MUU_PURE_GETTER				MUU_NODISCARD	
-	#define MUU_CONST_GETTER			MUU_NODISCARD	
+	#define MUU_PURE_GETTER				MUU_NODISCARD
+	#define MUU_CONST_GETTER			MUU_NODISCARD
 	#define MUU_PURE_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE
 	#define MUU_CONST_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE
 #endif
@@ -1608,7 +1633,12 @@ namespace muu::impl
 	#define MUU_STD_CONCEPT(...) true
 #endif
 
-#define MUU_COMMA			  ,
+//% preprocessor::comma start
+#ifndef MUU_COMMA
+	#define MUU_COMMA ,
+#endif
+//% preprocessor::comma end
+
 #define MUU_HIDDEN_PARAM(...) MUU_HIDDEN(MUU_COMMA __VA_ARGS__)
 
 //======================================================================================================================

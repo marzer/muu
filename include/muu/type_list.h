@@ -9,6 +9,8 @@
 
 #include "fwd.h"
 
+//% type_list::header start
+
 #ifndef MUU_TYPE_LIST_PAGE_SIZE
 	#undef MUU_TYPE_LIST_PAGE_SIZE
 	#define MUU_TYPE_LIST_PAGE_SIZE 32
@@ -26,8 +28,8 @@
 	#error MUU_TYPE_LIST_PAGE_SIZE must be 8, 16, 32, 48 or 64.
 #endif
 
-#ifndef MUU_HAS_JUMBO_PAGES
-	#define MUU_HAS_JUMBO_PAGES 1
+#ifndef MUU_TYPE_LIST_HAS_JUMBO_PAGES
+	#define MUU_TYPE_LIST_HAS_JUMBO_PAGES 1
 #endif
 
 #if MUU_HAS_BUILTIN(__type_pack_element) || MUU_CLANG >= 6 // older clang implemented __has_builtin poorly
@@ -59,8 +61,11 @@
 
 /// \endcond
 
+//% type_list::header end
+
 #include "impl/header_start.h"
 
+#if 1
 namespace muu
 {
 	/// \addtogroup		meta
@@ -70,14 +75,16 @@ namespace muu
 
 	namespace impl
 	{
-		inline constexpr size_t type_list_page_size = MUU_TYPE_LIST_PAGE_SIZE;
-#if MUU_HAS_JUMBO_PAGES
-		inline constexpr size_t type_list_jumbo_page_size = 128;
-#else
-		inline constexpr size_t type_list_jumbo_page_size = static_cast<size_t>(-1);
-#endif
+		//% type_list::detail start
 
-#if MUU_HAS_INTEGER_SEQ
+		inline constexpr size_t type_list_page_size = MUU_TYPE_LIST_PAGE_SIZE;
+	#if MUU_TYPE_LIST_HAS_JUMBO_PAGES
+		inline constexpr size_t type_list_jumbo_page_size = 128;
+	#else
+		inline constexpr size_t type_list_jumbo_page_size = static_cast<size_t>(-1);
+	#endif
+
+	#if MUU_HAS_INTEGER_SEQ
 		template <typename T, T... Vals>
 		struct integer_sequence
 		{};
@@ -85,10 +92,10 @@ namespace muu
 		using index_sequence = integer_sequence<size_t, Vals...>;
 		template <size_t Size>
 		using make_index_sequence = __make_integer_seq<integer_sequence, size_t, Size>;
-#else
+	#else
 		using std::index_sequence;
 		using std::make_index_sequence;
-#endif
+	#endif
 
 		enum class type_list_selector_spec : int
 		{
@@ -112,7 +119,7 @@ namespace muu
 
 		// clang-format on
 
-#if MUU_HAS_TYPE_PACK_ELEMENT
+	#if MUU_HAS_TYPE_PACK_ELEMENT
 
 		// selector - selecting elements using a compiler builtin
 		template <typename... T, size_t N>
@@ -121,7 +128,7 @@ namespace muu
 			using type = __type_pack_element<N, T...>;
 		};
 
-#else
+	#else
 
 		// selector - first element
 		template <typename T0, typename... T, size_t N>
@@ -139,7 +146,6 @@ namespace muu
 		};
 
 		// selector - low-index elements
-	#if 1
 		#define MAKE_SELECTOR_1(N, N0, ...)                                                                            \
 			template <typename T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TPARAM, __VA_ARGS__), typename... T>                \
 			struct type_list_selector_<type_list<T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TARG, __VA_ARGS__), T...>,        \
@@ -229,9 +235,8 @@ namespace muu
 
 		#undef MAKE_SELECTOR_1
 		#undef MAKE_SELECTOR
-	#endif
 
-#endif // !MUU_HAS_TYPE_PACK_ELEMENT
+	#endif // !MUU_HAS_TYPE_PACK_ELEMENT
 
 		enum class type_list_slicer_spec : int
 		{
@@ -302,7 +307,7 @@ namespace muu
 		};
 
 		// slicer - skip jumbo pages (multiples of type_list_jumbo_page_size)
-#if MUU_HAS_JUMBO_PAGES
+	#if MUU_TYPE_LIST_HAS_JUMBO_PAGES
 		// clang-format off
 		template <
 			typename T0,   typename T1,   typename T2,   typename T3,   typename T4,   typename T5,   typename T6,   typename T7,
@@ -348,10 +353,10 @@ namespace muu
 		{
 			using type = typename type_list<T...>::template slice<Start - type_list_jumbo_page_size, Length>;
 		};
-		// clang-format on
-#endif // MUU_HAS_JUMBO_PAGES
+			// clang-format on
+	#endif // MUU_TYPE_LIST_HAS_JUMBO_PAGES
 
-#if MUU_HAS_TYPE_PACK_ELEMENT
+	#if MUU_HAS_TYPE_PACK_ELEMENT
 
 		// slicer - selecting arbitrary single element spans using a compiler builtin
 		template <typename... T, size_t Start>
@@ -360,7 +365,7 @@ namespace muu
 			using type = type_list<__type_pack_element<Start, T...>>;
 		};
 
-#else
+	#else
 
 		// slicer - skip pages (multiples of type_list_page_size)
 		template <typename List, size_t Start, size_t Length>
@@ -375,7 +380,6 @@ namespace muu
 		};
 
 		// slicer - low-index elements
-	#if 1
 		#define MAKE_SINGLE_ELEMENT_SLICER_1(N, N0, ...)                                                               \
 			template <typename T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TPARAM, __VA_ARGS__), typename... T>                \
 			struct type_list_slicer_<type_list<T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TARG, __VA_ARGS__), T...>,          \
@@ -466,10 +470,8 @@ namespace muu
 
 		#undef MAKE_SINGLE_ELEMENT_SLICER_1
 		#undef MAKE_SINGLE_ELEMENT_SLICER
-	#endif
 
 		// slicer - prefixes
-	#if 1
 		#define MAKE_PREFIX_SLICER_1(N0, ...)                                                                          \
 			template <typename T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TPARAM, __VA_ARGS__), typename... T>                \
 			struct type_list_slicer_<type_list<T##N0 MUU_FOR_EACH(MUU_MAKE_INDEXED_TARG, __VA_ARGS__), T...>,          \
@@ -560,10 +562,8 @@ namespace muu
 
 		#undef MAKE_PREFIX_SLICER_1
 		#undef MAKE_PREFIX_SLICER
-	#endif
 
 		// slicer - skip first N
-	#if 1
 		#define MAKE_SKIP_N_SLICER_1(N, N0, N1, ...)                                                                   \
 			template <typename T##N0,                                                                                  \
 					  typename T##N1 MUU_FOR_EACH(MUU_MAKE_INDEXED_TPARAM, __VA_ARGS__), typename... T, size_t Length> \
@@ -662,9 +662,8 @@ namespace muu
 
 		#undef MAKE_SKIP_N_SLICER_1
 		#undef MAKE_SKIP_N_SLICER
-	#endif
 
-#endif // !MUU_HAS_TYPE_PACK_ELEMENT
+	#endif // !MUU_HAS_TYPE_PACK_ELEMENT
 
 		// clang-format on
 
@@ -737,7 +736,10 @@ namespace muu
 		template <typename R, typename... T>
 		using type_list_remove = typename type_list_concatenate_<typename type_list_remove_<R, T>::types...>::types;
 
+		//% type_list::detail end
 	} // ::impl
+
+	//% type_list start
 
 	template <>
 	struct type_list<>
@@ -772,13 +774,13 @@ namespace muu
 		using first = T;
 		using type	= first;
 
-#if MUU_HAS_TYPE_PACK_ELEMENT
+	#if MUU_HAS_TYPE_PACK_ELEMENT
 		template <size_t Index>
 		using select = __type_pack_element<Index, T>;
-#else
+	#else
 		template <size_t Index>
 		using select = typename impl::type_list_selector_<type_list<T>, Index>::type;
-#endif
+	#endif
 
 		template <size_t Start, size_t Length = (length - Start)>
 		using slice = typename impl::type_list_slicer_<type_list<T>, Start, Length>::type;
@@ -802,13 +804,13 @@ namespace muu
 
 		using first = T0;
 
-#if MUU_HAS_TYPE_PACK_ELEMENT
+	#if MUU_HAS_TYPE_PACK_ELEMENT
 		template <size_t Index>
 		using select = __type_pack_element<Index, T0, T...>;
-#else
+	#else
 		template <size_t Index>
 		using select = typename impl::type_list_selector_<type_list<T0, T...>, Index>::type;
-#endif
+	#endif
 
 		template <size_t Start, size_t Length = (length - Start)>
 		using slice = typename impl::type_list_slicer_<type_list<T0, T...>, Start, Length>::type;
@@ -827,7 +829,8 @@ namespace muu
 
 	/// \endcond
 
-#if MUU_DOXYGEN
+	//# {{
+	#if MUU_DOXYGEN
 
 	/// \brief A 'tag' type for encoding/parameterizing lists of types (without the instantiation heft of std::tuple).
 	///
@@ -937,20 +940,25 @@ namespace muu
 		using append = muu::type_list<T..., U...>;
 	};
 
-#endif
+	#endif
+	//# }}
 
 	/// \brief A tag type for encoding/parameterizing a single type.
 	template <typename T>
 	using type_tag = type_list<T>;
 
-	/** @} */ // meta
+	//% type_list end
+
+	/// @}
 }
+#endif
+
+//% type_list::footer start
 
 #undef MUU_TYPE_LIST_PAGE_SIZE
-#undef MUU_HAS_JUMBO_PAGES
+#undef MUU_TYPE_LIST_HAS_JUMBO_PAGES
 #undef MUU_HAS_TYPE_PACK_ELEMENT
 #undef MUU_HAS_INTEGER_SEQ
-
 #undef MUU_MAKE_INDEXED_TPARAM
 #undef MUU_MAKE_INDEXED_TARG
 #undef MUU_0_TO_7
@@ -958,5 +966,7 @@ namespace muu
 #undef MUU_0_TO_31
 #undef MUU_0_TO_47
 #undef MUU_0_TO_63
+
+//% type_list::footer end
 
 #include "impl/header_end.h"

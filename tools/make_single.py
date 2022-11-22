@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+# This file is a part of muu and is subject to the the terms of the MIT license.
+# Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
+# See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
+# SPDX-License-Identifier: MIT
+
+import utils
+import re
+import textwrap
+from argparse import ArgumentParser
+from pathlib import Path
+
+
+
+def main():
+	args = ArgumentParser(description='Creates a single header from fragments of the codebase.')
+	args.add_argument('template', type=Path, help='input template file')
+	args.add_argument('--output', type=Path, metavar='<path>', help=rf"output file", default=None)
+	args = args.parse_args()
+
+	args.template = args.template.resolve()
+
+	if args.output is None:
+		if args.template.name.endswith(r'.in'):
+			args.output = args.template.parent / args.template.name[:-3]
+		else:
+			args.output = args.template.parent / rf'{args.template.stem}.single{args.template.suffix}'
+	args.output = args.output.resolve()
+
+	print(rf'Template: {args.template}')
+	print(rf'Output: {args.output}')
+	if args.template == args.output:
+		raise Exception('template and output cannot be the same')
+
+	SNIPPET_DECL = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)(?:\s+(guarded))?\s*$', flags=re.MULTILINE)
+	SNIPPET_START = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)(?:\s+start)\s*$', flags=re.MULTILINE)
+	SNIPPET_END = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)(?:\s+end)\s*$', flags=re.MULTILINE)
+
+	# figure out which snippets we need
+	snippets = dict()
+	text = utils.read_all_text_from_file(args.template)
+	for m in SNIPPET_DECL.finditer(text):
+		snippets[m[1]] = None
+		#print(m[1])
+
+	# read + pre-format the LICENSE
+	license = []
+	for name in (r'LICENSE.md', r'LICENSE.txt', r'LICENSE'):
+		dir = args.template.parent
+		steps = 0
+		path = dir / name
+		while not (path.exists() and path.is_file()):
+			steps += 1
+			prev_dir = dir
+			dir = dir.parent
+			if prev_dir == dir:
+				break
+			path = dir / name
+		if path.exists() and path.is_file():
+			license.append((path, steps))
+	license.sort(key=lambda val: val[1])
+	if license:
+		license = utils.read_all_text_from_file(license[0][0]).replace('\r\n', '\n').strip()
+		license = license.replace('\n\n', '\b')
+		license = license.replace('\n', ' ')
+		license = license.replace('\b', '\n')
+		license = license.split('\n')
+		for i in range(len(license)):
+			license[i] = '// ' + '\n// '.join(textwrap.wrap(license[i], width=115, tabsize=4))
+		license = '\n//\n'.join(license)
+		license = f'//{"-"*118}\n//\n{license}\n//'
+	else:
+		license = ''
+
+	# stick in the special preamble about this process
+	snippets[r'generated_header_preamble'] = rf'''
+//         THIS FILE WAS ASSEMBLED FROM MULTIPLE HEADER FILES BY A SCRIPT - PLEASE DON'T EDIT IT DIRECTLY
+//                              upstream: {utils.git_query("rev-parse HEAD")}
+{license}
+	'''.strip()
+
+	# extract the snippets from the codebase
+	unresolved_snippets = len(snippets)
+	if unresolved_snippets:
+		includes = Path(__file__).parent.parent / 'include'
+		for f in utils.enumerate_files(includes, any=(r'*.h', r'*.hpp'), recursive=True):
+			file_text = utils.read_all_text_from_file(f)
+			for m in SNIPPET_START.finditer(file_text):
+				if m[1] not in snippets or snippets[m[1]] is not None:
+					continue
+				m2 = SNIPPET_END.search(file_text, pos=m.end())
+				if not m2:
+					raise Exception(rf'unterminated snippet {m[1]} in {f.name}')
+				snippets[m[1]] = file_text[m.end():m2.start()].strip('\r\n')
+				snippets[m[1]] = f'\n{snippets[m[1]]}\n'
+				#print(f'############################################\n{snippets[m[1]]}')
+				unresolved_snippets -= 1
+				if not unresolved_snippets:
+					break
+			if not unresolved_snippets:
+				break
+	for k, v in snippets.items():
+		if v is None:
+			raise Exception(rf'unresolved snippet {k}')
+
+	# sub the snippets into the template
+	def sub_snippet(m) -> str:
+		out = snippets[m[1]]
+		if m[2] == 'guarded':
+			guard = re.sub(r'[^a-zA-Z0-9]+', '_', str(m[1])).strip('_')
+			guard = rf'MZ_HAS_SNIPPET_{guard.upper()}'
+			out = f'\n#ifndef {guard}\n#define {guard}\n{snippets[m[1]]}\n#endif //{guard}\n'
+		return out
+
+	text = SNIPPET_DECL.sub(sub_snippet, text)
+
+	# de-muuifiying
+	text = re.sub(r'\bMUU_', r'MZ_', text)
+	text = re.sub(r'\bnamespace\s+muu::impl', r'namespace mz::impl', text)
+	text = re.sub(r'\bnamespace\s+impl', r'namespace detail', text)
+	text = re.sub(r'\bnamespace\s+muu', r'namespace mz', text)
+	text = re.sub(r'\bmuu::impl::', r'mz::detail::', text)
+	text = re.sub(r'\bmuu::', r'mz::', text)
+	text = re.sub(r'\bimpl::', r'detail::', text)
+	text = re.sub(r'^\s*#\s*include\s*"impl/std_(.+?)[.]h"', r'#include <\1>', text, flags=re.MULTILINE)
+
+	# other cleanup
+	while True:
+		prev_text = text
+		# 'strip this' blocks "//# {{" and "//# }}"
+		text = re.sub(r'(?:\n[ \t]*)?//[#!][ \t]*[{][{].*?//[#!][ \t]*[}][}].*?\n', '\n', text, flags=re.S)
+		# trailing whitespace
+		text = re.sub('([^ \t])[ \t]+\n', r'\1\n', text)
+		# double blank lines
+		text = re.sub('\n(?:[ \t]*\n[ \t]*)+\n', '\n\n', text)
+		# magic comments
+		blank_line = r'(?:[ \t]*\n)'
+		magic_comment = r'(?:[ \t]*//(?:[/#!<]|[ \t]?(?:\^\^\^|vvv))[^\n]*)'
+		text = re.sub(rf'\n{magic_comment}\n{blank_line}+{magic_comment}\n', '\n', text)
+		text = re.sub(rf'([{{,])\s*\n(?:{magic_comment}\n|{blank_line})+', r'\1\n', text)
+		text = re.sub(rf'\n?(?:{magic_comment}\n)+', '\n', text)
+		if prev_text == text:
+			break
+
+	# clang-format
+	try:
+		text = utils.clang_format(text, cwd=args.output.parent)
+	except:
+		pass
+
+	# make sure there's no unresolved headers
+	# (this script is not currently a preprocessor)
+	unresolved_include = re.search(r'^\s*#\s*include\s*"(.+?)"', text, flags=re.MULTILINE)
+	if unresolved_include:
+		raise Exception(rf'unresolved #include "{unresolved_include[1]}"')
+
+	print(rf'Writing {args.output}')
+	with open(args.output, 'w', newline='\n', encoding=r'utf-8') as f:
+		f.write(text)
+
+
+
+if __name__ == '__main__':
+	utils.run(main, verbose=True)

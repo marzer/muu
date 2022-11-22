@@ -43,6 +43,7 @@ namespace muu
 
 #endif
 
+	//% meta::always_false start
 	/// \brief	Evaluates to false but with delayed, type-dependent evaluation.
 	/// \details Allows you to do things like this:
 	/// \cpp
@@ -53,6 +54,7 @@ namespace muu
 	/// \ecpp
 	template <typename... T>
 	inline constexpr bool always_false = false;
+	//% meta::always_false end
 
 	/// \cond
 	namespace impl
@@ -781,22 +783,6 @@ namespace muu
 		{
 			using type = T;
 		};
-
-		template <typename T, size_t I, typename... Types>
-		struct index_of_type_
-		{
-			static_assert(always_false<T>, "type not found in list");
-		};
-
-		template <typename T, size_t I, typename... Types>
-		struct index_of_type_<T, I, T, Types...>
-		{
-			static constexpr size_t value = I;
-		};
-
-		template <typename T, size_t I, typename U, typename... Types>
-		struct index_of_type_<T, I, U, Types...> : index_of_type_<T, I + 1, Types...>
-		{};
 	}
 	/// \endcond
 
@@ -854,9 +840,32 @@ namespace muu
 	template <typename T, typename... U>
 	inline constexpr bool all_same = (true && ... && std::is_same_v<T, U>);
 
+	//% meta::index_of_type start
+	/// \cond
+	namespace impl
+	{
+		template <typename T, size_t I, typename... Types>
+		struct index_of_type_
+		{
+			static_assert(always_false<T>, "type not found in list");
+		};
+
+		template <typename T, size_t I, typename... Types>
+		struct index_of_type_<T, I, T, Types...>
+		{
+			static constexpr size_t value = I;
+		};
+
+		template <typename T, size_t I, typename U, typename... Types>
+		struct index_of_type_<T, I, U, Types...> : index_of_type_<T, I + 1, Types...>
+		{};
+	}
+	/// \endcond
+
 	/// \brief	The index of the first appearance of the type T in the type list [U, V...].
 	template <typename T, typename U, typename... V>
 	inline constexpr size_t index_of_type = impl::index_of_type_<T, 0, U, V...>::value;
+	//% meta::index_of_type end
 
 	/// \brief	True if `From` is implicitly convertible to `To`.
 	template <typename From, typename To>
