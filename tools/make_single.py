@@ -13,24 +13,68 @@ from pathlib import Path
 
 
 def main():
-	args = ArgumentParser(description='Creates a single header from fragments of the codebase.')
-	args.add_argument('template', type=Path, help='input template file')
-	args.add_argument('--output', type=Path, metavar='<path>', help=rf"output file", default=None)
+	args = ArgumentParser(description=r'Creates a single header from fragments of the codebase.')
+	args.add_argument(r'template', type=Path, help=r'input template file')
+	args.add_argument(r'--output', type=Path, metavar=r'<path>', help=r"output file", default=None)
+	args.add_argument(
+		r'--namespaces',
+		type=str,
+		nargs=2,
+		metavar=(r'<main>', r'<impl>'),
+		help=r'names to use when transforming namespaces (default: %(default)s)',
+		default=[r'mz', r'detail']
+	)
+	args.add_argument(
+		r'--macros',
+		type=str,
+		metavar=r'<prefix>',
+		help=r'prefix to apply when transforming macros (default: %(default)s)',
+		default=r'MZ'
+	)
 	args = args.parse_args()
 
-	args.template = args.template.resolve()
+	# check args
+	if 1:
+		args.template = args.template.resolve()
+		print(rf'  template: {args.template}')
 
-	if args.output is None:
-		if args.template.name.endswith(r'.in'):
-			args.output = args.template.parent / args.template.name[:-3]
-		else:
-			args.output = args.template.parent / rf'{args.template.stem}.single{args.template.suffix}'
-	args.output = args.output.resolve()
+		if args.output is None:
+			if args.template.name.endswith(r'.in'):
+				args.output = args.template.parent / args.template.name[:-3]
+			else:
+				args.output = args.template.parent / rf'{args.template.stem}.single{args.template.suffix}'
+		args.output = args.output.resolve()
+		print(rf'    output: {args.output}')
+		if args.template == args.output:
+			raise Exception('template and output cannot be the same')
 
-	print(rf'Template: {args.template}')
-	print(rf'Output: {args.output}')
-	if args.template == args.output:
-		raise Exception('template and output cannot be the same')
+		assert args.namespaces is not None
+		assert len(args.namespaces) == 2
+		assert isinstance(args.namespaces, list)
+		for ns in args.namespaces:
+			if not ns:
+				raise Exception(r'namespaces cannot be blank')
+			if re.search(r'[^a-zA-Z0-9_:]', ns):
+				raise Exception(r'namespaces may only contain a-z, A-Z, 0-9, _, :')
+			if ns.startswith(r':') or ns.endswith(r':'):
+				raise Exception(r'namespaces may not start or end with :')
+			if ns.find(r'__') != -1:
+				raise Exception(r'namespaces may not contain double-underscores; those are reserved identifiers in C++')
+		print(rf'namespaces: {args.namespaces}')
+
+		assert args.macros is not None
+		assert isinstance(args.macros, str)
+		if not args.macros:
+			raise Exception(r'macros cannot be blank')
+		if not args.macros.rstrip(r'_'):
+			raise Exception(r'macros cannot be entirely underscores')
+		if re.search(r'[^a-zA-Z0-9_]', args.macros):
+			raise Exception(r'macros may only contain a-z, A-Z, 0-9, _')
+		if args.macros.find(r'__') != -1:
+			raise Exception(r'macros may not contain double-underscores; those are reserved identifiers in C++')
+		if not args.macros.endswith(r'_'):
+			args.macros += r'_'
+		print(rf'    macros: {args.macros}')
 
 	SNIPPET_DECL = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)(?:\s+(guarded))?\s*$', flags=re.MULTILINE)
 	SNIPPET_START = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)(?:\s+start)\s*$', flags=re.MULTILINE)
@@ -115,21 +159,20 @@ def main():
 	text = SNIPPET_DECL.sub(sub_snippet, text)
 
 	# de-muuifiying
-	text = re.sub(r'\bMUU_', r'MZ_', text)
+	text = utils.replace_metavar(r'namespaces::main', args.namespaces[0], text)
+	text = utils.replace_metavar(r'namespaces::impl', args.namespaces[1], text)
+	text = utils.replace_metavar(r'macros::prefix', args.macros, text)
+	text = re.sub(r'\bMUU_', args.macros, text)
 	text = re.sub(r'^\s*#\s*include\s*"impl/std_(.+?)[.]h"', r'#include <\1>', text, flags=re.MULTILINE)
-	namespaces = (
-		(r'muu::impl', r'mz::detail'),
-		(r'muu', r'mz'),
-		(r'impl', r'detail'),
+	namespace_substitutions = (
+		(r'muu::impl', rf'{args.namespaces[0]}::{args.namespaces[1]}'),
+		(r'muu', args.namespaces[0]),
+		(r'impl', args.namespaces[1]),
 	)
-	while True:
-		prev_text = text
-		for ns in namespaces:
-			text = re.sub(rf'\bnamespace\s+{ns[0]}\b', rf'namespace {ns[1]}', text)
-			text = re.sub(rf'\b{ns[0]}::', rf'{ns[1]}::', text)
-			text = re.sub(rf'::{ns[0]}\b', rf'::{ns[1]}', text)
-		if text == prev_text:
-			break
+	for ns in namespace_substitutions:
+		text = re.sub(rf'\bnamespace\s+{ns[0]}\b', rf'namespace {ns[1]}', text)
+		text = re.sub(rf'\b{ns[0]}::', rf'{ns[1]}::', text)
+		text = re.sub(rf'::{ns[0]}\b', rf'::{ns[1]}', text)
 
 	# other cleanup
 	while True:
