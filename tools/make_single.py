@@ -116,13 +116,20 @@ def main():
 
 	# de-muuifiying
 	text = re.sub(r'\bMUU_', r'MZ_', text)
-	text = re.sub(r'\bnamespace\s+muu::impl', r'namespace mz::impl', text)
-	text = re.sub(r'\bnamespace\s+impl', r'namespace detail', text)
-	text = re.sub(r'\bnamespace\s+muu', r'namespace mz', text)
-	text = re.sub(r'\bmuu::impl::', r'mz::detail::', text)
-	text = re.sub(r'\bmuu::', r'mz::', text)
-	text = re.sub(r'\bimpl::', r'detail::', text)
 	text = re.sub(r'^\s*#\s*include\s*"impl/std_(.+?)[.]h"', r'#include <\1>', text, flags=re.MULTILINE)
+	namespaces = (
+		(r'muu::impl', r'mz::detail'),
+		(r'muu', r'mz'),
+		(r'impl', r'detail'),
+	)
+	while True:
+		prev_text = text
+		for ns in namespaces:
+			text = re.sub(rf'\bnamespace\s+{ns[0]}\b', rf'namespace {ns[1]}', text)
+			text = re.sub(rf'\b{ns[0]}::', rf'{ns[1]}::', text)
+			text = re.sub(rf'::{ns[0]}\b', rf'::{ns[1]}', text)
+		if text == prev_text:
+			break
 
 	# other cleanup
 	while True:
@@ -139,7 +146,7 @@ def main():
 		text = re.sub(rf'\n{magic_comment}\n{blank_line}+{magic_comment}\n', '\n', text)
 		text = re.sub(rf'([{{,])\s*\n(?:{magic_comment}\n|{blank_line})+', r'\1\n', text)
 		text = re.sub(rf'\n?(?:{magic_comment}\n)+', '\n', text)
-		if prev_text == text:
+		if text == prev_text:
 			break
 
 	# clang-format

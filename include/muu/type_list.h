@@ -70,13 +70,12 @@ namespace muu
 {
 	/// \addtogroup		meta
 	/// @{
+	//% type_list start
 
 	/// \cond
 
 	namespace impl
 	{
-		//% type_list::detail start
-
 		inline constexpr size_t type_list_page_size = MUU_TYPE_LIST_PAGE_SIZE;
 	#if MUU_TYPE_LIST_HAS_JUMBO_PAGES
 		inline constexpr size_t type_list_jumbo_page_size = 128;
@@ -735,11 +734,7 @@ namespace muu
 
 		template <typename R, typename... T>
 		using type_list_remove = typename type_list_concatenate_<typename type_list_remove_<R, T>::types...>::types;
-
-		//% type_list::detail end
 	} // ::impl
-
-	//% type_list start
 
 	template <>
 	struct type_list<>
@@ -948,7 +943,6 @@ namespace muu
 	using type_tag = type_list<T>;
 
 	//% type_list end
-
 	/// @}
 }
 #endif
