@@ -33,7 +33,7 @@ namespace muu
 	{
 		static_assert(!is_cvref<T>);
 
-		if constexpr (is_enum<T>)
+		if constexpr (std::is_enum_v<T>)
 			return static_cast<T>(bit_floor(static_cast<std::underlying_type_t<T>>(val)));
 		else
 		{

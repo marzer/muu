@@ -759,6 +759,9 @@ namespace muu
 
 		template <typename... U>
 		using append = type_list<U...>;
+
+		template <typename... U>
+		using prepend = type_list<U...>;
 	};
 
 	template <typename T>
@@ -790,6 +793,9 @@ namespace muu
 
 		template <typename... U>
 		using append = type_list<T, U...>;
+
+		template <typename... U>
+		using prepend = type_list<U..., T>;
 	};
 
 	template <typename T0, typename... T>
@@ -820,6 +826,9 @@ namespace muu
 
 		template <typename... U>
 		using append = type_list<T0, T..., U...>;
+
+		template <typename... U>
+		using prepend = type_list<U..., T0, T...>;
 	};
 
 	/// \endcond
@@ -933,6 +942,17 @@ namespace muu
 		/// \ecpp
 		template <typename... U>
 		using append = muu::type_list<T..., U...>;
+
+		/// \brief Creates a new type list by prepending types to this one.
+		///
+		/// \detail \cpp
+		/// static_assert(std::is_same_v<
+		///		muu::type_list<int, float, char>::prepend<double, void, bool>,
+		///		muu::type_list<double, void, bool, int, float, char>
+		/// >);
+		/// \ecpp
+		template <typename... U>
+		using prepend = muu::type_list<U..., T...>;
 	};
 
 	#endif

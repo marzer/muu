@@ -209,7 +209,7 @@ namespace muu
 	{
 		static_assert(!is_cvref<T>);
 
-		if constexpr (is_enum<T>)
+		if constexpr (std::is_enum_v<T>)
 			return has_single_bit(static_cast<std::underlying_type_t<T>>(val));
 		else
 		{

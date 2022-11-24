@@ -24,9 +24,9 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 namespace muu::impl
 {
-	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : MUU_ARCH_BITNESS - 1;
+	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : (sizeof(uintptr_t) * CHAR_BIT - 1);
 	inline constexpr size_t tptr_addr_used_bits		   = tptr_addr_highest_used_bit + 1;
-	inline constexpr size_t tptr_addr_free_bits		   = size_t{ MUU_ARCH_BITNESS } - tptr_addr_used_bits;
+	inline constexpr size_t tptr_addr_free_bits		   = sizeof(uintptr_t) * CHAR_BIT - tptr_addr_used_bits;
 
 	template <typename T>
 	struct tptr_uint
@@ -37,7 +37,7 @@ namespace muu::impl
 	template <size_t Bits>
 	constexpr auto tptr_uint_for_bits_impl() noexcept
 	{
-		static_assert(Bits <= MUU_ARCH_BITNESS);
+		static_assert(Bits <= sizeof(uintptr_t) * CHAR_BIT);
 
 		if constexpr (Bits <= sizeof(unsigned char) * CHAR_BIT)
 			return tptr_uint<unsigned char>{};
@@ -61,7 +61,8 @@ namespace muu::impl
 		static constexpr uintptr_t tag_mask = bit_fill_right<uintptr_t>(tag_bits);
 		static constexpr uintptr_t ptr_mask = ~tag_mask;
 
-		using tag_type = tptr_uint_for_bits<muu::clamp<size_t>(bit_ceil(tag_bits), CHAR_BIT, MUU_ARCH_BITNESS)>;
+		using tag_type =
+			tptr_uint_for_bits<muu::clamp<size_t>(bit_ceil(tag_bits), CHAR_BIT, sizeof(uintptr_t) * CHAR_BIT)>;
 		static_assert(sizeof(tag_type) <= sizeof(uintptr_t));
 
 		MUU_CONST_GETTER
@@ -82,8 +83,8 @@ namespace muu::impl
 		{
 			static_assert(std::is_trivially_copyable_v<T>, "The tag type must be trivially copyable");
 
-			if constexpr (is_enum<T>)
-				return pack_both(ptr, unwrap(tag));
+			if constexpr (std::is_enum_v<T>)
+				return pack_both(ptr, static_cast<std::underlying_type_t<T>>(tag));
 			else
 			{
 				MUU_CONSTEXPR_SAFE_ASSERT((!ptr || bit_floor(reinterpret_cast<uintptr_t>(ptr)) >= Align)
@@ -100,9 +101,24 @@ namespace muu::impl
 				{
 					static_assert((sizeof(T) * CHAR_BIT) <= tag_bits,
 								  "The tag type must fit in the available tag bits");
-					auto bits = pack_ptr(ptr);
-					MUU_MEMCPY(&bits, &tag, sizeof(T));
-					return bits;
+
+					struct source_t
+					{
+						unsigned char bytes[sizeof(uintptr_t)];
+					};
+					struct dest_t
+					{
+						unsigned char bytes[sizeof(T)];
+					};
+					union proxy_t
+					{
+						source_t source;
+						dest_t dest;
+					};
+
+					proxy_t proxy{ muu::bit_cast<source_t>(pack_ptr(ptr)) };
+					proxy.dest = muu::bit_cast<dest_t>(tag);
+					return muu::bit_cast<uintptr_t>(proxy);
 				}
 			}
 		}
@@ -117,8 +133,8 @@ namespace muu::impl
 		MUU_CONST_GETTER
 		static constexpr uintptr_t set_tag(uintptr_t bits, T tag) noexcept
 		{
-			if constexpr (is_enum<T>)
-				return set_tag(bits, unwrap(tag));
+			if constexpr (std::is_enum_v<T>)
+				return set_tag(bits, static_cast<std::underlying_type_t<T>>(tag));
 			else if constexpr ((sizeof(T) * CHAR_BIT) > tag_bits)
 				return (bits & ptr_mask) | (static_cast<uintptr_t>(tag) & tag_mask);
 			else
@@ -127,17 +143,31 @@ namespace muu::impl
 
 		MUU_CONSTRAINED_TEMPLATE(!is_unsigned<T>, typename T)
 		MUU_PURE_GETTER
-		static uintptr_t set_tag(uintptr_t bits, const T& tag) noexcept
+		static constexpr uintptr_t set_tag(uintptr_t bits, const T& tag) noexcept
 		{
 			static_assert(std::is_trivially_copyable_v<T>, "The tag type must be trivially copyable");
 			static_assert((sizeof(T) * CHAR_BIT) <= tag_bits, "The tag type must fit in the available tag bits");
-			if constexpr ((sizeof(T) * CHAR_BIT) < tag_bits)
-				bits &= ptr_mask;
-			MUU_MEMCPY(&bits, &tag, sizeof(T));
-			return bits;
+
+			struct source_t
+			{
+				unsigned char bytes[sizeof(uintptr_t)];
+			};
+			struct dest_t
+			{
+				unsigned char bytes[sizeof(T)];
+			};
+			union proxy_t
+			{
+				source_t source;
+				dest_t dest;
+			};
+
+			proxy_t proxy{ muu::bit_cast<source_t>(bits & ptr_mask) };
+			proxy.dest = muu::bit_cast<dest_t>(tag);
+			return muu::bit_cast<uintptr_t>(proxy);
 		}
 
-		MUU_CONST_GETTER
+		MUU_CONST_INLINE_GETTER
 		static constexpr uintptr_t get_tag(uintptr_t bits) noexcept
 		{
 			return bits & tag_mask;
@@ -147,6 +177,7 @@ namespace muu::impl
 		static constexpr bool get_tag_bit(uintptr_t bits, size_t index) noexcept
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
+
 			return bits & (uintptr_t{ 1 } << index);
 		}
 
@@ -154,6 +185,7 @@ namespace muu::impl
 		static constexpr uintptr_t set_tag_bit(uintptr_t bits, size_t index, bool state) noexcept
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(index < tag_bits && "Tag bit index out-of-bounds");
+
 			if (state)
 				return bits | (uintptr_t{ 1 } << index);
 			else
@@ -172,18 +204,26 @@ namespace muu::impl
 			static_assert(sizeof(intermediate_type) <= sizeof(tag_type));
 
 			if constexpr (sizeof(T) == sizeof(intermediate_type))
+			{
 				return muu::bit_cast<T>(static_cast<intermediate_type>(get_tag(bits)));
+			}
 			else
 			{
-				unsigned char bytes[sizeof(T)];
-				auto intermediate_bits = static_cast<intermediate_type>(get_tag(bits));
-				for (size_t i = 0; i < sizeof(T); i++)
+				struct source_t
 				{
-					bytes[i] =
-						static_cast<unsigned char>(intermediate_bits & bit_fill_right<intermediate_type>(CHAR_BIT));
-					intermediate_bits >>= CHAR_BIT;
-				}
-				return muu::bit_cast<T>(bytes);
+					unsigned char bytes[sizeof(intermediate_type)];
+				};
+				struct dest_t
+				{
+					unsigned char bytes[sizeof(T)];
+				};
+				union proxy_t
+				{
+					source_t source;
+					dest_t dest;
+				};
+				proxy_t proxy{ muu::bit_cast<source_t>(static_cast<intermediate_type>(get_tag(bits))) };
+				return muu::bit_cast<T>(proxy.dest);
 			}
 		}
 
@@ -456,14 +496,14 @@ namespace muu
 
 		/// \brief	Constructs zero-initialized tagged pointer.
 		MUU_NODISCARD_CTOR
-		tagged_ptr() noexcept = default;
+		constexpr tagged_ptr() noexcept = default;
 
 		/// \brief	Copy constructor.
 		MUU_NODISCARD_CTOR
-		tagged_ptr(const tagged_ptr&) noexcept = default;
+		constexpr tagged_ptr(const tagged_ptr&) noexcept = default;
 
 		/// \brief	Copy-assignment operator.
-		tagged_ptr& operator=(const tagged_ptr&) noexcept = default;
+		constexpr tagged_ptr& operator=(const tagged_ptr&) noexcept = default;
 
 		/// \brief	Destructor.
 		~tagged_ptr() noexcept = default;

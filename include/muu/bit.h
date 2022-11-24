@@ -53,7 +53,7 @@ namespace muu
 	{
 		static_assert(!is_cvref<T>);
 
-		if constexpr (is_enum<T>)
+		if constexpr (std::is_enum_v<T>)
 			return static_cast<T>(bit_width(static_cast<std::underlying_type_t<T>>(val)));
 		else
 			return static_cast<T>(sizeof(T) * CHAR_BIT - static_cast<size_t>(countl_zero(val)));
@@ -96,10 +96,11 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr uint8_t MUU_VECTORCALL byte_select(T val) noexcept
 	{
+		static_assert(!is_cvref<T>);
 		static_assert(Index < sizeof(T),
 					  "The byte index is out-of-range; it must be less than the size of the input integer");
 
-		if constexpr (is_enum<T>)
+		if constexpr (std::is_enum_v<T>)
 			return byte_select<Index>(static_cast<std::underlying_type_t<T>>(val));
 		else if constexpr (is_signed<T>)
 			return byte_select<Index>(static_cast<make_unsigned<T>>(val));
@@ -151,10 +152,12 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr uint8_t MUU_VECTORCALL byte_select(T val, size_t index) noexcept
 	{
+		static_assert(!is_cvref<T>);
+
 		if (index > sizeof(T))
 			return uint8_t{};
 
-		if constexpr (is_enum<T>)
+		if constexpr (std::is_enum_v<T>)
 			return byte_select(static_cast<std::underlying_type_t<T>>(val), index);
 		else if constexpr (is_signed<T>)
 			return byte_select(static_cast<make_unsigned<T>>(val), index);
@@ -200,6 +203,7 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr auto MUU_VECTORCALL swizzle(T val) noexcept
 	{
+		static_assert(!is_cvref<T>);
 		static_assert(sizeof...(ByteIndices) > 0u, "At least one byte index must be specified.");
 		static_assert((sizeof...(ByteIndices) * CHAR_BIT) <= (MUU_HAS_INT128 ? 128 : 64),
 					  "No integer type large enough to hold the swizzled value exists on the target platform");
@@ -210,7 +214,7 @@ namespace muu
 												unsigned_integer<bit_ceil(sizeof...(ByteIndices) * CHAR_BIT)>>;
 		using return_type  = std::conditional_t<sizeof...(ByteIndices) == sizeof(T), T, swizzle_type>;
 
-		if constexpr (is_enum<T>)
+		if constexpr (std::is_enum_v<T>)
 			return static_cast<return_type>(swizzle<ByteIndices...>(static_cast<std::underlying_type_t<T>>(val)));
 		else if constexpr (is_signed<T>)
 			return static_cast<return_type>(swizzle<ByteIndices...>(static_cast<make_unsigned<T>>(val)));

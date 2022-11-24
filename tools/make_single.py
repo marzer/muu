@@ -119,7 +119,7 @@ def main():
 	# stick in the special preamble about this process
 	snippets[r'generated_header_preamble'] = rf'''
 //         THIS FILE WAS ASSEMBLED FROM MULTIPLE HEADER FILES BY A SCRIPT - PLEASE DON'T EDIT IT DIRECTLY
-//                              upstream: {utils.git_query("rev-parse HEAD")}
+//                              upstream: {utils.git_query("rev-parse HEAD", cwd=Path(__file__).parent)}
 {license}
 	'''.strip()
 

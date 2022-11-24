@@ -35,7 +35,7 @@ namespace muu
 	{
 		static_assert(!is_cvref<T>);
 
-		if constexpr (is_enum<T>)
+		if constexpr (std::is_enum_v<T>)
 			return T{ bit_fill_right<std::underlying_type_t<T>>(count) };
 		else
 		{
@@ -69,7 +69,7 @@ namespace muu
 	{
 		static_assert(!is_cvref<T>);
 
-		if constexpr (is_enum<T>)
+		if constexpr (std::is_enum_v<T>)
 			return T{ bit_fill_left<std::underlying_type_t<T>>(count) };
 		else
 		{
