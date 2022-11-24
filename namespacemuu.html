@@ -421,7 +421,7 @@
             </dt>
             <dd>A utility class for creating '<a class="m-doc poxy-injected" href="structmuu_1_1strong__typedef.html">strong typedefs</a>'.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> MinAlign = impl::tptr_alignof&lt;T&gt;&gt;</div>
+              <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align = impl::tptr_min_align&lt;T&gt;&gt;</div>
               class <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_ptr</a>
             </dt>
             <dd>Specialized pointer capable of storing data in the unused bits of a pointer's value.</dd>
@@ -518,11 +518,11 @@
             <dd>Adds a volatile qualifier to a type or reference.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment&gt;</div>
-              using <a class="m-doc" href="group__memory.html#ga3eab514dcbb52de9004c572c8a1dd5a9">aligned_byte_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>, Alignment&gt;
+              using <a class="m-doc" href="group__cpp20.html#ga3eab514dcbb52de9004c572c8a1dd5a9">aligned_byte_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, <a class="m-doc" href="group__memory.html#ga3cc0f4ca005186681123b33b6a754a36">dynamic_<wbr/>extent</a>, Alignment&gt;
             </dt>
             <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>, dynamic_extent, Alignment&gt;</code>.</dd>
             <dt>
-              using <a class="m-doc" href="group__memory.html#gae6d7d07e5320ddbc969461099bd00db0">byte_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;
+              using <a class="m-doc" href="group__cpp20.html#gae6d7d07e5320ddbc969461099bd00db0">byte_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;
             </dt>
             <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;</code>.</dd>
             <dt>
@@ -550,12 +550,12 @@
             </dt>
             <dd>Shorthand for conditionally adding volatile to a type or reference.</dd>
             <dt>
-              using <a class="m-doc" href="group__memory.html#gaefedbd706a97f094756e86befffcf178">const_byte_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;
+              using <a class="m-doc" href="group__cpp20.html#gaefedbd706a97f094756e86befffcf178">const_byte_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;
             </dt>
             <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a>&gt;</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Extent = dynamic_extent, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Alignment = 0&gt;</div>
-              using <a class="m-doc" href="group__memory.html#ga53f315d3ed4471ebb10c054e6bde0bd6">const_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const T, Extent, Alignment&gt;
+              using <a class="m-doc" href="group__cpp20.html#ga53f315d3ed4471ebb10c054e6bde0bd6">const_span</a> = <a class="m-doc" href="classmuu_1_1span.html">span</a>&lt;const T, Extent, Alignment&gt;
             </dt>
             <dd>Convenience alias for <code><a class="m-doc poxy-injected" href="classmuu_1_1span.html">span</a>&lt;const T, Extent&gt;</code>.</dd>
             <dt>
@@ -746,7 +746,7 @@
             <dd>Sets the volatility of a type or reference according to a boolean.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga4f67907a17de3414f8f0340716e987d4">signed_integer</a> = typename impl::signed_integer_&lt;Bits&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga09db214c647c86c5b20746624630a3d6">signed_integer</a> = typename decltype(impl::sint_for_bits_impl&lt;Bits&gt;())::type
             </dt>
             <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
             <dt>
@@ -774,7 +774,7 @@
             <dd>Convenience alias for <code><a class="m-doc" href="structmuu_1_1integral__range.html">integral_<wbr/>range</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uintptr_t</a>&gt;</code>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
+              using <a class="m-doc" href="group__meta.html#gac216fd49569fd7466617390132f2999b">unsigned_integer</a> = typename decltype(impl::uint_for_bits_impl&lt;Bits&gt;())::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
             <dt>

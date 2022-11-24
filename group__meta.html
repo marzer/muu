@@ -300,7 +300,7 @@
             <dd>Sets the volatility of a type or reference according to a boolean.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
-              using <a class="m-doc" href="#ga4f67907a17de3414f8f0340716e987d4">signed_integer</a> = typename impl::signed_integer_&lt;Bits&gt;::type
+              using <a class="m-doc" href="#ga09db214c647c86c5b20746624630a3d6">signed_integer</a> = typename decltype(impl::sint_for_bits_impl&lt;Bits&gt;())::type
             </dt>
             <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
             <dt>
@@ -320,7 +320,7 @@
             <dd>A tag type for encoding/parameterizing a single type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
-              using <a class="m-doc" href="#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
+              using <a class="m-doc" href="#gac216fd49569fd7466617390132f2999b">unsigned_integer</a> = typename decltype(impl::uint_for_bits_impl&lt;Bits&gt;())::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
             <dt>
@@ -1467,12 +1467,12 @@
             </h3>
             <p>Sets the volatility of a type or reference according to a boolean.</p>
           </div></section>
-          <section class="m-doc-details" id="ga4f67907a17de3414f8f0340716e987d4"><div>
+          <section class="m-doc-details" id="ga09db214c647c86c5b20746624630a3d6"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
               </div>
-              using <a class="m-doc-self" href="#ga4f67907a17de3414f8f0340716e987d4">signed_integer</a> = typename impl::signed_integer_&lt;Bits&gt;::type
+              using <a class="m-doc-self" href="#ga09db214c647c86c5b20746624630a3d6">signed_integer</a> = typename decltype(impl::sint_for_bits_impl&lt;Bits&gt;())::type
             </h3>
             <p>Gets the signed integer type with a specific number of bits for the target platform.</p>
           </div></section>
@@ -1508,12 +1508,12 @@
             </h3>
             <p>A tag type for encoding/parameterizing a single type.</p>
           </div></section>
-          <section class="m-doc-details" id="ga47a90ed3608cf7b0bf562f4ad208cd21"><div>
+          <section class="m-doc-details" id="gac216fd49569fd7466617390132f2999b"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
               <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;
               </div>
-              using <a class="m-doc-self" href="#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
+              using <a class="m-doc-self" href="#gac216fd49569fd7466617390132f2999b">unsigned_integer</a> = typename decltype(impl::uint_for_bits_impl&lt;Bits&gt;())::type
             </h3>
             <p>Gets the unsigned integer type with a specific number of bits for the target platform.</p>
           </div></section>

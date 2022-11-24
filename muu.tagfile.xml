@@ -2069,6 +2069,20 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>typename decltype(impl::uint_for_bits_impl&lt; Bits &gt;())::type</type>
+      <name>unsigned_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac216fd49569fd7466617390132f2999b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename decltype(impl::sint_for_bits_impl&lt; Bits &gt;())::type</type>
+      <name>signed_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga09db214c647c86c5b20746624630a3d6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>typename impl::remove_enum_&lt; T &gt;::type</type>
       <name>remove_enum</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -2297,20 +2311,6 @@
       <name>type_identity</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga8b8f215acad0e9f3d7aa52326155f030</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::unsigned_integer_&lt; Bits &gt;::type</type>
-      <name>unsigned_integer</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga47a90ed3608cf7b0bf562f4ad208cd21</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::signed_integer_&lt; Bits &gt;::type</type>
-      <name>signed_integer</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga4f67907a17de3414f8f0340716e987d4</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -3618,16 +3618,16 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_ARCH_X64</name>
+      <name>MUU_ARCH_BITNESS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga1cdbe016e691eafdbf69dc6562d821e8</anchor>
+      <anchor>ga2e302f23e8da851a0443167d733facc3</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_ARCH_BITNESS</name>
+      <name>MUU_ARCH_X64</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga2e302f23e8da851a0443167d733facc3</anchor>
+      <anchor>ga1cdbe016e691eafdbf69dc6562d821e8</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
@@ -4348,28 +4348,28 @@
     <member kind="typedef">
       <type>span&lt; const T, Extent, Alignment &gt;</type>
       <name>const_span</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>ga53f315d3ed4471ebb10c054e6bde0bd6</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; std::byte &gt;</type>
       <name>byte_span</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>gae6d7d07e5320ddbc969461099bd00db0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; const std::byte &gt;</type>
       <name>const_byte_span</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>gaefedbd706a97f094756e86befffcf178</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; std::byte, dynamic_extent, Alignment &gt;</type>
       <name>aligned_byte_span</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>ga3eab514dcbb52de9004c572c8a1dd5a9</anchor>
       <arglist></arglist>
     </member>
@@ -4646,7 +4646,7 @@
     <includes id="bit_8h" name="bit.h" local="yes" imported="no">bit.h</includes>
     <includes id="assume__aligned_8h" name="assume_aligned.h" local="yes" imported="no">assume_aligned.h</includes>
     <class kind="class">muu::tagged_ptr</class>
-    <class kind="struct">std::pointer_traits&lt; muu::tagged_ptr&lt; T, MinAlign &gt; &gt;</class>
+    <class kind="struct">std::pointer_traits&lt; muu::tagged_ptr&lt; T, Align &gt; &gt;</class>
     <namespace>muu</namespace>
   </compound>
   <compound kind="file">
@@ -12372,10 +12372,10 @@
     </member>
   </compound>
   <compound kind="struct">
-    <name>std::pointer_traits&lt; muu::tagged_ptr&lt; T, MinAlign &gt; &gt;</name>
-    <filename>structstd_1_1pointer__traits_3_01muu_1_1tagged__ptr_3_01_t_00_01_min_align_01_4_01_4.html</filename>
+    <name>std::pointer_traits&lt; muu::tagged_ptr&lt; T, Align &gt; &gt;</name>
+    <filename>structstd_1_1pointer__traits_3_01muu_1_1tagged__ptr_3_01_t_00_01_align_01_4_01_4.html</filename>
     <templarg>typename T</templarg>
-    <templarg>size_t MinAlign</templarg>
+    <templarg>size_t Align</templarg>
   </compound>
   <compound kind="struct">
     <name>muu::quaternion</name>
@@ -14753,229 +14753,229 @@
     <name>muu::tagged_ptr</name>
     <filename>classmuu_1_1tagged__ptr.html</filename>
     <templarg>typename T</templarg>
-    <templarg>size_t MinAlign</templarg>
+    <templarg>size_t Align</templarg>
     <member kind="typedef">
       <type>T</type>
       <name>element_type</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>af7dad5fa9d70aef72a0ef9a6e96a7493</anchor>
+      <anchor>afb655a02887a158abb2f3eeb381adee9</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>std::add_pointer_t&lt; T &gt;</type>
       <name>pointer</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a7247bfb909220ebd53747353103a1001</anchor>
+      <anchor>a24bc749fc41262793e85f85f9d3efe68</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>std::add_pointer_t&lt; add_const&lt; T &gt; &gt;</type>
+      <type>std::add_pointer_t&lt; std::add_const_t&lt; T &gt; &gt;</type>
       <name>const_pointer</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>aa8e95e16638a31de7d053c2e8d8a14dd</anchor>
+      <anchor>af3eeb414f8b1d955ef7f9d12b2f9023b</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>typename tptr::tag_type</type>
       <name>tag_type</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a3ba4cecae88ae7af97ef65dcb7539eb1</anchor>
+      <anchor>a95635ca8ebb1576b25f438bf68e7efad</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>tagged_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a2240737b6daa475ef00fb96b9098b64b</anchor>
+      <anchor>a20561986743424905af3af12a2110539</anchor>
       <arglist>(pointer value) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>tagged_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ad19441f70ced31f04dd87e5a2f9fc08d</anchor>
+      <anchor>ae22b4eebfa4ae1da0a5736a9ae139a19</anchor>
       <arglist>(pointer value, const U &amp;tag_value) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>tagged_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a8b0b113a4b87dbf8036226a479fc528e</anchor>
+      <anchor>a1f7ec4909825024ca9756f45194332a9</anchor>
       <arglist>(nullptr_t) noexcept</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>tagged_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ae5d5e35d9df585271b004a0c65d6f4e7</anchor>
+      <anchor>a8a3594d5da2f5ed41ce33a64a17215b6</anchor>
       <arglist>() noexcept=default</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>tagged_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a72b3e835a295d8a858c48215d9a15572</anchor>
+      <anchor>ac9d9cde188eac540ee7737009384f4a5</anchor>
       <arglist>(const tagged_ptr &amp;) noexcept=default</arglist>
     </member>
     <member kind="function">
       <type>tagged_ptr &amp;</type>
       <name>operator=</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ae86eb2d01cf1ded986d9ad3305f7e20b</anchor>
+      <anchor>a6e88113d656f9c0126276c1fbc275192</anchor>
       <arglist>(const tagged_ptr &amp;) noexcept=default</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>~tagged_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>abab6df8dbd3a73b6d276dcbc3fa70a9b</anchor>
+      <anchor>a448b595ce1cc1b45718cbfb92169f9b4</anchor>
       <arglist>() noexcept=default</arglist>
     </member>
     <member kind="function">
       <type>constexpr tagged_ptr &amp;</type>
       <name>reset</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ab5277559d671285bb4b28cc8b4614b7e</anchor>
+      <anchor>a3a3d15c96f8e754f1e8f145bfa50e893</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr tagged_ptr &amp;</type>
       <name>reset</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ad2ea9f401ed7441b6f52105d389a960b</anchor>
+      <anchor>ab11e4a5cafb21de6c557f02b3e4d7192</anchor>
       <arglist>(pointer value) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr tagged_ptr &amp;</type>
       <name>reset</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>afcbebdfa9c876d0d53487dee61bec61f</anchor>
+      <anchor>a865b4ca39a3c6a7a386215ca86e44bbe</anchor>
       <arglist>(pointer value, const U &amp;tag_value) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr pointer</type>
       <name>ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a1ad9a0886e811625d49fd15eacdc7482</anchor>
+      <anchor>a709d1dbbf7c9ad3e662614001699aa54</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr pointer</type>
       <name>get</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a534b6c3c5ebf17533d825e0e6450eb56</anchor>
+      <anchor>a95eabcd0a515ae8df4e2758a20631639</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>operator pointer</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>afe0573f5cc1c73c4934e1b7c1df16627</anchor>
+      <anchor>af913dd98ac6c39bd33be86c462160284</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr decltype(auto)</type>
       <name>operator()</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a9120e621b5353e9266c3d141ac74f8f8</anchor>
+      <anchor>a75280d82049dfc35321a4d2469269eaf</anchor>
       <arglist>(U &amp;&amp;... args) const noexcept(std::is_nothrow_invocable_v&lt; element_type, U &amp;&amp;... &gt;)</arglist>
     </member>
     <member kind="function">
       <type>constexpr element_type &amp;</type>
       <name>operator*</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ad36e4e69b7010ec9875ba6e8b2296120</anchor>
+      <anchor>a97dea78b41e71d12a44fed269bf5fe43</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr pointer</type>
       <name>operator-&gt;</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ab44a4528f2d077614aa5a40013ead76d</anchor>
+      <anchor>a324d2ada1979c9dbcdafb018de9544c8</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr tagged_ptr &amp;</type>
       <name>ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a827a9565a7879e710a6be18dfe192ed9</anchor>
+      <anchor>ae6bbf4ecf18dc4d3d4fd6cba4cd66825</anchor>
       <arglist>(pointer value) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr tagged_ptr &amp;</type>
       <name>operator=</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ac6de860dd951f37ec0e95f51556a1fef</anchor>
+      <anchor>a9d12545299ab4e560a18fe76034660e4</anchor>
       <arglist>(pointer rhs) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr tagged_ptr &amp;</type>
       <name>clear_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>af89ece347f408f7c932a5a685b6afe4b</anchor>
+      <anchor>a4687bc1c82e1cb053ed3b2757c623e11</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr U</type>
       <name>tag</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a0d3339deeddb5db29e29160db710bab2</anchor>
+      <anchor>ab4b30f5485a682f95646cbb1aef9abbe</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr tagged_ptr &amp;</type>
       <name>tag</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a9ffb56652f4b1cbe8f08ae61b082e25c</anchor>
+      <anchor>aa56cc3c2a90913df64e1510c967a64d5</anchor>
       <arglist>(const U &amp;tag_value) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>tag_bit</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ac4b316ed78f483aa31b9d8cb917681bd</anchor>
+      <anchor>a122fbff1719d7019501e54dfc32fd050</anchor>
       <arglist>(size_t tag_bit_index) const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr tagged_ptr &amp;</type>
       <name>tag_bit</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a0a620f082cf80c6fe1270c5b1ed44d40</anchor>
+      <anchor>ab42dfb3fbe10c9ce3961b49da244e79a</anchor>
       <arglist>(size_t tag_bit_index, bool val) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr tagged_ptr &amp;</type>
       <name>clear_tag</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a312a0880c8098aff13e6607c58ec93bb</anchor>
+      <anchor>a343802dee9a19bf404f6990b7fd45703</anchor>
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>operator bool</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a5b08ed11193638bf054741ecdb8480d0</anchor>
+      <anchor>a6bb80afbfb11d196c4d2667970df7822</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="variable" static="yes">
       <type>static constexpr size_t</type>
-      <name>minimum_alignment</name>
+      <name>alignment</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a9d6100f8416398418017c6dd54698ba4</anchor>
+      <anchor>aa999bdbc9be3a4d23e39ebda07b8765c</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" static="yes">
       <type>static constexpr size_t</type>
       <name>tag_bit_count</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ae5fe8e1897b9fefb22165b720d2c7568</anchor>
+      <anchor>a9253d029036ab082e4d13f98a0dc6572</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" static="yes">
       <type>static constexpr tag_type</type>
       <name>max_tag</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a9c9e9fb3be864a53cc192b6f75aa7ec5</anchor>
+      <anchor>a52cc5de6a5cc2e4a229c5a02eb692d1b</anchor>
       <arglist></arglist>
     </member>
     <member kind="friend">
@@ -17885,6 +17885,20 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>typename decltype(impl::uint_for_bits_impl&lt; Bits &gt;())::type</type>
+      <name>unsigned_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac216fd49569fd7466617390132f2999b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename decltype(impl::sint_for_bits_impl&lt; Bits &gt;())::type</type>
+      <name>signed_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga09db214c647c86c5b20746624630a3d6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>typename impl::remove_enum_&lt; T &gt;::type</type>
       <name>remove_enum</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -18116,20 +18130,6 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename impl::unsigned_integer_&lt; Bits &gt;::type</type>
-      <name>unsigned_integer</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga47a90ed3608cf7b0bf562f4ad208cd21</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::signed_integer_&lt; Bits &gt;::type</type>
-      <name>signed_integer</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga4f67907a17de3414f8f0340716e987d4</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
       <type>typename impl::remove_all_pointers_&lt; T &gt;::type</type>
       <name>remove_all_pointers</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -18237,28 +18237,28 @@
     <member kind="typedef">
       <type>span&lt; const T, Extent, Alignment &gt;</type>
       <name>const_span</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>ga53f315d3ed4471ebb10c054e6bde0bd6</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; std::byte &gt;</type>
       <name>byte_span</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>gae6d7d07e5320ddbc969461099bd00db0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; const std::byte &gt;</type>
       <name>const_byte_span</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>gaefedbd706a97f094756e86befffcf178</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
       <type>span&lt; std::byte, dynamic_extent, Alignment &gt;</type>
       <name>aligned_byte_span</name>
-      <anchorfile>group__memory.html</anchorfile>
+      <anchorfile>group__cpp20.html</anchorfile>
       <anchor>ga3eab514dcbb52de9004c572c8a1dd5a9</anchor>
       <arglist></arglist>
     </member>
@@ -22922,6 +22922,34 @@
     <file>source_location.h</file>
     <class kind="class">muu::source_location</class>
     <class kind="class">muu::span</class>
+    <member kind="typedef">
+      <type>span&lt; const T, Extent, Alignment &gt;</type>
+      <name>const_span</name>
+      <anchorfile>group__cpp20.html</anchorfile>
+      <anchor>ga53f315d3ed4471ebb10c054e6bde0bd6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>span&lt; std::byte &gt;</type>
+      <name>byte_span</name>
+      <anchorfile>group__cpp20.html</anchorfile>
+      <anchor>gae6d7d07e5320ddbc969461099bd00db0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>span&lt; const std::byte &gt;</type>
+      <name>const_byte_span</name>
+      <anchorfile>group__cpp20.html</anchorfile>
+      <anchor>gaefedbd706a97f094756e86befffcf178</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>span&lt; std::byte, dynamic_extent, Alignment &gt;</type>
+      <name>aligned_byte_span</name>
+      <anchorfile>group__cpp20.html</anchorfile>
+      <anchor>ga3eab514dcbb52de9004c572c8a1dd5a9</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="function">
       <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
       <name>as_bytes</name>
@@ -23514,34 +23542,7 @@
     <title>Memory management</title>
     <filename>group__memory.html</filename>
     <class kind="class">muu::blob</class>
-    <member kind="typedef">
-      <type>span&lt; const T, Extent, Alignment &gt;</type>
-      <name>const_span</name>
-      <anchorfile>group__memory.html</anchorfile>
-      <anchor>ga53f315d3ed4471ebb10c054e6bde0bd6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>span&lt; std::byte &gt;</type>
-      <name>byte_span</name>
-      <anchorfile>group__memory.html</anchorfile>
-      <anchor>gae6d7d07e5320ddbc969461099bd00db0</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>span&lt; const std::byte &gt;</type>
-      <name>const_byte_span</name>
-      <anchorfile>group__memory.html</anchorfile>
-      <anchor>gaefedbd706a97f094756e86befffcf178</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>span&lt; std::byte, dynamic_extent, Alignment &gt;</type>
-      <name>aligned_byte_span</name>
-      <anchorfile>group__memory.html</anchorfile>
-      <anchor>ga3eab514dcbb52de9004c572c8a1dd5a9</anchor>
-      <arglist></arglist>
-    </member>
+    <class kind="class">muu::span</class>
     <member kind="variable">
       <type>constexpr size_t</type>
       <name>dynamic_extent</name>
@@ -23560,6 +23561,20 @@
       <name>remove_cvref</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga3cac44d2af43c4fd98e835ff5b28988a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename decltype(impl::uint_for_bits_impl&lt; Bits &gt;())::type</type>
+      <name>unsigned_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gac216fd49569fd7466617390132f2999b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename decltype(impl::sint_for_bits_impl&lt; Bits &gt;())::type</type>
+      <name>signed_integer</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga09db214c647c86c5b20746624630a3d6</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -23791,20 +23806,6 @@
       <name>type_identity</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga8b8f215acad0e9f3d7aa52326155f030</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::unsigned_integer_&lt; Bits &gt;::type</type>
-      <name>unsigned_integer</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga47a90ed3608cf7b0bf562f4ad208cd21</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>typename impl::signed_integer_&lt; Bits &gt;::type</type>
-      <name>signed_integer</name>
-      <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga4f67907a17de3414f8f0340716e987d4</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -25032,16 +25033,16 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_ARCH_X64</name>
+      <name>MUU_ARCH_BITNESS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga1cdbe016e691eafdbf69dc6562d821e8</anchor>
+      <anchor>ga2e302f23e8da851a0443167d733facc3</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_ARCH_BITNESS</name>
+      <name>MUU_ARCH_X64</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga2e302f23e8da851a0443167d733facc3</anchor>
+      <anchor>ga1cdbe016e691eafdbf69dc6562d821e8</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">

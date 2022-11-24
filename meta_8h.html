@@ -296,7 +296,7 @@
             <dd>Sets the volatility of a type or reference according to a boolean.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga4f67907a17de3414f8f0340716e987d4">signed_integer</a> = typename impl::signed_integer_&lt;Bits&gt;::type
+              using <a class="m-doc" href="group__meta.html#ga09db214c647c86c5b20746624630a3d6">signed_integer</a> = typename decltype(impl::sint_for_bits_impl&lt;Bits&gt;())::type
             </dt>
             <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
             <dt>
@@ -311,7 +311,7 @@
             <dd>Provides an identity type transformation.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
-              using <a class="m-doc" href="group__meta.html#ga47a90ed3608cf7b0bf562f4ad208cd21">unsigned_integer</a> = typename impl::unsigned_integer_&lt;Bits&gt;::type
+              using <a class="m-doc" href="group__meta.html#gac216fd49569fd7466617390132f2999b">unsigned_integer</a> = typename decltype(impl::uint_for_bits_impl&lt;Bits&gt;())::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
             <dt>
