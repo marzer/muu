@@ -104,6 +104,11 @@
             </dt>
             <dd>A flattened version of the list with any nested type_lists recursively hoisted up into itself.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;typename... U&gt;</div>
+              using <a class="m-doc" href="#aa918a3dc23d77ec057846d14d994a0ba">prepend</a> = <a class="m-doc" href="structmuu_1_1type__list.html">muu::<wbr/>type_list</a>&lt;U..., T...&gt;
+            </dt>
+            <dd>Creates a new type list by prepending types to this one.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename U&gt;</div>
               using <a class="m-doc" href="#ab9ebb4442446fd37362bc5a3dea3f618">remove</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </dt>
@@ -181,6 +186,20 @@ template&lt;typename... U&gt;
 <pre class="m-code"><span class="k">static_assert</span><span class="p">(</span><span class="nn">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span>
     <span class="nn">muu</span><span class="o">::</span><span class="nc">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="nn">muu</span><span class="o">::</span><span class="nc">type_list</span><span class="o">&lt;</span><span class="nn">muu</span><span class="o">::</span><span class="nc">type_list</span><span class="o">&lt;</span><span class="k">double</span><span class="o">&gt;&gt;&gt;::</span><span class="n">flatten</span><span class="p">,</span>
     <span class="nn">muu</span><span class="o">::</span><span class="nc">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">double</span><span class="o">&gt;</span>
+<span class="o">&gt;</span><span class="p">);</span></pre>
+          </div></section>
+          <section class="m-doc-details" id="aa918a3dc23d77ec057846d14d994a0ba"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename... T&gt;<br/>
+template&lt;typename... U&gt;
+              </div>
+              using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#aa918a3dc23d77ec057846d14d994a0ba">prepend</a> = <a class="m-doc" href="structmuu_1_1type__list.html">muu::<wbr/>type_list</a>&lt;U..., T...&gt;
+            </h3>
+            <p>Creates a new type list by prepending types to this one.</p>
+<pre class="m-code"><span class="k">static_assert</span><span class="p">(</span><span class="nn">std</span><span class="o">::</span><span class="n">is_same_v</span><span class="o">&lt;</span>
+    <span class="nn">muu</span><span class="o">::</span><span class="nc">type_list</span><span class="o">&lt;</span><span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;::</span><span class="n">prepend</span><span class="o">&lt;</span><span class="k">double</span><span class="p">,</span> <span class="k">void</span><span class="p">,</span> <span class="k">bool</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="nn">muu</span><span class="o">::</span><span class="nc">type_list</span><span class="o">&lt;</span><span class="k">double</span><span class="p">,</span> <span class="k">void</span><span class="p">,</span> <span class="k">bool</span><span class="p">,</span> <span class="k">int</span><span class="p">,</span> <span class="k">float</span><span class="p">,</span> <span class="k">char</span><span class="o">&gt;</span>
 <span class="o">&gt;</span><span class="p">);</span></pre>
           </div></section>
           <section class="m-doc-details" id="ab9ebb4442446fd37362bc5a3dea3f618"><div>

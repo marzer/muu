@@ -14804,24 +14804,24 @@
       <arglist>(nullptr_t) noexcept</arglist>
     </member>
     <member kind="function">
-      <type></type>
+      <type>constexpr</type>
       <name>tagged_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a8a3594d5da2f5ed41ce33a64a17215b6</anchor>
+      <anchor>a22b4d9e6bd0a6a3646f752cd047c23fa</anchor>
       <arglist>() noexcept=default</arglist>
     </member>
     <member kind="function">
-      <type></type>
+      <type>constexpr</type>
       <name>tagged_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ac9d9cde188eac540ee7737009384f4a5</anchor>
+      <anchor>afb2c53f44d69fdcf52cc09eddad8b505</anchor>
       <arglist>(const tagged_ptr &amp;) noexcept=default</arglist>
     </member>
     <member kind="function">
-      <type>tagged_ptr &amp;</type>
+      <type>constexpr tagged_ptr &amp;</type>
       <name>operator=</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a6e88113d656f9c0126276c1fbc275192</anchor>
+      <anchor>a3e3ac12d5d50b130e51e4ad8eeee8872</anchor>
       <arglist>(const tagged_ptr &amp;) noexcept=default</arglist>
     </member>
     <member kind="function">
@@ -16004,6 +16004,13 @@
       <name>append</name>
       <anchorfile>structmuu_1_1type__list.html</anchorfile>
       <anchor>ab3d0e88d24a6b4b32c03f9aea336e0a5</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>muu::type_list&lt; U..., T... &gt;</type>
+      <name>prepend</name>
+      <anchorfile>structmuu_1_1type__list.html</anchorfile>
+      <anchor>aa918a3dc23d77ec057846d14d994a0ba</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" static="yes">
