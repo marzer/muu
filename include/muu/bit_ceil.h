@@ -16,6 +16,7 @@ MUU_DISABLE_ARITHMETIC_WARNINGS;
 
 namespace muu
 {
+	//% bit_ceil start
 	/// \brief	Finds the smallest integral power of two not less than the given value.
 	/// \ingroup core
 	///
@@ -30,6 +31,8 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr T MUU_VECTORCALL bit_ceil(T val) noexcept
 	{
+		static_assert(!is_cvref<T>);
+
 		if constexpr (is_enum<T>)
 			return static_cast<T>(bit_ceil(static_cast<std::underlying_type_t<T>>(val)));
 		else
@@ -40,6 +43,7 @@ namespace muu
 							  - static_cast<size_t>(countl_zero(static_cast<T>(val - T{ 1 }))));
 		}
 	}
+	//% bit_ceil end
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

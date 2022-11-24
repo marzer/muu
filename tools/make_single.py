@@ -77,8 +77,8 @@ def main():
 		print(rf'    macros: {args.macros}')
 
 	SNIPPET_DECL = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)(?:\s+(guarded))?\s*$', flags=re.MULTILINE)
-	SNIPPET_START = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)(?:\s+start)\s*$', flags=re.MULTILINE)
-	SNIPPET_END = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)(?:\s+end)\s*$', flags=re.MULTILINE)
+	SNIPPET_START = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)\s+start\s*$', flags=re.MULTILINE)
+	SNIPPET_END = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)\s+end\s*$', flags=re.MULTILINE)
 
 	# figure out which snippets we need
 	snippets = dict()
@@ -87,10 +87,10 @@ def main():
 		snippets[m[1]] = None
 		#print(m[1])
 
-	# read + pre-format the LICENSE
+	# read + pre-format the LICENSE snippet
 	license = []
 	for name in (r'LICENSE.md', r'LICENSE.txt', r'LICENSE'):
-		dir = args.template.parent
+		dir = args.output.parent
 		steps = 0
 		path = dir / name
 		while not (path.exists() and path.is_file()):
@@ -132,11 +132,21 @@ def main():
 			for m in SNIPPET_START.finditer(file_text):
 				if m[1] not in snippets or snippets[m[1]] is not None:
 					continue
-				m2 = SNIPPET_END.search(file_text, pos=m.end())
-				if not m2:
-					raise Exception(rf'unterminated snippet {m[1]} in {f.name}')
-				snippets[m[1]] = file_text[m.end():m2.start()].strip('\r\n')
-				snippets[m[1]] = f'\n{snippets[m[1]]}\n'
+				search_pos = m.end()
+				m2 = None
+				while True:
+					m2 = SNIPPET_END.search(file_text, pos=search_pos)
+					if not m2:
+						raise Exception(rf'unterminated snippet {m[1]} in {f.name}')
+					if m2[1] == m[1]:
+						break
+					search_pos = m2.end()
+				snippet = file_text[m.end():m2.start()].strip('\r\n')
+				snippet = re.sub(r'^\s*//%.+?$', '', snippet, flags=re.MULTILINE)
+				if m[1].endswith(r'_naive'):
+					snippet = snippet.replace(r'_naive', r'')
+				snippet = f'\n{snippet}\n'
+				snippets[m[1]] = snippet
 				#print(f'############################################\n{snippets[m[1]]}')
 				unresolved_snippets -= 1
 				if not unresolved_snippets:
@@ -159,6 +169,10 @@ def main():
 	text = SNIPPET_DECL.sub(sub_snippet, text)
 
 	# de-muuifiying
+	text = re.sub(r'\bMUU_ASSERT\b', r'assert', text)
+	text = re.sub(r'\bMUU_MEMCPY\b', r'std::memcpy', text)
+	text = re.sub(r'\bMUU_VECTORCALL\b', r'', text)
+	text = re.sub(r'(\b|::)muu::impl::enable_if_\b', r'std::enable_if', text)
 	text = utils.replace_metavar(r'namespaces::main', args.namespaces[0], text)
 	text = utils.replace_metavar(r'namespaces::impl', args.namespaces[1], text)
 	text = utils.replace_metavar(r'macros::prefix', args.macros, text)

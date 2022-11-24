@@ -192,6 +192,7 @@ namespace muu
 		}
 	}
 
+	//% has_single_bit start
 	/// \brief	Checks if an integral value has only a single bit set.
 	/// \ingroup core
 	///
@@ -206,25 +207,16 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr bool MUU_VECTORCALL has_single_bit(T val) noexcept
 	{
+		static_assert(!is_cvref<T>);
+
 		if constexpr (is_enum<T>)
 			return has_single_bit(static_cast<std::underlying_type_t<T>>(val));
 		else
 		{
-			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_POPCOUNT)
-				return val != T{} && (val & (val - T{ 1 })) == T{};
-			else
-			{
-				MUU_IF_CONSTEVAL
-				{
-					return val != T{} && (val & (val - T{ 1 })) == T{};
-				}
-				else
-				{
-					return impl::popcount_intrinsic(val) == 1;
-				}
-			}
+			return val != T{} && (val & (val - T{ 1 })) == T{};
 		}
 	}
+	//% has_single_bit end
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

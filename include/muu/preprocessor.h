@@ -26,54 +26,76 @@
 #ifndef __cplusplus
 	#error muu is a C++ library.
 #endif
-#ifdef _MSVC_LANG
-	#if _MSVC_LANG > __cplusplus
-		#define MUU_CPP _MSVC_LANG
+
+//% preprocessor::cpp start
+#ifndef MUU_CPP
+	#ifdef _MSVC_LANG
+		#if _MSVC_LANG > __cplusplus
+			#define MUU_CPP _MSVC_LANG
+		#endif
+	#endif
+	#ifndef MUU_CPP
+		#define MUU_CPP __cplusplus
+	#endif
+	#if MUU_CPP >= 202600L
+		#undef MUU_CPP
+		#define MUU_CPP 26
+	#elif MUU_CPP >= 202300L
+		#undef MUU_CPP
+		#define MUU_CPP 23
+	#elif MUU_CPP >= 202002L
+		#undef MUU_CPP
+		#define MUU_CPP 20
+	#elif MUU_CPP >= 201703L
+		#undef MUU_CPP
+		#define MUU_CPP 17
+	#elif MUU_CPP >= 201402L
+		#undef MUU_CPP
+		#define MUU_CPP 14
+	#elif MUU_CPP >= 201103L
+		#undef MUU_CPP
+		#define MUU_CPP 11
+	#else
+		#undef MUU_CPP
+		#define MUU_CPP 0
 	#endif
 #endif
-#ifndef MUU_CPP
-	#define MUU_CPP __cplusplus
-#endif
-#if MUU_CPP >= 202600L
-	#undef MUU_CPP
-	#define MUU_CPP 26
-#elif MUU_CPP >= 202300L
-	#undef MUU_CPP
-	#define MUU_CPP 23
-#elif MUU_CPP >= 202002L
-	#undef MUU_CPP
-	#define MUU_CPP 20
-#elif MUU_CPP >= 201703L
-	#undef MUU_CPP
-	#define MUU_CPP 17
-#else
-	#error muu requires C++17 or higher.
-#endif
+//% preprocessor::cpp end
 /// \def MUU_CPP
 /// \brief The currently-targeted C++ standard. `17` for C++17, `20` for C++20, etc.
+
+#if MUU_CPP < 17
+	#error muu requires C++17 or higher.
+#endif
 
 //======================================================================================================================
 // COMPILER DETECTION
 //======================================================================================================================
 
-#ifdef __INTELLISENSE__
-	#define MUU_INTELLISENSE 1
-#else
-	#define MUU_INTELLISENSE 0
+//% preprocessor::compilers start
+
+#ifndef MUU_INTELLISENSE
+	#ifdef __INTELLISENSE__
+		#define MUU_INTELLISENSE 1
+	#else
+		#define MUU_INTELLISENSE 0
+	#endif
 #endif
 /// \def MUU_INTELLISENSE
 /// \brief `1` when the code being compiled by an IDE's 'intellisense' compiler, otherwise `0`.
 
-#if defined(DOXYGEN) || defined(__DOXYGEN) || defined(__DOXYGEN__) || defined(__doxygen__) || defined(__POXY__)        \
-	|| defined(__poxy__)
-	#define MUU_DOXYGEN 1
-#else
-	#define MUU_DOXYGEN 0
+#ifndef MUU_DOXYGEN
+	#if defined(DOXYGEN) || defined(__DOXYGEN) || defined(__DOXYGEN__) || defined(__doxygen__) || defined(__POXY__)    \
+		|| defined(__poxy__)
+		#define MUU_DOXYGEN 1
+	#else
+		#define MUU_DOXYGEN 0
+	#endif
 #endif
 /// \def MUU_DOXYGEN
 /// \brief `1` when the code being interpreted by Doygen or some other documentation generator, otherwise `0`.
 
-//% preprocessor::clang start
+//% preprocessor::compilers::clang start
 #ifndef MUU_CLANG
 	#ifdef __clang__
 		#define MUU_CLANG __clang_major__
@@ -81,27 +103,29 @@
 		#define MUU_CLANG 0
 	#endif
 #endif
-//% preprocessor::clang end
+//% preprocessor::compilers::clang end
 /// \def MUU_CLANG
 /// \brief The value of `__clang_major__` when the code is being compiled by LLVM/Clang, otherwise `0`.
 /// \see https://sourceforge.net/p/predef/wiki/Compilers/
 
-#ifdef __INTEL_COMPILER
-	#define MUU_ICC __INTEL_COMPILER
-	#ifdef __ICL
-		#define MUU_ICC_CL MUU_ICC
+#ifndef MUU_ICC
+	#ifdef __INTEL_COMPILER
+		#define MUU_ICC __INTEL_COMPILER
+		#ifdef __ICL
+			#define MUU_ICC_CL MUU_ICC
+		#else
+			#define MUU_ICC_CL 0
+		#endif
 	#else
+		#define MUU_ICC	   0
 		#define MUU_ICC_CL 0
 	#endif
-#else
-	#define MUU_ICC	   0
-	#define MUU_ICC_CL 0
 #endif
 /// \def MUU_ICC
 /// \brief The value of `__INTEL_COMPILER` when the code is being compiled by ICC, otherwise `0`.
 /// \see http://scv.bu.edu/computation/bladecenter/manpages/icc.html
 
-//% preprocessor::msvc_like start
+//% preprocessor::compilers::msvc_like start
 #ifndef MUU_MSVC_LIKE
 	#ifdef _MSC_VER
 		#define MUU_MSVC_LIKE _MSC_VER
@@ -109,37 +133,51 @@
 		#define MUU_MSVC_LIKE 0
 	#endif
 #endif
-//% preprocessor::msvc_like end
+//% preprocessor::compilers::msvc_like end
 /// \def MUU_MSVC_LIKE
 /// \brief The value of `_MSC_VER` when it is defined by the compiler, otherwise `0`.
 /// \see https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
 
-#if MUU_MSVC_LIKE && !MUU_CLANG && !MUU_ICC
-	#define MUU_MSVC MUU_MSVC_LIKE
-#else
-	#define MUU_MSVC 0
+//% preprocessor::compilers::msvc start
+#ifndef MUU_MSVC
+	#if MUU_MSVC_LIKE && !MUU_CLANG && !MUU_ICC
+		#define MUU_MSVC MUU_MSVC_LIKE
+	#else
+		#define MUU_MSVC 0
+	#endif
 #endif
+//% preprocessor::compilers::msvc end
 /// \def MUU_MSVC
 /// \brief The value of `_MSC_VER` when the code is being compiled by MSVC specifically, otherwise `0`.
 /// \see https://docs.microsoft.com/en-us/cpp/preprocessor/predefined-macros
 
-#ifdef __GNUC__
-	#define MUU_GCC_LIKE __GNUC__
-#else
-	#define MUU_GCC_LIKE 0
+//% preprocessor::compilers::gcc_like start
+#ifndef MUU_GCC_LIKE
+	#ifdef __GNUC__
+		#define MUU_GCC_LIKE __GNUC__
+	#else
+		#define MUU_GCC_LIKE 0
+	#endif
 #endif
+//% preprocessor::compilers::gcc_like end
 /// \def MUU_GCC_LIKE
 /// \brief The value of `__GNUC__` when it is defined by the compiler, otherwise `0`.
 /// \see https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
 
-#if MUU_GCC_LIKE && !MUU_CLANG && !MUU_ICC
-	#define MUU_GCC MUU_GCC_LIKE
-#else
-	#define MUU_GCC 0
+//% preprocessor::compilers::gcc start
+#ifndef MUU_GCC
+	#if MUU_GCC_LIKE && !MUU_CLANG && !MUU_ICC
+		#define MUU_GCC MUU_GCC_LIKE
+	#else
+		#define MUU_GCC 0
+	#endif
 #endif
+//% preprocessor::compilers::gcc end
 /// \def MUU_GCC
 /// \brief The value of `__GNUC__` when the code is being compiled by GCC specifically, otherwise `0`.
 /// \see https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
+
+//% preprocessor::compilers end
 
 /// \cond
 #if !MUU_CLANG && !MUU_ICC && !MUU_MSVC && !MUU_GCC
@@ -154,49 +192,67 @@
 // ARCHITECTURE & ENVIRONMENT
 //======================================================================================================================
 
-#if defined(__ia64__) || defined(__ia64) || defined(_IA64) || defined(__IA64__) || defined(_M_IA64)
-	#define MUU_ARCH_ITANIUM 1
-	#define MUU_ARCH_BITNESS 64
-#else
-	#define MUU_ARCH_ITANIUM 0
+//% preprocessor::arch start
+
+//% preprocessor::arch::itanium start
+#ifndef MUU_ARCH_ITANIUM
+	#if defined(__ia64__) || defined(__ia64) || defined(_IA64) || defined(__IA64__) || defined(_M_IA64)
+		#define MUU_ARCH_ITANIUM 1
+		#define MUU_ARCH_BITNESS 64
+	#else
+		#define MUU_ARCH_ITANIUM 0
+	#endif
 #endif
+//% preprocessor::arch::itanium end
 /// \def MUU_ARCH_ITANIUM
 /// \brief `1` when targeting 64-bit Itanium, otherwise `0`.
 
-#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64)
-	#define MUU_ARCH_AMD64	 1
-	#define MUU_ARCH_BITNESS 64
-#else
-	#define MUU_ARCH_AMD64 0
+//% preprocessor::arch::amd64 start
+#ifndef MUU_ARCH_AMD64
+	#if defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__x86_64) || defined(_M_AMD64)
+		#define MUU_ARCH_AMD64	 1
+		#define MUU_ARCH_BITNESS 64
+	#else
+		#define MUU_ARCH_AMD64 0
+	#endif
 #endif
+//% preprocessor::arch::amd64 end
 /// \def MUU_ARCH_AMD64
 /// \brief `1` when targeting AMD64, otherwise `0`.
 
-#if defined(__i386__) || defined(_M_IX86)
-	#define MUU_ARCH_X86	 1
-	#define MUU_ARCH_BITNESS 32
-#else
-	#define MUU_ARCH_X86 0
+//% preprocessor::arch::x86 start
+#ifndef MUU_ARCH_X86
+	#if defined(__i386__) || defined(_M_IX86)
+		#define MUU_ARCH_X86	 1
+		#define MUU_ARCH_BITNESS 32
+	#else
+		#define MUU_ARCH_X86 0
+	#endif
 #endif
+//% preprocessor::arch::x86 end
 /// \def MUU_ARCH_X86
 /// \brief `1` when targeting 32-bit x86, otherwise `0`.
 
-#if defined(__aarch64__) || defined(__ARM_ARCH_ISA_A64) || defined(_M_ARM64) || defined(__ARM_64BIT_STATE)             \
-	|| defined(_M_ARM64EC)
-	#define MUU_ARCH_ARM32	 0
-	#define MUU_ARCH_ARM64	 1
-	#define MUU_ARCH_ARM	 1
-	#define MUU_ARCH_BITNESS 64
-#elif defined(__arm__) || defined(_M_ARM) || defined(__ARM_32BIT_STATE)
-	#define MUU_ARCH_ARM32	 1
-	#define MUU_ARCH_ARM64	 0
-	#define MUU_ARCH_ARM	 1
-	#define MUU_ARCH_BITNESS 32
-#else
-	#define MUU_ARCH_ARM32 0
-	#define MUU_ARCH_ARM64 0
-	#define MUU_ARCH_ARM   0
+//% preprocessor::arch::arm start
+#ifndef MUU_ARCH_ARM
+	#if defined(__aarch64__) || defined(__ARM_ARCH_ISA_A64) || defined(_M_ARM64) || defined(__ARM_64BIT_STATE)         \
+		|| defined(_M_ARM64EC)
+		#define MUU_ARCH_ARM32	 0
+		#define MUU_ARCH_ARM64	 1
+		#define MUU_ARCH_ARM	 1
+		#define MUU_ARCH_BITNESS 64
+	#elif defined(__arm__) || defined(_M_ARM) || defined(__ARM_32BIT_STATE)
+		#define MUU_ARCH_ARM32	 1
+		#define MUU_ARCH_ARM64	 0
+		#define MUU_ARCH_ARM	 1
+		#define MUU_ARCH_BITNESS 32
+	#else
+		#define MUU_ARCH_ARM32 0
+		#define MUU_ARCH_ARM64 0
+		#define MUU_ARCH_ARM   0
+	#endif
 #endif
+//% preprocessor::arch::arm end
 /// \def MUU_ARCH_ARM32
 /// \brief `1` when targeting 32-bit ARM, otherwise `0`.
 ///
@@ -206,20 +262,26 @@
 /// \def MUU_ARCH_ARM
 /// \brief `1` when targeting any flavour of ARM, otherwise `0`.
 
-#if MUU_ARCH_BITNESS == 64
-	#define MUU_ARCH_X64 1
-#else
-	#define MUU_ARCH_X64 0
+//% preprocessor::arch::bitness start
+#ifndef MUU_ARCH_BITNESS
+	#define MUU_ARCH_BITNESS 0
+#endif
+//% preprocessor::arch::bitness end
+/// \def MUU_ARCH_BITNESS
+/// \brief The 'bitness' of the target architecture (e.g. `64` on AMD64).
+/// \see build::bitness
+
+#ifndef MUU_ARCH_X64
+	#if MUU_ARCH_BITNESS == 64
+		#define MUU_ARCH_X64 1
+	#else
+		#define MUU_ARCH_X64 0
+	#endif
 #endif
 /// \def MUU_ARCH_X64
 /// \brief `1` when targeting any 64-bit architecture, otherwise `0`.
 
-#ifndef MUU_ARCH_BITNESS
-	#define MUU_ARCH_BITNESS 0
-#endif
-/// \def MUU_ARCH_BITNESS
-/// \brief The 'bitness' of the target architecture (e.g. `64` on AMD64).
-/// \see build::bitness
+//% preprocessor::arch end
 
 /// \cond
 #ifndef MUU_DISABLE_ENVIRONMENT_CHECKS
@@ -368,19 +430,27 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_HAS_FEATURE(name)
 /// \brief The result of `__has_feature(name)` if supported by the compiler, otherwise `0`.
 
-#ifdef __has_attribute
-	#define MUU_HAS_ATTR(attr) __has_attribute(attr)
-#else
-	#define MUU_HAS_ATTR(attr) 0
+//% preprocessor::has_attr start
+#ifndef MUU_HAS_ATTR
+	#ifdef __has_attribute
+		#define MUU_HAS_ATTR(attr) __has_attribute(attr)
+	#else
+		#define MUU_HAS_ATTR(attr) 0
+	#endif
 #endif
+//% preprocessor::has_attr end
 /// \def MUU_HAS_ATTR(attr)
 /// \brief The result of `__has_attribute(attr)` if supported by the compiler, otherwise `0`.
 
-#ifdef __has_cpp_attribute
-	#define MUU_HAS_CPP_ATTR(attr) __has_cpp_attribute(attr)
-#else
-	#define MUU_HAS_CPP_ATTR(attr) 0
+//% preprocessor::has_cpp_attr start
+#ifndef MUU_HAS_CPP_ATTR
+	#ifdef __has_cpp_attribute
+		#define MUU_HAS_CPP_ATTR(attr) __has_cpp_attribute(attr)
+	#else
+		#define MUU_HAS_CPP_ATTR(attr) 0
+	#endif
 #endif
+//% preprocessor::has_cpp_attr end
 /// \def MUU_HAS_CPP_ATTR(attr)
 /// \brief The result of `__has_cpp_attribute(attr)` if supported by the compiler, otherwise `0`.
 
@@ -432,11 +502,15 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_HAS_CONSTEVAL
 /// \brief `1` when the compiler supports C++20's `consteval` immediate functions, otherwise `0`.
 
-#if defined(__cpp_if_consteval) && __cpp_if_consteval >= 202106
-	#define MUU_HAS_CONSTEVAL_IF 1
-#else
-	#define MUU_HAS_CONSTEVAL_IF 0
+//% preprocessor::has_consteval_if start
+#ifndef MUU_HAS_CONSTEVAL_IF
+	#if defined(__cpp_if_consteval) && __cpp_if_consteval >= 202106
+		#define MUU_HAS_CONSTEVAL_IF 1
+	#else
+		#define MUU_HAS_CONSTEVAL_IF 0
+	#endif
 #endif
+//% preprocessor::has_consteval_if end
 /// \def MUU_HAS_CONSTEVAL_IF
 /// \brief `1` when the compiler supports C++23's `if consteval { }`, otherwise `0`.
 
@@ -483,11 +557,15 @@ help me improve support for your target architecture. Thanks!
 // ATTRIBUTES, UTILITY MACROS ETC
 //======================================================================================================================
 
-#if MUU_CLANG || MUU_GCC_LIKE
-	#define MUU_ATTR(...) __attribute__((__VA_ARGS__))
-#else
-	#define MUU_ATTR(...)
+//% preprocessor::attr start
+#ifndef MUU_ATTR
+	#if MUU_CLANG || MUU_GCC_LIKE
+		#define MUU_ATTR(...) __attribute__((__VA_ARGS__))
+	#else
+		#define MUU_ATTR(...)
+	#endif
 #endif
+//% preprocessor::attr end
 /// \def MUU_ATTR(...)
 /// \brief Expands to `__attribute__(( ... ))` when compiling with a compiler that supports GNU-style attributes.
 
@@ -523,13 +601,15 @@ help me improve support for your target architecture. Thanks!
 /// \brief Marks a position in the code as being unreachable.
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
 
+//% preprocessor::assume start
 #if MUU_MSVC_LIKE
 	#define MUU_ASSUME(cond) __assume(cond)
 #elif MUU_ICC || MUU_CLANG || MUU_HAS_BUILTIN(__builtin_assume)
 	#define MUU_ASSUME(cond) __builtin_assume(cond)
 #else
-	#define MUU_ASSUME(cond) MUU_NOOP
+	#define MUU_ASSUME(cond) static_cast<void>(0)
 #endif
+//% preprocessor::assume end
 /// \def MUU_ASSUME
 /// \brief Optimizer hint for signalling various assumptions about state at specific points in code.
 /// \details \cpp
@@ -561,15 +641,19 @@ help me improve support for your target architecture. Thanks!
 /// \brief Expands to C++20's `consteval` if supported by your compiler, otherwise `constexpr`.
 /// \see [consteval](https://en.cppreference.com/w/cpp/language/consteval)
 
-#if MUU_MSVC_LIKE
-	#define MUU_ALWAYS_INLINE __forceinline
-#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(__always_inline__)
-	#define MUU_ALWAYS_INLINE                                                                                          \
-		MUU_ATTR(__always_inline__)                                                                                    \
-		inline
-#else
-	#define MUU_ALWAYS_INLINE inline
+//% preprocessor::always_inline start
+#ifndef MUU_ALWAYS_INLINE
+	#if MUU_MSVC_LIKE
+		#define MUU_ALWAYS_INLINE __forceinline
+	#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(__always_inline__)
+		#define MUU_ALWAYS_INLINE                                                                                      \
+			MUU_ATTR(__always_inline__)                                                                                \
+			inline
+	#else
+		#define MUU_ALWAYS_INLINE inline
+	#endif
 #endif
+//% preprocessor::always_inline end
 /// \def MUU_ALWAYS_INLINE
 /// \brief The same linkage semantics as the `inline` keyword, with an additional hint to
 /// 	   the optimizer that you'd really, _really_ like a function inlined.
@@ -641,11 +725,15 @@ help me improve support for your target architecture. Thanks!
 /// \ecpp
 /// \see [__declspec(empty_bases)](https://devblogs.microsoft.com/cppblog/optimizing-the-layout-of-empty-base-classes-in-vs2015-update-2-3/)
 
-#if MUU_CLANG || MUU_HAS_ATTR(__trivial_abi__)
-	#define MUU_TRIVIAL_ABI MUU_ATTR(__trivial_abi__)
-#else
-	#define MUU_TRIVIAL_ABI
+//% preprocessor::trivial_abi start
+#ifndef MUU_TRIVIAL_ABI
+	#if MUU_CLANG || MUU_HAS_ATTR(__trivial_abi__)
+		#define MUU_TRIVIAL_ABI MUU_ATTR(__trivial_abi__)
+	#else
+		#define MUU_TRIVIAL_ABI
+	#endif
 #endif
+//% preprocessor::trivial_abi end
 /// \def MUU_TRIVIAL_ABI
 /// \brief Marks a simple type which might otherwise be considered non-trivial
 /// 	   as being trivial over ABI boundaries.
@@ -710,25 +798,29 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_NO_UNIQUE_ADDRESS
 /// \brief Expands to C++20's `[[no_unique_address]]` if supported by your compiler.
 
-#if MUU_HAS_CPP_ATTR(nodiscard) >= 201603
-	#define MUU_NODISCARD		[[nodiscard]]
-	#define MUU_NODISCARD_CLASS [[nodiscard]]
-#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(warn_unused_result)
-	#define MUU_NODISCARD MUU_ATTR(warn_unused_result)
-#else
-	#define MUU_NODISCARD
+//% preprocessor::nodiscard start
+#ifndef MUU_NODISCARD
+	#if MUU_HAS_CPP_ATTR(nodiscard) >= 201603
+		#define MUU_NODISCARD		[[nodiscard]]
+		#define MUU_NODISCARD_CLASS [[nodiscard]]
+	#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(warn_unused_result)
+		#define MUU_NODISCARD MUU_ATTR(warn_unused_result)
+	#else
+		#define MUU_NODISCARD
+	#endif
+	#ifndef MUU_NODISCARD_CLASS
+		#define MUU_NODISCARD_CLASS
+	#endif
+	#if MUU_HAS_CPP_ATTR(nodiscard) >= 201907
+		#define MUU_NODISCARD_CTOR [[nodiscard]]
+	#else
+		#define MUU_NODISCARD_CTOR
+	#endif
 #endif
-#ifndef MUU_NODISCARD_CLASS
-	#define MUU_NODISCARD_CLASS
-#endif
+//% preprocessor::nodiscard end
 /// \def MUU_NODISCARD
 /// \brief Expands to `[[nodiscard]]` or `__attribute__((warn_unused_result))`.
-
-#if MUU_HAS_CPP_ATTR(nodiscard) >= 201907
-	#define MUU_NODISCARD_CTOR [[nodiscard]]
-#else
-	#define MUU_NODISCARD_CTOR
-#endif
+///
 /// \def MUU_NODISCARD_CTOR
 /// \brief Expands to `[[nodiscard]]` if your compiler supports it on constructors.
 /// \details This is useful for RAII helper types like locks:\cpp
@@ -1004,26 +1096,30 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_UNUSED(expr)
 /// \brief Explicitly denotes the result of an expression as being unused.
 
-#define MUU_NOOP MUU_UNUSED(0)
+#define MUU_NOOP static_cast<void>(0)
 /// \def MUU_NOOP
 /// \brief Expands to a no-op expression.
 
 // clang-format off
-#ifdef NDEBUG
-	#define MUU_PURE					MUU_DECLSPEC(noalias)	MUU_ATTR(pure)
-	#define MUU_CONST					MUU_DECLSPEC(noalias)	MUU_ATTR(const)
-	#define MUU_PURE_GETTER				MUU_NODISCARD						MUU_PURE
-	#define MUU_CONST_GETTER			MUU_NODISCARD						MUU_CONST
-	#define MUU_PURE_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE	MUU_PURE
-	#define MUU_CONST_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE	MUU_CONST
-#else
-	#define MUU_PURE
-	#define MUU_CONST
-	#define MUU_PURE_GETTER				MUU_NODISCARD
-	#define MUU_CONST_GETTER			MUU_NODISCARD
-	#define MUU_PURE_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE
-	#define MUU_CONST_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE
+//% preprocessor::getters start
+#ifndef MUU_PURE_GETTER
+	#ifdef NDEBUG
+		#define MUU_PURE					MUU_DECLSPEC(noalias)	MUU_ATTR(pure)
+		#define MUU_CONST					MUU_DECLSPEC(noalias)	MUU_ATTR(const)
+		#define MUU_PURE_GETTER				MUU_NODISCARD						MUU_PURE
+		#define MUU_CONST_GETTER			MUU_NODISCARD						MUU_CONST
+		#define MUU_PURE_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE	MUU_PURE
+		#define MUU_CONST_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE	MUU_CONST
+	#else
+		#define MUU_PURE
+		#define MUU_CONST
+		#define MUU_PURE_GETTER				MUU_NODISCARD
+		#define MUU_CONST_GETTER			MUU_NODISCARD
+		#define MUU_PURE_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE
+		#define MUU_CONST_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE
+	#endif
 #endif
+//% preprocessor::getters end
 // clang-format on
 
 #if MUU_MSVC_LIKE && (MUU_ARCH_X86 || MUU_ARCH_AMD64) && MUU_ISET_SSE2
@@ -1502,20 +1598,22 @@ MUU_ENABLE_WARNINGS;
 		static_assert(true)
 #endif
 
-/// \cond
-#if !MUU_DOXYGEN
-	#define MUU_HIDDEN(...) __VA_ARGS__
-	#define MUU_HIDDEN_BASE(...)	: __VA_ARGS__
-	#define MUU_DOXYGEN_ONLY(...)
-	#define MUU_IF_DOXYGEN(A, B) B
-#endif
-/// \endcond
+//% preprocessor::hidden start
 #ifndef MUU_HIDDEN
-	#define MUU_HIDDEN(...)
-	#define MUU_HIDDEN_BASE(...)
-	#define MUU_DOXYGEN_ONLY(...) __VA_ARGS__
-	#define MUU_IF_DOXYGEN(A, B)  A
+	#if MUU_DOXYGEN
+		#define MUU_HIDDEN(...)
+		#define MUU_HIDDEN_BASE(...)
+		#define MUU_DOXYGEN_ONLY(...) __VA_ARGS__
+		#define MUU_IF_DOXYGEN(A, B)  A
+	#else
+		#define MUU_HIDDEN(...) __VA_ARGS__
+		#define MUU_HIDDEN_BASE(...)	: __VA_ARGS__
+		#define MUU_DOXYGEN_ONLY(...)
+		#define MUU_IF_DOXYGEN(A, B) B
+	#endif
 #endif
+#define MUU_HIDDEN_PARAM(...) MUU_HIDDEN(MUU_COMMA __VA_ARGS__)
+//% preprocessor::hidden end
 
 /// \cond
 namespace muu::impl
@@ -1578,16 +1676,43 @@ MUU_ENABLE_WARNINGS;
 	#define MUU_OFFSETOF(type, member) offsetof(type, member)
 #endif
 
+//% preprocessor::comma start
+#ifndef MUU_COMMA
+	#define MUU_COMMA ,
+#endif
+//% preprocessor::comma end
+
 //======================================================================================================================
 // SFINAE AND CONCEPTS
 //======================================================================================================================
 
-#if defined(__cpp_concepts) && __cpp_concepts >= 201907
-	#define MUU_CONCEPTS 1
-#else
-	#define MUU_CONCEPTS 0
+//% preprocessor::sfinae start
+
+#ifndef MUU_CONCEPTS
+	#if defined(__cpp_concepts) && __cpp_concepts >= 201907
+		#define MUU_CONCEPTS 1
+	#else
+		#define MUU_CONCEPTS 0
+	#endif
 #endif
 
+#ifndef MUU_REQUIRES
+	#if !MUU_DOXYGEN && MUU_CONCEPTS
+		#define MUU_REQUIRES(...) requires(__VA_ARGS__)
+	#else
+		#define MUU_REQUIRES(...)
+	#endif
+#endif
+
+#ifndef MUU_STD_CONCEPT
+	#if !MUU_DOXYGEN && defined(__cpp_lib_concepts) && __cpp_lib_concepts >= 202002
+		#define MUU_STD_CONCEPT(...) __VA_ARGS__
+	#else
+		#define MUU_STD_CONCEPT(...) true
+	#endif
+#endif
+
+//# {{
 /// \cond
 namespace muu::impl
 {
@@ -1600,46 +1725,36 @@ namespace muu::impl
 		using type = T;
 	};
 }
-#define MUU_ENABLE_IF(...) , typename ::muu::impl::enable_if_<(__VA_ARGS__), int>::type = 0
-
-#if MUU_CONCEPTS
-	#define MUU_REQUIRES(...) requires(__VA_ARGS__)
-#endif
-
-#define MUU_HIDDEN_CONSTRAINT(condition, ...)                                                                          \
-	template <__VA_ARGS__ MUU_ENABLE_IF(condition)>                                                                    \
-	MUU_REQUIRES(condition)
-
-#define MUU_CONSTRAINED_TEMPLATE(condition, ...)                                                                       \
-	template <__VA_ARGS__ MUU_ENABLE_IF(condition)>                                                                    \
-	MUU_REQUIRES(condition)
 /// \endcond
+//# }}
 
-#ifndef MUU_REQUIRES
-	#define MUU_REQUIRES(...)
-#endif
 #ifndef MUU_ENABLE_IF
-	#define MUU_ENABLE_IF(...)
+	#if !MUU_DOXYGEN
+		#define MUU_ENABLE_IF(...) , typename ::muu::impl::enable_if_<(__VA_ARGS__), int>::type = 0
+	#else
+		#define MUU_ENABLE_IF(...)
+	#endif
 #endif
-#ifndef MUU_HIDDEN_CONSTRAINT
-	#define MUU_HIDDEN_CONSTRAINT(condition, ...)
-#endif
+
 #ifndef MUU_CONSTRAINED_TEMPLATE
-	#define MUU_CONSTRAINED_TEMPLATE(condition, ...) template <__VA_ARGS__>
-#endif
-#if MUU_CONCEPTS && defined(__cpp_lib_concepts) && __cpp_lib_concepts >= 202002
-	#define MUU_STD_CONCEPT(...) __VA_ARGS__
-#else
-	#define MUU_STD_CONCEPT(...) true
+	#if !MUU_DOXYGEN
+		#define MUU_CONSTRAINED_TEMPLATE(condition, ...)                                                               \
+			template <__VA_ARGS__ MUU_ENABLE_IF(condition)>                                                            \
+			MUU_REQUIRES(condition)
+	#else
+		#define MUU_CONSTRAINED_TEMPLATE(condition, ...) template <__VA_ARGS__>
+	#endif
 #endif
 
-//% preprocessor::comma start
-#ifndef MUU_COMMA
-	#define MUU_COMMA ,
+#ifndef MUU_HIDDEN_CONSTRAINT
+	#if !MUU_DOXYGEN
+		#define MUU_HIDDEN_CONSTRAINT(condition, ...) MUU_CONSTRAINED_TEMPLATE(condition, __VA_ARGS__)
+	#else
+		#define MUU_HIDDEN_CONSTRAINT(condition, ...)
+	#endif
 #endif
-//% preprocessor::comma end
 
-#define MUU_HIDDEN_PARAM(...) MUU_HIDDEN(MUU_COMMA __VA_ARGS__)
+//% preprocessor::sfinae end
 
 //======================================================================================================================
 // WHAT THE HELL IS WCHAR_T?
@@ -1792,7 +1907,7 @@ namespace muu::impl
 
 #ifndef MUU_ASSERT
 	#ifdef NDEBUG
-		#define MUU_ASSERT(cond) MUU_NOOP
+		#define MUU_ASSERT(cond) static_cast<void>(0)
 	#else
 		#ifndef assert
 MUU_DISABLE_WARNINGS;
@@ -1805,21 +1920,29 @@ MUU_ENABLE_WARNINGS;
 #ifdef NDEBUG
 	// ensure any overrides respect NDEBUG
 	#undef MUU_ASSERT
-	#define MUU_ASSERT(cond)				MUU_NOOP
-	#define MUU_CONSTEXPR_SAFE_ASSERT(cond) MUU_NOOP
+	#define MUU_ASSERT(cond) static_cast<void>(0)
 #else
-	#define MUU_CONSTEXPR_SAFE_ASSERT(cond)                                                                            \
-		do                                                                                                             \
-		{                                                                                                              \
-			if constexpr (::muu::build::supports_is_constant_evaluated)                                                \
+#endif
+
+//% preprocessor::constexpr_safe_assert start
+#ifndef MUU_CONSTEXPR_SAFE_ASSERT
+	#ifdef NDEBUG
+		#define MUU_CONSTEXPR_SAFE_ASSERT(cond) static_cast<void>(0)
+	#else
+		#define MUU_CONSTEXPR_SAFE_ASSERT(cond)                                                                        \
+			do                                                                                                         \
 			{                                                                                                          \
-				MUU_IF_RUNTIME                                                                                         \
+				if constexpr (::muu::build::supports_is_constant_evaluated)                                            \
 				{                                                                                                      \
-					MUU_ASSERT(cond);                                                                                  \
+					MUU_IF_RUNTIME                                                                                     \
+					{                                                                                                  \
+						MUU_ASSERT(cond);                                                                              \
+					}                                                                                                  \
 				}                                                                                                      \
 			}                                                                                                          \
-		}                                                                                                              \
-		while (false)
+			while (false)
+	#endif
 #endif
+//% preprocessor::constexpr_safe_assert end
 
 /// @}

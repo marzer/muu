@@ -13,11 +13,11 @@
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 MUU_DISABLE_LIFETIME_WARNINGS;
-
-#define MUU_HAS_INTRINSIC_BIT_CAST 1
+#if 1
 
 namespace muu
 {
+	//% bit_cast start
 	/// \brief	Equivalent to C++20's std::bit_cast.
 	/// \ingroup core
 	///
@@ -37,31 +37,33 @@ namespace muu
 	MUU_PURE_INLINE_GETTER
 	constexpr To bit_cast(const From& from) noexcept
 	{
-#if MUU_CLANG >= 11 || MUU_GCC >= 11 || MUU_MSVC >= 1926                                                               \
-	|| (!MUU_CLANG && !MUU_GCC && MUU_HAS_BUILTIN(__builtin_bit_cast))
+		static_assert(!std::is_reference_v<To> && !std::is_reference_v<From>);
 
+	#if MUU_CLANG >= 11 || MUU_GCC >= 11 || MUU_MSVC >= 1926                                                           \
+		|| (!MUU_CLANG && !MUU_GCC && MUU_HAS_BUILTIN(__builtin_bit_cast))
+
+		#define MUU_HAS_INTRINSIC_BIT_CAST 1
 		return __builtin_bit_cast(To, from);
 
-#else
+	#else
 
-	#undef MUU_HAS_INTRINSIC_BIT_CAST
-	#define MUU_HAS_INTRINSIC_BIT_CAST 0
+		#define MUU_HAS_INTRINSIC_BIT_CAST 0
 
-		if constexpr (std::is_same_v<remove_cv<From>, remove_cv<To>>)
+		if constexpr (std::is_same_v<std::remove_cv_t<From>, std::remove_cv_t<To>>)
 		{
 			return from;
 		}
-		else if constexpr (all_integral<From, To>)
+		else if constexpr (is_integral<From> && is_integral<To>)
 		{
-			return static_cast<To>(
-				static_cast<std::underlying_type_t<remove_cv<To>>>(static_cast<std::underlying_type_t<From>>(from)));
+			return static_cast<To>(static_cast<std::underlying_type_t<std::remove_cv_t<To>>>(
+				static_cast<std::underlying_type_t<From>>(from)));
 		}
-		else if constexpr (!std::is_nothrow_default_constructible_v<remove_cv<To>>)
+		else if constexpr (!std::is_nothrow_default_constructible_v<std::remove_cv_t<To>>)
 		{
 			union proxy_t
 			{
 				alignas(To) unsigned char dummy[sizeof(To)];
-				remove_cv<To> to;
+				std::remove_cv_t<To> to;
 
 				proxy_t() noexcept
 				{}
@@ -73,15 +75,16 @@ namespace muu
 		}
 		else
 		{
-			static_assert(std::is_nothrow_default_constructible_v<remove_cv<To>>,
+			static_assert(std::is_nothrow_default_constructible_v<std::remove_cv_t<To>>,
 						  "Bit-cast fallback requires the To type be nothrow default-constructible");
 
-			remove_cv<To> to;
+			std::remove_cv_t<To> to;
 			MUU_MEMCPY(&to, &from, sizeof(To));
 			return to;
 		}
-#endif
+	#endif
 	}
+	//% bit_cast end
 
 	namespace build
 	{
@@ -90,5 +93,6 @@ namespace muu
 	}
 }
 
+#endif
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"

@@ -14,6 +14,7 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 
 namespace muu
 {
+	//% assume_aligned start
 	/// \brief	Equivalent to C++20's std::assume_aligned.
 	/// \ingroup core
 	///
@@ -65,6 +66,7 @@ namespace muu
 #endif
 		}
 	}
+	//% assume_aligned end
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

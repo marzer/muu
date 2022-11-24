@@ -10,6 +10,7 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 
 namespace muu
 {
+	//% unwrap start
 	/// \brief	Unwraps an enum to it's raw integer equivalent.
 	/// \ingroup core
 	///
@@ -36,6 +37,7 @@ namespace muu
 	}
 
 	/// \endcond
+	//% unwrap end
 
 	/// \brief	Returns the minimum of two or more values.
 	/// \ingroup core
@@ -59,6 +61,7 @@ namespace muu
 		}
 	}
 
+	//% max start
 	/// \brief	Returns the maximum of two or more values.
 	/// \ingroup core
 	///
@@ -80,7 +83,9 @@ namespace muu
 			return muu::max(muu::max(val1, val2), vals...);
 		}
 	}
+	//% max end
 
+	//% clamp start
 	/// \brief	Returns a value clamped between two bounds (inclusive).
 	/// \ingroup core
 	///
@@ -91,6 +96,7 @@ namespace muu
 	{
 		return val < low ? low : ((high < val) ? high : val);
 	}
+	//% clamp end
 
 	/// \brief	Returns true if a value is between two bounds (inclusive).
 	/// \ingroup core

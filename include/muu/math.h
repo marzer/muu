@@ -2418,12 +2418,12 @@ namespace muu
 	///
 	/// \tparam T		The type of the outer object.
 	/// \tparam U		The type of the inner object.
-	/// \tparam outer	The outer object.
-	/// \tparam inner	The inner object.
+	/// \param outer	The outer object.
+	/// \param inner	The inner object.
 	///
 	/// \returns Returns true if the outer object compltely contained the inner object.
 	///
-	/// \conditional This method relies on there being an implementation of one of:
+	/// \availability This method relies on there being an implementation of one of:
 	///		- `T::contains(outer, inner)`
 	///		- `outer.contains(inner)`
 	template <typename T, typename U>
@@ -2443,12 +2443,12 @@ namespace muu
 	///
 	/// \tparam T		The type of object 1.
 	/// \tparam U		The type of object 2.
-	/// \tparam obj1	Object 1.
-	/// \tparam obj2	Object 2.
+	/// \param obj1		Object 1.
+	/// \param obj2		Object 2.
 	///
 	/// \returns Returns true if the two objects intersect.
 	///
-	/// \conditional This method relies on there being an implementation of one of:
+	/// \availability This method relies on there being an implementation of one of:
 	///		- `T::intersects(obj1, obj2)`
 	///		- `T::intersects(obj2, obj1)`
 	///		- `U::intersects(obj2, obj1)`

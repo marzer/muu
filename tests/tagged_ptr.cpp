@@ -3,7 +3,7 @@
 #include <array>
 #if MUU_ICC
 	#include <aligned_new>
-	#pragma warning(disable: 2960)
+	#pragma warning(disable : 2960)
 #endif
 
 MUU_DISABLE_LIFETIME_WARNINGS;
@@ -24,74 +24,74 @@ struct tagged_ptr_static_checks final
 	static_assert(std::is_same_v<typename tptr::element_type, T>);
 	static_assert(std::is_same_v<typename tptr::pointer, T*>);
 	static_assert(std::is_same_v<typename tptr::const_pointer, const T*>);
-	static_assert(tptr::minimum_alignment == min_align);
-	static_assert(tptr::tag_bit_count >= bit_width(min_align - 1_sz));
+	static_assert(tptr::alignment == min_align);
+	static_assert(tptr::tag_bit_count >= bit_width(min_align - 1u));
 
 	// tag size
 	using tag_type = typename tptr::tag_type;
-	static_assert(sizeof(tag_type) * build::bits_per_byte >= tptr::tag_bit_count);
+	static_assert(sizeof(tag_type) * CHAR_BIT >= tptr::tag_bit_count);
 	static_assert(tptr::max_tag == bit_fill_right<tag_type>(tptr::tag_bit_count));
 
 	// to_address
 	static_assert(std::is_same_v<decltype(to_address(std::declval<tptr>())), T*>);
 };
 
-#define CHECK_TRAITS(type, min_align)											\
-	template struct tagged_ptr_static_checks<type, min_align>;					\
-	template struct tagged_ptr_static_checks<const type, min_align>;			\
-	template struct tagged_ptr_static_checks<volatile type, min_align>;			\
+#define CHECK_TRAITS(type, min_align)                                                                                  \
+	template struct tagged_ptr_static_checks<type, min_align>;                                                         \
+	template struct tagged_ptr_static_checks<const type, min_align>;                                                   \
+	template struct tagged_ptr_static_checks<volatile type, min_align>;                                                \
 	template struct tagged_ptr_static_checks<const volatile type, min_align>
 
 #if MUU_ARCH_AMD64
-CHECK_TRAITS( void,        1 );
+CHECK_TRAITS(void, 1);
 #endif
-CHECK_TRAITS( void,        2 );
-CHECK_TRAITS( void,        4 );
-CHECK_TRAITS( void,        8 );
-CHECK_TRAITS( void,       16 );
-CHECK_TRAITS( void,       32 );
-CHECK_TRAITS( void,       64 );
-CHECK_TRAITS( void,      128 );
-CHECK_TRAITS( void,      256 );
-CHECK_TRAITS( void,      512 );
-CHECK_TRAITS( void,     1024 );
-CHECK_TRAITS( void,     2048 );
-CHECK_TRAITS( void,     4096 );
-CHECK_TRAITS( void,     8192 );
-CHECK_TRAITS( void,    16384 );
-CHECK_TRAITS( void,    32768 );
-CHECK_TRAITS( int32_t,     4 );
-CHECK_TRAITS( int32_t,     8 );
-CHECK_TRAITS( int32_t,    16 );
-CHECK_TRAITS( int32_t,    32 );
-CHECK_TRAITS( int32_t,    64 );
-CHECK_TRAITS( int32_t,   128 );
-CHECK_TRAITS( int32_t,   256 );
-CHECK_TRAITS( int32_t,   512 );
-CHECK_TRAITS( int32_t,  1024 );
-CHECK_TRAITS( int32_t,  2048 );
-CHECK_TRAITS( int32_t,  4096 );
-CHECK_TRAITS( int32_t,  8192 );
-CHECK_TRAITS( int32_t, 16384 );
-CHECK_TRAITS( int32_t, 32768 );
-CHECK_TRAITS( int64_t,     8 );
-CHECK_TRAITS( int64_t,    16 );
-CHECK_TRAITS( int64_t,    32 );
-CHECK_TRAITS( int64_t,    64 );
-CHECK_TRAITS( int64_t,   128 );
-CHECK_TRAITS( int64_t,   256 );
-CHECK_TRAITS( int64_t,   512 );
-CHECK_TRAITS( int64_t,  1024 );
-CHECK_TRAITS( int64_t,  2048 );
-CHECK_TRAITS( int64_t,  4096 );
-CHECK_TRAITS( int64_t,  8192 );
-CHECK_TRAITS( int64_t, 16384 );
-CHECK_TRAITS( int64_t, 32768 );
+CHECK_TRAITS(void, 2);
+CHECK_TRAITS(void, 4);
+CHECK_TRAITS(void, 8);
+CHECK_TRAITS(void, 16);
+CHECK_TRAITS(void, 32);
+CHECK_TRAITS(void, 64);
+CHECK_TRAITS(void, 128);
+CHECK_TRAITS(void, 256);
+CHECK_TRAITS(void, 512);
+CHECK_TRAITS(void, 1024);
+CHECK_TRAITS(void, 2048);
+CHECK_TRAITS(void, 4096);
+CHECK_TRAITS(void, 8192);
+CHECK_TRAITS(void, 16384);
+CHECK_TRAITS(void, 32768);
+CHECK_TRAITS(int32_t, 4);
+CHECK_TRAITS(int32_t, 8);
+CHECK_TRAITS(int32_t, 16);
+CHECK_TRAITS(int32_t, 32);
+CHECK_TRAITS(int32_t, 64);
+CHECK_TRAITS(int32_t, 128);
+CHECK_TRAITS(int32_t, 256);
+CHECK_TRAITS(int32_t, 512);
+CHECK_TRAITS(int32_t, 1024);
+CHECK_TRAITS(int32_t, 2048);
+CHECK_TRAITS(int32_t, 4096);
+CHECK_TRAITS(int32_t, 8192);
+CHECK_TRAITS(int32_t, 16384);
+CHECK_TRAITS(int32_t, 32768);
+CHECK_TRAITS(int64_t, 8);
+CHECK_TRAITS(int64_t, 16);
+CHECK_TRAITS(int64_t, 32);
+CHECK_TRAITS(int64_t, 64);
+CHECK_TRAITS(int64_t, 128);
+CHECK_TRAITS(int64_t, 256);
+CHECK_TRAITS(int64_t, 512);
+CHECK_TRAITS(int64_t, 1024);
+CHECK_TRAITS(int64_t, 2048);
+CHECK_TRAITS(int64_t, 4096);
+CHECK_TRAITS(int64_t, 8192);
+CHECK_TRAITS(int64_t, 16384);
+CHECK_TRAITS(int64_t, 32768);
 
 // check that invocation and noexcept propagation works correctly for function pointers
-static_assert(std::is_invocable_v<tagged_ptr<int()noexcept, 4>>);
+static_assert(std::is_invocable_v<tagged_ptr<int() noexcept, 4>>);
 static_assert(std::is_invocable_v<tagged_ptr<int(), 4>>);
-static_assert(std::is_nothrow_invocable_v<tagged_ptr<int()noexcept, 4>>);
+static_assert(std::is_nothrow_invocable_v<tagged_ptr<int() noexcept, 4>>);
 #if !MUU_ICC
 static_assert(!std::is_nothrow_invocable_v<tagged_ptr<int(), 4>>);
 #endif
@@ -105,26 +105,26 @@ namespace
 	template <size_t align>
 	struct aligned
 	{
-		alignas(align) uint8_t kek;
+		alignas(align) unsigned char kek;
 	};
 	static_assert(alignof(aligned<32>) == 32);
 }
 
 TEST_CASE("tagged_ptr - basic initialization")
 {
-	using tp = tagged_ptr<void, 16>; //4 free bits
+	using tp = tagged_ptr<void, 16>; // 4 free bits
 	static_assert(sizeof(tp) == sizeof(void*));
 
 	tp val;
-	CHECK(val.ptr() == pointer_cast<void*>(nullptr));
-	CHECK(val == pointer_cast<void*>(nullptr));
-	CHECK(val == pointer_cast<const void*>(nullptr));
-	CHECK(pointer_cast<void*>(nullptr) == val);
-	CHECK(pointer_cast<const void*>(nullptr) == val);
+	CHECK(val.ptr() == static_cast<void*>(nullptr));
+	CHECK(val == static_cast<void*>(nullptr));
+	CHECK(val == static_cast<const void*>(nullptr));
+	CHECK(static_cast<void*>(nullptr) == val);
+	CHECK(static_cast<const void*>(nullptr) == val);
 	CHECK(val.tag() == 0u);
 
-	auto ptr = pointer_cast<void*>(uintptr_t{ 0x12345670u });
-	val = tp{ ptr };
+	auto ptr = reinterpret_cast<void*>(uintptr_t{ 0x12345670u });
+	val		 = tp{ ptr };
 	CHECK(val.ptr() == ptr);
 	CHECK(val.tag() == 0u);
 
@@ -134,8 +134,8 @@ TEST_CASE("tagged_ptr - basic initialization")
 
 	if constexpr (MUU_ARCH_AMD64)
 	{
-		//see https://en.wikipedia.org/wiki/X86-64#Virtual_address_space_details
-		ptr = pointer_cast<void*>(static_cast<uintptr_t>(0xFFFF800000000000ull));
+		// see https://en.wikipedia.org/wiki/X86-64#Virtual_address_space_details
+		ptr = reinterpret_cast<void*>(static_cast<uintptr_t>(0xFFFF800000000000ull));
 		val = tp{ ptr };
 		CHECK(val.ptr() == ptr);
 		CHECK(val.tag() == 0u);
@@ -148,10 +148,10 @@ TEST_CASE("tagged_ptr - basic initialization")
 
 TEST_CASE("tagged_ptr - integral tags")
 {
-	using tp = tagged_ptr<void, 16>; //4 free bits
+	using tp = tagged_ptr<void, 16>; // 4 free bits
 	static_assert(sizeof(tp) == sizeof(void*));
 
-	auto ptr = pointer_cast<void*>(uintptr_t{ 0x12345670u });
+	auto ptr = reinterpret_cast<void*>(uintptr_t{ 0x12345670u });
 	tp val{ ptr, 0b1100u };
 	CHECK(val.ptr() == ptr);
 	CHECK(val == ptr);
@@ -173,27 +173,54 @@ TEST_CASE("tagged_ptr - integral tags")
 	}
 }
 
-// gcc bug spam, see: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=92519
-#if MUU_GCC <= 9
-	#define GCC_INITIALIZER_SPAM_FIX	= {}
-#else
-	#define GCC_INITIALIZER_SPAM_FIX
-#endif
+TEST_CASE("tagged_ptr - enum tags")
+{
+	using tp = tagged_ptr<void, 16>; // 4 free bits
+	static_assert(sizeof(tp) == sizeof(void*));
+
+	enum class an_enum : unsigned
+	{
+		zero   = 0,
+		first  = 0b1100u,
+		second = 0b1111u,
+		big	   = 0b11111111u,
+	};
+
+	auto ptr = reinterpret_cast<void*>(uintptr_t{ 0x12345670u });
+	tp val{ ptr, an_enum::first };
+	CHECK(val.ptr() == ptr);
+	CHECK(val == ptr);
+	CHECK(val.tag<an_enum>() == an_enum::first);
+
+	val.tag(an_enum::second);
+	CHECK(val.tag<an_enum>() == an_enum::second);
+	val.tag(an_enum::zero);
+	CHECK(val.tag<an_enum>() == an_enum::zero);
+	val.tag(an_enum::big);
+	if constexpr (impl::tptr_addr_free_bits >= 4)
+	{
+		CHECK(val.tag<an_enum>() == an_enum::big);
+	}
+	else if constexpr (!impl::tptr_addr_free_bits)
+	{
+		CHECK(val.tag<an_enum>() != an_enum::big);
+		CHECK(val.tag<an_enum>() == an_enum::second);
+	}
+}
 
 TEST_CASE("tagged_ptr - pod tags")
 {
 	struct data
 	{
-		char val GCC_INITIALIZER_SPAM_FIX;
+		char val;
 	};
 	static_assert(sizeof(data) == 1);
 
-	using align256 = aligned<256>; //8 free bits
-	static_assert(alignof(align256) == 256);
+	using align_big = aligned<(1u << (CHAR_BIT * sizeof(data)))>;
 
-	tagged_ptr<align256> ptr;
+	tagged_ptr<align_big> ptr;
 	static_assert(sizeof(ptr) == sizeof(void*));
-	static_assert(decltype(ptr)::tag_bit_count >= sizeof(data) * build::bits_per_byte);
+	static_assert(decltype(ptr)::tag_bit_count >= sizeof(data) * CHAR_BIT);
 
 	CHECK(ptr.ptr() == nullptr);
 	CHECK(ptr == nullptr);
@@ -203,12 +230,12 @@ TEST_CASE("tagged_ptr - pod tags")
 	CHECK(ptr.tag() != 0u);
 	CHECK(ptr.tag<data>().val == 'k');
 
-	std::unique_ptr<align256> aligned{ new align256 };
+	std::unique_ptr<align_big> aligned{ new align_big };
 	ptr = aligned.get();
 	CHECK(ptr.ptr() == aligned.get());
 	CHECK(ptr.tag<data>().val == 'k');
 
-	ptr = tagged_ptr<align256>{};
+	ptr = tagged_ptr<align_big>{};
 	CHECK(ptr.ptr() == nullptr);
 	CHECK(ptr.tag() == 0u);
 
@@ -217,60 +244,13 @@ TEST_CASE("tagged_ptr - pod tags")
 	CHECK(ptr.tag<data>().val == 'k');
 }
 
-#if MUU_ARCH_AMD64
-
-TEST_CASE("tagged_ptr - pod tags (large)")
-{
-	struct data
-	{
-		char val[3] GCC_INITIALIZER_SPAM_FIX;
-	};
-	static_assert(sizeof(data) == 3);
-
-	using aligned8192 = aligned<8192>;
-	static_assert(alignof(aligned8192) == 8192);
-
-	tagged_ptr<aligned8192> ptr;
-	static_assert(sizeof(ptr) == sizeof(void*));
-	static_assert(decltype(ptr)::tag_bit_count >= sizeof(data) * build::bits_per_byte);
-
-	CHECK(ptr.ptr() == nullptr);
-	CHECK(ptr == nullptr);
-	CHECK(ptr.tag() == 0u);
-	ptr.tag(data{ {'a', 'k', 'z'} });
-	CHECK(ptr.ptr() == nullptr);
-	CHECK(ptr.tag() != 0u);
-	CHECK(ptr.tag<data>().val[0] == 'a');
-	CHECK(ptr.tag<data>().val[1] == 'k');
-	CHECK(ptr.tag<data>().val[2] == 'z');
-
-	std::unique_ptr<aligned8192> aligned{ new aligned8192 };
-	ptr = aligned.get();
-	CHECK(ptr.ptr() == aligned.get());
-	CHECK(ptr.tag<data>().val[0] == 'a');
-	CHECK(ptr.tag<data>().val[1] == 'k');
-	CHECK(ptr.tag<data>().val[2] == 'z');
-
-	ptr = tagged_ptr<aligned8192>{};
-	CHECK(ptr.ptr() == nullptr);
-	CHECK(ptr.tag() == 0u);
-
-	ptr = { aligned.get(), data{ {'a', 'k', 'z'} } };
-	CHECK(ptr.ptr() == aligned.get());
-	CHECK(ptr.tag<data>().val[0] == 'a');
-	CHECK(ptr.tag<data>().val[1] == 'k');
-	CHECK(ptr.tag<data>().val[2] == 'z');
-}
-
-#endif
-
 TEST_CASE("tagged_ptr - alignments")
 {
-	using align32 = aligned<32>; //5 free bits
+	using align32 = aligned<32>; // 5 free bits
 
 	tagged_ptr<align32> ptr;
 	static_assert(sizeof(ptr) == sizeof(void*));
-	using tag_type = decltype(ptr)::tag_type;
+	using tag_type			  = decltype(ptr)::tag_type;
 	constexpr auto filled_tag = bit_fill_right<tag_type>(sizeof(tag_type) * CHAR_BIT);
 	ptr.tag(filled_tag);
 	const auto expectedTag = ptr.tag();
@@ -283,8 +263,8 @@ TEST_CASE("tagged_ptr - alignments")
 	CHECK(ptr.tag() == expectedTag);
 
 	auto unaligned = apply_offset(aligned.get(), 1);
-	CHECK(pointer_cast<std::byte*>(aligned.get()) != pointer_cast<std::byte*>(unaligned) + 1);
-	ptr = unaligned; //low bit of the pointer should get masked off
+	CHECK(reinterpret_cast<std::byte*>(aligned.get()) != reinterpret_cast<std::byte*>(unaligned) + 1);
+	ptr = unaligned; // low bit of the pointer should get masked off
 	CHECK(ptr.ptr() != unaligned);
 	CHECK(ptr.ptr() == aligned.get());
 	CHECK(ptr.tag() == expectedTag);

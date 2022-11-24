@@ -16,6 +16,7 @@ MUU_DISABLE_ARITHMETIC_WARNINGS;
 
 namespace muu
 {
+	//% bit_floor start
 	/// \brief	Finds the largest integral power of two not greater than the given value.
 	/// \ingroup core
 	///
@@ -30,6 +31,8 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr T MUU_VECTORCALL bit_floor(T val) noexcept
 	{
+		static_assert(!is_cvref<T>);
+
 		if constexpr (is_enum<T>)
 			return static_cast<T>(bit_floor(static_cast<std::underlying_type_t<T>>(val)));
 		else
@@ -39,6 +42,7 @@ namespace muu
 			return T{ 1 } << (sizeof(T) * size_t{ CHAR_BIT } - size_t{ 1 } - static_cast<size_t>(countl_zero(val)));
 		}
 	}
+	//% bit_floor end
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

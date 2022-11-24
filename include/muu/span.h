@@ -362,7 +362,7 @@ namespace muu
 #endif // DOXYGEN
 
 	/// \brief	A non-owning view of contiguous elements.
-	/// \ingroup	core mem cpp20
+	/// \ingroup	core memory cpp20
 	///
 	/// \remarks This is equivalent to C++20's std::span.
 	///
@@ -708,27 +708,27 @@ namespace muu
 	/// \endcond
 
 	/// \brief	Convenience alias for `span<const T, Extent>`.
-	/// \ingroup	memory
+	/// \ingroup	cpp20
 	template <typename T, //
 			  size_t Extent MUU_DOXYGEN_ONLY(= dynamic_extent),
 			  size_t Alignment MUU_DOXYGEN_ONLY(= 0)>
 	using const_span = span<const T, Extent, Alignment>;
 
 	/// \brief	Convenience alias for `span<std::byte>`.
-	/// \ingroup	memory
+	/// \ingroup	cpp20
 	using byte_span = span<std::byte>;
 
 	/// \brief	Convenience alias for `span<const std::byte>`.
-	/// \ingroup	memory
+	/// \ingroup	cpp20
 	using const_byte_span = span<const std::byte>;
 
 	/// \brief	Convenience alias for `span<std::byte, dynamic_extent, Alignment>`.
-	/// \ingroup	memory
+	/// \ingroup	cpp20
 	template <size_t Alignment>
 	using aligned_byte_span = span<std::byte, dynamic_extent, Alignment>;
 
 	/// \brief	Reinterprets a span as an immutable view of the underlying bytes.
-	/// \ingroup	memory cpp20
+	/// \ingroup	cpp20
 	/// \relatesalso	muu::span
 	///
 	/// \details Equivalent to C++20's std::as_bytes.
@@ -747,7 +747,7 @@ namespace muu
 	}
 
 	/// \brief	Reinterprets a span as a view of the underlying bytes.
-	/// \ingroup	memory cpp20
+	/// \ingroup	cpp20
 	/// \relatesalso	muu::span
 	///
 	/// \details Equivalent to C++20's std::as_writable_bytes.

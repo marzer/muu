@@ -14,6 +14,7 @@ MUU_DISABLE_ARITHMETIC_WARNINGS;
 
 namespace muu
 {
+	//% bit_fill_right start
 	/// \brief	Returns an unsigned integer filled from the right
 	/// 		with the desired number of consecutive ones.
 	/// \ingroup core
@@ -32,18 +33,22 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr T MUU_VECTORCALL bit_fill_right(size_t count) noexcept
 	{
+		static_assert(!is_cvref<T>);
+
 		if constexpr (is_enum<T>)
-			return T{ bit_fill_right<remove_enum<remove_cvref<T>>>(count) };
+			return T{ bit_fill_right<std::underlying_type_t<T>>(count) };
 		else
 		{
 			if (!count)
 				return T{};
-			if (count >= build::bits_per_byte * sizeof(T))
+			if (count >= CHAR_BIT * sizeof(T))
 				return static_cast<T>(~T{});
 			return static_cast<T>((T{ 1 } << count) - T{ 1 });
 		}
 	}
+	//% bit_fill_right end
 
+	//% bit_fill_left start
 	/// \brief	Returns an unsigned integer filled from the left
 	/// 		with the desired number of consecutive ones.
 	/// \ingroup core
@@ -62,17 +67,20 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr T MUU_VECTORCALL bit_fill_left(size_t count) noexcept
 	{
+		static_assert(!is_cvref<T>);
+
 		if constexpr (is_enum<T>)
-			return T{ bit_fill_left<remove_enum<remove_cvref<T>>>(count) };
+			return T{ bit_fill_left<std::underlying_type_t<T>>(count) };
 		else
 		{
 			if (!count)
 				return T{};
-			if (count >= build::bits_per_byte * sizeof(T))
+			if (count >= CHAR_BIT * sizeof(T))
 				return static_cast<T>(~T{});
-			return static_cast<T>(bit_fill_right<T>(count) << (build::bits_per_byte * sizeof(T) - count));
+			return static_cast<T>(bit_fill_right<T>(count) << (CHAR_BIT * sizeof(T) - count));
 		}
 	}
+	//% bit_fill_left end
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

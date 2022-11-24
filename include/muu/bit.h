@@ -35,6 +35,7 @@ MUU_PRAGMA_MSVC(warning(disable : 4191)) // unsafe pointer conversion
 
 namespace muu
 {
+	//% bit_width start
 	/// \brief	Finds the smallest number of bits needed to represent the given value.
 	/// \ingroup core
 	///
@@ -50,11 +51,14 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr T MUU_VECTORCALL bit_width(T val) noexcept
 	{
+		static_assert(!is_cvref<T>);
+
 		if constexpr (is_enum<T>)
 			return static_cast<T>(bit_width(static_cast<std::underlying_type_t<T>>(val)));
 		else
 			return static_cast<T>(sizeof(T) * CHAR_BIT - static_cast<size_t>(countl_zero(val)));
 	}
+	//% bit_width end
 
 	/// \brief	Gets a specific byte from an integer.
 	/// \ingroup core

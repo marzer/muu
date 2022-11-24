@@ -16,13 +16,17 @@ MUU_DISABLE_ARITHMETIC_WARNINGS;
 /// \cond
 namespace muu::impl
 {
-	template <typename T>
+	//% countl_zero_naive start
+	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
 	MUU_CONST_GETTER
 	constexpr int MUU_VECTORCALL countl_zero_naive(T val) noexcept
 	{
-		MUU_ASSUME(val > T{});
+		static_assert(!is_cvref<T>);
 
-		using bit_type = largest<T, unsigned>;
+		if (!val)
+			return static_cast<int>(sizeof(T) * CHAR_BIT);
+
+		using bit_type = std::conditional_t<(sizeof(unsigned) > sizeof(T)), unsigned, T>;
 		int count	   = 0;
 		bit_type bit   = bit_type{ 1 } << (sizeof(T) * CHAR_BIT - 1);
 		while (true)
@@ -34,6 +38,7 @@ namespace muu::impl
 		}
 		return count;
 	}
+	//% countl_zero_naive end
 
 #define MUU_HAS_INTRINSIC_COUNTL_ZERO 1
 
@@ -41,7 +46,10 @@ namespace muu::impl
 	MUU_CONST_INLINE_GETTER
 	int MUU_VECTORCALL countl_zero_intrinsic(T val) noexcept
 	{
-		MUU_ASSUME(val > T{});
+		static_assert(!is_cvref<T>);
+
+		if (!val)
+			return static_cast<int>(sizeof(T) * CHAR_BIT);
 
 #if MUU_GCC || MUU_CLANG
 
@@ -115,6 +123,8 @@ namespace muu
 	MUU_ATTR(flatten)
 	constexpr int MUU_VECTORCALL countl_zero(T val) noexcept
 	{
+		static_assert(!is_cvref<T>);
+
 		if constexpr (is_enum<T>)
 			return countl_zero(static_cast<std::underlying_type_t<T>>(val));
 
@@ -130,9 +140,6 @@ namespace muu
 
 		else
 		{
-			if (!val)
-				return static_cast<int>(sizeof(T) * CHAR_BIT);
-
 			if constexpr (!build::supports_is_constant_evaluated || !MUU_HAS_INTRINSIC_COUNTL_ZERO)
 				return impl::countl_zero_naive(val);
 			else
@@ -163,6 +170,8 @@ namespace muu
 	MUU_CONST_GETTER
 	constexpr int MUU_VECTORCALL countl_one(T val) noexcept
 	{
+		static_assert(!is_cvref<T>);
+
 		if constexpr (is_enum<T>)
 			return countl_one(static_cast<std::underlying_type_t<T>>(val));
 		else

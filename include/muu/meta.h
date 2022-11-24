@@ -31,10 +31,12 @@ namespace muu
 
 #if MUU_DOXYGEN || !defined(__cpp_lib_remove_cvref) || __cpp_lib_remove_cvref < 201711
 
+	//% meta::remove_cvref start
 	/// \brief	Removes the topmost const, volatile and reference qualifiers from a type.
 	/// \remark This is equivalent to C++20's std::remove_cvref_t.
 	template <typename T>
 	using remove_cvref = std::remove_cv_t<std::remove_reference_t<T>>;
+	//% meta::remove_cvref end
 
 #else
 
@@ -55,6 +57,72 @@ namespace muu
 	template <typename... T>
 	inline constexpr bool always_false = false;
 	//% meta::always_false end
+
+	//% meta::unsigned_integer start
+	/// \cond
+	namespace impl
+	{
+		template <typename T>
+		struct basic_tag
+		{
+			using type = T;
+		};
+
+		template <size_t Bits>
+		constexpr auto uint_for_bits_impl() noexcept
+		{
+			if constexpr (Bits == sizeof(unsigned char) * CHAR_BIT)
+				return basic_tag<unsigned char>{};
+			else if constexpr (Bits == sizeof(unsigned short) * CHAR_BIT)
+				return basic_tag<unsigned short>{};
+			else if constexpr (Bits == sizeof(unsigned int) * CHAR_BIT)
+				return basic_tag<unsigned int>{};
+			else if constexpr (Bits == sizeof(unsigned long) * CHAR_BIT)
+				return basic_tag<unsigned long>{};
+			else if constexpr (Bits == sizeof(unsigned long long) * CHAR_BIT)
+				return basic_tag<unsigned long long>{};
+#if MUU_HAS_INT128
+			else if constexpr (Bits == 128)
+				return basic_tag<uint128_t>{};
+#endif
+		}
+	}
+	/// \endcond
+
+	/// \brief	Gets the unsigned integer type with a specific number of bits for the target platform.
+	template <size_t Bits>
+	using unsigned_integer = typename decltype(impl::uint_for_bits_impl<Bits>())::type;
+	//% meta::unsigned_integer end
+
+	//% meta::signed_integer start
+	/// \cond
+	namespace impl
+	{
+		template <size_t Bits>
+		constexpr auto sint_for_bits_impl() noexcept
+		{
+			if constexpr (Bits == sizeof(signed char) * CHAR_BIT)
+				return basic_tag<signed char>{};
+			else if constexpr (Bits == sizeof(signed short) * CHAR_BIT)
+				return basic_tag<signed short>{};
+			else if constexpr (Bits == sizeof(signed int) * CHAR_BIT)
+				return basic_tag<signed int>{};
+			else if constexpr (Bits == sizeof(signed long) * CHAR_BIT)
+				return basic_tag<signed long>{};
+			else if constexpr (Bits == sizeof(signed long long) * CHAR_BIT)
+				return basic_tag<signed long long>{};
+#if MUU_HAS_INT128
+			else if constexpr (Bits == 128)
+				return basic_tag<int128_t>{};
+#endif
+		}
+	}
+	/// \endcond
+
+	/// \brief	Gets the signed integer type with a specific number of bits for the target platform.
+	template <size_t Bits>
+	using signed_integer = typename decltype(impl::sint_for_bits_impl<Bits>())::type;
+	//% meta::signed_integer end
 
 	/// \cond
 	namespace impl
@@ -124,42 +192,6 @@ namespace muu
 		struct rebase_pointer_<T&&, U>
 		{
 			using type = std::add_rvalue_reference_t<typename rebase_pointer_<T, U>::type>;
-		};
-
-		template <typename T, bool = std::is_enum_v<std::remove_reference_t<T>>>
-		struct remove_enum_
-		{
-			using type = std::underlying_type_t<T>;
-		};
-		template <typename T>
-		struct remove_enum_<T, false>
-		{
-			using type = T;
-		};
-		template <typename T>
-		struct remove_enum_<const volatile T, true>
-		{
-			using type = const volatile typename remove_enum_<T>::type;
-		};
-		template <typename T>
-		struct remove_enum_<volatile T, true>
-		{
-			using type = volatile typename remove_enum_<T>::type;
-		};
-		template <typename T>
-		struct remove_enum_<const T, true>
-		{
-			using type = const typename remove_enum_<T>::type;
-		};
-		template <typename T>
-		struct remove_enum_<T&, true>
-		{
-			using type = std::add_lvalue_reference_t<typename remove_enum_<T>::type>;
-		};
-		template <typename T>
-		struct remove_enum_<T&&, true>
-		{
-			using type = std::add_rvalue_reference_t<typename remove_enum_<T>::type>;
 		};
 
 		// === size of ====================
@@ -260,69 +292,7 @@ namespace muu
 			using type = typename least_aligned_<T, typename least_aligned_<U, V...>::type>::type;
 		};
 
-		// === fixed-width signed integers ====================
-
-		template <size_t Bits>
-		struct signed_integer_;
-		template <>
-		struct signed_integer_<8>
-		{
-			using type = int8_t;
-		};
-		template <>
-		struct signed_integer_<16>
-		{
-			using type = int16_t;
-		};
-		template <>
-		struct signed_integer_<32>
-		{
-			using type = int32_t;
-		};
-		template <>
-		struct signed_integer_<64>
-		{
-			using type = int64_t;
-		};
-#if MUU_HAS_INT128
-		template <>
-		struct signed_integer_<128>
-		{
-			using type = int128_t;
-		};
-#endif
-
-		// === fixed-width unsigned integers ====================
-
-		template <size_t Bits>
-		struct unsigned_integer_;
-		template <>
-		struct unsigned_integer_<8>
-		{
-			using type = uint8_t;
-		};
-		template <>
-		struct unsigned_integer_<16>
-		{
-			using type = uint16_t;
-		};
-		template <>
-		struct unsigned_integer_<32>
-		{
-			using type = uint32_t;
-		};
-		template <>
-		struct unsigned_integer_<64>
-		{
-			using type = uint64_t;
-		};
-#if MUU_HAS_INT128
-		template <>
-		struct unsigned_integer_<128>
-		{
-			using type = uint128_t;
-		};
-#endif
+		// === signed + unsigned conversions ====================
 
 		template <typename T>
 		struct make_signed_
@@ -465,8 +435,8 @@ namespace muu
 		template <>
 		struct make_signed_<wchar_t>
 		{
-			using type = std::
-				conditional_t<std::is_signed_v<wchar_t>, wchar_t, signed_integer_<sizeof(wchar_t) * CHAR_BIT>::type>;
+			using type =
+				std::conditional_t<std::is_signed_v<wchar_t>, wchar_t, signed_integer<sizeof(wchar_t) * CHAR_BIT>>;
 		};
 		template <typename Scalar, size_t Dimensions>
 		struct make_signed_<vector<Scalar, Dimensions>>
@@ -601,9 +571,8 @@ namespace muu
 		template <>
 		struct make_unsigned_<wchar_t>
 		{
-			using type = std::conditional_t<std::is_unsigned_v<wchar_t>,
-											wchar_t,
-											unsigned_integer_<sizeof(wchar_t) * CHAR_BIT>::type>;
+			using type =
+				std::conditional_t<std::is_unsigned_v<wchar_t>, wchar_t, unsigned_integer<sizeof(wchar_t) * CHAR_BIT>>;
 		};
 		template <typename Scalar, size_t Dimensions>
 		struct make_unsigned_<vector<Scalar, Dimensions>>
@@ -786,11 +755,54 @@ namespace muu
 	}
 	/// \endcond
 
+	//% meta::remove_enum start
+	/// \cond
+	namespace impl
+	{
+		template <typename T, bool = std::is_enum_v<std::remove_reference_t<T>>>
+		struct remove_enum_
+		{
+			using type = std::underlying_type_t<T>;
+		};
+		template <typename T>
+		struct remove_enum_<T, false>
+		{
+			using type = T;
+		};
+		template <typename T>
+		struct remove_enum_<const volatile T, true>
+		{
+			using type = const volatile typename remove_enum_<T>::type;
+		};
+		template <typename T>
+		struct remove_enum_<volatile T, true>
+		{
+			using type = volatile typename remove_enum_<T>::type;
+		};
+		template <typename T>
+		struct remove_enum_<const T, true>
+		{
+			using type = const typename remove_enum_<T>::type;
+		};
+		template <typename T>
+		struct remove_enum_<T&, true>
+		{
+			using type = std::add_lvalue_reference_t<typename remove_enum_<T>::type>;
+		};
+		template <typename T>
+		struct remove_enum_<T&&, true>
+		{
+			using type = std::add_rvalue_reference_t<typename remove_enum_<T>::type>;
+		};
+	}
+	/// \endcond
+
 	/// \brief	Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.
 	/// \remark This is similar to std::underlying_type_t but preserves cv qualifiers and ref categories, as well as
 	/// 		being safe to use in SFINAE contexts (non-enum types are simply returned as-is).
 	template <typename T>
 	using remove_enum = typename impl::remove_enum_<T>::type;
+	//% meta::remove_enum end
 
 	/// \brief Removes reference qualification from a type if (and only if) it is an lvalue reference.
 	template <typename T>
@@ -978,9 +990,11 @@ namespace muu
 	inline constexpr bool all_nothrow_convertible_to =
 		((sizeof...(From) > 0) && ... && is_nothrow_convertible<From, To>);
 
+	//% meta::is_enum start
 	/// \brief Is a type an enum or reference-to-enum?
 	template <typename T>
 	inline constexpr bool is_enum = std::is_enum_v<std::remove_reference_t<T>>;
+	//% meta::is_enum end
 
 	/// \brief Are any of the named types enums or reference-to-enum?
 	template <typename... T>
@@ -1016,15 +1030,19 @@ namespace muu
 	template <typename... T>
 	inline constexpr bool all_legacy_enum = MUU_ALL_VARIADIC_T(is_legacy_enum);
 
+	//% meta::is_unsigned start
 	/// \brief Is a type unsigned or reference-to-unsigned?
 	/// \remarks True for enums backed by unsigned integers.
 	/// \remarks True for #uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_unsigned = std::is_unsigned_v<remove_enum<remove_cvref<T>>>
+	//# {{
 #if MUU_HAS_INT128
 									 || std::is_same_v<remove_enum<remove_cvref<T>>, uint128_t>
 #endif
+		//# }}
 		;
+	//% meta::is_unsigned end
 
 	/// \brief Are any of the named types unsigned or reference-to-unsigned?
 	/// \remarks True for enums backed by unsigned integers.
@@ -1067,15 +1085,19 @@ namespace muu
 	template <typename... T>
 	inline constexpr bool all_signed = MUU_ALL_VARIADIC_T(is_signed);
 
+	//% meta::is_integral start
 	/// \brief Is a type an integral type or a reference to an integral type?
 	/// \remarks True for enums.
 	/// \remarks True for #int128_t and #uint128_t (where supported).
 	template <typename T>
 	inline constexpr bool is_integral = std::is_integral_v<remove_enum<remove_cvref<T>>>
+	//# {{
 #if MUU_HAS_INT128
 									 || any_same<remove_enum<remove_cvref<T>>, int128_t, uint128_t>
 #endif
+		//# }}
 		;
+	//% meta::is_integral end
 
 	/// \brief Are any of the named types integral or reference-to-integral?
 	/// \remarks True for enums.
@@ -1290,9 +1312,11 @@ namespace muu
 	template <typename... T>
 	inline constexpr bool all_cv = MUU_ALL_VARIADIC_T(is_cv);
 
+	//% meta::is_cvref start
 	/// \brief Is a type const, volatile, or a reference?
 	template <typename T>
 	inline constexpr bool is_cvref = std::is_const_v<T> || std::is_volatile_v<T> || std::is_reference_v<T>;
+	//% meta::is_cvref end
 
 	/// \brief Are any of the named types const, volatile, or a reference?
 	template <typename... T>
@@ -1364,14 +1388,6 @@ namespace muu
 	/// \remark This is equivalent to C++20's std::type_identity_t.
 	template <typename T>
 	using type_identity = typename impl::type_identity_<T>::type;
-
-	/// \brief	Gets the unsigned integer type with a specific number of bits for the target platform.
-	template <size_t Bits>
-	using unsigned_integer = typename impl::unsigned_integer_<Bits>::type;
-
-	/// \brief	Gets the signed integer type with a specific number of bits for the target platform.
-	template <size_t Bits>
-	using signed_integer = typename impl::signed_integer_<Bits>::type;
 
 	/// \brief Is a type a built-in text code unit (character) type, or reference to one?
 	template <typename T>
@@ -1475,7 +1491,7 @@ namespace muu
 		{
 			using type = std::add_pointer_t<typename remove_callconv_<T>::type>;
 		};
-		
+
 		// free functions + pointers
 		#define muu_make_remove_callconv(callconv, noex)                                                               \
 		                                                                                                               \
@@ -1490,7 +1506,7 @@ namespace muu
 			{                                                                                                          \
 				using type = R (*)(Args...) noex;                                                                      \
 			};
-		
+
 		MUU_FOR_EACH_CALLCONV_NOEXCEPT(muu_make_remove_callconv)
 		#undef muu_make_remove_callconv
 
@@ -1502,7 +1518,7 @@ namespace muu
 			{                                                                                                          \
 				using type = R (C::*)(P...) cvref noex;                                                                \
 			};
-		
+
 		MUU_FOR_EACH_MEMBER_CALLCONV_CVREF_NOEXCEPT(muu_make_remove_callconv)
 		#undef muu_make_remove_callconv
 
@@ -1538,7 +1554,7 @@ namespace muu
 			{                                                                                                          \
 				using type = R(callconv*)(P...) noexcept;                                                              \
 			};
-		
+
 		MUU_FOR_EACH_CALLCONV(muu_make_add_noexcept)
 		#undef muu_make_add_noexcept
 
@@ -1550,7 +1566,7 @@ namespace muu
 			{                                                                                                          \
 				using type = R (callconv C::*)(P...) cvref noexcept;                                                   \
 			};
-		
+
 		MUU_FOR_EACH_MEMBER_CALLCONV_CVREF(muu_make_add_noexcept)
 		#undef muu_make_add_noexcept
 	}

@@ -2,7 +2,6 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-// clang-format off
 #pragma once
 
 /// \file
@@ -16,8 +15,10 @@
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 
+#if 1
 namespace muu
 {
+	//% is_constant_evaluated start
 	/// \brief	Equivalent to C++20's std::is_constant_evaluated.
 	/// \ingroup core
 	///
@@ -30,7 +31,7 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr bool is_constant_evaluated() noexcept
 	{
-#if MUU_HAS_CONSTEVAL_IF
+	#if MUU_HAS_CONSTEVAL_IF
 
 		if consteval
 		{
@@ -41,19 +42,19 @@ namespace muu
 			return false;
 		}
 
-#elif MUU_CLANG >= 9 || MUU_GCC >= 9 || MUU_MSVC >= 1925 || MUU_HAS_BUILTIN(is_constant_evaluated)
+	#elif MUU_CLANG >= 9 || MUU_GCC >= 9 || MUU_MSVC >= 1925 || MUU_HAS_BUILTIN(is_constant_evaluated)
 
 		return __builtin_is_constant_evaluated();
 
-#elif defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
+	#elif defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
 
 		return std::is_constant_evaluated();
 
-#else
+	#else
 
 		return false;
 
-#endif
+	#endif
 	}
 
 	namespace build
@@ -61,15 +62,21 @@ namespace muu
 		/// \brief	True if is_constant_evaluated() is properly supported on this compiler.
 		inline constexpr bool supports_is_constant_evaluated = is_constant_evaluated();
 	}
+	//% is_constant_evaluated end
 }
-
-#if MUU_HAS_CONSTEVAL_IF
-	#define MUU_IF_CONSTEVAL	if consteval
-	#define MUU_IF_RUNTIME		if !consteval
-#else
-	#define MUU_IF_CONSTEVAL	if (::muu::is_constant_evaluated())
-	#define MUU_IF_RUNTIME		if (!::muu::is_constant_evaluated())
 #endif
+
+//% preprocessor::if_consteval start
+#ifndef MUU_IF_CONSTEVAL
+	#if MUU_HAS_CONSTEVAL_IF
+		#define MUU_IF_CONSTEVAL if consteval
+		#define MUU_IF_RUNTIME	 if !consteval
+	#else
+		#define MUU_IF_CONSTEVAL if (::muu::is_constant_evaluated())
+		#define MUU_IF_RUNTIME	 if (!::muu::is_constant_evaluated())
+	#endif
+#endif
+//% preprocessor::if_consteval end
 
 /// \def MUU_IF_CONSTEVAL
 /// \ingroup preprocessor
@@ -101,4 +108,3 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
-// clang-format on
