@@ -3779,9 +3779,9 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_HAS_CONSTEVAL_IF</name>
+      <name>MUU_HAS_IF_CONSTEVAL</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga3c936754cdc18a19c8b08fb8f39349ff</anchor>
+      <anchor>gaaccc4ff546865afac38b8110304e38f3</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
@@ -14800,8 +14800,8 @@
       <type>constexpr</type>
       <name>tagged_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a1f7ec4909825024ca9756f45194332a9</anchor>
-      <arglist>(nullptr_t) noexcept</arglist>
+      <anchor>ae380e7cf6dcdcf0e2a441e8e570d8f79</anchor>
+      <arglist>(std::nullptr_t) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
@@ -25201,9 +25201,9 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_HAS_CONSTEVAL_IF</name>
+      <name>MUU_HAS_IF_CONSTEVAL</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga3c936754cdc18a19c8b08fb8f39349ff</anchor>
+      <anchor>gaaccc4ff546865afac38b8110304e38f3</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">

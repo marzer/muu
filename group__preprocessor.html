@@ -268,10 +268,6 @@
             </dt>
             <dd><code>1</code> when the compiler supports C++20's <code>consteval</code> immediate functions, otherwise <code>0</code>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga3c936754cdc18a19c8b08fb8f39349ff">MUU_HAS_CONSTEVAL_IF</a></span>
-            </dt>
-            <dd><code>1</code> when the compiler supports C++23's <code>if consteval { }</code>, otherwise <code>0</code>.</dd>
-            <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#ga26ba299c991ccd164204b481e80556d1">MUU_HAS_CPP_ATTR</a>(</span><span class="m-doc-wrap">attr)</span>
             </dt>
             <dd>The result of <code>__has_cpp_attribute(attr)</code> if supported by the compiler, otherwise <code>0</code>.</dd>
@@ -299,6 +295,10 @@
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gab2a752151f65377391481d1597297eca">MUU_HAS_FP16</a></span>
             </dt>
             <dd><code>1</code> when the target environment has the storage-only 16-bit floating point type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaaccc4ff546865afac38b8110304e38f3">MUU_HAS_IF_CONSTEVAL</a></span>
+            </dt>
+            <dd><code>1</code> when the compiler supports C++23's <code>if consteval { }</code>, otherwise <code>0</code>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc" href="#gaa46769772ecacae384f202d2288b5ef9">MUU_HAS_INCLUDE</a>(</span><span class="m-doc-wrap">header)</span>
             </dt>
@@ -935,13 +935,6 @@
             </h3>
             <p><code>1</code> when the compiler supports C++20's <code>consteval</code> immediate functions, otherwise <code>0</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="ga3c936754cdc18a19c8b08fb8f39349ff"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga3c936754cdc18a19c8b08fb8f39349ff">MUU_HAS_CONSTEVAL_IF</a></span>
-              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
-            </h3>
-            <p><code>1</code> when the compiler supports C++23's <code>if consteval { }</code>, otherwise <code>0</code>.</p>
-          </div></section>
           <section class="m-doc-details" id="ga26ba299c991ccd164204b481e80556d1"><div>
             <h3>
               <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#ga26ba299c991ccd164204b481e80556d1">MUU_HAS_CPP_ATTR</a>(</span><span class="m-doc-wrap">attr)</span>
@@ -995,6 +988,13 @@
             </h3>
             <p><code>1</code> when the target environment has the storage-only 16-bit floating point type <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is completely unrelated to the class <a class="m-doc" href="structmuu_1_1half.html">muu::<wbr/>half</a>, which is always available.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="gaaccc4ff546865afac38b8110304e38f3"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">#define <a class="m-doc-self" href="#gaaccc4ff546865afac38b8110304e38f3">MUU_HAS_IF_CONSTEVAL</a></span>
+              <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="preprocessor_8h.html">&lt;muu/preprocessor.h&gt;</a></div>
+            </h3>
+            <p><code>1</code> when the compiler supports C++23's <code>if consteval { }</code>, otherwise <code>0</code>.</p>
           </div></section>
           <section class="m-doc-details" id="gaa46769772ecacae384f202d2288b5ef9"><div>
             <h3>
