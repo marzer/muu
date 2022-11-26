@@ -502,16 +502,16 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_HAS_CONSTEVAL
 /// \brief `1` when the compiler supports C++20's `consteval` immediate functions, otherwise `0`.
 
-//% preprocessor::has_consteval_if start
-#ifndef MUU_HAS_CONSTEVAL_IF
+//% preprocessor::has_if_consteval start
+#ifndef MUU_HAS_IF_CONSTEVAL
 	#if defined(__cpp_if_consteval) && __cpp_if_consteval >= 202106
-		#define MUU_HAS_CONSTEVAL_IF 1
+		#define MUU_HAS_IF_CONSTEVAL 1
 	#else
-		#define MUU_HAS_CONSTEVAL_IF 0
+		#define MUU_HAS_IF_CONSTEVAL 0
 	#endif
 #endif
-//% preprocessor::has_consteval_if end
-/// \def MUU_HAS_CONSTEVAL_IF
+//% preprocessor::has_if_consteval end
+/// \def MUU_HAS_IF_CONSTEVAL
 /// \brief `1` when the compiler supports C++23's `if consteval { }`, otherwise `0`.
 
 //======================================================================================================================
@@ -1307,7 +1307,7 @@ help me improve support for your target architecture. Thanks!
 		__pragma(warning(disable : 4505))  /* unreferenced local function removed */                                   \
 		__pragma(warning(disable : 4514))  /* unreferenced inline function has been removed */                         \
 		__pragma(warning(disable : 4582))  /* constructor is not implicitly called */                                  \
-		__pragma(warning(disable : 4619))  /*  there is no warning number 'XXXX' */                                    \
+		__pragma(warning(disable : 4619))  /* there is no warning number 'XXXX' */                                     \
 		__pragma(warning(disable : 4623))  /* default constructor was implicitly defined as deleted */                 \
 		__pragma(warning(disable : 4625))  /* copy constructor was implicitly defined as deleted */                    \
 		__pragma(warning(disable : 4626))  /* assignment operator was implicitly defined as deleted */                 \
@@ -1932,7 +1932,7 @@ MUU_ENABLE_WARNINGS;
 		#define MUU_CONSTEXPR_SAFE_ASSERT(cond)                                                                        \
 			do                                                                                                         \
 			{                                                                                                          \
-				if constexpr (::muu::build::supports_is_constant_evaluated)                                            \
+				if constexpr (MUU_HAS_IF_CONSTEVAL || ::muu::build::supports_is_constant_evaluated)                    \
 				{                                                                                                      \
 					MUU_IF_RUNTIME                                                                                     \
 					{                                                                                                  \

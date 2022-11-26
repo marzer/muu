@@ -32,7 +32,7 @@ namespace muu
 	///	| const volatile T\*      | T\*                     | const_cast        |                       |
 	///	| Derived\*               | Base\*                  | static_cast       |                       |
 	///	| Base\*                  | Derived\*               | dynamic_cast      | Polymorphic bases     |
-	///	| Base\*                  | Derived\*               | reinterpret_cast  | Non-polymorphic bases |
+	///	| Base\*                  | Derived\*               | static_cast       | Non-polymorphic bases |
 	///	| T\*                     | (u)intptr_t             | reinterpret_cast  |                       |
 	///	| (u)intptr_t             | T\*                     | reinterpret_cast  |                       |
 	///	| void\*                  | T(\*)()                 | reinterpret_cast  | Where supported       |
@@ -245,7 +245,7 @@ namespace muu
 				if constexpr (std::is_polymorphic_v<from_base>)
 					return pointer_cast<To>(dynamic_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
 				else
-					return pointer_cast<To>(reinterpret_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
+					return pointer_cast<To>(static_cast<rebase_pointer<From, remove_cv<to_base>>>(from));
 			}
 
 			// rank 2+ pointer -> *

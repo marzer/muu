@@ -9,7 +9,7 @@
 /// \brief Contains the definitions of #muu::is_constant_evaluated(), #MUU_IF_CONSTEVAL and #MUU_IF_RUNTIME.
 
 #include "preprocessor.h"
-#if !MUU_HAS_CONSTEVAL_IF
+#if !MUU_HAS_IF_CONSTEVAL
 	#include "impl/std_type_traits.h"
 #endif
 #include "impl/header_start.h"
@@ -31,7 +31,7 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr bool is_constant_evaluated() noexcept
 	{
-	#if MUU_HAS_CONSTEVAL_IF
+	#if MUU_HAS_IF_CONSTEVAL
 
 		if consteval
 		{
@@ -68,7 +68,7 @@ namespace muu
 
 //% preprocessor::if_consteval start
 #ifndef MUU_IF_CONSTEVAL
-	#if MUU_HAS_CONSTEVAL_IF
+	#if MUU_HAS_IF_CONSTEVAL
 		#define MUU_IF_CONSTEVAL if consteval
 		#define MUU_IF_RUNTIME	 if !consteval
 	#else
