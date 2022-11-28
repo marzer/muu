@@ -14959,16 +14959,16 @@
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
-      <name>can_safely_store_ptr</name>
+      <name>can_store_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a65455a84f0cd2213249908339c012757</anchor>
+      <anchor>a4a41812393f5b9edde636ab1500827b7</anchor>
       <arglist>(pointer value) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
-      <name>can_safely_store_tag</name>
+      <name>can_store_tag</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>abd9b84482495cbbeb2bd74659b01df6b</anchor>
+      <anchor>aa5c7f0bcbabbe60f6280bc18be79d057</anchor>
       <arglist>(const U &amp;tag_value) noexcept</arglist>
     </member>
     <member kind="variable" static="yes">
