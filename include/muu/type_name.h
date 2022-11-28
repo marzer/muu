@@ -765,14 +765,14 @@ namespace muu
 	template <>                                                                                                        \
 	struct type_name_<T>                                                                                               \
 	{                                                                                                                  \
-		static constexpr auto value = fixed_string(MUU_MAKE_STRING(T));                                               \
+		static constexpr auto value = fixed_string(MUU_MAKE_STRING(T));                                                \
 	}
 
 #define MUU_SPECIALIZE_TYPENAME_TEMPLATE_ALIAS(T)                                                                      \
 	template <typename T0>                                                                                             \
 	struct type_name_<T<T0>>                                                                                           \
 	{                                                                                                                  \
-		static constexpr auto value = fixed_string(MUU_MAKE_STRING(T)) + '<' + type_name<T0> + '>';                   \
+		static constexpr auto value = fixed_string(MUU_MAKE_STRING(T)) + '<' + type_name<T0> + '>';                    \
 	}
 
 		// built-ins (to reduce instantiations and ensure consistent behaviour)

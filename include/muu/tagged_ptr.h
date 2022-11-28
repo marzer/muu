@@ -24,9 +24,28 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 namespace muu::impl
 {
+	template <typename To = uintptr_t, typename From>
+	MUU_CONST_INLINE_GETTER
+	constexpr To uintptr_cast(From ptr) noexcept
+	{
+		static_assert(!is_cvref<From> && !is_cvref<To>);
+		static_assert(std::is_same_v<From, uintptr_t> || std::is_same_v<To, uintptr_t>);
+		static_assert(std::is_pointer_v<From> || std::is_pointer_v<To>);
+
+		MUU_IF_CONSTEVAL
+		{
+			return muu::bit_cast<To>(ptr);
+		}
+		else
+		{
+			return reinterpret_cast<To>(ptr);
+		}
+	}
+
 	inline constexpr size_t tptr_addr_highest_used_bit = MUU_ARCH_AMD64 ? 47 : (sizeof(uintptr_t) * CHAR_BIT - 1);
 	inline constexpr size_t tptr_addr_used_bits		   = tptr_addr_highest_used_bit + 1;
 	inline constexpr size_t tptr_addr_free_bits		   = sizeof(uintptr_t) * CHAR_BIT - tptr_addr_used_bits;
+	inline constexpr size_t tptr_addr_free_bits_mask   = bit_fill_right<uintptr_t>(tptr_addr_free_bits);
 
 	template <typename T>
 	struct tptr_uint
@@ -54,23 +73,14 @@ namespace muu::impl
 	template <size_t Bits>
 	using tptr_uint_for_bits = typename decltype(tptr_uint_for_bits_impl<Bits>())::type;
 
-	template <typename To = uintptr_t, typename From>
-	MUU_CONST_INLINE_GETTER
-	constexpr To uintptr_cast(From ptr) noexcept
-	{
-		static_assert(!is_cvref<From> && !is_cvref<To>);
-		static_assert(std::is_same_v<From, uintptr_t> || std::is_same_v<To, uintptr_t>);
-		static_assert(std::is_pointer_v<From> || std::is_pointer_v<To>);
-
-		MUU_IF_CONSTEVAL
-		{
-			return muu::bit_cast<To>(ptr);
-		}
-		else
-		{
-			return reinterpret_cast<To>(ptr);
-		}
-	}
+	// Q: "what is tptr?"
+	//
+	// A: it's essentially a just templated namespace. everything is static and dependent on Align.
+	//    the reasoning being that the pointer type doesn't actually matter for all the different instantiations, only
+	//    the alignment + architecture, so setting it out this way greatly reduces instantiation work for the compiler.
+	//
+	//    as for why it's a separate class and not a base of the tagged_ptr hierarchy... eh. I don't have a good answer
+	//    for that other than "it is what it is" :P
 
 	template <size_t Align>
 	struct tptr
@@ -83,16 +93,53 @@ namespace muu::impl
 			tptr_uint_for_bits<muu::clamp<size_t>(bit_ceil(tag_bits), CHAR_BIT, sizeof(uintptr_t) * CHAR_BIT)>;
 		static_assert(sizeof(tag_type) <= sizeof(uintptr_t));
 
-		MUU_CONST_GETTER
-		static constexpr uintptr_t pack_ptr(uintptr_t ptr) noexcept
+		MUU_CONST_INLINE_GETTER
+		static constexpr uintptr_t pack_ptr_unchecked(uintptr_t ptr) noexcept
 		{
-			MUU_CONSTEXPR_SAFE_ASSERT((!ptr || bit_floor(ptr) >= Align)
-									  && "The pointer's address is more strictly aligned than Align");
-
 			if constexpr (tptr_addr_free_bits > 0)
 				return (ptr << tptr_addr_free_bits);
 			else
 				return ptr;
+		}
+
+		MUU_CONST_GETTER
+		static constexpr bool can_store_ptr(uintptr_t ptr) noexcept
+		{
+			return !(pack_ptr_unchecked(ptr) & tag_mask);
+		}
+
+		template <typename T>
+		MUU_PURE_GETTER
+		static constexpr bool can_store_tag([[maybe_unused]] const T& tag) noexcept
+		{
+			if constexpr ((sizeof(T) * CHAR_BIT) <= tag_bits && std::is_trivially_copyable_v<T>)
+			{
+				return true; // this branch works for both uints and pod types
+			}
+			else if constexpr (is_unsigned<T>)
+			{
+				if constexpr (std::is_enum_v<T>)
+				{
+					return !(static_cast<std::underlying_type_t<T>>(tag) & ptr_mask);
+				}
+				else
+				{
+					return !(tag & ptr_mask);
+				}
+			}
+			else
+			{
+				return false; // oversized/non-POD
+			}
+		}
+
+		MUU_CONST_GETTER
+		static constexpr uintptr_t pack_ptr(uintptr_t ptr) noexcept
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT((!ptr || bit_floor(ptr) >= Align)
+									  && "The pointer's address is aligned too strictly");
+
+			return pack_ptr_unchecked(ptr);
 		}
 
 		template <typename T>
@@ -102,18 +149,24 @@ namespace muu::impl
 			static_assert(std::is_trivially_copyable_v<T>, "The tag type must be trivially copyable");
 
 			if constexpr (std::is_enum_v<T>)
+			{
 				return pack_both(ptr, static_cast<std::underlying_type_t<T>>(tag));
+			}
 			else
 			{
-				MUU_CONSTEXPR_SAFE_ASSERT((!ptr || bit_floor(ptr) >= Align)
-										  && "The pointer's address is more strictly aligned than Align");
-
 				if constexpr (is_unsigned<T>)
 				{
 					if constexpr ((sizeof(T) * CHAR_BIT) > tag_bits)
+					{
+						MUU_CONSTEXPR_SAFE_ASSERT(can_store_tag(tag)
+												  && "The tag value cannot be used without truncation");
+
 						return pack_ptr(ptr) | (static_cast<uintptr_t>(tag) & tag_mask);
+					}
 					else
+					{
 						return pack_ptr(ptr) | static_cast<uintptr_t>(tag);
+					}
 				}
 				else // some pod type
 				{
@@ -152,11 +205,19 @@ namespace muu::impl
 		static constexpr uintptr_t set_tag(uintptr_t bits, T tag) noexcept
 		{
 			if constexpr (std::is_enum_v<T>)
+			{
 				return set_tag(bits, static_cast<std::underlying_type_t<T>>(tag));
+			}
 			else if constexpr ((sizeof(T) * CHAR_BIT) > tag_bits)
+			{
+				MUU_CONSTEXPR_SAFE_ASSERT(can_store_tag(tag) && "The tag value cannot be used without truncation");
+
 				return (bits & ptr_mask) | (static_cast<uintptr_t>(tag) & tag_mask);
+			}
 			else
+			{
 				return (bits & ptr_mask) | static_cast<uintptr_t>(tag);
+			}
 		}
 
 		MUU_CONSTRAINED_TEMPLATE(!is_unsigned<T>, typename T)
@@ -257,8 +318,7 @@ namespace muu::impl
 				constexpr uintptr_t canon_test = uintptr_t{ 1u } << tptr_addr_highest_used_bit;
 				if (bits & canon_test)
 				{
-					constexpr uintptr_t canon_mask = bit_fill_right<uintptr_t>(tptr_addr_free_bits)
-												  << tptr_addr_used_bits;
+					constexpr uintptr_t canon_mask = tptr_addr_free_bits_mask << tptr_addr_used_bits;
 					bits |= canon_mask;
 				}
 #endif
@@ -467,7 +527,7 @@ namespace muu
 		/// \brief	Constructs a tagged pointer.
 		/// \details Tag bits are initialized to zero.
 		///
-		/// \param	value	The inital address of the pointer's target.
+		/// \param	value	The initial address of the pointer's target.
 		MUU_NODISCARD_CTOR
 		explicit constexpr tagged_ptr(pointer value) noexcept //
 			: base{ tptr::pack_ptr(impl::uintptr_cast(value)) }
@@ -476,7 +536,7 @@ namespace muu
 		/// \brief	Constructs a tagged pointer.
 		///
 		/// \tparam	U			An unsigned integral type, or a trivially-copyable type small enough to fit.
-		/// \param	value		The inital address of the pointer's target.
+		/// \param	value		The initial address of the pointer's target.
 		/// \param	tag_value	The initial value of the pointer's tag bits.
 		///
 		/// \warning If the tag parameter is an integer larger than the available tag bits,
@@ -600,6 +660,14 @@ namespace muu
 
 		//# }}
 #endif
+		/// \brief	Checks if a raw pointer can be safely stored without clipping into the tag bits.
+		///
+		/// \returns	True if the given raw pointer is sufficiently aligned and does not already contain any tag bits.
+		MUU_CONST_INLINE_GETTER
+		static constexpr bool can_store_ptr(pointer value) noexcept
+		{
+			return tptr::can_store_ptr(impl::uintptr_cast(value));
+		}
 
 		/// \brief	Sets the target pointer value, leaving the tag bits unchanged.
 		///
@@ -617,6 +685,7 @@ namespace muu
 		/// \param	rhs	The new target pointer value.
 		///
 		/// \returns	A reference to the tagged_ptr.
+		MUU_ALWAYS_INLINE
 		constexpr tagged_ptr& operator=(pointer rhs) noexcept
 		{
 			return ptr(rhs);
@@ -652,6 +721,17 @@ namespace muu
 
 				return tptr::template get_tag_as<U>(bits_);
 			}
+		}
+
+		/// \brief	Checks if a tag value can be safely stored without clipping into the pointer bits.
+		///
+		/// \returns	True if the given tag value is of a compatible type (trivially-copyable, unsigned/enum or POD, small enough, etc.)
+		///				and would not collide with any bits in the pointer region.
+		template <typename U>
+		MUU_PURE_INLINE_GETTER
+		static constexpr bool can_store_tag(const U& tag_value) noexcept
+		{
+			return tptr::can_store_tag(tag_value);
 		}
 
 		/// \brief	Sets the tag bits, leaving the target pointer value unchanged.
@@ -708,49 +788,49 @@ namespace muu
 		}
 
 		/// \brief	Returns true if the target pointer value is not nullptr.
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		explicit constexpr operator bool() const noexcept
 		{
 			return bits_ & tptr::ptr_mask;
 		}
 
 		/// \brief	Returns true if a tagged_ptr and raw pointer refer to the same address.
-		MUU_CONST_GETTER
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool operator==(tagged_ptr lhs, const_pointer rhs) noexcept
 		{
 			return lhs.ptr() == rhs;
 		}
 
 		/// \brief	Returns true if a tagged_ptr and raw pointer do not refer to the same address.
-		MUU_CONST_GETTER
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool operator!=(tagged_ptr lhs, const_pointer rhs) noexcept
 		{
 			return lhs.ptr() != rhs;
 		}
 
 		/// \brief	Returns true if a tagged_ptr and raw pointer refer to the same address.
-		MUU_CONST_GETTER
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool operator==(const_pointer lhs, tagged_ptr rhs) noexcept
 		{
 			return lhs == rhs.ptr();
 		}
 
 		/// \brief	Returns true if a tagged_ptr and raw pointer do not refer to the same address.
-		MUU_CONST_GETTER
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool operator!=(const_pointer lhs, tagged_ptr rhs) noexcept
 		{
 			return lhs != rhs.ptr();
 		}
 
 		/// \brief	Returns true if two tagged_ptrs are equal (including their tag bits).
-		MUU_CONST_GETTER
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool operator==(tagged_ptr lhs, tagged_ptr rhs) noexcept
 		{
 			return lhs.bits_ == rhs.bits_;
 		}
 
 		/// \brief	Returns true if two tagged_ptrs are not equal (including their tag bits).
-		MUU_CONST_GETTER
+		MUU_CONST_INLINE_GETTER
 		friend constexpr bool operator!=(tagged_ptr lhs, tagged_ptr rhs) noexcept
 		{
 			return lhs.bits_ != rhs.bits_;
