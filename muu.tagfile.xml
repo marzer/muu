@@ -14957,6 +14957,20 @@
       <anchor>a6bb80afbfb11d196c4d2667970df7822</anchor>
       <arglist>() const noexcept</arglist>
     </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>can_safely_store_ptr</name>
+      <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
+      <anchor>a65455a84f0cd2213249908339c012757</anchor>
+      <arglist>(pointer value) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>can_safely_store_tag</name>
+      <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
+      <anchor>abd9b84482495cbbeb2bd74659b01df6b</anchor>
+      <arglist>(const U &amp;tag_value) noexcept</arglist>
+    </member>
     <member kind="variable" static="yes">
       <type>static constexpr size_t</type>
       <name>alignment</name>
