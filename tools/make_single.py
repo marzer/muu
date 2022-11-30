@@ -169,7 +169,6 @@ def main():
 	text = SNIPPET_DECL.sub(sub_snippet, text)
 
 	# de-muuifiying
-	text = re.sub(r'\bMUU_ASSERT\b', r'assert', text)
 	text = re.sub(r'\bMUU_MEMCPY\b', r'std::memcpy', text)
 	text = re.sub(r'\bMUU_VECTORCALL\b', r'', text)
 	text = re.sub(r'(\b|::)muu::impl::enable_if_\b', r'std::enable_if', text)
