@@ -320,24 +320,41 @@ namespace muu::impl
 			return tag;
 		}
 
+	  private:
+		// Q: why does get_ptr_impl exist?
+		//
+		// A: compilers that evaluate the if constexpr branches over-eagerly will issue warnings about
+		//    right-shifting >= sizeof(uintptr_t) when tptr_free_bits == 0; sticking the logic in a
+		//    separate template forces the branch evaluation to be delayed so the dead ones get pruned
+		//    properly without the warning.
+		template <size_t FreeBits, size_t UsedBits>
 		MUU_CONST_GETTER
-		static uintptr_t get_ptr(uintptr_t bits) noexcept
+		static uintptr_t get_ptr_impl(uintptr_t bits) noexcept
 		{
+			static_assert((FreeBits + UsedBits) == sizeof(uintptr_t) * CHAR_BIT);
+
 			bits &= ptr_mask;
-			if constexpr (tptr_free_bits > 0)
+			if constexpr (FreeBits > 0)
 			{
-				bits >>= tptr_free_bits;
+				bits >>= FreeBits;
 
 #if MUU_ARCH_AMD64
-				static constexpr uintptr_t canon_test = uintptr_t{ 1 } << (tptr_used_bits - 1u);
+				static constexpr uintptr_t canon_test = uintptr_t{ 1 } << (UsedBits - 1u);
 				if (bits & canon_test)
 				{
-					static constexpr uintptr_t canon_mask = bit_fill_right<uintptr_t>(tptr_free_bits) << tptr_used_bits;
+					static constexpr uintptr_t canon_mask = bit_fill_right<uintptr_t>(FreeBits) << UsedBits;
 					bits |= canon_mask;
 				}
 #endif
 			}
 			return bits;
+		}
+
+	  public:
+		MUU_CONST_INLINE_GETTER
+		static uintptr_t get_ptr(uintptr_t bits) noexcept
+		{
+			return get_ptr_impl<tptr_free_bits, tptr_used_bits>(bits);
 		}
 
 	  public:

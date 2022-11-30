@@ -356,6 +356,27 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\muu\fixed_string.h" />
+    <ClInclude Include="include\muu\impl\bounding_box_x_bounding_sphere.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\bounding_sphere_x_triangle.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\bounding_sphere_x_line_segment.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\oriented_bounding_box_x_triangle.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\oriented_bounding_box_x_line_segment.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\oriented_bounding_box_x_bounding_sphere.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="include\muu\impl\triangle_x_line_segment.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
@@ -441,6 +462,9 @@
     </None>
     <None Include=".github\pull_request_template.md">
       <Filter>.github</Filter>
+    </None>
+    <None Include="tools\version.py">
+      <Filter>tools</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -83,11 +83,14 @@
     <ClInclude Include="$(SolutionDir)include\muu\bounding_box.h" />
     <ClInclude Include="$(SolutionDir)include\muu\chars.h" />
     <ClInclude Include="$(SolutionDir)include\muu\compressed_pair.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_box_x_bounding_sphere.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_box_x_line_segment.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_box_x_oriented_bounding_box.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_box_x_triangle.h" />
     <ClInclude Include="$(SolutionDir)include\muu\build.h" />
     <ClInclude Include="$(SolutionDir)include\muu\bit_cast.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_sphere_x_line_segment.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\bounding_sphere_x_triangle.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_utils.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\core_constants.h" />
     <ClInclude Include="$(SolutionDir)include\muu\core.h" />
@@ -96,6 +99,10 @@
     <ClInclude Include="$(SolutionDir)include\muu\fwd.h" />
     <ClInclude Include="$(SolutionDir)include\muu\half.h" />
     <ClInclude Include="$(SolutionDir)include\muu\hashing.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\oriented_bounding_box_x_bounding_sphere.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\oriented_bounding_box_x_line_segment.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\oriented_bounding_box_x_triangle.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\triangle_x_line_segment.h" />
     <ClInclude Include="$(SolutionDir)include\muu\integer_literals.h" />
     <ClInclude Include="$(SolutionDir)include\muu\integer_aliases.h" />
     <ClInclude Include="$(SolutionDir)include\muu\source_location.h" />
