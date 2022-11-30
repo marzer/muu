@@ -14776,25 +14776,18 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename tptr::tag_type</type>
+      <type>typename base::tag_type</type>
       <name>tag_type</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a95635ca8ebb1576b25f438bf68e7efad</anchor>
+      <anchor>a00cfda2fe7ead2fe4fc98cf3048cbe58</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>tagged_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a20561986743424905af3af12a2110539</anchor>
-      <arglist>(pointer value) noexcept</arglist>
-    </member>
-    <member kind="function">
-      <type>constexpr</type>
-      <name>tagged_ptr</name>
-      <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ae22b4eebfa4ae1da0a5736a9ae139a19</anchor>
-      <arglist>(pointer value, const U &amp;tag_value) noexcept</arglist>
+      <anchor>a22b4d9e6bd0a6a3646f752cd047c23fa</anchor>
+      <arglist>() noexcept=default</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
@@ -14804,11 +14797,18 @@
       <arglist>(std::nullptr_t) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr</type>
+      <type></type>
       <name>tagged_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a22b4d9e6bd0a6a3646f752cd047c23fa</anchor>
-      <arglist>() noexcept=default</arglist>
+      <anchor>aecfd053e6ff0b160658061abb7e5b3de</anchor>
+      <arglist>(pointer value) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>tagged_ptr</name>
+      <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
+      <anchor>aa66fef1ac6f0c501e74e20d8e3fb7e31</anchor>
+      <arglist>(pointer value, const Tag &amp;tag_value) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
@@ -14839,73 +14839,73 @@
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr tagged_ptr &amp;</type>
+      <type>tagged_ptr &amp;</type>
       <name>reset</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ab11e4a5cafb21de6c557f02b3e4d7192</anchor>
+      <anchor>a83a3efd10a3825853d7fa3ab4e5bea11</anchor>
       <arglist>(pointer value) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr tagged_ptr &amp;</type>
+      <type>tagged_ptr &amp;</type>
       <name>reset</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a865b4ca39a3c6a7a386215ca86e44bbe</anchor>
-      <arglist>(pointer value, const U &amp;tag_value) noexcept</arglist>
+      <anchor>a92114102cd437f0faed36d0d9cfc430b</anchor>
+      <arglist>(pointer value, const Tag &amp;tag_value) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr pointer</type>
+      <type>pointer</type>
       <name>ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a709d1dbbf7c9ad3e662614001699aa54</anchor>
+      <anchor>abfdf5dc540a8d8afc52c3cb3228dea65</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr pointer</type>
+      <type>pointer</type>
       <name>get</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a95eabcd0a515ae8df4e2758a20631639</anchor>
+      <anchor>a9e87689988557b73d95b8dfbddff57c8</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr</type>
+      <type></type>
       <name>operator pointer</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>af913dd98ac6c39bd33be86c462160284</anchor>
+      <anchor>acbf7b1dd0449c7ca2de3b1a030c703a9</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr decltype(auto)</type>
+      <type>decltype(auto)</type>
       <name>operator()</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a75280d82049dfc35321a4d2469269eaf</anchor>
+      <anchor>a44088883cee2cfe9289f299bf68636eb</anchor>
       <arglist>(U &amp;&amp;... args) const noexcept(std::is_nothrow_invocable_v&lt; element_type, U &amp;&amp;... &gt;)</arglist>
     </member>
     <member kind="function">
-      <type>constexpr element_type &amp;</type>
+      <type>element_type &amp;</type>
       <name>operator*</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a97dea78b41e71d12a44fed269bf5fe43</anchor>
+      <anchor>abc71b35aea46a1520af7ea80080594a1</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr pointer</type>
+      <type>pointer</type>
       <name>operator-&gt;</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a324d2ada1979c9dbcdafb018de9544c8</anchor>
+      <anchor>aa3581f609df590e215d3a9e61f9c11e8</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr tagged_ptr &amp;</type>
+      <type>tagged_ptr &amp;</type>
       <name>ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ae6bbf4ecf18dc4d3d4fd6cba4cd66825</anchor>
+      <anchor>a6f5a6c1f723c13a73e2cc3f508ab2431</anchor>
       <arglist>(pointer value) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr tagged_ptr &amp;</type>
+      <type>tagged_ptr &amp;</type>
       <name>operator=</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a9d12545299ab4e560a18fe76034660e4</anchor>
+      <anchor>a59b07cfba4ef06767d09fd86f6e6c9fd</anchor>
       <arglist>(pointer rhs) noexcept</arglist>
     </member>
     <member kind="function">
@@ -14916,31 +14916,31 @@
       <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr U</type>
+      <type>Tag</type>
       <name>tag</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ab4b30f5485a682f95646cbb1aef9abbe</anchor>
+      <anchor>a55725d5b77700fe3d9e377ba052c70e1</anchor>
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr tagged_ptr &amp;</type>
+      <type>tagged_ptr &amp;</type>
       <name>tag</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>aa56cc3c2a90913df64e1510c967a64d5</anchor>
-      <arglist>(const U &amp;tag_value) noexcept</arglist>
+      <anchor>ab431430800e47be0a86c3850b92cffde</anchor>
+      <arglist>(const Tag &amp;tag_value) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr bool</type>
+      <type>bool</type>
       <name>tag_bit</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a122fbff1719d7019501e54dfc32fd050</anchor>
+      <anchor>a99ef89b2c0d6f77a8a296d560ad75944</anchor>
       <arglist>(size_t tag_bit_index) const noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr tagged_ptr &amp;</type>
+      <type>tagged_ptr &amp;</type>
       <name>tag_bit</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ab42dfb3fbe10c9ce3961b49da244e79a</anchor>
+      <anchor>a3394cae43e86ae5de5b399e8df6ff301</anchor>
       <arglist>(size_t tag_bit_index, bool val) noexcept</arglist>
     </member>
     <member kind="function">
@@ -14958,18 +14958,18 @@
       <arglist>() const noexcept</arglist>
     </member>
     <member kind="function" static="yes">
-      <type>static constexpr bool</type>
+      <type>static bool</type>
       <name>can_store_ptr</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a4a41812393f5b9edde636ab1500827b7</anchor>
+      <anchor>a05f11ff87e9c13b71efe806c0d089b67</anchor>
       <arglist>(pointer value) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>can_store_tag</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>aa5c7f0bcbabbe60f6280bc18be79d057</anchor>
-      <arglist>(const U &amp;tag_value) noexcept</arglist>
+      <anchor>a80574eb59dbd58591401f1f3e8c2119b</anchor>
+      <arglist>(const Tag &amp;tag_value) noexcept</arglist>
     </member>
     <member kind="variable" static="yes">
       <type>static constexpr size_t</type>
@@ -14993,31 +14993,31 @@
       <arglist></arglist>
     </member>
     <member kind="friend">
-      <type>friend constexpr bool</type>
+      <type>friend bool</type>
       <name>operator==</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a57e4b1b50f3ca7c02246f8c172d258f4</anchor>
+      <anchor>ae75ac71af35d3bd37197aead45473837</anchor>
       <arglist>(tagged_ptr lhs, const_pointer rhs) noexcept</arglist>
     </member>
     <member kind="friend">
-      <type>friend constexpr bool</type>
+      <type>friend bool</type>
       <name>operator!=</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>ad3d7bafd0ea8c7246713b5dfa538da88</anchor>
+      <anchor>a518689b18df4f2110fe031695a0e5140</anchor>
       <arglist>(tagged_ptr lhs, const_pointer rhs) noexcept</arglist>
     </member>
     <member kind="friend">
-      <type>friend constexpr bool</type>
+      <type>friend bool</type>
       <name>operator==</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>a388dbcef38a40c03a1c96b1c89f4305a</anchor>
+      <anchor>acead80754e8d3754cd5f52c40494352d</anchor>
       <arglist>(const_pointer lhs, tagged_ptr rhs) noexcept</arglist>
     </member>
     <member kind="friend">
-      <type>friend constexpr bool</type>
+      <type>friend bool</type>
       <name>operator!=</name>
       <anchorfile>classmuu_1_1tagged__ptr.html</anchorfile>
-      <anchor>affdeebf84e2326e85b5178a95f26857d</anchor>
+      <anchor>a623f548fc0961cfa664c535ea08f0e19</anchor>
       <arglist>(const_pointer lhs, tagged_ptr rhs) noexcept</arglist>
     </member>
     <member kind="friend">
