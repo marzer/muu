@@ -851,7 +851,7 @@ namespace muu
 
 		/// \brief Creates an #muu::collision_tester for this bounding box.
 		MUU_PURE_GETTER
-		constexpr muu::collision_tester<bounding_box> MUU_VECTORCALL collision_tester() noexcept;
+		constexpr muu::collision_tester<bounding_box> MUU_VECTORCALL collision_tester() const noexcept;
 
 		//--------------------------------
 		// aabb x point
@@ -1276,8 +1276,8 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr muu::collision_tester<bounding_box<Scalar>> MUU_VECTORCALL bounding_box<
-		Scalar>::collision_tester() noexcept
+	constexpr muu::collision_tester<bounding_box<Scalar>> MUU_VECTORCALL bounding_box<Scalar>::collision_tester()
+		const noexcept
 	{
 		return muu::collision_tester<bounding_box<Scalar>>{ *this };
 	}

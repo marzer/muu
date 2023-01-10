@@ -432,7 +432,7 @@ namespace muu
 
 		/// \brief Creates an #muu::collision_tester for this triangle.
 		MUU_PURE_GETTER
-		constexpr muu::collision_tester<triangle> MUU_VECTORCALL collision_tester() noexcept;
+		constexpr muu::collision_tester<triangle> MUU_VECTORCALL collision_tester() const noexcept;
 
 		//--------------------------------
 		// triangle x point
@@ -863,7 +863,7 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr muu::collision_tester<triangle<Scalar>> MUU_VECTORCALL triangle<Scalar>::collision_tester() noexcept
+	constexpr muu::collision_tester<triangle<Scalar>> MUU_VECTORCALL triangle<Scalar>::collision_tester() const noexcept
 	{
 		return muu::collision_tester<triangle<Scalar>>{ *this };
 	}

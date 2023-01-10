@@ -214,6 +214,8 @@
     <None Include="tools\generate_windows_targets.py" />
     <None Include="tools\make_release.bat" />
     <None Include="tools\make_release.py" />
+    <None Include="tools\make_single.py" />
+    <None Include="tools\make_singles.bat" />
     <None Include="tools\utils.py" />
     <None Include=".runsettings" />
     <None Include="muu.props" />

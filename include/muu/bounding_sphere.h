@@ -447,7 +447,7 @@ namespace muu
 
 		/// \brief Creates an #muu::collision_tester for this bounding sphere.
 		MUU_PURE_GETTER
-		constexpr muu::collision_tester<bounding_sphere> MUU_VECTORCALL collision_tester() noexcept;
+		constexpr muu::collision_tester<bounding_sphere> MUU_VECTORCALL collision_tester() const noexcept;
 
 		//--------------------------------
 		// sphere x point
@@ -807,8 +807,8 @@ namespace muu
 
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr muu::collision_tester<bounding_sphere<Scalar>> MUU_VECTORCALL bounding_sphere<
-		Scalar>::collision_tester() noexcept
+	constexpr muu::collision_tester<bounding_sphere<Scalar>> MUU_VECTORCALL bounding_sphere<Scalar>::collision_tester()
+		const noexcept
 	{
 		return muu::collision_tester<bounding_sphere<Scalar>>{ *this };
 	}

@@ -466,6 +466,12 @@
     <None Include="tools\version.py">
       <Filter>tools</Filter>
     </None>
+    <None Include="tools\make_single.py">
+      <Filter>tools</Filter>
+    </None>
+    <None Include="tools\make_singles.bat">
+      <Filter>tools</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="docs">
