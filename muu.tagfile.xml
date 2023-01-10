@@ -6100,8 +6100,8 @@
       <type>constexpr muu::collision_tester&lt; bounding_box &gt;</type>
       <name>collision_tester</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a777f12e9d71944c58f3ce2283b69e21f</anchor>
-      <arglist>() noexcept</arglist>
+      <anchor>aed5a54883ab06b8ff79588ce5b262db6</anchor>
+      <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -6679,8 +6679,8 @@
       <type>constexpr muu::collision_tester&lt; bounding_sphere &gt;</type>
       <name>collision_tester</name>
       <anchorfile>structmuu_1_1bounding__sphere.html</anchorfile>
-      <anchor>a259f65c3f96117c55fc5837fea722196</anchor>
-      <arglist>() noexcept</arglist>
+      <anchor>a7d1e8f167b29d5d51f9203fb96b6bcbb</anchor>
+      <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -15600,8 +15600,8 @@
       <type>constexpr muu::collision_tester&lt; triangle &gt;</type>
       <name>collision_tester</name>
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>adeaaaaae820be7560426930eb713edc1</anchor>
-      <arglist>() noexcept</arglist>
+      <anchor>a775c0fc3bd44eeadb0dae3e0ff00e43e</anchor>
+      <arglist>() const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
