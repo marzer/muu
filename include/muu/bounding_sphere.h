@@ -132,8 +132,8 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE((allow_implicit_bit_cast<T, bounding_sphere>), typename T)
 		MUU_NODISCARD_CTOR
 		/*implicit*/
-		constexpr bounding_sphere(const T& blittable) noexcept //
-			: base{ muu::bit_cast<base>(blittable) }
+		constexpr bounding_sphere(const T& obj) noexcept //
+			: base{ muu::bit_cast<base>(obj) }
 		{
 			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size");
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");

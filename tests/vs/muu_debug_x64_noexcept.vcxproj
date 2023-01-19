@@ -102,9 +102,11 @@
     <ClInclude Include="$(SolutionDir)include\muu\impl\oriented_bounding_box_x_bounding_sphere.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\oriented_bounding_box_x_line_segment.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\oriented_bounding_box_x_triangle.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\impl\std_optional.h" />
     <ClInclude Include="$(SolutionDir)include\muu\impl\triangle_x_line_segment.h" />
     <ClInclude Include="$(SolutionDir)include\muu\integer_literals.h" />
     <ClInclude Include="$(SolutionDir)include\muu\integer_aliases.h" />
+    <ClInclude Include="$(SolutionDir)include\muu\ray.h" />
     <ClInclude Include="$(SolutionDir)include\muu\source_location.h" />
     <ClInclude Include="$(SolutionDir)include\muu\static_array.h" />
     <ClInclude Include="$(SolutionDir)include\muu\launder.h" />

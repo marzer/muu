@@ -52,6 +52,7 @@
 #include "pointer_cast.h"
 #include "popcount.h"
 #include "quaternion.h"
+#include "ray.h"
 #include "scope_guard.h"
 #include "size_t_literals.h"
 #include "source_location.h"

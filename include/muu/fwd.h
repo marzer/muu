@@ -157,14 +157,19 @@ namespace muu
 	///
 	/// \ecpp
 	///
-	/// \note You do not need to pepper your codebase with this.
-	/// 	  It is only used in a few highly-specialized situations:
-	/// 	  - muu::bounding_box constructor
-	/// 	  - muu::matrix constructor
-	/// 	  - muu::oriented_bounding_box constructor
-	/// 	  - muu::plane constructor
-	/// 	  - muu::quaternion constructor
-	/// 	  - muu::vector constructor
+	/// \note The full list of muu types that support construction by implicit bit-cast is:
+	/// 	  - #muu::vector
+	/// 	  - #muu::quaternion
+	/// 	  - #muu::matrix
+	/// 	  - #muu::axis_angle
+	/// 	  - #muu::euler_angles
+	/// 	  - #muu::line_segment
+	/// 	  - #muu::plane
+	/// 	  - #muu::triangle
+	///		  - #muu::bounding_sphere
+	/// 	  - #muu::bounding_box
+	/// 	  - #muu::oriented_bounding_box
+	/// 	  - #muu::ray
 	template <typename From, typename To>
 	inline constexpr bool allow_implicit_bit_cast = false;
 
@@ -299,6 +304,8 @@ namespace muu
 	struct bounding_box;
 	template <typename>
 	struct oriented_bounding_box;
+	template <typename>
+	struct ray;
 	template <typename, size_t>
 	struct packed_unit_vector;
 	template <typename, size_t>

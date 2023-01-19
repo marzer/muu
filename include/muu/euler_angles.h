@@ -161,6 +161,21 @@ namespace muu
 					static_cast<scalar_type>(other.roll) }
 		{}
 
+		/// \brief Constructs a set of euler angles from an implicitly bit-castable type.
+		///
+		/// \tparam T	A bit-castable type.
+		///
+		/// \see muu::allow_implicit_bit_cast
+		MUU_CONSTRAINED_TEMPLATE((allow_implicit_bit_cast<T, euler_angles>), typename T)
+		MUU_NODISCARD_CTOR
+		/*implicit*/
+		constexpr euler_angles(const T& obj) noexcept //
+			: base{ muu::bit_cast<base>(obj) }
+		{
+			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size");
+			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
+		}
+
 		/// \brief Converts the euler angles to a vec3, where x, y and z are yaw, pitch and roll, respectively.
 		MUU_PURE_INLINE_GETTER
 		explicit constexpr operator vector<scalar_type, 3>() const noexcept

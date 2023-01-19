@@ -126,8 +126,8 @@ namespace muu
 		MUU_CONSTRAINED_TEMPLATE((allow_implicit_bit_cast<T, line_segment>), typename T)
 		MUU_NODISCARD_CTOR
 		/*implicit*/
-		constexpr line_segment(const T& blittable) noexcept //
-			: base{ muu::bit_cast<base>(blittable) }
+		constexpr line_segment(const T& obj) noexcept //
+			: base{ muu::bit_cast<base>(obj) }
 		{
 			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size");
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");

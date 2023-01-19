@@ -131,6 +131,21 @@ namespace muu
 			: base{ axis_type{ other.axis }, static_cast<scalar_type>(other.angle) }
 		{}
 
+		/// \brief Constructs an axis-angle from an implicitly bit-castable type.
+		///
+		/// \tparam T	A bit-castable type.
+		///
+		/// \see muu::allow_implicit_bit_cast
+		MUU_CONSTRAINED_TEMPLATE((allow_implicit_bit_cast<T, axis_angle>), typename T)
+		MUU_NODISCARD_CTOR
+		/*implicit*/
+		constexpr axis_angle(const T& obj) noexcept //
+			: base{ muu::bit_cast<base>(obj) }
+		{
+			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size");
+			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
+		}
+
 		/// \brief Returns a reference to the axis component.
 		MUU_PURE_INLINE_GETTER
 		explicit constexpr operator const axis_type&() const noexcept

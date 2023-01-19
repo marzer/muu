@@ -96,9 +96,11 @@
     <ClInclude Include="include\muu\impl\oriented_bounding_box_x_bounding_sphere.h" />
     <ClInclude Include="include\muu\impl\oriented_bounding_box_x_line_segment.h" />
     <ClInclude Include="include\muu\impl\oriented_bounding_box_x_triangle.h" />
+    <ClInclude Include="include\muu\impl\std_optional.h" />
     <ClInclude Include="include\muu\impl\triangle_x_line_segment.h" />
     <ClInclude Include="include\muu\integer_literals.h" />
     <ClInclude Include="include\muu\integer_aliases.h" />
+    <ClInclude Include="include\muu\ray.h" />
     <ClInclude Include="include\muu\source_location.h" />
     <ClInclude Include="include\muu\static_array.h" />
     <ClInclude Include="include\muu\launder.h" />

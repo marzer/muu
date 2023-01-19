@@ -45,6 +45,7 @@
 */
 
 #include "pointer_cast.h"
+#include "bit_cast.h"
 #include "impl/std_initializer_list.h"
 #include "impl/vector_types_common.h"
 #include "impl/vector_base.h"
@@ -504,8 +505,8 @@ namespace muu
 		MUU_NODISCARD_CTOR
 		MUU_ALWAYS_INLINE
 		/*implicit*/
-		constexpr vector(const T& bitcastable) noexcept //
-			: base{ muu::bit_cast<base>(bitcastable) }
+		constexpr vector(const T& obj) noexcept //
+			: base{ muu::bit_cast<base>(obj) }
 		{
 			static_assert(sizeof(T) == sizeof(base), "Bit-castable types must be the same size");
 			static_assert(std::is_trivially_copyable_v<T>, "Bit-castable types must be trivially-copyable");
@@ -853,7 +854,7 @@ namespace muu
 		/// \remarks	This is a componentwise exact inequality check;
 		/// 			if you want an epsilon-based "near-enough" for floating-point vectors, use #approx_equal().
 		MUU_CONSTRAINED_TEMPLATE((impl::pass_vector_by_reference<vector, vector<T, Dimensions>>), typename T)
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		friend constexpr bool operator!=(const vector& lhs, const vector<T, dimensions>& rhs) noexcept
 		{
 			return !(lhs == rhs);
