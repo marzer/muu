@@ -77,6 +77,7 @@
     <includes id="pointer__cast_8h" name="pointer_cast.h" local="yes" imported="no">pointer_cast.h</includes>
     <includes id="popcount_8h" name="popcount.h" local="yes" imported="no">popcount.h</includes>
     <includes id="quaternion_8h" name="quaternion.h" local="yes" imported="no">quaternion.h</includes>
+    <includes id="ray_8h" name="ray.h" local="yes" imported="no">ray.h</includes>
     <includes id="scope__guard_8h" name="scope_guard.h" local="yes" imported="no">scope_guard.h</includes>
     <includes id="size__t__literals_8h" name="size_t_literals.h" local="yes" imported="no">size_t_literals.h</includes>
     <includes id="source__location_8h" name="source_location.h" local="yes" imported="no">source_location.h</includes>
@@ -4268,6 +4269,30 @@
     </member>
   </compound>
   <compound kind="file">
+    <name>ray.h</name>
+    <path>/__w/muu/muu/include/muu/</path>
+    <filename>ray_8h.html</filename>
+    <includes id="triangle_8h" name="triangle.h" local="yes" imported="no">triangle.h</includes>
+    <class kind="struct">muu::ray</class>
+    <class kind="struct">std::tuple_size&lt; muu::ray&lt; Scalar &gt; &gt;</class>
+    <class kind="struct">std::tuple_element&lt; P, muu::ray&lt; Scalar &gt; &gt;</class>
+    <namespace>muu</namespace>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gac3494bfd158a43f8c6105aab2bdd3b82</anchor>
+      <arglist>(const ray&lt; S &gt; &amp;r) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga849bcf01597a1aad506df3a6faa89962</anchor>
+      <arglist>(const ray&lt; S &gt; &amp;ray1, const ray&lt; T &gt; &amp;ray2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
     <name>sat_tester.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>sat__tester_8h.html</filename>
@@ -4839,6 +4864,7 @@
     <path>/__w/muu/muu/include/muu/</path>
     <filename>vector_8h.html</filename>
     <includes id="pointer__cast_8h" name="pointer_cast.h" local="yes" imported="no">pointer_cast.h</includes>
+    <includes id="bit__cast_8h" name="bit_cast.h" local="yes" imported="no">bit_cast.h</includes>
     <class kind="struct">muu::vector</class>
     <class kind="struct">std::tuple_size&lt; muu::vector&lt; Scalar, Dimensions &gt; &gt;</class>
     <class kind="struct">std::tuple_element&lt; I, muu::vector&lt; Scalar, Dimensions &gt; &gt;</class>
@@ -5200,6 +5226,13 @@
     </member>
     <member kind="function">
       <type>constexpr</type>
+      <name>axis_angle</name>
+      <anchorfile>structmuu_1_1axis__angle.html</anchorfile>
+      <anchor>a48e0ade3cb4bb2d4198c9ae4fdf7cb4e</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
       <name>operator const axis_type &amp;</name>
       <anchorfile>structmuu_1_1axis__angle.html</anchorfile>
       <anchor>a5967c42c69cb9c818f71a6a99cfaf667</anchor>
@@ -5449,8 +5482,8 @@
       <type>constexpr</type>
       <name>bounding_box</name>
       <anchorfile>structmuu_1_1bounding__box.html</anchorfile>
-      <anchor>a2d3c5c431a5314d4e895a3f1c76a222a</anchor>
-      <arglist>(const T &amp;blittable) noexcept</arglist>
+      <anchor>aa31f800bfc664075fe7703ecd50a228a</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
@@ -6385,8 +6418,8 @@
       <type>constexpr</type>
       <name>bounding_sphere</name>
       <anchorfile>structmuu_1_1bounding__sphere.html</anchorfile>
-      <anchor>a5e814e44f3a57bc5f68b714d5e52992d</anchor>
-      <arglist>(const T &amp;blittable) noexcept</arglist>
+      <anchor>aaac0f260669a400d4d5ff0b5095bd308</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr scalar_type *</type>
@@ -7902,6 +7935,13 @@
       <anchorfile>structmuu_1_1euler__angles.html</anchorfile>
       <anchor>a9274f66d83810344e3ea8e0b505ca979</anchor>
       <arglist>(const euler_angles&lt; T &gt; &amp;other) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>euler_angles</name>
+      <anchorfile>structmuu_1_1euler__angles.html</anchorfile>
+      <anchor>a3518fcb63d46a36c06d558a305240e92</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
@@ -9449,8 +9489,8 @@
       <type>constexpr</type>
       <name>line_segment</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
-      <anchor>af2771c5118f6a44c5d4663e65e0cdbdc</anchor>
-      <arglist>(const T &amp;blittable) noexcept</arglist>
+      <anchor>acc28f548ba05effae540c8eb42b0b7e9</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector_type &amp;</type>
@@ -10149,8 +10189,8 @@
       <type>constexpr</type>
       <name>matrix</name>
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
-      <anchor>a6f6992ca5bcb35af69c85153aeb9f782</anchor>
-      <arglist>(const T &amp;blittable) noexcept</arglist>
+      <anchor>afdc4a34df75fcbcf4ac0dd1d79fd438d</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
@@ -11264,8 +11304,8 @@
       <type>constexpr</type>
       <name>oriented_bounding_box</name>
       <anchorfile>structmuu_1_1oriented__bounding__box.html</anchorfile>
-      <anchor>a04b7966c37e8d27c44ec39da6c2da058</anchor>
-      <arglist>(const T &amp;blittable) noexcept</arglist>
+      <anchor>a746ca3b42e42aac8e578a1edd7ac774d</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr scalar_type *</type>
@@ -12066,8 +12106,8 @@
       <type>constexpr</type>
       <name>plane</name>
       <anchorfile>structmuu_1_1plane.html</anchorfile>
-      <anchor>aa021fffd4654f4bc1f44303f41ac6997</anchor>
-      <arglist>(const T &amp;blittable) noexcept</arglist>
+      <anchor>ad7af0ee1ef2ec99d3c3000b9037bd9c3</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr scalar_type *</type>
@@ -12497,8 +12537,8 @@
       <type>constexpr</type>
       <name>quaternion</name>
       <anchorfile>structmuu_1_1quaternion.html</anchorfile>
-      <anchor>af3526894b4d0dc8924b9ca19522a84bf</anchor>
-      <arglist>(const T &amp;blittable) noexcept</arglist>
+      <anchor>ab7590c3310cc21c4230c0935b05e7c5b</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr const auto &amp;</type>
@@ -12870,6 +12910,144 @@
       <anchorfile>structmuu_1_1quaternion.html</anchorfile>
       <anchor>ac8f27c639647941f3f22c7e7f4a6e967</anchor>
       <arglist>(scalar_type lhs, const quaternion &amp;rhs) noexcept</arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>muu::ray</name>
+    <filename>structmuu_1_1ray.html</filename>
+    <templarg>typename Scalar</templarg>
+    <member kind="typedef">
+      <type>Scalar</type>
+      <name>scalar_type</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>ab06c3bf7895d350a2f7f55d4c049bca6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>vector&lt; scalar_type, 3 &gt;</type>
+      <name>vector_type</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a3eb68e6a2f5b24b859d5ac37589a646f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>ray</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a1b1134daabfcbad8ccf990f8fd4dc4cb</anchor>
+      <arglist>() noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>ray</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>acc68075647d6fd1ea6306cc746a5884f</anchor>
+      <arglist>(const ray &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr ray &amp;</type>
+      <name>operator=</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a1328e29562701ee28a599b87088dfa9f</anchor>
+      <arglist>(const ray &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>ray</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>ad4bcae84f754657a2af0aba03a60069c</anchor>
+      <arglist>(const vector_type &amp;o, const vector_type &amp;dir) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>ray</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a5a462337b97ba999d6df2edce0b97411</anchor>
+      <arglist>(scalar_type o_x, scalar_type o_y, scalar_type o_z, scalar_type dir_x, scalar_type dir_y, scalar_type dir_z) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>ray</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a7ceb72909724fddd250d93aa9e38f8e1</anchor>
+      <arglist>(const ray&lt; S &gt; &amp;r) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>ray</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a007519f62809bf513aad070cefc84c24</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
+    </member>
+    <member kind="variable">
+      <type>vector_type</type>
+      <name>origin</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a526a32e954a45037cfe1493f8a6d8659</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>vector_type</type>
+      <name>direction</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a6371d228fa60a8c68d3f81e28a27e147</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gac3494bfd158a43f8c6105aab2bdd3b82</anchor>
+      <arglist>(const ray&lt; S &gt; &amp;r) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga849bcf01597a1aad506df3a6faa89962</anchor>
+      <arglist>(const ray&lt; S &gt; &amp;ray1, const ray&lt; T &gt; &amp;ray2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>ab2027d3de41e7163ebbe1f818fe30d72</anchor>
+      <arglist>() const noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend constexpr bool</type>
+      <name>operator==</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a488b7517aadd98d1bb955d218a365f1b</anchor>
+      <arglist>(const ray &amp;lhs, const ray&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="friend">
+      <type>friend constexpr bool</type>
+      <name>operator!=</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>ae7c7b655f22f9f3fda91df6a54cb165a</anchor>
+      <arglist>(const ray &amp;lhs, const ray&lt; T &gt; &amp;rhs) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>af8e5d3a7948527e6c2a0c6eb301a5a8c</anchor>
+      <arglist>(const ray &amp;r) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a75c1a2b15ca37073521044a069beecf4</anchor>
+      <arglist>(const ray&lt; T &gt; &amp;r, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a473c476fd824a1389837b25a657831c6</anchor>
+      <arglist>(const ray &amp;ray1, const ray&lt; T &gt; &amp;ray2, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -15222,8 +15400,8 @@
       <type>constexpr</type>
       <name>triangle</name>
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
-      <anchor>a362a7c6b0042a437d03d81548eee7b06</anchor>
-      <arglist>(const T &amp;blittable) noexcept</arglist>
+      <anchor>a61eb4de8e08cf0303c079dd53a093ac2</anchor>
+      <arglist>(const T &amp;obj) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr vector_type &amp;</type>
@@ -15908,6 +16086,12 @@
     <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
+    <name>std::tuple_element&lt; P, muu::ray&lt; Scalar &gt; &gt;</name>
+    <filename>structstd_1_1tuple__element_3_01_p_00_01muu_1_1ray_3_01_scalar_01_4_01_4.html</filename>
+    <templarg>size_t P</templarg>
+    <templarg>typename Scalar</templarg>
+  </compound>
+  <compound kind="struct">
     <name>std::tuple_element&lt; P, muu::triangle&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__element_3_01_p_00_01muu_1_1triangle_3_01_scalar_01_4_01_4.html</filename>
     <templarg>size_t P</templarg>
@@ -15947,6 +16131,11 @@
   <compound kind="struct">
     <name>std::tuple_size&lt; muu::quaternion&lt; Scalar &gt; &gt;</name>
     <filename>structstd_1_1tuple__size_3_01muu_1_1quaternion_3_01_scalar_01_4_01_4.html</filename>
+    <templarg>typename Scalar</templarg>
+  </compound>
+  <compound kind="struct">
+    <name>std::tuple_size&lt; muu::ray&lt; Scalar &gt; &gt;</name>
+    <filename>structstd_1_1tuple__size_3_01muu_1_1ray_3_01_scalar_01_4_01_4.html</filename>
     <templarg>typename Scalar</templarg>
   </compound>
   <compound kind="struct">
@@ -17830,6 +18019,7 @@
     <class kind="struct">muu::packed_unit_vector</class>
     <class kind="struct">muu::plane</class>
     <class kind="struct">muu::quaternion</class>
+    <class kind="struct">muu::ray</class>
     <class kind="struct">muu::sat_tester</class>
     <class kind="class">muu::scope_fail</class>
     <class kind="class">muu::scope_guard</class>
@@ -19801,6 +19991,20 @@
       <anchorfile>namespacemuu.html</anchorfile>
       <anchor>a8df75ca3a9d767d9132a8bf68c922ea7</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;start, const quaternion&lt; S &gt; &amp;finish, S alpha) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gac3494bfd158a43f8c6105aab2bdd3b82</anchor>
+      <arglist>(const ray&lt; S &gt; &amp;r) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga849bcf01597a1aad506df3a6faa89962</anchor>
+      <arglist>(const ray&lt; S &gt; &amp;ray1, const ray&lt; T &gt; &amp;ray2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>span&lt; const std::byte, impl::as_bytes_extent&lt; T, E &gt; &gt;</type>
@@ -23503,6 +23707,7 @@
     <class kind="struct">muu::oriented_bounding_box</class>
     <class kind="struct">muu::plane</class>
     <class kind="struct">muu::quaternion</class>
+    <class kind="struct">muu::ray</class>
     <class kind="struct">muu::sat_tester</class>
     <class kind="struct">muu::triangle</class>
     <class kind="struct">muu::vector</class>
@@ -25937,6 +26142,13 @@
       <type>constexpr bool</type>
       <name>approx_equal</name>
       <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga849bcf01597a1aad506df3a6faa89962</anchor>
+      <arglist>(const ray&lt; S &gt; &amp;ray1, const ray&lt; T &gt; &amp;ray2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
       <anchor>ga2881bac8c2bf5248013bbc7d94867005</anchor>
       <arglist>(const triangle&lt; S &gt; &amp;tri1, const triangle&lt; T &gt; &amp;tri2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
     </member>
@@ -26002,6 +26214,13 @@
       <anchorfile>group__approx__equal.html</anchorfile>
       <anchor>ga6b8d6921c4f39c5881a7ea6f95f33392</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q1, const quaternion&lt; T &gt; &amp;q2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>approx_equal</name>
+      <anchorfile>group__approx__equal.html</anchorfile>
+      <anchor>ga849bcf01597a1aad506df3a6faa89962</anchor>
+      <arglist>(const ray&lt; S &gt; &amp;ray1, const ray&lt; T &gt; &amp;ray2, epsilon_type&lt; S, T &gt; epsilon=default_epsilon&lt; S, T &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -26869,6 +27088,13 @@
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
       <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gac3494bfd158a43f8c6105aab2bdd3b82</anchor>
+      <arglist>(const ray&lt; S &gt; &amp;r) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>ga73ae74e7ab9484fb2ee90a67e91c1b08</anchor>
       <arglist>(const triangle&lt; S &gt; &amp;tri) noexcept</arglist>
     </member>
@@ -26934,6 +27160,13 @@
       <anchorfile>group__infinity__or__nan.html</anchorfile>
       <anchor>gaffcaea7f39fc17894285d8221923387e</anchor>
       <arglist>(const quaternion&lt; S &gt; &amp;q) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>infinity_or_nan</name>
+      <anchorfile>group__infinity__or__nan.html</anchorfile>
+      <anchor>gac3494bfd158a43f8c6105aab2bdd3b82</anchor>
+      <arglist>(const ray&lt; S &gt; &amp;r) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>

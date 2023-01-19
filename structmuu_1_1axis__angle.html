@@ -132,6 +132,11 @@
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae0709a8da57db9a054a3dbe2d9efc177">axis_angle</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&lt;T&gt;&amp; other) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converting constructor.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a48e0ade3cb4bb2d4198c9ae4fdf7cb4e">axis_angle</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Constructs an axis-angle from an implicitly bit-castable type.</dd>
             <dt id="a5967c42c69cb9c818f71a6a99cfaf667">
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a5967c42c69cb9c818f71a6a99cfaf667">operator const axis_type&amp;</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -174,6 +179,31 @@
             </dt>
             <dd>Writes an axis-angle rotation out to a text stream.</dd>
           </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="a48e0ade3cb4bb2d4198c9ae4fdf7cb4e"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"> muu::<wbr/>axis_angle&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a48e0ade3cb4bb2d4198c9ae4fdf7cb4e">axis_angle</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Constructs an axis-angle from an implicitly bit-castable type.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">T</td>
+                  <td>A bit-castable type.</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">muu::<wbr/>allow_implicit_bit_cast</a></p></aside>
+          </div></section>
         </section>
       </div>
     </div>
