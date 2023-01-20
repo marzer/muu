@@ -2,7 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-#pragma once
+#ifndef MUU_ORIENTED_BOUNDING_BOX_H
+#define MUU_ORIENTED_BOUNDING_BOX_H
 
 /// \file
 /// \brief  Contains the definition of muu::oriented_bounding_box.
@@ -233,7 +234,7 @@ namespace muu
 			return base::center.data();
 		}
 
-			/// @}
+				/// @}
 	#endif // scalar accessors
 
 	#if 1 // geometric properties --------------------------------------------------------------------------------------
@@ -331,7 +332,7 @@ namespace muu
 			return mass / volume();
 		}
 
-			/// @}
+				/// @}
 	#endif // geometric properties
 
 	#if 1 // equality (exact) ------------------------------------------------------------------------------------------
@@ -431,7 +432,7 @@ namespace muu
 			return obbs::degenerate(base::extents);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (exact)
 
 	#if 1 // equality (approx) -----------------------------------------------------------------------------------------
@@ -494,7 +495,7 @@ namespace muu
 			return vector_type::approx_zero(base::extents, epsilon);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (approx)
 
 	#if 1 // corners ---------------------------------------------------------------------------------------------------
@@ -560,7 +561,7 @@ namespace muu
 			return obbs::template corner<box_corner::max>(base::center, base::extents, base::axes);
 		}
 
-			/// @}
+				/// @}
 	#endif // corners
 
 	#if 1 // translation -----------------------------------------------------------------------------------
@@ -591,7 +592,7 @@ namespace muu
 			return *this;
 		}
 
-			/// @}
+				/// @}
 	#endif // translation
 
 	#if 1 // scaling -----------------------------------------------------------------------------------
@@ -622,7 +623,7 @@ namespace muu
 			return *this;
 		}
 
-			/// @}
+				/// @}
 	#endif // scaling
 
 	#if 1 // transformation -------------------------------------------------------------------
@@ -674,7 +675,7 @@ namespace muu
 			return *this = transform(*this, tx);
 		}
 
-			/// @}
+				/// @}
 	#endif // transformation
 
 	#if 1 // point queries ------------------------------------------------------------------------------
@@ -696,7 +697,7 @@ namespace muu
 			return closest;
 		}
 
-			/// @}
+				/// @}
 	#endif // point queries
 
 	#if 1 // collision detection ------------------------------------------------------------------------------
@@ -909,7 +910,7 @@ namespace muu
 			return intersects(*this, bb);
 		}
 
-			/// @}
+				/// @}
 	#endif // collision detection
 	};
 
@@ -1050,8 +1051,10 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
 
 /// \cond
-#include "impl/oriented_bounding_box_x_bounding_sphere.h"
-#include "impl/oriented_bounding_box_x_triangle.h"
 #include "impl/oriented_bounding_box_x_line_segment.h"
+#include "impl/oriented_bounding_box_x_triangle.h"
+#include "impl/oriented_bounding_box_x_bounding_sphere.h"
 #include "impl/bounding_box_x_oriented_bounding_box.h"
 /// \endcond
+
+#endif // MUU_ORIENTED_BOUNDING_BOX_H

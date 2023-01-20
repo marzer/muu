@@ -2,7 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-#pragma once
+#ifndef MUU_LINE_SEGMENT_H
+#define MUU_LINE_SEGMENT_H
 
 /// \file
 /// \brief  Contains the definition of muu::line_segment.
@@ -177,7 +178,7 @@ namespace muu
 			return base::points[p];
 		}
 
-			/// @}
+				/// @}
 	#endif // point accessors
 
 	#if 1 // scalar accessors ------------------------------------------------------------------------------------------
@@ -198,7 +199,7 @@ namespace muu
 			return base::points[0].data();
 		}
 
-			/// @}
+				/// @}
 	#endif // scalar accessors
 
 	#if 1 // geometric properties --------------------------------------------------------------------------------------
@@ -280,7 +281,7 @@ namespace muu
 			return length(*this);
 		}
 
-			/// @}
+				/// @}
 	#endif // geometric properties
 
 	#if 1 // equality (exact) -------------------------------------------------------------------------------------
@@ -362,7 +363,7 @@ namespace muu
 			return degenerate(*this);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (exact)
 
 	#if 1 // equality (approx) -----------------------------------------------------------------------------------
@@ -407,7 +408,7 @@ namespace muu
 			return approx_zero(*this, epsilon);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (approx)
 
 	#if 1 // collision detection ------------------------------------------------------------------------------
@@ -583,11 +584,11 @@ namespace muu
 			return intersects(*this, bb);
 		}
 
-			//--------------------------------
-			// line segment x obb
-			//--------------------------------
+				//--------------------------------
+				// line segment x obb
+				//--------------------------------
 
-			/// @}
+				/// @}
 	#endif // collision detection
 
 	#if 1 // reversal --------------------------------------------------------------------------------------------
@@ -607,7 +608,7 @@ namespace muu
 			return *this = reverse(*this);
 		}
 
-			/// @}
+				/// @}
 	#endif // reversal
 
 	#if 1 // iterators -----------------------------------------------------------------------------------
@@ -703,7 +704,7 @@ namespace muu
 			return v.end();
 		}
 
-			/// @}
+				/// @}
 	#endif // iterators
 
 	#if 1 // misc -----------------------------------------------------------------------------------------
@@ -852,9 +853,11 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
 
 /// \cond
-#include "impl/bounding_box_x_line_segment.h"
-#include "impl/bounding_sphere_x_line_segment.h"
 #include "impl/plane_x_line_segment.h"
-#include "impl/oriented_bounding_box_x_line_segment.h"
 #include "impl/triangle_x_line_segment.h"
+#include "impl/bounding_sphere_x_line_segment.h"
+#include "impl/bounding_box_x_line_segment.h"
+#include "impl/oriented_bounding_box_x_line_segment.h"
 /// \endcond
+
+#endif // MUU_LINE_SEGMENT_H

@@ -6,6 +6,7 @@
 
 #include "../vector.h"
 #include "../matrix.h"
+#include "std_optional.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
@@ -259,25 +260,6 @@ namespace muu::impl
 			return muu::approx_zero(distance_squared(seg0, seg1, point), epsilon);
 		}
 	};
-}
-
-//======================================================================================================================
-// rays
-//======================================================================================================================
-
-namespace muu
-{
-	namespace impl
-	{
-		template <typename Scalar>
-		struct MUU_TRIVIAL_ABI storage_base<ray<Scalar>>
-		{
-			vector<Scalar, 3> origin;
-			vector<Scalar, 3> direction;
-		};
-	}
-
-	MUU_GEOMETRY_BASE_BOILERPLATE(ray);
 }
 
 //======================================================================================================================
@@ -981,6 +963,82 @@ namespace muu::impl
 		{
 			const auto offset = boxes::corner_offset(extents, which);
 			return center + offset.x * axes.m[0] + offset.y * axes.m[1] + offset.z * axes.m[2];
+		}
+	};
+}
+
+//======================================================================================================================
+// rays
+//======================================================================================================================
+
+namespace muu
+{
+	namespace impl
+	{
+		template <typename Scalar>
+		struct MUU_TRIVIAL_ABI storage_base<ray<Scalar>>
+		{
+			vector<Scalar, 3> origin;
+			vector<Scalar, 3> direction;
+		};
+	}
+
+	MUU_GEOMETRY_BASE_BOILERPLATE(ray);
+}
+
+namespace muu::impl
+{
+	template <typename Scalar>
+	struct rays_common
+	{
+		using scalar_type  = Scalar;
+		using vector_type  = vector<scalar_type, 3>;
+		using vector_param = muu::vector_param<vector_type>;
+		using planes	   = planes_common<scalar_type>;
+		using triangles	   = triangles_common<scalar_type>;
+		using result_type  = std::optional<scalar_type>;
+
+		MUU_PURE_GETTER
+		static constexpr result_type hits_plane(vector_param ray_origin,
+												vector_param ray_direction,
+												vector_param p_normal,
+												scalar_type p_d) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			const auto nd		   = vector_type::dot(ray_direction, p_normal);
+			const auto signed_dist = planes::signed_distance(p_normal, p_d, ray_origin);
+			if ((signed_dist > scalar_type{} && nd >= scalar_type{})
+				|| (signed_dist < scalar_type{} && nd <= scalar_type{}))
+				return {};
+
+			const auto pn			= vector_type::dot(ray_origin, p_normal);
+			const auto hit_distance = (-p_d - pn) / nd;
+			if (hit_distance >= scalar_type{})
+				return hit_distance;
+
+			return {};
+		}
+
+		MUU_PURE_GETTER
+		static constexpr result_type hits_triangle(vector_param ray_origin,
+												   vector_param ray_direction,
+												   vector_param p0,
+												   vector_param p1,
+												   vector_param p2) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			const auto normal		= triangles::normal(p0, p1, p2);
+			const auto hit_distance = hits_plane(ray_origin, ray_direction, normal, planes::d_term(p0, normal));
+			if (hit_distance)
+			{
+				const auto bary = triangles::barycentric(p0, p1, p2, ray_origin + ray_direction * (*hit_distance));
+				if (bary.x >= scalar_type{} && bary.y >= scalar_type{} && bary.z >= scalar_type{})
+					return hit_distance;
+			}
+
+			return {};
 		}
 	};
 }

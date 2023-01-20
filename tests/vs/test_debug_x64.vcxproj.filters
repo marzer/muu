@@ -203,6 +203,18 @@
     <ClCompile Include="..\bounding_sphere_3.cpp">
       <Filter>bounding_sphere</Filter>
     </ClCompile>
+    <ClCompile Include="..\ray_0.cpp">
+      <Filter>ray</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ray_1.cpp">
+      <Filter>ray</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ray_2.cpp">
+      <Filter>ray</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ray_3.cpp">
+      <Filter>ray</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\batching.h" />
@@ -245,6 +257,9 @@
     </ClInclude>
     <ClInclude Include="..\bounding_sphere_tests.h">
       <Filter>bounding_sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ray_tests.h">
+      <Filter>ray</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +307,9 @@
     </Filter>
     <Filter Include="bounding_sphere">
       <UniqueIdentifier>{ef894358-c296-4802-8c43-4715066fa598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ray">
+      <UniqueIdentifier>{9920a731-d5da-4078-a476-b35da1cbf5ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

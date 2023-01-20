@@ -2,7 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-#pragma once
+#ifndef MUU_BOUNDING_SPHERE_H
+#define MUU_BOUNDING_SPHERE_H
 
 /// \file
 /// \brief  Contains the definition of muu::bounding_sphere.
@@ -159,7 +160,7 @@ namespace muu
 			return base::center.data();
 		}
 
-			/// @}
+				/// @}
 	#endif // scalar accessors
 
 	#if 1 // geometric properties --------------------------------------------------------------------------------------
@@ -199,7 +200,7 @@ namespace muu
 			return mass / volume();
 		}
 
-			/// @}
+				/// @}
 	#endif // geometric properties
 
 	#if 1 // equality (exact) ------------------------------------------------------------------------------------------
@@ -298,7 +299,7 @@ namespace muu
 			return degenerate(*this);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (exact)
 
 	#if 1 // equality (approx) -----------------------------------------------------------------------------------------
@@ -357,7 +358,7 @@ namespace muu
 			return muu::approx_zero(base::radius, epsilon);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (approx)
 
 	#if 1 // translation -------------------------------------------------------------------
@@ -388,7 +389,7 @@ namespace muu
 			return *this;
 		}
 
-			/// @}
+				/// @}
 	#endif // translation
 
 	#if 1 // scaling -------------------------------------------------------------------
@@ -419,7 +420,7 @@ namespace muu
 			return *this;
 		}
 
-			/// @}
+				/// @}
 	#endif // scaling
 
 	#if 1 // point queries ------------------------------------------------------------------------------
@@ -438,7 +439,7 @@ namespace muu
 			return vector_type::normalize_lensq(delta, dist_squared) * base::radius;
 		}
 
-			/// @}
+				/// @}
 	#endif // point queries
 
 	#if 1 // collision detection ------------------------------------------------------------------------------
@@ -694,7 +695,7 @@ namespace muu
 			return intersects(*this, bb);
 		}
 
-			/// @}
+				/// @}
 	#endif // collision detection
 
 	#if 1 // misc ---------------------------------------------------------------------------------------------------
@@ -813,7 +814,7 @@ namespace muu
 		return muu::collision_tester<bounding_sphere<Scalar>>{ *this };
 	}
 }
-/// \endcond
+	/// \endcond
 
 #endif //===============================================================================================================
 
@@ -908,8 +909,10 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
 
 /// \cond
-#include "impl/bounding_sphere_x_triangle.h"
 #include "impl/bounding_sphere_x_line_segment.h"
+#include "impl/bounding_sphere_x_triangle.h"
 #include "impl/bounding_box_x_bounding_sphere.h"
 #include "impl/oriented_bounding_box_x_bounding_sphere.h"
 /// \endcond
+
+#endif // MUU_BOUNDING_SPHERE_H

@@ -2,13 +2,14 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-#pragma once
+#ifndef MUU_RAY_H
+#define MUU_RAY_H
 
 /// \file
 /// \brief  Contains the definition of muu::ray.
 
+#include "plane.h"
 #include "triangle.h"
-#include "impl/std_optional.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
@@ -42,11 +43,22 @@ namespace muu
 		/// \brief The three-dimensional #muu::vector with the same #scalar_type as the ray.
 		using vector_type = vector<scalar_type, 3>;
 
+		/// \brief The result type returned by a raycast test.
+		using result_type = std::optional<scalar_type>;
+
 	  private:
 		/// \cond
 
 		using base = impl::storage_base<ray<Scalar>>;
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2), "Rays should not have padding");
+
+		using rays		= impl::rays_common<Scalar>;
+		using triangles = impl::triangles_common<Scalar>;
+		using planes	= impl::planes_common<Scalar>;
+
+		using promoted_scalar				 = promote_if_small_float<scalar_type>;
+		using promoted_vec					 = vector<promoted_scalar, 3>;
+		static constexpr bool is_small_float = impl::is_small_float_<scalar_type>;
 
 		/// \endcond
 
@@ -156,7 +168,7 @@ namespace muu
 			return infinity_or_nan(*this);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (exact)
 
 	#if 1 // equality (approx) -----------------------------------------------------------------------------------
@@ -185,15 +197,65 @@ namespace muu
 			return approx_equal(*this, r, epsilon);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (approx)
 
-	#if 1	// hit tests -------------------------------------------------------------------------------------
-			/// \name Hit tests
-			/// @{
+	#if 1 // hit tests -------------------------------------------------------------------------------------
+		/// \name Hit tests
+		/// @{
 
-			/// @}
+		//--------------------------------
+		// ray x plane
+		//--------------------------------
+
+		MUU_PURE_INLINE_GETTER
+		static constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(vector_type) ray_origin,
+														 MUU_VPARAM(vector_type) ray_direction,
+														 MUU_VPARAM(plane<scalar_type>) p) noexcept
+		{
+			return rays::hits_plane(ray_origin, ray_direction, p.normal, p.d);
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(plane<scalar_type>) p) const noexcept
+		{
+			return rays::hits_plane(base::origin, base::direction, p.normal, p.d);
+		}
+
+		//--------------------------------
+		// ray x triangle
+		//--------------------------------
+
+		MUU_PURE_GETTER
+		static constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(vector_type) ray_origin,
+														 MUU_VPARAM(vector_type) ray_direction,
+														 MUU_VPARAM(triangle<scalar_type>) tri) noexcept
+		{
+			return rays::hits_triangle(ray_origin, ray_direction, tri[0], tri[1], tri[2]);
+		}
+
+		MUU_PURE_INLINE_GETTER
+		constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept
+		{
+			return rays::hits_triangle(base::origin, base::direction, tri[0], tri[1], tri[2]);
+		}
+
+				/// @}
 	#endif // hit tests
+
+	#if 1 // misc ---------------------------------------------------------------------------------------------------
+
+		/// \brief Writes a ray out to a text stream.
+		template <typename Char, typename Traits>
+		friend std::basic_ostream<Char, Traits>& operator<<(std::basic_ostream<Char, Traits>& os, const ray& r)
+		{
+			const impl::compound_vector_elem<Scalar> elems[]{ { &r.origin.x, 3 }, //
+															  { &r.direction.x, 3 } };
+			impl::print_compound_vector(os, elems);
+			return os;
+		}
+
+	#endif // misc
 	};
 
 	/// \cond
@@ -272,3 +334,5 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
+
+#endif // MUU_RAY_H

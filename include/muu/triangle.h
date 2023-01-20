@@ -2,7 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-#pragma once
+#ifndef MUU_TRIANGLE_H
+#define MUU_TRIANGLE_H
 
 /// \file
 /// \brief  Contains the definition of muu::triangle.
@@ -175,7 +176,7 @@ namespace muu
 			return base::points[p];
 		}
 
-			/// @}
+				/// @}
 	#endif // point accessors
 
 	#if 1 // scalar accessors ------------------------------------------------------------------------------------------
@@ -196,7 +197,7 @@ namespace muu
 			return base::points[0].data();
 		}
 
-			/// @}
+				/// @}
 	#endif // scalar accessors
 
 	#if 1 // geometric properties --------------------------------------------------------------------------------------
@@ -291,7 +292,7 @@ namespace muu
 			return plane();
 		}
 
-			/// @}
+				/// @}
 	#endif // geometric properties
 
 	#if 1 // equality (exact) -------------------------------------------------------------------------------------
@@ -376,7 +377,7 @@ namespace muu
 			return triangles::degenerate(base::points[0], base::points[1], base::points[2]);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (exact)
 
 	#if 1 // equality (approx) -----------------------------------------------------------------------------------
@@ -423,7 +424,7 @@ namespace muu
 			return approx_zero(*this, epsilon);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (approx)
 
 	#if 1 // collision detection ------------------------------------------------------------------------------
@@ -630,7 +631,7 @@ namespace muu
 			return intersects(base::points[0], base::points[1], base::points[2], bb);
 		}
 
-			/// @}
+				/// @}
 	#endif // collision detection
 
 	#if 1 // barycentric coordinates ----------------------------------------------------------------------
@@ -670,7 +671,7 @@ namespace muu
 			return barycentric_generator(base::points[0], base::points[1], base::points[2]);
 		}
 
-			/// @}
+				/// @}
 	#endif // barycentric coordinates
 
 	#if 1 // iterators -----------------------------------------------------------------------------------
@@ -766,7 +767,7 @@ namespace muu
 			return v.end();
 		}
 
-			/// @}
+				/// @}
 	#endif // iterators
 
 	#if 1 // misc -----------------------------------------------------------------------------------------
@@ -868,7 +869,7 @@ namespace muu
 		return muu::collision_tester<triangle<Scalar>>{ *this };
 	}
 }
-/// \endcond
+	/// \endcond
 
 #endif //===============================================================================================================
 
@@ -959,8 +960,10 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 
 /// \cond
 #include "impl/triangle_x_line_segment.h"
-#include "impl/bounding_box_x_triangle.h"
-#include "impl/bounding_sphere_x_triangle.h"
 #include "impl/plane_x_triangle.h"
+#include "impl/bounding_sphere_x_triangle.h"
+#include "impl/bounding_box_x_triangle.h"
 #include "impl/oriented_bounding_box_x_triangle.h"
 /// \endcond
+
+#endif // MUU_TRIANGLE_H

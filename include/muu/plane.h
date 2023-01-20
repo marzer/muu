@@ -2,7 +2,8 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-#pragma once
+#ifndef MUU_PLANE_H
+#define MUU_PLANE_H
 
 /// \file
 /// \brief  Contains the definition of muu::plane.
@@ -165,7 +166,7 @@ namespace muu
 			return base::normal.data();
 		}
 
-			/// @}
+				/// @}
 	#endif // scalar accessors
 
 	#if 1 // equality (exact) ------------------------------------------------------------------------------------------
@@ -228,7 +229,7 @@ namespace muu
 			return infinity_or_nan(*this);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (exact)
 
 	#if 1 // equality (approx) -----------------------------------------------------------------------------------------
@@ -271,7 +272,7 @@ namespace muu
 			return approx_zero(*this, epsilon);
 		}
 
-			/// @}
+				/// @}
 	#endif // equality (approx)
 
 	#if 1 // normalization --------------------------------------------------------------------------------------------
@@ -319,7 +320,7 @@ namespace muu
 			return vector_type::normalized(base::normal);
 		}
 
-			/// @}
+				/// @}
 	#endif // normalization
 
 	#if 1 // distance and projection -----------------------------------------------------------------------------------
@@ -384,7 +385,7 @@ namespace muu
 			return planes::origin(base::normal, base::d);
 		}
 
-			/// @}
+				/// @}
 	#endif // distances and projection
 
 	#if 1 // containment ------------------------------------------------------------------------------
@@ -405,7 +406,7 @@ namespace muu
 			return contains(*this, point);
 		}
 
-			/// @}
+				/// @}
 	#endif // containment
 
 	#if 1 // intersection ------------------------------------------------------------------------------
@@ -436,7 +437,7 @@ namespace muu
 			return intersects(*this, bb);
 		}
 
-			/// @}
+				/// @}
 	#endif // intersection
 
 	#if 1 // transformation -------------------------------------------------------------------
@@ -473,7 +474,7 @@ namespace muu
 			return *this = transform(*this, tx);
 		}
 
-			/// @}
+				/// @}
 	#endif // transformation
 
 	#if 1 // misc ------------------------------------------------------------------------------------------------------
@@ -623,7 +624,9 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
 
 /// \cond
-#include "impl/bounding_box_x_plane.h"
-#include "impl/plane_x_triangle.h"
 #include "impl/plane_x_line_segment.h"
+#include "impl/plane_x_triangle.h"
+#include "impl/bounding_box_x_plane.h"
 /// \endcond
+
+#endif // MUU_PLANE_H

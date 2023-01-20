@@ -478,6 +478,9 @@
     <None Include="tools\make_singles.bat">
       <Filter>tools</Filter>
     </None>
+    <None Include="include\muu\impl\.clang-format">
+      <Filter>include\impl</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="docs">

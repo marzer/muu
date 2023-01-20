@@ -202,6 +202,7 @@
     <None Include="docs\poxy.toml" />
     <None Include="docs\pages\main_page.dox" />
     <None Include="examples\meson.build" />
+    <None Include="include\muu\impl\.clang-format" />
     <None Include="LICENSE" />
     <None Include="meson.build" />
     <None Include="README.md" />
