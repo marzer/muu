@@ -86,6 +86,7 @@
                 <li><a href="#pub-attribs">Public variables</a></li>
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
+                <li><a href="#friends">Friends</a></li>
                 <li><a href="#related">Related</a></li>
               </ul>
             </li>
@@ -94,6 +95,10 @@
         <section id="pub-types">
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
+            <dt id="ac925ed315148d13e6623d12835948ff0">
+              using <a class="m-doc-self" href="#ac925ed315148d13e6623d12835948ff0">result_type</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/utility/optional.html" target="_blank">std::<wbr/>optional</a>&lt;<a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a>&gt;
+            </dt>
+            <dd>The result type returned by a raycast test.</dd>
             <dt id="ab06c3bf7895d350a2f7f55d4c049bca6">
               using <a class="m-doc-self" href="#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_type</a> = Scalar
             </dt>
@@ -204,6 +209,17 @@
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two rays are exactly equal.</dd>
+          </dl>
+        </section>
+        <section id="friends">
+          <h2><a href="#friends">Friends</a></h2>
+          <dl class="m-doc">
+            <dt id="a23e31eb3c78379af027cd8111addfcc3">
+              <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a23e31eb3c78379af027cd8111addfcc3">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
+            </dt>
+            <dd>Writes a ray out to a text stream.</dd>
           </dl>
         </section>
         <section id="related">

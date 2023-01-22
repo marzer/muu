@@ -4272,6 +4272,7 @@
     <name>ray.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>ray_8h.html</filename>
+    <includes id="plane_8h" name="plane.h" local="yes" imported="no">plane.h</includes>
     <includes id="triangle_8h" name="triangle.h" local="yes" imported="no">triangle.h</includes>
     <class kind="struct">muu::ray</class>
     <class kind="struct">std::tuple_size&lt; muu::ray&lt; Scalar &gt; &gt;</class>
@@ -12930,6 +12931,13 @@
       <anchor>a3eb68e6a2f5b24b859d5ac37589a646f</anchor>
       <arglist></arglist>
     </member>
+    <member kind="typedef">
+      <type>std::optional&lt; scalar_type &gt;</type>
+      <name>result_type</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>ac925ed315148d13e6623d12835948ff0</anchor>
+      <arglist></arglist>
+    </member>
     <member kind="function">
       <type></type>
       <name>ray</name>
@@ -12992,6 +13000,13 @@
       <anchorfile>structmuu_1_1ray.html</anchorfile>
       <anchor>a6371d228fa60a8c68d3f81e28a27e147</anchor>
       <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend std::basic_ostream&lt; Char, Traits &gt; &amp;</type>
+      <name>operator&lt;&lt;</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a23e31eb3c78379af027cd8111addfcc3</anchor>
+      <arglist>(std::basic_ostream&lt; Char, Traits &gt; &amp;os, const ray &amp;r)</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
