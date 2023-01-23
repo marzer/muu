@@ -160,6 +160,10 @@
     <ClCompile Include="..\quaternion_1.cpp" />
     <ClCompile Include="..\quaternion_2.cpp" />
     <ClCompile Include="..\quaternion_3.cpp" />
+    <ClCompile Include="..\ray_0.cpp" />
+    <ClCompile Include="..\ray_1.cpp" />
+    <ClCompile Include="..\ray_2.cpp" />
+    <ClCompile Include="..\ray_3.cpp" />
     <ClCompile Include="..\scope_guard.cpp" />
     <ClCompile Include="..\span.cpp" />
     <ClCompile Include="..\fixed_string.cpp" />
@@ -208,6 +212,7 @@
     <ClInclude Include="..\oriented_bounding_box_tests.h" />
     <ClInclude Include="..\plane_tests.h" />
     <ClInclude Include="..\quaternion_tests.h" />
+    <ClInclude Include="..\ray_tests.h" />
     <ClInclude Include="..\settings.h" />
     <ClInclude Include="..\tests.h" />
     <ClInclude Include="..\triangle_tests.h" />

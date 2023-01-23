@@ -3,8 +3,7 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 /// \cond
-#if defined(MUU_ORIENTED_BOUNDING_BOX_H) && defined(MUU_TRIANGLE_H) && !defined(MUU_ORIENTED_BOUNDING_BOX_TRIANGLE_H)
-#define MUU_ORIENTED_BOUNDING_BOX_TRIANGLE_H
+#pragma once
 
 #include "../oriented_bounding_box.h"
 #include "../triangle.h"
@@ -54,6 +53,3 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "header_end.h"
-
-#endif // MUU_ORIENTED_BOUNDING_BOX_TRIANGLE_H
-/// \endcond

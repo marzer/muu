@@ -8,8 +8,7 @@
 /// \file
 /// \brief  Contains the definition of muu::ray.
 
-#include "plane.h"
-#include "triangle.h"
+#include "impl/geometry_common.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
@@ -52,9 +51,7 @@ namespace muu
 		using base = impl::storage_base<ray<Scalar>>;
 		static_assert(sizeof(base) == (sizeof(vector_type) * 2), "Rays should not have padding");
 
-		using rays		= impl::rays_common<Scalar>;
-		using triangles = impl::triangles_common<Scalar>;
-		using planes	= impl::planes_common<Scalar>;
+		using rays = impl::rays_common<Scalar>;
 
 		using promoted_scalar				 = promote_if_small_float<scalar_type>;
 		using promoted_vec					 = vector<promoted_scalar, 3>;
@@ -208,18 +205,13 @@ namespace muu
 		// ray x plane
 		//--------------------------------
 
-		MUU_PURE_INLINE_GETTER
-		static constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(vector_type) ray_origin,
-														 MUU_VPARAM(vector_type) ray_direction,
-														 MUU_VPARAM(plane<scalar_type>) p) noexcept
-		{
-			return rays::hits_plane(ray_origin, ray_direction, p.normal, p.d);
-		}
+		MUU_PURE_GETTER
+		static constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(ray) r, MUU_VPARAM(plane<scalar_type>) p) noexcept;
 
 		MUU_PURE_INLINE_GETTER
 		constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(plane<scalar_type>) p) const noexcept
 		{
-			return rays::hits_plane(base::origin, base::direction, p.normal, p.d);
+			return hits(*this, p);
 		}
 
 		//--------------------------------
@@ -227,17 +219,13 @@ namespace muu
 		//--------------------------------
 
 		MUU_PURE_GETTER
-		static constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(vector_type) ray_origin,
-														 MUU_VPARAM(vector_type) ray_direction,
-														 MUU_VPARAM(triangle<scalar_type>) tri) noexcept
-		{
-			return rays::hits_triangle(ray_origin, ray_direction, tri[0], tri[1], tri[2]);
-		}
+		static constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(ray) r,
+														 MUU_VPARAM(triangle<scalar_type>) tri) noexcept;
 
 		MUU_PURE_INLINE_GETTER
 		constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept
 		{
-			return rays::hits_triangle(base::origin, base::direction, tri[0], tri[1], tri[2]);
+			return hits(*this, tri);
 		}
 
 				/// @}
@@ -334,5 +322,14 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
+
+/// \cond
+#ifdef MUU_PLANE_H
+	#include "impl/ray_x_plane.h"
+#endif
+#ifdef MUU_TRIANGLE_H
+	#include "impl/ray_x_triangle.h"
+#endif
+/// \endcond
 
 #endif // MUU_RAY_H

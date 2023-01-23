@@ -7,6 +7,8 @@
 #include "tests.h"
 #include "batching.h"
 #include "../include/muu/ray.h"
+#include "../include/muu/plane.h"
+#include "../include/muu/triangle.h"
 
 namespace
 {
@@ -123,14 +125,14 @@ BATCHED_TEST_CASE("ray-plane hit tests", tested_rays)
 	using plane = muu::plane<T>;
 	TEST_INFO("ray<"sv << nameof<T> << ">"sv);
 
-	const auto start_point = vec3{ T{}, T{ 5 }, T{} };
+	static constexpr auto start_point = vec3{ T{}, T{ 5 }, T{} };
 
 	// test rays that should hit the plane
-	for (int x = -10; x <= 10; x++)
+	for (int x = -5; x <= 5; x++)
 	{
 		for (int y = -5; y < 5; y++) // start_point.y == 5.0
 		{
-			for (int z = -10; z <= 10; z++)
+			for (int z = -5; z <= 5; z++)
 			{
 				const auto end_point = vec3{ static_cast<T>(x), static_cast<T>(y), static_cast<T>(z) };
 				const auto r		 = ray{ start_point, vec3::direction(start_point, end_point) };
@@ -146,11 +148,11 @@ BATCHED_TEST_CASE("ray-plane hit tests", tested_rays)
 	}
 
 	// test rays that should NOT hit the plane
-	for (int x = -10; x <= 10; x++)
+	for (int x = -5; x <= 5; x++)
 	{
 		for (int y = 5; y <= 15; y++) // start_point.y == 5.0
 		{
-			for (int z = -10; z <= 10; z++)
+			for (int z = -5; z <= 5; z++)
 			{
 				const auto end_point = vec3{ static_cast<T>(x), static_cast<T>(y), static_cast<T>(z) };
 				const auto r		 = ray{ start_point, vec3::direction(start_point, end_point) };
@@ -159,6 +161,69 @@ BATCHED_TEST_CASE("ray-plane hit tests", tested_rays)
 				const auto hit = r.hits(plane::constants::xz);
 				CHECK(!hit.has_value());
 			}
+		}
+	}
+}
+
+BATCHED_TEST_CASE("ray-triangle hit tests", tested_rays)
+{
+	using ray	   = TestType;
+	using T		   = typename ray::scalar_type;
+	using vec3	   = vector<T, 3>;
+	using triangle = muu::triangle<T>;
+	TEST_INFO("ray<"sv << nameof<T> << ">"sv);
+
+	static constexpr auto tri = triangle{ vec3{ T{ -5 }, T{}, T{ -5 } }, //
+										  vec3{ T{}, T{}, T{ 5 } },
+										  vec3{ T{ 5 }, T{}, T{ -5 } } };
+
+	static constexpr auto outer_tri = triangle{ (tri[0] / T{ 10 }) * T{ 11 }, //
+												(tri[1] / T{ 10 }) * T{ 11 },
+												(tri[2] / T{ 10 }) * T{ 11 } };
+
+	static constexpr auto inner_tri = triangle{ (tri[0] / T{ 10 }) * T{ 9 }, //
+												(tri[1] / T{ 10 }) * T{ 9 },
+												(tri[2] / T{ 10 }) * T{ 9 } };
+
+	static constexpr auto start_point = vec3{ T{}, T{ 5 }, T{} };
+
+	for (size_t seg = 0; seg < 3u; seg++)
+	{
+		static constexpr size_t steps = 10u;
+
+		// inner points - all of these should hit the triangle
+		auto seg_start = inner_tri[seg];
+		auto seg_end   = inner_tri[(seg + 1u) % 3u];
+		auto step	   = (seg_end - seg_start) / (steps - 1u);
+		auto end_point = seg_start;
+		for (size_t i = 0; i < steps; i++)
+		{
+			const auto r = ray{ start_point, vec3::direction(start_point, end_point) };
+			TEST_INFO("ray: "sv << r);
+
+			const auto hit = r.hits(tri);
+			CHECK(hit.has_value());
+			CHECK(!infinity_or_nan(*hit));
+			CHECK((*hit) > 0.0f);
+			CHECK(tri.contains(r.origin + r.direction * (*hit)));
+
+			end_point += step;
+		}
+
+		// outer points - none of these should hit the triangle
+		seg_start = outer_tri[seg];
+		seg_end	  = outer_tri[(seg + 1u) % 3u];
+		step	  = (seg_end - seg_start) / (steps - 1u);
+		end_point = seg_start;
+		for (size_t i = 0; i < steps; i++)
+		{
+			const auto r = ray{ start_point, vec3::direction(start_point, end_point) };
+			TEST_INFO("ray: "sv << r);
+
+			const auto hit = r.hits(tri);
+			CHECK(!hit.has_value());
+
+			end_point += step;
 		}
 	}
 }

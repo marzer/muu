@@ -3,8 +3,7 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 /// \cond
-#if defined(MUU_PLANE_H) && defined(MUU_TRIANGLE_H) && !defined(MUU_PLANE_TRIANGLE_H)
-#define MUU_PLANE_TRIANGLE_H
+#pragma once
 
 #include "../plane.h"
 #include "../triangle.h"
@@ -44,6 +43,3 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "header_end.h"
-
-#endif // MUU_PLANE_TRIANGLE_H
-/// \endcond

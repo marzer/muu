@@ -624,9 +624,18 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
 
 /// \cond
-#include "impl/plane_x_line_segment.h"
-#include "impl/plane_x_triangle.h"
-#include "impl/bounding_box_x_plane.h"
+#ifdef MUU_LINE_SEGMENT_H
+	#include "impl/plane_x_line_segment.h"
+#endif
+#ifdef MUU_TRIANGLE_H
+	#include "impl/plane_x_triangle.h"
+#endif
+#ifdef MUU_BOUNDING_BOX_H
+	#include "impl/bounding_box_x_plane.h"
+#endif
+#ifdef MUU_RAY_H
+	#include "impl/ray_x_plane.h"
+#endif
 /// \endcond
 
 #endif // MUU_PLANE_H

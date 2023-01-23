@@ -3,8 +3,7 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 /// \cond
-#if defined(MUU_TRIANGLE_H) && defined(MUU_LINE_SEGMENT_H) && !defined(MUU_TRIANGLE_LINE_SEGMENT_H)
-#define MUU_TRIANGLE_LINE_SEGMENT_H
+#pragma once
 
 #include "../triangle.h"
 #include "../line_segment.h"
@@ -39,6 +38,3 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "header_end.h"
-
-#endif // MUU_TRIANGLE_LINE_SEGMENT_H
-/// \endcond

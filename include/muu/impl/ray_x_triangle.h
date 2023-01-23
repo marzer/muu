@@ -5,42 +5,35 @@
 /// \cond
 #pragma once
 
-#include "../oriented_bounding_box.h"
-#include "../bounding_sphere.h"
+#include "../ray.h"
+#include "../triangle.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
 
 //----------------------------------------------------------------------------------------------------------------------
-// oriented_bounding_box.h implementations
-//----------------------------------------------------------------------------------------------------------------------
-
-namespace muu
-{
-	template <typename Scalar>
-	MUU_PURE_GETTER
-	constexpr bool MUU_VECTORCALL oriented_bounding_box<Scalar>::intersects(MUU_VPARAM(oriented_bounding_box) bb,
-																			MUU_VPARAM(bounding_sphere<Scalar>)
-																				bs) noexcept
-	{
-		return vector_type::distance_squared(bb.closest_point(bs.center), bs.center) <= bs.radius * bs.radius;
-	}
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-// bounding_sphere.h implementations
+// ray.h implementations
 //----------------------------------------------------------------------------------------------------------------------
 
 namespace muu
 {
 	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
-	constexpr bool MUU_VECTORCALL bounding_sphere<Scalar>::intersects(MUU_VPARAM(bounding_sphere) bs,
-																	  MUU_VPARAM(oriented_bounding_box<scalar_type>)
-																		  bb) noexcept
+	constexpr typename ray<Scalar>::result_type MUU_VECTORCALL ray<Scalar>::hits(MUU_VPARAM(ray) r,
+																				 MUU_VPARAM(triangle<Scalar>)
+																					 tri) noexcept
 	{
-		return oriented_bounding_box<Scalar>::intersects(bb, bs);
+		return rays::hits_triangle(r.origin, r.direction, tri[0], tri[1], tri[2]);
 	}
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// triangle.h implementations
+//----------------------------------------------------------------------------------------------------------------------
+
+namespace muu
+{
+
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;

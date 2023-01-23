@@ -853,11 +853,21 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
 
 /// \cond
-#include "impl/plane_x_line_segment.h"
-#include "impl/triangle_x_line_segment.h"
-#include "impl/bounding_sphere_x_line_segment.h"
-#include "impl/bounding_box_x_line_segment.h"
-#include "impl/oriented_bounding_box_x_line_segment.h"
+#ifdef MUU_PLANE_H
+	#include "impl/plane_x_line_segment.h"
+#endif
+#ifdef MUU_TRIANGLE_H
+	#include "impl/triangle_x_line_segment.h"
+#endif
+#ifdef MUU_BOUNDING_SPHERE_H
+	#include "impl/bounding_sphere_x_line_segment.h"
+#endif
+#ifdef MUU_BOUNDING_BOX_H
+	#include "impl/bounding_box_x_line_segment.h"
+#endif
+#ifdef MUU_ORIENTED_BOUNDING_BOX_H
+	#include "impl/oriented_bounding_box_x_line_segment.h"
+#endif
 /// \endcond
 
 #endif // MUU_LINE_SEGMENT_H
