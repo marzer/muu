@@ -4272,8 +4272,6 @@
     <name>ray.h</name>
     <path>/__w/muu/muu/include/muu/</path>
     <filename>ray_8h.html</filename>
-    <includes id="plane_8h" name="plane.h" local="yes" imported="no">plane.h</includes>
-    <includes id="triangle_8h" name="triangle.h" local="yes" imported="no">triangle.h</includes>
     <class kind="struct">muu::ray</class>
     <class kind="struct">std::tuple_size&lt; muu::ray&lt; Scalar &gt; &gt;</class>
     <class kind="struct">std::tuple_element&lt; P, muu::ray&lt; Scalar &gt; &gt;</class>
