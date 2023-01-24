@@ -3,8 +3,8 @@
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
 #pragma once
-/// \cond
 
+/// \cond
 #include "../quaternion.h"
 #include "../matrix.h"
 #include "header_start.h"

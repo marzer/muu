@@ -553,6 +553,17 @@ namespace muu
 		// triangle x triangle
 		//--------------------------------
 
+		/// \brief	Returns true if two triangles intersect.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle) tri1, MUU_VPARAM(triangle) tri2) noexcept;
+
+		/// \brief	Returns true a triangle intersects with another triangle.
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle) tri) const noexcept
+		{
+			return intersects(*this, tri);
+		}
+
 		//--------------------------------
 		// triangle x sphere
 		//--------------------------------
@@ -959,6 +970,7 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"
 
 /// \cond
+#include "impl/tri_tri_intersection.h"
 #ifdef MUU_LINE_SEGMENT_H
 	#include "impl/triangle_x_line_segment.h"
 #endif

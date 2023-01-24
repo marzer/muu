@@ -389,6 +389,9 @@
     <ClInclude Include="include\muu\impl\ray_x_triangle.h">
       <Filter>include\impl</Filter>
     </ClInclude>
+    <ClInclude Include="include\muu\impl\tri_tri_intersection.h">
+      <Filter>include\impl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

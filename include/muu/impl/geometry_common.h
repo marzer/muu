@@ -1029,16 +1029,31 @@ namespace muu::impl
 		{
 			MUU_FMA_BLOCK;
 
-			const auto normal		= triangles::normal(p0, p1, p2);
-			const auto hit_distance = hits_plane(ray_origin, ray_direction, normal, planes::d_term(p0, normal));
-			if (hit_distance)
-			{
-				const auto bary = triangles::barycentric(p0, p1, p2, ray_origin + ray_direction * (*hit_distance));
-				if (bary.x >= scalar_type{} && bary.y >= scalar_type{} && bary.z >= scalar_type{})
-					return hit_distance;
-			}
+			// this is an implementation of the Möller-Trumbore intersection algorithm:
+			// https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
 
-			return {};
+			vector_type v0v1 = p1 - p0;
+			vector_type v0v2 = p2 - p0;
+			vector_type pvec = vector_type::cross(ray_direction, v0v2);
+			scalar_type det	 = vector_type::dot(v0v1, pvec);
+
+			// ray and triangle are parallel if det is close to 0
+			if (muu::abs(det) < default_epsilon<scalar_type>)
+				return {};
+
+			const auto invDet = scalar_type{ 1 } / det;
+
+			vector_type tvec = ray_origin - p0;
+			scalar_type u	 = vector_type::dot(tvec, pvec) * invDet;
+			if (u < scalar_type{} || u > scalar_type{ 1 })
+				return {};
+
+			vector_type qvec = vector_type::cross(tvec, v0v1);
+			scalar_type v	 = vector_type::dot(ray_direction, qvec) * invDet;
+			if (v < scalar_type{} || u + v > scalar_type{ 1 })
+				return {};
+
+			return vector_type::dot(v0v2, qvec) * invDet;
 		}
 	};
 }

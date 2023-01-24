@@ -2,9 +2,9 @@
 // Copyright (c) Mark Gillard <mark.gillard@outlook.com.au>
 // See https://github.com/marzer/muu/blob/master/LICENSE for the full license text.
 // SPDX-License-Identifier: MIT
-/// \cond
 #pragma once
 
+/// \cond
 #include "../bounding_box.h"
 #include "../triangle.h"
 #include "header_start.h"
@@ -94,3 +94,4 @@ namespace muu
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "header_end.h"
+/// \endcond

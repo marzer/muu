@@ -248,8 +248,8 @@ namespace muu
 
 	/// \cond
 
-	template <typename T1, typename T2, typename T3>
-	ray(vector<T1, 3>, vector<T2, 3>) -> ray<impl::highest_ranked<T1, T2, T3>>;
+	template <typename T1, typename T2>
+	ray(vector<T1, 3>, vector<T2, 3>) -> ray<impl::highest_ranked<T1, T2>>;
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<X1, Y1, Z1, X2, Y2, Z2>),
 							 typename X1,

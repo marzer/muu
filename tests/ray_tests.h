@@ -192,10 +192,8 @@ BATCHED_TEST_CASE("ray-triangle hit tests", tested_rays)
 		static constexpr size_t steps = 10u;
 
 		// inner points - all of these should hit the triangle
-		auto seg_start = inner_tri[seg];
-		auto seg_end   = inner_tri[(seg + 1u) % 3u];
-		auto step	   = (seg_end - seg_start) / (steps - 1u);
-		auto end_point = seg_start;
+		auto end_point = inner_tri[seg];
+		auto step	   = (inner_tri[(seg + 1u) % 3u] - end_point) / (steps - 1u);
 		for (size_t i = 0; i < steps; i++)
 		{
 			const auto r = ray{ start_point, vec3::direction(start_point, end_point) };
@@ -211,10 +209,8 @@ BATCHED_TEST_CASE("ray-triangle hit tests", tested_rays)
 		}
 
 		// outer points - none of these should hit the triangle
-		seg_start = outer_tri[seg];
-		seg_end	  = outer_tri[(seg + 1u) % 3u];
-		step	  = (seg_end - seg_start) / (steps - 1u);
-		end_point = seg_start;
+		end_point = outer_tri[seg];
+		step	  = (outer_tri[(seg + 1u) % 3u] - end_point) / (steps - 1u);
 		for (size_t i = 0; i < steps; i++)
 		{
 			const auto r = ray{ start_point, vec3::direction(start_point, end_point) };
