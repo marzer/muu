@@ -15826,6 +15826,13 @@
       <type>constexpr bool</type>
       <name>intersects</name>
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ad0ca2f9c1ae222a1c456a3a434ac7354</anchor>
+      <arglist>(const triangle &amp;tri) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
       <anchor>a9f31e1488c5b7d6bd037b127ae3bd06c</anchor>
       <arglist>(const bounding_sphere&lt; scalar_type &gt; &amp;bs) const noexcept</arglist>
     </member>
@@ -15884,6 +15891,13 @@
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
       <anchor>aa27122b3dc73cf9e509dacd02c0264a6</anchor>
       <arglist>(const triangle &amp;tri, const line_segment&lt; scalar_type &gt; &amp;seg, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>ad8d8110481f1044342c8571cea0a1221</anchor>
+      <arglist>(const triangle &amp;tri1, const triangle &amp;tri2) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
