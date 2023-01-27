@@ -394,16 +394,19 @@ namespace muu
 
 		/// \brief	Returns true if a plane contains a point.
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(plane) p, MUU_VPARAM(vector_type) point) noexcept
+		static constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(plane) p,
+													  MUU_VPARAM(vector_type) point,
+													  scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-			return planes::contains_point(p.normal, p.d, point);
+			return planes::contains_point(p.normal, p.d, point, epsilon);
 		}
 
 		/// \brief	Returns true if the plane contains a point.
 		MUU_PURE_GETTER
-		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point) const noexcept
+		constexpr bool MUU_VECTORCALL contains(MUU_VPARAM(vector_type) point,
+											   scalar_type epsilon = default_epsilon<scalar_type>) const noexcept
 		{
-			return contains(*this, point);
+			return contains(*this, point, epsilon);
 		}
 
 				/// @}

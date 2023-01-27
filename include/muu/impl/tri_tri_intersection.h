@@ -6,6 +6,7 @@
 
 /// \cond
 #include "../triangle.h"
+#include "../line_segment.h"
 #include "header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 MUU_PRAGMA_MSVC(float_control(except, off))
@@ -179,6 +180,49 @@ namespace muu::impl
 		static constexpr auto EPSILON = default_epsilon<scalar_type>;
 
 		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL coplanar_tri_tri(vector_param N,
+															  vector_param V0,
+															  vector_param V1,
+															  vector_param V2,
+															  vector_param U0,
+															  vector_param U1,
+															  vector_param U2) noexcept
+		{
+			unsigned i0{};
+			unsigned i1{};
+			const vector_type A = vector_type::abs(N);
+
+			if (A[0] > A[1])
+			{
+				if (A[0] > A[2])
+				{
+					i0 = 1;
+					i1 = 2;
+				}
+				else
+					i1 = 1;
+			}
+			else
+			{
+				if (A[2] > A[1])
+					i1 = 1;
+				else
+					i1 = 2;
+			}
+
+			/* test all edges of triangle 1 against the edges of triangle 2 */
+			MUU_TRITRI_EDGE_AGAINST_TRI_EDGES(V0, V1, U0, U1, U2);
+			MUU_TRITRI_EDGE_AGAINST_TRI_EDGES(V1, V2, U0, U1, U2);
+			MUU_TRITRI_EDGE_AGAINST_TRI_EDGES(V2, V0, U0, U1, U2);
+
+			/* finally, test if tri1 is totally contained in tri2 or vice versa */
+			MUU_TRITRI_POINT_IN_TRI(V0, U0, U1, U2);
+			MUU_TRITRI_POINT_IN_TRI(U0, V0, V1, V2);
+
+			return false;
+		}
+
+		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(vector_param V0,
 														vector_param V1,
 														vector_param V2,
@@ -186,14 +230,14 @@ namespace muu::impl
 														vector_param U1,
 														vector_param U2) noexcept
 		{
-			const auto E1 = V1 - V0;
-			const auto E2 = V2 - V0;
+			auto E1		  = V1 - V0;
+			auto E2		  = V2 - V0;
 			const auto N1 = vector_type::cross(E1, E2);
 			const auto d1 = -vector_type::dot(N1, V0);
 
-			const auto du0 = vector_type::dot(N1, U0) + d1;
-			const auto du1 = vector_type::dot(N1, U1) + d1;
-			const auto du2 = vector_type::dot(N1, U2) + d1;
+			auto du0 = vector_type::dot(N1, U0) + d1;
+			auto du1 = vector_type::dot(N1, U1) + d1;
+			auto du2 = vector_type::dot(N1, U2) + d1;
 			if (muu::abs(du0) < EPSILON)
 				du0 = scalar_type{};
 			if (muu::abs(du1) < EPSILON)
@@ -210,9 +254,9 @@ namespace muu::impl
 			const auto N2 = vector_type::cross(E1, E2);
 			const auto d2 = -vector_type::dot(N2, U0);
 
-			const auto dv0 = vector_type::dot(N2, V0) + d2;
-			const auto dv1 = vector_type::dot(N2, V1) + d2;
-			const auto dv2 = vector_type::dot(N2, V2) + d2;
+			auto dv0 = vector_type::dot(N2, V0) + d2;
+			auto dv1 = vector_type::dot(N2, V1) + d2;
+			auto dv2 = vector_type::dot(N2, V2) + d2;
 			if (muu::abs(dv0) < EPSILON)
 				dv0 = scalar_type{};
 			if (muu::abs(dv1) < EPSILON)
@@ -242,7 +286,6 @@ namespace muu::impl
 			const auto vp0 = V0[index];
 			const auto vp1 = V1[index];
 			const auto vp2 = V2[index];
-
 			const auto up0 = U0[index];
 			const auto up1 = U1[index];
 			const auto up2 = U2[index];
@@ -272,304 +315,221 @@ namespace muu::impl
 			return true;
 		}
 
-#if 0
+		static constexpr void isect2(vector_param VTX0,
+									 vector_param VTX1,
+									 vector_param VTX2,
+									 scalar_type VV0,
+									 scalar_type VV1,
+									 scalar_type VV2,
+									 scalar_type D0,
+									 scalar_type D1,
+									 scalar_type D2,
+									 scalar_type& isect0,
+									 scalar_type& isect1,
+									 vector_type& isectpoint0,
+									 vector_type& isectpoint1)
+		{
+			scalar_type tmp = D0 / (D0 - D1);
+			vector_type diff;
+			isect0		= VV0 + (VV1 - VV0) * tmp;
+			diff		= VTX1 - VTX0;
+			diff		= tmp * diff;
+			isectpoint0 = diff + VTX0;
+			tmp			= D0 / (D0 - D2);
+			isect1		= VV0 + (VV2 - VV0) * tmp;
+			diff		= VTX2 - VTX0;
+			diff		= tmp * diff;
+			isectpoint1 = VTX0 + diff;
+		}
 
 		MUU_PURE_GETTER
-		static constexpr bool MUU_VECTORCALL coplanar_tri_tri(vector_param N,
-															  vector_param V0,
-															  vector_param V1,
-															  vector_param V2,
-															  vector_param U0,
-															  vector_param U1,
-															  vector_param U2) noexcept
+		static constexpr bool compute_intervals_isectline(vector_param VERT0,
+														  vector_param VERT1,
+														  vector_param VERT2,
+														  scalar_type VV0,
+														  scalar_type VV1,
+														  scalar_type VV2,
+														  scalar_type D0,
+														  scalar_type D1,
+														  scalar_type D2,
+														  scalar_type D0D1,
+														  scalar_type D0D2,
+														  scalar_type& isect0,
+														  scalar_type& isect1,
+														  vector_type& isectpoint0,
+														  vector_type& isectpoint1)
 		{
-			unsigned i0, i1;
-			const vector_type A = vector_type::abs(N);
-			if (A[0] > A[1])
-			{
-				if (A[0] > A[2])
-				{
-					i0 = 1; /* A[0] is greatest */
-					i1 = 2;
-				}
-				else
-				{
-					i0 = 0; /* A[2] is greatest */
-					i1 = 1;
-				}
-			}
-			else /* A[0]<=A[1] */
-			{
-				if (A[2] > A[1])
-				{
-					i0 = 0; /* A[2] is greatest */
-					i1 = 1;
-				}
-				else
-				{
-					i0 = 0; /* A[1] is greatest */
-					i1 = 2;
-				}
-			}
-
-			/* test all edges of triangle 1 against the edges of triangle 2 */
-			MUU_TRITRI_EDGE_AGAINST_TRI_EDGES(V0, V1, U0, U1, U2);
-			MUU_TRITRI_EDGE_AGAINST_TRI_EDGES(V1, V2, U0, U1, U2);
-			MUU_TRITRI_EDGE_AGAINST_TRI_EDGES(V2, V0, U0, U1, U2);
-
-			/* finally, test if tri1 is totally contained in tri2 or vice versa */
-			MUU_TRITRI_POINT_IN_TRI(V0, U0, U1, U2);
-			MUU_TRITRI_POINT_IN_TRI(U0, V0, V1, V2);
+			if (D0D1 > scalar_type{})
+				isect2(VERT2, VERT0, VERT1, VV2, VV0, VV1, D2, D0, D1, isect0, isect1, isectpoint0, isectpoint1);
+			else if (D0D2 > scalar_type{})
+				isect2(VERT1, VERT0, VERT2, VV1, VV0, VV2, D1, D0, D2, isect0, isect1, isectpoint0, isectpoint1);
+			else if (D1 * D2 > scalar_type{} || D0 != scalar_type{})
+				isect2(VERT0, VERT1, VERT2, VV0, VV1, VV2, D0, D1, D2, isect0, isect1, isectpoint0, isectpoint1);
+			else if (D1 != scalar_type{})
+				isect2(VERT1, VERT0, VERT2, VV1, VV0, VV2, D1, D0, D2, isect0, isect1, isectpoint0, isectpoint1);
+			else if (D2 != scalar_type{})
+				isect2(VERT2, VERT0, VERT1, VV2, VV0, VV1, D2, D0, D1, isect0, isect1, isectpoint0, isectpoint1);
+			else
+				return true;
 
 			return false;
 		}
 
-		inline void isect2(float VTX0[3],
-			float VTX1[3],
-			float VTX2[3],
-			float VV0,
-			float VV1,
-			float VV2,
-			float D0,
-			float D1,
-			float D2,
-			float* isect0,
-			float* isect1,
-			float isectpoint0[3],
-			float isectpoint1[3])
+		MUU_PURE_GETTER
+		static constexpr bool intersects(vector_param V0,
+										 vector_param V1,
+										 vector_param V2,
+										 vector_param U0,
+										 vector_param U1,
+										 vector_param U2,
+										 std::optional<line_segment<Scalar>>& seg) noexcept
 		{
-			float tmp = D0 / (D0 - D1);
-			float diff[3];
-			*isect0 = VV0 + (VV1 - VV0) * tmp;
-			diff = VTX1 - VTX0;
-			diff = tmp * diff;
-			isectpoint0 = diff + VTX0;
-			tmp = D0 / (D0 - D2);
-			*isect1 = VV0 + (VV2 - VV0) * tmp;
-			diff = VTX2 - VTX0;
-			diff = tmp * diff;
-			isectpoint1 = VTX0 + diff;
-		}
+			seg.reset();
 
-		inline int compute_intervals_isectline(float VERT0[3],
-			float VERT1[3],
-			float VERT2[3],
-			float VV0,
-			float VV1,
-			float VV2,
-			float D0,
-			float D1,
-			float D2,
-			float D0D1,
-			float D0D2,
-			float* isect0,
-			float* isect1,
-			float isectpoint0[3],
-			float isectpoint1[3])
-		{
-			if (D0D1 > 0.0f)
-			{
-				/* here we know that D0D2<=0.0 */
-				/* that is D0, D1 are on the same side, D2 on the other or on the plane */
-				isect2(VERT2, VERT0, VERT1, VV2, VV0, VV1, D2, D0, D1, isect0, isect1, isectpoint0, isectpoint1);
-			}
-			else if (D0D2 > 0.0f)
-			{
-				/* here we know that d0d1<=0.0 */
-				isect2(VERT1, VERT0, VERT2, VV1, VV0, VV2, D1, D0, D2, isect0, isect1, isectpoint0, isectpoint1);
-			}
-			else if (D1 * D2 > 0.0f || D0 != 0.0f)
-			{
-				/* here we know that d0d1<=0.0 or that D0!=0.0 */
-				isect2(VERT0, VERT1, VERT2, VV0, VV1, VV2, D0, D1, D2, isect0, isect1, isectpoint0, isectpoint1);
-			}
-			else if (D1 != 0.0f)
-			{
-				isect2(VERT1, VERT0, VERT2, VV1, VV0, VV2, D1, D0, D2, isect0, isect1, isectpoint0, isectpoint1);
-			}
-			else if (D2 != 0.0f)
-			{
-				isect2(VERT2, VERT0, VERT1, VV2, VV0, VV1, D2, D0, D1, isect0, isect1, isectpoint0, isectpoint1);
-			}
-			else
-			{
-				/* triangles are coplanar */
-				return 1;
-			}
-			return 0;
-		}
+			auto E1		  = V1 - V0;
+			auto E2		  = V2 - V0;
+			const auto N1 = vector_type::cross(E1, E2);
+			const auto d1 = -vector_type::dot(N1, V0);
 
-		int tri_tri_intersect_with_isectline(float V0[3],
-			float V1[3],
-			float V2[3],
-			float U0[3],
-			float U1[3],
-			float U2[3],
-			int* coplanar,
-			float isectpt1[3],
-			float isectpt2[3])
-		{
-			float E1[3], E2[3];
-			float N1[3], N2[3], d1, d2;
-			float du0, du1, du2, dv0, dv1, dv2;
-			float D[3];
-			float isect1[2], isect2[2];
-			float isectpointA1[3], isectpointA2[3];
-			float isectpointB1[3], isectpointB2[3];
-			float du0du1, du0du2, dv0dv1, dv0dv2;
-			short index;
-			float vp0, vp1, vp2;
-			float up0, up1, up2;
-			float b, c, max;
-			float tmp, diff[3];
-			int smallest1, smallest2;
-
-			/* compute plane equation of triangle(V0,V1,V2) */
-			E1 = V1 - V0;
-			E2 = V2 - V0;
-			N1 = vector_type::cross(E1, E2);
-			d1 = -vector_type::dot(N1, V0);
-			/* plane equation 1: N1.X+d1=0 */
-
-			/* put U0,U1,U2 into plane equation 1 to compute signed distances to the plane*/
-			du0 = vector_type::dot(N1, U0) + d1;
-			du1 = vector_type::dot(N1, U1) + d1;
-			du2 = vector_type::dot(N1, U2) + d1;
-
-			/* coplanarity robustness check */
+			auto du0 = vector_type::dot(N1, U0) + d1;
+			auto du1 = vector_type::dot(N1, U1) + d1;
+			auto du2 = vector_type::dot(N1, U2) + d1;
 			if (muu::abs(du0) < EPSILON)
-				du0 = 0.0;
+				du0 = scalar_type{};
 			if (muu::abs(du1) < EPSILON)
-				du1 = 0.0;
+				du1 = scalar_type{};
 			if (muu::abs(du2) < EPSILON)
-				du2 = 0.0;
-			du0du1 = du0 * du1;
-			du0du2 = du0 * du2;
+				du2 = scalar_type{};
+			const auto du0du1 = du0 * du1;
+			const auto du0du2 = du0 * du2;
 
-			if (du0du1 > 0.0f && du0du2 > 0.0f) /* same sign on all of them + not equal 0 ? */
-				return 0;						/* no intersection occurs */
+			if (du0du1 > scalar_type{} && du0du2 > scalar_type{})
+				return false;
 
-			/* compute plane of triangle (U0,U1,U2) */
-			E1 = U1 - U0;
-			E2 = U2 - U0;
-			N2 = vector_type::cross(E1, E2);
-			d2 = -vector_type::dot(N2, U0);
-			/* plane equation 2: N2.X+d2=0 */
+			E1			  = U1 - U0;
+			E2			  = U2 - U0;
+			const auto N2 = vector_type::cross(E1, E2);
+			const auto d2 = -vector_type::dot(N2, U0);
 
-			/* put V0,V1,V2 into plane equation 2 */
-			dv0 = vector_type::dot(N2, V0) + d2;
-			dv1 = vector_type::dot(N2, V1) + d2;
-			dv2 = vector_type::dot(N2, V2) + d2;
+			auto dv0 = vector_type::dot(N2, V0) + d2;
+			auto dv1 = vector_type::dot(N2, V1) + d2;
+			auto dv2 = vector_type::dot(N2, V2) + d2;
 			if (muu::abs(dv0) < EPSILON)
-				dv0 = 0.0;
+				dv0 = scalar_type{};
 			if (muu::abs(dv1) < EPSILON)
-				dv1 = 0.0;
+				dv1 = scalar_type{};
 			if (muu::abs(dv2) < EPSILON)
-				dv2 = 0.0;
+				dv2 = scalar_type{};
+			const auto dv0dv1 = dv0 * dv1;
+			const auto dv0dv2 = dv0 * dv2;
+			if (dv0dv1 > scalar_type{} && dv0dv2 > scalar_type{})
+				return false;
 
-			dv0dv1 = dv0 * dv1;
-			dv0dv2 = dv0 * dv2;
+			const auto D = vector_type::cross(N1, N2);
 
-			if (dv0dv1 > 0.0f && dv0dv2 > 0.0f) /* same sign on all of them + not equal 0 ? */
-				return 0;						/* no intersection occurs */
+			unsigned index = {};
+			auto max	   = muu::abs(D[0]);
+			if (const auto new_max = muu::abs(D[1]); new_max > max)
+			{
+				max	  = new_max;
+				index = 1;
+			}
+			if (const auto new_max = muu::abs(D[2]); new_max > max)
+			{
+				max	  = new_max;
+				index = 2;
+			}
 
-			/* compute direction of intersection line */
-			D = vector_type::cross(N1, N2);
+			const auto vp0 = V0[index];
+			const auto vp1 = V1[index];
+			const auto vp2 = V2[index];
+			const auto up0 = U0[index];
+			const auto up1 = U1[index];
+			const auto up2 = U2[index];
 
-			/* compute and index to the largest component of D */
-			max = muu::abs(D[0]);
-			index = 0;
-			b = muu::abs(D[1]);
-			c = muu::abs(D[2]);
-			if (b > max)
-				max = b, index = 1;
-			if (c > max)
-				max = c, index = 2;
-
-			/* this is the simplified projection onto L*/
-			vp0 = V0[index];
-			vp1 = V1[index];
-			vp2 = V2[index];
-
-			up0 = U0[index];
-			up1 = U1[index];
-			up2 = U2[index];
-
-			/* compute interval for triangle 1 */
-			*coplanar = compute_intervals_isectline(V0,
-				V1,
-				V2,
-				vp0,
-				vp1,
-				vp2,
-				dv0,
-				dv1,
-				dv2,
-				dv0dv1,
-				dv0dv2,
-				&isect1[0],
-				&isect1[1],
-				isectpointA1,
-				isectpointA2);
-			if (*coplanar)
+			scalar_type isect1[2];
+			vector_type isectpointA1;
+			vector_type isectpointA2;
+			if (compute_intervals_isectline(V0,
+											V1,
+											V2,
+											vp0,
+											vp1,
+											vp2,
+											dv0,
+											dv1,
+											dv2,
+											dv0dv1,
+											dv0dv2,
+											isect1[0],
+											isect1[1],
+											isectpointA1,
+											isectpointA2))
+			{
 				return coplanar_tri_tri(N1, V0, V1, V2, U0, U1, U2);
+			}
 
-			/* compute interval for triangle 2 */
+			scalar_type isect2[2];
+			vector_type isectpointB1;
+			vector_type isectpointB2;
 			compute_intervals_isectline(U0,
-				U1,
-				U2,
-				up0,
-				up1,
-				up2,
-				du0,
-				du1,
-				du2,
-				du0du1,
-				du0du2,
-				&isect2[0],
-				&isect2[1],
-				isectpointB1,
-				isectpointB2);
+										U1,
+										U2,
+										up0,
+										up1,
+										up2,
+										du0,
+										du1,
+										du2,
+										du0du1,
+										du0du2,
+										isect2[0],
+										isect2[1],
+										isectpointB1,
+										isectpointB2);
 
+			unsigned smallest1{};
+			unsigned smallest2{};
 			MUU_TRITRI_SORT2(isect1[0], isect1[1], smallest1);
 			MUU_TRITRI_SORT2(isect2[0], isect2[1], smallest2);
 
 			if (isect1[1] < isect2[0] || isect2[1] < isect1[0])
-				return 0;
+				return false;
 
 			/* at this point, we know that the triangles intersect */
 
+			seg.emplace();
 			if (isect2[0] < isect1[0])
 			{
 				if (smallest1 == 0)
 				{
-					isectpt1 = isectpointA1;
+					seg->points[0] = isectpointA1;
 				}
 				else
 				{
-					isectpt1 = isectpointA2;
+					seg->points[0] = isectpointA2;
 				}
 
 				if (isect2[1] < isect1[1])
 				{
 					if (smallest2 == 0)
 					{
-						isectpt2 = isectpointB2;
+						seg->points[1] = isectpointB2;
 					}
 					else
 					{
-						isectpt2 = isectpointB1;
+						seg->points[1] = isectpointB1;
 					}
 				}
 				else
 				{
 					if (smallest1 == 0)
 					{
-						isectpt2 = isectpointA2;
+						seg->points[1] = isectpointA2;
 					}
 					else
 					{
-						isectpt2 = isectpointA1;
+						seg->points[1] = isectpointA1;
 					}
 				}
 			}
@@ -577,40 +537,39 @@ namespace muu::impl
 			{
 				if (smallest2 == 0)
 				{
-					isectpt1 = isectpointB1;
+					seg->points[0] = isectpointB1;
 				}
 				else
 				{
-					isectpt1 = isectpointB2;
+					seg->points[0] = isectpointB2;
 				}
 
 				if (isect2[1] > isect1[1])
 				{
 					if (smallest1 == 0)
 					{
-						isectpt2 = isectpointA2;
+						seg->points[1] = isectpointA2;
 					}
 					else
 					{
-						isectpt2 = isectpointA1;
+						seg->points[1] = isectpointA1;
 					}
 				}
 				else
 				{
 					if (smallest2 == 0)
 					{
-						isectpt2 = isectpointB2;
+						seg->points[1] = isectpointB2;
 					}
 					else
 					{
-						isectpt2 = isectpointB1;
+						seg->points[1] = isectpointB1;
 					}
 				}
 			}
-			return 1;
-		}
 
-#endif
+			return true;
+		}
 	};
 }
 
@@ -627,6 +586,21 @@ namespace muu
 																	 tri2[0],
 																	 tri2[1],
 																	 tri2[2]);
+	}
+
+	template <typename Scalar>
+	MUU_PURE_GETTER
+	constexpr bool MUU_VECTORCALL triangle<Scalar>::intersects(MUU_VPARAM(triangle) tri1,
+															   MUU_VPARAM(triangle) tri2,
+															   std::optional<line_segment<Scalar>>& seg) noexcept
+	{
+		return impl::tri_tri_intersection_tester<Scalar>::intersects(tri1[0],
+																	 tri1[1],
+																	 tri1[2],
+																	 tri2[0],
+																	 tri2[1],
+																	 tri2[2],
+																	 seg);
 	}
 }
 

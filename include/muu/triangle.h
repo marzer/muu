@@ -8,6 +8,7 @@
 /// \file
 /// \brief  Contains the definition of muu::triangle.
 
+#include "impl/std_optional.h"
 #include "impl/geometry_common.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
@@ -553,11 +554,25 @@ namespace muu
 		// triangle x triangle
 		//--------------------------------
 
+		/// \brief	Returns true if two triangles intersect, plus the line segment of the intersection (if one exists).
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle) tri1,
+														MUU_VPARAM(triangle) tri2,
+														std::optional<line_segment<scalar_type>>& seg) noexcept;
+
+		/// \brief	Returns true if a triangle intersects with another triangle, plus the line segment of the intersection (if one exists).
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle) tri,
+												 std::optional<line_segment<scalar_type>>& seg) const noexcept
+		{
+			return intersects(*this, tri, seg);
+		}
+
 		/// \brief	Returns true if two triangles intersect.
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle) tri1, MUU_VPARAM(triangle) tri2) noexcept;
 
-		/// \brief	Returns true a triangle intersects with another triangle.
+		/// \brief	Returns true if a triangle intersects with another triangle.
 		MUU_PURE_INLINE_GETTER
 		constexpr bool MUU_VECTORCALL intersects(MUU_VPARAM(triangle) tri) const noexcept
 		{
