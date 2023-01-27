@@ -12357,15 +12357,15 @@
       <type>constexpr bool</type>
       <name>contains</name>
       <anchorfile>structmuu_1_1plane.html</anchorfile>
-      <anchor>a0cac5c4810799635509c6c81c1a46a0d</anchor>
-      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+      <anchor>aa125ab116d57e05b4d9003c473e6492d</anchor>
+      <arglist>(const vector_type &amp;point, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) const noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
       <name>contains</name>
       <anchorfile>structmuu_1_1plane.html</anchorfile>
-      <anchor>a7317470da577b714f161efd8b77538de</anchor>
-      <arglist>(const plane &amp;p, const vector_type &amp;point) noexcept</arglist>
+      <anchor>af496ce908fd5be39ee8dfbd5d3d2f875</anchor>
+      <arglist>(const plane &amp;p, const vector_type &amp;point, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
@@ -15826,6 +15826,13 @@
       <type>constexpr bool</type>
       <name>intersects</name>
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a1c005bbb22621aad15c9ec2dc8c90020</anchor>
+      <arglist>(const triangle &amp;tri, std::optional&lt; line_segment&lt; scalar_type &gt; &gt; &amp;seg) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
       <anchor>ad0ca2f9c1ae222a1c456a3a434ac7354</anchor>
       <arglist>(const triangle &amp;tri) const noexcept</arglist>
     </member>
@@ -15891,6 +15898,13 @@
       <anchorfile>structmuu_1_1triangle.html</anchorfile>
       <anchor>aa27122b3dc73cf9e509dacd02c0264a6</anchor>
       <arglist>(const triangle &amp;tri, const line_segment&lt; scalar_type &gt; &amp;seg, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>intersects</name>
+      <anchorfile>structmuu_1_1triangle.html</anchorfile>
+      <anchor>a03d2d1aaf4aa8cb2bef80f8b011cf5f9</anchor>
+      <arglist>(const triangle &amp;tri1, const triangle &amp;tri2, std::optional&lt; line_segment&lt; scalar_type &gt; &gt; &amp;seg) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr bool</type>
