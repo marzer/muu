@@ -18,6 +18,15 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 namespace muu
 {
 	template <typename Scalar>
+	MUU_PURE_GETTER
+	constexpr line_segment<Scalar> MUU_VECTORCALL plane<Scalar>::project(MUU_VPARAM(plane) p,
+																		 MUU_VPARAM(line_segment<scalar_type>)
+																			 seg) noexcept
+	{
+		return { project(p, seg.points[0]), project(p, seg.points[1]) };
+	}
+
+	template <typename Scalar>
 	MUU_PURE_INLINE_GETTER
 	constexpr bool MUU_VECTORCALL plane<Scalar>::intersects(MUU_VPARAM(plane) p,
 															MUU_VPARAM(line_segment<scalar_type>) seg) noexcept

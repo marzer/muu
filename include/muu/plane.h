@@ -371,6 +371,20 @@ namespace muu
 			return planes::project(base::normal, base::d, point);
 		}
 
+		/// \brief	Returns the projection of a line segment onto a plane.
+		MUU_PURE_GETTER
+		static constexpr line_segment<scalar_type> MUU_VECTORCALL project(MUU_VPARAM(plane) p,
+																		  MUU_VPARAM(line_segment<scalar_type>)
+																			  seg) noexcept;
+
+		/// \brief	Returns the projection of a line segment onto the plane.
+		MUU_PURE_INLINE_GETTER
+		constexpr line_segment<scalar_type> MUU_VECTORCALL project(MUU_VPARAM(line_segment<scalar_type>)
+																	   seg) const noexcept
+		{
+			return project(*this, seg);
+		}
+
 		/// \brief	Returns the 'origin' (basis point) of a plane.
 		MUU_PURE_INLINE_GETTER
 		static constexpr vector_type MUU_VECTORCALL origin(MUU_VPARAM(plane) p) noexcept
