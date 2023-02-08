@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.1" name="generator"/>
+  <meta content="Poxy v0.12.2" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -230,6 +230,11 @@
               const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) -&gt; <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the projection of a point onto a plane.</dd>
+            <dt id="a61aa682b703b7902b3ccbe8d0072c01f">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a61aa682b703b7902b3ccbe8d0072c01f">project</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt;&amp; seg) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the projection of a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a> onto a plane.</dd>
             <dt id="a46032d29a79d0f4e239c3c331783c733">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a46032d29a79d0f4e239c3c331783c733">signed_distance</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
               const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) -&gt; <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -247,6 +252,10 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a278b38f3419153f7bdcb7e04cf8f830c">project</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) const -&gt; <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the projection of a point onto the plane.</dd>
+            <dt id="a2c619cf92a679e8fa59a336a4a966518">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2c619cf92a679e8fa59a336a4a966518">project</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt;&amp; seg) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns the projection of a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a> onto the plane.</dd>
             <dt id="acac6bf0f89fb9b8773e34e6c21e8e708">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#acac6bf0f89fb9b8773e34e6c21e8e708">signed_distance</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) const -&gt; <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>

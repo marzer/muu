@@ -12319,6 +12319,13 @@
       <arglist>(const vector_type &amp;point) const noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr line_segment&lt; scalar_type &gt;</type>
+      <name>project</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a2c619cf92a679e8fa59a336a4a966518</anchor>
+      <arglist>(const line_segment&lt; scalar_type &gt; &amp;seg) const noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr vector_type</type>
       <name>origin</name>
       <anchorfile>structmuu_1_1plane.html</anchorfile>
@@ -12345,6 +12352,13 @@
       <anchorfile>structmuu_1_1plane.html</anchorfile>
       <anchor>a52a7c3d8492dec7e675ddbce471e0c65</anchor>
       <arglist>(const plane &amp;p, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr line_segment&lt; scalar_type &gt;</type>
+      <name>project</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a61aa682b703b7902b3ccbe8d0072c01f</anchor>
+      <arglist>(const plane &amp;p, const line_segment&lt; scalar_type &gt; &amp;seg) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr vector_type</type>
