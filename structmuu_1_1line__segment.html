@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.2" name="generator"/>
+  <meta content="Poxy v0.12.3" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -91,6 +91,7 @@
                 <li><a href="#iterators">Iterators</a></li>
                 <li><a href="#iterators-adl">Iterators (ADL)</a></li>
                 <li><a href="#point-accessors">Point accessors</a></li>
+                <li><a href="#point-queries">Point queries</a></li>
                 <li><a href="#reversal">Reversal</a></li>
                 <li><a href="#scalar-accessors">Scalar accessors</a></li>
                 <li><a href="#friends">Friends</a></li>
@@ -467,6 +468,20 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7f37b6165c3d20ed25364fcd631f6831">operator[]</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> p) const -&gt; const<a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a reference to one of the line segment's points.</dd>
+          </dl>
+        </section>
+        <section id="point-queries">
+          <h2><a href="#point-queries">Point queries</a></h2>
+          <dl class="m-doc">
+            <dt id="acb0fa74584715ee014b64d7f15e6779f">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#acb0fa74584715ee014b64d7f15e6779f">closest_point</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
+              const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Gets the point on a line segment closest to another arbitrary point.</dd>
+            <dt id="abebc5bc3f91ca7d14b10fb1ad6b9d682">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#abebc5bc3f91ca7d14b10fb1ad6b9d682">closest_point</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; point) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Gets the point on the line segment closest to another arbitrary point.</dd>
           </dl>
         </section>
         <section id="reversal">

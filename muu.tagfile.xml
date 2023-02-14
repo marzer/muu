@@ -9856,6 +9856,20 @@
       <arglist>(const line_segment &amp;seg, scalar_type epsilon=default_epsilon&lt; scalar_type &gt;) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>closest_point</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>abebc5bc3f91ca7d14b10fb1ad6b9d682</anchor>
+      <arglist>(const vector_type &amp;point) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>closest_point</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>acb0fa74584715ee014b64d7f15e6779f</anchor>
+      <arglist>(const line_segment &amp;seg, const vector_type &amp;point) noexcept</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr bool</type>
       <name>colinear</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
