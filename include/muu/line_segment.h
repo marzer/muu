@@ -411,6 +411,28 @@ namespace muu
 				/// @}
 	#endif // equality (approx)
 
+	#if 1 // point queries ------------------------------------------------------------------------------
+		/// \name Point queries
+		/// @{
+
+		/// \brief Gets the point on a line segment closest to another arbitrary point.
+		MUU_PURE_INLINE_GETTER
+		static constexpr vector_type MUU_VECTORCALL closest_point(MUU_VPARAM(line_segment) seg,
+																  MUU_VPARAM(vector_type) point) noexcept
+		{
+			return segments::closest_point(seg.points[0], seg.points[1], point);
+		}
+
+		/// \brief Gets the point on the line segment closest to another arbitrary point.
+		MUU_PURE_INLINE_GETTER
+		constexpr vector_type MUU_VECTORCALL closest_point(MUU_VPARAM(vector_type) point) const noexcept
+		{
+			return closest_point(*this, point);
+		}
+
+				/// @}
+	#endif // point queries
+
 	#if 1 // collision detection ------------------------------------------------------------------------------
 		/// \name Collision detection
 		/// @{

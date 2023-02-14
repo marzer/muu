@@ -234,7 +234,7 @@ namespace muu::impl
 		using lines		   = lines_common<Scalar>;
 
 		MUU_PURE_GETTER
-		static constexpr vector_type MUU_VECTORCALL nearest_point(vector_param seg0, // aka clamped_project()
+		static constexpr vector_type MUU_VECTORCALL closest_point(vector_param seg0, // aka clamped_project()
 																  vector_param seg1,
 																  vector_param point) noexcept
 		{
@@ -248,7 +248,7 @@ namespace muu::impl
 																	 vector_param seg1,
 																	 vector_param point) noexcept
 		{
-			return vector_type::distance_squared(point, nearest_point(seg0, seg1, point));
+			return vector_type::distance_squared(point, closest_point(seg0, seg1, point));
 		}
 
 		MUU_PURE_GETTER
@@ -257,7 +257,7 @@ namespace muu::impl
 															vector_param point,
 															scalar_type epsilon = default_epsilon<scalar_type>) noexcept
 		{
-			return muu::approx_zero(distance_squared(seg0, seg1, point), epsilon);
+			return distance_squared(seg0, seg1, point) < epsilon;
 		}
 	};
 }
