@@ -483,7 +483,7 @@ template&lt;typename... T&gt;
               const T&amp;... pointN) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the given points lie on the same side of a plane.</p>
-<aside class="m-note m-info"><h4>Note</h4><p>For the purposes of this function, to lie on the same side is to have a signed distance of &gt;= 0.</p></aside>
+<aside class="m-note m-warning"><h4>Attention</h4><p>For the purposes of this function, for all points to lie on the same side is for all points to have the same result for the expression <code>plane::signed_distance(plane, point) &gt;= 0</code>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="ae15a27915f1c44661a86df84ff2b8e87"><div>
             <h3>
@@ -496,7 +496,7 @@ template&lt;typename... T&gt;
               const T&amp;... pointN) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the given points lie on the same side of the plane.</p>
-<aside class="m-note m-info"><h4>Note</h4><p>For the purposes of this function, to lie on the same side is to have a signed distance of &gt;= 0.</p></aside>
+<aside class="m-note m-warning"><h4>Attention</h4><p>For the purposes of this function, for all points to lie on the same side is for all points to have the same result for the expression <code>plane.signed_distance(point) &gt;= 0</code>.</p></aside>
           </div></section>
           <section class="m-doc-details" id="aec8b3a9016fcb4680d4967454dc1b0c7"><div>
             <h3>
