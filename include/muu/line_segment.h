@@ -613,6 +613,29 @@ namespace muu
 				/// @}
 	#endif // collision detection
 
+	#if 1 // extension --------------------------------------------------------------------------------------------
+		  /// \name Extension
+		  /// @{
+
+		/// \brief	Extends the end point of a line segment by some amount.
+		MUU_PURE_INLINE_GETTER
+		static constexpr line_segment MUU_VECTORCALL extend(MUU_VPARAM(line_segment) seg,
+															scalar_type extend_by) noexcept
+		{
+			scalar_type len{};
+			const auto dir = direction(seg, len);
+			return line_segment{ seg.points[0], seg.points[0] + dir * (len + extend_by) };
+		}
+
+		/// \brief	Extends the end point of a line segment by some amount (in-place).
+		constexpr line_segment& MUU_VECTORCALL extend(scalar_type extend_by) noexcept
+		{
+			return *this = extend(*this, extend_by);
+		}
+
+				/// @}
+	#endif // extension
+
 	#if 1 // reversal --------------------------------------------------------------------------------------------
 		  /// \name Reversal
 		  /// @{

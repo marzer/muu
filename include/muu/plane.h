@@ -399,6 +399,40 @@ namespace muu
 			return planes::origin(base::normal, base::d);
 		}
 
+		/// \brief	Returns true if all the given points lie on the same side of a plane.
+		/// \attention	For the purposes of this function, for all points to lie on the same side
+		///				is for all points to have the same result for the expression
+		///				`plane::signed_distance(plane, point) >= 0`.
+		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, const T&...>), typename... T)
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL same_side(MUU_VPARAM(plane) p,
+													   MUU_VPARAM(vector_type) point1,
+													   MUU_VPARAM(vector_type) point2,
+													   const T&... pointN) noexcept
+		{
+			if constexpr (sizeof...(T) > 0)
+				return (signed_distance(p, point1) >= scalar_type{}) == (signed_distance(p, point2) >= scalar_type{});
+			else
+			{
+				const auto p0_side = signed_distance(p, point1) >= scalar_type{};
+				return ((p0_side == (signed_distance(p, point2) >= scalar_type{})) && ...
+						&& (p0_side == (signed_distance(p, pointN) >= scalar_type{})));
+			}
+		}
+
+		/// \brief	Returns true if all the given points lie on the same side of the plane.
+		/// \attention	For the purposes of this function, for all points to lie on the same side
+		///				is for all points to have the same result for the expression
+		///				`plane.signed_distance(point) >= 0`.
+		MUU_CONSTRAINED_TEMPLATE((sizeof...(T) == 0 || all_convertible_to<vector_type, const T&...>), typename... T)
+		MUU_PURE_INLINE_GETTER
+		constexpr bool MUU_VECTORCALL same_side(MUU_VPARAM(vector_type) point1,
+												MUU_VPARAM(vector_type) point2,
+												const T&... pointN) const noexcept
+		{
+			return same_side(*this, point1, point2, pointN...);
+		}
+
 				/// @}
 	#endif // distances and projection
 
