@@ -87,6 +87,7 @@
                 <li><a href="#collision-detection">Collision detection</a></li>
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
+                <li><a href="#extension">Extension</a></li>
                 <li><a href="#geometric-properties">Geometric properties</a></li>
                 <li><a href="#iterators">Iterators</a></li>
                 <li><a href="#iterators-adl">Iterators (ADL)</a></li>
@@ -341,6 +342,20 @@
               const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two line segments are exactly equal.</dd>
+          </dl>
+        </section>
+        <section id="extension">
+          <h2><a href="#extension">Extension</a></h2>
+          <dl class="m-doc">
+            <dt id="a2586c77063fc1396bb8697f0f588edac">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a2586c77063fc1396bb8697f0f588edac">extend</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg,
+              <a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> extend_by) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Extends the end point of a line segment by some amount.</dd>
+            <dt id="a2ea59da65543f803221fe2b4c9eb53fe">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2ea59da65543f803221fe2b4c9eb53fe">extend</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1line__segment.html#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a> extend_by) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Extends the end point of a line segment by some amount (in-place).</dd>
           </dl>
         </section>
         <section id="geometric-properties">

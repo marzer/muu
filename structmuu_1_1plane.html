@@ -235,6 +235,14 @@
               const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt;&amp; seg) -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the projection of a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a> onto a plane.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a7cabbe836cba6e7fa756f793566411c4">same_side</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point1,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point2,
+              const T&amp;... pointN) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the given points lie on the same side of a plane.</dd>
             <dt id="a46032d29a79d0f4e239c3c331783c733">
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a46032d29a79d0f4e239c3c331783c733">signed_distance</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
               const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) -&gt; <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -256,6 +264,13 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2c619cf92a679e8fa59a336a4a966518">project</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt;&amp; seg) const -&gt; <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;<a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the projection of a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a> onto the plane.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae15a27915f1c44661a86df84ff2b8e87">same_side</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point1,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point2,
+              const T&amp;... pointN) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if all the given points lie on the same side of the plane.</dd>
             <dt id="acac6bf0f89fb9b8773e34e6c21e8e708">
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#acac6bf0f89fb9b8773e34e6c21e8e708">signed_distance</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point) const -&gt; <a class="m-doc" href="structmuu_1_1plane.html#adcab9f359b67e7e522de98b8c8104e22">scalar_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -455,6 +470,33 @@ template&lt;typename T&gt;
               </tbody>
             </table>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">muu::<wbr/>allow_implicit_bit_cast</a></p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a7cabbe836cba6e7fa756f793566411c4"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename... T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static bool muu::<wbr/>plane&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7cabbe836cba6e7fa756f793566411c4">same_side</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&amp; p,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point1,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point2,
+              const T&amp;... pointN) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the given points lie on the same side of a plane.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>For the purposes of this function, to lie on the same side is to have a signed distance of &gt;= 0.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ae15a27915f1c44661a86df84ff2b8e87"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;<br/>
+template&lt;typename... T&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>plane&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae15a27915f1c44661a86df84ff2b8e87">same_side</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point1,
+              const <a class="m-doc" href="structmuu_1_1plane.html#ab84d1abc27ca95d88dec6b24d159df84">vector_<wbr/>type</a>&amp; point2,
+              const T&amp;... pointN) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if all the given points lie on the same side of the plane.</p>
+<aside class="m-note m-info"><h4>Note</h4><p>For the purposes of this function, to lie on the same side is to have a signed distance of &gt;= 0.</p></aside>
           </div></section>
           <section class="m-doc-details" id="aec8b3a9016fcb4680d4967454dc1b0c7"><div>
             <h3>

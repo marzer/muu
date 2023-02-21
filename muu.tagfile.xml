@@ -9983,6 +9983,20 @@
     </member>
     <member kind="function">
       <type>constexpr line_segment &amp;</type>
+      <name>extend</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a2ea59da65543f803221fe2b4c9eb53fe</anchor>
+      <arglist>(scalar_type extend_by) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr line_segment</type>
+      <name>extend</name>
+      <anchorfile>structmuu_1_1line__segment.html</anchorfile>
+      <anchor>a2586c77063fc1396bb8697f0f588edac</anchor>
+      <arglist>(const line_segment &amp;seg, scalar_type extend_by) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr line_segment &amp;</type>
       <name>reverse</name>
       <anchorfile>structmuu_1_1line__segment.html</anchorfile>
       <anchor>a37911b74b95bdf83c16e2abe9dac6de4</anchor>
@@ -12346,6 +12360,13 @@
       <anchor>a5e1e2847a035c2ca1ee716e59ab763f8</anchor>
       <arglist>() const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr bool</type>
+      <name>same_side</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>ae15a27915f1c44661a86df84ff2b8e87</anchor>
+      <arglist>(const vector_type &amp;point1, const vector_type &amp;point2, const T &amp;... pointN) const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr scalar_type</type>
       <name>signed_distance</name>
@@ -12380,6 +12401,13 @@
       <anchorfile>structmuu_1_1plane.html</anchorfile>
       <anchor>af38b322e72fd58e2ad82af2b40783fe7</anchor>
       <arglist>(const plane &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr bool</type>
+      <name>same_side</name>
+      <anchorfile>structmuu_1_1plane.html</anchorfile>
+      <anchor>a7cabbe836cba6e7fa756f793566411c4</anchor>
+      <arglist>(const plane &amp;p, const vector_type &amp;point1, const vector_type &amp;point2, const T &amp;... pointN) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr bool</type>
