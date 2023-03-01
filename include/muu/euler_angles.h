@@ -212,6 +212,22 @@ namespace muu
 			impl::print_vector(os, &rot.yaw, 3u);
 			return os;
 		}
+
+		/// \brief	Returns true if any of the angles in a set of euler angles are infinity or NaN.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VPARAM(euler_angles) rot) noexcept
+		{
+			return muu::infinity_or_nan(rot.yaw)   //
+				|| muu::infinity_or_nan(rot.pitch) //
+				|| muu::infinity_or_nan(rot.roll);
+		}
+
+		/// \brief	Returns true if any of the angles are infinity or NaN.
+		MUU_PURE_GETTER
+		constexpr bool infinity_or_nan() const noexcept
+		{
+			return infinity_or_nan(*this);
+		}
 	};
 
 	/// \cond
@@ -227,6 +243,26 @@ namespace muu
 
 	/// \endcond
 }
+
+//======================================================================================================================
+// FREE FUNCTIONS
+#if 1
+
+namespace muu
+{
+	/// \ingroup		infinity_or_nan
+	/// \relatesalso	muu::euler_angles
+	///
+	/// \brief	Returns true if any of the angles in a set of euler angles are infinity or NaN.
+	template <typename S>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool infinity_or_nan(const euler_angles<S>& rot) noexcept
+	{
+		return euler_angles<S>::infinity_or_nan(rot);
+	}
+}
+
+#endif //===============================================================================================================
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"

@@ -407,7 +407,8 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VPARAM(oriented_bounding_box) bb) noexcept
 		{
-			return vector_type::infinity_or_nan(bb.center) || vector_type::infinity_or_nan(bb.extents)
+			return vector_type::infinity_or_nan(bb.center)	//
+				|| vector_type::infinity_or_nan(bb.extents) //
 				|| axes_type::infinity_or_nan(bb.axes);
 		}
 

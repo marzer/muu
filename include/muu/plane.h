@@ -219,7 +219,7 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VPARAM(plane) p) noexcept
 		{
-			return vector_type::infinity_or_nan(p.normal) || muu::infinity_or_nan(p.d);
+			return muu::infinity_or_nan(p.d) || vector_type::infinity_or_nan(p.normal);
 		}
 
 		/// \brief	Returns true if any of the scalar components of the plane are infinity or NaN.

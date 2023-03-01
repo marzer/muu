@@ -339,7 +339,7 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VPARAM(line_segment) seg) noexcept
 		{
 			return vector_type::infinity_or_nan(seg.points[0]) //
-				&& vector_type::infinity_or_nan(seg.points[1]);
+				|| vector_type::infinity_or_nan(seg.points[1]);
 		}
 
 		/// \brief	Returns true if any of the points in the line segment are infinity or NaN.

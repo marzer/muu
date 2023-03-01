@@ -167,6 +167,20 @@ namespace muu
 			impl::print_compound_vector(os, &rot.axis.x, 3_sz, true, &rot.angle, 1_sz, false);
 			return os;
 		}
+
+		/// \brief	Returns true if any of the scalars in an axis-angle are infinity or NaN.
+		MUU_PURE_GETTER
+		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VPARAM(axis_angle) aa) noexcept
+		{
+			return muu::infinity_or_nan(aa.angle) || axis_type::infinity_or_nan(aa.axis);
+		}
+
+		/// \brief	Returns true if any of the scalars in the axis-angle are infinity or NaN.
+		MUU_PURE_GETTER
+		constexpr bool infinity_or_nan() const noexcept
+		{
+			return infinity_or_nan(*this);
+		}
 	};
 
 	/// \cond
@@ -183,6 +197,26 @@ namespace muu
 
 	/// \endcond
 }
+
+//======================================================================================================================
+// FREE FUNCTIONS
+#if 1
+
+namespace muu
+{
+	/// \ingroup		infinity_or_nan
+	/// \relatesalso	muu::axis_angle
+	///
+	/// \brief	Returns true if any of the scalars in an axis-angle are infinity or NaN.
+	template <typename S>
+	MUU_PURE_INLINE_GETTER
+	constexpr bool infinity_or_nan(const axis_angle<S>& aa) noexcept
+	{
+		return axis_angle<S>::infinity_or_nan(aa);
+	}
+}
+
+#endif //===============================================================================================================
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #include "impl/header_end.h"

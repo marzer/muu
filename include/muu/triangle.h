@@ -351,8 +351,8 @@ namespace muu
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VPARAM(triangle) tri) noexcept
 		{
 			return vector_type::infinity_or_nan(tri.points[0]) //
-				&& vector_type::infinity_or_nan(tri.points[1]) //
-				&& vector_type::infinity_or_nan(tri.points[2]);
+				|| vector_type::infinity_or_nan(tri.points[1]) //
+				|| vector_type::infinity_or_nan(tri.points[2]);
 		}
 
 		/// \brief	Returns true if any of the points in the triangle are infinity or NaN.

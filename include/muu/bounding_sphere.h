@@ -275,7 +275,7 @@ namespace muu
 		MUU_PURE_GETTER
 		static constexpr bool MUU_VECTORCALL infinity_or_nan(MUU_VPARAM(bounding_sphere) bs) noexcept
 		{
-			return vector_type::infinity_or_nan(bs.center) || muu::infinity_or_nan(bs.radius);
+			return muu::infinity_or_nan(bs.radius) || vector_type::infinity_or_nan(bs.center);
 		}
 
 		/// \brief	Returns true if any of the scalar components of the bounding sphere are infinity or NaN.
