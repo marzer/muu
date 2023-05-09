@@ -275,7 +275,7 @@ namespace muu
 				/// @}
 	#endif // equality (approx)
 
-	#if 1 // normalization --------------------------------------------------------------------------------------------
+	#if 1  // normalization --------------------------------------------------------------------------------------------
 		/// \name Normalization
 		/// @{
 
@@ -410,7 +410,7 @@ namespace muu
 													   MUU_VPARAM(vector_type) point2,
 													   const T&... pointN) noexcept
 		{
-			if constexpr (sizeof...(T) > 0)
+			if constexpr (sizeof...(T) == 0)
 				return (signed_distance(p, point1) >= scalar_type{}) == (signed_distance(p, point2) >= scalar_type{});
 			else
 			{
@@ -436,9 +436,9 @@ namespace muu
 				/// @}
 	#endif // distances and projection
 
-	#if 1 // containment ------------------------------------------------------------------------------
-		  /// \name Containment
-		  /// @{
+	#if 1  // containment ------------------------------------------------------------------------------
+		   /// \name Containment
+		   /// @{
 
 		/// \brief	Returns true if a plane contains a point.
 		MUU_PURE_GETTER
@@ -460,7 +460,7 @@ namespace muu
 				/// @}
 	#endif // containment
 
-	#if 1 // intersection ------------------------------------------------------------------------------
+	#if 1  // intersection ------------------------------------------------------------------------------
 		/// \name Intersection
 		/// @{
 
@@ -491,9 +491,9 @@ namespace muu
 				/// @}
 	#endif // intersection
 
-	#if 1 // transformation -------------------------------------------------------------------
-		  /// \name Transformation
-		  /// @{
+	#if 1  // transformation -------------------------------------------------------------------
+		   /// \name Transformation
+		   /// @{
 
 		/// \brief Transforms a plane from one coordinate space to another.
 		///
@@ -546,7 +546,7 @@ namespace muu
 	/// \cond
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<N, D>), typename N, typename D)
-	plane(vector<N, 3>, D)->plane<impl::highest_ranked<N, D>>;
+	plane(vector<N, 3>, D) -> plane<impl::highest_ranked<N, D>>;
 
 	template <typename P, typename N>
 	plane(vector<P, 3>, vector<N, 3>) -> plane<impl::highest_ranked<P, N>>;
