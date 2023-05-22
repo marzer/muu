@@ -1688,7 +1688,7 @@ def write_header(folders, code_unit):
 			h('#elif MUU_WCHAR_BITS == 16')
 			h('\t#include "unicode_char16_t.h"')
 			h('#elif MUU_WCHAR_BITS == 8')
-			h('\t#include "unicode_unsigned char.h"')
+			h('\t#include "unicode_unsigned_char.h"')
 			h('#endif')
 		else:
 			h('#include "../fwd.h"')
