@@ -15,7 +15,7 @@
 #elif MUU_WCHAR_BITS == 16
 	#include "unicode_char16_t.h"
 #elif MUU_WCHAR_BITS == 8
-	#include "unicode_unsigned char.h"
+	#include "unicode_unsigned_char.h"
 #endif
 #include "header_start.h"
 #if !MUU_GCC || MUU_GCC >= 9
