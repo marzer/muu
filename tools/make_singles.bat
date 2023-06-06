@@ -7,7 +7,21 @@ REM ----------------------------------------------------------------------------
 REM 	updates all the muu-based 'singles'
 REM --------------------------------------------------------------------------------------
 
-py make_single.py ..\..\type_list\include\mz\type_list.hpp.in
-py make_single.py ..\..\tagged_ptr\include\mz\tagged_ptr.hpp.in
+CALL :MakeSingles ^
+	type_list ^
+	tagged_ptr ^
+	sync_utils
 
-EXIT /B %ERRORLEVEL%
+POPD
+@ENDLOCAL
+EXIT /B 0
+
+:MakeSingles
+(
+	FOR %%i IN (%*) DO (
+		IF EXIST "..\..\%%~i\include\mz\%%~i.hpp.in" (
+			py make_single.py "..\..\%%~i\include\mz\%%~i.hpp.in"
+		)
+	)
+	EXIT /B
+)

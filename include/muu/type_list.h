@@ -8,6 +8,7 @@
 /// \brief  Contains the definition of muu::type_list.
 
 #include "fwd.h"
+#include "meta.h"
 
 //% type_list::header start
 
@@ -753,6 +754,9 @@ namespace muu
 		template <typename U>
 		static constexpr size_t index_of = static_cast<size_t>(-1);
 
+		template <typename U>
+		static constexpr bool contains = false;
+
 		using flatten = type_list<>;
 
 		template <typename U>
@@ -787,6 +791,9 @@ namespace muu
 		template <typename U>
 		static constexpr size_t index_of = index_of_type<U, T>;
 
+		template <typename U>
+		static constexpr bool contains = std::is_same_v<U, T>;
+
 		using flatten = impl::type_list_flatten<T>;
 
 		template <typename U>
@@ -819,6 +826,9 @@ namespace muu
 
 		template <typename U>
 		static constexpr size_t index_of = index_of_type<U, T0, T...>;
+
+		template <typename U>
+		static constexpr bool contains = (std::is_same_v<U, T0> || ... || std::is_same_v<U, T>);
 
 		using flatten = impl::type_list_flatten<T0, T...>;
 
@@ -910,7 +920,11 @@ namespace muu
 
 		/// \brief Returns the index of the first appearance of a given type in the list.
 		template <typename U>
-		static constexpr size_t index_of = index_of_type<U, T...>;
+		static constexpr size_t index_of = POXY_IMPLEMENTATION_DETAIL(...);
+
+		/// \brief Returns true if a given type appears in the list.
+		template <typename U>
+		static constexpr bool contains = POXY_IMPLEMENTATION_DETAIL(...);
 
 		/// \brief A flattened version of the list with any nested type_lists recursively hoisted up into itself.
 		///

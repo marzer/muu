@@ -10,13 +10,13 @@
 #include "preprocessor.h"
 MUU_DISABLE_WARNINGS;
 
+//% preprocessor::pause start
+
 // msvc-specific
 #if !defined(MUU_PAUSE) && MUU_MSVC
 	#if MUU_ARCH_X86 || MUU_ARCH_AMD64
-		#include <intrin.h>
 		#define MUU_PAUSE() _mm_pause()
 	#elif MUU_ARCH_ARM
-		#include <intrin.h>
 		#define MUU_PAUSE() __yield()
 	#endif
 #endif
@@ -45,11 +45,13 @@ MUU_DISABLE_WARNINGS;
 
 // no-op
 #if !defined(MUU_PAUSE)
-	#define MUU_PAUSE() MUU_NOOP
+	#define MUU_PAUSE() static_cast<void>(0)
 #endif
 
 /// \def MUU_PAUSE()
 /// \ingroup preprocessor
 /// \brief Expands to a platform-specific intrinsic for pausing/yielding the CPU (e.g. `_mm_pause()`).
+
+//% preprocessor::pause end
 
 MUU_ENABLE_WARNINGS;

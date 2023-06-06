@@ -998,6 +998,8 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_PRAGMA_ICC(...)
 /// \brief Expands to `_pragma(...)` when compiling with ICC.
 
+//% preprocessor::delete_class_defaults start
+
 #define MUU_DELETE_MOVE(T)                                                                                             \
 	T(T&&)			  = delete;                                                                                        \
 	T& operator=(T&&) = delete
@@ -1044,6 +1046,8 @@ help me improve support for your target architecture. Thanks!
 /// };
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
+
+//% preprocessor::delete_class_defaults end
 
 #define MUU_DEFAULT_MOVE(T)                                                                                            \
 	T(T&&)			  = default;                                                                                       \
@@ -1300,8 +1304,8 @@ help me improve support for your target architecture. Thanks!
 		static_assert(true)
 
 	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
-		__pragma(warning(disable : 4127)) /* conditional expr is constant */                                           \
-		__pragma(warning(disable : 4324)) /* structure was padded due to alignment specifier */                        \
+		__pragma(warning(disable : 4127))  /* conditional expr is constant */                                          \
+		__pragma(warning(disable : 4324))  /* structure was padded due to alignment specifier */                       \
 		__pragma(warning(disable : 4348))                                                                              \
 		__pragma(warning(disable : 4464))  /* relative include path contains '..' */                                   \
 		__pragma(warning(disable : 4505))  /* unreferenced local function removed */                                   \

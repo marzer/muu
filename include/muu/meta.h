@@ -2185,7 +2185,7 @@ namespace muu
 		{
 			if constexpr (can_be_hva<T> && std::is_aggregate_v<T>)
 			{
-				if constexpr (is_detected<is_aggregate_5_args_, T>) // five or more
+				if constexpr (is_detected<is_aggregate_5_args_, T>)		 // five or more
 					return std::false_type{};
 				else if constexpr (is_detected<is_aggregate_4_args_, T>) // four
 				{
@@ -2228,7 +2228,7 @@ namespace muu
 		template <typename T>
 		inline constexpr bool is_hva = decltype(is_hva_(std::declval<T>()))::value;
 
-#else // ^^^ MUU_HAS_VECTORCALL / vvv !MUU_HAS_VECTORCALL
+#else  // ^^^ MUU_HAS_VECTORCALL / vvv !MUU_HAS_VECTORCALL
 
 		template <typename T>
 		inline constexpr bool is_vectorcall_simd_intrinsic = false;
@@ -2265,8 +2265,8 @@ namespace muu
 													&& (is_vectorcall_simd_intrinsic<raw_type> || is_hva<raw_type>)) //
 												|| ((std::is_class_v<raw_type> || std::is_union_v<raw_type>)		 //
 													&&(std::is_trivially_copyable_v<raw_type>
-													   || std::is_nothrow_copy_constructible_v<raw_type>) //
-													&&std::is_nothrow_destructible_v<raw_type>			  //
+													   || std::is_nothrow_copy_constructible_v<raw_type>)			 //
+													&&std::is_nothrow_destructible_v<raw_type>						 //
 													&& sizeof(raw_type) <= (sizeof(void*) * 2u)),
 											raw_type,
 											std::add_lvalue_reference_t<std::add_const_t<T>>>;

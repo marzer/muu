@@ -16,9 +16,14 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
 namespace muu
 {
-	/// \brief A mutex that acquires locks by-spin waiting.
+	//% spin_mutex start
+
+	/// \brief A mutex that acquires locks by spin-waiting.
 	class MUU_NODISCARD_CLASS spin_mutex
 	{
+		// implementation is based on this article:
+		// https://rigtorp.se/spinlock/
+
 	  private:
 		std::atomic_bool held_;
 
@@ -66,6 +71,8 @@ namespace muu
 			held_.store(false, std::memory_order_release);
 		}
 	};
+
+	//% spin_mutex end
 }
 
 MUU_RESET_NDEBUG_OPTIMIZATIONS;
