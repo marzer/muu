@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.3" name="generator"/>
+  <meta content="Poxy v0.12.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -106,37 +106,37 @@
             <dd>The maximum tasks that may be enqueued without blocking.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Task&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ac4bb54ad3ed507fcef71da6a92df3478">enqueue</a>(</span><span class="m-doc-wrap">Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a495ad269689dadf8eebb7a8bd23574ec">enqueue</a>(</span><span class="m-doc-wrap">Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Enqueues a task.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename Task&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#addb815a8e27136d4fb39b603f1963592">for_each</a>(</span><span class="m-doc-wrap">T start,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#abc292731eddf5cbfdcb159ccd3584e65">for_each</a>(</span><span class="m-doc-wrap">T start,
               T end,
               Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Enqueues a task to execute once for every value in a range.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename Task&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a213ea5176eb031f33b12e3a55ac29773">for_each</a>(</span><span class="m-doc-wrap">T end,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3597b210fd6c9f2ec6734cf2cb3bfbb6">for_each</a>(</span><span class="m-doc-wrap">T end,
               Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Enqueues a task to execute once for every value in a range.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Iter, typename Task&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a7df20491c8586ad15744b96db1c4d0e0">for_each</a>(</span><span class="m-doc-wrap">Iter begin,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a8f4b6d4bbed147da00ec02ff29cc505e">for_each</a>(</span><span class="m-doc-wrap">Iter begin,
               Iter end,
               Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Enqueues a task to execute on every element in a collection.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename Task&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a2c1c474cf0162c8360b7debafe6a7dbf">for_each</a>(</span><span class="m-doc-wrap">T&amp;&amp; collection,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3cc58fa2c82e63f14ec668f96f654d19">for_each</a>(</span><span class="m-doc-wrap">T&amp;&amp; collection,
               Task&amp;&amp; task) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Enqueues a task to execute on every element in a collection.</dd>
-            <dt id="a1c5b17e23b3041b06234784b95c0807f">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1c5b17e23b3041b06234784b95c0807f">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp;&amp; rhs) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="ae8ccb244ff4bc2db327711c4dcbc9174">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ae8ccb244ff4bc2db327711c4dcbc9174">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp;&amp; rhs) -&gt; <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Move-assignment operator.</dd>
             <dt>
@@ -202,12 +202,12 @@
             <p>Destructor.</p>
 <aside class="m-note m-danger"><h4>Warning</h4><p>Any enqueued tasks <em>currently being executed</em> are allowed to finish; attempting to destroy a <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a> with an enqueued task of indeterminate length may lead to a deadlock.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ac4bb54ad3ed507fcef71da6a92df3478"><div>
+          <section class="m-doc-details" id="a495ad269689dadf8eebb7a8bd23574ec"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Task&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac4bb54ad3ed507fcef71da6a92df3478">enqueue</a>(</span><span class="m-doc-wrap">Task&amp;&amp; task) <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a495ad269689dadf8eebb7a8bd23574ec">enqueue</a>(</span><span class="m-doc-wrap">Task&amp;&amp; task) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Enqueues a task.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -245,12 +245,12 @@
     <span class="c1">//...</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and <a class="m-doc" href="classmuu_1_1thread__pool.html#a0be5fc12fedc8dbb694b614a6e53ec23">wait()</a> calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="addb815a8e27136d4fb39b603f1963592"><div>
+          <section class="m-doc-details" id="abc292731eddf5cbfdcb159ccd3584e65"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename T, typename Task&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#addb815a8e27136d4fb39b603f1963592">for_each</a>(</span><span class="m-doc-wrap">T start,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abc292731eddf5cbfdcb159ccd3584e65">for_each</a>(</span><span class="m-doc-wrap">T start,
               T end,
               Task&amp;&amp; task) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -307,12 +307,12 @@
     <span class="c1">// no args is OK too</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and Wait() calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a213ea5176eb031f33b12e3a55ac29773"><div>
+          <section class="m-doc-details" id="a3597b210fd6c9f2ec6734cf2cb3bfbb6"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename T, typename Task&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a213ea5176eb031f33b12e3a55ac29773">for_each</a>(</span><span class="m-doc-wrap">T end,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3597b210fd6c9f2ec6734cf2cb3bfbb6">for_each</a>(</span><span class="m-doc-wrap">T end,
               Task&amp;&amp; task) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Enqueues a task to execute once for every value in a range.</p>
@@ -364,12 +364,12 @@
     <span class="c1">// no args is OK too</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and Wait() calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a7df20491c8586ad15744b96db1c4d0e0"><div>
+          <section class="m-doc-details" id="a8f4b6d4bbed147da00ec02ff29cc505e"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Iter, typename Task&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7df20491c8586ad15744b96db1c4d0e0">for_each</a>(</span><span class="m-doc-wrap">Iter begin,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8f4b6d4bbed147da00ec02ff29cc505e">for_each</a>(</span><span class="m-doc-wrap">Iter begin,
               Iter end,
               Task&amp;&amp; task) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -427,12 +427,12 @@
     <span class="c1">// no args is OK too (though unusual)</span>
 <span class="p">});</span></pre><aside class="m-note m-default"><h4>Remark</h4><p>Tasks must be finite, otherwise the pool will fill and <a class="m-doc" href="classmuu_1_1thread__pool.html#a0be5fc12fedc8dbb694b614a6e53ec23">wait()</a> calls will never return.</p><p>Tasks must not throw exceptions.</p></aside><aside class="m-note m-danger"><h4>Warning</h4><p>Do not call this from one of the <a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>'s workers.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a2c1c474cf0162c8360b7debafe6a7dbf"><div>
+          <section class="m-doc-details" id="a3cc58fa2c82e63f14ec668f96f654d19"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename T, typename Task&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a2c1c474cf0162c8360b7debafe6a7dbf">for_each</a>(</span><span class="m-doc-wrap">T&amp;&amp; collection,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1thread__pool.html">thread_<wbr/>pool</a>&amp; muu::<wbr/>thread_pool::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3cc58fa2c82e63f14ec668f96f654d19">for_each</a>(</span><span class="m-doc-wrap">T&amp;&amp; collection,
               Task&amp;&amp; task) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Enqueues a task to execute on every element in a collection.</p>
@@ -531,7 +531,7 @@
     </div>
   </div>
 </div>
-<script src="search-v2.js"></script>
+<script src="search-v2.js"></script><script>install_mcss_search_shim();</script>
 <script async="async" src="searchdata-v2.js"></script>
 <footer><nav>
   <div class="m-container">

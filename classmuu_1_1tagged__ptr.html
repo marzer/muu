@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.3" name="generator"/>
+  <meta content="Poxy v0.12.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -188,11 +188,11 @@
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a4687bc1c82e1cb053ed3b2757c623e11">clear_ptr</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae64e8723ee76f6cf46ca8789876b1149">clear_ptr</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Sets the target pointer value to nullptr, leaving the tag bits unchanged.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a343802dee9a19bf404f6990b7fd45703">clear_tag</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a268c665c11dd9f46e6108b626dc0ea0a">clear_tag</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Sets the tag bits to zero, leaving the target pointer value unchanged.</dd>
             <dt>
@@ -205,19 +205,19 @@
             </dt>
             <dd>Invokes the function call operator on the pointed function.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#abc71b35aea46a1520af7ea80080594a1">operator*</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html#afb655a02887a158abb2f3eeb381adee9">element_<wbr/>type</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa16a3b8d1916ddb9d21a2a3d4f9240a3">operator*</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html#afb655a02887a158abb2f3eeb381adee9">element_<wbr/>type</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a reference to the pointed object.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#aa3581f609df590e215d3a9e61f9c11e8">operator-&gt;</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the target pointer value.</dd>
-            <dt id="a3e3ac12d5d50b130e51e4ad8eeee8872">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a3e3ac12d5d50b130e51e4ad8eeee8872">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp;) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a0d3216c9b2c8190ac54577f6322638d1">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0d3216c9b2c8190ac54577f6322638d1">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp;) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Copy-assignment operator.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a59b07cfba4ef06767d09fd86f6e6c9fd">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> rhs) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad61796d312f3b3b7c7d675a51215fd61">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> rhs) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Sets the target pointer value, leaving the tag bits unchanged.</dd>
             <dt id="abfdf5dc540a8d8afc52c3cb3228dea65">
@@ -225,20 +225,20 @@
             </dt>
             <dd>Returns the target pointer value.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a6f5a6c1f723c13a73e2cc3f508ab2431">ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ab4166fc172027a0aced93fde5ad57a1b">ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Sets the target pointer value, leaving the tag bits unchanged.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3a3d15c96f8e754f1e8f145bfa50e893">reset</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a021a25026b42a005ef9af93d3a785977">reset</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Sets the target pointer value and all tag bits to zero.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a83a3efd10a3825853d7fa3ab4e5bea11">reset</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a52ccd9541914fa58c846c7be2dc96eb5">reset</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Resets the target pointer value and sets the tag bits to zero.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Tag&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a92114102cd437f0faed36d0d9cfc430b">reset</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a83ebf9c9d8e87683a208d4cc8d6eed2e">reset</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value,
               const Tag&amp; tag_value) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Resets the target pointer value and tag.</dd>
@@ -249,7 +249,7 @@
             <dd>Returns the tag bits as an integer, enum, or trivial object type.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename Tag&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ab431430800e47be0a86c3850b92cffde">tag</a>(</span><span class="m-doc-wrap">const Tag&amp; tag_value) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#af12681d78eb5f543d3dfc5c9bb61058a">tag</a>(</span><span class="m-doc-wrap">const Tag&amp; tag_value) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Sets the tag bits, leaving the target pointer value unchanged.</dd>
             <dt id="a99ef89b2c0d6f77a8a296d560ad75944">
@@ -257,7 +257,7 @@
             </dt>
             <dd>Returns the value of one of the tag bits.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a3394cae43e86ae5de5b399e8df6ff301">tag_bit</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> tag_bit_index,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad38ca1afdbbe953658e913f4d1935d4b">tag_bit</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> tag_bit_index,
               bool val) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Sets the value of one of the tag bits.</dd>
@@ -276,8 +276,8 @@
               <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> rhs) -&gt; bool <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer do not refer to the same address.</dd>
-            <dt id="a34eead0d45029e18c4475c44e59212dc">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a34eead0d45029e18c4475c44e59212dc">operator!=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> lhs,
+            <dt id="a161f3db32391e02ddf8e6f00837fa5c2">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a161f3db32391e02ddf8e6f00837fa5c2">operator!=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> lhs,
               <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two tagged_ptrs are not equal (including their tag bits).</dd>
@@ -291,8 +291,8 @@
               <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> rhs) -&gt; bool <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> and raw pointer refer to the same address.</dd>
-            <dt id="abd60023a5a537637925b57403375c199">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#abd60023a5a537637925b57403375c199">operator==</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> lhs,
+            <dt id="a2234528d4e4f8d4fb50cca33d9bef211">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a2234528d4e4f8d4fb50cca33d9bef211">operator==</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> lhs,
               <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a> rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two tagged_ptrs are equal (including their tag bits).</dd>
@@ -388,11 +388,11 @@ template&lt;typename Tag&gt;
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>If the tag parameter is an integer larger than the available tag bits, any overflow will be masked out and ignored.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a4687bc1c82e1cb053ed3b2757c623e11"><div>
+          <section class="m-doc-details" id="ae64e8723ee76f6cf46ca8789876b1149"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4687bc1c82e1cb053ed3b2757c623e11">clear_ptr</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae64e8723ee76f6cf46ca8789876b1149">clear_ptr</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Sets the target pointer value to nullptr, leaving the tag bits unchanged.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -404,11 +404,11 @@ template&lt;typename Tag&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a343802dee9a19bf404f6990b7fd45703"><div>
+          <section class="m-doc-details" id="a268c665c11dd9f46e6108b626dc0ea0a"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a343802dee9a19bf404f6990b7fd45703">clear_tag</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a268c665c11dd9f46e6108b626dc0ea0a">clear_tag</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Sets the tag bits to zero, leaving the target pointer value unchanged.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -465,11 +465,11 @@ template&lt;typename... U&gt;
             </table>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is only available when the pointed type is a function.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="abc71b35aea46a1520af7ea80080594a1"><div>
+          <section class="m-doc-details" id="aa16a3b8d1916ddb9d21a2a3d4f9240a3"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#afb655a02887a158abb2f3eeb381adee9">element_<wbr/>type</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#abc71b35aea46a1520af7ea80080594a1">operator*</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#afb655a02887a158abb2f3eeb381adee9">element_<wbr/>type</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa16a3b8d1916ddb9d21a2a3d4f9240a3">operator*</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns a reference to the pointed object.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is not available for pointers to <code>void</code> or functions.</p></aside>
@@ -483,11 +483,11 @@ template&lt;typename... U&gt;
             <p>Returns the target pointer value.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This operator is not available for pointers to <code>void</code> or functions.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a59b07cfba4ef06767d09fd86f6e6c9fd"><div>
+          <section class="m-doc-details" id="ad61796d312f3b3b7c7d675a51215fd61"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a59b07cfba4ef06767d09fd86f6e6c9fd">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> rhs) <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad61796d312f3b3b7c7d675a51215fd61">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> rhs) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Sets the target pointer value, leaving the tag bits unchanged.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -508,11 +508,11 @@ template&lt;typename... U&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a6f5a6c1f723c13a73e2cc3f508ab2431"><div>
+          <section class="m-doc-details" id="ab4166fc172027a0aced93fde5ad57a1b"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a6f5a6c1f723c13a73e2cc3f508ab2431">ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab4166fc172027a0aced93fde5ad57a1b">ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Sets the target pointer value, leaving the tag bits unchanged.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -533,11 +533,11 @@ template&lt;typename... U&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a3a3d15c96f8e754f1e8f145bfa50e893"><div>
+          <section class="m-doc-details" id="a021a25026b42a005ef9af93d3a785977"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3a3d15c96f8e754f1e8f145bfa50e893">reset</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a021a25026b42a005ef9af93d3a785977">reset</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Sets the target pointer value and all tag bits to zero.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -549,11 +549,11 @@ template&lt;typename... U&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a83a3efd10a3825853d7fa3ab4e5bea11"><div>
+          <section class="m-doc-details" id="a52ccd9541914fa58c846c7be2dc96eb5"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a83a3efd10a3825853d7fa3ab4e5bea11">reset</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a52ccd9541914fa58c846c7be2dc96eb5">reset</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Resets the target pointer value and sets the tag bits to zero.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -574,12 +574,12 @@ template&lt;typename... U&gt;
               </tfoot>
             </table>
           </div></section>
-          <section class="m-doc-details" id="a92114102cd437f0faed36d0d9cfc430b"><div>
+          <section class="m-doc-details" id="a83ebf9c9d8e87683a208d4cc8d6eed2e"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;<br/>
 template&lt;typename Tag&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a92114102cd437f0faed36d0d9cfc430b">reset</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a83ebf9c9d8e87683a208d4cc8d6eed2e">reset</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value,
               const Tag&amp; tag_value) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Resets the target pointer value and tag.</p>
@@ -615,12 +615,12 @@ template&lt;typename Tag&gt;
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>If the tag parameter is an integer larger than the available tag bits, any overflow will be masked out and ignored.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="ab431430800e47be0a86c3850b92cffde"><div>
+          <section class="m-doc-details" id="af12681d78eb5f543d3dfc5c9bb61058a"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;<br/>
 template&lt;typename Tag&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab431430800e47be0a86c3850b92cffde">tag</a>(</span><span class="m-doc-wrap">const Tag&amp; tag_value) <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af12681d78eb5f543d3dfc5c9bb61058a">tag</a>(</span><span class="m-doc-wrap">const Tag&amp; tag_value) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Sets the tag bits, leaving the target pointer value unchanged.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -651,11 +651,11 @@ template&lt;typename Tag&gt;
             </table>
 <aside class="m-note m-danger"><h4>Warning</h4><p>If the tag parameter is an integer larger than the available tag bits, any overflow will be masked out and ignored.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a3394cae43e86ae5de5b399e8df6ff301"><div>
+          <section class="m-doc-details" id="ad38ca1afdbbe953658e913f4d1935d4b"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3394cae43e86ae5de5b399e8df6ff301">tag_bit</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> tag_bit_index,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad38ca1afdbbe953658e913f4d1935d4b">tag_bit</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> tag_bit_index,
               bool val) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Sets the value of one of the tag bits.</p>
@@ -721,7 +721,7 @@ template&lt;typename Tag&gt;
     </div>
   </div>
 </div>
-<script src="search-v2.js"></script>
+<script src="search-v2.js"></script><script>install_mcss_search_shim();</script>
 <script async="async" src="searchdata-v2.js"></script>
 <footer><nav>
   <div class="m-container">

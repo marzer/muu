@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.3" name="generator"/>
+  <meta content="Poxy v0.12.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -81,10 +81,12 @@
               Reference
               <ul>
                 <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
                 <li><a href="#friends">Friends</a></li>
+                <li><a href="#related">Related</a></li>
               </ul>
             </li>
           </ul>
@@ -101,6 +103,15 @@
               using <a class="m-doc-self" href="#ae9c45bfa212fbda35af919d6ee4199ee">scalar_type</a> = Scalar
             </dt>
             <dd>The scalar type of the axis and angle.</dd>
+          </dl>
+        </section>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-doc">
+            <dt id="af21a709f642796a6b223b890f0375c17">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#af21a709f642796a6b223b890f0375c17">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&amp; aa) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalars in an axis-angle are infinity or NaN.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -150,8 +161,12 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="accc7354c53ab600d78ff70d7c394dd00">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#accc7354c53ab600d78ff70d7c394dd00">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="af12b6d67e516356fac368f3373d9c8a7">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af12b6d67e516356fac368f3373d9c8a7">infinity_or_nan</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalars in the axis-angle are infinity or NaN.</dd>
+            <dt id="a286caeb01d46efae4abc681a077b2c8c">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a286caeb01d46efae4abc681a077b2c8c">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Copy-assigment operator.</dd>
           </dl>
@@ -172,12 +187,22 @@
         <section id="friends">
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
-            <dt id="af850bd1022c7923c87db9c21714d6278">
+            <dt id="a77e1aa350ab8edcead53e508e968f1ae">
               <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af850bd1022c7923c87db9c21714d6278">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a77e1aa350ab8edcead53e508e968f1ae">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
               const <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&amp; rot) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
             <dd>Writes an axis-angle rotation out to a text stream.</dd>
+          </dl>
+        </section>
+        <section id="related">
+          <h2><a href="#related">Related</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gae448e944122a385f82dbd7c16e6a42c2">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1axis__angle.html">axis_<wbr/>angle</a>&lt;S&gt;&amp; aa) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalars in an axis-angle are infinity or NaN.</dd>
           </dl>
         </section>
         <section>
@@ -243,7 +268,7 @@ template&lt;typename T&gt;
     </div>
   </div>
 </div>
-<script src="search-v2.js"></script>
+<script src="search-v2.js"></script><script>install_mcss_search_shim();</script>
 <script async="async" src="searchdata-v2.js"></script>
 <footer><nav>
   <div class="m-container">

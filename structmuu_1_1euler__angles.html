@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.3" name="generator"/>
+  <meta content="Poxy v0.12.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -81,10 +81,12 @@
               Reference
               <ul>
                 <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
                 <li><a href="#pub-attribs">Public variables</a></li>
                 <li><a href="#friends">Friends</a></li>
+                <li><a href="#related">Related</a></li>
               </ul>
             </li>
           </ul>
@@ -97,6 +99,15 @@
               using <a class="m-doc-self" href="#aabcd8c1321d511d7ea2188bd3f14710f">scalar_type</a> = Scalar
             </dt>
             <dd>The scalar type of the rotation's angles.</dd>
+          </dl>
+        </section>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a37e328cf5745ab1ccd34cf98ab58122d">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a37e328cf5745ab1ccd34cf98ab58122d">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; rot) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the angles in a set of euler angles are infinity or NaN.</dd>
           </dl>
         </section>
         <section id="typeless-methods">
@@ -139,12 +150,16 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a5339dae7cc9d6d76140f30dcb85f822e">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5339dae7cc9d6d76140f30dcb85f822e">operator*=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a541885ec01d69de62c9d5a4a64838ffc">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a541885ec01d69de62c9d5a4a64838ffc">infinity_or_nan</a>(</span><span class="m-doc-wrap">) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the angles are infinity or NaN.</dd>
+            <dt id="a13a2a7de450ca546071a189f042c301a">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a13a2a7de450ca546071a189f042c301a">operator*=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Scales the euler angles.</dd>
-            <dt id="a60bffa446a607de9ce8594c1d6203893">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a60bffa446a607de9ce8594c1d6203893">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="a6356761ebb48f89851054553c211de5d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6356761ebb48f89851054553c211de5d">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Copy-assigment operator.</dd>
           </dl>
@@ -169,22 +184,32 @@
         <section id="friends">
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
-            <dt id="a5ca92f2f47ee9029a41e868228816209">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5ca92f2f47ee9029a41e868228816209">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; lhs,
+            <dt id="a69086f4755e603d6adf8761439081172">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a69086f4755e603d6adf8761439081172">operator*</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; lhs,
               <a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> rhs) -&gt; <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Scales a set of euler angles.</dd>
-            <dt id="abbe6f01d609c5d80432e9f7bee8b1f43">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#abbe6f01d609c5d80432e9f7bee8b1f43">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> lhs,
+            <dt id="a0e227ca0a71b6f21085b0a81ddd46350">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a0e227ca0a71b6f21085b0a81ddd46350">operator*</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1euler__angles.html#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> lhs,
               const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; rhs) -&gt; <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Scales a set of euler angles.</dd>
-            <dt id="a8e167354127cca5b6a987605327c3fb9">
+            <dt id="ab240e81d52e65c68650e931c08b18a3d">
               <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a8e167354127cca5b6a987605327c3fb9">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab240e81d52e65c68650e931c08b18a3d">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
               const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; rot) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
             <dd>Writes a set of euler angles out to a text stream.</dd>
+          </dl>
+        </section>
+        <section id="related">
+          <h2><a href="#related">Related</a></h2>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga57649f8eb85fafd25bd68c6143468470">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&lt;S&gt;&amp; rot) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the angles in a set of euler angles are infinity or NaN.</dd>
           </dl>
         </section>
         <section>
@@ -283,7 +308,7 @@ template&lt;typename T&gt;
     </div>
   </div>
 </div>
-<script src="search-v2.js"></script>
+<script src="search-v2.js"></script><script>install_mcss_search_shim();</script>
 <script async="async" src="searchdata-v2.js"></script>
 <footer><nav>
   <div class="m-container">

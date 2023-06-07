@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.3" name="generator"/>
+  <meta content="Poxy v0.12.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -78,6 +78,11 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae448e944122a385f82dbd7c16e6a42c2">infinity_or_nan</a>(</span><span class="m-doc-wrap">const axis_angle&lt;S&gt;&amp; aa) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the scalars in an axis-angle are infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga61bc070f6ce184ae3a0d8763b99c1da4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> are infinity or NaN.</dd>
@@ -86,6 +91,11 @@
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga96fa1ad0d535b49feb40932d4b36e602">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;S&gt;&amp; bs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding sphere</a> are infinity or NaN.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename S&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga57649f8eb85fafd25bd68c6143468470">infinity_or_nan</a>(</span><span class="m-doc-wrap">const euler_angles&lt;S&gt;&amp; rot) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Returns true if any of the angles in a set of euler angles are infinity or NaN.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafea7a631de7f6399fb55e1dffbe79c00">infinity_or_nan</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected" href="structmuu_1_1half.html">half</a> x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -171,6 +181,16 @@
         </section>
         <section>
           <h2>Function documentation</h2>
+          <section class="m-doc-details" id="gae448e944122a385f82dbd7c16e6a42c2"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="axis__angle_8h.html">&lt;muu/axis_angle.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename S&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae448e944122a385f82dbd7c16e6a42c2">infinity_or_nan</a>(</span><span class="m-doc-wrap">const axis_angle&lt;S&gt;&amp; aa) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if any of the scalars in an axis-angle are infinity or NaN.</p>
+          </div></section>
           <section class="m-doc-details" id="ga61bc070f6ce184ae3a0d8763b99c1da4"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__box_8h.html">&lt;muu/bounding_box.h&gt;</a></div>
@@ -190,6 +210,16 @@
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga96fa1ad0d535b49feb40932d4b36e602">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;S&gt;&amp; bs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding sphere</a> are infinity or NaN.</p>
+          </div></section>
+          <section class="m-doc-details" id="ga57649f8eb85fafd25bd68c6143468470"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="euler__angles_8h.html">&lt;muu/euler_angles.h&gt;</a></div>
+              <div class="m-doc-template">
+                template&lt;typename S&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga57649f8eb85fafd25bd68c6143468470">infinity_or_nan</a>(</span><span class="m-doc-wrap">const euler_angles&lt;S&gt;&amp; rot) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Returns true if any of the angles in a set of euler angles are infinity or NaN.</p>
           </div></section>
           <section class="m-doc-details" id="gafea7a631de7f6399fb55e1dffbe79c00"><div>
             <h3>
@@ -381,7 +411,7 @@
     </div>
   </div>
 </div>
-<script src="search-v2.js"></script>
+<script src="search-v2.js"></script><script>install_mcss_search_shim();</script>
 <script async="async" src="searchdata-v2.js"></script>
 <footer><nav>
   <div class="m-container">

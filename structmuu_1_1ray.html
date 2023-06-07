@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.3" name="generator"/>
+  <meta content="Poxy v0.12.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -149,8 +149,8 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="a1328e29562701ee28a599b87088dfa9f">
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a1328e29562701ee28a599b87088dfa9f">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            <dt id="afa151b0cf297a694463afbe19589bbc3">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afa151b0cf297a694463afbe19589bbc3">operator=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp;) -&gt; <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; <span class="m-label m-flat m-info">defaulted</span> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Copy-assigment operator.</dd>
           </dl>
@@ -199,13 +199,13 @@
             <dd>Returns true if any of the scalars in the ray are infinity or NaN.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ae7c7b655f22f9f3fda91df6a54cb165a">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a93a7acfd380b2bf28cbcf57d7ea69a7d">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two rays are not exactly equal.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a488b7517aadd98d1bb955d218a365f1b">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ac2b2dc69b1fed64c2efa82d66e9c954e">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two rays are exactly equal.</dd>
@@ -214,9 +214,9 @@
         <section id="friends">
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
-            <dt id="a23e31eb3c78379af027cd8111addfcc3">
+            <dt id="ad4ff11dbabc5bbe8a572440afc352101">
               <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a23e31eb3c78379af027cd8111addfcc3">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad4ff11dbabc5bbe8a572440afc352101">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
             <dd>Writes a ray out to a text stream.</dd>
@@ -263,25 +263,25 @@ template&lt;typename T&gt;
             </table>
 <aside class="m-note m-default"><h4>See also</h4><p><a class="m-doc" href="group__meta.html#ga824ac2b58e006d4be8d4b0d6a0f7180d">muu::<wbr/>allow_implicit_bit_cast</a></p></aside>
           </div></section>
-          <section class="m-doc-details" id="ae7c7b655f22f9f3fda91df6a54cb165a"><div>
+          <section class="m-doc-details" id="a93a7acfd380b2bf28cbcf57d7ea69a7d"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;<br/>
 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae7c7b655f22f9f3fda91df6a54cb165a">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a93a7acfd380b2bf28cbcf57d7ea69a7d">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two rays are not exactly equal.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="structmuu_1_1ray.html#a473c476fd824a1389837b25a657831c6">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
           </div></section>
-          <section class="m-doc-details" id="a488b7517aadd98d1bb955d218a365f1b"><div>
+          <section class="m-doc-details" id="ac2b2dc69b1fed64c2efa82d66e9c954e"><div>
             <h3>
               <div class="m-doc-template">
                 template&lt;typename Scalar&gt;<br/>
 template&lt;typename T&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a488b7517aadd98d1bb955d218a365f1b">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac2b2dc69b1fed64c2efa82d66e9c954e">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two rays are exactly equal.</p>
@@ -326,7 +326,7 @@ template&lt;typename T&gt;
     </div>
   </div>
 </div>
-<script src="search-v2.js"></script>
+<script src="search-v2.js"></script><script>install_mcss_search_shim();</script>
 <script async="async" src="searchdata-v2.js"></script>
 <footer><nav>
   <div class="m-container">

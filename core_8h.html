@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.3" name="generator"/>
+  <meta content="Poxy v0.12.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -86,7 +86,7 @@
           <dl class="m-doc">
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename Offset&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga1b1744dba2ed4d6d222a2087c41198e2">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga95da5073b863161a6542266f4a6c5961">apply_offset</a>(</span><span class="m-doc-wrap">T* ptr,
               Offset offset) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Applies a byte offset to a pointer.</dd>
@@ -99,28 +99,28 @@
             <dd>Returns true if a value is between two bounds (inclusive).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#gacda94cdc720a556821f4f0b8ba3584fc">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga853b138ba34af796906a03cda9dbfabe">clamp</a>(</span><span class="m-doc-wrap">const T&amp; val,
               const T&amp; low,
               const T&amp; high) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a value clamped between two bounds (inclusive).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga3f4aebd5127f7d34e7c0db6f0cf8a486">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga290899e08db4ce22c8e9f48a02bedaa3">max</a>(</span><span class="m-doc-wrap">const T&amp; val1,
               const T&amp; val2,
               const U&amp;... vals) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the maximum of two or more values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga0653701c44275f3e2a18a995a4612e13">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga3e6bbeba20969ce0e3ca5aca843a9e71">min</a>(</span><span class="m-doc-wrap">const T&amp; val1,
               const T&amp; val2,
               const U&amp;... vals) -&gt; const T&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the minimum of two or more values.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga5462fb23518ec1604237de7bbf0cc517">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga79246c66d2df39fe825be13e654d8c52">to_address</a>(</span><span class="m-doc-wrap">T* p) -&gt; T* <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>
@@ -130,7 +130,7 @@
             <dd>Obtain the address represented by p without forming a reference to the pointee.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga436d128adc16874b66e1bc5141743e92">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__core.html#ga81642f54291cc4a1287ef141b3f4d34f">unwrap</a>(</span><span class="m-doc-wrap">T val) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/underlying_type.html" target="_blank">std::<wbr/>underlying_type_t</a>&lt;T&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Unwraps an enum to it's raw integer equivalent.</dd>
           </dl>
@@ -173,7 +173,7 @@
     </div>
   </div>
 </div>
-<script src="search-v2.js"></script>
+<script src="search-v2.js"></script><script>install_mcss_search_shim();</script>
 <script async="async" src="searchdata-v2.js"></script>
 <footer><nav>
   <div class="m-container">
