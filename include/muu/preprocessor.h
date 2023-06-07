@@ -999,10 +999,11 @@ help me improve support for your target architecture. Thanks!
 /// \brief Expands to `_pragma(...)` when compiling with ICC.
 
 //% preprocessor::delete_class_defaults start
-
-#define MUU_DELETE_MOVE(T)                                                                                             \
-	T(T&&)			  = delete;                                                                                        \
-	T& operator=(T&&) = delete
+#ifndef MUU_DELETE_MOVE
+	#define MUU_DELETE_MOVE(T)                                                                                         \
+		T(T&&)			  = delete;                                                                                    \
+		T& operator=(T&&) = delete
+#endif
 /// \def MUU_DELETE_MOVE(T)
 /// \brief Explicitly deletes the move constructor and move-assignment operator of a class or struct.
 /// \details \cpp
@@ -1024,9 +1025,11 @@ help me improve support for your target architecture. Thanks!
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 
-#define MUU_DELETE_COPY(T)                                                                                             \
-	T(const T&)			   = delete;                                                                                   \
-	T& operator=(const T&) = delete
+#ifndef MUU_DELETE_COPY
+	#define MUU_DELETE_COPY(T)                                                                                         \
+		T(const T&)			   = delete;                                                                               \
+		T& operator=(const T&) = delete
+#endif
 /// \def MUU_DELETE_COPY(T)
 /// \brief Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.
 /// \details \cpp
@@ -1049,9 +1052,11 @@ help me improve support for your target architecture. Thanks!
 
 //% preprocessor::delete_class_defaults end
 
-#define MUU_DEFAULT_MOVE(T)                                                                                            \
-	T(T&&)			  = default;                                                                                       \
-	T& operator=(T&&) = default
+#ifndef MUU_DEFAULT_MOVE
+	#define MUU_DEFAULT_MOVE(T)                                                                                        \
+		T(T&&)			  = default;                                                                                   \
+		T& operator=(T&&) = default
+#endif
 /// \def MUU_DEFAULT_MOVE
 /// \brief Explicitly defaults the move constructor and move-assignment operator of a class or struct.
 /// \details \cpp
@@ -1073,9 +1078,11 @@ help me improve support for your target architecture. Thanks!
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 
-#define MUU_DEFAULT_COPY(T)                                                                                            \
-	T(const T&)			   = default;                                                                                  \
-	T& operator=(const T&) = default
+#ifndef MUU_DEFAULT_COPY
+	#define MUU_DEFAULT_COPY(T)                                                                                        \
+		T(const T&)			   = default;                                                                              \
+		T& operator=(const T&) = default
+#endif
 /// \def MUU_DEFAULT_COPY
 /// \brief Explicitly defaults the copy constructor and copy-assignment operator of a class or struct.
 /// \details \cpp

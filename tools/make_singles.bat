@@ -10,7 +10,7 @@ REM ----------------------------------------------------------------------------
 CALL :MakeSingles ^
 	type_list ^
 	tagged_ptr ^
-	sync_utils
+	spin_mutex
 
 POPD
 @ENDLOCAL

@@ -11,6 +11,25 @@ from argparse import ArgumentParser
 from pathlib import Path
 
 
+def cleanup_text(text: str) -> str:
+	while True:
+		prev_text = text
+		# 'strip this' blocks "//# {{" and "//# }}"
+		text = re.sub(r'(?:\n[ \t]*)?//[#!][ \t]*[{][{].*?//[#!][ \t]*[}][}].*?\n', '\n', text, flags=re.S)
+		# trailing whitespace
+		text = re.sub('([^ \t])[ \t]+\n', r'\1\n', text)
+		# double blank lines
+		text = re.sub('\n(?:[ \t]*\n[ \t]*)+\n', '\n\n', text)
+		# magic comments
+		blank_line = r'(?:[ \t]*\n)'
+		magic_comment = r'(?:[ \t]*//(?:[/#!<]|[ \t]?(?:\^\^\^|vvv))[^\n]*)'
+		text = re.sub(rf'\n{magic_comment}\n{blank_line}+{magic_comment}\n', '\n', text)
+		text = re.sub(rf'([{{,])\s*\n(?:{magic_comment}\n|{blank_line})+', r'\1\n', text)
+		text = re.sub(rf'\n?(?:{magic_comment}\n)+', '\n', text)
+		if text == prev_text:
+			break
+	return text
+
 
 def main():
 	args = ArgumentParser(description=r'Creates a single header from fragments of the codebase.')
@@ -76,9 +95,9 @@ def main():
 			args.macros += r'_'
 		print(rf'    macros: {args.macros}')
 
-	SNIPPET_DECL = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)(?:\s+(guarded))?\s*$', flags=re.MULTILINE)
-	SNIPPET_START = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)\s+start\s*$', flags=re.MULTILINE)
-	SNIPPET_END = re.compile(r'^\s*//%\s*([a-zA-Z0-9::_+-]+)\s+end\s*$', flags=re.MULTILINE)
+	SNIPPET_DECL  = re.compile(r'^\s*\/\/%\s*([a-zA-Z0-9::_+-]+)(?:\s+(guarded))?\s*$', flags=re.MULTILINE)
+	SNIPPET_START = re.compile(r'^\s*\/\/%\s*([a-zA-Z0-9::_+-]+)\s+start\s*$', flags=re.MULTILINE)
+	SNIPPET_END   = re.compile(r'^\s*\/\/%\s*([a-zA-Z0-9::_+-]+)\s+end\s*$', flags=re.MULTILINE)
 
 	# figure out which snippets we need
 	snippets = dict()
@@ -145,6 +164,7 @@ def main():
 				snippet = re.sub(r'^\s*//%.+?$', '', snippet, flags=re.MULTILINE)
 				if m[1].endswith(r'_naive'):
 					snippet = snippet.replace(r'_naive', r'')
+				snippet = cleanup_text(snippet)
 				snippet = f'\n{snippet}\n'
 				snippets[m[1]] = snippet
 				#print(f'############################################\n{snippets[m[1]]}')
@@ -188,22 +208,7 @@ def main():
 		text = re.sub(rf'::{ns[0]}\b', rf'::{ns[1]}', text)
 
 	# other cleanup
-	while True:
-		prev_text = text
-		# 'strip this' blocks "//# {{" and "//# }}"
-		text = re.sub(r'(?:\n[ \t]*)?//[#!][ \t]*[{][{].*?//[#!][ \t]*[}][}].*?\n', '\n', text, flags=re.S)
-		# trailing whitespace
-		text = re.sub('([^ \t])[ \t]+\n', r'\1\n', text)
-		# double blank lines
-		text = re.sub('\n(?:[ \t]*\n[ \t]*)+\n', '\n\n', text)
-		# magic comments
-		blank_line = r'(?:[ \t]*\n)'
-		magic_comment = r'(?:[ \t]*//(?:[/#!<]|[ \t]?(?:\^\^\^|vvv))[^\n]*)'
-		text = re.sub(rf'\n{magic_comment}\n{blank_line}+{magic_comment}\n', '\n', text)
-		text = re.sub(rf'([{{,])\s*\n(?:{magic_comment}\n|{blank_line})+', r'\1\n', text)
-		text = re.sub(rf'\n?(?:{magic_comment}\n)+', '\n', text)
-		if text == prev_text:
-			break
+	text = cleanup_text(text)
 
 	# clang-format
 	try:
