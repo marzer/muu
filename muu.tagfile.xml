@@ -15243,15 +15243,8 @@
       <type></type>
       <name>spin_mutex</name>
       <anchorfile>classmuu_1_1spin__mutex.html</anchorfile>
-      <anchor>a171f1bdee051530e893882b6f5d2e21a</anchor>
-      <arglist>() noexcept=default</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>~spin_mutex</name>
-      <anchorfile>classmuu_1_1spin__mutex.html</anchorfile>
-      <anchor>a2065d2d73725a3c951abee57a5ab9214</anchor>
-      <arglist>() noexcept=default</arglist>
+      <anchor>a14c0402c45a651eff84228184031d7d3</anchor>
+      <arglist>() noexcept</arglist>
     </member>
     <member kind="function">
       <type>void</type>
