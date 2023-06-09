@@ -23,6 +23,9 @@ namespace muu
 	{
 		// implementation is based on this article:
 		// https://rigtorp.se/spinlock/
+		//
+		// increasing spin-wait backoff based on "Intel 64 and IA-32 Architectures Optimization Reference Manual":
+		// https://software.intel.com/sites/default/files/managed/9e/bc/64-ia-32-architectures-optimization-manual.pdf
 
 	  private:
 		std::atomic_bool held_;
@@ -30,10 +33,9 @@ namespace muu
 	  public:
 		/// \brief Default constructor.
 		MUU_NODISCARD_CTOR
-		spin_mutex() noexcept = default;
-
-		/// \brief Destructor
-		~spin_mutex() noexcept = default;
+		spin_mutex() noexcept //
+			: held_{ false }
+		{}
 
 		MUU_DELETE_COPY(spin_mutex);
 		MUU_DELETE_MOVE(spin_mutex);
@@ -57,7 +59,6 @@ namespace muu
 		/// \brief Tries to acquire a lock on the mutex.
 		/// \returns `true` if the lock was acquired.
 		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
 		bool try_lock() noexcept
 		{
 			return !held_.load(std::memory_order_relaxed) //
@@ -65,7 +66,6 @@ namespace muu
 		}
 
 		/// \brief Releases the held lock on the mutex.
-		MUU_ALWAYS_INLINE
 		void unlock() noexcept
 		{
 			held_.store(false, std::memory_order_release);

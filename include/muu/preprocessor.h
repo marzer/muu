@@ -998,7 +998,6 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_PRAGMA_ICC(...)
 /// \brief Expands to `_pragma(...)` when compiling with ICC.
 
-//% preprocessor::delete_class_defaults start
 #ifndef MUU_DELETE_MOVE
 	#define MUU_DELETE_MOVE(T)                                                                                         \
 		T(T&&)			  = delete;                                                                                    \
@@ -1049,8 +1048,6 @@ help me improve support for your target architecture. Thanks!
 /// };
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
-
-//% preprocessor::delete_class_defaults end
 
 #ifndef MUU_DEFAULT_MOVE
 	#define MUU_DEFAULT_MOVE(T)                                                                                        \

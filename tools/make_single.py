@@ -26,6 +26,19 @@ def cleanup_text(text: str) -> str:
 		text = re.sub(rf'\n{magic_comment}\n{blank_line}+{magic_comment}\n', '\n', text)
 		text = re.sub(rf'([{{,])\s*\n(?:{magic_comment}\n|{blank_line})+', r'\1\n', text)
 		text = re.sub(rf'\n?(?:{magic_comment}\n)+', '\n', text)
+		# MUU class macros
+		text = re.sub(
+			r'MUU_DELETE_MOVE\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;',
+			r'''\1(\1&&) = delete;
+			\1& operator=(\1&&) = delete;''',
+			text
+		)
+		text = re.sub(
+			r'MUU_DELETE_COPY\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;',
+			r'''\1(const \1&) = delete;
+			\1& operator=(const \1&) = delete;''',
+			text
+		)
 		if text == prev_text:
 			break
 	return text
