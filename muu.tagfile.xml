@@ -3831,8 +3831,8 @@
       <type>#define</type>
       <name>MUU_ASSUME</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gabed9674c744db2fe13aa5a486b072d02</anchor>
-      <arglist>(cond)</arglist>
+      <anchor>gab069ad48ae863ebc116c2bf3f508013f</anchor>
+      <arglist>(expr)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
@@ -29609,8 +29609,8 @@
       <type>#define</type>
       <name>MUU_ASSUME</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gabed9674c744db2fe13aa5a486b072d02</anchor>
-      <arglist>(cond)</arglist>
+      <anchor>gab069ad48ae863ebc116c2bf3f508013f</anchor>
+      <arglist>(expr)</arglist>
     </member>
     <member kind="define">
       <type>#define</type>
