@@ -44,6 +44,8 @@
       <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='DynamicLibrary'">%(PreprocessorDefinitions);MUU_DLL=1</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='StaticLibrary'">%(PreprocessorDefinitions);MUU_DLL=0</PreprocessorDefinitions>
       <WarningLevel>EnableAllWarnings</WarningLevel>
+      <EnableModules>false</EnableModules>
+      <BuildStlModules>false</BuildStlModules>
     </ClCompile>
   </ItemDefinitionGroup>
   <PropertyGroup>

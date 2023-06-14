@@ -88,7 +88,7 @@ namespace muu::impl
 
 		action_invoker_type action_invoker;
 
-		template <typename T>
+		template <typename T, size_t StoragePenalty = 0>
 		MUU_NODISCARD_CTOR
 		thread_pool_task(T&& callable_) noexcept;
 
@@ -127,8 +127,7 @@ namespace muu::impl
 					  || std::is_union_v<callable_type>);
 
 		static constexpr bool requires_destruction = false;
-		static constexpr bool is_function_pointer  = std::is_function_v<callable_type>;
-		static constexpr bool is_referential	   = !is_function_pointer;
+		static constexpr bool requires_storage	   = true;
 
 		template <typename U>
 		MUU_PURE_INLINE_GETTER
@@ -169,6 +168,7 @@ namespace muu::impl
 		}
 
 		template <typename... Args>
+		MUU_ALWAYS_INLINE
 		static void invoke(storage_type callable,
 						   [[maybe_unused]] size_t index,
 						   [[maybe_unused]] Args&&... args) noexcept
@@ -176,16 +176,15 @@ namespace muu::impl
 			MUU_ASSUME(callable);
 
 			if constexpr (std::is_nothrow_invocable_v<callable_type&, Args&&..., size_t>)
+			{
 				(*callable)(static_cast<Args&&>(args)..., index);
+			}
 			else if constexpr (std::is_nothrow_invocable_v<callable_type&, Args&&...>)
 			{
-				MUU_UNUSED(index);
 				(*callable)(static_cast<Args&&>(args)...);
 			}
 			else if constexpr (std::is_nothrow_invocable_v<callable_type&>)
 			{
-				MUU_UNUSED(index);
-				(MUU_UNUSED(args), ...);
 				(*callable)();
 			}
 			else
@@ -247,8 +246,7 @@ namespace muu::impl
 		using callable_type = T;
 
 		static constexpr bool requires_destruction = !std::is_trivially_destructible_v<callable_type>;
-		static constexpr bool is_function_pointer  = false;
-		static constexpr bool is_referential	   = false;
+		static constexpr bool requires_storage	   = true;
 
 		template <typename U>
 		MUU_CONST_INLINE_GETTER
@@ -314,21 +312,21 @@ namespace muu::impl
 		}
 
 		template <typename... Args>
+		MUU_ALWAYS_INLINE
 		static void invoke(storage_type& callable,
 						   [[maybe_unused]] size_t index,
 						   [[maybe_unused]] Args&&... args) noexcept
 		{
 			if constexpr (std::is_nothrow_invocable_v<callable_type&, Args&&..., size_t>)
+			{
 				callable(static_cast<Args&&>(args)..., index);
+			}
 			else if constexpr (std::is_nothrow_invocable_v<callable_type&, Args&&...>)
 			{
-				MUU_UNUSED(index);
 				callable(static_cast<Args&&>(args)...);
 			}
 			else if constexpr (std::is_nothrow_invocable_v<callable_type&>)
 			{
-				MUU_UNUSED(index);
-				(MUU_UNUSED(args), ...);
 				callable();
 			}
 			else
@@ -360,15 +358,59 @@ namespace muu::impl
 		}
 	};
 
-	template <typename T, size_t StoragePenalty>
+	template <typename T>
+	inline constexpr bool is_trivially_manifestable = std::is_class_v<T>						   //
+												   && std::is_empty_v<T>						   //
+												   && std::is_trivially_default_constructible_v<T> //
+												   && std::is_trivially_destructible_v<T>;
+
+	template <typename T>
+	struct thread_pool_task_traits_manifestable
+	{
+		static_assert(!is_cvref<T>);
+		static_assert(is_trivially_manifestable<T>);
+
+		using callable_type = T;
+
+		static constexpr bool requires_destruction = false;
+		static constexpr bool requires_storage	   = false;
+
+		template <typename... Args>
+		MUU_ALWAYS_INLINE
+		static void invoke([[maybe_unused]] size_t index, [[maybe_unused]] Args&&... args) noexcept
+		{
+			if constexpr (std::is_nothrow_invocable_v<callable_type&&, Args&&..., size_t>)
+			{
+				callable_type{}(static_cast<Args&&>(args)..., index);
+			}
+			else if constexpr (std::is_nothrow_invocable_v<callable_type&&, Args&&...>)
+			{
+				callable_type{}(static_cast<Args&&>(args)...);
+			}
+			else if constexpr (std::is_nothrow_invocable_v<callable_type&&>)
+			{
+				callable_type{}();
+			}
+			else
+				static_assert(always_false<T>, "Evaluated unreachable branch!");
+		}
+	};
+
+	template <typename T, size_t StoragePenalty = 0>
 	MUU_CONST_GETTER
 	MUU_CONSTEVAL
 	auto thread_pool_task_traits_selector() noexcept
 	{
 		using bare_type = remove_cvref<T>;
 
+		// trivially-manifestable callable objects (empty classes, stateless lambdas)
+		if constexpr (is_trivially_manifestable<bare_type>)
+		{
+			return thread_pool_task_traits_manifestable<bare_type>{};
+		}
+
 		// function references
-		if constexpr (std::is_function_v<bare_type>)
+		else if constexpr (std::is_function_v<bare_type>)
 		{
 			return thread_pool_task_traits_pointer_to_callable<std::add_pointer_t<bare_type>>{};
 		}
@@ -451,17 +493,21 @@ namespace muu::impl
 	struct thread_pool_task_traits : decltype(thread_pool_task_traits_selector<T, StoragePenalty>())
 	{};
 
-	template <typename T>
-	inline thread_pool_task::thread_pool_task(T&& callable) noexcept
+	template <typename T, size_t StoragePenalty /* = 0 */>
+	MUU_NODISCARD_CTOR
+	inline thread_pool_task::thread_pool_task([[maybe_unused]] T&& callable) noexcept
 	{
-		using traits		= thread_pool_task_traits<T&&>;
+		using traits		= thread_pool_task_traits<T&&, StoragePenalty>;
 		using callable_type = typename traits::callable_type;
 
 		static_assert(std::is_nothrow_invocable_v<callable_type&, size_t> //
 					  || std::is_nothrow_invocable_v<callable_type&>);
 
 		// store callable
-		traits::store(buffer, static_cast<T&&>(callable));
+		if constexpr (traits::requires_storage)
+		{
+			traits::store(buffer, static_cast<T&&>(callable));
+		}
 
 		// create invoker/mover/deleter
 		action_invoker = [](thread_pool_task_action&& action) noexcept
@@ -471,13 +517,23 @@ namespace muu::impl
 				case thread_pool_task_action::types::move:
 				{
 					action.task.action_invoker = action.data.source->action_invoker;
-					traits::move(action.data.source->buffer, action.task.buffer);
+					if constexpr (traits::requires_storage)
+					{
+						traits::move(action.data.source->buffer, action.task.buffer);
+					}
 					break;
 				}
 
 				case thread_pool_task_action::types::invoke:
 				{
-					traits::invoke(action.task.buffer, action.data.thread_index);
+					if constexpr (traits::requires_storage)
+					{
+						traits::invoke(action.task.buffer, action.data.thread_index);
+					}
+					else
+					{
+						traits::invoke(action.data.thread_index);
+					}
 					break;
 				}
 
@@ -593,7 +649,7 @@ namespace muu
 				impl::thread_pool_task{ static_cast<T&&>(task) };
 		}
 
-		template <typename Task>
+		template <typename Task, bool = impl::is_trivially_manifestable<Task>>
 		class batched_task
 		{
 		  public:
@@ -606,12 +662,14 @@ namespace muu
 
 		  public:
 			template <typename Arg>
+			MUU_ALWAYS_INLINE
 			void operator()(Arg&& arg, size_t batch_index) noexcept
 			{
 				traits::invoke(task_, batch_index, static_cast<Arg&&>(arg));
 			}
 
 			template <typename Arg>
+			MUU_ALWAYS_INLINE
 			void operator()(Arg&& arg) noexcept
 			{
 				traits::invoke(task_, {}, static_cast<Arg&&>(arg));
@@ -624,25 +682,53 @@ namespace muu
 			{}
 		};
 
+		template <typename Task>
+		class batched_task<Task, true>
+		{
+		  public:
+			using traits = impl::thread_pool_task_traits<Task>;
+
+			template <typename Arg>
+			MUU_ALWAYS_INLINE
+			void operator()(Arg&& arg, size_t batch_index) noexcept
+			{
+				traits::invoke(batch_index, static_cast<Arg&&>(arg));
+			}
+
+			template <typename Arg>
+			MUU_ALWAYS_INLINE
+			void operator()(Arg&& arg) noexcept
+			{
+				traits::invoke({}, static_cast<Arg&&>(arg));
+			}
+		};
+
 		template <typename OriginalTask, typename Task>
 		MUU_NODISCARD
 		MUU_ALWAYS_INLINE
 		static auto wrap_batched_task(Task&& task) noexcept
 		{
 			static_assert(std::is_reference_v<OriginalTask>);
-			static_assert(std::is_same_v<remove_cvref<OriginalTask>, remove_cvref<Task>>);
+			static_assert(std::is_same_v<std::remove_reference_t<OriginalTask>, std::remove_reference_t<Task>>);
 
-			if constexpr (std::is_lvalue_reference_v<OriginalTask>)
+			if constexpr (impl::is_trivially_manifestable<remove_cvref<Task>>)
 			{
-				static_assert(std::is_same_v<OriginalTask, Task&&>);
-				return batched_task<OriginalTask>{ task };
+				return batched_task<remove_cvref<Task>>{};
 			}
 			else
 			{
-				if constexpr (std::is_rvalue_reference_v<Task&&>)
-					return batched_task<Task&&>{ static_cast<Task&&>(task) };
+				if constexpr (std::is_lvalue_reference_v<OriginalTask>)
+				{
+					static_assert(std::is_same_v<OriginalTask, Task&&>);
+					return batched_task<OriginalTask>{ task };
+				}
 				else
-					return batched_task<remove_cvref<Task>&&>{ remove_cvref<Task>{ task } };
+				{
+					if constexpr (std::is_rvalue_reference_v<Task&&>)
+						return batched_task<Task&&>{ static_cast<Task&&>(task) };
+					else
+						return batched_task<remove_cvref<Task>&&>{ remove_cvref<Task>{ task } };
+				}
 			}
 		}
 
@@ -761,9 +847,11 @@ namespace muu
 									[[maybe_unused]] size_t batch_index,
 									Task&& task) noexcept
 		{
-			MUU_ASSERT(batch_start < batch_end);
-
+			static_assert(std::is_reference_v<OriginalTask>);
+			static_assert(std::is_same_v<std::remove_reference_t<OriginalTask>, std::remove_reference_t<Task>>);
 			static_assert(Arity <= 2);
+
+			MUU_ASSERT(batch_start < batch_end);
 			MUU_ASSERT(batch_index < workers());
 
 			const auto queue_index = shared_queue_index == no_available_queue //
@@ -949,7 +1037,10 @@ namespace muu
 												   [[maybe_unused]] size_t batch_index,
 												   Task&& task) noexcept
 		{
+			static_assert(std::is_reference_v<OriginalTask>);
+			static_assert(std::is_same_v<std::remove_reference_t<OriginalTask>, std::remove_reference_t<Task>>);
 			static_assert(Arity <= 2);
+
 			MUU_ASSERT(batch_index < workers());
 
 			const auto queue_index = shared_queue_index == no_available_queue //

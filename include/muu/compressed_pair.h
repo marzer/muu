@@ -69,8 +69,8 @@ namespace muu::impl
 	struct compressed_pair_base
 	{
 		static_assert(Flags == compressed_pair_flags::none);
-		First first_;
-		Second second_;
+		MUU_NO_UNIQUE_ADDRESS First first_;
+		MUU_NO_UNIQUE_ADDRESS Second second_;
 
 		COMPRESSED_PAIR_BASE_DEFAULTS(first_, second_);
 		COMPRESSED_PAIR_BASE_GETTERS(First, first, first_);

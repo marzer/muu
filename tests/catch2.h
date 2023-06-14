@@ -23,6 +23,9 @@
 	#pragma warning(disable : 5105)
 	#pragma warning(disable : 5262)
 	#pragma warning(disable : 5264)
+	#pragma optimize("gt", on)
+	#pragma runtime_checks("", off)
+	#pragma strict_gs_check(push, off)
 #endif
 
 #if !defined(USE_VENDORED_LIBS) || USE_VENDORED_LIBS
@@ -40,5 +43,8 @@
 #elif defined(__GNUC__)
 	#pragma GCC diagnostic pop
 #elif defined(_MSC_VER)
+	#pragma strict_gs_check(pop)
+	#pragma runtime_checks("", restore)
+	#pragma optimize("", on)
 	#pragma warning(pop)
 #endif

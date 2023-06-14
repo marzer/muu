@@ -33,7 +33,7 @@ bool compressed_pair_static_checks() noexcept
 	else if constexpr (std::is_empty_v<Second>)
 		static_assert(sizeof(pair) == sizeof(First));
 	else
-		static_assert(sizeof(pair) == sizeof(First) + sizeof(Second));
+		static_assert(sizeof(pair) <= sizeof(First) + sizeof(Second));
 
 	static_assert(is_tuple_like<pair>);
 

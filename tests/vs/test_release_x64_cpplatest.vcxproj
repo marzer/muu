@@ -48,6 +48,8 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DebugInformationFormat Condition="!$(Configuration.ToLower().Contains('debug'))">None</DebugInformationFormat>
       <WarningLevel>EnableAllWarnings</WarningLevel>
+      <EnableModules>false</EnableModules>
+      <BuildStlModules>false</BuildStlModules>
       <DisableSpecificWarnings>%(DisableSpecificWarnings);4127</DisableSpecificWarnings>
       <!-- conditional expr is constant -->
       <DisableSpecificWarnings>%(DisableSpecificWarnings);4324</DisableSpecificWarnings>

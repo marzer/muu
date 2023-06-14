@@ -10,12 +10,22 @@ import textwrap
 from argparse import ArgumentParser
 from pathlib import Path
 
+SNIPPET_DECL  = re.compile(r'^\s*\/\/%\s*([a-zA-Z0-9::_+-]+)(?:\s+(guarded))?\s*$', flags=re.MULTILINE)
+SNIPPET_START = re.compile(r'^\s*\/\/%\s*([a-zA-Z0-9::_+-]+)\s+start\s*$', flags=re.MULTILINE)
+SNIPPET_END   = re.compile(r'^\s*\/\/%\s*([a-zA-Z0-9::_+-]+)\s+end\s*$', flags=re.MULTILINE)
+
+STRIP_BLOCK = re.compile(r'(?:\n[ \t]*)?//[#!][ \t]*[{][{].*?//[#!][ \t]*[}][}].*?\n', flags=re.S)
+MUU_DELETE_MOVE = re.compile(r'MUU_DELETE_MOVE\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;')
+MUU_DELETE_COPY = re.compile(r'MUU_DELETE_COPY\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;')
 
 def cleanup_text(text: str) -> str:
+
+	# 'strip this' blocks "//# {{" and "//# }}"
+	text = STRIP_BLOCK.sub('\n', text)
+
+
 	while True:
 		prev_text = text
-		# 'strip this' blocks "//# {{" and "//# }}"
-		text = re.sub(r'(?:\n[ \t]*)?//[#!][ \t]*[{][{].*?//[#!][ \t]*[}][}].*?\n', '\n', text, flags=re.S)
 		# trailing whitespace
 		text = re.sub('([^ \t])[ \t]+\n', r'\1\n', text)
 		# double blank lines
@@ -27,20 +37,20 @@ def cleanup_text(text: str) -> str:
 		text = re.sub(rf'([{{,])\s*\n(?:{magic_comment}\n|{blank_line})+', r'\1\n', text)
 		text = re.sub(rf'\n?(?:{magic_comment}\n)+', '\n', text)
 		# MUU class macros
-		text = re.sub(
-			r'MUU_DELETE_MOVE\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;',
+		text = MUU_DELETE_MOVE.sub(
 			r'''\1(\1&&) = delete;
 			\1& operator=(\1&&) = delete;''',
 			text
 		)
-		text = re.sub(
-			r'MUU_DELETE_COPY\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;',
+		text = MUU_DELETE_COPY.sub(
 			r'''\1(const \1&) = delete;
 			\1& operator=(const \1&) = delete;''',
 			text
 		)
 		if text == prev_text:
 			break
+
+
 	return text
 
 
@@ -108,10 +118,6 @@ def main():
 			args.macros += r'_'
 		print(rf'    macros: {args.macros}')
 
-	SNIPPET_DECL  = re.compile(r'^\s*\/\/%\s*([a-zA-Z0-9::_+-]+)(?:\s+(guarded))?\s*$', flags=re.MULTILINE)
-	SNIPPET_START = re.compile(r'^\s*\/\/%\s*([a-zA-Z0-9::_+-]+)\s+start\s*$', flags=re.MULTILINE)
-	SNIPPET_END   = re.compile(r'^\s*\/\/%\s*([a-zA-Z0-9::_+-]+)\s+end\s*$', flags=re.MULTILINE)
-
 	# figure out which snippets we need
 	snippets = dict()
 	text = utils.read_all_text_from_file(args.template)
@@ -151,7 +157,6 @@ def main():
 	# stick in the special preamble about this process
 	snippets[r'generated_header_preamble'] = rf'''
 //         THIS FILE WAS ASSEMBLED FROM MULTIPLE HEADER FILES BY A SCRIPT - PLEASE DON'T EDIT IT DIRECTLY
-//                              upstream: {utils.git_query("rev-parse HEAD", cwd=Path(__file__).parent)}
 {license}
 	'''.strip()
 
@@ -224,10 +229,11 @@ def main():
 	text = cleanup_text(text)
 
 	# clang-format
-	try:
-		text = utils.clang_format(text, cwd=args.output.parent)
-	except:
-		pass
+	if 1:
+		try:
+			text = utils.clang_format(text, cwd=args.output.parent)
+		except:
+			pass
 
 	# make sure there's no unresolved headers
 	# (this script is not currently a preprocessor)

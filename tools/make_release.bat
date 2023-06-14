@@ -7,7 +7,7 @@ REM ----------------------------------------------------------------------------
 REM 	Invokes python to make a release.
 REM --------------------------------------------------------------------------------------
 
-py make_release.py %*
+py -OO make_release.py %*
 if %ERRORLEVEL% NEQ 0 (
 	PAUSE
 	GOTO FINISH

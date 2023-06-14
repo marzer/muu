@@ -45,6 +45,8 @@
       <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='DynamicLibrary'">%(PreprocessorDefinitions);MUU_DLL=1</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(ConfigurationType)'=='StaticLibrary'">%(PreprocessorDefinitions);MUU_DLL=0</PreprocessorDefinitions>
       <WarningLevel>EnableAllWarnings</WarningLevel>
+      <EnableModules>false</EnableModules>
+      <BuildStlModules>false</BuildStlModules>
     </ClCompile>
   </ItemDefinitionGroup>
   <PropertyGroup>
@@ -101,6 +103,7 @@
     <ClInclude Include="include\muu\impl\ray_x_triangle.h" />
     <ClInclude Include="include\muu\impl\std_optional.h" />
     <ClInclude Include="include\muu\impl\triangle_x_line_segment.h" />
+    <ClInclude Include="include\muu\impl\tri_tri_intersection.h" />
     <ClInclude Include="include\muu\integer_literals.h" />
     <ClInclude Include="include\muu\integer_aliases.h" />
     <ClInclude Include="include\muu\ray.h" />
@@ -247,3 +250,4 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
+

@@ -72,13 +72,13 @@
 // COMPILER DETECTION
 //======================================================================================================================
 
+//% preprocessor::compilers start
+
 //% preprocessor::make_version start
 #ifndef MUU_MAKE_VERSION
 	#define MUU_MAKE_VERSION(major, minor, patch) (((major)*10000) + ((minor)*100) + ((patch)))
 #endif
 //% preprocessor::make_version end
-
-//% preprocessor::compilers start
 
 #ifndef MUU_INTELLISENSE
 	#ifdef __INTELLISENSE__
@@ -856,11 +856,17 @@ help me improve support for your target architecture. Thanks!
 /// 	- [\[\[unlikely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
 /// 	- [__builtin_expect()](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
 
-#if MUU_CPP >= 20 && MUU_HAS_CPP_ATTR(no_unique_address) >= 201803
-	#define MUU_NO_UNIQUE_ADDRESS [[no_unique_address]]
-#else
-	#define MUU_NO_UNIQUE_ADDRESS
+//% preprocessor::no_unique_address start
+#ifndef MUU_NO_UNIQUE_ADDRESS
+	#if MUU_MSVC >= 1929
+		#define MUU_NO_UNIQUE_ADDRESS [[msvc::no_unique_address]]
+	#elif MUU_CPP >= 20 && MUU_HAS_CPP_ATTR(no_unique_address) >= 201803
+		#define MUU_NO_UNIQUE_ADDRESS [[no_unique_address]]
+	#else
+		#define MUU_NO_UNIQUE_ADDRESS
+	#endif
 #endif
+//% preprocessor::no_unique_address end
 /// \def MUU_NO_UNIQUE_ADDRESS
 /// \brief Expands to C++20's `[[no_unique_address]]` if supported by your compiler.
 
@@ -1399,6 +1405,7 @@ help me improve support for your target architecture. Thanks!
 		__pragma(warning(disable : 5264))  /* const variable is not used (false-positive) */                           \
 		__pragma(warning(disable : 26490)) /* cg: dont use reinterpret_cast */                                         \
 		__pragma(warning(disable : 26812)) /* cg: Prefer 'enum class' over 'enum' */                                   \
+		__pragma(warning(disable : 4848))  /* msvc::no_unique_address in C++17 is a vendor extension */                \
 		static_assert(true)
 
 	#define MUU_DISABLE_ARITHMETIC_WARNINGS                                                                            \
