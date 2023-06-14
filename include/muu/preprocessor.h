@@ -73,7 +73,9 @@
 //======================================================================================================================
 
 //% preprocessor::make_version start
-#define MUU_MAKE_VERSION(major, minor, patch) (((major)*10000) + ((minor)*100) + ((patch)))
+#ifndef MUU_MAKE_VERSION
+	#define MUU_MAKE_VERSION(major, minor, patch) (((major)*10000) + ((minor)*100) + ((patch)))
+#endif
 //% preprocessor::make_version end
 
 //% preprocessor::compilers start
