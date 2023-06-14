@@ -3591,6 +3591,13 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_CUDA</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga58718b6497d20951c23503ed0b228574</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_ARCH_ITANIUM</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga1741334d0b0155633d2c2cb965b4e363</anchor>
@@ -29365,6 +29372,13 @@
       <name>MUU_GCC</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga4e615ca6ddf99207d0d46055db0a9aaa</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>MUU_CUDA</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>ga58718b6497d20951c23503ed0b228574</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
