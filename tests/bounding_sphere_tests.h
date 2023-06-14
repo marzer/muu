@@ -37,6 +37,8 @@ namespace
 
 	template <typename... T>
 	using bounding_spheres = type_list<bounding_sphere<T>...>;
+
+	using all_bounding_spheres = bounding_spheres<NON_FP16_FLOATS>;
 }
 
 namespace muu
@@ -45,7 +47,7 @@ namespace muu
 	inline constexpr bool allow_implicit_bit_cast<blittable<T>, bounding_sphere<T>> = true;
 }
 
-BATCHED_TEST_CASE("bounding_sphere constructors", bounding_spheres<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_sphere constructors", all_bounding_spheres)
 {
 	using bs   = TestType;
 	using T	   = typename bs::scalar_type;
@@ -127,7 +129,7 @@ BATCHED_TEST_CASE("bounding_sphere constructors", bounding_spheres<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("bounding_sphere equality", bounding_spheres<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_sphere equality", all_bounding_spheres)
 {
 	using bs = TestType;
 	using T	 = typename bs::scalar_type;
@@ -180,7 +182,7 @@ BATCHED_TEST_CASE("bounding_sphere equality", bounding_spheres<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("bounding_sphere zero()", bounding_spheres<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_sphere zero()", all_bounding_spheres)
 {
 	using bs = TestType;
 	using T	 = typename bs::scalar_type;
@@ -227,7 +229,7 @@ BATCHED_TEST_CASE("bounding_sphere zero()", bounding_spheres<ALL_FLOATS>)
 	}
 }
 
-BATCHED_TEST_CASE("bounding_sphere infinity_or_nan()", bounding_spheres<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_sphere infinity_or_nan()", all_bounding_spheres)
 {
 	using bs = TestType;
 	using T	 = typename bs::scalar_type;
@@ -289,7 +291,7 @@ BATCHED_TEST_CASE("bounding_sphere infinity_or_nan()", bounding_spheres<ALL_FLOA
 	}
 }
 
-BATCHED_TEST_CASE("bounding_sphere degenerate()", bounding_spheres<ALL_FLOATS>)
+BATCHED_TEST_CASE("bounding_sphere degenerate()", all_bounding_spheres)
 {
 	using bs   = TestType;
 	using T	   = typename bs::scalar_type;

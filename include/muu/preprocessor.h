@@ -72,6 +72,10 @@
 // COMPILER DETECTION
 //======================================================================================================================
 
+//% preprocessor::make_version start
+#define MUU_MAKE_VERSION(major, minor, patch) (((major)*10000) + ((minor)*100) + ((patch)))
+//% preprocessor::make_version end
+
 //% preprocessor::compilers start
 
 #ifndef MUU_INTELLISENSE
@@ -101,6 +105,40 @@
 		#define MUU_CLANG __clang_major__
 	#else
 		#define MUU_CLANG 0
+	#endif
+
+	// special handling for apple clang; see:
+	// - https://github.com/marzer/tomlplusplus/issues/189
+	// - https://en.wikipedia.org/wiki/Xcode
+	// -
+	// https://stackoverflow.com/questions/19387043/how-can-i-reliably-detect-the-version-of-clang-at-preprocessing-time
+	#if MUU_CLANG && defined(__apple_build_version__)
+		#undef MUU_CLANG
+		#define MUU_CLANG_VERSION MUU_MAKE_VERSION(__clang_major__, __clang_minor__, __clang_patchlevel__)
+		#if MUU_CLANG_VERSION >= MUU_MAKE_VERSION(15, 0, 0)
+			#define MUU_CLANG 16
+		#elif MUU_CLANG_VERSION >= MUU_MAKE_VERSION(14, 3, 0)
+			#define MUU_CLANG 15
+		#elif MUU_CLANG_VERSION >= MUU_MAKE_VERSION(14, 0, 0)
+			#define MUU_CLANG 14
+		#elif MUU_CLANG_VERSION >= MUU_MAKE_VERSION(13, 1, 6)
+			#define MUU_CLANG 13
+		#elif MUU_CLANG_VERSION >= MUU_MAKE_VERSION(13, 0, 0)
+			#define MUU_CLANG 12
+		#elif MUU_CLANG_VERSION >= MUU_MAKE_VERSION(12, 0, 5)
+			#define MUU_CLANG 11
+		#elif MUU_CLANG_VERSION >= MUU_MAKE_VERSION(12, 0, 0)
+			#define MUU_CLANG 10
+		#elif MUU_CLANG_VERSION >= MUU_MAKE_VERSION(11, 0, 3)
+			#define MUU_CLANG 9
+		#elif MUU_CLANG_VERSION >= MUU_MAKE_VERSION(11, 0, 0)
+			#define MUU_CLANG 8
+		#elif MUU_CLANG_VERSION >= MUU_MAKE_VERSION(10, 0, 1)
+			#define MUU_CLANG 7
+		#else
+			#define MUU_CLANG 6 // not strictly correct but doesn't matter below this
+		#endif
+		#undef MUU_CLANG_VERSION
 	#endif
 #endif
 //% preprocessor::compilers::clang end
@@ -176,6 +214,19 @@
 /// \def MUU_GCC
 /// \brief The value of `__GNUC__` when the code is being compiled by GCC specifically, otherwise `0`.
 /// \see https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
+
+//% preprocessor::compilers::cuda start
+#ifndef MUU_CUDA
+	#if defined(__CUDACC__) || defined(__CUDA_ARCH__) || defined(__CUDA_LIBDEVICE__)
+		#define MUU_CUDA 1
+	#else
+		#define MUU_CUDA 0
+	#endif
+#endif
+/// \def MUU_CUDA
+/// \brief `1` when compiled with nVIDIA's CUDA compiler, otherwise `0`.
+/// \see https://gcc.gnu.org/onlinedocs/cpp/Common-Predefined-Macros.html
+//% preprocessor::compilers::cuda end
 
 //% preprocessor::compilers end
 
@@ -595,7 +646,7 @@ help me improve support for your target architecture. Thanks!
 #elif MUU_ICC || MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_BUILTIN(__builtin_unreachable)
 	#define MUU_UNREACHABLE __builtin_unreachable()
 #else
-	#define MUU_UNREACHABLE static_assert(true)
+	#define MUU_UNREACHABLE static_cast<void>(0)
 #endif
 /// \def MUU_UNREACHABLE
 /// \brief Marks a position in the code as being unreachable.
@@ -669,13 +720,22 @@ help me improve support for your target architecture. Thanks!
 /// 	}
 /// \ecpp
 
-#if MUU_MSVC_LIKE
-	#define MUU_NEVER_INLINE MUU_DECLSPEC(noinline)
-#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(__noinline__)
-	#define MUU_NEVER_INLINE MUU_ATTR(__noinline__)
-#else
-	#define MUU_NEVER_INLINE
+//% preprocessor::never_inline start
+#ifndef MUU_NEVER_INLINE
+	#if MUU_MSVC_LIKE
+		#define MUU_NEVER_INLINE MUU_DECLSPEC(noinline)
+	#elif MUU_CUDA // https://gitlab.gnome.org/GNOME/glib/-/issues/2555
+		#define MUU_NEVER_INLINE MUU_ATTR(noinline)
+	#else
+		#if MUU_GCC || MUU_CLANG || MUU_HAS_ATTR(__noinline__)
+			#define MUU_NEVER_INLINE MUU_ATTR(__noinline__)
+		#endif
+	#endif
+	#ifndef MUU_NEVER_INLINE
+		#define MUU_NEVER_INLINE
+	#endif
 #endif
+//% preprocessor::never_inline end
 /// \def MUU_NEVER_INLINE
 /// \brief A strong hint to the optimizer that you really, _really_ do not want a function inlined.
 /// \details \cpp
@@ -1312,8 +1372,8 @@ help me improve support for your target architecture. Thanks!
 		static_assert(true)
 
 	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
-		__pragma(warning(disable : 4127))  /* conditional expr is constant */                                          \
-		__pragma(warning(disable : 4324))  /* structure was padded due to alignment specifier */                       \
+		__pragma(warning(disable : 4127)) /* conditional expr is constant */                                           \
+		__pragma(warning(disable : 4324)) /* structure was padded due to alignment specifier */                        \
 		__pragma(warning(disable : 4348))                                                                              \
 		__pragma(warning(disable : 4464))  /* relative include path contains '..' */                                   \
 		__pragma(warning(disable : 4505))  /* unreferenced local function removed */                                   \
