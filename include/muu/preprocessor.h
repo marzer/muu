@@ -603,11 +603,15 @@ help me improve support for your target architecture. Thanks!
 
 //% preprocessor::assume start
 #if MUU_MSVC_LIKE
-	#define MUU_ASSUME(cond) __assume(cond)
+	#define MUU_ASSUME(expr) __assume(expr)
 #elif MUU_ICC || MUU_CLANG || MUU_HAS_BUILTIN(__builtin_assume)
-	#define MUU_ASSUME(cond) __builtin_assume(cond)
+	#define MUU_ASSUME(expr) __builtin_assume(expr)
+#elif MUU_HAS_CPP_ATTR(assume) >= 202207
+	#define MUU_ASSUME(expr) [[assume(expr)]]
+#elif MUU_HAS_ATTR(__assume__)
+	#define MUU_ASSUME(expr) __attribute__((__assume__(expr)))
 #else
-	#define MUU_ASSUME(cond) static_cast<void>(0)
+	#define MUU_ASSUME(expr) static_cast<void>(0)
 #endif
 //% preprocessor::assume end
 /// \def MUU_ASSUME
@@ -803,8 +807,8 @@ help me improve support for your target architecture. Thanks!
 	#if MUU_HAS_CPP_ATTR(nodiscard) >= 201603
 		#define MUU_NODISCARD		[[nodiscard]]
 		#define MUU_NODISCARD_CLASS [[nodiscard]]
-	#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(warn_unused_result)
-		#define MUU_NODISCARD MUU_ATTR(warn_unused_result)
+	#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(__warn_unused_result__)
+		#define MUU_NODISCARD MUU_ATTR(__warn_unused_result__)
 	#else
 		#define MUU_NODISCARD
 	#endif
