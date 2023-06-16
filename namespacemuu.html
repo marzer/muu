@@ -643,7 +643,7 @@
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga752383c0f4374f49266f839873833f0c">make_cref</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/add_reference.html" target="_blank">std::<wbr/>add_lvalue_reference_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_const_t</a>&lt;<a class="m-doc" href="group__meta.html#ga3cac44d2af43c4fd98e835ff5b28988a">remove_<wbr/>cvref</a>&lt;T&gt;&gt;&gt;
             </dt>
-            <dd>Makes a type into a const lvalue reference.</dd>
+            <dd>Makes a type into a const lvalue reference (replacing existing cvref qualifiers).</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga8723b987045c7b40be5ce133a46e899c">make_signed</a> = typename impl::make_signed_&lt;T&gt;::type
@@ -3687,6 +3687,11 @@
               bool <a class="m-doc" href="group__meta.html#gab1f90e8e3f87fa3fc27fb0ae93571912">is_stateless_lambda</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Evaluates to true if <code>T</code> is a stateless lambda type, or a reference to one.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              bool <a class="m-doc" href="group__meta.html#gaf2c95f163b7aacbc8074acaa6ebf3418">is_trivially_manifestable</a> <span class="m-label m-flat m-primary">constexpr</span>
+            </dt>
+            <dd>Evaluates to true if <code>T</code> is an empty class/union with trivial default constructor and destructor, or a reference to one.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               bool <a class="m-doc" href="group__meta.html#ga07b1449019c885977279ee3afedb3b4f">is_tuple_like</a> <span class="m-label m-flat m-primary">constexpr</span>

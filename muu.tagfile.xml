@@ -3372,6 +3372,13 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_trivially_manifestable</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaf2c95f163b7aacbc8074acaa6ebf3418</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr size_t</type>
       <name>arity</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -26918,6 +26925,13 @@
       <arglist></arglist>
     </member>
     <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_trivially_manifestable</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaf2c95f163b7aacbc8074acaa6ebf3418</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
       <type>constexpr size_t</type>
       <name>arity</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -29248,6 +29262,13 @@
       <name>is_stateless_lambda</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>gab1f90e8e3f87fa3fc27fb0ae93571912</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>constexpr bool</type>
+      <name>is_trivially_manifestable</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>gaf2c95f163b7aacbc8074acaa6ebf3418</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
