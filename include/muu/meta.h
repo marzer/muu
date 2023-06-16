@@ -1334,7 +1334,7 @@ namespace muu
 	template <typename T, typename CopyFrom>
 	using copy_cvref = copy_ref<copy_cv<std::remove_reference_t<T>, std::remove_reference_t<CopyFrom>>, CopyFrom>;
 
-	/// \brief Makes a type into a const lvalue reference.
+	/// \brief Makes a type into a const lvalue reference (replacing existing cvref qualifiers).
 	template <typename T>
 	using make_cref = std::add_lvalue_reference_t<std::add_const_t<remove_cvref<T>>>;
 
@@ -2185,7 +2185,7 @@ namespace muu
 		{
 			if constexpr (can_be_hva<T> && std::is_aggregate_v<T>)
 			{
-				if constexpr (is_detected<is_aggregate_5_args_, T>)		 // five or more
+				if constexpr (is_detected<is_aggregate_5_args_, T>) // five or more
 					return std::false_type{};
 				else if constexpr (is_detected<is_aggregate_4_args_, T>) // four
 				{
@@ -2228,7 +2228,7 @@ namespace muu
 		template <typename T>
 		inline constexpr bool is_hva = decltype(is_hva_(std::declval<T>()))::value;
 
-#else  // ^^^ MUU_HAS_VECTORCALL / vvv !MUU_HAS_VECTORCALL
+#else // ^^^ MUU_HAS_VECTORCALL / vvv !MUU_HAS_VECTORCALL
 
 		template <typename T>
 		inline constexpr bool is_vectorcall_simd_intrinsic = false;
@@ -2265,8 +2265,8 @@ namespace muu
 													&& (is_vectorcall_simd_intrinsic<raw_type> || is_hva<raw_type>)) //
 												|| ((std::is_class_v<raw_type> || std::is_union_v<raw_type>)		 //
 													&&(std::is_trivially_copyable_v<raw_type>
-													   || std::is_nothrow_copy_constructible_v<raw_type>)			 //
-													&&std::is_nothrow_destructible_v<raw_type>						 //
+													   || std::is_nothrow_copy_constructible_v<raw_type>) //
+													&&std::is_nothrow_destructible_v<raw_type>			  //
 													&& sizeof(raw_type) <= (sizeof(void*) * 2u)),
 											raw_type,
 											std::add_lvalue_reference_t<std::add_const_t<T>>>;
@@ -2442,6 +2442,14 @@ namespace muu
 														  std::remove_reference_t<CompatibleWithFunc>>>> //
 													  >													 //
 								   >::value);
+
+	/// \brief Evaluates to true if `T` is an empty class/union with trivial default constructor and destructor, or a reference to one.
+	template <typename T>
+	inline constexpr bool is_trivially_manifestable =
+		(std::is_class_v<remove_cvref<T>> || std::is_union_v<remove_cvref<T>>) //
+		&&std::is_empty_v<remove_cvref<T>>									   //
+		&& std::is_trivially_default_constructible_v<remove_cvref<T>>		   //
+		&& std::is_trivially_destructible_v<remove_cvref<T>>;
 
 	/// \cond
 	// clang-format off

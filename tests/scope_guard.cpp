@@ -9,7 +9,10 @@
 namespace
 {
 	static int val = 1;
-	static void func() noexcept { val *= 2;  }
+	static void func() noexcept
+	{
+		val *= 2;
+	}
 	static_assert(std::is_same_v<decltype(scope_guard{ func }), scope_guard<std::add_pointer_t<decltype(func)>>>);
 
 	template <typename T>
@@ -19,6 +22,10 @@ namespace
 	struct static_checks<scope_guard<T>>
 	{
 		static_assert(!std::is_empty_v<T> || sizeof(scope_guard<T>) == sizeof(T)); // ebco check
+		static_assert(!std::is_copy_constructible_v<scope_guard<T>>);
+		static_assert(!std::is_copy_assignable_v<scope_guard<T>>);
+		static_assert(!std::is_move_constructible_v<scope_guard<T>>);
+		static_assert(!std::is_move_assignable_v<scope_guard<T>>);
 		static constexpr bool ok = true;
 	};
 }
@@ -39,8 +46,8 @@ TEST_CASE("scope_guard")
 	// stateless lambdas (rvalue)
 	{
 		val = 1;
-		scope_guard sg1{ []()noexcept { func(); } };
-		scope_guard sg2{ []()noexcept { func(); } };
+		scope_guard sg1{ []() noexcept { func(); } };
+		scope_guard sg2{ []() noexcept { func(); } };
 		sg2.dismiss();
 
 		static_assert(static_checks<decltype(sg1)>::ok);
@@ -50,8 +57,8 @@ TEST_CASE("scope_guard")
 
 	// stateless lambdas (lvalue)
 	{
-		val = 1;
-		auto lambda = []()noexcept { func(); };
+		val			= 1;
+		auto lambda = []() noexcept { func(); };
 		scope_guard sg1{ lambda };
 		scope_guard sg2{ lambda };
 		sg2.dismiss();
@@ -64,8 +71,8 @@ TEST_CASE("scope_guard")
 	{
 		int v = 1;
 		{
-			scope_guard sg1{ [&]()noexcept { v++; } };
-			scope_guard sg2{ [&]()noexcept { v += 10; } };
+			scope_guard sg1{ [&]() noexcept { v++; } };
+			scope_guard sg2{ [&]() noexcept { v += 10; } };
 			sg2.dismiss();
 
 			static_assert(static_checks<decltype(sg1)>::ok);
@@ -78,9 +85,9 @@ TEST_CASE("scope_guard")
 	{
 		int v = 1;
 		{
-			auto lambda1 = [&]()noexcept { v++; };
+			auto lambda1 = [&]() noexcept { v++; };
 			scope_guard sg1{ lambda1 };
-			auto lambda2 = [&]()noexcept { v += 10; };
+			auto lambda2 = [&]() noexcept { v += 10; };
 			scope_guard sg2{ lambda2 };
 			sg2.dismiss();
 

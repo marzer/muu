@@ -1811,7 +1811,7 @@ namespace muu::impl
 
 #ifndef MUU_ENABLE_IF
 	#if !MUU_DOXYGEN
-		#define MUU_ENABLE_IF(...) , typename ::muu::impl::enable_if_<(__VA_ARGS__), int>::type = 0
+		#define MUU_ENABLE_IF(...) , typename ::muu::impl::enable_if_<!!(__VA_ARGS__), int>::type = 0
 	#else
 		#define MUU_ENABLE_IF(...)
 	#endif
@@ -1820,8 +1820,8 @@ namespace muu::impl
 #ifndef MUU_CONSTRAINED_TEMPLATE
 	#if !MUU_DOXYGEN
 		#define MUU_CONSTRAINED_TEMPLATE(condition, ...)                                                               \
-			template <__VA_ARGS__ MUU_ENABLE_IF(condition)>                                                            \
-			MUU_REQUIRES(condition)
+			template <__VA_ARGS__ MUU_ENABLE_IF(!!(condition))>                                                        \
+			MUU_REQUIRES(!!(condition))
 	#else
 		#define MUU_CONSTRAINED_TEMPLATE(condition, ...) template <__VA_ARGS__>
 	#endif

@@ -7,7 +7,9 @@
 
 #include "../preprocessor.h"
 
-MUU_PRAGMA_GCC(pop_options)
+#if MUU_GCC
+	#pragma GCC pop_options
+#endif
 
 #if MUU_MSVC || MUU_ICC_CL
 	#pragma pop_macro("min")

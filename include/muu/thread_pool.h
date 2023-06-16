@@ -359,12 +359,6 @@ namespace muu::impl
 	};
 
 	template <typename T>
-	inline constexpr bool is_trivially_manifestable = std::is_class_v<T>						   //
-												   && std::is_empty_v<T>						   //
-												   && std::is_trivially_default_constructible_v<T> //
-												   && std::is_trivially_destructible_v<T>;
-
-	template <typename T>
 	struct thread_pool_task_traits_manifestable
 	{
 		static_assert(!is_cvref<T>);
@@ -649,7 +643,7 @@ namespace muu
 				impl::thread_pool_task{ static_cast<T&&>(task) };
 		}
 
-		template <typename Task, bool = impl::is_trivially_manifestable<Task>>
+		template <typename Task, bool = is_trivially_manifestable<Task>>
 		class batched_task
 		{
 		  public:
@@ -711,7 +705,7 @@ namespace muu
 			static_assert(std::is_reference_v<OriginalTask>);
 			static_assert(std::is_same_v<std::remove_reference_t<OriginalTask>, std::remove_reference_t<Task>>);
 
-			if constexpr (impl::is_trivially_manifestable<remove_cvref<Task>>)
+			if constexpr (is_trivially_manifestable<remove_cvref<Task>>)
 			{
 				return batched_task<remove_cvref<Task>>{};
 			}

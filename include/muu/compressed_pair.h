@@ -18,7 +18,7 @@ namespace muu::impl
 {
 	enum class compressed_pair_flags : unsigned
 	{
-		none,
+		none		 = 0,
 		first_empty	 = 1,
 		second_empty = 2,
 		both_empty	 = first_empty | second_empty
@@ -80,7 +80,7 @@ namespace muu::impl
 	template <typename First, typename Second>
 	struct compressed_pair_base<First, Second, compressed_pair_flags::first_empty> : First
 	{
-		Second second_;
+		MUU_NO_UNIQUE_ADDRESS Second second_;
 
 		COMPRESSED_PAIR_BASE_DEFAULTS(First, second_);
 		COMPRESSED_PAIR_BASE_GETTERS(First, first, *this);
@@ -90,7 +90,7 @@ namespace muu::impl
 	template <typename First, typename Second>
 	struct compressed_pair_base<First, Second, compressed_pair_flags::second_empty> : Second
 	{
-		First first_;
+		MUU_NO_UNIQUE_ADDRESS First first_;
 
 		COMPRESSED_PAIR_BASE_DEFAULTS(first_, Second);
 		COMPRESSED_PAIR_BASE_GETTERS(First, first, first_);

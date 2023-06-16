@@ -23,4 +23,6 @@ MUU_DISABLE_SPAM_WARNINGS;
 	#pragma clang diagnostic ignored "-Wreserved-identifier" // false-positive
 #endif
 
-MUU_PRAGMA_GCC(push_options)
+#if MUU_GCC
+	#pragma GCC push_options
+#endif

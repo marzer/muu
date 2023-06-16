@@ -17,7 +17,7 @@ MUU_ENABLE_WARNINGS;
 #define MUU_MOVE(...) static_cast<std::remove_reference_t<decltype(__VA_ARGS__)>&&>(__VA_ARGS__)
 
 #undef MUU_ENABLE_IF
-#define MUU_ENABLE_IF(...) , std::enable_if_t<(__VA_ARGS__), int> = 0
+#define MUU_ENABLE_IF(...) , std::enable_if_t<!!(__VA_ARGS__), int> = 0
 
 #if defined(__cpp_lib_type_identity) && __cpp_lib_type_identity >= 201806
 	#undef MUU_TYPE_IDENTITY
