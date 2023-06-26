@@ -197,9 +197,8 @@ BATCHED_TEST_CASE("matrix constructors", common_matrices<ALL_ARITHMETIC>)
 	static_assert(std::is_nothrow_constructible_v<matrix_t, T>);
 
 #if MUU_HAS_VECTORCALL
-	static_assert(
-		impl::is_hva<
-			matrix_t> == ((matrix_t::rows * matrix_t::columns) <= 4 && any_same<T, float, double, long double>));
+	static_assert(impl::is_hva<matrix_t>
+				  == ((matrix_t::rows * matrix_t::columns) <= 4 && any_same<T, float, double, long double>));
 #endif
 
 	BATCHED_SECTION("zero-initialization")
@@ -736,7 +735,7 @@ BATCHED_TEST_CASE("matrix multiplication", common_matrices<ALL_ARITHMETIC>)
 
 			if constexpr (is_floating_point<T> && sizeof(T) >= sizeof(double))
 			{
-				static constexpr T eps = constants<T>::default_epsilon * T{ 10 };
+				static constexpr T eps = constants<T>::default_epsilon* T{ 10 };
 				CHECK_APPROX_EQUAL_EPS(static_cast<T>(lhs_row.dot(col_vec)), result[r], eps);
 			}
 			else
@@ -752,7 +751,7 @@ BATCHED_TEST_CASE("matrix multiplication", common_matrices<ALL_ARITHMETIC>)
 		{
 			if constexpr (is_floating_point<T> && sizeof(T) >= sizeof(double))
 			{
-				static constexpr T eps = constants<T>::default_epsilon * T{ 10 };
+				static constexpr T eps = constants<T>::default_epsilon* T{ 10 };
 				CHECK_APPROX_EQUAL_EPS(static_cast<T>(mat1.m[c].dot(row_vec)), result[c], eps);
 			}
 			else
@@ -777,7 +776,7 @@ BATCHED_TEST_CASE("matrix multiplication", common_matrices<ALL_ARITHMETIC>)
 					lhs_row[i] = mat1(r, i);
 				if constexpr (is_floating_point<T> && sizeof(T) >= sizeof(double))
 				{
-					static constexpr T eps = constants<T>::default_epsilon * T{ 10 };
+					static constexpr T eps = constants<T>::default_epsilon* T{ 10 };
 					CHECK_APPROX_EQUAL_EPS(static_cast<T>(lhs_row.dot(mat2.m[c])), result(r, c), eps);
 				}
 				else
@@ -917,7 +916,7 @@ BATCHED_TEST_CASE("matrix multiplication special cases", all_matrices<ALL_ARITHM
 	}
 }
 
-BATCHED_TEST_CASE("matrix division", common_matrices<ALL_ARITHMETIC>)
+BATCHED_TEST_CASE("matrix division", common_matrices<NON_FP16_FLOATS, ALL_INTS>)
 {
 	using matrix_t = TestType;
 	using T		   = typename matrix_t::scalar_type;

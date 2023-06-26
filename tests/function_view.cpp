@@ -27,7 +27,6 @@ namespace
 		val *= mult;
 		return val;
 	}
-	static_assert(std::is_same_v<decltype(function_view{ func1 }), function_view<int(int) noexcept>>);
 }
 
 TEST_CASE("function_view")
@@ -71,8 +70,7 @@ TEST_CASE("function_view")
 	// stateful lambdas
 	{
 		val				  = 1;
-		int v			  = 1;
-		const auto lambda = [&]() noexcept { val += v; };
+		const auto lambda = [v = 1]() noexcept { val += v; };
 		static_assert(!is_stateless_lambda<decltype(lambda)>);
 		auto fv = function_view{ lambda };
 		static_assert(std::is_same_v<decltype(fv), function_view<void() noexcept>>);

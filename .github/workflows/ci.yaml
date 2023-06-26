@@ -26,8 +26,8 @@ concurrency:
     cancel-in-progress: true
 
 env:
-    clang_version: "14"
-    gcc_version: "11"
+    clang_version: "15"
+    gcc_version: "12"
 
 jobs:
     linux:
