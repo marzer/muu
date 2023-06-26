@@ -679,6 +679,7 @@
     <path>/home/runner/work/muu/muu/include/muu/</path>
     <filename>function__view_8h.html</filename>
     <includes id="meta_8h" name="meta.h" local="yes" imported="no">meta.h</includes>
+    <includes id="bit__cast_8h" name="bit_cast.h" local="yes" imported="no">bit_cast.h</includes>
     <class kind="class">muu::function_view</class>
     <namespace>muu</namespace>
   </compound>
@@ -9175,38 +9176,52 @@
     <filename>classmuu_1_1function__view.html</filename>
     <templarg></templarg>
     <member kind="typedef">
-      <type>remove_callconv&lt; T &gt;</type>
+      <type>Func</type>
       <name>func_type</name>
       <anchorfile>classmuu_1_1function__view.html</anchorfile>
-      <anchor>a7a122326496608c33601fce9919c8a0a</anchor>
+      <anchor>acd1372c5b0ea09fee67ffcc9dceb49fd</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>function_view</name>
       <anchorfile>classmuu_1_1function__view.html</anchorfile>
-      <anchor>a279a5d2c512ce8d36041574fa91c9381</anchor>
+      <anchor>a86351f59b769a736db53d87cde17a546</anchor>
       <arglist>() noexcept=default</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>function_view</name>
       <anchorfile>classmuu_1_1function__view.html</anchorfile>
-      <anchor>aa502354732030ac3e8207113442903b3</anchor>
-      <arglist>(U &amp;&amp;func) noexcept</arglist>
+      <anchor>a0704211acc7a531b4be358339eb42674</anchor>
+      <arglist>(const function_view &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr function_view &amp;</type>
+      <name>operator=</name>
+      <anchorfile>classmuu_1_1function__view.html</anchorfile>
+      <anchor>ae572df5ce003d084c60cbab42a1d53c2</anchor>
+      <arglist>(const function_view &amp;) noexcept=default</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr</type>
+      <name>function_view</name>
+      <anchorfile>classmuu_1_1function__view.html</anchorfile>
+      <anchor>adc53a0685ff1f7e26a72b2a71b56277a</anchor>
+      <arglist>(F &amp;&amp;func) noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr decltype(auto)</type>
       <name>operator()</name>
       <anchorfile>classmuu_1_1function__view.html</anchorfile>
-      <anchor>a415416f10aa50ea71814e8ae3428678a</anchor>
+      <anchor>a557eb615666b4fa7be64f2db748d96d0</anchor>
       <arglist>(Args &amp;&amp;...) const noexcept(...)</arglist>
     </member>
     <member kind="function">
       <type>constexpr</type>
       <name>operator bool</name>
       <anchorfile>classmuu_1_1function__view.html</anchorfile>
-      <anchor>a24d91bd0cef16708f98650e8331f1db6</anchor>
+      <anchor>a53cdf04cb30863d7bb91e38f78c6d1dd</anchor>
       <arglist>() const noexcept</arglist>
     </member>
   </compound>
