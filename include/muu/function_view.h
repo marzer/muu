@@ -70,23 +70,14 @@ namespace muu
 			mutable invoker_func* invoker_		   = {};
 			mutable function_view_payload payload_ = {};
 
-		  public:
-			MUU_NODISCARD_CTOR
-			constexpr function_view_base() noexcept = default;
-
-			MUU_NODISCARD_CTOR
-			constexpr function_view_base(const function_view_base&) noexcept = default;
-
-			MUU_NODISCARD_CTOR
-			constexpr function_view_base& operator=(const function_view_base&) noexcept = default;
-
 			template <typename U>
-			MUU_NODISCARD_CTOR
-			explicit constexpr function_view_base([[maybe_unused]] U&& func) noexcept
+			MUU_ALWAYS_INLINE
+			constexpr void bind([[maybe_unused]] U&& func) noexcept
 			{
 				static_assert(is_invocable<U&&>,
 							  "the function_view's invocation target must match the function_view's signature");
 
+				//    U          Func
 				// noexcept -> throwing: ok
 				// noexcept -> noexcept: ok
 				// throwing -> throwing: ok
@@ -106,38 +97,35 @@ namespace muu
 					};
 				}
 
-				// already a free function pointer
-				else if constexpr (std::is_pointer_v<remove_cvref<U>>
-								   && std::is_function_v<std::remove_pointer_t<remove_cvref<U>>>)
-				{
-					payload_ = bit_cast<function_view_payload>(func);
-
-					invoker_ = [](function_view_payload& payload,												   //
-								  function_view_forwarding_arg<Args>... args) noexcept(is_nothrow_invocable<Func>) //
-						-> decltype(auto)																		   //
-					{																							   //
-						return bit_cast<remove_cvref<U>>(payload)(
-							static_cast<function_view_forwarding_arg<Args>>(args)...);
-					};
-				}
-
 				// stateless lambdas (store as a free function pointer)
 				else if constexpr (is_invocable<typename lambda_free_function_decay<std::remove_reference_t<U>>::type>)
 				{
-					payload_ = bit_cast<function_view_payload>(+func);
+					bind(+func);
+				}
+
+				// already a free function pointer/reference
+				else if constexpr (std::is_function_v<std::remove_pointer_t<remove_cvref<U>>>)
+				{
+					using func_type = std::remove_pointer_t<remove_cvref<U>>;
+					static_assert(std::is_function_v<func_type>);
+					static_assert(!is_cvref<func_type>);
+
+					payload_ = bit_cast<function_view_payload>(static_cast<func_type*>(func));
 
 					invoker_ = [](function_view_payload& payload,												   //
 								  function_view_forwarding_arg<Args>... args) noexcept(is_nothrow_invocable<Func>) //
 						-> decltype(auto)																		   //
 					{																							   //
-						return bit_cast<decltype(+func)>(payload)(
-							static_cast<function_view_forwarding_arg<Args>>(args)...);
+						return bit_cast<func_type*>(payload)(static_cast<function_view_forwarding_arg<Args>>(args)...);
 					};
 				}
 
 				// anything else
 				else
 				{
+					static_assert(!std::is_pointer_v<remove_cvref<U>>); // data pointers aren't callable
+					static_assert(!std::is_function_v<std::remove_pointer_t<remove_cvref<U>>>); // covered above
+
 					payload_ = bit_cast<function_view_payload>(std::addressof(func));
 
 					invoker_ = [](function_view_payload& payload,												   //
@@ -150,6 +138,22 @@ namespace muu
 							static_cast<function_view_forwarding_arg<Args>>(args)...);
 					};
 				}
+			}
+
+		  public:
+			MUU_NODISCARD_CTOR
+			constexpr function_view_base() noexcept = default;
+
+			MUU_NODISCARD_CTOR
+			constexpr function_view_base(const function_view_base&) noexcept = default;
+
+			constexpr function_view_base& operator=(const function_view_base&) noexcept = default;
+
+			template <typename U>
+			MUU_NODISCARD_CTOR
+			explicit constexpr function_view_base([[maybe_unused]] U&& func) noexcept
+			{
+				bind(static_cast<U&&>(func));
 			}
 
 			MUU_ALWAYS_INLINE
@@ -211,7 +215,6 @@ namespace muu
 		constexpr function_view(const function_view&) noexcept = default;
 
 		/// \brief Copy-assignment operator.
-		MUU_NODISCARD_CTOR
 		constexpr function_view& operator=(const function_view&) noexcept = default;
 
 		/// \brief	Constructs a function_view by wrapping a callable.

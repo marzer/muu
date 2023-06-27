@@ -31,6 +31,10 @@ namespace
 
 TEST_CASE("function_view")
 {
+	static_assert(std::is_trivially_destructible_v<function_view<int(int) noexcept>>);
+	static_assert(std::is_trivially_copy_constructible_v<function_view<int(int) noexcept>>);
+	static_assert(std::is_trivially_copy_assignable_v<function_view<int(int) noexcept>>);
+
 	// free functions
 	{
 		val		= 1;
@@ -45,7 +49,16 @@ TEST_CASE("function_view")
 		static_assert(std::is_same_v<decltype(fv), function_view<int(int) noexcept>>);
 		fv(2);
 	}
-	CHECK(val == 2);
+
+	// check that we can use in conditional operators + rebind
+	RANDOM_ITERATIONS
+	{
+		val		 = 1;
+		auto fv1 = function_view{ func1 };
+		auto fv	 = random<bool>() ? fv1 : func2;
+		fv(2);
+		CHECK(val == 2);
+	}
 
 	// stateless lambdas (rvalue)
 	{

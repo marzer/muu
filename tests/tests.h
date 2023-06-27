@@ -334,7 +334,7 @@ namespace muu
 	MUU_NODISCARD
 	inline T random() noexcept
 	{
-		if constexpr (is_floating_point<T>) // 0.0 - 1.0
+		if constexpr (is_floating_point<T>)			// 0.0 - 1.0
 		{
 			if constexpr (impl::is_small_float_<T>) // NaN's otherwise
 			{
@@ -354,6 +354,10 @@ namespace muu
 				using fp = impl::highest_ranked<T, float>;
 				return static_cast<T>(static_cast<fp>(::rand()) / static_cast<fp>(RAND_MAX));
 			}
+		}
+		else if constexpr (std::is_same_v<std::remove_cv_t<T>, bool>)
+		{
+			return !(::rand() % 2);
 		}
 		else
 		{

@@ -32,7 +32,6 @@ env:
 jobs:
     linux:
         strategy:
-            fail-fast: false
             matrix:
                 compiler:
                     - "clang"
