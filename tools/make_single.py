@@ -7,6 +7,7 @@
 import utils
 import re
 import textwrap
+import sys
 from argparse import ArgumentParser
 from pathlib import Path
 
@@ -155,8 +156,10 @@ def main():
 		license = ''
 
 	# stick in the special preamble about this process
+
+	generated_script_warning = r"    !!!!! THIS FILE WAS ASSEMBLED FROM MULTIPLE HEADER FILES BY A SCRIPT - PLEASE DON'T EDIT IT DIRECTLY !!!!!"
 	snippets[r'generated_header_preamble'] = rf'''
-//         THIS FILE WAS ASSEMBLED FROM MULTIPLE HEADER FILES BY A SCRIPT - PLEASE DON'T EDIT IT DIRECTLY
+// {generated_script_warning}
 {license}
 	'''.strip()
 
@@ -196,8 +199,13 @@ def main():
 			raise Exception(rf'unresolved snippet {k}')
 
 	# sub the snippets into the template
+	seen_preamble = False
 	def sub_snippet(m) -> str:
+		nonlocal seen_preamble
+		nonlocal snippets
 		out = snippets[m[1]]
+		if m[1] == r'generated_header_preamble':
+			seen_preamble = True
 		if m[2] == 'guarded':
 			guard = re.sub(r'[^a-zA-Z0-9]+', '_', str(m[1])).strip('_')
 			guard = rf'MZ_HAS_SNIPPET_{guard.upper()}'
@@ -211,7 +219,9 @@ def main():
 	text = re.sub(r'\bMUU_VECTORCALL\b', r'', text)
 	text = re.sub(r'(\b|::)muu::impl::enable_if_\b', r'std::enable_if', text)
 	text = utils.replace_metavar(r'namespaces::main', args.namespaces[0], text)
+	text = utils.replace_metavar(r'namespace', args.namespaces[0], text)
 	text = utils.replace_metavar(r'namespaces::impl', args.namespaces[1], text)
+	text = utils.replace_metavar(r'namespaces::detail', args.namespaces[1], text)
 	text = utils.replace_metavar(r'macros::prefix', args.macros, text)
 	text = re.sub(r'\bMUU_', args.macros, text)
 	text = re.sub(r'^\s*#\s*include\s*"impl/std_(.+?)[.]h"', r'#include <\1>', text, flags=re.MULTILINE)
@@ -235,11 +245,18 @@ def main():
 		except:
 			pass
 
-	# make sure there's no unresolved headers
+	# if we didn't use the preamble, add a reduced version of it without the license just to warn the file was automatically generated
+	if not seen_preamble:
+		text = f'''//#{"-"*117}
+//# {generated_script_warning}
+//#{"-"*117}
+{text}'''
+
+	# warn if there's unresolved headers
 	# (this script is not currently a preprocessor)
 	unresolved_include = re.search(r'^\s*#\s*include\s*"(.+?)"', text, flags=re.MULTILINE)
 	if unresolved_include:
-		raise Exception(rf'unresolved #include "{unresolved_include[1]}"')
+		print(rf'Warning: unresolved #include "{unresolved_include[1]}"', file=sys.stderr)
 
 	print(rf'Writing {args.output}')
 	with open(args.output, 'w', newline='\n', encoding=r'utf-8') as f:

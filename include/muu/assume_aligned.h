@@ -55,10 +55,12 @@ namespace muu
 			__assume_aligned(ptr, N);
 			return ptr;
 
+//# {{
 #elif defined(__cpp_lib_assume_aligned)
 
 			return std::assume_aligned<N>(ptr);
 
+//# }}
 #else
 
 			return ptr;

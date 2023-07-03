@@ -2443,6 +2443,7 @@ namespace muu
 													  >													 //
 								   >::value);
 
+	//% meta::is_trivially_manifestable start
 	/// \brief Evaluates to true if `T` is an empty class/union with trivial default constructor and destructor, or a reference to one.
 	template <typename T>
 	inline constexpr bool is_trivially_manifestable =
@@ -2450,6 +2451,7 @@ namespace muu
 		&&std::is_empty_v<remove_cvref<T>>									   //
 		&& std::is_trivially_default_constructible_v<remove_cvref<T>>		   //
 		&& std::is_trivially_destructible_v<remove_cvref<T>>;
+	//% meta::is_trivially_manifestable end
 
 	/// \cond
 	// clang-format off

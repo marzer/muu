@@ -2332,12 +2332,13 @@ namespace muu
 	/** @} */ // math::normalize_angle_signed
 #endif		  // normalize_angle_signed
 
+	//% lcm start
 	/// \brief Returns the lowest common multiple of two or more integers.
 	///
 	/// \remark This is a variadic version of std::lcm.
 	MUU_CONSTRAINED_TEMPLATE((all_integer<T, U, V...>), typename T, typename U, typename... V)
 	MUU_CONST_GETTER
-	constexpr auto MUU_VECTORCALL lcm(T val1, U val2, V... vals) noexcept
+	constexpr std::common_type_t<T, U, V...> MUU_VECTORCALL lcm(T val1, U val2, V... vals) noexcept
 	{
 		if constexpr (sizeof...(vals) == 0u)
 		{
@@ -2352,13 +2353,14 @@ namespace muu
 			return muu::lcm(std::lcm(val1, val2), vals...);
 		}
 	}
+	//% lcm end
 
 	/// \brief Returns the lowest common multiple of two or more integers.
 	///
 	/// \remark This is a variadic version of std::gcd.
 	MUU_CONSTRAINED_TEMPLATE((all_integer<T, U, V...>), typename T, typename U, typename... V)
 	MUU_CONST_GETTER
-	constexpr auto MUU_VECTORCALL gcd(T val1, U val2, V... vals) noexcept
+	constexpr std::common_type_t<T, U, V...> MUU_VECTORCALL gcd(T val1, U val2, V... vals) noexcept
 	{
 		if constexpr (sizeof...(vals) == 0u)
 		{

@@ -53,11 +53,13 @@ namespace muu
 		{
 			return from;
 		}
+		//# {{
 		else if constexpr (is_integral<From> && is_integral<To>)
 		{
 			return static_cast<To>(
 				static_cast<remove_enum<std::remove_cv_t<To>>>(static_cast<remove_enum<From>>(from)));
 		}
+		//# }}
 		else if constexpr (!std::is_nothrow_default_constructible_v<std::remove_cv_t<To>>)
 		{
 			union proxy_t

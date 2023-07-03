@@ -349,6 +349,7 @@ help me improve support for your target architecture. Thanks!
 #endif // MUU_DISABLE_ENVIRONMENT_CHECKS
 /// \endcond
 
+//% preprocessor::os start
 #ifdef _WIN32
 	#define MUU_WINDOWS 1
 #else
@@ -364,6 +365,7 @@ help me improve support for your target architecture. Thanks!
 #else
 	#define MUU_LINUX 0
 #endif
+//% preprocessor::os end
 /// \def MUU_WINDOWS
 /// \brief `1` when building for the Windows operating system, otherwise `0`.
 ///
@@ -455,11 +457,15 @@ help me improve support for your target architecture. Thanks!
 // COMPILER FEATURE DETECTION
 //======================================================================================================================
 
-#ifdef __has_include
-	#define MUU_HAS_INCLUDE(header)		__has_include(header)
-#else
-	#define MUU_HAS_INCLUDE(header) 0
+//% preprocessor::has_include start
+#ifndef MUU_HAS_INCLUDE
+	#ifdef __has_include
+		#define MUU_HAS_INCLUDE(header)		__has_include(header)
+	#else
+		#define MUU_HAS_INCLUDE(header) 0
+	#endif
 #endif
+//% preprocessor::has_include end
 /// \def MUU_HAS_INCLUDE(header)
 /// \brief The result of `__has_include(header)` if supported by the compiler, otherwise `0`.
 
@@ -678,13 +684,17 @@ help me improve support for your target architecture. Thanks!
 /// \ecpp
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
 
-#if MUU_MSVC_LIKE
-	#define MUU_MALLOC MUU_DECLSPEC(restrict)
-#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(__malloc__)
-	#define MUU_MALLOC MUU_ATTR(__malloc__)
-#else
-	#define MUU_MALLOC
+//% preprocessor::malloc start
+#ifndef MUU_MALLOC
+	#if MUU_MSVC_LIKE
+		#define MUU_MALLOC MUU_DECLSPEC(restrict)
+	#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_ATTR(__malloc__)
+		#define MUU_MALLOC MUU_ATTR(__malloc__)
+	#else
+		#define MUU_MALLOC
+	#endif
 #endif
+//% preprocessor::malloc end
 /// \def MUU_MALLOC
 /// \brief Optimizer hint that marks an allocating function's pointer return value as representing a newly allocated memory region free from aliasing.
 /// \see [__declspec(restrict)](https://docs.microsoft.com/en-us/cpp/cpp/restrict?view=vs-2019)
@@ -816,13 +826,17 @@ help me improve support for your target architecture. Thanks!
 /// \ecpp
 /// \see [\[\[trivial_abi\]\]](https://quuxplusone.github.io/blog/2018/05/02/trivial-abi-101/)
 
-#if MUU_CPP >= 20 && MUU_HAS_CPP_ATTR(likely) >= 201803
-	#define MUU_LIKELY(...) (__VA_ARGS__) [[likely]]
-#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_BUILTIN(__builtin_expect)
-	#define MUU_LIKELY(...) (__builtin_expect(!!(__VA_ARGS__), 1))
-#else
-	#define MUU_LIKELY(...) (__VA_ARGS__)
+//% preprocessor::likely start
+#ifndef MUU_LIKELY
+	#if MUU_CPP >= 20 && MUU_HAS_CPP_ATTR(likely) >= 201803
+		#define MUU_LIKELY(...) (__VA_ARGS__) [[likely]]
+	#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_BUILTIN(__builtin_expect)
+		#define MUU_LIKELY(...) (__builtin_expect(!!(__VA_ARGS__), 1))
+	#else
+		#define MUU_LIKELY(...) (__VA_ARGS__)
+	#endif
 #endif
+//% preprocessor::likely end
 /// \def MUU_LIKELY
 /// \brief Expands a conditional to include an optimizer intrinsic (or C++20's [[likely]], if available)
 /// 	   indicating that an if/else conditional is the likely path.
@@ -836,13 +850,17 @@ help me improve support for your target architecture. Thanks!
 /// 	- [\[\[likely\]\]](https://en.cppreference.com/w/cpp/language/attributes/likely)
 /// 	- [__builtin_expect()](https://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html)
 
-#if MUU_CPP >= 20 && MUU_HAS_CPP_ATTR(unlikely) >= 201803
-	#define MUU_UNLIKELY(...) (__VA_ARGS__) [[unlikely]]
-#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_BUILTIN(__builtin_expect)
-	#define MUU_UNLIKELY(...) (__builtin_expect(!!(__VA_ARGS__), 0))
-#else
-	#define MUU_UNLIKELY(...) (__VA_ARGS__)
+//% preprocessor::unlikely start
+#ifndef MUU_UNLIKELY
+	#if MUU_CPP >= 20 && MUU_HAS_CPP_ATTR(unlikely) >= 201803
+		#define MUU_UNLIKELY(...) (__VA_ARGS__) [[unlikely]]
+	#elif MUU_CLANG || MUU_GCC_LIKE || MUU_HAS_BUILTIN(__builtin_expect)
+		#define MUU_UNLIKELY(...) (__builtin_expect(!!(__VA_ARGS__), 0))
+	#else
+		#define MUU_UNLIKELY(...) (__VA_ARGS__)
+	#endif
 #endif
+//% preprocessor::unlikely end
 /// \def MUU_UNLIKELY
 /// \brief Expands a conditional to include an optimizer intrinsic (or C++20's [[unlikely]], if available)
 /// 	   indicating that an if/else conditional is the unlikely path.
@@ -1679,6 +1697,12 @@ MUU_ENABLE_WARNINGS;
 		static_assert(true)
 #endif
 
+//% preprocessor::comma start
+#ifndef MUU_COMMA
+	#define MUU_COMMA ,
+#endif
+//% preprocessor::comma end
+
 //% preprocessor::hidden start
 #ifndef MUU_HIDDEN
 	#if MUU_DOXYGEN
@@ -1757,11 +1781,6 @@ MUU_ENABLE_WARNINGS;
 	#define MUU_OFFSETOF(type, member) offsetof(type, member)
 #endif
 
-//% preprocessor::comma start
-#ifndef MUU_COMMA
-	#define MUU_COMMA ,
-#endif
-//% preprocessor::comma end
 
 //======================================================================================================================
 // SFINAE AND CONCEPTS
