@@ -11,7 +11,6 @@
   <compound kind="file">
     <name>aligned_alloc.h</name>
     <filename>aligned__alloc_8h.html</filename>
-    <includes id="bit__ceil_8h" name="bit_ceil.h" local="yes" imported="no">bit_ceil.h</includes>
     <includes id="assume__aligned_8h" name="assume_aligned.h" local="yes" imported="no">assume_aligned.h</includes>
     <namespace>muu</namespace>
     <member kind="function">
@@ -1961,17 +1960,17 @@
       <arglist>(T x) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr auto</type>
+      <type>constexpr std::common_type_t&lt; T, U, V... &gt;</type>
       <name>lcm</name>
       <anchorfile>group__math.html</anchorfile>
-      <anchor>ga747762e03956634201248a153ce0ce5e</anchor>
+      <anchor>ga69500011fd620946b6d4acb32c06345d</anchor>
       <arglist>(T val1, U val2, V... vals) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr auto</type>
+      <type>constexpr std::common_type_t&lt; T, U, V... &gt;</type>
       <name>gcd</name>
       <anchorfile>group__math.html</anchorfile>
-      <anchor>ga54f9d1a2efa5ffdf81afdaa4fcb89fd6</anchor>
+      <anchor>ga176e7a7f0657f36cd3944226645eb439</anchor>
       <arglist>(T val1, U val2, V... vals) noexcept</arglist>
     </member>
     <member kind="function">
@@ -23965,17 +23964,17 @@
       <arglist>(T x) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr auto</type>
+      <type>constexpr std::common_type_t&lt; T, U, V... &gt;</type>
       <name>lcm</name>
       <anchorfile>group__math.html</anchorfile>
-      <anchor>ga747762e03956634201248a153ce0ce5e</anchor>
+      <anchor>ga69500011fd620946b6d4acb32c06345d</anchor>
       <arglist>(T val1, U val2, V... vals) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr auto</type>
+      <type>constexpr std::common_type_t&lt; T, U, V... &gt;</type>
       <name>gcd</name>
       <anchorfile>group__math.html</anchorfile>
-      <anchor>ga54f9d1a2efa5ffdf81afdaa4fcb89fd6</anchor>
+      <anchor>ga176e7a7f0657f36cd3944226645eb439</anchor>
       <arglist>(T val1, U val2, V... vals) noexcept</arglist>
     </member>
     <member kind="function">
@@ -27916,17 +27915,17 @@
       <enumvalue file="group__math.html" anchor="ggaea66a56dd5d6fff0e1d6647c774eed1ea2ffe4e77325d9a7152f7086ea7aa5114">max</enumvalue>
     </member>
     <member kind="function">
-      <type>constexpr auto</type>
+      <type>constexpr std::common_type_t&lt; T, U, V... &gt;</type>
       <name>lcm</name>
       <anchorfile>group__math.html</anchorfile>
-      <anchor>ga747762e03956634201248a153ce0ce5e</anchor>
+      <anchor>ga69500011fd620946b6d4acb32c06345d</anchor>
       <arglist>(T val1, U val2, V... vals) noexcept</arglist>
     </member>
     <member kind="function">
-      <type>constexpr auto</type>
+      <type>constexpr std::common_type_t&lt; T, U, V... &gt;</type>
       <name>gcd</name>
       <anchorfile>group__math.html</anchorfile>
-      <anchor>ga54f9d1a2efa5ffdf81afdaa4fcb89fd6</anchor>
+      <anchor>ga176e7a7f0657f36cd3944226645eb439</anchor>
       <arglist>(T val1, U val2, V... vals) noexcept</arglist>
     </member>
     <member kind="function">

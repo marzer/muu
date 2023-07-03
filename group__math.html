@@ -227,9 +227,9 @@
             <dd>Evenly divides an integer into buckets.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U, typename... V&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga54f9d1a2efa5ffdf81afdaa4fcb89fd6">gcd</a>(</span><span class="m-doc-wrap">T val1,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga176e7a7f0657f36cd3944226645eb439">gcd</a>(</span><span class="m-doc-wrap">T val1,
               U val2,
-              V... vals) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              V... vals) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/common_type.html" target="_blank">std::<wbr/>common_type_t</a>&lt;T, U, V...&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the lowest common multiple of two or more integers.</dd>
             <dt>
@@ -240,9 +240,9 @@
             <dd>Checks if two objects intersect.</dd>
             <dt>
               <div class="m-doc-template">template&lt;typename T, typename U, typename... V&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga747762e03956634201248a153ce0ce5e">lcm</a>(</span><span class="m-doc-wrap">T val1,
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga69500011fd620946b6d4acb32c06345d">lcm</a>(</span><span class="m-doc-wrap">T val1,
               U val2,
-              V... vals) -&gt; auto <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+              V... vals) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/common_type.html" target="_blank">std::<wbr/>common_type_t</a>&lt;T, U, V...&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the lowest common multiple of two or more integers.</dd>
           </dl>
@@ -376,13 +376,13 @@
             </h3>
             <p>Evenly divides an integer into buckets.</p>
           </div></section>
-          <section class="m-doc-details" id="ga54f9d1a2efa5ffdf81afdaa4fcb89fd6"><div>
+          <section class="m-doc-details" id="ga176e7a7f0657f36cd3944226645eb439"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T, typename U, typename... V&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga54f9d1a2efa5ffdf81afdaa4fcb89fd6">gcd</a>(</span><span class="m-doc-wrap">T val1,
+              <span class="m-doc-wrap-bumper"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/common_type.html" target="_blank">std::<wbr/>common_type_t</a>&lt;T, U, V...&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga176e7a7f0657f36cd3944226645eb439">gcd</a>(</span><span class="m-doc-wrap">T val1,
               U val2,
               V... vals) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -435,13 +435,13 @@
             </table>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This method relies on there being an implementation of one of:</p><ul><li><code>T::intersects(obj1, obj2)</code></li><li><code>T::intersects(obj2, obj1)</code></li><li><code>U::intersects(obj2, obj1)</code></li><li><code>U::intersects(obj1, obj2)</code></li><li><code>obj1.intersects(obj2)</code></li><li><code>obj2.intersects(obj1)</code></li></ul></aside>
           </div></section>
-          <section class="m-doc-details" id="ga747762e03956634201248a153ce0ce5e"><div>
+          <section class="m-doc-details" id="ga69500011fd620946b6d4acb32c06345d"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
               <div class="m-doc-template">
                 template&lt;typename T, typename U, typename... V&gt;
               </div>
-              <span class="m-doc-wrap-bumper">auto </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga747762e03956634201248a153ce0ce5e">lcm</a>(</span><span class="m-doc-wrap">T val1,
+              <span class="m-doc-wrap-bumper"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/common_type.html" target="_blank">std::<wbr/>common_type_t</a>&lt;T, U, V...&gt; </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga69500011fd620946b6d4acb32c06345d">lcm</a>(</span><span class="m-doc-wrap">T val1,
               U val2,
               V... vals) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
