@@ -8,7 +8,7 @@ import utils
 import re
 import textwrap
 import sys
-from argparse import ArgumentParser
+from argparse import ArgumentParser, BooleanOptionalAction
 from pathlib import Path
 
 SNIPPET_DECL  = re.compile(r'^\s*\/\/%\s*([a-zA-Z0-9::_+-]+)(?:\s+(guarded))?\s*$', flags=re.MULTILINE)
@@ -74,6 +74,7 @@ def main():
 		help=r'prefix to apply when transforming macros (default: %(default)s)',
 		default=r'MZ'
 	)
+	args.add_argument(r'--strip-vectorcall', action=BooleanOptionalAction, default=True)
 	args = args.parse_args()
 
 	# check args
@@ -216,7 +217,10 @@ def main():
 
 	# de-muuifiying
 	text = re.sub(r'\bMUU_MEMCPY\b', r'std::memcpy', text)
-	text = re.sub(r'\bMUU_VECTORCALL\b', r'', text)
+	if args.strip_vectorcall:
+		text = re.sub(r'(#\s*define\s+MUU_VECTORCALL)', r'\1_', text)
+		text = re.sub(r'\bMUU_VECTORCALL\b', r'', text)
+		text = re.sub(r'(#\s*define\s+MUU_VECTORCALL)_', r'\1', text)
 	text = re.sub(r'(\b|::)muu::impl::enable_if_\b', r'std::enable_if', text)
 	text = utils.replace_metavar(r'namespaces::main', args.namespaces[0], text)
 	text = utils.replace_metavar(r'namespace', args.namespaces[0], text)

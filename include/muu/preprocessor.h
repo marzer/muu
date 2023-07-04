@@ -375,6 +375,7 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_LINUX
 /// \brief `1` when building for a Linux distro, otherwise `0`.
 
+//% preprocessor::iset start
 #if defined(__MMX__) || MUU_MSVC
 	#define MUU_ISET_MMX 1
 #else
@@ -400,7 +401,6 @@ help me improve support for your target architecture. Thanks!
 #else
 	#define MUU_ISET_AVX2 0
 #endif
-// clang-format off
 #if defined(__AVX512BW__)		\
 	|| defined(__AVX512CD__)	\
 	|| defined(__AVX512DQ__)	\
@@ -412,7 +412,7 @@ help me improve support for your target architecture. Thanks!
 #else
 	#define MUU_ISET_AVX512 0
 #endif
-// clang-format on
+//% preprocessor::iset end
 /// \def MUU_ISET_MMX
 /// \brief `1` when the target supports the MMX instruction set, otherwise `0`.
 ///
@@ -1220,6 +1220,7 @@ help me improve support for your target architecture. Thanks!
 //% preprocessor::getters end
 // clang-format on
 
+//% preprocessor::vectorcall start
 #if MUU_MSVC_LIKE && (MUU_ARCH_X86 || MUU_ARCH_AMD64) && MUU_ISET_SSE2
 	#define MUU_VECTORCALL	   __vectorcall
 	#define MUU_HAS_VECTORCALL 1
@@ -1227,14 +1228,16 @@ help me improve support for your target architecture. Thanks!
 	#define MUU_VECTORCALL
 	#define MUU_HAS_VECTORCALL 0
 #endif
+//% preprocessor::vectorcall end
+/// \def MUU_VECTORCALL
+/// \brief Expands to `__vectorcall` on compilers that support it.
+/// \see [__vectorcall](https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019)
+
 #if !MUU_DOXYGEN && !MUU_INTELLISENSE
 	#define MUU_VPARAM(...) ::muu::vector_param<__VA_ARGS__>
 #else
 	#define MUU_VPARAM(...) const __VA_ARGS__&
 #endif
-/// \def MUU_VECTORCALL
-/// \brief Expands to `__vectorcall` on compilers that support it.
-/// \see [__vectorcall](https://docs.microsoft.com/en-us/cpp/cpp/vectorcall?view=vs-2019)
 
 #define MUU_MAKE_FLAGS_2(T, op, linkage)                                                                               \
 	MUU_CONST_INLINE_GETTER                                                                                            \
