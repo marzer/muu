@@ -23,9 +23,22 @@ namespace muu
 	class blob
 	{
 	  private:
+		/// \cond
+
 		size_t alignment_;
 		size_t size_ = 0;
 		void* data_	 = nullptr;
+
+		static constexpr size_t big_align_ = impl::aligned_alloc_min_align > 64u ? impl::aligned_alloc_min_align : 64u;
+
+		MUU_CONST_INLINE_GETTER
+		static constexpr size_t actual_alignment(size_t size, size_t align) noexcept
+		{
+			if (size < 2048u)
+				return align > impl::aligned_alloc_min_align ? align : impl::aligned_alloc_min_align;
+			return align > big_align_ ? align : big_align_;
+		}
+		/// \endcond
 
 	  public:
 		/// \brief Creates an empty blob.
@@ -42,7 +55,7 @@ namespace muu
 		///						Leave as `0` to use `__STDCPP_DEFAULT_NEW_ALIGNMENT__`.
 		MUU_NODISCARD_CTOR
 		explicit blob(size_t size, const void* src = nullptr, size_t align = {})
-			: alignment_{ impl::aligned_alloc_actual_align(size, align) },
+			: alignment_{ actual_alignment(size, align) },
 			  size_{ size },
 			  data_{ size_ ? aligned_alloc(size_, alignment_) : nullptr }
 		{
@@ -91,7 +104,7 @@ namespace muu
 		/// \return	A reference to the input blob.
 		blob& assign(size_t sz, const void* src, size_t new_align = {})
 		{
-			new_align = impl::aligned_alloc_actual_align(sz, new_align);
+			new_align = actual_alignment(sz, new_align);
 
 			// check if this is effectively a resize with a copy or move
 			if (new_align <= alignment_)

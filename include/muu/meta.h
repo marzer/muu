@@ -879,6 +879,38 @@ namespace muu
 	inline constexpr size_t index_of_type = impl::index_of_type_<T, 0, U, V...>::value;
 	//% meta::index_of_type end
 
+	//% meta::type_at_index start
+#if MUU_HAS_BUILTIN(__type_pack_element)
+
+	template <size_t I, typename... T>
+	using type_at_index = __type_pack_element<I, T...>;
+
+#else
+
+	/// \cond
+	namespace detail
+	{
+		template <size_t I, typename T, typename... U>
+		struct type_at_index_impl
+		{
+			using type = typename type_at_index_impl<I - 1, U...>::type;
+		};
+
+		template <typename T, typename... U>
+		struct type_at_index_impl<0, T, U...>
+		{
+			using type = T;
+		};
+	}
+	/// \endcond
+
+	/// \brief	The type at the given index in the list.
+	template <size_t I, typename... T>
+	using type_at_index = typename detail::type_at_index_impl<I, T...>::type;
+
+#endif
+	//% meta::type_at_index end
+
 	/// \brief	True if `From` is implicitly convertible to `To`.
 	template <typename From, typename To>
 	inline constexpr bool is_implicitly_convertible = std::is_convertible_v<From, To>;
@@ -2185,7 +2217,7 @@ namespace muu
 		{
 			if constexpr (can_be_hva<T> && std::is_aggregate_v<T>)
 			{
-				if constexpr (is_detected<is_aggregate_5_args_, T>) // five or more
+				if constexpr (is_detected<is_aggregate_5_args_, T>)		 // five or more
 					return std::false_type{};
 				else if constexpr (is_detected<is_aggregate_4_args_, T>) // four
 				{
@@ -2228,7 +2260,7 @@ namespace muu
 		template <typename T>
 		inline constexpr bool is_hva = decltype(is_hva_(std::declval<T>()))::value;
 
-#else // ^^^ MUU_HAS_VECTORCALL / vvv !MUU_HAS_VECTORCALL
+#else  // ^^^ MUU_HAS_VECTORCALL / vvv !MUU_HAS_VECTORCALL
 
 		template <typename T>
 		inline constexpr bool is_vectorcall_simd_intrinsic = false;
@@ -2265,8 +2297,8 @@ namespace muu
 													&& (is_vectorcall_simd_intrinsic<raw_type> || is_hva<raw_type>)) //
 												|| ((std::is_class_v<raw_type> || std::is_union_v<raw_type>)		 //
 													&&(std::is_trivially_copyable_v<raw_type>
-													   || std::is_nothrow_copy_constructible_v<raw_type>) //
-													&&std::is_nothrow_destructible_v<raw_type>			  //
+													   || std::is_nothrow_copy_constructible_v<raw_type>)			 //
+													&&std::is_nothrow_destructible_v<raw_type>						 //
 													&& sizeof(raw_type) <= (sizeof(void*) * 2u)),
 											raw_type,
 											std::add_lvalue_reference_t<std::add_const_t<T>>>;

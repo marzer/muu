@@ -12,7 +12,6 @@
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS;
 
-
 namespace muu
 {
 	//% aligned_alloc start
@@ -45,7 +44,7 @@ namespace muu
 	///
 	/// \warning Do not use this to free memory that was not allocated using #muu::aligned_alloc()!
 	MUU_ALWAYS_INLINE
-	inline void aligned_free(void* ptr) noexcept
+	void aligned_free(void* ptr) noexcept
 	{
 #if MUU_WINDOWS
 		_aligned_free(ptr);
