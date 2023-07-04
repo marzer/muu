@@ -305,6 +305,11 @@
             </dt>
             <dd>The smallest type from a set of types.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I, typename... T&gt;</div>
+              using <a class="m-doc" href="group__meta.html#ga6f27ad9de4af7f8d8e909faba87771f0">type_at_index</a> = typename detail::type_at_index_impl&lt;I, T...&gt;::type
+            </dt>
+            <dd>The type at the given index in the list.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga8b8f215acad0e9f3d7aa52326155f030">type_identity</a> = typename impl::type_identity_&lt;T&gt;::type
             </dt>

@@ -2147,6 +2147,13 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>typename detail::type_at_index_impl&lt; I, T... &gt;::type</type>
+      <name>type_at_index</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6f27ad9de4af7f8d8e909faba87771f0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>typename impl::rebase_ref_&lt; T, std::add_const_t&lt; std::remove_reference_t&lt; T &gt; &gt;&gt;::type</type>
       <name>add_const</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -22326,6 +22333,13 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
+      <type>typename detail::type_at_index_impl&lt; I, T... &gt;::type</type>
+      <name>type_at_index</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6f27ad9de4af7f8d8e909faba87771f0</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
       <type>typename impl::rebase_ref_&lt; T, std::add_const_t&lt; std::remove_reference_t&lt; T &gt; &gt;&gt;::type</type>
       <name>add_const</name>
       <anchorfile>group__meta.html</anchorfile>
@@ -28037,6 +28051,13 @@
       <name>least_aligned</name>
       <anchorfile>group__meta.html</anchorfile>
       <anchor>ga14d4e47d4a3ee4bcae55745a917343e3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="typedef">
+      <type>typename detail::type_at_index_impl&lt; I, T... &gt;::type</type>
+      <name>type_at_index</name>
+      <anchorfile>group__meta.html</anchorfile>
+      <anchor>ga6f27ad9de4af7f8d8e909faba87771f0</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">

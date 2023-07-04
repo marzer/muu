@@ -309,6 +309,11 @@
             </dt>
             <dd>The smallest type from a set of types.</dd>
             <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I, typename... T&gt;</div>
+              using <a class="m-doc" href="#ga6f27ad9de4af7f8d8e909faba87771f0">type_at_index</a> = typename detail::type_at_index_impl&lt;I, T...&gt;::type
+            </dt>
+            <dd>The type at the given index in the list.</dd>
+            <dt>
               <div class="m-doc-template">template&lt;typename T&gt;</div>
               using <a class="m-doc" href="#ga8b8f215acad0e9f3d7aa52326155f030">type_identity</a> = typename impl::type_identity_&lt;T&gt;::type
             </dt>
@@ -1491,6 +1496,15 @@
             </h3>
             <p>The smallest type from a set of types.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>Treats <code>void</code> and functions as having size of <code>0</code>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ga6f27ad9de4af7f8d8e909faba87771f0"><div>
+            <h3>
+              <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="meta_8h.html">&lt;muu/meta.h&gt;</a></div>
+              <div class="m-doc-template"> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I, typename... T&gt;
+              </div>
+              using <a class="m-doc-self" href="#ga6f27ad9de4af7f8d8e909faba87771f0">type_at_index</a> = typename detail::type_at_index_impl&lt;I, T...&gt;::type
+            </h3>
+            <p>The type at the given index in the list.</p>
           </div></section>
           <section class="m-doc-details" id="ga8b8f215acad0e9f3d7aa52326155f030"><div>
             <h3>
