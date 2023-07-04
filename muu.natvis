@@ -176,7 +176,7 @@
 	</Type>
 
 	<Type Name="muu::compressed_pair&lt;*, *&gt;">
-		<Intrinsic Name="mode" Expression="(unsigned)flags_" />
+		<Intrinsic Name="mode" Expression="(int)first_is_subclass_ + (int)second_is_subclass_ * 2" />
 		
 		<DisplayString IncludeView="noparens" Condition="mode() == 0" Optional="true">{first_}, {second_}</DisplayString>
 		<DisplayString IncludeView="noparens" Condition="mode() == 1" Optional="true">{*($T1 *)this}, {second_}</DisplayString>

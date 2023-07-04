@@ -11,80 +11,29 @@
 #include "impl/std_type_traits.h"
 #include "impl/header_start.h"
 
-/// \cond
-namespace muu::impl
-{
-	template <typename Func, typename T, T... N>
-	inline constexpr bool for_sequence_impl_noexcept_ =
-		sizeof...(N) == 0 || ((noexcept(std::declval<Func>()(std::integral_constant<T, N>{})) && ...));
-
-	template <typename Func, typename T, T... N>
-	constexpr void for_sequence_impl(Func&& func, std::integer_sequence<T, N...>) noexcept(
-		for_sequence_impl_noexcept_<Func&&, T, N...>)
-	{
-		(static_cast<void>(static_cast<Func&&>(func)(std::integral_constant<T, N>{})), ...);
-	}
-
-	template <auto N, typename Func>
-	inline constexpr bool for_sequence_noexcept_ =
-		noexcept(for_sequence_impl(std::declval<Func>(), std::make_integer_sequence<decltype(N), N>{}));
-
-	template <typename Func, typename T, T... N1, typename U, U... N2>
-	MUU_NODISCARD
-	MUU_CONSTEVAL
-	bool for_product_impl_noexcept(std::integer_sequence<T, N1...>, std::integer_sequence<U, N2...>) noexcept
-	{
-		if constexpr (sizeof...(N1) == 0 || sizeof...(N2) == 0)
-			return true;
-		else
-		{
-			bool value = true;
-
-			const auto inner = [&](auto i, auto j) noexcept
-			{
-				value = noexcept(std::declval<Func>()(std::integral_constant<T, decltype(i)::value>{},
-													  std::integral_constant<U, decltype(j)::value>{}))
-					 && value;
-			};
-
-			const auto outer = [&](auto i) noexcept
-			{ (static_cast<void>(inner(i, std::integral_constant<U, N2>{})), ...); };
-
-			(static_cast<void>(outer(std::integral_constant<T, N1>{})), ...);
-
-			return value;
-		}
-	}
-
-	template <typename Func, typename T, T... N1, typename U, U... N2>
-	constexpr void for_product_impl(Func&& func,
-									std::integer_sequence<T, N1...>,
-									std::integer_sequence<U,
-														  N2...>) //
-		noexcept(for_product_impl_noexcept<Func&&>(std::integer_sequence<T, N1...>{},
-												   std::integer_sequence<U, N2...>{}))
-	{
-		const auto inner = [&](auto i, auto j)
-		{
-			static_cast<Func&&>(func)(std::integral_constant<T, decltype(i)::value>{},
-									  std::integral_constant<U, decltype(j)::value>{});
-		};
-
-		const auto outer = [&](auto i) { (static_cast<void>(inner(i, std::integral_constant<U, N2>{})), ...); };
-
-		(static_cast<void>(outer(std::integral_constant<T, N1>{})), ...);
-	}
-
-	template <auto N1, auto N2, typename Func>
-	inline constexpr bool for_product_noexcept_ =
-		noexcept(for_product_impl(std::declval<Func>(),
-								  std::make_integer_sequence<decltype(N1), N1>{},
-								  std::make_integer_sequence<decltype(N2), N2>{}));
-}
-/// \endcond
-
 namespace muu
 {
+	//% for_sequence start
+	/// \cond
+	namespace impl
+	{
+		template <typename Func, typename T, T... N>
+		inline constexpr bool for_sequence_impl_noexcept_ =
+			sizeof...(N) == 0 || ((noexcept(std::declval<Func>()(std::integral_constant<T, N>{})) && ...));
+
+		template <typename Func, typename T, T... N>
+		constexpr void for_sequence_impl(Func&& func, std::integer_sequence<T, N...>) noexcept(
+			for_sequence_impl_noexcept_<Func&&, T, N...>)
+		{
+			(static_cast<void>(static_cast<Func&&>(func)(std::integral_constant<T, N>{})), ...);
+		}
+
+		template <auto N, typename Func>
+		inline constexpr bool for_sequence_noexcept_ =
+			noexcept(for_sequence_impl(std::declval<Func>(), std::make_integer_sequence<decltype(N), N>{}));
+	}
+	/// \endcond
+
 	/// \brief	Generates a series of sequential function calls by pack expansion.
 	/// \ingroup core
 	///
@@ -114,8 +63,66 @@ namespace muu
 		if constexpr (N > n_type{})
 			impl::for_sequence_impl(static_cast<Func&&>(func), std::make_integer_sequence<n_type, N>{});
 		else
-			MUU_UNUSED(func);
+			static_cast<void>(func);
 	}
+	//% for_sequence end
+
+	/// \cond
+	namespace impl
+	{
+		template <typename Func, typename T, T... N1, typename U, U... N2>
+		MUU_NODISCARD
+		MUU_CONSTEVAL
+		bool for_product_impl_noexcept(std::integer_sequence<T, N1...>, std::integer_sequence<U, N2...>) noexcept
+		{
+			if constexpr (sizeof...(N1) == 0 || sizeof...(N2) == 0)
+				return true;
+			else
+			{
+				bool value = true;
+
+				const auto inner = [&](auto i, auto j) noexcept
+				{
+					value = noexcept(std::declval<Func>()(std::integral_constant<T, decltype(i)::value>{},
+														  std::integral_constant<U, decltype(j)::value>{}))
+						 && value;
+				};
+
+				const auto outer = [&](auto i) noexcept
+				{ (static_cast<void>(inner(i, std::integral_constant<U, N2>{})), ...); };
+
+				(static_cast<void>(outer(std::integral_constant<T, N1>{})), ...);
+
+				return value;
+			}
+		}
+
+		template <typename Func, typename T, T... N1, typename U, U... N2>
+		constexpr void for_product_impl(Func&& func,
+										std::integer_sequence<T, N1...>,
+										std::integer_sequence<U,
+															  N2...>) //
+			noexcept(for_product_impl_noexcept<Func&&>(std::integer_sequence<T, N1...>{},
+													   std::integer_sequence<U, N2...>{}))
+		{
+			const auto inner = [&](auto i, auto j)
+			{
+				static_cast<Func&&>(func)(std::integral_constant<T, decltype(i)::value>{},
+										  std::integral_constant<U, decltype(j)::value>{});
+			};
+
+			const auto outer = [&](auto i) { (static_cast<void>(inner(i, std::integral_constant<U, N2>{})), ...); };
+
+			(static_cast<void>(outer(std::integral_constant<T, N1>{})), ...);
+		}
+
+		template <auto N1, auto N2, typename Func>
+		inline constexpr bool for_product_noexcept_ =
+			noexcept(for_product_impl(std::declval<Func>(),
+									  std::make_integer_sequence<decltype(N1), N1>{},
+									  std::make_integer_sequence<decltype(N2), N2>{}));
+	}
+	/// \endcond
 
 	/// \brief	Generates a series of sequential function calls by pack expansion.
 	/// \ingroup core

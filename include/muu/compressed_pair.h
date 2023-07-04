@@ -9,48 +9,18 @@
 
 #include "meta.h"
 #include "impl/header_start.h"
-MUU_PRAGMA_CLANG(diagnostic ignored "-Wreorder")
-MUU_PRAGMA_GCC(diagnostic ignored "-Wreorder")
-MUU_PRAGMA_MSVC(warning(disable : 5038)) // member A will initialized before B
 
-/// \cond
-namespace muu::impl
+namespace muu
 {
-	enum class compressed_pair_flags : unsigned
+	/// \addtogroup		core
+	/// @{
+	//% compressed_pair start
+
+	/// \cond
+	namespace impl
 	{
-		none		 = 0,
-		first_empty	 = 1,
-		second_empty = 2,
-		both_empty	 = first_empty | second_empty
-	};
-	MUU_MAKE_FLAGS(compressed_pair_flags);
 
-	template <typename First, typename Second>
-	MUU_NODISCARD
-	MUU_CONSTEVAL
-	compressed_pair_flags get_compressed_pair_flags_for() noexcept
-	{
-		return (std::is_empty_v<First> && !std::is_final_v<First> ? compressed_pair_flags::first_empty
-																  : compressed_pair_flags::none)
-			 | (std::is_empty_v<Second> && !std::is_final_v<Second> ? compressed_pair_flags::second_empty
-																	: compressed_pair_flags::none);
-	}
-
-#define COMPRESSED_PAIR_BASE_DEFAULTS(first_initializer, second_initializer)                                           \
-                                                                                                                       \
-	MUU_CONSTRAINED_TEMPLATE((std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>),            \
-							 typename F,                                                                               \
-							 typename S)                                                                               \
-	constexpr compressed_pair_base(F&& first_init, S&& second_init) noexcept(                                          \
-		std::is_nothrow_constructible_v<First, F&&> && std::is_nothrow_constructible_v<Second, S&&>)                   \
-		: first_initializer{ static_cast<F&&>(first_init) },                                                           \
-		  second_initializer{ static_cast<S&&>(second_init) }                                                          \
-	{}                                                                                                                 \
-	compressed_pair_base() = default;                                                                                  \
-	MUU_DEFAULT_MOVE(compressed_pair_base);                                                                            \
-	MUU_DEFAULT_COPY(compressed_pair_base)
-
-#define COMPRESSED_PAIR_BASE_GETTERS(type, name, expression)                                                           \
+#define MUU_COMPRESSED_PAIR_BASE_GETTERS(type, name, expression)                                                       \
 	MUU_PURE_INLINE_GETTER                                                                                             \
 	constexpr type& get_##name() noexcept                                                                              \
 	{                                                                                                                  \
@@ -63,74 +33,122 @@ namespace muu::impl
 	}                                                                                                                  \
 	static_assert(true)
 
-	template <typename First,
-			  typename Second,
-			  compressed_pair_flags Flags = get_compressed_pair_flags_for<First, Second>()>
-	struct compressed_pair_base
-	{
-		static_assert(Flags == compressed_pair_flags::none);
-		MUU_NO_UNIQUE_ADDRESS First first_;
-		MUU_NO_UNIQUE_ADDRESS Second second_;
+		template <typename First,
+				  typename Second,
+				  bool FirstCanBeSubclass  = std::is_empty_v<First> && !std::is_final_v<First>,
+				  bool SecondCanBeSubclass = std::is_empty_v<Second> && !std::is_final_v<Second>>
+		struct compressed_pair_base
+		{
+			static_assert(!FirstCanBeSubclass);
+			static_assert(!SecondCanBeSubclass);
+			MUU_NO_UNIQUE_ADDRESS First first_;
+			MUU_NO_UNIQUE_ADDRESS Second second_;
 
-		COMPRESSED_PAIR_BASE_DEFAULTS(first_, second_);
-		COMPRESSED_PAIR_BASE_GETTERS(First, first, first_);
-		COMPRESSED_PAIR_BASE_GETTERS(Second, second, second_);
-	};
+			compressed_pair_base() = default;
+			MUU_DEFAULT_MOVE(compressed_pair_base);
+			MUU_DEFAULT_COPY(compressed_pair_base);
 
-	template <typename First, typename Second>
-	struct compressed_pair_base<First, Second, compressed_pair_flags::first_empty> : First
-	{
-		MUU_NO_UNIQUE_ADDRESS Second second_;
+			MUU_CONSTRAINED_TEMPLATE((std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>),
+									 typename F,
+									 typename S)
+			constexpr compressed_pair_base(F&& first_init, S&& second_init) noexcept(
+				std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
+				: first_{ static_cast<F&&>(first_init) },
+				  second_{ static_cast<S&&>(second_init) }
+			{}
 
-		COMPRESSED_PAIR_BASE_DEFAULTS(First, second_);
-		COMPRESSED_PAIR_BASE_GETTERS(First, first, *this);
-		COMPRESSED_PAIR_BASE_GETTERS(Second, second, second_);
-	};
+			MUU_COMPRESSED_PAIR_BASE_GETTERS(First, first, first_);
+			MUU_COMPRESSED_PAIR_BASE_GETTERS(Second, second, second_);
+		};
 
-	template <typename First, typename Second>
-	struct compressed_pair_base<First, Second, compressed_pair_flags::second_empty> : Second
-	{
-		MUU_NO_UNIQUE_ADDRESS First first_;
+		template <typename First, typename Second>
+		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, true, false> : First
+		{
+			MUU_NO_UNIQUE_ADDRESS Second second_;
 
-		COMPRESSED_PAIR_BASE_DEFAULTS(first_, Second);
-		COMPRESSED_PAIR_BASE_GETTERS(First, first, first_);
-		COMPRESSED_PAIR_BASE_GETTERS(Second, second, *this);
-	};
+			compressed_pair_base() = default;
+			MUU_DEFAULT_MOVE(compressed_pair_base);
+			MUU_DEFAULT_COPY(compressed_pair_base);
 
-	template <typename First, typename Second>
-	struct compressed_pair_base<First, Second, compressed_pair_flags::both_empty> : First, Second
-	{
-		COMPRESSED_PAIR_BASE_DEFAULTS(First, Second);
-		COMPRESSED_PAIR_BASE_GETTERS(First, first, *this);
-		COMPRESSED_PAIR_BASE_GETTERS(Second, second, *this);
-	};
+			MUU_CONSTRAINED_TEMPLATE((std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>),
+									 typename F,
+									 typename S)
+			constexpr compressed_pair_base(F&& first_init, S&& second_init) noexcept(
+				std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
+				: First{ static_cast<F&&>(first_init) },
+				  second_{ static_cast<S&&>(second_init) }
+			{}
 
-#undef COMPRESSED_PAIR_BASE_DEFAULTS
-#undef COMPRESSED_PAIR_BASE_GETTERS
+			MUU_COMPRESSED_PAIR_BASE_GETTERS(First, first, *this);
+			MUU_COMPRESSED_PAIR_BASE_GETTERS(Second, second, second_);
+		};
 
-	template <size_t I, typename T>
-	MUU_PURE_INLINE_GETTER
-	constexpr decltype(auto) compressed_pair_get(T&& cp) noexcept
-	{
-		static_assert(I <= 1);
-		if constexpr (I == 0)
-			return static_cast<T&&>(cp).first();
-		else
-			return static_cast<T&&>(cp).second();
+		template <typename First, typename Second>
+		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, false, true> : Second
+		{
+			MUU_NO_UNIQUE_ADDRESS First first_;
+
+			compressed_pair_base() = default;
+			MUU_DEFAULT_MOVE(compressed_pair_base);
+			MUU_DEFAULT_COPY(compressed_pair_base);
+
+			MUU_CONSTRAINED_TEMPLATE((std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>),
+									 typename F,
+									 typename S)
+			constexpr compressed_pair_base(F&& first_init, S&& second_init) noexcept(
+				std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
+				: Second{ static_cast<S&&>(second_init) },
+				  first_{ static_cast<F&&>(first_init) }
+
+			{}
+
+			MUU_COMPRESSED_PAIR_BASE_GETTERS(First, first, first_);
+			MUU_COMPRESSED_PAIR_BASE_GETTERS(Second, second, *this);
+		};
+
+		template <typename First, typename Second>
+		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, true, true> : First, Second
+		{
+			compressed_pair_base() = default;
+			MUU_DEFAULT_MOVE(compressed_pair_base);
+			MUU_DEFAULT_COPY(compressed_pair_base);
+
+			MUU_CONSTRAINED_TEMPLATE((std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>),
+									 typename F,
+									 typename S)
+			constexpr compressed_pair_base(F&& first_init, S&& second_init) noexcept(
+				std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
+				: First{ static_cast<F&&>(first_init) },
+				  Second{ static_cast<S&&>(second_init) }
+			{}
+
+			MUU_COMPRESSED_PAIR_BASE_GETTERS(First, first, *this);
+			MUU_COMPRESSED_PAIR_BASE_GETTERS(Second, second, *this);
+		};
+
+#undef MUU_COMPRESSED_PAIR_BASE_DEFAULTS
+#undef MUU_COMPRESSED_PAIR_BASE_GETTERS
+
+		template <size_t I, typename T>
+		MUU_PURE_INLINE_GETTER
+		constexpr decltype(auto) compressed_pair_get(T&& cp) noexcept
+		{
+			static_assert(I <= 1);
+			if constexpr (I == 0)
+				return static_cast<T&&>(cp).first();
+			else
+				return static_cast<T&&>(cp).second();
+		}
 	}
-}
-/// \endcond
+	/// \endcond
 
-namespace muu
-{
 	/// \brief	A pair that uses Empty Base Class Optimization
 	///			to elide storage for one or both of its members where possible.
-	/// \ingroup core
 	///
 	/// \tparam	First		First member type.
 	/// \tparam	Second		Second member type.
 	template <typename First, typename Second>
-	class compressed_pair //
+	class MUU_EMPTY_BASES compressed_pair //
 		MUU_HIDDEN_BASE(private impl::compressed_pair_base<First, Second>)
 	{
 	  private:
@@ -138,8 +156,11 @@ namespace muu
 
 		using base = impl::compressed_pair_base<First, Second>;
 
-		// mode hook for debuggers etc.
-		static constexpr impl::compressed_pair_flags flags_ = impl::get_compressed_pair_flags_for<First, Second>();
+		//# {{
+		// mode hooks for debuggers etc.
+		static constexpr bool first_is_subclass_  = std::is_empty_v<First> && !std::is_final_v<First>;
+		static constexpr bool second_is_subclass_ = std::is_empty_v<Second> && !std::is_final_v<Second>;
+		//# }}
 
 		/// \endcond
 
@@ -272,13 +293,18 @@ namespace muu
 	/// \cond
 
 	template <typename F, typename S>
-	compressed_pair(const F&, const S&) -> compressed_pair<F, S>;
+	compressed_pair(F&&, S&&) -> compressed_pair<remove_cvref<F>, remove_cvref<S>>;
 
 	/// \endcond
+
+	//% compressed_pair end
+	/// @}
 }
 
 namespace std
 {
+	//% compressed_pair::std start
+
 	/// \brief Specialization of std::tuple_size for muu::compressed_pair.
 	template <typename First, typename Second>
 	struct tuple_size<muu::compressed_pair<First, Second>>
@@ -293,6 +319,8 @@ namespace std
 		static_assert(I < 2);
 		using type = std::conditional_t<I == 1, Second, First>;
 	};
+
+	//% compressed_pair::std end
 }
 
 #include "impl/header_end.h"

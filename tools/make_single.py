@@ -75,6 +75,7 @@ def main():
 		default=r'MZ'
 	)
 	args.add_argument(r'--strip-vectorcall', action=BooleanOptionalAction, default=True)
+	args.add_argument(r'--strip-hidden-bases', action=BooleanOptionalAction, default=True)
 	args = args.parse_args()
 
 	# check args
@@ -221,6 +222,10 @@ def main():
 		text = re.sub(r'(#\s*define\s+MUU_VECTORCALL)', r'\1_', text)
 		text = re.sub(r'\bMUU_VECTORCALL\b', r'', text)
 		text = re.sub(r'(#\s*define\s+MUU_VECTORCALL)_', r'\1', text)
+	if args.strip_hidden_bases:
+		text = re.sub(r'(#\s*define\s+MUU_HIDDEN_BASE)', r'\1_', text)
+		text = re.sub(r'MUU_HIDDEN_BASE\((.+?)\)', r': \1', text)
+		text = re.sub(r'(#\s*define\s+MUU_HIDDEN_BASE)_', r'\1', text)
 	text = re.sub(r'(\b|::)muu::impl::enable_if_\b', r'std::enable_if', text)
 	text = utils.replace_metavar(r'namespaces::main', args.namespaces[0], text)
 	text = utils.replace_metavar(r'namespace', args.namespaces[0], text)

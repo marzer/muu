@@ -39,6 +39,7 @@ namespace muu
 	/// \endcond
 	//% unwrap end
 
+	//% min start
 	/// \brief	Returns the minimum of two or more values.
 	/// \ingroup core
 	///
@@ -60,6 +61,7 @@ namespace muu
 			return muu::min(muu::min(val1, val2), vals...);
 		}
 	}
+	//% min end
 
 	//% max start
 	/// \brief	Returns the maximum of two or more values.

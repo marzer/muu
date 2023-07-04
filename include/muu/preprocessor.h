@@ -401,13 +401,8 @@ help me improve support for your target architecture. Thanks!
 #else
 	#define MUU_ISET_AVX2 0
 #endif
-#if defined(__AVX512BW__)		\
-	|| defined(__AVX512CD__)	\
-	|| defined(__AVX512DQ__)	\
-	|| defined(__AVX512ER__)	\
-	|| defined(__AVX512F__)		\
-	|| defined(__AVX512PF__)	\
-	|| defined(__AVX512VL__)
+#if defined(__AVX512BW__) || defined(__AVX512CD__) || defined(__AVX512DQ__) || defined(__AVX512ER__)                   \
+	|| defined(__AVX512F__) || defined(__AVX512PF__) || defined(__AVX512VL__)
 	#define MUU_ISET_AVX512 1
 #else
 	#define MUU_ISET_AVX512 0
@@ -550,6 +545,7 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_HAS_CHAR8
 /// \brief `1` when the compiler supports C++20's char8_t, otherwise `0`.
 
+//% preprocessor::has_consteval start
 #ifndef MUU_HAS_CONSTEVAL
 	#if defined(__cpp_consteval) && __cpp_consteval >= 201811 && (!MUU_MSVC || MUU_MSVC >= 1934)                       \
 		&& (!MUU_CLANG || MUU_CLANG >= 15)
@@ -558,6 +554,7 @@ help me improve support for your target architecture. Thanks!
 		#define MUU_HAS_CONSTEVAL MUU_DOXYGEN
 	#endif
 #endif
+//% preprocessor::has_consteval end
 /// \def MUU_HAS_CONSTEVAL
 /// \brief `1` when the compiler supports C++20's `consteval` immediate functions, otherwise `0`.
 
@@ -699,11 +696,13 @@ help me improve support for your target architecture. Thanks!
 /// \brief Optimizer hint that marks an allocating function's pointer return value as representing a newly allocated memory region free from aliasing.
 /// \see [__declspec(restrict)](https://docs.microsoft.com/en-us/cpp/cpp/restrict?view=vs-2019)
 
+//% preprocessor::consteval start
 #if MUU_HAS_CONSTEVAL
 	#define MUU_CONSTEVAL consteval
 #else
 	#define MUU_CONSTEVAL constexpr
 #endif
+//% preprocessor::consteval end
 /// \def MUU_CONSTEVAL
 /// \brief Expands to C++20's `consteval` if supported by your compiler, otherwise `constexpr`.
 /// \see [consteval](https://en.cppreference.com/w/cpp/language/consteval)
@@ -1088,11 +1087,13 @@ help me improve support for your target architecture. Thanks!
 /// \def MUU_PRAGMA_ICC(...)
 /// \brief Expands to `_pragma(...)` when compiling with ICC.
 
+//% preprocessor::delete_move start
 #ifndef MUU_DELETE_MOVE
 	#define MUU_DELETE_MOVE(T)                                                                                         \
 		T(T&&)			  = delete;                                                                                    \
 		T& operator=(T&&) = delete
 #endif
+//% preprocessor::delete_move end
 /// \def MUU_DELETE_MOVE(T)
 /// \brief Explicitly deletes the move constructor and move-assignment operator of a class or struct.
 /// \details \cpp
@@ -1114,11 +1115,13 @@ help me improve support for your target architecture. Thanks!
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 
+//% preprocessor::delete_copy start
 #ifndef MUU_DELETE_COPY
 	#define MUU_DELETE_COPY(T)                                                                                         \
 		T(const T&)			   = delete;                                                                               \
 		T& operator=(const T&) = delete
 #endif
+//% preprocessor::delete_copy end
 /// \def MUU_DELETE_COPY(T)
 /// \brief Explicitly deletes the copy constructor and copy-assignment operator of a class or struct.
 /// \details \cpp
@@ -1139,11 +1142,13 @@ help me improve support for your target architecture. Thanks!
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 
+//% preprocessor::default_move start
 #ifndef MUU_DEFAULT_MOVE
 	#define MUU_DEFAULT_MOVE(T)                                                                                        \
 		T(T&&)			  = default;                                                                                   \
 		T& operator=(T&&) = default
 #endif
+//% preprocessor::default_move end
 /// \def MUU_DEFAULT_MOVE
 /// \brief Explicitly defaults the move constructor and move-assignment operator of a class or struct.
 /// \details \cpp
@@ -1165,11 +1170,13 @@ help me improve support for your target architecture. Thanks!
 /// \ecpp
 /// \see https://cpppatterns.com/patterns/rule-of-five.html
 
+//% preprocessor::default_copy start
 #ifndef MUU_DEFAULT_COPY
 	#define MUU_DEFAULT_COPY(T)                                                                                        \
 		T(const T&)			   = default;                                                                              \
 		T& operator=(const T&) = default
 #endif
+//% preprocessor::default_copy end
 /// \def MUU_DEFAULT_COPY
 /// \brief Explicitly defaults the copy constructor and copy-assignment operator of a class or struct.
 /// \details \cpp
@@ -1401,8 +1408,8 @@ help me improve support for your target architecture. Thanks!
 		static_assert(true)
 
 	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
-		__pragma(warning(disable : 4127)) /* conditional expr is constant */                                           \
-		__pragma(warning(disable : 4324)) /* structure was padded due to alignment specifier */                        \
+		__pragma(warning(disable : 4127))  /* conditional expr is constant */                                          \
+		__pragma(warning(disable : 4324))  /* structure was padded due to alignment specifier */                       \
 		__pragma(warning(disable : 4348))                                                                              \
 		__pragma(warning(disable : 4464))  /* relative include path contains '..' */                                   \
 		__pragma(warning(disable : 4505))  /* unreferenced local function removed */                                   \
@@ -1783,7 +1790,6 @@ MUU_ENABLE_WARNINGS;
 	#endif
 	#define MUU_OFFSETOF(type, member) offsetof(type, member)
 #endif
-
 
 //======================================================================================================================
 // SFINAE AND CONCEPTS
