@@ -4165,13 +4165,6 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_DISABLE_SPAM_WARNINGS</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gaf39b595a94654ba4666ffbbd25735c59</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
       <name>MUU_DISABLE_ARITHMETIC_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga02a7d4cbc36ab3a02d1c9e153af196be</anchor>
@@ -4186,6 +4179,13 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_DISABLE_SPAM_WARNINGS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gaf39b595a94654ba4666ffbbd25735c59</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_DISABLE_DEPRECATION_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga0ba9b3960e068dc858d53e351c405e30</anchor>
@@ -4193,16 +4193,16 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_DISABLE_SUGGEST_WARNINGS</name>
+      <name>MUU_DISABLE_CODE_ANALYSIS_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga305e4c6d20217201e79a601d7ec46572</anchor>
+      <anchor>ga62008d0276e83e6fc683d9084c6e9af9</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_DISABLE_CODE_ANALYSIS_WARNINGS</name>
+      <name>MUU_DISABLE_SUGGEST_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga62008d0276e83e6fc683d9084c6e9af9</anchor>
+      <anchor>ga305e4c6d20217201e79a601d7ec46572</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
@@ -29992,13 +29992,6 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_DISABLE_SPAM_WARNINGS</name>
-      <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>gaf39b595a94654ba4666ffbbd25735c59</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="define">
-      <type>#define</type>
       <name>MUU_DISABLE_ARITHMETIC_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga02a7d4cbc36ab3a02d1c9e153af196be</anchor>
@@ -30013,6 +30006,13 @@
     </member>
     <member kind="define">
       <type>#define</type>
+      <name>MUU_DISABLE_SPAM_WARNINGS</name>
+      <anchorfile>group__preprocessor.html</anchorfile>
+      <anchor>gaf39b595a94654ba4666ffbbd25735c59</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
       <name>MUU_DISABLE_DEPRECATION_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
       <anchor>ga0ba9b3960e068dc858d53e351c405e30</anchor>
@@ -30020,16 +30020,16 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_DISABLE_SUGGEST_WARNINGS</name>
+      <name>MUU_DISABLE_CODE_ANALYSIS_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga305e4c6d20217201e79a601d7ec46572</anchor>
+      <anchor>ga62008d0276e83e6fc683d9084c6e9af9</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_DISABLE_CODE_ANALYSIS_WARNINGS</name>
+      <name>MUU_DISABLE_SUGGEST_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga62008d0276e83e6fc683d9084c6e9af9</anchor>
+      <anchor>ga305e4c6d20217201e79a601d7ec46572</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
