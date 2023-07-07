@@ -33,14 +33,15 @@ namespace muu
 	}                                                                                                                  \
 	static_assert(true)
 
+		// primary template - neither element can be a base
 		template <typename First,
 				  typename Second,
-				  bool FirstCanBeSubclass  = std::is_empty_v<First> && !std::is_final_v<First>,
-				  bool SecondCanBeSubclass = std::is_empty_v<Second> && !std::is_final_v<Second>>
+				  bool FirstCanBeBase  = std::is_empty_v<First> && !std::is_final_v<First>,
+				  bool SecondCanBeBase = std::is_empty_v<Second> && !std::is_final_v<Second>>
 		struct compressed_pair_base
 		{
-			static_assert(!FirstCanBeSubclass);
-			static_assert(!SecondCanBeSubclass);
+			static_assert(!FirstCanBeBase);
+			static_assert(!SecondCanBeBase);
 			MUU_NO_UNIQUE_ADDRESS First first_;
 			MUU_NO_UNIQUE_ADDRESS Second second_;
 
@@ -61,8 +62,10 @@ namespace muu
 			MUU_COMPRESSED_PAIR_BASE_GETTERS(Second, second, second_);
 		};
 
+		// secondary template - First is a base
 		template <typename First, typename Second>
-		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, true, false> : First
+		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, true, false> //
+			: First
 		{
 			MUU_NO_UNIQUE_ADDRESS Second second_;
 
@@ -83,8 +86,11 @@ namespace muu
 			MUU_COMPRESSED_PAIR_BASE_GETTERS(Second, second, second_);
 		};
 
+
+		// secondary template - Second is a base
 		template <typename First, typename Second>
-		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, false, true> : Second
+		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, false, true> //
+			: Second
 		{
 			MUU_NO_UNIQUE_ADDRESS First first_;
 
@@ -106,8 +112,10 @@ namespace muu
 			MUU_COMPRESSED_PAIR_BASE_GETTERS(Second, second, *this);
 		};
 
+		// secondary template - both are bases
 		template <typename First, typename Second>
-		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, true, true> : First, Second
+		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, true, true> //
+			: First, Second
 		{
 			compressed_pair_base() = default;
 			MUU_DEFAULT_MOVE(compressed_pair_base);
@@ -158,8 +166,8 @@ namespace muu
 
 		//# {{
 		// mode hooks for debuggers etc.
-		static constexpr bool first_is_subclass_  = std::is_empty_v<First> && !std::is_final_v<First>;
-		static constexpr bool second_is_subclass_ = std::is_empty_v<Second> && !std::is_final_v<Second>;
+		static constexpr bool first_is_base_  = std::is_empty_v<First> && !std::is_final_v<First>;
+		static constexpr bool second_is_base_ = std::is_empty_v<Second> && !std::is_final_v<Second>;
 		//# }}
 
 		/// \endcond

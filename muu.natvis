@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?> 
+<?xml version="1.0" encoding="utf-8"?>
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
 	<Type Name="muu::half">
@@ -62,7 +62,7 @@
 			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 24 ? (1ull &lt;&lt; 24) : 0ull)
 			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_64()) > 25 ? (1ull &lt;&lt; 25) : 0ull))
 		" />
-		
+
 		<Intrinsic Name="tag_mask_32" Expression="
 			(1u
 			| ((((__log2($T2) > 1 ? __log2($T2) : 1) - 1) + offset_32()) > 1  ? (1u &lt;&lt;  1) : 0u)
@@ -115,7 +115,7 @@
 					{(bits &amp; tag_mask_64()) >> offset_64(), bb}
 				</DisplayString>
 			</Synthetic>
-	  
+
 			<!-- 32-bit -->
 			<Item Name="[value]" Condition="sizeof(void*) == 4">
 				($T1*)((bits &amp; value_mask_32()) >> offset_32())
@@ -176,8 +176,8 @@
 	</Type>
 
 	<Type Name="muu::compressed_pair&lt;*, *&gt;">
-		<Intrinsic Name="mode" Expression="(int)first_is_subclass_ + (int)second_is_subclass_ * 2" />
-		
+		<Intrinsic Name="mode" Expression="(int)first_is_base_ + (int)second_is_base_ * 2" />
+
 		<DisplayString IncludeView="noparens" Condition="mode() == 0" Optional="true">{first_}, {second_}</DisplayString>
 		<DisplayString IncludeView="noparens" Condition="mode() == 1" Optional="true">{*($T1 *)this}, {second_}</DisplayString>
 		<DisplayString IncludeView="noparens" Condition="mode() == 2" Optional="true">{first_}, {*($T2 *)this}</DisplayString>
@@ -204,7 +204,7 @@
 			<Item Name="[ptr]">ptr_</Item>
 		</Expand>
 	</Type>
-	
+
 	<Type Name="muu::span&lt;*, -1, *&gt;" Priority="Medium">
 		<DisplayString>{{ size={extent_}, align={alignment} }}</DisplayString>
 		<Expand>
@@ -390,11 +390,11 @@
 		<Intrinsic Name="x_sign" Expression="((float)(1 - ((int)(!!(b() &amp; x_sign_bit())) * 2)))" />
 		<Intrinsic Name="y_sign" Expression="((float)(1 - ((int)(!!(b() &amp; y_sign_bit())) * 2)))" />
 		<Intrinsic Name="z_sign" Expression="((float)(1 - ((int)(!!(b() &amp; z_sign_bit())) * 2)))" />
-		
+
 		<Intrinsic Name="b" Expression="((unsigned long long)bits)" />
 		<Intrinsic Name="ix" Expression="((b() &amp; x_mask()) &gt;&gt; y_bits())" />
 		<Intrinsic Name="iy" Expression="(b() &amp; y_mask())" />
-		
+
 		<Intrinsic Name="inverted" Expression="($T2 == 3ULL &amp;&amp; ix() + iy() &gt; x_range())" />
 
 		<Intrinsic Name="x_unsigned" Expression="(((float)(inverted() ? (x_range() - ix()) : ix())) * x_range_div())" />
@@ -548,7 +548,7 @@
 			<Item Name="roll">roll</Item>
 		</Expand>
 	</Type>
-	
+
 	<Type Name="muu::strong_typedef&lt;*&gt;">
 		<DisplayString>{value}</DisplayString>
 		<Expand>

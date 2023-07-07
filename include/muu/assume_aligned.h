@@ -39,7 +39,7 @@ namespace muu
 		}
 		else
 		{
-#if MUU_CLANG || MUU_GCC || MUU_HAS_BUILTIN(assume_aligned)
+#if MUU_CLANG || MUU_GCC || MUU_HAS_BUILTIN(__builtin_assume_aligned)
 
 			return static_cast<T*>(__builtin_assume_aligned(ptr, N));
 

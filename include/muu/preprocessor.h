@@ -1309,87 +1309,76 @@ help me improve support for your target architecture. Thanks!
 /// \ecpp
 
 //======================================================================================================================
-// COMPILER-SPECIFIC WARNING MANAGEMENT
+// WARNING MANAGEMENT
 //======================================================================================================================
 
+//% preprocessor::warnings start
+
+//% preprocessor::warnings::push start
 #if MUU_CLANG
-
 	#define MUU_PUSH_WARNINGS                                                                                          \
-		MUU_PRAGMA_CLANG(diagnostic push)                                                                              \
+		_Pragma("clang diagnostic push")                                                                               \
 		static_assert(true)
-
-	#define MUU_DISABLE_SWITCH_WARNINGS                                                                                \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wswitch")                                                                \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wcovered-switch-default")                                                \
-		static_assert(true)
-
-	#define MUU_DISABLE_LIFETIME_WARNINGS                                                                              \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wmissing-field-initializers")                                            \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wglobal-constructors")                                                   \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wexit-time-destructors")                                                 \
-		static_assert(true)
-
-	#define MUU_DISABLE_ARITHMETIC_WARNINGS                                                                            \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wfloat-equal")                                                           \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")                                                      \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wchar-subscripts")                                                       \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wshift-sign-overflow")                                                   \
-		MUU_PRAGMA_CLANG_GE(10, diagnostic ignored "-Wimplicit-int-float-conversion")                                  \
-		static_assert(true)
-
-	#define MUU_DISABLE_SHADOW_WARNINGS                                                                                \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wshadow")                                                                \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wshadow-field")                                                          \
-		static_assert(true)
-
-	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++98-compat-pedantic")                                                 \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++98-compat")                                                          \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wweak-vtables")                                                          \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wdouble-promotion")                                                      \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wweak-template-vtables")                                                 \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wpadded")                                                                \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wc++2a-compat")                                                          \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wtautological-pointer-compare")                                          \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wmissing-field-initializers")                                            \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wpacked")                                                                \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wdisabled-macro-expansion")                                              \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wused-but-marked-unused")                                                \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Wcovered-switch-default")                                                \
-		MUU_PRAGMA_CLANG_GE(9, diagnostic ignored "-Wctad-maybe-unsupported")                                          \
-		MUU_PRAGMA_CLANG_GE(13, diagnostic ignored "-Wc++20-compat")                                                   \
-		static_assert(true)
-
-	#define MUU_POP_WARNINGS                                                                                           \
-		MUU_PRAGMA_CLANG(diagnostic pop)                                                                               \
-		static_assert(true)
-
-	#define MUU_DISABLE_WARNINGS                                                                                       \
-		MUU_PRAGMA_CLANG(diagnostic push)                                                                              \
-		MUU_PRAGMA_CLANG(diagnostic ignored "-Weverything")                                                            \
-		static_assert(true, "")
-
-	#define MUU_ENABLE_WARNINGS                                                                                        \
-		MUU_PRAGMA_CLANG(diagnostic pop)                                                                               \
-		static_assert(true)
-
-#elif MUU_MSVC
-
+#elif MUU_MSVC || MUU_ICC
 	#define MUU_PUSH_WARNINGS                                                                                          \
 		__pragma(warning(push))                                                                                        \
 		static_assert(true)
+#elif MUU_GCC
+	#define MUU_PUSH_WARNINGS                                                                                          \
+		_Pragma("GCC diagnostic push")                                                                                 \
+		static_assert(true)
+#else
+	#define MUU_PUSH_WARNINGS static_assert(true)
+#endif
+//% preprocessor::warnings::push end
+/// \def MUU_PUSH_WARNINGS
+/// \brief Pushes the current compiler warning state onto the stack.
+/// \details Use this in tandem with the other warning macros to demarcate regions of code that should have different warning semantics, e.g.: \cpp
+/// 	MUU_PUSH_WARNINGS;
+/// 	MUU_DISABLE_SWITCH_WARNINGS;
+///
+/// 	int do_the_thing(my_enum val) noexcept
+/// 	{
+/// 		switch (val)
+/// 		{
+/// 			case my_enum::one: return 1;
+/// 			case my_enum::two: return 2;
+/// 			//case my_enum::three: return 3;
+/// 		}
+/// 		return 0;
+/// 	}
+///
+/// 	MUU_POP_WARNINGS;
+/// \ecpp
 
-	#if MUU_HAS_INCLUDE(<CodeAnalysis/Warnings.h>)
-		#pragma warning(push, 0)
-		#include <CodeAnalysis/Warnings.h>
-		#pragma warning(pop)
-		#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS                                                                     \
-			__pragma(warning(disable : ALL_CODE_ANALYSIS_WARNINGS))                                                    \
-			static_assert(true)
-	#else
-		#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS static_assert(true)
-	#endif
+//% preprocessor::warnings::pop start
+#if MUU_CLANG
+	#define MUU_POP_WARNINGS                                                                                           \
+		_Pragma("clang diagnostic pop")                                                                                \
+		static_assert(true)
+#elif MUU_MSVC || MUU_ICC
+	#define MUU_POP_WARNINGS                                                                                           \
+		__pragma(warning(pop))                                                                                         \
+		static_assert(true)
+#elif MUU_GCC
+	#define MUU_POP_WARNINGS                                                                                           \
+		_Pragma("GCC diagnostic pop")                                                                                  \
+		static_assert(true)
+#else
+	#define MUU_POP_WARNINGS static_assert(true)
+#endif
+//% preprocessor::warnings::pop end
+/// \def MUU_POP_WARNINGS
+/// \brief Pops the current compiler warning state off the stack.
+/// \see MUU_PUSH_WARNINGS
 
+//% preprocessor::warnings::switch start
+#if MUU_CLANG
+	#define MUU_DISABLE_SWITCH_WARNINGS                                                                                \
+		_Pragma("clang diagnostic ignored \"-Wswitch\"")                                                               \
+		_Pragma("clang diagnostic ignored \"-Wcovered-switch-default\"")                                               \
+		static_assert(true)
+#elif MUU_MSVC
 	#define MUU_DISABLE_SWITCH_WARNINGS                                                                                \
 		__pragma(warning(disable : 4061))                                                                              \
 		__pragma(warning(disable : 4062))                                                                              \
@@ -1398,15 +1387,142 @@ help me improve support for your target architecture. Thanks!
 		__pragma(warning(disable : 5262))  /* implicit through */                                                      \
 		__pragma(warning(disable : 26819)) /* cg: unannotated fallthrough */                                           \
 		static_assert(true)
+#elif MUU_GCC
+	#define MUU_DISABLE_SWITCH_WARNINGS                                                                                \
+		_Pragma("GCC diagnostic ignored \"-Wswitch\"")                                                                 \
+		_Pragma("GCC diagnostic ignored \"-Wswitch-enum\"")                                                            \
+		_Pragma("GCC diagnostic ignored \"-Wswitch-default\"")                                                         \
+		static_assert(true)
+#else
+	#define MUU_DISABLE_SWITCH_WARNINGS static_assert(true)
+#endif
+//% preprocessor::warnings::switch end
+/// \def MUU_DISABLE_SWITCH_WARNINGS
+/// \brief Disables compiler warnings relating to the use of switch statements.
+/// \see MUU_PUSH_WARNINGS
 
+//% preprocessor::warnings::lifetime start
+#if MUU_CLANG
+	#define MUU_DISABLE_LIFETIME_WARNINGS                                                                              \
+		_Pragma("clang diagnostic ignored \"-Wmissing-field-initializers\"")                                           \
+		_Pragma("clang diagnostic ignored \"-Wglobal-constructors\"")                                                  \
+		_Pragma("clang diagnostic ignored \"-Wexit-time-destructors\"")                                                \
+		static_assert(true)
+#elif MUU_GCC
+	#if MUU_GCC >= 8
+		#define MUU_DISABLE_LIFETIME_WARNINGS_GCC_8                                                                    \
+			_Pragma("GCC diagnostic ignored \"-Wclass-memaccess\"")                                                    \
+			static_assert(true)
+	#else
+		#define MUU_DISABLE_LIFETIME_WARNINGS_GCC_8 static_assert(true)
+	#endif
+	#define MUU_DISABLE_LIFETIME_WARNINGS                                                                              \
+		_Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"")                                             \
+		_Pragma("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")                                                    \
+		_Pragma("GCC diagnostic ignored \"-Wuninitialized\"")                                                          \
+		MUU_DISABLE_LIFETIME_WARNINGS_GCC_8;                                                                           \
+		static_assert(true)
+#else
+	#define MUU_DISABLE_LIFETIME_WARNINGS static_assert(true)
+#endif
+//% preprocessor::warnings::lifetime end
+/// \def MUU_DISABLE_LIFETIME_WARNINGS
+/// \brief Disables compiler warnings relating to object lifetime (initialization, destruction, magic statics, et cetera).
+/// \see MUU_PUSH_WARNINGS
+
+//% preprocessor::warnings::arithmetic start
+#if MUU_CLANG
+	#if MUU_CLANG >= 10
+		#define MUU_DISABLE_ARITHMETIC_WARNINGS_CLANG_10                                                               \
+			_Pragma("clang diagnostic ignored \"-Wimplicit-int-float-conversion\"")                                    \
+			static_assert(true)
+	#else
+		#define MUU_DISABLE_ARITHMETIC_WARNINGS_CLANG_10 static_assert(true)
+	#endif
+	#define MUU_DISABLE_ARITHMETIC_WARNINGS                                                                            \
+		_Pragma("clang diagnostic ignored \"-Wfloat-equal\"")                                                          \
+		_Pragma("clang diagnostic ignored \"-Wdouble-promotion\"")                                                     \
+		_Pragma("clang diagnostic ignored \"-Wchar-subscripts\"")                                                      \
+		_Pragma("clang diagnostic ignored \"-Wshift-sign-overflow\"")                                                  \
+		MUU_DISABLE_ARITHMETIC_WARNINGS_CLANG_10;                                                                      \
+		static_assert(true)
+#elif MUU_MSVC
+	#define MUU_DISABLE_ARITHMETIC_WARNINGS                                                                            \
+		__pragma(warning(disable : 4365)) /* argument signed/unsigned mismatch */                                      \
+		__pragma(warning(disable : 4738)) /* storing 32-bit float result in memory */                                  \
+		__pragma(warning(disable : 5219)) /* implicit conversion from integral to float */                             \
+		static_assert(true)
+#elif MUU_GCC
+	#define MUU_DISABLE_ARITHMETIC_WARNINGS                                                                            \
+		_Pragma("GCC diagnostic ignored \"-Wfloat-equal\"")                                                            \
+		_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")                                                        \
+		_Pragma("GCC diagnostic ignored \"-Wchar-subscripts\"")                                                        \
+		static_assert(true)
+#else
+	#define MUU_DISABLE_ARITHMETIC_WARNINGS static_assert(true)
+#endif
+//% preprocessor::warnings::arithmetic end
+/// \def MUU_DISABLE_ARITHMETIC_WARNINGS
+/// \brief Disables compiler warnings relating to integer and floating-point arithmetic.
+/// \see MUU_PUSH_WARNINGS
+
+//% preprocessor::warnings::shadow start
+#if MUU_CLANG
+	#define MUU_DISABLE_SHADOW_WARNINGS                                                                                \
+		_Pragma("clang diagnostic ignored \"-Wshadow\"")                                                               \
+		_Pragma("clang diagnostic ignored \"-Wshadow-field\"")                                                         \
+		static_assert(true)
+#elif MUU_MSVC
 	#define MUU_DISABLE_SHADOW_WARNINGS                                                                                \
 		__pragma(warning(disable : 4458))                                                                              \
 		static_assert(true)
-
-	#define MUU_DISABLE_DEPRECATION_WARNINGS                                                                           \
-		__pragma(warning(disable : 4996))                                                                              \
+#elif MUU_GCC
+	#define MUU_DISABLE_SHADOW_WARNINGS                                                                                \
+		_Pragma("GCC diagnostic ignored \"-Wshadow\"")                                                                 \
 		static_assert(true)
+#else
+	#define MUU_DISABLE_SHADOW_WARNINGS static_assert(true)
+#endif
+//% preprocessor::warnings::shadow end
+/// \def MUU_DISABLE_SHADOW_WARNINGS
+/// \brief Disables compiler warnings relating to variable, class and function name shadowing.
+/// \see MUU_PUSH_WARNINGS
 
+//% preprocessor::warnings::spam start
+#if MUU_CLANG
+	#if MUU_CLANG >= 9
+		#define MUU_DISABLE_SPAM_WARNINGS_CLANG_9                                                                      \
+			_Pragma("clang diagnostic ignored \"-Wctad-maybe-unsupported\"")                                           \
+			static_assert(true)
+	#else
+		#define MUU_DISABLE_SPAM_WARNINGS_CLANG_9 static_assert(true)
+	#endif
+	#if MUU_CLANG >= 13
+		#define MUU_DISABLE_SPAM_WARNINGS_CLANG_13                                                                     \
+			_Pragma("clang diagnostic ignored \"-Wc++20-compat\"")                                                     \
+			static_assert(true)
+	#else
+		#define MUU_DISABLE_SPAM_WARNINGS_CLANG_13 static_assert(true)
+	#endif
+	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
+		_Pragma("clang diagnostic ignored \"-Wc++98-compat-pedantic\"")                                                \
+		_Pragma("clang diagnostic ignored \"-Wc++98-compat\"")                                                         \
+		_Pragma("clang diagnostic ignored \"-Wweak-vtables\"")                                                         \
+		_Pragma("clang diagnostic ignored \"-Wdouble-promotion\"")                                                     \
+		_Pragma("clang diagnostic ignored \"-Wweak-template-vtables\"")                                                \
+		_Pragma("clang diagnostic ignored \"-Wpadded\"")                                                               \
+		_Pragma("clang diagnostic ignored \"-Wc++2a-compat\"")                                                         \
+		_Pragma("clang diagnostic ignored \"-Wtautological-pointer-compare\"")                                         \
+		_Pragma("clang diagnostic ignored \"-Wmissing-field-initializers\"")                                           \
+		_Pragma("clang diagnostic ignored \"-Wpacked\"")                                                               \
+		_Pragma("clang diagnostic ignored \"-Wdisabled-macro-expansion\"")                                             \
+		_Pragma("clang diagnostic ignored \"-Wused-but-marked-unused\"")                                               \
+		_Pragma("clang diagnostic ignored \"-Wcovered-switch-default\"")                                               \
+		_Pragma("clang diagnostic ignored \"-Wtautological-pointer-compare\"")                                         \
+		MUU_DISABLE_SPAM_WARNINGS_CLANG_9;                                                                             \
+		MUU_DISABLE_SPAM_WARNINGS_CLANG_13;                                                                            \
+		static_assert(true)
+#elif MUU_MSVC
 	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
 		__pragma(warning(disable : 4127))  /* conditional expr is constant */                                          \
 		__pragma(warning(disable : 4324))  /* structure was padded due to alignment specifier */                       \
@@ -1435,17 +1551,103 @@ help me improve support for your target architecture. Thanks!
 		__pragma(warning(disable : 26812)) /* cg: Prefer 'enum class' over 'enum' */                                   \
 		__pragma(warning(disable : 4848))  /* msvc::no_unique_address in C++17 is a vendor extension */                \
 		static_assert(true)
-
-	#define MUU_DISABLE_ARITHMETIC_WARNINGS                                                                            \
-		__pragma(warning(disable : 4365)) /* argument signed/unsigned mismatch */                                      \
-		__pragma(warning(disable : 4738)) /* storing 32-bit float result in memory */                                  \
-		__pragma(warning(disable : 5219)) /* implicit conversion from integral to float */                             \
+#elif MUU_ICC
+	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
+		__pragma(warning(disable : 82))	  /* storage class is not first */                                             \
+		__pragma(warning(disable : 111))  /* statement unreachable (false-positive) */                                 \
+		__pragma(warning(disable : 869))  /* unreferenced parameter */                                                 \
+		__pragma(warning(disable : 1011)) /* missing return (false-positive) */                                        \
+		__pragma(warning(disable : 2261)) /* assume expr side-effects discarded */                                     \
 		static_assert(true)
-
-	#define MUU_POP_WARNINGS                                                                                           \
-		__pragma(warning(pop))                                                                                         \
+#elif MUU_GCC
+	#if MUU_GCC >= 9
+		#define MUU_DISABLE_SPAM_WARNINGS_GCC_9                                                                        \
+			_Pragma("GCC diagnostic ignored \"-Wattributes\"")                                                         \
+			static_assert(true)
+	#else
+		#define MUU_DISABLE_SPAM_WARNINGS_GCC_9 static_assert(true)
+	#endif
+	#if MUU_GCC >= 12
+		#define MUU_DISABLE_SPAM_WARNINGS_GCC_12                                                                       \
+			_Pragma("GCC diagnostic ignored \"-Winterference-size\"")                                                  \
+			static_assert(true)
+	#else
+		#define MUU_DISABLE_SPAM_WARNINGS_GCC_12 static_assert(true)
+	#endif
+	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
+		_Pragma("GCC diagnostic ignored \"-Wpadded\"")                                                                 \
+		_Pragma("GCC diagnostic ignored \"-Wcast-align\"")                                                             \
+		_Pragma("GCC diagnostic ignored \"-Wcomment\"")                                                                \
+		_Pragma("GCC diagnostic ignored \"-Wsubobject-linkage\"")                                                      \
+		_Pragma("GCC diagnostic ignored \"-Wuseless-cast\"")                                                           \
+		_Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"")                                             \
+		_Pragma("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")                                                    \
+		_Pragma("GCC diagnostic ignored \"-Wtype-limits\"")                                                            \
+		MUU_DISABLE_SPAM_WARNINGS_GCC_9;                                                                               \
+		MUU_DISABLE_SPAM_WARNINGS_GCC_12;                                                                              \
 		static_assert(true)
+#else
+	#define MUU_DISABLE_SPAM_WARNINGS static_assert(true)
+#endif
+//% preprocessor::warnings::spam end
+/// \def MUU_DISABLE_SPAM_WARNINGS
+/// \brief Disables compiler warnings that are generally spammy/superfluous (padding, double promotion, cast alignment, etc.)
+/// \see MUU_PUSH_WARNINGS
 
+//% preprocessor::warnings::deprecation start
+#if MUU_MSVC
+	#define MUU_DISABLE_DEPRECATION_WARNINGS                                                                           \
+		__pragma(warning(disable : 4996))                                                                              \
+		static_assert(true)
+#else
+	#define MUU_DISABLE_DEPRECATION_WARNINGS static_assert(true)
+#endif
+//% preprocessor::warnings::deprecation end
+/// \def MUU_DISABLE_DEPRECATION_WARNINGS
+/// \brief Disables compiler warnings relating to deprecated functions, types, etc.
+/// \see MUU_PUSH_WARNINGS
+
+//% preprocessor::warnings::analysis start
+#if MUU_MSVC
+	#if MUU_HAS_INCLUDE(<CodeAnalysis/Warnings.h>)
+		#pragma warning(push, 0)
+		#include <CodeAnalysis/Warnings.h>
+		#pragma warning(pop)
+		#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS                                                                     \
+			__pragma(warning(disable : ALL_CODE_ANALYSIS_WARNINGS))                                                    \
+			static_assert(true)
+	#else
+		#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS static_assert(true)
+	#endif
+#else
+	#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS static_assert(true)
+#endif
+//% preprocessor::warnings::analysis end
+/// \def MUU_DISABLE_CODE_ANALYSIS_WARNINGS
+/// \brief Disables interactive code analysis warnings (e.g. Visual Studio's background analysis engine).
+/// \see MUU_PUSH_WARNINGS
+
+//% preprocessor::warnings::suggest start
+#if MUU_GCC
+	#define MUU_DISABLE_SUGGEST_WARNINGS                                                                               \
+		_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=const\"")                                                \
+		_Pragma("GCC diagnostic ignored \"-Wsuggest-attribute=pure\"")                                                 \
+		static_assert(true)
+#else
+	#define MUU_DISABLE_SUGGEST_WARNINGS static_assert(true)
+#endif
+//% preprocessor::warnings::suggest end
+/// \def MUU_DISABLE_SUGGEST_WARNINGS
+/// \brief Disables compiler warnings resulting from `-Wsuggest=...` and friends.
+/// \see MUU_PUSH_WARNINGS
+
+//% preprocessor::warnings::disable start
+#if MUU_CLANG
+	#define MUU_DISABLE_WARNINGS                                                                                       \
+		MUU_PUSH_WARNINGS;                                                                                             \
+		_Pragma("clang diagnostic ignored \"-Weverything\"")                                                           \
+		static_assert(true, "")
+#elif MUU_MSVC
 	#define MUU_DISABLE_WARNINGS                                                                                       \
 		__pragma(warning(push, 0))                                                                                     \
 		__pragma(warning(disable : 4348))                                                                              \
@@ -1458,93 +1660,16 @@ help me improve support for your target architecture. Thanks!
 		MUU_DISABLE_SPAM_WARNINGS;                                                                                     \
 		MUU_DISABLE_ARITHMETIC_WARNINGS;                                                                               \
 		static_assert(true)
-
-	#define MUU_ENABLE_WARNINGS                                                                                        \
-		__pragma(warning(pop))                                                                                         \
-		static_assert(true)
-
 #elif MUU_ICC
-
-	#define MUU_PUSH_WARNINGS                                                                                          \
-		__pragma(warning(push))                                                                                        \
-		static_assert(true)
-
-	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
-		__pragma(warning(disable : 82))	  /* storage class is not first */                                             \
-		__pragma(warning(disable : 111))  /* statement unreachable (false-positive) */                                 \
-		__pragma(warning(disable : 869))  /* unreferenced parameter */                                                 \
-		__pragma(warning(disable : 1011)) /* missing return (false-positive) */                                        \
-		__pragma(warning(disable : 2261)) /* assume expr side-effects discarded */                                     \
-		static_assert(true)
-
-	#define MUU_POP_WARNINGS                                                                                           \
-		__pragma(warning(pop))                                                                                         \
-		static_assert(true)
-
 	#define MUU_DISABLE_WARNINGS                                                                                       \
 		__pragma(warning(push, 0))                                                                                     \
-		MUU_DISABLE_SPAM_WARNINGS
-
-	#define MUU_ENABLE_WARNINGS                                                                                        \
-		__pragma(warning(pop))                                                                                         \
 		static_assert(true)
-
 #elif MUU_GCC
-
-	#define MUU_PUSH_WARNINGS                                                                                          \
-		MUU_PRAGMA_GCC(diagnostic push)                                                                                \
-		static_assert(true)
-
-	#define MUU_DISABLE_SWITCH_WARNINGS                                                                                \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wswitch")                                                                  \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wswitch-enum")                                                             \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wswitch-default")                                                          \
-		static_assert(true)
-
-	#define MUU_DISABLE_LIFETIME_WARNINGS                                                                              \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wmissing-field-initializers")                                              \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wmaybe-uninitialized")                                                     \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wuninitialized")                                                           \
-		MUU_PRAGMA_GCC_GE(8, diagnostic ignored "-Wclass-memaccess")                                                   \
-		static_assert(true)
-
-	#define MUU_DISABLE_ARITHMETIC_WARNINGS                                                                            \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wfloat-equal")                                                             \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wsign-conversion")                                                         \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wchar-subscripts")                                                         \
-		static_assert(true)
-
-	#define MUU_DISABLE_SHADOW_WARNINGS                                                                                \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wshadow")                                                                  \
-		static_assert(true)
-
-	#define MUU_DISABLE_SUGGEST_WARNINGS                                                                               \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wsuggest-attribute=const")                                                 \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wsuggest-attribute=pure")                                                  \
-		static_assert(true)
-
-	#define MUU_DISABLE_SPAM_WARNINGS                                                                                  \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wpadded")                                                                  \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wcast-align")                                                              \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wcomment")                                                                 \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wsubobject-linkage")                                                       \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wuseless-cast")                                                            \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wmissing-field-initializers")                                              \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wmaybe-uninitialized")                                                     \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wtype-limits")                                                             \
-		MUU_PRAGMA_GCC_LT(9, diagnostic ignored "-Wattributes")                                                        \
-		static_assert(true)
-
-	#define MUU_POP_WARNINGS                                                                                           \
-		MUU_PRAGMA_GCC(diagnostic pop)                                                                                 \
-		static_assert(true)
-
 	#define MUU_DISABLE_WARNINGS                                                                                       \
-		MUU_PRAGMA_GCC(diagnostic push)                                                                                \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wall")                                                                     \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wextra")                                                                   \
-		MUU_PRAGMA_GCC(diagnostic ignored "-Wpedantic")                                                                \
-		MUU_PRAGMA_GCC_GE(12, diagnostic ignored "-Winterference-size")                                                \
+		MUU_PUSH_WARNINGS;                                                                                             \
+		_Pragma("GCC diagnostic ignored \"-Wall\"")                                                                    \
+		_Pragma("GCC diagnostic ignored \"-Wextra\"")                                                                  \
+		_Pragma("GCC diagnostic ignored \"-Wpedantic\"")                                                               \
 		MUU_DISABLE_SWITCH_WARNINGS;                                                                                   \
 		MUU_DISABLE_LIFETIME_WARNINGS;                                                                                 \
 		MUU_DISABLE_ARITHMETIC_WARNINGS;                                                                               \
@@ -1552,110 +1677,26 @@ help me improve support for your target architecture. Thanks!
 		MUU_DISABLE_SUGGEST_WARNINGS;                                                                                  \
 		MUU_DISABLE_SPAM_WARNINGS;                                                                                     \
 		static_assert(true)
-
-	#define MUU_ENABLE_WARNINGS                                                                                        \
-		MUU_PRAGMA_GCC(diagnostic pop)                                                                                 \
-		static_assert(true)
-
-#endif // gcc
-
-#ifndef MUU_PUSH_WARNINGS
-	#define MUU_PUSH_WARNINGS static_assert(true)
-#endif
-/// \def MUU_PUSH_WARNINGS
-/// \brief Pushes the current compiler warning state onto the stack.
-/// \details Use this in tandem with the other warning macros to demarcate regions of code that should have different warning semantics, e.g.: \cpp
-/// 	MUU_PUSH_WARNINGS;
-/// 	MUU_DISABLE_SWITCH_WARNINGS;
-///
-/// 	int do_the_thing(my_enum val) noexcept
-/// 	{
-/// 		switch (val)
-/// 		{
-/// 			case my_enum::one: return 1;
-/// 			case my_enum::two: return 2;
-/// 			//case my_enum::three: return 3;
-/// 		}
-/// 		return 0;
-/// 	}
-///
-/// 	MUU_POP_WARNINGS;
-/// \ecpp
-
-#ifndef MUU_POP_WARNINGS
-	#define MUU_POP_WARNINGS static_assert(true)
-#endif
-/// \def MUU_POP_WARNINGS
-/// \brief Pops the current compiler warning state off the stack.
-/// \see MUU_PUSH_WARNINGS
-
-#ifndef MUU_DISABLE_SWITCH_WARNINGS
-	#define MUU_DISABLE_SWITCH_WARNINGS static_assert(true)
-#endif
-/// \def MUU_DISABLE_SWITCH_WARNINGS
-/// \brief Disables compiler warnings relating to the use of switch statements.
-/// \see MUU_PUSH_WARNINGS
-
-#ifndef MUU_DISABLE_LIFETIME_WARNINGS
-	#define MUU_DISABLE_LIFETIME_WARNINGS static_assert(true)
-#endif
-/// \def MUU_DISABLE_LIFETIME_WARNINGS
-/// \brief Disables compiler warnings relating to object lifetime (initialization, destruction, magic statics, et cetera).
-/// \see MUU_PUSH_WARNINGS
-
-#ifndef MUU_DISABLE_SPAM_WARNINGS
-	#define MUU_DISABLE_SPAM_WARNINGS static_assert(true)
-#endif
-/// \def MUU_DISABLE_SPAM_WARNINGS
-/// \brief Disables compiler warnings that are generally spammy/superfluous (padding, double promotion, cast alignment, etc.)
-/// \see MUU_PUSH_WARNINGS
-
-#ifndef MUU_DISABLE_ARITHMETIC_WARNINGS
-	#define MUU_DISABLE_ARITHMETIC_WARNINGS static_assert(true)
-#endif
-/// \def MUU_DISABLE_ARITHMETIC_WARNINGS
-/// \brief Disables compiler warnings relating to integer and floating-point arithmetic.
-/// \see MUU_PUSH_WARNINGS
-
-#ifndef MUU_DISABLE_SHADOW_WARNINGS
-	#define MUU_DISABLE_SHADOW_WARNINGS static_assert(true)
-#endif
-/// \def MUU_DISABLE_SHADOW_WARNINGS
-/// \brief Disables compiler warnings relating to variable, class and function name shadowing.
-/// \see MUU_PUSH_WARNINGS
-
-#ifndef MUU_DISABLE_DEPRECATION_WARNINGS
-	#define MUU_DISABLE_DEPRECATION_WARNINGS static_assert(true)
-#endif
-/// \def MUU_DISABLE_DEPRECATION_WARNINGS
-/// \brief Disables compiler warnings relating to deprecated functions, types, etc.
-/// \see MUU_PUSH_WARNINGS
-
-#ifndef MUU_DISABLE_SUGGEST_WARNINGS
-	#define MUU_DISABLE_SUGGEST_WARNINGS static_assert(true)
-#endif
-/// \def MUU_DISABLE_SUGGEST_WARNINGS
-/// \brief Disables compiler warnings resulting from `-Wsuggest=...` and friends.
-/// \see MUU_PUSH_WARNINGS
-
-#ifndef MUU_DISABLE_CODE_ANALYSIS_WARNINGS
-	#define MUU_DISABLE_CODE_ANALYSIS_WARNINGS static_assert(true)
-#endif
-/// \def MUU_DISABLE_CODE_ANALYSIS_WARNINGS
-/// \brief Disables interactive code analysis warnings (e.g. Visual Studio's background analysis engine).
-/// \see MUU_PUSH_WARNINGS
-
-#ifndef MUU_DISABLE_WARNINGS
+#else
 	#define MUU_DISABLE_WARNINGS static_assert(true)
 #endif
+//% preprocessor::warnings::disable end
 /// \def MUU_DISABLE_WARNINGS
 /// \brief Pushes the current compiler warning state onto the stack then disables ALL compiler warnings.
 
-#ifndef MUU_ENABLE_WARNINGS
+//% preprocessor::warnings::enable start
+#if MUU_CLANG || MUU_MSVC || MUU_ICC || MUU_GCC
+	#define MUU_ENABLE_WARNINGS                                                                                        \
+		MUU_POP_WARNINGS;                                                                                              \
+		static_assert(true)
+#else
 	#define MUU_ENABLE_WARNINGS static_assert(true)
 #endif
+//% preprocessor::warnings::enable end
 /// \def MUU_ENABLE_WARNINGS
 /// \brief Re-enables compiler warnings again after using #MUU_DISABLE_WARNINGS.
+
+//% preprocessor::warnings end
 
 //======================================================================================================================
 // MORE ATTRIBUTES, UTILITY MACROS ETC

@@ -21,16 +21,32 @@ namespace muu
 		inline constexpr bool for_sequence_impl_noexcept_ =
 			sizeof...(N) == 0 || ((noexcept(std::declval<Func>()(std::integral_constant<T, N>{})) && ...));
 
-		template <typename Func, typename T, T... N>
-		constexpr void for_sequence_impl(Func&& func, std::integer_sequence<T, N...>) noexcept(
-			for_sequence_impl_noexcept_<Func&&, T, N...>)
+		template <auto Num, bool AlwaysInline = (Num <= 4)> // force inline for a small number of invocations
+		struct for_sequence_impl
 		{
-			(static_cast<void>(static_cast<Func&&>(func)(std::integral_constant<T, N>{})), ...);
-		}
+			template <typename Func, typename T, T... N>
+			MUU_ALWAYS_INLINE
+			static constexpr void invoke(Func&& func, std::integer_sequence<T, N...>) noexcept(
+				for_sequence_impl_noexcept_<Func&&, T, N...>)
+			{
+				(static_cast<void>(static_cast<Func&&>(func)(std::integral_constant<T, N>{})), ...);
+			}
+		};
+
+		template <auto Num>
+		struct for_sequence_impl<Num, false>
+		{
+			template <typename Func, typename T, T... N>
+			static constexpr void invoke(Func&& func, std::integer_sequence<T, N...>) noexcept(
+				for_sequence_impl_noexcept_<Func&&, T, N...>)
+			{
+				(static_cast<void>(static_cast<Func&&>(func)(std::integral_constant<T, N>{})), ...);
+			}
+		};
 
 		template <auto N, typename Func>
 		inline constexpr bool for_sequence_noexcept_ =
-			noexcept(for_sequence_impl(std::declval<Func>(), std::make_integer_sequence<decltype(N), N>{}));
+			noexcept(for_sequence_impl<N>::invoke(std::declval<Func>(), std::make_integer_sequence<decltype(N), N>{}));
 	}
 	/// \endcond
 
@@ -55,13 +71,14 @@ namespace muu
 	/// \tparam N		The length of the sequence (the number of calls). Cannot be negative.
 	/// \tparam Func	A callable type with the signature `void(auto)`.
 	template <auto N, typename Func>
+	MUU_ALWAYS_INLINE
 	constexpr void for_sequence(Func&& func) noexcept(impl::for_sequence_noexcept_<N, Func>)
 	{
 		using n_type = decltype(N);
 		static_assert(N >= n_type{}, "N cannot be negative.");
 
 		if constexpr (N > n_type{})
-			impl::for_sequence_impl(static_cast<Func&&>(func), std::make_integer_sequence<n_type, N>{});
+			impl::for_sequence_impl<N>::invoke(static_cast<Func&&>(func), std::make_integer_sequence<n_type, N>{});
 		else
 			static_cast<void>(func);
 	}

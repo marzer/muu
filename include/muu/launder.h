@@ -9,7 +9,7 @@
 
 #include "preprocessor.h"
 
-#if MUU_CLANG >= 8 || MUU_GCC >= 7 || MUU_ICC >= 1910 || MUU_MSVC >= 1914 || MUU_HAS_BUILTIN(launder)
+#if MUU_CLANG >= 8 || MUU_GCC >= 7 || MUU_ICC >= 1910 || MUU_MSVC >= 1914 || MUU_HAS_BUILTIN(__builtin_launder)
 	#define MUU_LAUNDER(...) __builtin_launder(__VA_ARGS__)
 #endif
 

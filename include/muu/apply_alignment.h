@@ -14,6 +14,7 @@ MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 
 namespace muu
 {
+	//% apply_alignment start
 	/// \brief	Rounds an unsigned value up to the next multiple of the given alignment.
 	/// \ingroup core
 	///
@@ -27,16 +28,17 @@ namespace muu
 		static_assert(Alignment, "alignment cannot be zero");
 		static_assert((Alignment & (Alignment - 1u)) == 0u, "alignment must be a power of two");
 
-		if constexpr (is_enum<T>)
+		if constexpr (std::is_enum_v<T>)
 		{
 			return static_cast<T>(apply_alignment(static_cast<std::underlying_type_t<T>>(val)));
 		}
 		else
 		{
-			using uint = impl::highest_ranked<T, size_t>;
+			using uint = decltype(T{} * size_t{});
 			return static_cast<T>((val + Alignment - uint{ 1 }) & ~(Alignment - uint{ 1 }));
 		}
 	}
+
 
 	/// \brief	Rounds a pointer up to the byte offset that is the next multiple of the given alignment.
 	/// \ingroup core
@@ -54,11 +56,15 @@ namespace muu
 		static_assert(!std::is_function_v<T>, "apply_alignment() may not be used on pointers to functions.");
 		static_assert(Alignment, "alignment cannot be zero");
 		static_assert((Alignment & (Alignment - 1u)) == 0u, "alignment must be a power of two");
-		static_assert(Alignment >= alignment_of<std::remove_pointer_t<T>>, "cannot under-align types.");
+		if constexpr (!std::is_void_v<T>)
+		{
+			static_assert(Alignment >= alignof(T), "cannot under-align types.");
+		}
 
 		return muu::assume_aligned<Alignment>(
 			reinterpret_cast<T*>(apply_alignment<Alignment>(reinterpret_cast<uintptr_t>(ptr))));
 	}
+	//% apply_alignment end
 
 	/// \brief	Rounds an unsigned value up to the next multiple of the given alignment.
 	/// \ingroup core
@@ -75,13 +81,13 @@ namespace muu
 		MUU_ASSUME(alignment > 0u);
 		MUU_ASSUME((alignment & (alignment - 1u)) == 0u);
 
-		if constexpr (is_enum<T>)
+		if constexpr (std::is_enum_v<T>)
 		{
 			return static_cast<T>(apply_alignment(static_cast<std::underlying_type_t<T>>(val), alignment));
 		}
 		else
 		{
-			using uint = impl::highest_ranked<T, size_t>;
+			using uint = decltype(T{} * size_t{});
 			return static_cast<T>((val + alignment - uint{ 1 }) & ~(alignment - uint{ 1 }));
 		}
 	}
@@ -101,7 +107,10 @@ namespace muu
 		static_assert(!std::is_function_v<T>, "apply_alignment() may not be used on pointers to functions.");
 		MUU_CONSTEXPR_SAFE_ASSERT(alignment && "alignment cannot be zero");
 		MUU_CONSTEXPR_SAFE_ASSERT(((alignment & (alignment - 1u)) == 0u) && "alignment must be a power of two");
-		MUU_CONSTEXPR_SAFE_ASSERT(alignment >= alignment_of<std::remove_pointer_t<T>> && "cannot under-align types.");
+		if constexpr (!std::is_void_v<T>)
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(alignment >= alignof(T) && "cannot under-align types.");
+		}
 
 		return reinterpret_cast<T*>(apply_alignment(reinterpret_cast<uintptr_t>(ptr), alignment));
 	}

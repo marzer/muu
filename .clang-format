@@ -25,7 +25,7 @@ AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: Yes
 AttributeMacros:
   - MUU_ABSTRACT_INTERFACE
-  - MUU_EMPTY_BASE_CLASSES
+  - MUU_EMPTY_BASES
   - MUU_TRIVIAL_ABI
   - MUU_VECTORCALL
   - MUU_CALLCONV

@@ -1656,6 +1656,7 @@ namespace muu
 	template <typename T>
 	using remove_noexcept = copy_cvref<typename impl::remove_noexcept_<remove_cvref<T>>::type, T>;
 
+	//% meta::is_detected start
 	/// \cond
 	namespace impl
 	{
@@ -1676,6 +1677,7 @@ namespace muu
 	///		- [std::experimental::is_detected](https://en.cppreference.com/w/cpp/experimental/is_detected)
 	template <template <typename...> typename Trait, typename... Args>
 	inline constexpr auto is_detected = impl::is_detected_<Trait, Args...>;
+	//% meta::is_detected end
 
 	/// \cond
 	namespace impl
