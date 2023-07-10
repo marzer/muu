@@ -20,16 +20,26 @@ namespace muu
 	namespace impl
 	{
 
-#define MUU_COMPRESSED_PAIR_BASE_GETTERS(type, name, expression)                                                       \
+#define MUU_COMPRESSED_PAIR_BASE_GETTERS(T, name, expression)                                                          \
 	MUU_PURE_INLINE_GETTER                                                                                             \
-	constexpr type& get_##name() noexcept                                                                              \
+	constexpr T& name()& noexcept                                                                                      \
 	{                                                                                                                  \
-		return expression;                                                                                             \
+		return static_cast<T&>(expression);                                                                            \
 	}                                                                                                                  \
 	MUU_PURE_INLINE_GETTER                                                                                             \
-	constexpr const type& get_##name() const noexcept                                                                  \
+	constexpr const T& name() const& noexcept                                                                          \
 	{                                                                                                                  \
-		return expression;                                                                                             \
+		return static_cast<const T&>(expression);                                                                      \
+	}                                                                                                                  \
+	MUU_PURE_INLINE_GETTER                                                                                             \
+	constexpr T&& name()&& noexcept                                                                                    \
+	{                                                                                                                  \
+		return static_cast<T&&>(expression);                                                                           \
+	}                                                                                                                  \
+	MUU_PURE_INLINE_GETTER                                                                                             \
+	constexpr const T&& name() const&& noexcept                                                                        \
+	{                                                                                                                  \
+		return static_cast<const T&&>(expression);                                                                     \
 	}                                                                                                                  \
 	static_assert(true)
 
@@ -38,13 +48,15 @@ namespace muu
 				  typename Second,
 				  bool FirstCanBeBase  = std::is_empty_v<First> && !std::is_final_v<First>,
 				  bool SecondCanBeBase = std::is_empty_v<Second> && !std::is_final_v<Second>>
-		struct compressed_pair_base
+		class compressed_pair_base
 		{
+		  private:
 			static_assert(!FirstCanBeBase);
 			static_assert(!SecondCanBeBase);
 			MUU_NO_UNIQUE_ADDRESS First first_;
 			MUU_NO_UNIQUE_ADDRESS Second second_;
 
+		  public:
 			compressed_pair_base() = default;
 			MUU_DEFAULT_MOVE(compressed_pair_base);
 			MUU_DEFAULT_COPY(compressed_pair_base);
@@ -52,8 +64,8 @@ namespace muu
 			MUU_CONSTRAINED_TEMPLATE((std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>),
 									 typename F,
 									 typename S)
-			constexpr compressed_pair_base(F&& first_init, S&& second_init) noexcept(
-				std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
+			constexpr compressed_pair_base(F&& first_init, S&& second_init) //
+				noexcept(std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
 				: first_{ static_cast<F&&>(first_init) },
 				  second_{ static_cast<S&&>(second_init) }
 			{}
@@ -64,11 +76,13 @@ namespace muu
 
 		// secondary template - First is a base
 		template <typename First, typename Second>
-		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, true, false> //
-			: First
+		class MUU_EMPTY_BASES compressed_pair_base<First, Second, true, false> //
+			: private First
 		{
+		  private:
 			MUU_NO_UNIQUE_ADDRESS Second second_;
 
+		  public:
 			compressed_pair_base() = default;
 			MUU_DEFAULT_MOVE(compressed_pair_base);
 			MUU_DEFAULT_COPY(compressed_pair_base);
@@ -76,8 +90,8 @@ namespace muu
 			MUU_CONSTRAINED_TEMPLATE((std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>),
 									 typename F,
 									 typename S)
-			constexpr compressed_pair_base(F&& first_init, S&& second_init) noexcept(
-				std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
+			constexpr compressed_pair_base(F&& first_init, S&& second_init) //
+				noexcept(std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
 				: First{ static_cast<F&&>(first_init) },
 				  second_{ static_cast<S&&>(second_init) }
 			{}
@@ -86,14 +100,15 @@ namespace muu
 			MUU_COMPRESSED_PAIR_BASE_GETTERS(Second, second, second_);
 		};
 
-
 		// secondary template - Second is a base
 		template <typename First, typename Second>
-		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, false, true> //
-			: Second
+		class MUU_EMPTY_BASES compressed_pair_base<First, Second, false, true> //
+			: private Second
 		{
+		  private:
 			MUU_NO_UNIQUE_ADDRESS First first_;
 
+		  public:
 			compressed_pair_base() = default;
 			MUU_DEFAULT_MOVE(compressed_pair_base);
 			MUU_DEFAULT_COPY(compressed_pair_base);
@@ -101,8 +116,8 @@ namespace muu
 			MUU_CONSTRAINED_TEMPLATE((std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>),
 									 typename F,
 									 typename S)
-			constexpr compressed_pair_base(F&& first_init, S&& second_init) noexcept(
-				std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
+			constexpr compressed_pair_base(F&& first_init, S&& second_init) //
+				noexcept(std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
 				: Second{ static_cast<S&&>(second_init) },
 				  first_{ static_cast<F&&>(first_init) }
 
@@ -114,9 +129,10 @@ namespace muu
 
 		// secondary template - both are bases
 		template <typename First, typename Second>
-		struct MUU_EMPTY_BASES compressed_pair_base<First, Second, true, true> //
-			: First, Second
+		class MUU_EMPTY_BASES compressed_pair_base<First, Second, true, true> //
+			: private First, private Second
 		{
+		  public:
 			compressed_pair_base() = default;
 			MUU_DEFAULT_MOVE(compressed_pair_base);
 			MUU_DEFAULT_COPY(compressed_pair_base);
@@ -124,8 +140,8 @@ namespace muu
 			MUU_CONSTRAINED_TEMPLATE((std::is_constructible_v<First, F&&> && std::is_constructible_v<Second, S&&>),
 									 typename F,
 									 typename S)
-			constexpr compressed_pair_base(F&& first_init, S&& second_init) noexcept(
-				std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
+			constexpr compressed_pair_base(F&& first_init, S&& second_init) //
+				noexcept(std::is_nothrow_constructible_v<First, F&&>&& std::is_nothrow_constructible_v<Second, S&&>)
 				: First{ static_cast<F&&>(first_init) },
 				  Second{ static_cast<S&&>(second_init) }
 			{}
@@ -136,17 +152,6 @@ namespace muu
 
 #undef MUU_COMPRESSED_PAIR_BASE_DEFAULTS
 #undef MUU_COMPRESSED_PAIR_BASE_GETTERS
-
-		template <size_t I, typename T>
-		MUU_PURE_INLINE_GETTER
-		constexpr decltype(auto) compressed_pair_get(T&& cp) noexcept
-		{
-			static_assert(I <= 1);
-			if constexpr (I == 0)
-				return static_cast<T&&>(cp).first();
-			else
-				return static_cast<T&&>(cp).second();
-		}
 	}
 	/// \endcond
 
@@ -157,7 +162,7 @@ namespace muu
 	/// \tparam	Second		Second member type.
 	template <typename First, typename Second>
 	class MUU_EMPTY_BASES compressed_pair //
-		MUU_HIDDEN_BASE(private impl::compressed_pair_base<First, Second>)
+		MUU_HIDDEN_BASE(public impl::compressed_pair_base<First, Second>)
 	{
 	  private:
 		/// \cond
@@ -196,81 +201,67 @@ namespace muu
 		/// \brief	Move-assignment operator.
 		compressed_pair& operator=(compressed_pair&&) = default;
 
+#if MUU_DOXYGEN
+		//# {{
+
 		/// \brief	Constructs a compressed pair from two values.
 		///
 		/// \tparam	F	First member initializer type.
 		/// \tparam	S	Second member initializer type.
 		/// \param 	first_init 	First member initializer.
 		/// \param 	second_init	Second member initializer.
-		MUU_CONSTRAINED_TEMPLATE((std::is_constructible_v<base, F&&, S&&>), typename F, typename S)
-		MUU_NODISCARD_CTOR
+		template <typename F, typename S>
 		constexpr compressed_pair(F&& first_init,
-								  S&& second_init) noexcept(std::is_nothrow_constructible_v<base, F&&, S&&>)
-			: base{ static_cast<F&&>(first_init), static_cast<S&&>(second_init) }
-		{}
+								  S&& second_init) noexcept(std::is_nothrow_constructible_v<base, F&&, S&&>);
 
 		/// \brief	Returns an lvalue reference to the first member.
-		MUU_PURE_INLINE_GETTER
-		constexpr first_type& first() & noexcept
-		{
-			return base::get_first();
-		}
+		constexpr first_type& first() & noexcept;
 
 		/// \brief	Returns an rvalue reference to the first member.
-		MUU_PURE_INLINE_GETTER
-		constexpr first_type&& first() && noexcept
-		{
-			return static_cast<first_type&&>(base::get_first());
-		}
+		constexpr first_type&& first() && noexcept;
 
 		/// \brief	Returns a const lvalue reference to the first member.
-		MUU_PURE_INLINE_GETTER
-		constexpr const first_type& first() const& noexcept
-		{
-			return base::get_first();
-		}
+		constexpr const first_type& first() const& noexcept;
 
 		/// \brief	Returns a const rvalue reference to the first member.
-		MUU_PURE_INLINE_GETTER
-		constexpr const first_type&& first() const&& noexcept
-		{
-			return static_cast<const first_type&&>(base::get_first());
-		}
+		constexpr const first_type&& first() const&& noexcept;
 
 		/// \brief	Returns an lvalue reference to the second member.
-		MUU_PURE_INLINE_GETTER
-		constexpr second_type& second() & noexcept
-		{
-			return base::get_second();
-		}
+		constexpr second_type& second() & noexcept;
 
 		/// \brief	Returns an rvalue reference to the second member.
-		MUU_PURE_INLINE_GETTER
-		constexpr second_type&& second() && noexcept
-		{
-			return static_cast<second_type&&>(base::get_second());
-		}
+		constexpr second_type&& second() && noexcept;
 
 		/// \brief	Returns a const lvalue reference to the second member.
-		MUU_PURE_INLINE_GETTER
-		constexpr const second_type& second() const& noexcept
-		{
-			return base::get_second();
-		}
+		constexpr const second_type& second() const& noexcept;
 
 		/// \brief	Returns a const rvalue reference to the second member.
+		constexpr const second_type&& second() const&& noexcept;
+
+		//# }}
+#else
+		using impl::compressed_pair_base<First, Second>::compressed_pair_base; // inherit constructor
+#endif
+
+	  private:
+		template <size_t I, typename T>
 		MUU_PURE_INLINE_GETTER
-		constexpr const second_type&& second() const&& noexcept
+		static constexpr decltype(auto) do_get(T&& cp) noexcept
 		{
-			return static_cast<const second_type&&>(base::get_second());
+			static_assert(I <= 1);
+			if constexpr (I == 0)
+				return static_cast<T&&>(cp).first();
+			else
+				return static_cast<T&&>(cp).second();
 		}
 
+	  public:
 		/// \brief	Returns an lvalue reference to the selected member.
 		template <size_t I>
 		MUU_PURE_INLINE_GETTER
 		constexpr auto& get() & noexcept
 		{
-			return impl::compressed_pair_get<I>(*this);
+			return do_get<I>(*this);
 		}
 
 		/// \brief	Returns an rvalue reference to the selected member.
@@ -278,7 +269,7 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr auto&& get() && noexcept
 		{
-			return impl::compressed_pair_get<I>(static_cast<compressed_pair&&>(*this));
+			return do_get<I>(static_cast<compressed_pair&&>(*this));
 		}
 
 		/// \brief	Returns a const lvalue reference to the selected member.
@@ -286,7 +277,7 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr const auto& get() const& noexcept
 		{
-			return impl::compressed_pair_get<I>(*this);
+			return do_get<I>(*this);
 		}
 
 		/// \brief	Returns a const rvalue reference to the selected member.
@@ -294,7 +285,17 @@ namespace muu
 		MUU_PURE_INLINE_GETTER
 		constexpr const auto&& get() const&& noexcept
 		{
-			return impl::compressed_pair_get<I>(static_cast<const compressed_pair&&>(*this));
+			return do_get<I>(static_cast<const compressed_pair&&>(*this));
+		}
+
+		/// \brief	Swaps two pairs.
+		/// \availability This function is only available when std::is_swappable_v is true for both element types.
+		MUU_HIDDEN_CONSTRAINT(std::is_swappable_v<F>&& std::is_swappable_v<S>, typename F = First, typename S = Second)
+		void swap(compressed_pair& other) noexcept(std::is_nothrow_swappable_v<F>&& std::is_nothrow_swappable_v<S>)
+		{
+			using std::swap;
+			swap(base::first(), other.first());
+			swap(base::second(), other.second());
 		}
 	};
 
@@ -304,6 +305,16 @@ namespace muu
 	compressed_pair(F&&, S&&) -> compressed_pair<remove_cvref<F>, remove_cvref<S>>;
 
 	/// \endcond
+
+	/// \brief	Swaps two compressed pairs.
+	/// \availability This overload is only available when std::is_swappable_v is true for both element types.
+	MUU_CONSTRAINED_TEMPLATE(std::is_swappable_v<F>&& std::is_swappable_v<S>, typename F, typename S)
+	MUU_ALWAYS_INLINE
+	void swap(compressed_pair<F, S>& lhs,
+			  compressed_pair<F, S>& rhs) noexcept(std::is_nothrow_swappable_v<F>&& std::is_nothrow_swappable_v<S>)
+	{
+		lhs.swap(rhs);
+	}
 
 	//% compressed_pair end
 	/// @}

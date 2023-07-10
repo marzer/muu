@@ -1208,6 +1208,7 @@ help me improve support for your target architecture. Thanks!
 // clang-format off
 //% preprocessor::getters start
 #ifndef MUU_PURE_GETTER
+	#define MUU_INLINE_GETTER				MUU_NODISCARD	MUU_ALWAYS_INLINE
 	#ifdef NDEBUG
 		#define MUU_PURE					MUU_DECLSPEC(noalias)	MUU_ATTR(pure)
 		#define MUU_CONST					MUU_DECLSPEC(noalias)	MUU_ATTR(const)
@@ -1490,6 +1491,13 @@ help me improve support for your target architecture. Thanks!
 
 //% preprocessor::warnings::spam start
 #if MUU_CLANG
+	#if MUU_CLANG >= 8
+		#define MUU_DISABLE_SPAM_WARNINGS_CLANG_8                                                                      \
+			_Pragma("clang diagnostic ignored \"-Wdefaulted-function-deleted\"")                                       \
+			static_assert(true)
+	#else
+		#define MUU_DISABLE_SPAM_WARNINGS_CLANG_8 static_assert(true)
+	#endif
 	#if MUU_CLANG >= 9
 		#define MUU_DISABLE_SPAM_WARNINGS_CLANG_9                                                                      \
 			_Pragma("clang diagnostic ignored \"-Wctad-maybe-unsupported\"")                                           \
@@ -1519,6 +1527,7 @@ help me improve support for your target architecture. Thanks!
 		_Pragma("clang diagnostic ignored \"-Wused-but-marked-unused\"")                                               \
 		_Pragma("clang diagnostic ignored \"-Wcovered-switch-default\"")                                               \
 		_Pragma("clang diagnostic ignored \"-Wtautological-pointer-compare\"")                                         \
+		MUU_DISABLE_SPAM_WARNINGS_CLANG_8;                                                                             \
 		MUU_DISABLE_SPAM_WARNINGS_CLANG_9;                                                                             \
 		MUU_DISABLE_SPAM_WARNINGS_CLANG_13;                                                                            \
 		static_assert(true)
