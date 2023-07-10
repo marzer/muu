@@ -531,6 +531,13 @@
     <class kind="struct">std::tuple_size&lt; muu::compressed_pair&lt; First, Second &gt; &gt;</class>
     <class kind="struct">std::tuple_element&lt; I, muu::compressed_pair&lt; First, Second &gt; &gt;</class>
     <namespace>muu</namespace>
+    <member kind="function">
+      <type>void</type>
+      <name>swap</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga97dc24ae29eda3aed8881dd355c40a16</anchor>
+      <arglist>(compressed_pair&lt; F, S &gt; &amp;lhs, compressed_pair&lt; F, S &gt; &amp;rhs) noexcept(std::is_nothrow_swappable_v&lt; F &gt; &amp;&amp;std::is_nothrow_swappable_v&lt; S &gt;)</arglist>
+    </member>
   </compound>
   <compound kind="file">
     <name>core.h</name>
@@ -7071,6 +7078,13 @@
       <anchor>a2f3ba4f37263f185c057fe141d26f895</anchor>
       <arglist>() const &amp;&amp;noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>void</type>
+      <name>swap</name>
+      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
+      <anchor>a0a7a87426fec9df37acdbf4fd65e8b65</anchor>
+      <arglist>(compressed_pair &amp;other) noexcept(std::is_nothrow_swappable_v&lt; F &gt; &amp;&amp;std::is_nothrow_swappable_v&lt; S &gt;)</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>compressed_pair&lt; impl::default_accumulator&lt; ValueType &gt;::type, size_t &gt;</name>
@@ -7214,6 +7228,13 @@
       <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
       <anchor>a2f3ba4f37263f185c057fe141d26f895</anchor>
       <arglist>() const &amp;&amp;noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>swap</name>
+      <anchorfile>classmuu_1_1compressed__pair.html</anchorfile>
+      <anchor>a0a7a87426fec9df37acdbf4fd65e8b65</anchor>
+      <arglist>(compressed_pair &amp;other) noexcept(std::is_nothrow_swappable_v&lt; F &gt; &amp;&amp;std::is_nothrow_swappable_v&lt; S &gt;)</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -22921,6 +22942,13 @@
       <arglist>(std::byte byte, Char a=constants&lt; Char &gt;::letter_a) noexcept</arglist>
     </member>
     <member kind="function">
+      <type>void</type>
+      <name>swap</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga97dc24ae29eda3aed8881dd355c40a16</anchor>
+      <arglist>(compressed_pair&lt; F, S &gt; &amp;lhs, compressed_pair&lt; F, S &gt; &amp;rhs) noexcept(std::is_nothrow_swappable_v&lt; F &gt; &amp;&amp;std::is_nothrow_swappable_v&lt; S &gt;)</arglist>
+    </member>
+    <member kind="function">
       <type>constexpr int</type>
       <name>countl_zero</name>
       <anchorfile>group__core.html</anchorfile>
@@ -27705,6 +27733,13 @@
       <anchorfile>group__core.html</anchorfile>
       <anchor>gab3e8f4f75d417dc6880311de6c9306e9</anchor>
       <arglist>(T val) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>swap</name>
+      <anchorfile>group__core.html</anchorfile>
+      <anchor>ga97dc24ae29eda3aed8881dd355c40a16</anchor>
+      <arglist>(compressed_pair&lt; F, S &gt; &amp;lhs, compressed_pair&lt; F, S &gt; &amp;rhs) noexcept(std::is_nothrow_swappable_v&lt; F &gt; &amp;&amp;std::is_nothrow_swappable_v&lt; S &gt;)</arglist>
     </member>
     <member kind="function">
       <type>constexpr int</type>
