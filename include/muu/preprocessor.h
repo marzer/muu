@@ -658,16 +658,18 @@ help me improve support for your target architecture. Thanks!
 /// \warning Using this incorrectly can lead to seriously mis-compiled code!
 
 //% preprocessor::assume start
-#if MUU_MSVC_LIKE
-	#define MUU_ASSUME(expr) __assume(expr)
-#elif MUU_ICC || MUU_CLANG || MUU_HAS_BUILTIN(__builtin_assume)
-	#define MUU_ASSUME(expr) __builtin_assume(expr)
-#elif MUU_HAS_CPP_ATTR(assume) >= 202207
-	#define MUU_ASSUME(expr) [[assume(expr)]]
-#elif MUU_HAS_ATTR(__assume__)
-	#define MUU_ASSUME(expr) __attribute__((__assume__(expr)))
-#else
-	#define MUU_ASSUME(expr) static_cast<void>(0)
+#ifndef MUU_ASSUME
+	#if MUU_MSVC_LIKE
+		#define MUU_ASSUME(expr) __assume(expr)
+	#elif MUU_ICC || MUU_CLANG || MUU_HAS_BUILTIN(__builtin_assume)
+		#define MUU_ASSUME(expr) __builtin_assume(expr)
+	#elif MUU_HAS_CPP_ATTR(assume) >= 202207
+		#define MUU_ASSUME(expr) [[assume(expr)]]
+	#elif MUU_HAS_ATTR(__assume__)
+		#define MUU_ASSUME(expr) __attribute__((__assume__(expr)))
+	#else
+		#define MUU_ASSUME(expr) static_cast<void>(0)
+	#endif
 #endif
 //% preprocessor::assume end
 /// \def MUU_ASSUME
@@ -2064,6 +2066,7 @@ namespace muu::impl
 // ASSERT
 //======================================================================================================================
 
+//% preprocessor::assert start
 #ifndef MUU_ASSERT
 	#ifdef NDEBUG
 		#define MUU_ASSERT(cond) static_cast<void>(0)
@@ -2080,8 +2083,8 @@ MUU_ENABLE_WARNINGS;
 	// ensure any overrides respect NDEBUG
 	#undef MUU_ASSERT
 	#define MUU_ASSERT(cond) static_cast<void>(0)
-#else
 #endif
+//% preprocessor::assert end
 
 //% preprocessor::constexpr_safe_assert start
 #ifndef MUU_CONSTEXPR_SAFE_ASSERT
