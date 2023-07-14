@@ -4207,9 +4207,9 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_DISABLE_SUGGEST_WARNINGS</name>
+      <name>MUU_DISABLE_SUGGESTION_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga305e4c6d20217201e79a601d7ec46572</anchor>
+      <anchor>ga3a9df31e164f0e1b9b2a39b579e3fe1b</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
@@ -30062,9 +30062,9 @@
     </member>
     <member kind="define">
       <type>#define</type>
-      <name>MUU_DISABLE_SUGGEST_WARNINGS</name>
+      <name>MUU_DISABLE_SUGGESTION_WARNINGS</name>
       <anchorfile>group__preprocessor.html</anchorfile>
-      <anchor>ga305e4c6d20217201e79a601d7ec46572</anchor>
+      <anchor>ga3a9df31e164f0e1b9b2a39b579e3fe1b</anchor>
       <arglist></arglist>
     </member>
     <member kind="define">
