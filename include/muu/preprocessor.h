@@ -37,10 +37,13 @@
 	#ifndef MUU_CPP
 		#define MUU_CPP __cplusplus
 	#endif
-	#if MUU_CPP >= 202600L
+	#if MUU_CPP >= 202900L
+		#undef MUU_CPP
+		#define MUU_CPP 29
+	#elif MUU_CPP >= 202600L
 		#undef MUU_CPP
 		#define MUU_CPP 26
-	#elif MUU_CPP >= 202300L
+	#elif MUU_CPP >= 202302L
 		#undef MUU_CPP
 		#define MUU_CPP 23
 	#elif MUU_CPP >= 202002L
