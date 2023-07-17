@@ -19,6 +19,28 @@ MUU_PRAGMA_MSVC(float_control(except, off))
 //======================================================================================================================
 // IMPLEMENTATION DETAILS
 //======================================================================================================================
+
+namespace muu
+{
+	/// \brief Flags relating to math APIs w.r.t some graphics + rendering environments (e.g. DirectX).
+	/// \ingroup math
+	enum class math_apis
+	{
+		/// \brief DirectX (default)
+		directx = 0,
+
+		/// \brief OpenGL
+		opengl = 1,
+
+		/// \brief Right-handed coordinate system (default)
+		right_handed = 0,
+
+		/// \brief Left-handed coordinate system
+		left_handed = 2
+	};
+	MUU_MAKE_FLAGS(math_apis);
+}
+
 /// \cond
 
 namespace muu::impl
@@ -449,6 +471,43 @@ namespace muu::impl
 		}
 
 		MUU_PURE_GETTER
+		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_3d_direction(MUU_VPARAM(vector<Scalar, 3>)
+																							dir)
+		{
+			using out_type	  = matrix<Scalar, Rows, Columns>;
+			using vector_type = vector<Scalar, 3>;
+
+			if constexpr (is_small_float_<Scalar>)
+			{
+				return out_type{ matrix<float, Rows, Columns>::from_3d_direction(vector<float, 3>{ dir }) };
+			}
+			else
+			{
+				MUU_FMA_BLOCK;
+
+				// z axis
+				const auto z = -dir;
+
+				// pick a tentative y axis for the purposes of establishing our x axis
+				auto y = vector_type{};
+				if MUU_UNLIKELY(muu::approx_equal(dir.y, Scalar{ -1 }))
+					y.z = Scalar{ -1 }; // looking directly down, our 'up' axis is the forward direction
+				else if MUU_UNLIKELY(muu::approx_equal(dir.y, Scalar{ 1 }))
+					y.z = Scalar{ 1 };	// looking directly up, our 'up' axis is the backward direction
+				else
+					y.y = Scalar{ 1 };	// otherwise use the real up axis
+
+				// x axis
+				const auto x = vector_type::normalize(vector_type::cross(y, z));
+
+				// get the (actual) y axis
+				y = vector_type::normalize(vector_type::cross(z, x));
+
+				return out_type::from_axes(x, y, z);
+			}
+		}
+
+		MUU_PURE_GETTER
 		static constexpr matrix<Scalar, Rows, Columns> MUU_VECTORCALL from_quaternion(MUU_VPARAM(quaternion<Scalar>)
 																						  quat) noexcept
 		{
@@ -731,7 +790,7 @@ namespace muu::impl
 		}
 	};
 
-	//--- transform_without_translating() ----------------------------------------------------------------------------------------
+	//--- transform_without_translating() -----------------------------------------------------------------------------
 
 	template <typename Derived, bool = is_3d_transform_matrix_<Derived>>
 	struct matrix_transform_without_translating
@@ -852,6 +911,109 @@ namespace muu::impl
 		constexpr vector<Scalar, 3> extract_3d_scale() const noexcept
 		{
 			return extract_3d_scale(static_cast<const matrix<Scalar, Rows, Columns>&>(*this));
+		}
+	};
+
+	//--- perspective_projection() -------------------------------------------------------------------------------------
+
+	template <typename Derived, bool = is_floating_point_matrix_<Derived>>
+	struct matrix_perspective_projection
+	{};
+
+	template <typename T>
+	struct matrix_perspective_projection<matrix<T, 4, 4>, true>
+	{
+		template <math_apis Mode = (math_apis::directx | math_apis::right_handed)>
+		MUU_PURE_GETTER
+		static constexpr matrix<T, 4, 4> MUU_VECTORCALL perspective_projection(T vertical_fov,
+																			   T aspect_ratio,
+																			   T near_clip,
+																			   T far_clip) noexcept
+		{
+			// https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectivefovrh
+			// https://learn.microsoft.com/en-us/windows/win32/direct3d9/d3dxmatrixperspectivefovlh
+			// http://perry.cz/articles/ProjectionMatrix.xhtml
+			// http://www.songho.ca/opengl/gl_projectionmatrix.html
+
+			const auto b = T{ 1 } / muu::tan(vertical_fov / T{ 2 });
+			const auto a = b / aspect_ratio;
+
+			if constexpr ((Mode & math_apis::directx) == math_apis::directx)
+			{
+				const auto c = far_clip / (near_clip - far_clip);
+
+				if constexpr ((Mode & math_apis::directx) == math_apis::right_handed)
+				{
+					const auto e = near_clip * far_clip / (near_clip - far_clip);
+
+					// clang-format off
+					return
+					{
+						a,		T{},	T{},	T{},
+						T{},	b,		T{},	T{},
+						T{},	T{},	c,		e,
+						T{},	T{},	T{-1},	T{}
+					};
+					// clang-format on
+				}
+				else if constexpr ((Mode & math_apis::directx) == math_apis::left_handed)
+				{
+					const auto e = -near_clip * far_clip / (far_clip - near_clip);
+
+					// clang-format off
+					return
+					{
+						a,		T{},	T{},	T{},
+						T{},	b,		T{},	T{},
+						T{},	T{},	c,		e,
+						T{},	T{},	T{1},	T{}
+					};
+					// clang-format on
+				}
+			}
+			else if constexpr (Mode == math_apis::opengl)
+			{
+				const auto c = -(far_clip + near_clip) / (far_clip - near_clip);
+
+				if constexpr ((Mode & math_apis::directx) == math_apis::right_handed)
+				{
+					const auto e = (T{ -2 } * far_clip * near_clip) / (far_clip - near_clip);
+
+					// clang-format off
+					return
+					{
+						a,		T{},	T{},	T{},
+						T{},	b,		T{},	T{},
+						T{},	T{},	c,		e,
+						T{},	T{},	T{-1},	T{}
+					};
+					// clang-format on
+				}
+				else if constexpr ((Mode & math_apis::directx) == math_apis::left_handed)
+				{
+					const auto e = (T{ 2 } * far_clip * near_clip) / (far_clip - near_clip);
+
+					// clang-format off
+					return
+					{
+						a,		T{},	T{},	T{},
+						T{},	b,		T{},	T{},
+						T{},	T{},	c,		e,
+						T{},	T{},	T{1},	T{}
+					};
+					// clang-format on
+				}
+			}
+		}
+
+		template <math_apis Mode = (math_apis::directx | math_apis::right_handed)>
+		MUU_PURE_GETTER
+		static constexpr matrix<T, 4, 4> MUU_VECTORCALL perspective_projection(T vertical_fov,
+																			   MUU_VPARAM(vector<T, 2>) screen_size,
+																			   T near_clip,
+																			   T far_clip) noexcept
+		{
+			return perspective_projection(vertical_fov, screen_size.x / screen_size.y, near_clip, far_clip);
 		}
 	};
 
@@ -1128,7 +1290,8 @@ namespace muu
 			impl::matrix_transform_direction<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_extract_2d_scale<matrix<Scalar, Rows, Columns>>,
 			impl::matrix_extract_3d_scale<matrix<Scalar, Rows, Columns>>,
-			impl::matrix_orthonormalize<matrix<Scalar, Rows, Columns>>
+			impl::matrix_orthonormalize<matrix<Scalar, Rows, Columns>>,
+			impl::matrix_perspective_projection<matrix<Scalar, Rows, Columns>>
 		)
 	{
 		static_assert(!std::is_reference_v<Scalar>, "Matrix scalar type cannot be a reference");
@@ -1214,7 +1377,7 @@ namespace muu
 
 #endif // DOXYGEN
 
-#if 1 // constructors ---------------------------------------------------------------------------------------------
+#if 1  // constructors ---------------------------------------------------------------------------------------------
 
 		/// \brief Default constructor. Values are not initialized.
 		MUU_NODISCARD_CTOR
@@ -1492,7 +1655,7 @@ namespace muu
 
 		/// \endcond
 
-#endif // constructors
+#endif	// constructors
 
 #if 1	// scaling ----------------------------------------------------------------------------------------------
 		/// \name Scaling
@@ -1546,8 +1709,8 @@ namespace muu
 
 	#endif // DOXYGEN
 
-		/// @}
-#endif // scaling
+		   /// @}
+#endif	// scaling
 
 #if 1	// translation ----------------------------------------------------------------------------------------------
 		/// \name Translation
@@ -1601,8 +1764,8 @@ namespace muu
 
 	#endif // DOXYGEN
 
-		/// @}
-#endif // translation
+		   /// @}
+#endif	// translation
 
 #if 1	// rotation -------------------------------------------------------------------------------------------------
 		/// \name Rotation
@@ -1637,6 +1800,12 @@ namespace muu
 		///					and the destination matrix is 3x4 or 4x4.
 		template <size_t R, size_t C>
 		static constexpr matrix from_3d_rotation(const matrix<scalar_type, R, C>& rot) noexcept;
+
+		/// \brief Creates a 3D rotation matrix from a forward direction vector.
+		///
+		/// \availability	This function is only available #scalar_type is a floating-point type
+		///					and the destination matrix is 3x4 or 4x4.
+		static constexpr matrix from_3d_direction(const vector<scalar_type, 3>& dir) noexcept;
 
 		/// \brief Creates a 3D rotation matrix from a 3x3 matrix.
 		///
@@ -1714,10 +1883,53 @@ namespace muu
 
 	#endif // DOXYGEN
 
-		/// @}
-#endif // rotation
+		   /// @}
+#endif	// rotation
 
-#if 1 // column accessors ------------------------------------------------------------------------------------------
+#if 1	// projection -------------------------------------------------------------------------------------------------
+		/// \name Projection
+		/// \availability	These functions are only available when the matrix is 4x4 and has a floating-point #scalar_type.
+		/// @{
+
+	#if MUU_DOXYGEN
+
+		/// \brief Creates a perspective projection matrix.
+		///
+		/// \tparam Mode	Select the combination of flags for your math/graphics API.
+		///
+		/// \param vertical_fov		Vertical field-of-view in radians.
+		/// \param aspect_ratio		Screen aspect ratio (`width / height`).
+		/// \param near_clip		The camera's near-clip plane distance.
+		/// \param far_clip			The camera's far-clip plane distance.
+		///
+		/// \availability	This function is only available when the matrix is 4x4 and has a floating-point #scalar_type.
+		template <math_apis Mode = (math_apis::directx | math_apis::right_handed)>
+		static constexpr matrix perspective_projection(scalar_type vertical_fov,
+													   scalar_type aspect_ratio,
+													   scalar_type near_clip,
+													   scalar_type far_clip) noexcept;
+
+		/// \brief Creates a perspective projection matrix.
+		/// \tparam Mode	Select the combination of flags for your math/graphics API.
+		///
+		/// \param vertical_fov		Vertical field-of-view in radians.
+		/// \param screen_size		The screen's size (width + height).
+		/// \param near_clip		The camera's near-clip plane distance.
+		/// \param far_clip			The camera's far-clip plane distance.
+		///
+		/// \availability	This function is only available when the matrix is 4x4 and has a floating-point #scalar_type.
+		template <math_apis Mode = (math_apis::directx | math_apis::right_handed)>
+		static constexpr matrix perspective_projection(scalar_type vertical_fov,
+													   const vector<scalar_type, 2>& screen_size,
+													   scalar_type near_clip,
+													   scalar_type far_clip) noexcept;
+
+	#endif // DOXYGEN
+
+		   /// @}
+#endif // projection
+
+#if 1  // column accessors ------------------------------------------------------------------------------------------
 		/// \name Column accessors
 		/// @{
 
@@ -1796,7 +2008,7 @@ namespace muu
 	#endif
 
 		/// @}
-#endif // column accessors
+#endif	// column accessors
 
 #if 1	// scalar component accessors --------------------------------------------------------------------------------
 		/// \name Scalar accessors
@@ -2003,7 +2215,7 @@ namespace muu
 		/// @}
 #endif // equality (exact)
 
-#if 1 // equality (approx) -------------------------------------------------------------------------------------
+#if 1  // equality (approx) -------------------------------------------------------------------------------------
 		/// \name Equality (approximate)
 		/// @{
 
@@ -2102,7 +2314,7 @@ namespace muu
 		/// @}
 #endif // equality (approx)
 
-#if 1 // addition --------------------------------------------------------------------------------------------------
+#if 1  // addition --------------------------------------------------------------------------------------------------
 		/// \name Addition
 		/// @{
 
@@ -2134,7 +2346,7 @@ namespace muu
 		/// @}
 #endif // addition
 
-#if 1 // subtraction -----------------------------------------------------------------------------------------------
+#if 1  // subtraction -----------------------------------------------------------------------------------------------
 		/// \name Subtraction
 		/// @{
 
@@ -2170,7 +2382,7 @@ namespace muu
 		/// @}
 #endif // subtraction
 
-#if 1 // multiplication --------------------------------------------------------------------------------------------
+#if 1  // multiplication --------------------------------------------------------------------------------------------
 		/// \name Multiplication
 		/// @{
 
@@ -2411,7 +2623,7 @@ namespace muu
 		/// @}
 #endif // multiplication
 
-#if 1 // division --------------------------------------------------------------------------------------------------
+#if 1  // division --------------------------------------------------------------------------------------------------
 		/// \name Division
 		/// @{
 
@@ -2448,7 +2660,7 @@ namespace muu
 		/// @}
 #endif // division
 
-#if 1 // transposition ---------------------------------------------------------------------------------------------
+#if 1  // transposition ---------------------------------------------------------------------------------------------
 		/// \name Transposition
 		/// @{
 
@@ -2513,7 +2725,7 @@ namespace muu
 		/// @}
 #endif // transposition
 
-#if 1 // inverse & determinant -------------------------------------------------------------------------------------
+#if 1  // inverse & determinant -------------------------------------------------------------------------------------
 		/// \name Inverse & Determinant
 		/// \availability	These functions are only available when the matrix is square.
 		/// @{
@@ -2659,7 +2871,7 @@ namespace muu
 		}
 
 		/// @}
-#endif // inverse & determinant
+#endif	// inverse & determinant
 
 #if 1	// orthonormalize --------------------------------------------------------------------------------------------
 		/// \name Orthonormalization
@@ -2703,8 +2915,8 @@ namespace muu
 
 	#endif // DOXYGEN
 
-		/// @}
-#endif // orthonormalize
+		   /// @}
+#endif	// orthonormalize
 
 #if 1	// transformation ----------------------------------------------------------------------------------------
 		/// \name Transformation
@@ -2794,7 +3006,7 @@ namespace muu
 		/// @}
 #endif // transformation
 
-#if 1 // misc ------------------------------------------------------------------------------------------------------
+#if 1  // misc ------------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a matrix out to a text stream.
 		template <typename Char, typename Traits>
@@ -2810,10 +3022,10 @@ namespace muu
 	/// \cond
 
 	MUU_CONSTRAINED_TEMPLATE(is_arithmetic<T>, typename T)
-	matrix(T)->matrix<std::remove_cv_t<T>, 1, 1>;
+	matrix(T) -> matrix<std::remove_cv_t<T>, 1, 1>;
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<T1, T2, T3, T4>), typename T1, typename T2, typename T3, typename T4)
-	matrix(T1, T2, T3, T4)->matrix<impl::highest_ranked<T1, T2, T3, T4>, 2, 2>;
+	matrix(T1, T2, T3, T4) -> matrix<impl::highest_ranked<T1, T2, T3, T4>, 2, 2>;
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<T1, T2, T3, T4, T5, T6>),
 							 typename T1,
@@ -2822,7 +3034,7 @@ namespace muu
 							 typename T4,
 							 typename T5,
 							 typename T6)
-	matrix(T1, T2, T3, T4, T5, T6)->matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6>, 2, 3>;
+	matrix(T1, T2, T3, T4, T5, T6) -> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6>, 2, 3>;
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9>),
 							 typename T1,
@@ -2834,7 +3046,8 @@ namespace muu
 							 typename T7,
 							 typename T8,
 							 typename T9)
-	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9)->matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9>, 3, 3>;
+	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9)
+		-> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9>, 3, 3>;
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>),
 							 typename T1,
@@ -2850,7 +3063,7 @@ namespace muu
 							 typename T11,
 							 typename T12)
 	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)
-		->matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>, 3, 4>;
+		-> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>, 3, 4>;
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>),
 							 typename T1,
@@ -2870,7 +3083,7 @@ namespace muu
 							 typename T15,
 							 typename T16)
 	matrix(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16)
-		->matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>, 4, 4>;
+		-> matrix<impl::highest_ranked<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>, 4, 4>;
 
 	template <typename S0, size_t D0, typename S1, size_t D1>
 	matrix(vector<S0, D0>, vector<S1, D1>) -> matrix<impl::highest_ranked<S0, S1>, muu::max(D0, D1), 2>;
