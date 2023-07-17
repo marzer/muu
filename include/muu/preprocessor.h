@@ -542,11 +542,7 @@ help me improve support for your target architecture. Thanks!
 	#if defined(__SIZEOF_INT128__)
 		#define MUU_HAS_INT128 1
 	#else
-		#ifdef MUU_DOXYGEN
-			#define MUU_HAS_INT128 MUU_DOXYGEN
-		#else
-			#define MUU_HAS_INT128 0
-		#endif
+		#define MUU_HAS_INT128 MUU_DOXYGEN
 	#endif
 #endif
 //% preprocessor::has_int128 end
@@ -561,11 +557,7 @@ help me improve support for your target architecture. Thanks!
 	#if defined(__cpp_char8_t) && __cpp_char8_t >= 201811
 		#define MUU_HAS_CHAR8 1
 	#else
-		#ifdef MUU_DOXYGEN
-			#define MUU_HAS_CHAR8 MUU_DOXYGEN
-		#else
-			#define MUU_HAS_CHAR8 0
-		#endif
+		#define MUU_HAS_CHAR8 MUU_DOXYGEN
 	#endif
 #endif
 //% preprocessor::has_char8 end
@@ -578,11 +570,7 @@ help me improve support for your target architecture. Thanks!
 		&& (!MUU_CLANG || MUU_CLANG >= 15)
 		#define MUU_HAS_CONSTEVAL 1
 	#else
-		#ifdef MUU_DOXYGEN
-			#define MUU_HAS_CONSTEVAL MUU_DOXYGEN
-		#else
-			#define MUU_HAS_CONSTEVAL 0
-		#endif
+		#define MUU_HAS_CONSTEVAL MUU_DOXYGEN
 	#endif
 #endif
 //% preprocessor::has_consteval end
