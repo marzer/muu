@@ -2025,6 +2025,17 @@
     <class kind="struct">muu::matrix</class>
     <class kind="struct">muu::constants&lt; matrix&lt; Scalar, Rows, Columns &gt; &gt;</class>
     <namespace>muu</namespace>
+    <member kind="enumeration">
+      <type></type>
+      <name>math_apis</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga0cd7f33ec6506f94457eeca51c30350c</anchor>
+      <arglist></arglist>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350caa9fd6347608dab0c518e601b176cf896">directx</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350ca6785e6b975db5d7cf223101ef1bc2f6f">opengl</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350caded4c7b6067ff91880f12d468d9ef526">right_handed</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350ca6b2ddad42deb0a94d6a00e93bd85535a">left_handed</enumvalue>
+    </member>
     <member kind="function">
       <type>constexpr bool</type>
       <name>infinity_or_nan</name>
@@ -10721,6 +10732,20 @@
       <anchor>afcf61d031627037a510b480bec8ecb08</anchor>
       <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
     </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>perspective_projection</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a225d0a0aa41505d2ee6b210d29f4b43b</anchor>
+      <arglist>(scalar_type vertical_fov, scalar_type aspect_ratio, scalar_type near_clip, scalar_type far_clip) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>perspective_projection</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a97c57adbdb034898f746dda039fca5f7</anchor>
+      <arglist>(scalar_type vertical_fov, const vector&lt; scalar_type, 2 &gt; &amp;screen_size, scalar_type near_clip, scalar_type far_clip) noexcept</arglist>
+    </member>
     <member kind="variable">
       <type>column_type</type>
       <name>m</name>
@@ -10839,6 +10864,13 @@
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>aaeeed3324aeac34a0b04d20928c52d01</anchor>
       <arglist>(const matrix&lt; scalar_type, R, C &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_direction</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa5589d35b94f064a1a5a6b78fd8317ee</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;dir) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
@@ -11470,6 +11502,20 @@
       <anchor>afcf61d031627037a510b480bec8ecb08</anchor>
       <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
     </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>perspective_projection</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a225d0a0aa41505d2ee6b210d29f4b43b</anchor>
+      <arglist>(scalar_type vertical_fov, scalar_type aspect_ratio, scalar_type near_clip, scalar_type far_clip) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>perspective_projection</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a97c57adbdb034898f746dda039fca5f7</anchor>
+      <arglist>(scalar_type vertical_fov, const vector&lt; scalar_type, 2 &gt; &amp;screen_size, scalar_type near_clip, scalar_type far_clip) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>matrix&lt; scalar_type, 3, 3 &gt;</name>
@@ -11838,6 +11884,20 @@
       <anchor>afcf61d031627037a510b480bec8ecb08</anchor>
       <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
     </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>perspective_projection</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a225d0a0aa41505d2ee6b210d29f4b43b</anchor>
+      <arglist>(scalar_type vertical_fov, scalar_type aspect_ratio, scalar_type near_clip, scalar_type far_clip) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>perspective_projection</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a97c57adbdb034898f746dda039fca5f7</anchor>
+      <arglist>(scalar_type vertical_fov, const vector&lt; scalar_type, 2 &gt; &amp;screen_size, scalar_type near_clip, scalar_type far_clip) noexcept</arglist>
+    </member>
     <member kind="variable">
       <type>column_type</type>
       <name>m</name>
@@ -11977,6 +12037,13 @@
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>aaeeed3324aeac34a0b04d20928c52d01</anchor>
       <arglist>(const matrix&lt; scalar_type, R, C &gt; &amp;rot) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>from_3d_direction</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>aa5589d35b94f064a1a5a6b78fd8317ee</anchor>
+      <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;dir) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr matrix</type>
@@ -12586,6 +12653,20 @@
       <anchorfile>structmuu_1_1matrix.html</anchorfile>
       <anchor>afcf61d031627037a510b480bec8ecb08</anchor>
       <arglist>(const vector&lt; scalar_type, 3 &gt; &amp;xlat) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>perspective_projection</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a225d0a0aa41505d2ee6b210d29f4b43b</anchor>
+      <arglist>(scalar_type vertical_fov, scalar_type aspect_ratio, scalar_type near_clip, scalar_type far_clip) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr matrix</type>
+      <name>perspective_projection</name>
+      <anchorfile>structmuu_1_1matrix.html</anchorfile>
+      <anchor>a97c57adbdb034898f746dda039fca5f7</anchor>
+      <arglist>(scalar_type vertical_fov, const vector&lt; scalar_type, 2 &gt; &amp;screen_size, scalar_type near_clip, scalar_type far_clip) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
@@ -22684,6 +22765,17 @@
     </member>
     <member kind="enumeration">
       <type></type>
+      <name>math_apis</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga0cd7f33ec6506f94457eeca51c30350c</anchor>
+      <arglist></arglist>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350caa9fd6347608dab0c518e601b176cf896">directx</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350ca6785e6b975db5d7cf223101ef1bc2f6f">opengl</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350caded4c7b6067ff91880f12d468d9ef526">right_handed</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350ca6b2ddad42deb0a94d6a00e93bd85535a">left_handed</enumvalue>
+    </member>
+    <member kind="enumeration">
+      <type></type>
       <name>uuid_variant</name>
       <anchorfile>namespacemuu.html</anchorfile>
       <anchor>a0af5ea664875aa7ce96e0105152bc59c</anchor>
@@ -27947,6 +28039,17 @@
     <class kind="struct">muu::sat_tester</class>
     <class kind="struct">muu::triangle</class>
     <class kind="struct">muu::vector</class>
+    <member kind="enumeration">
+      <type></type>
+      <name>math_apis</name>
+      <anchorfile>group__math.html</anchorfile>
+      <anchor>ga0cd7f33ec6506f94457eeca51c30350c</anchor>
+      <arglist></arglist>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350caa9fd6347608dab0c518e601b176cf896">directx</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350ca6785e6b975db5d7cf223101ef1bc2f6f">opengl</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350caded4c7b6067ff91880f12d468d9ef526">right_handed</enumvalue>
+      <enumvalue file="group__math.html" anchor="gga0cd7f33ec6506f94457eeca51c30350ca6b2ddad42deb0a94d6a00e93bd85535a">left_handed</enumvalue>
+    </member>
     <member kind="enumeration">
       <type></type>
       <name>box_corner</name>

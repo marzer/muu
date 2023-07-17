@@ -101,6 +101,7 @@
                 <li><a href="#inverse-determinant">Inverse &amp; Determinant</a></li>
                 <li><a href="#multiplication">Multiplication</a></li>
                 <li><a href="#orthonormalization">Orthonormalization</a></li>
+                <li><a href="#projection">Projection</a></li>
                 <li><a href="#rotation">Rotation</a></li>
                 <li><a href="#scalar-accessors">Scalar accessors</a></li>
                 <li><a href="#scaling">Scaling</a></li>
@@ -459,6 +460,28 @@
             <dd>Returns true if the 3x3 part of the matrix is orthonormalized.</dd>
           </dl>
         </section>
+        <section id="projection">
+          <h2><a href="#projection">Projection</a></h2>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>These functions are only available when the matrix is 4x4 and has a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          <dl class="m-doc">
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc" href="group__math.html#ga0cd7f33ec6506f94457eeca51c30350c">math_<wbr/>apis</a> Mode = (<a class="m-doc" href="group__math.html#gga0cd7f33ec6506f94457eeca51c30350caa9fd6347608dab0c518e601b176cf896">math_apis::<wbr/>directx</a> | <a class="m-doc" href="group__math.html#gga0cd7f33ec6506f94457eeca51c30350caded4c7b6067ff91880f12d468d9ef526">math_apis::<wbr/>right_handed</a>)&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a225d0a0aa41505d2ee6b210d29f4b43b">perspective_projection</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> vertical_fov,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> aspect_ratio,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> near_clip,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> far_clip) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a perspective projection matrix.</dd>
+            <dt>
+              <div class="m-doc-template">template&lt;<a class="m-doc" href="group__math.html#ga0cd7f33ec6506f94457eeca51c30350c">math_<wbr/>apis</a> Mode = (<a class="m-doc" href="group__math.html#gga0cd7f33ec6506f94457eeca51c30350caa9fd6347608dab0c518e601b176cf896">math_apis::<wbr/>directx</a> | <a class="m-doc" href="group__math.html#gga0cd7f33ec6506f94457eeca51c30350caded4c7b6067ff91880f12d468d9ef526">math_apis::<wbr/>right_handed</a>)&gt;</div>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a97c57adbdb034898f746dda039fca5f7">perspective_projection</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> vertical_fov,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt;&amp; screen_size,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> near_clip,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> far_clip) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a perspective projection matrix.</dd>
+          </dl>
+        </section>
         <section id="rotation">
           <h2><a href="#rotation">Rotation</a></h2>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>These functions are only available when the matrix is a typical 2D or 3D rotation matrix (i.e. one of 2x2, 2x3, 3x3, 3x4 or 4x4) and has a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
@@ -468,6 +491,10 @@
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ac253df72b0a6090ea245617ff6928f75">from_2d_rotation</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, R, C&gt;&amp; rot) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a 2D rotation matrix from the lower 2x2 part of a matrix.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aa5589d35b94f064a1a5a6b78fd8317ee">from_3d_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a 3D rotation matrix from a forward direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
             <dt>
               <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#aaeeed3324aeac34a0b04d20928c52d01">from_3d_rotation</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, R, C&gt;&amp; rot) -&gt; <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -1365,6 +1392,96 @@ template&lt;typename T&gt;
             <p>Returns true if the 3x3 part of the matrix is orthonormalized.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is a typical 3D rotation matrix (i.e. one of 3x3, 3x4 or 4x4) and has a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside><aside class="m-note m-default"><h4>See also</h4><p><a class="poxy-external" href="https://en.wikipedia.org/wiki/Orthonormal_basis" target="_blank">Orthonormal basis</a></p></aside>
           </div></section>
+          <section class="m-doc-details" id="a225d0a0aa41505d2ee6b210d29f4b43b"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;<br/>
+template&lt;<a class="m-doc" href="group__math.html#ga0cd7f33ec6506f94457eeca51c30350c">math_<wbr/>apis</a> Mode = (<a class="m-doc" href="group__math.html#gga0cd7f33ec6506f94457eeca51c30350caa9fd6347608dab0c518e601b176cf896">math_apis::<wbr/>directx</a> | <a class="m-doc" href="group__math.html#gga0cd7f33ec6506f94457eeca51c30350caded4c7b6067ff91880f12d468d9ef526">math_apis::<wbr/>right_handed</a>)&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a225d0a0aa41505d2ee6b210d29f4b43b">perspective_projection</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> vertical_fov,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> aspect_ratio,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> near_clip,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> far_clip) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a perspective projection matrix.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Mode</td>
+                  <td>Select the combination of flags for your math/graphics API.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>vertical_fov</td>
+                  <td>Vertical field-of-view in radians.</td>
+                </tr>
+                <tr>
+                  <td>aspect_ratio</td>
+                  <td>Screen aspect ratio (<code>width / height</code>).</td>
+                </tr>
+                <tr>
+                  <td>near_clip</td>
+                  <td>The camera's near-clip <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a> distance.</td>
+                </tr>
+                <tr>
+                  <td>far_clip</td>
+                  <td>The camera's far-clip <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a> distance.</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 4x4 and has a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="a97c57adbdb034898f746dda039fca5f7"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;<br/>
+template&lt;<a class="m-doc" href="group__math.html#ga0cd7f33ec6506f94457eeca51c30350c">math_<wbr/>apis</a> Mode = (<a class="m-doc" href="group__math.html#gga0cd7f33ec6506f94457eeca51c30350caa9fd6347608dab0c518e601b176cf896">math_apis::<wbr/>directx</a> | <a class="m-doc" href="group__math.html#gga0cd7f33ec6506f94457eeca51c30350caded4c7b6067ff91880f12d468d9ef526">math_apis::<wbr/>right_handed</a>)&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a97c57adbdb034898f746dda039fca5f7">perspective_projection</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> vertical_fov,
+              const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 2&gt;&amp; screen_size,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> near_clip,
+              <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> far_clip) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a perspective projection matrix.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Template parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">Mode</td>
+                  <td>Select the combination of flags for your math/graphics API.</td>
+                </tr>
+              </tbody>
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>vertical_fov</td>
+                  <td>Vertical field-of-view in radians.</td>
+                </tr>
+                <tr>
+                  <td>screen_size</td>
+                  <td>The screen's size (width + height).</td>
+                </tr>
+                <tr>
+                  <td>near_clip</td>
+                  <td>The camera's near-clip <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a> distance.</td>
+                </tr>
+                <tr>
+                  <td>far_clip</td>
+                  <td>The camera's far-clip <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a> distance.</td>
+                </tr>
+              </tbody>
+            </table>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available when the matrix is 4x4 and has a floating-point <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>.</p></aside>
+          </div></section>
           <section class="m-doc-details" id="ac253df72b0a6090ea245617ff6928f75"><div>
             <h3>
               <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;<br/> template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;
@@ -1373,6 +1490,15 @@ template&lt;typename T&gt;
             </h3>
             <p>Creates a 2D rotation matrix from the lower 2x2 part of a matrix.</p>
 <aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> is a floating-point type and the destination matrix is 2x2, 2x3 or 3x3.</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="aa5589d35b94f064a1a5a6b78fd8317ee"><div>
+            <h3>
+              <div class="m-doc-template"> template&lt;typename Scalar, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Rows, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Columns&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1matrix.html">matrix</a> muu::<wbr/>matrix&lt;Scalar, Rows, Columns&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa5589d35b94f064a1a5a6b78fd8317ee">from_3d_direction</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;<a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a>, 3&gt;&amp; dir) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a 3D rotation matrix from a forward direction <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</p>
+<aside class="m-block m-special"><h4>Conditional availability </h4><p>This function is only available <a class="m-doc" href="structmuu_1_1matrix.html#ac0c7c109a5cfe476070e466f0fef8f05">scalar_<wbr/>type</a> is a floating-point type and the destination matrix is 3x4 or 4x4.</p></aside>
           </div></section>
           <section class="m-doc-details" id="aaeeed3324aeac34a0b04d20928c52d01"><div>
             <h3>
