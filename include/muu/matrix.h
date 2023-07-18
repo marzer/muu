@@ -935,61 +935,16 @@ namespace muu::impl
 			// http://perry.cz/articles/ProjectionMatrix.xhtml
 			// http://www.songho.ca/opengl/gl_projectionmatrix.html
 
+			MUU_FMA_BLOCK;
+
 			const auto b = T{ 1 } / muu::tan(vertical_fov / T{ 2 });
 			const auto a = b / aspect_ratio;
 
-			if constexpr ((Mode & math_apis::directx) == math_apis::directx)
-			{
-				const auto c = far_clip / (near_clip - far_clip);
-
-				if constexpr ((Mode & math_apis::directx) == math_apis::right_handed)
-				{
-					const auto e = near_clip * far_clip / (near_clip - far_clip);
-
-					// clang-format off
-					return
-					{
-						a,		T{},	T{},	T{},
-						T{},	b,		T{},	T{},
-						T{},	T{},	c,		e,
-						T{},	T{},	T{-1},	T{}
-					};
-					// clang-format on
-				}
-				else if constexpr ((Mode & math_apis::directx) == math_apis::left_handed)
-				{
-					const auto e = -near_clip * far_clip / (far_clip - near_clip);
-
-					// clang-format off
-					return
-					{
-						a,		T{},	T{},	T{},
-						T{},	b,		T{},	T{},
-						T{},	T{},	c,		e,
-						T{},	T{},	T{1},	T{}
-					};
-					// clang-format on
-				}
-			}
-			else if constexpr (Mode == math_apis::opengl)
+			if constexpr (!!(Mode & math_apis::opengl))
 			{
 				const auto c = -(far_clip + near_clip) / (far_clip - near_clip);
 
-				if constexpr ((Mode & math_apis::directx) == math_apis::right_handed)
-				{
-					const auto e = (T{ -2 } * far_clip * near_clip) / (far_clip - near_clip);
-
-					// clang-format off
-					return
-					{
-						a,		T{},	T{},	T{},
-						T{},	b,		T{},	T{},
-						T{},	T{},	c,		e,
-						T{},	T{},	T{-1},	T{}
-					};
-					// clang-format on
-				}
-				else if constexpr ((Mode & math_apis::directx) == math_apis::left_handed)
+				if constexpr (!!(Mode & math_apis::left_handed))
 				{
 					const auto e = (T{ 2 } * far_clip * near_clip) / (far_clip - near_clip);
 
@@ -1003,11 +958,58 @@ namespace muu::impl
 					};
 					// clang-format on
 				}
+				else // right-handed
+				{
+					const auto e = (T{ -2 } * far_clip * near_clip) / (far_clip - near_clip);
+
+					// clang-format off
+					return
+					{
+						a,		T{},	T{},	T{},
+						T{},	b,		T{},	T{},
+						T{},	T{},	c,		e,
+						T{},	T{},	T{-1},	T{}
+					};
+					// clang-format on
+				}
+			}
+			else // directx
+			{
+				const auto c = far_clip / (near_clip - far_clip);
+
+				if constexpr (!!(Mode & math_apis::left_handed))
+				{
+					const auto e = -near_clip * far_clip / (far_clip - near_clip);
+
+					// clang-format off
+					return
+					{
+						a,		T{},	T{},	T{},
+						T{},	b,		T{},	T{},
+						T{},	T{},	c,		e,
+						T{},	T{},	T{1},	T{}
+					};
+					// clang-format on
+				}
+				else // right-handed
+				{
+					const auto e = near_clip * far_clip / (near_clip - far_clip);
+
+					// clang-format off
+					return
+					{
+						a,		T{},	T{},	T{},
+						T{},	b,		T{},	T{},
+						T{},	T{},	c,		e,
+						T{},	T{},	T{-1},	T{}
+					};
+					// clang-format on
+				}
 			}
 		}
 
 		template <math_apis Mode = (math_apis::directx | math_apis::right_handed)>
-		MUU_PURE_GETTER
+		MUU_PURE_INLINE_GETTER
 		static constexpr matrix<T, 4, 4> MUU_VECTORCALL perspective_projection(T vertical_fov,
 																			   MUU_VPARAM(vector<T, 2>) screen_size,
 																			   T near_clip,
