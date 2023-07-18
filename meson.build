@@ -351,6 +351,8 @@ endif
 # subdirectories
 #=======================================================================================================================
 
+extra_files = files('README.md', 'muu.natvis', 'cpp.hint')
+
 subdir('include')
 
 subdir('src')

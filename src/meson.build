@@ -48,6 +48,9 @@ elif compiler_supports_cpp20
 	lib_overrides += 'cpp_std=none' # switch is set above
 endif
 
+lib_extra_files = []
+lib_extra_files += extra_files
+
 # static lib
 lib_static = false
 if get_option('default_library') in [ 'static', 'both' ]
@@ -59,7 +62,8 @@ if get_option('default_library') in [ 'static', 'both' ]
 		include_directories: include_dir,
 		dependencies: lib_dependencies,
 		override_options: lib_overrides,
-		install: false
+		install: false,
+		extra_files: lib_extra_files
 	)
 endif
 
@@ -75,7 +79,8 @@ if get_option('default_library') in [ 'shared', 'both' ]
 		version: meson.project_version(),
 		dependencies: lib_dependencies,
 		override_options: lib_overrides,
-		install: true
+		install: true,
+		extra_files: lib_extra_files
 	)
 endif
 
