@@ -14594,6 +14594,13 @@
       <anchor>a7f194c8dfbe9178921655c7d0c9a33cc</anchor>
       <arglist>(const bounding_sphere&lt; scalar_type &gt; &amp;bs) const noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr result_type</type>
+      <name>hits</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>aa4dd37cd0e89251aa53e7f65b58966ec</anchor>
+      <arglist>(const bounding_box&lt; scalar_type &gt; &amp;bb) const noexcept</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static constexpr result_type</type>
       <name>hits</name>
@@ -14614,6 +14621,41 @@
       <anchorfile>structmuu_1_1ray.html</anchorfile>
       <anchor>ad4e7a1564b1b47088ee9af1c53d41e73</anchor>
       <arglist>(const ray &amp;r, const bounding_sphere&lt; scalar_type &gt; &amp;bs) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr result_type</type>
+      <name>hits</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a62da68fde2ccf8817c04320fa8e6fc9d</anchor>
+      <arglist>(const ray &amp;r, const bounding_box&lt; scalar_type &gt; &amp;bb) noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>at</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>ac3914646c6fc2788d1d00cbf52954ab7</anchor>
+      <arglist>(const result_type &amp;hit) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr ray</type>
+      <name>bounce</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a7cab70cfe600286318d9417b5b5d03ea</anchor>
+      <arglist>(const result_type &amp;hit, const vector_type &amp;dir) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>at</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a0d6909d87e2c19d8da71f34800824b7c</anchor>
+      <arglist>(const ray &amp;r, const result_type &amp;hit) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr ray</type>
+      <name>bounce</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>ae74e68dc1ad9bd4ac7edca6ebd9ff90a</anchor>
+      <arglist>(const ray &amp;r, const result_type &amp;hit, const vector_type &amp;dir) noexcept</arglist>
     </member>
   </compound>
   <compound kind="struct">
