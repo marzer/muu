@@ -236,20 +236,125 @@ namespace muu
 		// ray x sphere
 		//--------------------------------
 
-		/// \brief	Tests if a ray hits a sphere.
+		/// \brief	Tests if a ray hits a bounding-sphere.
 		MUU_PURE_GETTER
 		static constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(ray) r,
 														 MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept;
 
-		/// \brief	Tests if the ray hits a sphere.
+		/// \brief	Tests if the ray hits a bounding-sphere.
 		MUU_PURE_INLINE_GETTER
 		constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept
 		{
 			return hits(*this, bs);
 		}
 
+		//--------------------------------
+		// ray x aabb
+		//--------------------------------
+
+		/// \brief	Tests if a ray hits a bounding-box.
+		MUU_PURE_GETTER
+		static constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(ray) r,
+														 MUU_VPARAM(bounding_box<scalar_type>) bb) noexcept;
+
+		/// \brief	Tests if the ray hits a bounding-box.
+		MUU_PURE_INLINE_GETTER
+		constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(bounding_box<scalar_type>) bb) const noexcept
+		{
+			return hits(*this, bb);
+		}
+
 				/// @}
 	#endif // hit tests
+
+	#if 1  // hit positions -------------------------------------------------------------------------------------
+		   /// \name Hit positions
+		   /// @{
+
+		/// \brief	Converts a hit distance into a hit position from a ray.
+		MUU_PURE_GETTER
+		static constexpr vector_type MUU_VECTORCALL at(MUU_VPARAM(ray) r, scalar_type distance) noexcept
+		{
+			return r.origin + r.direction * distance;
+		}
+
+		/// \brief	Converts a hit result into a hit position from a ray.
+		/// \attention Assumes the hit contains a value!
+		MUU_PURE_INLINE_GETTER
+		static constexpr vector_type MUU_VECTORCALL at(MUU_VPARAM(ray) r, MUU_VPARAM(result_type) hit) noexcept
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(hit);
+
+			at(r, *hit);
+		}
+
+		/// \brief	Converts a hit distance into a hit position from this ray.
+		MUU_PURE_INLINE_GETTER
+		constexpr vector_type MUU_VECTORCALL at(scalar_type distance) const noexcept
+		{
+			return at(*this, distance);
+		}
+
+		/// \brief	Converts a hit result into a hit position from this ray.
+		/// \attention Assumes the hit contains a value!
+		MUU_PURE_INLINE_GETTER
+		constexpr vector_type MUU_VECTORCALL at(MUU_VPARAM(result_type) hit) const noexcept
+		{
+			return at(*this, hit);
+		}
+
+		/// \brief	Creates a new ray as a 'bounce' from the hit position of a previous one.
+		/// \param r		The previous ray
+		/// \param distance	The previous hit distance
+		/// \param dir		The direction for the new ray
+		/// \returns		`ray{ r.at(distance), dir }`.
+		MUU_PURE_GETTER
+		static constexpr ray MUU_VECTORCALL bounce(MUU_VPARAM(ray) r,
+												   scalar_type distance,
+												   MUU_VPARAM(vector_type) dir) noexcept
+		{
+			return ray{ at(r, distance), dir };
+		}
+
+		/// \brief	Creates a new ray as a 'bounce' from the hit position of a previous one.
+		/// \param r	The previous ray
+		/// \param hit	The previous hit position
+		/// \param dir	The direction for the new ray
+		/// \returns	`ray{ r.at(hit), dir }`.
+		/// \attention Assumes the hit contains a value!
+		MUU_PURE_INLINE_GETTER
+		static constexpr ray MUU_VECTORCALL bounce(MUU_VPARAM(ray) r,
+												   MUU_VPARAM(result_type) hit,
+												   MUU_VPARAM(vector_type) dir) noexcept
+		{
+			MUU_CONSTEXPR_SAFE_ASSERT(hit);
+
+			return bounce(r, *hit, dir);
+		}
+
+		/// \brief	Creates a new ray as a 'bounce' from a previous hit position of this one.
+		/// \param distance	The previous hit distance
+		/// \param dir	The direction for the new ray
+		/// \returns	`ray{ r.at(distance), dir }`.
+		MUU_PURE_INLINE_GETTER
+		constexpr ray MUU_VECTORCALL bounce(scalar_type distance, MUU_VPARAM(vector_type) dir) const noexcept
+		{
+			return bounce(*this, distance, dir);
+		}
+
+		/// \brief	Creates a new ray as a 'bounce' from a previous hit position of this one.
+		/// \param hit	The previous hit position
+		/// \param dir	The direction for the new ray
+		/// \returns	`ray{ r.at(hit), dir }`.
+		/// \attention Assumes the hit contains a value!
+		MUU_PURE_INLINE_GETTER
+		constexpr ray MUU_VECTORCALL bounce(MUU_VPARAM(result_type) hit, MUU_VPARAM(vector_type) dir) const noexcept
+		{
+			return bounce(*this, hit, dir);
+		}
+
+				/// @}
+	#endif // hit positions
 
 	#if 1  // misc ---------------------------------------------------------------------------------------------------
 
@@ -352,6 +457,9 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #endif
 #ifdef MUU_BOUNDING_SPHERE_H
 	#include "impl/ray_x_bounding_sphere.h"
+#endif
+#ifdef MUU_BOUNDING_BOX_H
+	#include "impl/ray_x_bounding_box.h"
 #endif
 /// \endcond
 

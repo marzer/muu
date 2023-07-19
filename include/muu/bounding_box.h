@@ -639,7 +639,7 @@ namespace muu
 				/// @}
 	#endif // corners
 
-	#if 1 // translation -------------------------------------------------------------------
+	#if 1  // translation -------------------------------------------------------------------
 		/// \name Translation
 		/// @{
 
@@ -670,7 +670,7 @@ namespace muu
 				/// @}
 	#endif // translation
 
-	#if 1 // scaling -------------------------------------------------------------------
+	#if 1  // scaling -------------------------------------------------------------------
 		/// \name Scaling
 		/// @{
 
@@ -701,7 +701,7 @@ namespace muu
 				/// @}
 	#endif // scaling
 
-	#if 1 // transformation -------------------------------------------------------------------
+	#if 1  // transformation -------------------------------------------------------------------
 		/// \name Transformation
 		/// @{
 
@@ -754,7 +754,7 @@ namespace muu
 				/// @}
 	#endif // transformation
 
-	#if 1 // appending -------------------------------------------------------------------
+	#if 1  // appending -------------------------------------------------------------------
 		/// \name Appending
 		/// @{
 
@@ -832,7 +832,7 @@ namespace muu
 	/// @}
 	#endif // appending
 
-	#if 1 // point queries ------------------------------------------------------------------------------
+	#if 1  // point queries ------------------------------------------------------------------------------
 		/// \name Point queries
 		/// @{
 
@@ -846,7 +846,7 @@ namespace muu
 				/// @}
 	#endif // point queries
 
-	#if 1 // collision detection ------------------------------------------------------------------------------
+	#if 1  // collision detection ------------------------------------------------------------------------------
 		/// \name Collision detection
 		/// @{
 
@@ -1121,7 +1121,7 @@ namespace muu
 				/// @}
 	#endif // collision detection
 
-	#if 1 // misc ---------------------------------------------------------------------------------------------------
+	#if 1  // misc ---------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a bounding box out to a text stream.
 		template <typename Char, typename Traits>
@@ -1146,19 +1146,19 @@ namespace muu
 	bounding_box(vector<C, 3>, vector<E, 3>) -> bounding_box<impl::highest_ranked<C, E>>;
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<CX, CY, CZ>), typename CX, typename CY, typename CZ, typename E)
-	bounding_box(CX, CY, CZ, vector<E, 3>)->bounding_box<impl::highest_ranked<CX, CY, CZ, E>>;
+	bounding_box(CX, CY, CZ, vector<E, 3>) -> bounding_box<impl::highest_ranked<CX, CY, CZ, E>>;
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<EX, EY, EZ>), typename C, typename EX, typename EY, typename EZ)
-	bounding_box(vector<C, 3>, EX, EY, EZ)->bounding_box<impl::highest_ranked<C, EX, EY, EZ>>;
+	bounding_box(vector<C, 3>, EX, EY, EZ) -> bounding_box<impl::highest_ranked<C, EX, EY, EZ>>;
 
 	MUU_CONSTRAINED_TEMPLATE(is_arithmetic<E>, typename C, typename E)
-	bounding_box(vector<C, 3>, E)->bounding_box<impl::highest_ranked<C, E>>;
+	bounding_box(vector<C, 3>, E) -> bounding_box<impl::highest_ranked<C, E>>;
 
 	template <typename E>
 	bounding_box(vector<E, 3>) -> bounding_box<E>;
 
 	MUU_CONSTRAINED_TEMPLATE(is_arithmetic<E>, typename E)
-	bounding_box(E)->bounding_box<std::remove_cv_t<E>>;
+	bounding_box(E) -> bounding_box<std::remove_cv_t<E>>;
 
 	/// \endcond
 }
@@ -1390,6 +1390,9 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #endif
 #ifdef MUU_ORIENTED_BOUNDING_BOX_H
 	#include "impl/bounding_box_x_oriented_bounding_box.h"
+#endif
+#ifdef MUU_RAY_H
+	#include "impl/ray_x_bounding_box.h"
 #endif
 /// \endcond
 

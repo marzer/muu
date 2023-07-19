@@ -996,6 +996,7 @@ namespace muu::impl
 		using vector_param = muu::vector_param<vector_type>;
 		using planes	   = planes_common<scalar_type>;
 		using triangles	   = triangles_common<scalar_type>;
+		using aabbs		   = aabbs_common<scalar_type>;
 		using result_type  = std::optional<scalar_type>;
 
 		MUU_PURE_GETTER
@@ -1088,6 +1089,38 @@ namespace muu::impl
 
 			// normal intersection
 			return a - f;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr result_type hits_aabb_min_max(vector_param ray_origin,
+													   vector_param ray_direction,
+													   vector_param box_min,
+													   vector_param box_max) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			const auto t1	= (box_min.x - ray_origin.x) / ray_direction.x;
+			const auto t2	= (box_max.x - ray_origin.x) / ray_direction.x;
+			const auto t3	= (box_min.y - ray_origin.y) / ray_direction.y;
+			const auto t4	= (box_max.y - ray_origin.y) / ray_direction.y;
+			const auto t5	= (box_min.z - ray_origin.z) / ray_direction.z;
+			const auto t6	= (box_max.z - ray_origin.z) / ray_direction.z;
+			const auto tmin = muu::max(muu::min(t1, t2), muu::min(t3, t4), muu::min(t5, t6));
+			const auto tmax = muu::min(muu::max(t1, t2), muu::max(t3, t4), muu::max(t5, t6));
+
+			if (tmax < scalar_type{} || tmin > tmax)
+				return {};
+
+			return result_type{ tmin < scalar_type{} ? tmax : tmin };
+		}
+
+		MUU_PURE_GETTER
+		static constexpr result_type hits_aabb(vector_param ray_origin,
+											   vector_param ray_direction,
+											   vector_param box_center,
+											   vector_param box_extents) noexcept
+		{
+			return hits_aabb_min_max(ray_origin, ray_direction, box_center - box_extents, box_center + box_extents);
 		}
 	};
 }
