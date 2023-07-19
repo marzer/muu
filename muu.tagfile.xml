@@ -14633,8 +14633,22 @@
       <type>constexpr vector_type</type>
       <name>at</name>
       <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>aa8fcf2a66691856db12170a68420f775</anchor>
+      <arglist>(scalar_type distance) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr vector_type</type>
+      <name>at</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
       <anchor>ac3914646c6fc2788d1d00cbf52954ab7</anchor>
       <arglist>(const result_type &amp;hit) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr ray</type>
+      <name>bounce</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>ad4b7dda91ae3ac35b5faef96b24bdaf7</anchor>
+      <arglist>(scalar_type distance, const vector_type &amp;dir) const noexcept</arglist>
     </member>
     <member kind="function">
       <type>constexpr ray</type>
@@ -14647,8 +14661,22 @@
       <type>static constexpr vector_type</type>
       <name>at</name>
       <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a2053e62cefee0390541e56f7e1143691</anchor>
+      <arglist>(const ray &amp;r, scalar_type distance) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr vector_type</type>
+      <name>at</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
       <anchor>a0d6909d87e2c19d8da71f34800824b7c</anchor>
       <arglist>(const ray &amp;r, const result_type &amp;hit) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr ray</type>
+      <name>bounce</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a8a9565272a340ec87b0cfeb80912374f</anchor>
+      <arglist>(const ray &amp;r, scalar_type distance, const vector_type &amp;dir) noexcept</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static constexpr ray</type>

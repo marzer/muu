@@ -216,21 +216,41 @@
         <section id="hit-positions">
           <h2><a href="#hit-positions">Hit positions</a></h2>
           <dl class="m-doc">
+            <dt id="a2053e62cefee0390541e56f7e1143691">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a2053e62cefee0390541e56f7e1143691">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
+              <a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a> distance) -&gt; <a class="m-doc" href="structmuu_1_1ray.html#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converts a hit distance into a hit position from a ray.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a0d6909d87e2c19d8da71f34800824b7c">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
               const <a class="m-doc" href="structmuu_1_1ray.html#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a>&amp; hit) -&gt; <a class="m-doc" href="structmuu_1_1ray.html#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converts a hit result into a hit position from a ray.</dd>
             <dt>
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a8a9565272a340ec87b0cfeb80912374f">bounce</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
+              <a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a> distance,
+              const <a class="m-doc" href="structmuu_1_1ray.html#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a>&amp; dir) -&gt; <a class="m-doc" href="structmuu_1_1ray.html">ray</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a new ray as a 'bounce' from the hit position of a previous one.</dd>
+            <dt>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#ae74e68dc1ad9bd4ac7edca6ebd9ff90a">bounce</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
               const <a class="m-doc" href="structmuu_1_1ray.html#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a>&amp; hit,
               const <a class="m-doc" href="structmuu_1_1ray.html#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a>&amp; dir) -&gt; <a class="m-doc" href="structmuu_1_1ray.html">ray</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Creates a new ray as a 'bounce' from the hit position of a previous one.</dd>
+            <dt id="aa8fcf2a66691856db12170a68420f775">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aa8fcf2a66691856db12170a68420f775">at</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a> distance) const -&gt; <a class="m-doc" href="structmuu_1_1ray.html#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Converts a hit distance into a hit position from this ray.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ac3914646c6fc2788d1d00cbf52954ab7">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a>&amp; hit) const -&gt; <a class="m-doc" href="structmuu_1_1ray.html#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converts a hit result into a hit position from this ray.</dd>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad4b7dda91ae3ac35b5faef96b24bdaf7">bounce</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a> distance,
+              const <a class="m-doc" href="structmuu_1_1ray.html#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a>&amp; dir) const -&gt; <a class="m-doc" href="structmuu_1_1ray.html">ray</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Creates a new ray as a 'bounce' from a previous hit position of this one.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a7cab70cfe600286318d9417b5b5d03ea">bounce</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a>&amp; hit,
               const <a class="m-doc" href="structmuu_1_1ray.html#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a>&amp; dir) const -&gt; <a class="m-doc" href="structmuu_1_1ray.html">ray</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -366,6 +386,42 @@ template&lt;typename T&gt;
             <p>Converts a hit result into a hit position from a ray.</p>
 <aside class="m-note m-warning"><h4>Attention</h4><p>Assumes the hit contains a value!</p></aside>
           </div></section>
+          <section class="m-doc-details" id="a8a9565272a340ec87b0cfeb80912374f"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1ray.html">ray</a> muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8a9565272a340ec87b0cfeb80912374f">bounce</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
+              <a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a> distance,
+              const <a class="m-doc" href="structmuu_1_1ray.html#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a>&amp; dir) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a new ray as a 'bounce' from the hit position of a previous one.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">r</td>
+                  <td>The previous ray</td>
+                </tr>
+                <tr>
+                  <td>distance</td>
+                  <td>The previous hit distance</td>
+                </tr>
+                <tr>
+                  <td>dir</td>
+                  <td>The direction for the new ray</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><code>ray{ r.at(distance), dir }</code>.</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div></section>
           <section class="m-doc-details" id="ae74e68dc1ad9bd4ac7edca6ebd9ff90a"><div>
             <h3>
               <div class="m-doc-template">
@@ -401,6 +457,7 @@ template&lt;typename T&gt;
                 </tr>
               </tfoot>
             </table>
+<aside class="m-note m-warning"><h4>Attention</h4><p>Assumes the hit contains a value!</p></aside>
           </div></section>
           <section class="m-doc-details" id="ac3914646c6fc2788d1d00cbf52954ab7"><div>
             <h3>
@@ -411,6 +468,37 @@ template&lt;typename T&gt;
             </h3>
             <p>Converts a hit result into a hit position from this ray.</p>
 <aside class="m-note m-warning"><h4>Attention</h4><p>Assumes the hit contains a value!</p></aside>
+          </div></section>
+          <section class="m-doc-details" id="ad4b7dda91ae3ac35b5faef96b24bdaf7"><div>
+            <h3>
+              <div class="m-doc-template">
+                template&lt;typename Scalar&gt;
+              </div>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1ray.html">ray</a> muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad4b7dda91ae3ac35b5faef96b24bdaf7">bounce</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a> distance,
+              const <a class="m-doc" href="structmuu_1_1ray.html#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a>&amp; dir) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+            </h3>
+            <p>Creates a new ray as a 'bounce' from a previous hit position of this one.</p>
+            <table class="m-table m-fullwidth m-flat">
+              <thead>
+                <tr><th colspan="2">Parameters</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="width: 1%">distance</td>
+                  <td>The previous hit distance</td>
+                </tr>
+                <tr>
+                  <td>dir</td>
+                  <td>The direction for the new ray</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Returns</th>
+                  <td><code>ray{ r.at(distance), dir }</code>.</td>
+                </tr>
+              </tfoot>
+            </table>
           </div></section>
           <section class="m-doc-details" id="a7cab70cfe600286318d9417b5b5d03ea"><div>
             <h3>
@@ -442,6 +530,7 @@ template&lt;typename T&gt;
                 </tr>
               </tfoot>
             </table>
+<aside class="m-note m-warning"><h4>Attention</h4><p>Assumes the hit contains a value!</p></aside>
           </div></section>
         </section>
       </div>
