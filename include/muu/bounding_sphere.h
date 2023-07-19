@@ -361,7 +361,7 @@ namespace muu
 				/// @}
 	#endif // equality (approx)
 
-	#if 1 // translation -------------------------------------------------------------------
+	#if 1  // translation -------------------------------------------------------------------
 		/// \name Translation
 		/// @{
 
@@ -392,9 +392,9 @@ namespace muu
 				/// @}
 	#endif // translation
 
-	#if 1 // scaling -------------------------------------------------------------------
-		  /// \name Scaling
-		  /// @{
+	#if 1  // scaling -------------------------------------------------------------------
+		   /// \name Scaling
+		   /// @{
 
 		/// \brief	Scales a bounding sphere.
 		///
@@ -423,7 +423,7 @@ namespace muu
 				/// @}
 	#endif // scaling
 
-	#if 1 // point queries ------------------------------------------------------------------------------
+	#if 1  // point queries ------------------------------------------------------------------------------
 		/// \name Point queries
 		/// @{
 
@@ -442,7 +442,7 @@ namespace muu
 				/// @}
 	#endif // point queries
 
-	#if 1 // collision detection ------------------------------------------------------------------------------
+	#if 1  // collision detection ------------------------------------------------------------------------------
 		/// \name Collision detection
 		/// @{
 
@@ -698,7 +698,7 @@ namespace muu
 				/// @}
 	#endif // collision detection
 
-	#if 1 // misc ---------------------------------------------------------------------------------------------------
+	#if 1  // misc ---------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a bounding_sphere out to a text stream.
 		template <typename Char, typename Traits>
@@ -717,13 +717,13 @@ namespace muu
 	/// \cond
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<C, R>), typename C, typename R)
-	bounding_sphere(vector<C, 3>, R)->bounding_sphere<impl::highest_ranked<C, R>>;
+	bounding_sphere(vector<C, 3>, R) -> bounding_sphere<impl::highest_ranked<C, R>>;
 
 	MUU_CONSTRAINED_TEMPLATE((all_arithmetic<CX, CY, CZ>), typename CX, typename CY, typename CZ, typename R)
-	bounding_sphere(CX, CY, CZ, R)->bounding_sphere<impl::highest_ranked<CX, CY, CZ, R>>;
+	bounding_sphere(CX, CY, CZ, R) -> bounding_sphere<impl::highest_ranked<CX, CY, CZ, R>>;
 
 	MUU_CONSTRAINED_TEMPLATE(is_arithmetic<R>, typename R)
-	bounding_sphere(R)->bounding_sphere<std::remove_cv_t<R>>;
+	bounding_sphere(R) -> bounding_sphere<std::remove_cv_t<R>>;
 
 	/// \endcond
 }
@@ -920,6 +920,9 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #endif
 #ifdef MUU_ORIENTED_BOUNDING_BOX_H
 	#include "impl/oriented_bounding_box_x_bounding_sphere.h"
+#endif
+#ifdef MUU_RAY_H
+	#include "impl/ray_x_bounding_sphere.h"
 #endif
 /// \endcond
 

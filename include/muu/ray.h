@@ -123,7 +123,7 @@ namespace muu
 
 	#endif // constructors
 
-	#if 1 // equality (exact) -------------------------------------------------------------------------------------
+	#if 1  // equality (exact) -------------------------------------------------------------------------------------
 		/// \name Equality (exact)
 		/// @{
 
@@ -168,7 +168,7 @@ namespace muu
 				/// @}
 	#endif // equality (exact)
 
-	#if 1 // equality (approx) -----------------------------------------------------------------------------------
+	#if 1  // equality (approx) -----------------------------------------------------------------------------------
 		/// \name Equality (approximate)
 		/// @{
 
@@ -197,7 +197,7 @@ namespace muu
 				/// @}
 	#endif // equality (approx)
 
-	#if 1 // hit tests -------------------------------------------------------------------------------------
+	#if 1  // hit tests -------------------------------------------------------------------------------------
 		/// \name Hit tests
 		/// @{
 
@@ -205,9 +205,11 @@ namespace muu
 		// ray x plane
 		//--------------------------------
 
+		/// \brief	Tests if a ray hits a plane.
 		MUU_PURE_GETTER
 		static constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(ray) r, MUU_VPARAM(plane<scalar_type>) p) noexcept;
 
+		/// \brief	Tests if the ray hits a plane.
 		MUU_PURE_INLINE_GETTER
 		constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(plane<scalar_type>) p) const noexcept
 		{
@@ -218,20 +220,38 @@ namespace muu
 		// ray x triangle
 		//--------------------------------
 
+		/// \brief	Tests if a ray hits a triangle.
 		MUU_PURE_GETTER
 		static constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(ray) r,
 														 MUU_VPARAM(triangle<scalar_type>) tri) noexcept;
 
+		/// \brief	Tests if the ray hits a plane.
 		MUU_PURE_INLINE_GETTER
 		constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(triangle<scalar_type>) tri) const noexcept
 		{
 			return hits(*this, tri);
 		}
 
+		//--------------------------------
+		// ray x sphere
+		//--------------------------------
+
+		/// \brief	Tests if a ray hits a sphere.
+		MUU_PURE_GETTER
+		static constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(ray) r,
+														 MUU_VPARAM(bounding_sphere<scalar_type>) bs) noexcept;
+
+		/// \brief	Tests if the ray hits a sphere.
+		MUU_PURE_INLINE_GETTER
+		constexpr result_type MUU_VECTORCALL hits(MUU_VPARAM(bounding_sphere<scalar_type>) bs) const noexcept
+		{
+			return hits(*this, bs);
+		}
+
 				/// @}
 	#endif // hit tests
 
-	#if 1 // misc ---------------------------------------------------------------------------------------------------
+	#if 1  // misc ---------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a ray out to a text stream.
 		template <typename Char, typename Traits>
@@ -258,7 +278,7 @@ namespace muu
 							 typename X2,
 							 typename Y2,
 							 typename Z2)
-	ray(X1, Y1, Z1, X2, Y2, Z2)->ray<impl::highest_ranked<X1, Y1, Z1, X2, Y2, Z2>>;
+	ray(X1, Y1, Z1, X2, Y2, Z2) -> ray<impl::highest_ranked<X1, Y1, Z1, X2, Y2, Z2>>;
 
 	template <typename T>
 	ray(const ray<T>&) -> ray<T>;
@@ -329,6 +349,9 @@ MUU_RESET_NDEBUG_OPTIMIZATIONS;
 #endif
 #ifdef MUU_TRIANGLE_H
 	#include "impl/ray_x_triangle.h"
+#endif
+#ifdef MUU_BOUNDING_SPHERE_H
+	#include "impl/ray_x_bounding_sphere.h"
 #endif
 /// \endcond
 

@@ -504,19 +504,19 @@ namespace muu::impl
 		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL width(vector_param extents) noexcept
 		{
-			return extents.x * scalar_type{ 2 };
+			return extents.x* scalar_type{ 2 };
 		}
 
 		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL height(vector_param extents) noexcept
 		{
-			return extents.y * scalar_type{ 2 };
+			return extents.y* scalar_type{ 2 };
 		}
 
 		MUU_PURE_INLINE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL depth(vector_param extents) noexcept
 		{
-			return extents.z * scalar_type{ 2 };
+			return extents.z* scalar_type{ 2 };
 		}
 
 		MUU_PURE_GETTER
@@ -564,7 +564,7 @@ namespace muu::impl
 		MUU_PURE_GETTER
 		static constexpr scalar_type MUU_VECTORCALL volume(vector_param extents) noexcept
 		{
-			return extents.x * extents.y * extents.z * scalar_type{ 8 };
+			return extents.x * extents.y * extents.z* scalar_type{ 8 };
 		}
 
 		MUU_PURE_GETTER
@@ -1054,6 +1054,40 @@ namespace muu::impl
 				return {};
 
 			return vector_type::dot(v0v2, qvec) * invDet;
+		}
+
+		MUU_PURE_GETTER
+		static constexpr result_type hits_sphere(vector_param ray_origin,
+												 vector_param ray_direction,
+												 vector_param sphere_center,
+												 scalar_type sphere_radius) noexcept
+		{
+			MUU_FMA_BLOCK;
+
+			const vector_type e = sphere_center - ray_origin;
+			const scalar_type a = vector_type::dot(e, ray_direction);
+
+			// ray points in the wrong direction
+			if (a < scalar_type{})
+				return {};
+
+			const scalar_type e2 = vector_type::length_squared(e);
+			const scalar_type r2 = sphere_radius * sphere_radius;
+			const scalar_type a2 = a * a;
+
+			// no collision
+			if (r2 - e2 + a2 < default_epsilon<scalar_type>)
+				return {};
+
+			const scalar_type b = muu::sqrt(e2 - a2);
+			const scalar_type f = muu::sqrt(r2 - (b * b));
+
+			// ray inside sphere
+			if (e2 < r2)
+				return a + f;
+
+			// normal intersection
+			return a - f;
 		}
 	};
 }
