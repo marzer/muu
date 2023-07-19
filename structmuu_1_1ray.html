@@ -86,6 +86,7 @@
                 <li><a href="#pub-attribs">Public variables</a></li>
                 <li><a href="#equality-approximate">Equality (approximate)</a></li>
                 <li><a href="#equality-exact">Equality (exact)</a></li>
+                <li><a href="#hit-tests">Hit tests</a></li>
                 <li><a href="#friends">Friends</a></li>
                 <li><a href="#related">Related</a></li>
               </ul>
@@ -209,6 +210,38 @@
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two rays are exactly equal.</dd>
+          </dl>
+        </section>
+        <section id="hit-tests">
+          <h2><a href="#hit-tests">Hit tests</a></h2>
+          <dl class="m-doc">
+            <dt id="ad771a882be399652cf051b04b1aa849d">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad771a882be399652cf051b04b1aa849d">hits</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
+              const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;<a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a>&gt;&amp; p) -&gt; <a class="m-doc" href="structmuu_1_1ray.html#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Tests if a ray hits a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
+            <dt id="a34dc79e5290fb87f60bbb6b2eb0651b2">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a34dc79e5290fb87f60bbb6b2eb0651b2">hits</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
+              const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a>&gt;&amp; tri) -&gt; <a class="m-doc" href="structmuu_1_1ray.html#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Tests if a ray hits a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>.</dd>
+            <dt id="ad4e7a1564b1b47088ee9af1c53d41e73">
+              <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad4e7a1564b1b47088ee9af1c53d41e73">hits</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
+              const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;<a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a>&gt;&amp; bs) -&gt; <a class="m-doc" href="structmuu_1_1ray.html#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Tests if a ray hits a sphere.</dd>
+            <dt id="a4f22515b854083711f5bf0a55420de65">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a4f22515b854083711f5bf0a55420de65">hits</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1plane.html">plane</a>&lt;<a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a>&gt;&amp; p) const -&gt; <a class="m-doc" href="structmuu_1_1ray.html#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Tests if the ray hits a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
+            <dt id="a04ddc3698dffa587c25efac03256446d">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a04ddc3698dffa587c25efac03256446d">hits</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1triangle.html">triangle</a>&lt;<a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a>&gt;&amp; tri) const -&gt; <a class="m-doc" href="structmuu_1_1ray.html#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Tests if the ray hits a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>.</dd>
+            <dt id="a7f194c8dfbe9178921655c7d0c9a33cc">
+              <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a7f194c8dfbe9178921655c7d0c9a33cc">hits</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;<a class="m-doc" href="structmuu_1_1ray.html#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a>&gt;&amp; bs) const -&gt; <a class="m-doc" href="structmuu_1_1ray.html#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a> <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
+            </dt>
+            <dd>Tests if the ray hits a sphere.</dd>
           </dl>
         </section>
         <section id="friends">

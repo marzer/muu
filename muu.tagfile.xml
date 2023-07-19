@@ -14573,6 +14573,48 @@
       <anchor>a473c476fd824a1389837b25a657831c6</anchor>
       <arglist>(const ray &amp;ray1, const ray&lt; T &gt; &amp;ray2, epsilon_type&lt; scalar_type, T &gt; epsilon=default_epsilon&lt; scalar_type, T &gt;) noexcept</arglist>
     </member>
+    <member kind="function">
+      <type>constexpr result_type</type>
+      <name>hits</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a4f22515b854083711f5bf0a55420de65</anchor>
+      <arglist>(const plane&lt; scalar_type &gt; &amp;p) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr result_type</type>
+      <name>hits</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a04ddc3698dffa587c25efac03256446d</anchor>
+      <arglist>(const triangle&lt; scalar_type &gt; &amp;tri) const noexcept</arglist>
+    </member>
+    <member kind="function">
+      <type>constexpr result_type</type>
+      <name>hits</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a7f194c8dfbe9178921655c7d0c9a33cc</anchor>
+      <arglist>(const bounding_sphere&lt; scalar_type &gt; &amp;bs) const noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr result_type</type>
+      <name>hits</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>ad771a882be399652cf051b04b1aa849d</anchor>
+      <arglist>(const ray &amp;r, const plane&lt; scalar_type &gt; &amp;p) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr result_type</type>
+      <name>hits</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>a34dc79e5290fb87f60bbb6b2eb0651b2</anchor>
+      <arglist>(const ray &amp;r, const triangle&lt; scalar_type &gt; &amp;tri) noexcept</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static constexpr result_type</type>
+      <name>hits</name>
+      <anchorfile>structmuu_1_1ray.html</anchorfile>
+      <anchor>ad4e7a1564b1b47088ee9af1c53d41e73</anchor>
+      <arglist>(const ray &amp;r, const bounding_sphere&lt; scalar_type &gt; &amp;bs) noexcept</arglist>
+    </member>
   </compound>
   <compound kind="struct">
     <name>muu::sat_tester</name>
