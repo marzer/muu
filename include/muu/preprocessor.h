@@ -1237,26 +1237,47 @@ help me improve support for your target architecture. Thanks!
 /// \brief Expands to a no-op expression.
 
 //% preprocessor::getters start
-// clang-format off
-#ifndef MUU_PURE_GETTER
-	#define MUU_INLINE_GETTER				MUU_NODISCARD	MUU_ALWAYS_INLINE
+#ifndef MUU_PURE
 	#ifdef NDEBUG
-		#define MUU_PURE					MUU_DECLSPEC(noalias)	MUU_ATTR(pure)
-		#define MUU_CONST					MUU_DECLSPEC(noalias)	MUU_ATTR(const)
-		#define MUU_PURE_GETTER				MUU_NODISCARD						MUU_PURE
-		#define MUU_CONST_GETTER			MUU_NODISCARD						MUU_CONST
-		#define MUU_PURE_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE	MUU_PURE
-		#define MUU_CONST_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE	MUU_CONST
+		#define MUU_PURE MUU_DECLSPEC(noalias) MUU_ATTR(pure)
 	#else
 		#define MUU_PURE
-		#define MUU_CONST
-		#define MUU_PURE_GETTER				MUU_NODISCARD
-		#define MUU_CONST_GETTER			MUU_NODISCARD
-		#define MUU_PURE_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE
-		#define MUU_CONST_INLINE_GETTER		MUU_NODISCARD	MUU_ALWAYS_INLINE
 	#endif
 #endif
-// clang-format on
+#ifndef MUU_CONST
+	#ifdef NDEBUG
+		#define MUU_CONST MUU_DECLSPEC(noalias) MUU_ATTR(const)
+	#else
+		#define MUU_CONST
+	#endif
+#endif
+#ifndef MUU_INLINE_GETTER
+	#define MUU_INLINE_GETTER                                                                                          \
+		MUU_NODISCARD                                                                                                  \
+		MUU_ALWAYS_INLINE
+#endif
+#ifndef MUU_PURE_GETTER
+	#define MUU_PURE_GETTER                                                                                            \
+		MUU_NODISCARD                                                                                                  \
+		MUU_PURE
+#endif
+#ifndef MUU_PURE_INLINE_GETTER
+	#define MUU_PURE_INLINE_GETTER                                                                                     \
+		MUU_NODISCARD                                                                                                  \
+		MUU_ALWAYS_INLINE                                                                                              \
+		MUU_PURE
+#endif
+#ifndef MUU_CONST_GETTER
+	#define MUU_CONST_GETTER                                                                                           \
+		MUU_NODISCARD                                                                                                  \
+		MUU_CONST
+#endif
+#ifndef MUU_CONST_INLINE_GETTER
+	#define MUU_CONST_INLINE_GETTER                                                                                    \
+		MUU_NODISCARD                                                                                                  \
+		MUU_ALWAYS_INLINE                                                                                              \
+		MUU_CONST
+#endif
 //% preprocessor::getters end
 
 //% preprocessor::vectorcall start
