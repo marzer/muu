@@ -19,11 +19,13 @@ STRIP_BLOCK = re.compile(r'(?:\n[ \t]*)?//[#!][ \t]*[{][{].*?//[#!][ \t]*[}][}].
 MUU_DELETE_MOVE = re.compile(r'MUU_DELETE_MOVE\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;')
 MUU_DELETE_COPY = re.compile(r'MUU_DELETE_COPY\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;')
 
-def cleanup_text(text: str) -> str:
+def cleanup_text(text: str, remove_doxygen_triple_slashes = True) -> str:
 
 	# 'strip this' blocks "//# {{" and "//# }}"
 	text = STRIP_BLOCK.sub('\n', text)
-
+	trp_slsh = '/' if remove_doxygen_triple_slashes else ''
+	blank_line = r'(?:[ \t]*\n)'
+	magic_comment = rf'(?:[ \t]*//(?:[{trp_slsh}#!<]|[ \t]?(?:\^\^\^|vvv))[^\n]*)'
 
 	while True:
 		prev_text = text
@@ -32,8 +34,6 @@ def cleanup_text(text: str) -> str:
 		# double blank lines
 		text = re.sub('\n(?:[ \t]*\n[ \t]*)+\n', '\n\n', text)
 		# magic comments
-		blank_line = r'(?:[ \t]*\n)'
-		magic_comment = r'(?:[ \t]*//(?:[/#!<]|[ \t]?(?:\^\^\^|vvv))[^\n]*)'
 		text = re.sub(rf'\n{magic_comment}\n{blank_line}+{magic_comment}\n', '\n', text)
 		text = re.sub(rf'([{{,])\s*\n(?:{magic_comment}\n|{blank_line})+', r'\1\n', text)
 		text = re.sub(rf'\n?(?:{magic_comment}\n)+', '\n', text)
@@ -76,6 +76,7 @@ def main():
 	)
 	args.add_argument(r'--strip-vectorcall', action=BooleanOptionalAction, default=True)
 	args.add_argument(r'--strip-hidden-bases', action=BooleanOptionalAction, default=True)
+	args.add_argument(r'--strip-doxygen-from-snippets', action=BooleanOptionalAction, default=True)
 	args = args.parse_args()
 
 	# check args
@@ -187,7 +188,7 @@ def main():
 				snippet = re.sub(r'^\s*//%.+?$', '', snippet, flags=re.MULTILINE)
 				if m[1].endswith(r'_naive'):
 					snippet = snippet.replace(r'_naive', r'')
-				snippet = cleanup_text(snippet)
+				snippet = cleanup_text(snippet, remove_doxygen_triple_slashes=args.strip_doxygen_from_snippets)
 				snippet = f'\n{snippet}\n'
 				snippets[m[1]] = snippet
 				#print(f'############################################\n{snippets[m[1]]}')
@@ -245,7 +246,7 @@ def main():
 		text = re.sub(rf'::{ns[0]}\b', rf'::{ns[1]}', text)
 
 	# other cleanup
-	text = cleanup_text(text)
+	text = cleanup_text(text, remove_doxygen_triple_slashes=False)
 
 	# clang-format
 	if 1:
