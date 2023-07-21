@@ -18,36 +18,44 @@ SNIPPET_END   = re.compile(r'^\s*\/\/%\s*([a-zA-Z0-9::_+-]+)\s+end\s*$', flags=r
 STRIP_BLOCK = re.compile(r'(?:\n[ \t]*)?//[#!][ \t]*[{][{].*?//[#!][ \t]*[}][}].*?\n', flags=re.S)
 MUU_DELETE_MOVE = re.compile(r'MUU_DELETE_MOVE\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;')
 MUU_DELETE_COPY = re.compile(r'MUU_DELETE_COPY\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;')
+DOXYGEN_INGROUP = re.compile(r'\n[ \t]*///[ \t]*[\\@]ingroup[ \t].*?\n', flags=re.MULTILINE)
+TRAILING_WHITESPACE = re.compile('([^ \t])[ \t]+\n')
 
-def cleanup_text(text: str, remove_doxygen_triple_slashes = True) -> str:
+def cleanup_text(text: str, remove_doxygen_triple_slashes = True, remove_doxygen_ingroup = True) -> str:
 
 	# 'strip this' blocks "//# {{" and "//# }}"
 	text = STRIP_BLOCK.sub('\n', text)
+
+	# trailing whitespace
+	text = TRAILING_WHITESPACE.sub(r'\1\n', text)
+
+	# /// @ingroup
+	if remove_doxygen_ingroup:
+		text = DOXYGEN_INGROUP.sub('\n', text)
+
+	# MUU class macros
+	text = MUU_DELETE_MOVE.sub(
+		r'''\1(\1&&) = delete;
+		\1& operator=(\1&&) = delete;''',
+		text
+	)
+	text = MUU_DELETE_COPY.sub(
+		r'''\1(const \1&) = delete;
+		\1& operator=(const \1&) = delete;''',
+		text
+	)
+
 	trp_slsh = '/' if remove_doxygen_triple_slashes else ''
 	blank_line = r'(?:[ \t]*\n)'
 	magic_comment = rf'(?:[ \t]*//(?:[{trp_slsh}#!<]|[ \t]?(?:\^\^\^|vvv))[^\n]*)'
-
 	while True:
 		prev_text = text
-		# trailing whitespace
-		text = re.sub('([^ \t])[ \t]+\n', r'\1\n', text)
 		# double blank lines
 		text = re.sub('\n(?:[ \t]*\n[ \t]*)+\n', '\n\n', text)
 		# magic comments
 		text = re.sub(rf'\n{magic_comment}\n{blank_line}+{magic_comment}\n', '\n', text)
 		text = re.sub(rf'([{{,])\s*\n(?:{magic_comment}\n|{blank_line})+', r'\1\n', text)
 		text = re.sub(rf'\n?(?:{magic_comment}\n)+', '\n', text)
-		# MUU class macros
-		text = MUU_DELETE_MOVE.sub(
-			r'''\1(\1&&) = delete;
-			\1& operator=(\1&&) = delete;''',
-			text
-		)
-		text = MUU_DELETE_COPY.sub(
-			r'''\1(const \1&) = delete;
-			\1& operator=(const \1&) = delete;''',
-			text
-		)
 		if text == prev_text:
 			break
 
