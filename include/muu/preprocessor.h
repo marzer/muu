@@ -1615,8 +1615,7 @@ help me improve support for your target architecture. Thanks!
 			__pragma(warning(disable : 4623))  /* default constructor was implicitly defined as deleted */             \
 			__pragma(warning(disable : 4625))  /* copy constructor was implicitly defined as deleted */                \
 			__pragma(warning(disable : 4626))  /* assignment operator was implicitly defined as deleted */             \
-			__pragma(warning(disable : 4686))  /* possible change in behavior, change in UDT return calling convention \
-												*/                                                                     \
+			__pragma(warning(disable : 4686))  /* possible change in behavior, change in UDT return callconv */        \
 			__pragma(warning(disable : 4710))  /* function not inlined */                                              \
 			__pragma(warning(disable : 4711))  /* function selected for automatic expansion */                         \
 			__pragma(warning(disable : 4820))  /* N bytes padding added */                                             \
