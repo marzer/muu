@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.4" name="generator"/>
+  <meta content="Poxy v0.12.5" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -76,14 +76,14 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6b10b6af5ce7597eee3876967ce03465">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; bb1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;T&gt;&amp; bb2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding boxes</a> are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga8976372243128129e8c98bc13031a28d">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;S&gt;&amp; bs1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;T&gt;&amp; bs2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -96,7 +96,7 @@
             </dt>
             <dd>Returns true if two half-precision floats are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga9feb4d4d3c2c67ad383254a73fdeff52">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line_segment</a>&lt;S&gt;&amp; seg1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line_segment</a>&lt;T&gt;&amp; seg2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -133,55 +133,55 @@
             </dt>
             <dd>Returns true if two <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16s</a> are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename U&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename U</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6a04d11e27ed0da907193cdd51b5015e">approx_equal</a>(</span><span class="m-doc-wrap">T a,
               U b) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two scalar values are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac9148a5c5b63c63d14ca506aee43484e">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;T, R, C&gt;&amp; m2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrices</a> are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa405d888329e64402e4a0f2e4f46a203">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; bb1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;T&gt;&amp; bb2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented bounding boxes</a> are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae2d90458dab99f2b1ff2283177ba5835">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>&lt;T&gt;&amp; p2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">planes</a> are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga6b8d6921c4f39c5881a7ea6f95f33392">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; q2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternions</a> are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga849bcf01597a1aad506df3a6faa89962">approx_equal</a>(</span><span class="m-doc-wrap">const ray&lt;S&gt;&amp; ray1,
               const ray&lt;T&gt;&amp; ray2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two rays are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga2881bac8c2bf5248013bbc7d94867005">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>&lt;T&gt;&amp; tri2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangles</a> are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename S, typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga5d86e15710b89e3c79399cd98f597efe">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;T, D&gt;&amp; v2,
               epsilon_type&lt;S, T&gt; epsilon = default_epsilon&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -195,7 +195,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__box_8h.html">&lt;muu/bounding_box.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename S, typename T&gt;
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6b10b6af5ce7597eee3876967ce03465">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; bb1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;T&gt;&amp; bb2,
@@ -207,7 +207,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__sphere_8h.html">&lt;muu/bounding_sphere.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename S, typename T&gt;
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga8976372243128129e8c98bc13031a28d">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;S&gt;&amp; bs1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;T&gt;&amp; bs2,
@@ -228,7 +228,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="line__segment_8h.html">&lt;muu/line_segment.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename S, typename T&gt;
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga9feb4d4d3c2c67ad383254a73fdeff52">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line_segment</a>&lt;S&gt;&amp; seg1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line_segment</a>&lt;T&gt;&amp; seg2,
@@ -285,7 +285,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename T, typename U&gt;
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename U</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6a04d11e27ed0da907193cdd51b5015e">approx_equal</a>(</span><span class="m-doc-wrap">T a,
               U b) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
@@ -296,7 +296,8 @@
           <section class="m-doc-details" id="gac9148a5c5b63c63d14ca506aee43484e"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="matrix_8h.html">&lt;muu/matrix.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename S, typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac9148a5c5b63c63d14ca506aee43484e">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;T, R, C&gt;&amp; m2,
@@ -309,7 +310,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="oriented__bounding__box_8h.html">&lt;muu/oriented_bounding_box.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename S, typename T&gt;
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa405d888329e64402e4a0f2e4f46a203">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; bb1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;T&gt;&amp; bb2,
@@ -321,7 +322,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="plane_8h.html">&lt;muu/plane.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename S, typename T&gt;
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae2d90458dab99f2b1ff2283177ba5835">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>&lt;T&gt;&amp; p2,
@@ -333,7 +334,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="quaternion_8h.html">&lt;muu/quaternion.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename S, typename T&gt;
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga6b8d6921c4f39c5881a7ea6f95f33392">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>&lt;T&gt;&amp; q2,
@@ -345,7 +346,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="ray_8h.html">&lt;muu/ray.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename S, typename T&gt;
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga849bcf01597a1aad506df3a6faa89962">approx_equal</a>(</span><span class="m-doc-wrap">const ray&lt;S&gt;&amp; ray1,
               const ray&lt;T&gt;&amp; ray2,
@@ -357,7 +358,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="triangle_8h.html">&lt;muu/triangle.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;typename S, typename T&gt;
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga2881bac8c2bf5248013bbc7d94867005">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>&lt;T&gt;&amp; tri2,
@@ -368,7 +369,8 @@
           <section class="m-doc-details" id="ga5d86e15710b89e3c79399cd98f597efe"><div>
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
-              <div class="m-doc-template"> template&lt;typename S, typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga5d86e15710b89e3c79399cd98f597efe">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v1,
               const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;T, D&gt;&amp; v2,

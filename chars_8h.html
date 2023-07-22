@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.4" name="generator"/>
+  <meta content="Poxy v0.12.5" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -85,7 +85,7 @@
           <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename Char = char&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char = char</span></span>&gt;</div>
               struct <a class="m-doc" href="structmuu_1_1hex__char__pair.html">muu::hex_char_pair</a>
             </dt>
             <dd>A pair of code units in a byte pair.</dd>
@@ -95,25 +95,25 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename Char = char&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char = char</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__code__units.html#gaf1a2e99c3de3659fddd55b66343eb785">byte_to_hex</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/integer" target="_blank">uint8_t</a> byte,
               Char a = constants&lt;Char&gt;::letter_a) -&gt; hex_char_pair&lt;Char&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converts a byte value to it's equivalent pair of code units in the range <code>[0x0, 0xF]</code>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Char = char&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char = char</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__code__units.html#gaa9ef0f495bccdca549157f35d02e62a9">byte_to_hex</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/byte.html" target="_blank">std::<wbr/>byte</a> byte,
               Char a = constants&lt;Char&gt;::letter_a) -&gt; hex_char_pair&lt;Char&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converts a byte value to it's equivalent pair of code units in the range <code>[0x0, 0xF]</code>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Char = char&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char = char</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__code__units.html#ga2d6051c218758b6715931c77dd4d0b49">dec_to_hex</a>(</span><span class="m-doc-wrap">unsigned val,
               Char a = constants&lt;Char&gt;::letter_a) -&gt; Char <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converts an unsigned integer in the range <code>[0x0, 0xF]</code> to it's equivalent code units <code>[0-9, a-f, A-F]</code>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__code__units.html#ga4e71f9d5db491b09cbd27df611780521">hex_to_dec</a>(</span><span class="m-doc-wrap">T codepoint) -&gt; unsigned <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converts a code units containing a hex value <code>[0-9, a-f, A-F]</code> to it's equivalent unsigned integer <code>[0x0, 0xF]</code>.</dd>

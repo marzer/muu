@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.4" name="generator"/>
+  <meta content="Poxy v0.12.5" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -85,242 +85,242 @@
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga6c121fbd44449d05f6a34f26d51d923f">add_const</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_const_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Adds a const qualifier to a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga946998d98f22705d1e955cc213187310">add_cv</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_volatile_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_const_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
             </dt>
             <dd>Adds const and volatile qualifiers to a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga5087ff7f20ed1765f215b92e4b56cd6f">add_noexcept</a> = copy_cvref&lt;typename impl::add_noexcept_&lt;remove_cvref&lt;T&gt;&gt;::type, T&gt;
             </dt>
             <dd>Adds a <code>noexcept</code> specifier to a functional type (or reference to one).</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gaf658a920120d44cf78a83198479de23c">add_volatile</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_volatile_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Adds a volatile qualifier to a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gae07552fde8149d1a8a6c93971edbbd86">clamp_to_standard_float</a> = demote_if_large_float&lt;promote_if_small_float&lt;T&gt;&gt;
             </dt>
             <dd>Clamps extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>) to <code>float</code> or <code>long double</code>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, bool AddConst&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">bool AddConst</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga23ee95c345637ff50a6cc88c4fb0d031">conditionally_add_const</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddConst, add_const&lt;T&gt;, T&gt;
             </dt>
             <dd>Shorthand for conditionally adding const to a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, bool AddConstVolatile&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">bool AddConstVolatile</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gaccbf5f71e9b673c2f490c0c0406042ac">conditionally_add_cv</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddConstVolatile, add_cv&lt;T&gt;, T&gt;
             </dt>
             <dd>Shorthand for conditionally adding const and volatile qualifiers to a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, bool AddVolatile&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">bool AddVolatile</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga5387101d09160941cca73a48954eb7af">conditionally_add_volatile</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;AddVolatile, add_volatile&lt;T&gt;, T&gt;
             </dt>
             <dd>Shorthand for conditionally adding volatile to a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename CopyFrom</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga3e944d0a62580bb16190d18a7a50e854">copy_const</a> = set_const&lt;T, is_const&lt;CopyFrom&gt;&gt;
             </dt>
             <dd>Copies the constness (or lack thereof) from one type or reference to another.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename CopyFrom</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga13aaa81d66b143ecb5d837c8c0041d18">copy_cv</a> = copy_const&lt;copy_volatile&lt;T, CopyFrom&gt;, CopyFrom&gt;
             </dt>
             <dd>Copies consteness and volatility (or lack thereof) from one type or reference to another.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename CopyFrom</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga75bafae329db57745b406a02e6565007">copy_cvref</a> = copy_ref&lt;copy_cv&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;CopyFrom&gt;&gt;, CopyFrom&gt;
             </dt>
             <dd>Copies consteness, volatility and reference category (or lack thereof) from one type or to another.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename CopyFrom</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gaa11d1a8c1d6c16d5381a6f1d11940294">copy_ref</a> = typename impl::copy_ref_&lt;T, CopyFrom&gt;::type
             </dt>
             <dd>Copies the reference category (or lack thereof) from one type or to another.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename CopyFrom</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gac5e348d0385db539de78faa96895dba9">copy_signed</a> = set_signed&lt;T, is_signed&lt;CopyFrom&gt;&gt;
             </dt>
             <dd>Copies the signed-ness (or lack thereof) from one numeric type or reference to another.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename CopyFrom</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gaa51e86e5712ddee88175a905c427ff62">copy_unsigned</a> = set_unsigned&lt;T, is_unsigned&lt;CopyFrom&gt;&gt;
             </dt>
             <dd>Copies the unsigned-ness (or lack thereof) from one numeric type or reference to another.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename CopyFrom&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename CopyFrom</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gafdebb5c32611e098bd4074c6393ad55d">copy_volatile</a> = set_volatile&lt;T, is_volatile&lt;CopyFrom&gt;&gt;
             </dt>
             <dd>Copies the volatility (or lack thereof) from one type or reference to another.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga588efdcdebc69e38cb6353d8462d59ff">demote_if_large_float</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;impl::is_large_float_&lt;T&gt;, typename impl::rebase_ref_&lt;T, copy_cv&lt;long double, T&gt;&gt;::type, T&gt;
             </dt>
             <dd>Demotes 'large' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Floating-Types.html" target="_blank">__float128</a>) to <code>long double</code>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename... T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_type</a> = impl::std_math_common_type&lt;remove_cvref&lt;T&gt;...&gt;
             </dt>
             <dd>A common epsilon type when comparing floating-point types named by T.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga6ca7fed60fe86574dd8bedf3b3332431">index_tag</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/integral_constant.html" target="_blank">std::<wbr/>integral_constant</a>&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a>, N&gt;
             </dt>
             <dd>A tag type for encoding/parameterizing a single index.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename... U</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga66c7ac2c2ba5ae0358a9c398ca1a5fa3">largest</a> = typename impl::largest_&lt;T, U...&gt;::type
             </dt>
             <dd>The largest type from a set of types.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename... U</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga14d4e47d4a3ee4bcae55745a917343e3">least_aligned</a> = typename impl::least_aligned_&lt;T, U...&gt;::type
             </dt>
             <dd>The type with the smallest alignment (i.e. having the smallest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga752383c0f4374f49266f839873833f0c">make_cref</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/add_reference.html" target="_blank">std::<wbr/>add_lvalue_reference_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/add_cv.html" target="_blank">std::<wbr/>add_const_t</a>&lt;remove_cvref&lt;T&gt;&gt;&gt;
             </dt>
             <dd>Makes a type into a const lvalue reference (replacing existing cvref qualifiers).</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga8723b987045c7b40be5ce133a46e899c">make_signed</a> = typename impl::make_signed_&lt;T&gt;::type
             </dt>
             <dd>Converts a numeric type to the signed equivalent with the same rank.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga5f3932e1b40c23bd953e0444340aa1bf">make_unsigned</a> = typename impl::make_unsigned_&lt;T&gt;::type
             </dt>
             <dd>Converts a numeric type to the unsigned equivalent with the same rank.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename... U</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga412a873e98a67c58f4bcb71bb8c23ddb">most_aligned</a> = typename impl::most_aligned_&lt;T, U...&gt;::type
             </dt>
             <dd>The type with the largest alignment (i.e. having the largest value for <code>alignment_of&lt;T&gt;</code>) from a set of types.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga0a3f15c5886ad6189103d5705db8e37c">promote_if_small_float</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;impl::is_small_float_&lt;T&gt;, typename impl::rebase_ref_&lt;T, copy_cv&lt;float, T&gt;&gt;::type, T&gt;
             </dt>
             <dd>Promotes 'small' extended arithmetic floating-point types (e.g. <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">__fp16</a>, etc.) to <code>float</code>.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gad190be2c498375940b7c2e046ba5b11f">readonly_param</a> = typename impl::readonly_param_&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;::type
             </dt>
             <dd>Resolves to <code>T</code> or <code>const T&amp;</code> based on the performance characteristics of <code>T</code> being passed by value into a function.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Ptr, typename NewBase&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Ptr</span>, <span class="m-doc-template-param">typename NewBase</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga29769609b73728e3b7814d36a7e0c335">rebase_pointer</a> = typename impl::rebase_pointer_&lt;Ptr, NewBase&gt;::type
             </dt>
             <dd>Rebases a pointer, preserving the const and volatile qualification of the pointed type.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gaff6410affb3cb93013482639fcaea000">remove_all_pointers</a> = typename impl::remove_all_pointers_&lt;T&gt;::type
             </dt>
             <dd>Strips every level of pointer from a type.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga4af6796f51934576020a09a73986d074">remove_callconv</a> = copy_cvref&lt;typename impl::remove_callconv_&lt;remove_cvref&lt;T&gt;&gt;::type, T&gt;
             </dt>
             <dd>Removes any explicit calling convention specifiers from functions, function pointers and function references.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga6d7666d41f4b1baa5e5b030e85d145c1">remove_const</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_const_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost const qualifier from a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga3d3fbe6cee41ab6b225058f8d29a17d4">remove_cv</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_volatile_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_const_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost const and volatile qualifiers from a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga3cac44d2af43c4fd98e835ff5b28988a">remove_cvref</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_cv_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;
             </dt>
             <dd>Removes the topmost const, volatile and reference qualifiers from a type.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga4f0f94bba132e44d22663319f05d2ea8">remove_enum</a> = typename impl::remove_enum_&lt;T&gt;::type
             </dt>
             <dd>Removes the outer enum wrapper from a type, converting it to the underlying integer equivalent.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga13a69e455c20f67fc73394a02831e8d3">remove_lvalue_reference</a> = typename impl::remove_lvalue_reference_&lt;T&gt;::type
             </dt>
             <dd>Removes reference qualification from a type if (and only if) it is an lvalue reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga28bb77154a6d0fb8930b84c5d59373d2">remove_noexcept</a> = copy_cvref&lt;typename impl::remove_noexcept_&lt;remove_cvref&lt;T&gt;&gt;::type, T&gt;
             </dt>
             <dd>Removes any <code>noexcept</code> specifier from a functional type (or reference to one).</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga82a7eca9ca8f07f6779eff47f45d5a80">remove_rvalue_reference</a> = typename impl::remove_rvalue_reference_&lt;T&gt;::type
             </dt>
             <dd>Removes reference qualification from a type if (and only if) it is an rvalue reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gabb6c34cb7b210e52a6d0d9e53234696b">remove_volatile</a> = typename impl::rebase_ref_&lt;T, <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_cv.html" target="_blank">std::<wbr/>remove_volatile_t</a>&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;&gt;::type
             </dt>
             <dd>Removes the topmost volatile qualifier from a type or reference.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, bool Const&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">bool Const</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga70ea61c88a2156d5ca0576b338692597">set_const</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Const, add_const&lt;T&gt;, remove_const&lt;T&gt;&gt;
             </dt>
             <dd>Sets the constness of a type or reference according to a boolean.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, bool ConstVolatile&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">bool ConstVolatile</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga75174a7728c44e0ef2c5c573910945d7">set_cv</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;ConstVolatile, add_cv&lt;T&gt;, remove_cv&lt;T&gt;&gt;
             </dt>
             <dd>Sets the constness and volatility of a type or reference according to a boolean.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, bool Signed&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">bool Signed</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gafed1fc9809926331d0cdfb6ea3c1cb7c">set_signed</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Signed, make_signed&lt;T&gt;, make_unsigned&lt;T&gt;&gt;
             </dt>
             <dd>Sets the signed-ness of a numeric type or reference according to a boolean.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, bool Unsigned&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">bool Unsigned</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga53618440cb88b6a660781cd80eff06cb">set_unsigned</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Unsigned, make_unsigned&lt;T&gt;, make_signed&lt;T&gt;&gt;
             </dt>
             <dd>Sets the unsigned-ness of a numeric type or reference according to a boolean.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, bool Volatile&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">bool Volatile</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga3216c56b6dfa3cd6045818d2f8e09612">set_volatile</a> = <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/conditional.html" target="_blank">std::<wbr/>conditional_t</a>&lt;Volatile, add_volatile&lt;T&gt;, remove_volatile&lt;T&gt;&gt;
             </dt>
             <dd>Sets the volatility of a type or reference according to a boolean.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga09db214c647c86c5b20746624630a3d6">signed_integer</a> = typename decltype(impl::sint_for_bits_impl&lt;Bits&gt;())::type
             </dt>
             <dd>Gets the signed integer type with a specific number of bits for the target platform.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T, typename... U&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename... U</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga7b0e548ad93b4b2fabc3c38eadd456c5">smallest</a> = typename impl::smallest_&lt;T, U...&gt;::type
             </dt>
             <dd>The smallest type from a set of types.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I, typename... T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> I</span>, <span class="m-doc-template-param">typename... T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga6f27ad9de4af7f8d8e909faba87771f0">type_at_index</a> = typename detail::type_at_index_impl&lt;I, T...&gt;::type
             </dt>
             <dd>The type at the given index in the list.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#ga8b8f215acad0e9f3d7aa52326155f030">type_identity</a> = typename impl::type_identity_&lt;T&gt;::type
             </dt>
             <dd>Provides an identity type transformation.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Bits</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gac216fd49569fd7466617390132f2999b">unsigned_integer</a> = typename decltype(impl::uint_for_bits_impl&lt;Bits&gt;())::type
             </dt>
             <dd>Gets the unsigned integer type with a specific number of bits for the target platform.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               using <a class="m-doc" href="group__meta.html#gaf9703e15aa8ea56c9f7686c4639560be">vector_param</a> = typename impl::vector_param_&lt;<a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/types/remove_reference.html" target="_blank">std::<wbr/>remove_reference_t</a>&lt;T&gt;&gt;::type
             </dt>
             <dd>Same as <a class="m-doc" href="group__meta.html#gad190be2c498375940b7c2e046ba5b11f">readonly_<wbr/>param</a>, but also takes SIMD <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> types and MSVC's <code>__vectorcall</code> into account.</dd>

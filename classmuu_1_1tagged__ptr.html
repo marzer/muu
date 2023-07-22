@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.4" name="generator"/>
+  <meta content="Poxy v0.12.5" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -59,7 +59,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="tagged__ptr_8h.html">&lt;muu/tagged_ptr.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align = impl::tptr_min_align&lt;T&gt;&gt;</div>
+          <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align = impl::tptr_min_align&lt;T&gt;</span></span>&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>tagged_ptr <span class="m-thin">class</span>
         </h1>
         <p>Specialized pointer capable of storing data in the unused bits of a pointer's value.</p>
@@ -139,7 +139,7 @@
             </dt>
             <dd>Checks if a raw pointer can be safely stored without clipping into the tag bits.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Tag&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Tag</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc" href="#a80574eb59dbd58591401f1f3e8c2119b">can_store_tag</a>(</span><span class="m-doc-wrap">const Tag&amp; tag_value) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Checks if a tag value can be safely stored without clipping into the pointer bits.</dd>
@@ -169,7 +169,7 @@
             </dt>
             <dd>Constructs a tagged pointer.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Tag&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Tag</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aa66fef1ac6f0c501e74e20d8e3fb7e31">tagged_ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value,
               const Tag&amp; tag_value) <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -200,7 +200,7 @@
             </dt>
             <dd>Returns the target pointer value.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename... U&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... U</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a44088883cee2cfe9289f299bf68636eb">operator()</a>(</span><span class="m-doc-wrap">U &amp;&amp; ... args) const -&gt; decltype(auto) <span class="m-label m-flat m-success">noexcept(…)</span></span>
             </dt>
             <dd>Invokes the function call operator on the pointed function.</dd>
@@ -237,18 +237,18 @@
             </dt>
             <dd>Resets the target pointer value and sets the tag bits to zero.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Tag&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Tag</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a83ebf9c9d8e87683a208d4cc8d6eed2e">reset</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value,
               const Tag&amp; tag_value) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Resets the target pointer value and tag.</dd>
             <dt id="a55725d5b77700fe3d9e377ba052c70e1">
-              <div class="m-doc-template">template&lt;typename Tag = <a class="m-doc" href="classmuu_1_1tagged__ptr.html#a00cfda2fe7ead2fe4fc98cf3048cbe58">tag_<wbr/>type</a>&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Tag = <a class="m-doc" href="classmuu_1_1tagged__ptr.html#a00cfda2fe7ead2fe4fc98cf3048cbe58">tag_<wbr/>type</a></span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a55725d5b77700fe3d9e377ba052c70e1">tag</a>(</span><span class="m-doc-wrap">) const -&gt; Tag <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns the tag bits as an integer, enum, or trivial object type.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename Tag&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Tag</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#af12681d78eb5f543d3dfc5c9bb61058a">tag</a>(</span><span class="m-doc-wrap">const Tag&amp; tag_value) -&gt; <a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Sets the tag bits, leaving the target pointer value unchanged.</dd>
@@ -302,7 +302,8 @@
           <h2>Function documentation</h2>
           <section class="m-doc-details" id="a05f11ff87e9c13b71efe806c0d089b67"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">static bool muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a05f11ff87e9c13b71efe806c0d089b67">can_store_ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -318,8 +319,10 @@
           </div></section>
           <section class="m-doc-details" id="a80574eb59dbd58591401f1f3e8c2119b"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;<br/>
-template&lt;typename Tag&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
+                <br/>
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Tag</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">static bool muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a80574eb59dbd58591401f1f3e8c2119b">can_store_tag</a>(</span><span class="m-doc-wrap">const Tag&amp; tag_value) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -335,7 +338,8 @@ template&lt;typename Tag&gt;
           </div></section>
           <section class="m-doc-details" id="aecfd053e6ff0b160658061abb7e5b3de"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"> muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aecfd053e6ff0b160658061abb7e5b3de">tagged_ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) <span class="m-label m-info">explicit</span>  <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -355,8 +359,10 @@ template&lt;typename Tag&gt;
           </div></section>
           <section class="m-doc-details" id="aa66fef1ac6f0c501e74e20d8e3fb7e31"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;<br/>
-template&lt;typename Tag&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
+                <br/>
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Tag</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"> muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa66fef1ac6f0c501e74e20d8e3fb7e31">tagged_ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value,
               const Tag&amp; tag_value) <span class="m-label m-success">noexcept</span></span></span>
@@ -390,7 +396,8 @@ template&lt;typename Tag&gt;
           </div></section>
           <section class="m-doc-details" id="ae64e8723ee76f6cf46ca8789876b1149"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae64e8723ee76f6cf46ca8789876b1149">clear_ptr</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -406,7 +413,8 @@ template&lt;typename Tag&gt;
           </div></section>
           <section class="m-doc-details" id="a268c665c11dd9f46e6108b626dc0ea0a"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a268c665c11dd9f46e6108b626dc0ea0a">clear_tag</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -422,7 +430,8 @@ template&lt;typename Tag&gt;
           </div></section>
           <section class="m-doc-details" id="a9e87689988557b73d95b8dfbddff57c8"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9e87689988557b73d95b8dfbddff57c8">get</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -431,8 +440,10 @@ template&lt;typename Tag&gt;
           </div></section>
           <section class="m-doc-details" id="a44088883cee2cfe9289f299bf68636eb"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;<br/>
-template&lt;typename... U&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
+                <br/>
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... U</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">decltype(auto) muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a44088883cee2cfe9289f299bf68636eb">operator()</a>(</span><span class="m-doc-wrap">U &amp;&amp; ... args) const <span class="m-label m-success">noexcept(…)</span></span></span>
             </h3>
@@ -467,7 +478,8 @@ template&lt;typename... U&gt;
           </div></section>
           <section class="m-doc-details" id="aa16a3b8d1916ddb9d21a2a3d4f9240a3"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#afb655a02887a158abb2f3eeb381adee9">element_<wbr/>type</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa16a3b8d1916ddb9d21a2a3d4f9240a3">operator*</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -476,7 +488,8 @@ template&lt;typename... U&gt;
           </div></section>
           <section class="m-doc-details" id="aa3581f609df590e215d3a9e61f9c11e8"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa3581f609df590e215d3a9e61f9c11e8">operator-&gt;</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -485,7 +498,8 @@ template&lt;typename... U&gt;
           </div></section>
           <section class="m-doc-details" id="ad61796d312f3b3b7c7d675a51215fd61"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad61796d312f3b3b7c7d675a51215fd61">operator=</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> rhs) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -510,7 +524,8 @@ template&lt;typename... U&gt;
           </div></section>
           <section class="m-doc-details" id="ab4166fc172027a0aced93fde5ad57a1b"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ab4166fc172027a0aced93fde5ad57a1b">ptr</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -535,7 +550,8 @@ template&lt;typename... U&gt;
           </div></section>
           <section class="m-doc-details" id="a021a25026b42a005ef9af93d3a785977"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a021a25026b42a005ef9af93d3a785977">reset</a>(</span><span class="m-doc-wrap">) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -551,7 +567,8 @@ template&lt;typename... U&gt;
           </div></section>
           <section class="m-doc-details" id="a52ccd9541914fa58c846c7be2dc96eb5"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a52ccd9541914fa58c846c7be2dc96eb5">reset</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -576,8 +593,10 @@ template&lt;typename... U&gt;
           </div></section>
           <section class="m-doc-details" id="a83ebf9c9d8e87683a208d4cc8d6eed2e"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;<br/>
-template&lt;typename Tag&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
+                <br/>
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Tag</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a83ebf9c9d8e87683a208d4cc8d6eed2e">reset</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="classmuu_1_1tagged__ptr.html#a24bc749fc41262793e85f85f9d3efe68">pointer</a> value,
               const Tag&amp; tag_value) <span class="m-label m-success">noexcept</span></span></span>
@@ -617,8 +636,10 @@ template&lt;typename Tag&gt;
           </div></section>
           <section class="m-doc-details" id="af12681d78eb5f543d3dfc5c9bb61058a"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;<br/>
-template&lt;typename Tag&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
+                <br/>
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Tag</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af12681d78eb5f543d3dfc5c9bb61058a">tag</a>(</span><span class="m-doc-wrap">const Tag&amp; tag_value) <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -653,7 +674,8 @@ template&lt;typename Tag&gt;
           </div></section>
           <section class="m-doc-details" id="ad38ca1afdbbe953658e913f4d1935d4b"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename T, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Align</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="classmuu_1_1tagged__ptr.html">tagged_<wbr/>ptr</a>&amp; muu::<wbr/>tagged_ptr&lt;T, Align&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad38ca1afdbbe953658e913f4d1935d4b">tag_bit</a>(</span><span class="m-doc-wrap"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> tag_bit_index,
               bool val) <span class="m-label m-success">noexcept</span></span></span>

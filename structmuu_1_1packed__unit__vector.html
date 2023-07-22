@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.12.4" name="generator"/>
+  <meta content="Poxy v0.12.5" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -59,7 +59,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="packed__unit__vector_8h.html">&lt;muu/packed_unit_vector.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;typename Integer, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;</div>
+          <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Integer</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions</span></span>&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>packed_unit_vector <span class="m-thin">struct</span>
         </h1>
         <p>A utility type for lossy packing of 2D or 3D unit <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vectors</a> into a single integer.</p>
@@ -114,7 +114,7 @@
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
             <dt id="a4e4b57405b4a192a2fc107f168725ffe">
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4e4b57405b4a192a2fc107f168725ffe">operator vector&lt;T, dimensions&gt;</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Unpacks the packed unit <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> into a regular multi-component floating-point <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
@@ -127,7 +127,7 @@
             </dt>
             <dd>Copy constructor.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a038a99584a22b6fc765c4328191228e9">packed_unit_vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1packed__unit__vector.html#aec7dcdcc76d16a6dc95f852e0a5428c9">dimensions</a>&gt;&amp; vec) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs from a regular unit <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
@@ -141,7 +141,7 @@
             </dt>
             <dd>Copy-assigment operator.</dd>
             <dt id="afeea6a55ee88ef573a3a8646e41e8a31">
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#afeea6a55ee88ef573a3a8646e41e8a31">unpack</a>(</span><span class="m-doc-wrap">) const -&gt; <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1packed__unit__vector.html#aec7dcdcc76d16a6dc95f852e0a5428c9">dimensions</a>&gt; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Unpacks the packed unit <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> into a regular multi-component floating-point <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>.</dd>
@@ -172,7 +172,7 @@
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
             <dt id="a5579c4dc7e12a1b95d0ee77e35d7c2cd">
-              <div class="m-doc-template">template&lt;typename Char, typename Traits&gt;</div>
+              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char</span>, <span class="m-doc-template-param">typename Traits</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a5579c4dc7e12a1b95d0ee77e35d7c2cd">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
               const <a class="m-doc" href="structmuu_1_1packed__unit__vector.html">packed_<wbr/>unit_<wbr/>vector</a>&amp; v) -&gt; <a class="m-doc-external poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
@@ -183,8 +183,10 @@
           <h2>Function documentation</h2>
           <section class="m-doc-details" id="a038a99584a22b6fc765c4328191228e9"><div>
             <h3>
-              <div class="m-doc-template"> template&lt;typename Integer, <a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions&gt;<br/>
-template&lt;typename T&gt;
+              <div class="m-doc-template">
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Integer</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Dimensions</span></span>&gt;
+                <br/>
+                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper"> muu::<wbr/>packed_unit_vector&lt;Integer, Dimensions&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a038a99584a22b6fc765c4328191228e9">packed_unit_vector</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1vector.html">vector</a>&lt;T, <a class="m-doc" href="structmuu_1_1packed__unit__vector.html#aec7dcdcc76d16a6dc95f852e0a5428c9">dimensions</a>&gt;&amp; vec) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
