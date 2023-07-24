@@ -2165,10 +2165,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename detail::type_at_index_impl&lt; I, T... &gt;::type</type>
+      <type>POXY_IMPLEMENTATION_DETAIL_IMPL</type>
       <name>type_at_index</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga6f27ad9de4af7f8d8e909faba87771f0</anchor>
+      <anchor>ga9672361517fa59080db34d9fb31aac22</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -22547,10 +22547,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename detail::type_at_index_impl&lt; I, T... &gt;::type</type>
+      <type>POXY_IMPLEMENTATION_DETAIL_IMPL</type>
       <name>type_at_index</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga6f27ad9de4af7f8d8e909faba87771f0</anchor>
+      <anchor>ga9672361517fa59080db34d9fb31aac22</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
@@ -28304,10 +28304,10 @@
       <arglist></arglist>
     </member>
     <member kind="typedef">
-      <type>typename detail::type_at_index_impl&lt; I, T... &gt;::type</type>
+      <type>POXY_IMPLEMENTATION_DETAIL_IMPL</type>
       <name>type_at_index</name>
       <anchorfile>group__meta.html</anchorfile>
-      <anchor>ga6f27ad9de4af7f8d8e909faba87771f0</anchor>
+      <anchor>ga9672361517fa59080db34d9fb31aac22</anchor>
       <arglist></arglist>
     </member>
     <member kind="typedef">
