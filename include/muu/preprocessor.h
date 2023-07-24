@@ -1978,8 +1978,10 @@ namespace muu::impl
 
 #ifndef MUU_ENABLE_IF
 	#if !MUU_DOXYGEN
-		#define MUU_ENABLE_IF(...) , typename ::muu::impl::enable_if_<!!(__VA_ARGS__), int>::type = 0
+		#define MUU_ENABLE_IF_T(T, ...) typename ::muu::impl::enable_if_<!!(__VA_ARGS__), T>::type
+		#define MUU_ENABLE_IF(...)		, MUU_ENABLE_IF_T(int, __VA_ARGS__) = 0
 	#else
+		#define MUU_ENABLE_IF_T(T, ...)
 		#define MUU_ENABLE_IF(...)
 	#endif
 #endif

@@ -906,7 +906,7 @@ namespace muu
 
 	/// \brief	The type at the given index in the list.
 	template <size_t I, typename... T>
-	using type_at_index = typename detail::type_at_index_impl<I, T...>::type;
+	using type_at_index = POXY_IMPLEMENTATION_DETAIL(typename detail::type_at_index_impl<I, T...>::type);
 
 #endif
 	//% meta::type_at_index end
