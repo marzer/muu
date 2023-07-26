@@ -30,7 +30,12 @@ namespace muu
 	MUU_ATTR(assume_aligned(impl::aligned_alloc_min_align))
 	inline void* aligned_alloc(size_t size, size_t alignment) noexcept
 	{
+		MUU_ASSUME(size);
+		MUU_ASSUME(static_cast<size_t>(alignment));
+		MUU_ASSUME(has_single_bit(static_cast<size_t>(alignment)));
+
 		alignment = alignment > impl::aligned_alloc_min_align ? alignment : impl::aligned_alloc_min_align;
+		size	  = (size + alignment - 1u) & ~(alignment - 1u);
 
 #if MUU_WINDOWS
 		return muu::assume_aligned<impl::aligned_alloc_min_align>(_aligned_malloc(size, alignment));

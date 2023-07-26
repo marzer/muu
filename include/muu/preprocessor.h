@@ -1643,6 +1643,7 @@ help me improve support for your target architecture. Thanks!
 		#if MUU_GCC >= 9
 			#define MUU_DISABLE_SPAM_WARNINGS_GCC_9                                                                    \
 				_Pragma("GCC diagnostic ignored \"-Wattributes\"")                                                     \
+				_Pragma("GCC diagnostic ignored \"-Wctor-dtor-privacy\"")                                              \
 				static_assert(true)
 		#else
 			#define MUU_DISABLE_SPAM_WARNINGS_GCC_9 static_assert(true)
