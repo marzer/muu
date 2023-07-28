@@ -16,14 +16,16 @@ namespace muu
 {
 	//% aligned_alloc start
 
+	/// @cond
 	namespace impl
 	{
 		inline constexpr size_t aligned_alloc_min_align =
 			__STDCPP_DEFAULT_NEW_ALIGNMENT__ > 16u ? size_t{ __STDCPP_DEFAULT_NEW_ALIGNMENT__ } : size_t{ 16u };
 	}
+	/// @endcond
 
-	/// \brief Allocates memory on a specific alignment boundary.
-	/// \ingroup core
+	/// @brief Allocates memory on a specific alignment boundary.
+	/// @ingroup core
 	MUU_NODISCARD
 	MUU_DECLSPEC(noalias)
 	MUU_DECLSPEC(restrict)
@@ -32,7 +34,6 @@ namespace muu
 	{
 		MUU_ASSUME(size);
 		MUU_ASSUME(static_cast<size_t>(alignment));
-		MUU_ASSUME(has_single_bit(static_cast<size_t>(alignment)));
 
 		alignment = alignment > impl::aligned_alloc_min_align ? alignment : impl::aligned_alloc_min_align;
 		size	  = (size + alignment - 1u) & ~(alignment - 1u);
@@ -44,10 +45,10 @@ namespace muu
 #endif
 	}
 
-	/// \brief Frees memory that was allocated using #muu::aligned_alloc().
-	/// \ingroup core
+	/// @brief Frees memory that was allocated using #muu::aligned_alloc().
+	/// @ingroup core
 	///
-	/// \warning Do not use this to free memory that was not allocated using #muu::aligned_alloc()!
+	/// @warning Do not use this to free memory that was not allocated using #muu::aligned_alloc()!
 	MUU_ALWAYS_INLINE
 	void aligned_free(void* ptr) noexcept
 	{

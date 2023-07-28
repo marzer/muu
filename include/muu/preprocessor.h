@@ -1973,13 +1973,16 @@ namespace muu::impl
 	{
 		using type = T;
 	};
+
+	template <bool Condition, typename T = void>
+	using enable_if_t_ = typename enable_if_<Condition, T>::type;
 }
 /// \endcond
 //# }}
 
 #ifndef MUU_ENABLE_IF
 	#if !MUU_DOXYGEN
-		#define MUU_ENABLE_IF_T(T, ...) typename ::muu::impl::enable_if_<!!(__VA_ARGS__), T>::type
+		#define MUU_ENABLE_IF_T(T, ...) ::muu::impl::enable_if_t_<!!(__VA_ARGS__), T>
 		#define MUU_ENABLE_IF(...)		, MUU_ENABLE_IF_T(int, __VA_ARGS__) = 0
 	#else
 		#define MUU_ENABLE_IF_T(T, ...)
