@@ -1442,8 +1442,6 @@ namespace std
 		static constexpr auto has_infinity		= true;
 		static constexpr auto has_quiet_NaN		= true;
 		static constexpr auto has_signaling_NaN = true;
-		static constexpr auto has_denorm		= float_denorm_style::denorm_present;
-		static constexpr auto has_denorm_loss	= false;
 		static constexpr auto round_style		= float_round_style::round_to_nearest;
 		static constexpr auto is_iec559			= true;
 		static constexpr auto is_bounded		= true;
