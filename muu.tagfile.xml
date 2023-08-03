@@ -136,6 +136,7 @@
   <compound kind="file">
     <name>assume_aligned.h</name>
     <filename>assume__aligned_8h.html</filename>
+    <includes id="is__constant__evaluated_8h" name="is_constant_evaluated.h" local="yes" imported="no">is_constant_evaluated.h</includes>
     <namespace>muu</namespace>
     <member kind="function">
       <type>constexpr T *</type>
