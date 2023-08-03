@@ -8,6 +8,7 @@
 /// \ingroup cpp20
 /// \brief Contains the definition of #muu::assume_aligned().
 
+#include "is_constant_evaluated.h"
 #include "impl/std_type_traits.h"
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
@@ -31,41 +32,46 @@ namespace muu
 		static_assert(N > 0 && (N & (N - 1u)) == 0u, "assume_aligned() requires a power-of-two alignment value.");
 		static_assert(!std::is_function_v<T>, "assume_aligned may not be used on functions.");
 
-		MUU_ASSUME((reinterpret_cast<uintptr_t>(ptr) & (N - uintptr_t{ 1 })) == 0);
-
-		if constexpr (std::is_volatile_v<T>)
+		MUU_IF_CONSTEVAL
 		{
-			return static_cast<T*>(muu::assume_aligned<N>(const_cast<std::remove_volatile_t<T>*>(ptr)));
+			return ptr;
 		}
 		else
 		{
+			MUU_ASSUME((reinterpret_cast<uintptr_t>(ptr) & (N - uintptr_t{ 1 })) == 0);
+
+			if constexpr (std::is_volatile_v<T>)
+			{
+				return static_cast<T*>(muu::assume_aligned<N>(const_cast<std::remove_volatile_t<T>*>(ptr)));
+			}
+			else
+			{
 #if MUU_CLANG || MUU_GCC || MUU_HAS_BUILTIN(__builtin_assume_aligned)
 
-			return static_cast<T*>(__builtin_assume_aligned(ptr, N));
+				return static_cast<T*>(__builtin_assume_aligned(ptr, N));
 
 #elif MUU_MSVC
 
-			if constexpr (N < 16384)
-				return static_cast<T*>(__builtin_assume_aligned(ptr, N));
-			else
-				return ptr;
+				if constexpr (N < 16384)
+					return static_cast<T*>(__builtin_assume_aligned(ptr, N));
+				else
+					return ptr;
 
 #elif MUU_ICC
 
-			__assume_aligned(ptr, N);
-			return ptr;
+				__assume_aligned(ptr, N);
+				return ptr;
 
-//# {{
 #elif defined(__cpp_lib_assume_aligned)
 
-			return std::assume_aligned<N>(ptr);
+				return std::assume_aligned<N>(ptr);
 
-//# }}
 #else
 
-			return ptr;
+				return ptr;
 
 #endif
+			}
 		}
 	}
 	//% assume_aligned end

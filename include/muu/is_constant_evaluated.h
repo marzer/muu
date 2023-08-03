@@ -15,7 +15,6 @@
 #include "impl/header_start.h"
 MUU_FORCE_NDEBUG_OPTIMIZATIONS; // these should be considered "intrinsics"
 
-#if 1
 namespace muu
 {
 	//% is_constant_evaluated start
@@ -31,7 +30,7 @@ namespace muu
 	MUU_CONST_INLINE_GETTER
 	constexpr bool is_constant_evaluated() noexcept
 	{
-	#if MUU_HAS_IF_CONSTEVAL
+#if MUU_HAS_IF_CONSTEVAL
 
 		if consteval
 		{
@@ -42,19 +41,19 @@ namespace muu
 			return false;
 		}
 
-	#elif MUU_CLANG >= 9 || MUU_GCC >= 9 || MUU_MSVC >= 1925 || MUU_HAS_BUILTIN(is_constant_evaluated)
+#elif MUU_CLANG >= 9 || MUU_GCC >= 9 || MUU_MSVC >= 1925 || MUU_HAS_BUILTIN(is_constant_evaluated)
 
 		return __builtin_is_constant_evaluated();
 
-	#elif defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
+#elif defined(__cpp_lib_is_constant_evaluated) && __cpp_lib_is_constant_evaluated >= 201811
 
 		return std::is_constant_evaluated();
 
-	#else
+#else
 
 		return false;
 
-	#endif
+#endif
 	}
 
 	namespace build
@@ -64,7 +63,6 @@ namespace muu
 	}
 	//% is_constant_evaluated end
 }
-#endif
 
 //% preprocessor::if_consteval start
 #ifndef MUU_IF_CONSTEVAL
