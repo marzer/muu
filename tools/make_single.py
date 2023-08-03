@@ -19,15 +19,12 @@ STRIP_BLOCK = re.compile(r'(?:\n[ \t]*)?//[#!][ \t]*[{][{].*?//[#!][ \t]*[}][}].
 MUU_DELETE_MOVE = re.compile(r'MUU_DELETE_MOVE\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;')
 MUU_DELETE_COPY = re.compile(r'MUU_DELETE_COPY\(\s*([a-zA-Z0-9_:]+)\s*\)\s*;')
 DOXYGEN_INGROUP = re.compile(r'\n[ \t]*///[ \t]*[\\@]ingroup[ \t].*?\n', flags=re.MULTILINE)
-TRAILING_WHITESPACE = re.compile('([^ \t])[ \t]+\n')
+TRAILING_WHITESPACE = re.compile(r'([^ \t])[ \t]+\n')
 
 def cleanup_text(text: str, remove_doxygen_triple_slashes = True, remove_doxygen_ingroup = True) -> str:
 
 	# 'strip this' blocks "//# {{" and "//# }}"
 	text = STRIP_BLOCK.sub('\n', text)
-
-	# trailing whitespace
-	text = TRAILING_WHITESPACE.sub(r'\1\n', text)
 
 	# /// @ingroup
 	if remove_doxygen_ingroup:
@@ -45,20 +42,20 @@ def cleanup_text(text: str, remove_doxygen_triple_slashes = True, remove_doxygen
 		text
 	)
 
-	trp_slsh = '/' if remove_doxygen_triple_slashes else ''
-	blank_line = r'(?:[ \t]*\n)'
-	magic_comment = rf'(?:[ \t]*//(?:[{trp_slsh}#!<]|[ \t]?(?:\^\^\^|vvv))[^\n]*)'
+	doxy = r'/' if remove_doxygen_triple_slashes else ''
+	magic_comment = rf'(?://(?:[#!<{doxy}]|[ \t]?(?:\^\^\^|vvv)))'
 	while True:
 		prev_text = text
+		# trailing whitespace
+		text = TRAILING_WHITESPACE.sub(r'\1\n', text)
 		# double blank lines
-		text = re.sub('\n(?:[ \t]*\n[ \t]*)+\n', '\n\n', text)
+		text = re.sub('\n\n\n+', '\n\n', text)
 		# magic comments
-		text = re.sub(rf'\n{magic_comment}\n{blank_line}+{magic_comment}\n', '\n', text)
-		text = re.sub(rf'([{{,])\s*\n(?:{magic_comment}\n|{blank_line})+', r'\1\n', text)
-		text = re.sub(rf'\n?(?:{magic_comment}\n)+', '\n', text)
+		text = re.sub(rf'{magic_comment}.*?($)', r'\1', text, flags=re.MULTILINE)
+		# blank lines following a comma, opening bracket, or colon:
+		text = re.sub(r'([{(\[:,])\n\n', r'\1\n', text)
 		if text == prev_text:
 			break
-
 
 	return text
 
@@ -196,6 +193,7 @@ def main():
 				snippet = re.sub(r'^\s*//%.+?$', '', snippet, flags=re.MULTILINE)
 				if m[1].endswith(r'_naive'):
 					snippet = snippet.replace(r'_naive', r'')
+				snippet = f'\n{snippet}\n'
 				snippet = cleanup_text(snippet, remove_doxygen_triple_slashes=args.strip_doxygen_from_snippets)
 				snippet = f'\n{snippet}\n'
 				snippets[m[1]] = snippet

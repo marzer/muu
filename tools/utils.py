@@ -11,28 +11,6 @@ from misk import *
 
 
 
-def repeat_pattern(pattern, count):
-	if len(pattern) == 1:
-		return pattern * count
-	text = ''
-	for i in range(0, count):
-		text = text + pattern[i % len(pattern)]
-	return text
-
-
-
-def make_divider(text=None, text_col=40, pattern='-', line_length=120):
-	if (text is None):
-		return "//" + repeat_pattern(pattern, line_length - 2)
-	else:
-		text = "//{}  {}  ".format(repeat_pattern(pattern, text_col - 2), text)
-		if (len(text) < line_length):
-			return text + repeat_pattern(pattern, line_length - len(text))
-		else:
-			return text
-
-
-
 def git_query(git_args, cwd=None):
 	assert git_args is not None
 	proc = subprocess.run(['git'] + str(git_args).strip().split(),
