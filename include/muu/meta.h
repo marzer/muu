@@ -1795,38 +1795,6 @@ namespace muu
 		inline constexpr bool has_iterator_adl_funcs_<T, false> = false;
 
 		template <typename T>
-		using has_tuple_size_ = decltype(std::tuple_size<std::remove_cv_t<std::remove_reference_t<T>>>::value);
-		template <typename T>
-		using has_tuple_element_ = std::tuple_element_t<0, std::remove_cv_t<std::remove_reference_t<T>>>;
-		template <typename T>
-		using has_tuple_get_member_ = decltype(std::declval<T>().template get<0>());
-
-		template <typename T, bool = is_detected<has_tuple_size_, T>>
-		struct tuple_size_ : std::tuple_size<T>
-		{};
-		template <typename T>
-		struct tuple_size_<T, false>
-		{
-			static constexpr size_t value = 0;
-		};
-
-		template <size_t I, typename T>
-		MUU_NODISCARD
-		MUU_ALWAYS_INLINE
-		constexpr decltype(auto) get_from_tuple_like(T&& tuple_like) noexcept
-		{
-			if constexpr (is_detected<has_tuple_get_member_, T&&>)
-			{
-				return static_cast<T&&>(tuple_like).template get<I>();
-			}
-			else // adl
-			{
-				using std::get;
-				return get<I>(static_cast<T&&>(tuple_like));
-			}
-		}
-
-		template <typename T>
 		using has_data_member_func_impl_ = decltype(std::declval<T>().data());
 		template <typename T, bool = is_detected<has_data_member_func_impl_, T>>
 		inline constexpr bool has_data_member_func_ =
@@ -1998,15 +1966,73 @@ namespace muu
 									 || impl::has_iterator_adl_funcs_<T>	//
 									 || is_bounded_array<T>;
 
+	//% meta::tuple start
+
+	//% meta::is_tuple_like start
+	/// \cond
+	namespace impl
+	{
+		template <typename T>
+		using has_tuple_size_ = decltype(std::tuple_size<remove_cvref<T>>::value);
+		template <typename T>
+		using has_tuple_element_ = decltype(std::declval<typename std::tuple_element<0, remove_cvref<T>>::type>());
+	}
+	/// \endcond
+
 	/// \brief True if the type implements std::tuple_size and std::tuple_element.
 	template <typename T>
 	inline constexpr bool is_tuple_like =
 		is_detected<impl::has_tuple_size_, T> && is_detected<impl::has_tuple_element_, T>;
+	//% meta::is_tuple_like end
+
+	//% meta::tuple_size start
+	/// \cond
+	namespace impl
+	{
+		template <typename T, bool = is_detected<has_tuple_size_, T>>
+		struct tuple_size_ : std::tuple_size<T>
+		{};
+		template <typename T>
+		struct tuple_size_<T, false>
+		{
+			static constexpr size_t value = 0;
+		};
+	}
+	/// \endcond
 
 	/// \brief Equivalent to std::tuple_size_v, but safe to use in SFINAE contexts.
 	/// \remark Returns 0 for types that do not implement std::tuple_size.
 	template <typename T>
 	inline constexpr size_t tuple_size = impl::tuple_size_<T>::value;
+	//% meta::tuple_size end
+
+	//% meta::get_from_tuple_like start
+	/// \cond
+	namespace impl
+	{
+		template <typename T>
+		using has_tuple_get_member_ = decltype(std::declval<T>().template get<0>());
+	}
+	/// \endcond
+
+	template <size_t I, typename T>
+	MUU_NODISCARD
+	MUU_ALWAYS_INLINE
+	constexpr decltype(auto) get_from_tuple_like(T&& tuple_like) noexcept
+	{
+		if constexpr (is_detected<impl::has_tuple_get_member_, T&&>)
+		{
+			return static_cast<T&&>(tuple_like).template get<I>();
+		}
+		else // adl
+		{
+			using std::get;
+			return get<I>(static_cast<T&&>(tuple_like));
+		}
+	}
+	//% meta::get_from_tuple_like end
+
+	//% meta::tuple end
 
 	/// \brief True if a type has a lock interface compatible with std::mutex.
 	template <typename T>
