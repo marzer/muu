@@ -1583,6 +1583,13 @@ help me improve support for your target architecture. Thanks!
 		#else
 			#define MUU_DISABLE_SPAM_WARNINGS_CLANG_13 static_assert(true)
 		#endif
+		#if MUU_CLANG >= 16
+			#define MUU_DISABLE_SPAM_WARNINGS_CLANG_16                                                                 \
+				_Pragma("clang diagnostic ignored \"-Wunsafe-buffer-usage\"")                                          \
+				static_assert(true)
+		#else
+			#define MUU_DISABLE_SPAM_WARNINGS_CLANG_16 static_assert(true)
+		#endif
 		#define MUU_DISABLE_SPAM_WARNINGS                                                                              \
 			_Pragma("clang diagnostic ignored \"-Wc++98-compat-pedantic\"")                                            \
 			_Pragma("clang diagnostic ignored \"-Wc++98-compat\"")                                                     \
@@ -1601,11 +1608,12 @@ help me improve support for your target architecture. Thanks!
 			MUU_DISABLE_SPAM_WARNINGS_CLANG_8;                                                                         \
 			MUU_DISABLE_SPAM_WARNINGS_CLANG_9;                                                                         \
 			MUU_DISABLE_SPAM_WARNINGS_CLANG_13;                                                                        \
+			MUU_DISABLE_SPAM_WARNINGS_CLANG_16;                                                                        \
 			static_assert(true)
 	#elif MUU_MSVC
 		#define MUU_DISABLE_SPAM_WARNINGS                                                                              \
-			__pragma(warning(disable : 4127))  /* conditional expr is constant */                                      \
-			__pragma(warning(disable : 4324))  /* structure was padded due to alignment specifier */                   \
+			__pragma(warning(disable : 4127)) /* conditional expr is constant */                                       \
+			__pragma(warning(disable : 4324)) /* structure was padded due to alignment specifier */                    \
 			__pragma(warning(disable : 4348))                                                                          \
 			__pragma(warning(disable : 4464))  /* relative include path contains '..' */                               \
 			__pragma(warning(disable : 4505))  /* unreferenced local function removed */                               \
