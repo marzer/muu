@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.13.3" name="generator"/>
+  <meta content="Poxy v0.13.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -59,7 +59,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="euler__angles_8h.html">&lt;muu/euler_angles.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</div>
+          <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>euler_angles <span class="m-thin">struct</span>
         </h1>
         <p>A set of euler angles used for rotation.</p>
@@ -132,12 +132,12 @@
             </dt>
             <dd>Initializes from a vec3, where x, y and z are yaw, pitch and roll, respectively.</dd>
             <dt id="a9274f66d83810344e3ea8e0b505ca979">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a9274f66d83810344e3ea8e0b505ca979">euler_angles</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&lt;T&gt;&amp; other) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converting constructor.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a3518fcb63d46a36c06d558a305240e92">euler_angles</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a set of euler angles from an implicitly bit-castable type.</dd>
@@ -195,7 +195,7 @@
             </dt>
             <dd>Scales a set of euler angles.</dd>
             <dt id="ab240e81d52e65c68650e931c08b18a3d">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char</span>, <span class="m-doc-template-param">typename Traits</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char</span>, <span class="m-doc-template-param">typename Traits</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ab240e81d52e65c68650e931c08b18a3d">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-cppreference poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
               const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&amp; rot) -&gt; <a class="m-doc-external poxy-cppreference poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
@@ -206,7 +206,7 @@
           <h2><a href="#related">Related</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga57649f8eb85fafd25bd68c6143468470">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1euler__angles.html">euler_<wbr/>angles</a>&lt;S&gt;&amp; rot) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the angles in a set of euler angles are infinity or NaN.</dd>
@@ -217,11 +217,11 @@
           <section class="m-doc-details" id="a3518fcb63d46a36c06d558a305240e92"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>euler_angles&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3518fcb63d46a36c06d558a305240e92">euler_angles</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> <span class="m-doc-wrap-bumper-prefix">muu::euler_angles::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3518fcb63d46a36c06d558a305240e92">euler_angles</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a set of euler angles from an implicitly bit-castable type.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -243,7 +243,7 @@
           <section class="m-doc-details" id="a243345ebff2f2e055960d3dece4360fe"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
               <a class="m-doc" href="#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> muu::<wbr/>euler_angles&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#a243345ebff2f2e055960d3dece4360fe">yaw</a>
             </h3>
@@ -253,7 +253,7 @@
           <section class="m-doc-details" id="a551cbcad0e1b3c3c8d7ebb4c70828e4f"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
               <a class="m-doc" href="#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> muu::<wbr/>euler_angles&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#a551cbcad0e1b3c3c8d7ebb4c70828e4f">pitch</a>
             </h3>
@@ -263,7 +263,7 @@
           <section class="m-doc-details" id="aa4ee1ae394deea49ef828d5562776ec0"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
               <a class="m-doc" href="#aabcd8c1321d511d7ea2188bd3f14710f">scalar_<wbr/>type</a> muu::<wbr/>euler_angles&lt;Scalar&gt;::<wbr/><a class="m-doc-self" href="#aa4ee1ae394deea49ef828d5562776ec0">roll</a>
             </h3>

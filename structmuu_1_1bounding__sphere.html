@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.13.3" name="generator"/>
+  <meta content="Poxy v0.13.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -59,7 +59,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__sphere_8h.html">&lt;muu/bounding_sphere.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</div>
+          <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>bounding_sphere <span class="m-thin">struct</span>
         </h1>
         <p>A bounding sphere.</p>
@@ -144,12 +144,12 @@
             </dt>
             <dd>Constructs a bounding sphere at the origin.</dd>
             <dt id="aa6864e5db05d4b81c822554f1a11f078">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aa6864e5db05d4b81c822554f1a11f078">bounding_sphere</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converting constructor.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#aaac0f260669a400d4d5ff0b5095bd308">bounding_sphere</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a bounding sphere from an implicitly bit-castable type.</dd>
@@ -301,7 +301,7 @@
             </dt>
             <dd>Returns true if a bounding sphere has approximately zero volume.</dd>
             <dt id="a06ac2a2a2cb957ef83be9411f60df0a6">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a06ac2a2a2cb957ef83be9411f60df0a6">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs1,
               const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;T&gt;&amp; bs2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -317,7 +317,7 @@
             </dt>
             <dd>Returns true if the bounding sphere has approximately zero volume.</dd>
             <dt id="a6620989c2b260589eb4f4a64e567dc8c">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a6620989c2b260589eb4f4a64e567dc8c">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;T&gt;&amp; bs,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a>, T&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -364,13 +364,13 @@
             </dt>
             <dd>Returns true if all the scalar components of the bounding sphere are exactly zero.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad1fa33a6910c0e43154fdcf2791fb895">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two bounding spheres are not exactly equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad931836db637e9bb7ed0d14b22e5bff2">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -452,7 +452,7 @@
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
             <dt id="aab185a4714a9bac1c35944bbdbba1293">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char</span>, <span class="m-doc-template-param">typename Traits</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char</span>, <span class="m-doc-template-param">typename Traits</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#aab185a4714a9bac1c35944bbdbba1293">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-cppreference poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
               const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs) -&gt; <a class="m-doc-external poxy-cppreference poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
@@ -463,25 +463,25 @@
           <h2><a href="#related">Related</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga8976372243128129e8c98bc13031a28d">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs1,
               const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;T&gt;&amp; bs2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two bounding spheres are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#ga98d7ed90e349510d6d5f305664a1eb37">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs,
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the scalar components of a bounding sphere are approximately equal to zero.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#ga236cb7c134ac66ab7b2e98ef8744d2ba">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a bounding sphere is degenerate (i.e. its radius is less than or equal to zero).</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#ga96fa1ad0d535b49feb40932d4b36e602">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;S&gt;&amp; bs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a bounding sphere are infinity or NaN.</dd>
@@ -492,9 +492,9 @@
           <section class="m-doc-details" id="ae9ec4f854d127b3951876094a92c3c1d"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae9ec4f854d127b3951876094a92c3c1d">bounding_sphere</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; cen,
+              <span class="m-doc-wrap-bumper"> <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae9ec4f854d127b3951876094a92c3c1d">bounding_sphere</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; cen,
               <a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> rad) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a bounding sphere from center and radius values.</p>
@@ -517,9 +517,9 @@
           <section class="m-doc-details" id="a8808d6f843c983b75b66cf7886a63873"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8808d6f843c983b75b66cf7886a63873">bounding_sphere</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> cen_x,
+              <span class="m-doc-wrap-bumper"> <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8808d6f843c983b75b66cf7886a63873">bounding_sphere</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> cen_x,
               <a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> cen_y,
               <a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> cen_z,
               <a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> rad) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
@@ -552,9 +552,9 @@
           <section class="m-doc-details" id="a3f88f26f413e386836083d10d03abaf6"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3f88f26f413e386836083d10d03abaf6">bounding_sphere</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> rad) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a3f88f26f413e386836083d10d03abaf6">bounding_sphere</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> rad) <span class="m-label m-info">explicit</span>  <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a bounding sphere at the origin.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -572,11 +572,11 @@
           <section class="m-doc-details" id="aaac0f260669a400d4d5ff0b5095bd308"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aaac0f260669a400d4d5ff0b5095bd308">bounding_sphere</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#aaac0f260669a400d4d5ff0b5095bd308">bounding_sphere</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a bounding sphere from an implicitly bit-castable type.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -595,9 +595,9 @@
           <section class="m-doc-details" id="a1db36a6deafeaa6296ca3b8001ab9d13"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper">static bool muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1db36a6deafeaa6296ca3b8001ab9d13">empty</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">static bool <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a1db36a6deafeaa6296ca3b8001ab9d13">empty</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if a bounding sphere has exactly zero volume.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="#afd426d5fc303779510fe57afd466ea65">approx_<wbr/>empty()</a> if you want an epsilon-based "near-enough" check.</p></aside>
@@ -605,9 +605,9 @@
           <section class="m-doc-details" id="ae9c0c8999c367c76cc78c7d9b55a573d"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper">static bool muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae9c0c8999c367c76cc78c7d9b55a573d">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">static bool <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae9c0c8999c367c76cc78c7d9b55a573d">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the scalar components of a bounding sphere are exactly zero.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="#adbdd38b38a89b9d3a1b60669fff524f3">approx_<wbr/>zero()</a> if you want an epsilon-based "near-enough" check.</p></aside>
@@ -615,9 +615,9 @@
           <section class="m-doc-details" id="a981a6c60bc04bceb8b22c7f1c6484a6f"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a981a6c60bc04bceb8b22c7f1c6484a6f">empty</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a981a6c60bc04bceb8b22c7f1c6484a6f">empty</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if the bounding sphere has exactly zero volume.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="#afd426d5fc303779510fe57afd466ea65">approx_<wbr/>empty()</a> if you want an epsilon-based "near-enough" check.</p></aside>
@@ -625,9 +625,9 @@
           <section class="m-doc-details" id="a4ca6f96805a791b48f06a948ecb27fc0"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4ca6f96805a791b48f06a948ecb27fc0">zero</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a4ca6f96805a791b48f06a948ecb27fc0">zero</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the scalar components of the bounding sphere are exactly zero.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="#adbdd38b38a89b9d3a1b60669fff524f3">approx_<wbr/>zero()</a> if you want an epsilon-based "near-enough" check.</p></aside>
@@ -635,11 +635,11 @@
           <section class="m-doc-details" id="ad1fa33a6910c0e43154fdcf2791fb895"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad1fa33a6910c0e43154fdcf2791fb895">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad1fa33a6910c0e43154fdcf2791fb895">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two bounding spheres are not exactly equal.</p>
@@ -648,11 +648,11 @@
           <section class="m-doc-details" id="ad931836db637e9bb7ed0d14b22e5bff2"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad931836db637e9bb7ed0d14b22e5bff2">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad931836db637e9bb7ed0d14b22e5bff2">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two bounding spheres are exactly equal.</p>
@@ -661,9 +661,9 @@
           <section class="m-doc-details" id="af9392504a48cf40a573cdeef65fe094f"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a> muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af9392504a48cf40a573cdeef65fe094f">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a> <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#af9392504a48cf40a573cdeef65fe094f">scale</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
               <a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> scale_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Scales a bounding sphere.</p>
@@ -692,9 +692,9 @@
           <section class="m-doc-details" id="adc60a9925e50f3fb4a1b0b76032dd9f9"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#adc60a9925e50f3fb4a1b0b76032dd9f9">scale</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> scale_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#adc60a9925e50f3fb4a1b0b76032dd9f9">scale</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="#af484d99425efc4ce44a2a6be6427587c">scalar_<wbr/>type</a> scale_) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Scales the bounding sphere (in-place).</p>
             <table class="m-table m-fullwidth m-flat">
@@ -718,9 +718,9 @@
           <section class="m-doc-details" id="a196220fa1965472056b168de9ad8848d"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a> muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a196220fa1965472056b168de9ad8848d">translate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a> <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a196220fa1965472056b168de9ad8848d">translate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; bs,
               const <a class="m-doc" href="#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; offset) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Translates a bounding sphere.</p>
@@ -749,9 +749,9 @@
           <section class="m-doc-details" id="ac9768f4cae98fee704f344d064bede93"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; muu::<wbr/>bounding_sphere&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac9768f4cae98fee704f344d064bede93">translate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; offset) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1bounding__sphere.html">bounding_<wbr/>sphere</a>&amp; <span class="m-doc-wrap-bumper-prefix">muu::bounding_sphere::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac9768f4cae98fee704f344d064bede93">translate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="#ac23acfa2a79c3d2303b50f0e07ce668f">vector_<wbr/>type</a>&amp; offset) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Translates the bounding sphere (in-place).</p>
             <table class="m-table m-fullwidth m-flat">

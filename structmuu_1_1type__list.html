@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.13.3" name="generator"/>
+  <meta content="Poxy v0.13.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -59,7 +59,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="type__list_8h.html">&lt;muu/type_list.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</div>
+          <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>type_list <span class="m-thin">struct</span>
         </h1>
         <p>A 'tag' type for encoding/parameterizing lists of types (without the instantiation heft of <a class="m-doc-external poxy-cppreference poxy-external" href="http://en.cppreference.com/w/cpp/utility/tuple.html" target="_blank">std::<wbr/>tuple</a>).</p>
@@ -91,7 +91,7 @@
           <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... U</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... U</span></span>&gt;</div>
               using <a class="m-doc" href="#ab3d0e88d24a6b4b32c03f9aea336e0a5">append</a> = <a class="m-doc" href="structmuu_1_1type__list.html">muu::<wbr/>type_list</a>&lt;T..., U...&gt;
             </dt>
             <dd>Creates a new type list by appending types to this one.</dd>
@@ -104,22 +104,22 @@
             </dt>
             <dd>A flattened version of the list with any nested type_lists recursively hoisted up into itself.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... U</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... U</span></span>&gt;</div>
               using <a class="m-doc" href="#aa918a3dc23d77ec057846d14d994a0ba">prepend</a> = <a class="m-doc" href="structmuu_1_1type__list.html">muu::<wbr/>type_list</a>&lt;U..., T...&gt;
             </dt>
             <dd>Creates a new type list by prepending types to this one.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename U</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename U</span></span>&gt;</div>
               using <a class="m-doc" href="#ab9ebb4442446fd37362bc5a3dea3f618">remove</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </dt>
             <dd>A version of the list with all ocurrences of the named type removed.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index</span></span>&gt;</div>
               using <a class="m-doc" href="#a4e383a46f2f141dac3a5ff14e44d8f54">select</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </dt>
             <dd>Selects a single type from the list.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Start</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length = (<a class="m-doc" href="#a7bc9e54b6100181e7203d433a5e1b31b">length</a> - Start)</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Start</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length = (<a class="m-doc" href="#a7bc9e54b6100181e7203d433a5e1b31b">length</a> - Start)</span></span>&gt;</div>
               using <a class="m-doc" href="#a525094f21f1941eb9910b8aaa24c9365">slice</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </dt>
             <dd>Selects a slice of types from the list.</dd>
@@ -133,12 +133,12 @@
           <h2><a href="#pub-static-attribs">Public static variables</a></h2>
           <dl class="m-doc">
             <dt id="aea6b140380df6b748fc503d6b80b10e0">
-              <div class="m-doc-template">template&lt;typename U&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename U</span></span>&gt;</div>
               static bool <a class="m-doc-self" href="#aea6b140380df6b748fc503d6b80b10e0">contains</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Returns true if a given type appears in the list.</dd>
             <dt id="ac721e0f97de92f684b6caa3423253800">
-              <div class="m-doc-template">template&lt;typename U&gt;</div> static <a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ac721e0f97de92f684b6caa3423253800">index_of</a> <span class="m-label m-flat m-primary">constexpr</span>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename U</span></span>&gt;</div> static <a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc-self" href="#ac721e0f97de92f684b6caa3423253800">index_of</a> <span class="m-label m-flat m-primary">constexpr</span>
             </dt>
             <dd>Returns the index of the first appearance of a given type in the list.</dd>
             <dt> static <a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> <a class="m-doc" href="#a7bc9e54b6100181e7203d433a5e1b31b">length</a> <span class="m-label m-flat m-primary">constexpr</span>
@@ -151,9 +151,9 @@
           <section class="m-doc-details" id="ab3d0e88d24a6b4b32c03f9aea336e0a5"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... U</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... U</span></span>&gt;
               </div>
               using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#ab3d0e88d24a6b4b32c03f9aea336e0a5">append</a> = <a class="m-doc" href="structmuu_1_1type__list.html">muu::<wbr/>type_list</a>&lt;T..., U...&gt;
             </h3>
@@ -166,7 +166,7 @@
           <section class="m-doc-details" id="a0b1d54c39538ac038e178c915e80cd67"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</span>
               </div>
               using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a0b1d54c39538ac038e178c915e80cd67">first</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </h3>
@@ -184,7 +184,7 @@
           <section class="m-doc-details" id="a781df73d70a5cecbc215db625c454786"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</span>
               </div>
               using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a781df73d70a5cecbc215db625c454786">flatten</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </h3>
@@ -197,9 +197,9 @@
           <section class="m-doc-details" id="aa918a3dc23d77ec057846d14d994a0ba"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... U</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... U</span></span>&gt;
               </div>
               using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#aa918a3dc23d77ec057846d14d994a0ba">prepend</a> = <a class="m-doc" href="structmuu_1_1type__list.html">muu::<wbr/>type_list</a>&lt;U..., T...&gt;
             </h3>
@@ -212,9 +212,9 @@
           <section class="m-doc-details" id="ab9ebb4442446fd37362bc5a3dea3f618"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename U</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename U</span></span>&gt;
               </div>
               using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#ab9ebb4442446fd37362bc5a3dea3f618">remove</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </h3>
@@ -227,9 +227,9 @@
           <section class="m-doc-details" id="a4e383a46f2f141dac3a5ff14e44d8f54"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Index</span></span>&gt;
               </div>
               using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a4e383a46f2f141dac3a5ff14e44d8f54">select</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </h3>
@@ -247,9 +247,9 @@
           <section class="m-doc-details" id="a525094f21f1941eb9910b8aaa24c9365"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Start</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length = (<a class="m-doc" href="#a7bc9e54b6100181e7203d433a5e1b31b">length</a> - Start)</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Start</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> Length = (<a class="m-doc" href="#a7bc9e54b6100181e7203d433a5e1b31b">length</a> - Start)</span></span>&gt;
               </div>
               using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a525094f21f1941eb9910b8aaa24c9365">slice</a> = <code class="m-note m-dim poxy-impl">/* ... */</code>
             </h3>
@@ -262,7 +262,7 @@
           <section class="m-doc-details" id="adf836ec5894110f63566e8bfb54a78aa"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</span>
               </div>
               using muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#adf836ec5894110f63566e8bfb54a78aa">type</a> = <a class="m-doc" href="#a0b1d54c39538ac038e178c915e80cd67">first</a>
             </h3>
@@ -275,7 +275,7 @@
           <section class="m-doc-details" id="a7bc9e54b6100181e7203d433a5e1b31b"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename... T</span></span>&gt;</span>
               </div> static <a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> muu::<wbr/>type_list&lt;T&gt;::<wbr/><a class="m-doc-self" href="#a7bc9e54b6100181e7203d433a5e1b31b">length</a> <span class="m-label m-primary">constexpr</span>
             </h3>
             <p>The number of types in the list.</p>

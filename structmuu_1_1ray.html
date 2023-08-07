@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.13.3" name="generator"/>
+  <meta content="Poxy v0.13.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -59,7 +59,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="ray_8h.html">&lt;muu/ray.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</div>
+          <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>ray <span class="m-thin">struct</span>
         </h1>
         <p>A ray.</p>
@@ -137,12 +137,12 @@
             </dt>
             <dd>Constructs a ray from an origin and direction (in scalar form).</dd>
             <dt id="a7ceb72909724fddd250d93aa9e38f8e1">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7ceb72909724fddd250d93aa9e38f8e1">ray</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;S&gt;&amp; r) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converting constructor.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a007519f62809bf513aad070cefc84c24">ray</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a ray from an implicitly bit-castable type.</dd>
@@ -174,14 +174,14 @@
           <h2><a href="#equality-approximate">Equality (approximate)</a></h2>
           <dl class="m-doc">
             <dt id="a473c476fd824a1389837b25a657831c6">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#a473c476fd824a1389837b25a657831c6">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; ray1,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; ray2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a>, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two rays are approximately equal.</dd>
             <dt id="a75c1a2b15ca37073521044a069beecf4">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a75c1a2b15ca37073521044a069beecf4">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; r,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a>, T&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -200,13 +200,13 @@
             </dt>
             <dd>Returns true if any of the scalars in the ray are infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a93a7acfd380b2bf28cbcf57d7ea69a7d">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two rays are not exactly equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ac2b2dc69b1fed64c2efa82d66e9c954e">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -303,7 +303,7 @@
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
             <dt id="ad4ff11dbabc5bbe8a572440afc352101">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char</span>, <span class="m-doc-template-param">typename Traits</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char</span>, <span class="m-doc-template-param">typename Traits</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#ad4ff11dbabc5bbe8a572440afc352101">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-cppreference poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r) -&gt; <a class="m-doc-external poxy-cppreference poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
@@ -314,14 +314,14 @@
           <h2><a href="#related">Related</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga849bcf01597a1aad506df3a6faa89962">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;S&gt;&amp; ray1,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; ray2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two rays are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gac3494bfd158a43f8c6105aab2bdd3b82">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;S&gt;&amp; r) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalars in a ray are infinity or NaN.</dd>
@@ -332,11 +332,11 @@
           <section class="m-doc-details" id="a007519f62809bf513aad070cefc84c24"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a007519f62809bf513aad070cefc84c24">ray</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> <span class="m-doc-wrap-bumper-prefix">muu::ray::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a007519f62809bf513aad070cefc84c24">ray</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a ray from an implicitly bit-castable type.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -355,11 +355,11 @@
           <section class="m-doc-details" id="a93a7acfd380b2bf28cbcf57d7ea69a7d"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a93a7acfd380b2bf28cbcf57d7ea69a7d">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool <span class="m-doc-wrap-bumper-prefix">muu::ray::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a93a7acfd380b2bf28cbcf57d7ea69a7d">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two rays are not exactly equal.</p>
@@ -368,11 +368,11 @@
           <section class="m-doc-details" id="ac2b2dc69b1fed64c2efa82d66e9c954e"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac2b2dc69b1fed64c2efa82d66e9c954e">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool <span class="m-doc-wrap-bumper-prefix">muu::ray::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac2b2dc69b1fed64c2efa82d66e9c954e">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two rays are exactly equal.</p>
@@ -381,9 +381,9 @@
           <section class="m-doc-details" id="a0d6909d87e2c19d8da71f34800824b7c"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a> muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0d6909d87e2c19d8da71f34800824b7c">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a> <span class="m-doc-wrap-bumper-prefix">muu::ray::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a0d6909d87e2c19d8da71f34800824b7c">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
               const <a class="m-doc" href="#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a>&amp; hit) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Converts a hit result into a hit position from a ray.</p>
@@ -392,9 +392,9 @@
           <section class="m-doc-details" id="a8a9565272a340ec87b0cfeb80912374f"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1ray.html">ray</a> muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8a9565272a340ec87b0cfeb80912374f">bounce</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1ray.html">ray</a> <span class="m-doc-wrap-bumper-prefix">muu::ray::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a8a9565272a340ec87b0cfeb80912374f">bounce</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
               <a class="m-doc" href="#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a> distance,
               const <a class="m-doc" href="#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a>&amp; dir) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -428,9 +428,9 @@
           <section class="m-doc-details" id="ae74e68dc1ad9bd4ac7edca6ebd9ff90a"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1ray.html">ray</a> muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae74e68dc1ad9bd4ac7edca6ebd9ff90a">bounce</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
+              <span class="m-doc-wrap-bumper">static <a class="m-doc" href="structmuu_1_1ray.html">ray</a> <span class="m-doc-wrap-bumper-prefix">muu::ray::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ae74e68dc1ad9bd4ac7edca6ebd9ff90a">bounce</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1ray.html">ray</a>&amp; r,
               const <a class="m-doc" href="#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a>&amp; hit,
               const <a class="m-doc" href="#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a>&amp; dir) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -465,9 +465,9 @@
           <section class="m-doc-details" id="ac3914646c6fc2788d1d00cbf52954ab7"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a> muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac3914646c6fc2788d1d00cbf52954ab7">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a>&amp; hit) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a> <span class="m-doc-wrap-bumper-prefix">muu::ray::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ac3914646c6fc2788d1d00cbf52954ab7">at</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a>&amp; hit) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Converts a hit result into a hit position from this ray.</p>
 <aside class="m-note m-warning"><h4>Attention</h4><p>Assumes the hit contains a value!</p></aside>
@@ -475,9 +475,9 @@
           <section class="m-doc-details" id="ad4b7dda91ae3ac35b5faef96b24bdaf7"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1ray.html">ray</a> muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad4b7dda91ae3ac35b5faef96b24bdaf7">bounce</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a> distance,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1ray.html">ray</a> <span class="m-doc-wrap-bumper-prefix">muu::ray::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad4b7dda91ae3ac35b5faef96b24bdaf7">bounce</a>(</span><span class="m-doc-wrap"><a class="m-doc" href="#ab06c3bf7895d350a2f7f55d4c049bca6">scalar_<wbr/>type</a> distance,
               const <a class="m-doc" href="#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a>&amp; dir) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Creates a new ray as a 'bounce' from a previous hit position of this one.</p>
@@ -506,9 +506,9 @@
           <section class="m-doc-details" id="a7cab70cfe600286318d9417b5b5d03ea"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1ray.html">ray</a> muu::<wbr/>ray&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7cab70cfe600286318d9417b5b5d03ea">bounce</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a>&amp; hit,
+              <span class="m-doc-wrap-bumper"><a class="m-doc" href="structmuu_1_1ray.html">ray</a> <span class="m-doc-wrap-bumper-prefix">muu::ray::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a7cab70cfe600286318d9417b5b5d03ea">bounce</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="#ac925ed315148d13e6623d12835948ff0">result_<wbr/>type</a>&amp; hit,
               const <a class="m-doc" href="#a3eb68e6a2f5b24b859d5ac37589a646f">vector_<wbr/>type</a>&amp; dir) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Creates a new ray as a 'bounce' from a previous hit position of this one.</p>

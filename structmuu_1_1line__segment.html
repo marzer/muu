@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.13.3" name="generator"/>
+  <meta content="Poxy v0.13.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -59,7 +59,7 @@
       <div class="m-col-l-10 m-push-l-1">
         <h1>
           <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="line__segment_8h.html">&lt;muu/line_segment.h&gt;</a></div>
-          <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</div>
+          <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</div>
           <span class="m-breadcrumb"><a href="namespacemuu.html">muu</a>::<wbr/></span>line_segment <span class="m-thin">struct</span>
         </h1>
         <p>A line segment.</p>
@@ -156,12 +156,12 @@
             </dt>
             <dd>Constructs a line segment from two points (in scalar form).</dd>
             <dt id="a26521510fcd3bff3a1529e6376cb1f02">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a26521510fcd3bff3a1529e6376cb1f02">line_segment</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg) <span class="m-label m-flat m-info">explicit</span>  <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Converting constructor.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper"><a class="m-doc" href="#acc28f548ba05effae540c8eb42b0b7e9">line_segment</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Constructs a line segment from an implicitly bit-castable type.</dd>
@@ -280,7 +280,7 @@
           <h2><a href="#equality-approximate">Equality (approximate)</a></h2>
           <dl class="m-doc">
             <dt id="ad1c8ad5ecf9b298ba0f15a052078b925">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">static auto <a class="m-doc-self" href="#ad1c8ad5ecf9b298ba0f15a052078b925">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg1,
               const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; seg2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
@@ -292,7 +292,7 @@
             </dt>
             <dd>Returns true if all the scalar components in a line segment are approximately equal to zero.</dd>
             <dt id="af82499d51c74452b53f94b727bdd1824">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af82499d51c74452b53f94b727bdd1824">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; seg,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;<a class="m-doc" href="#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;<a class="m-doc" href="#ac0b55997c99143b722bbc3e4f9ba9f5d">scalar_<wbr/>type</a>, T&gt;) const -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -331,13 +331,13 @@
             </dt>
             <dd>Returns true if all the points of the line segment are exactly zero.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#a2c5d54d42db6135d41d732f1a4fca9ff">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two line segments are not exactly equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ad488efb18123198f7f0684a23da880fd">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; rhs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
@@ -466,12 +466,12 @@
           <h2><a href="#point-accessors">Point accessors</a></h2>
           <dl class="m-doc">
             <dt id="a9f23d13abc8711f38c4e1f2846db5fd5">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> P</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> P</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a9f23d13abc8711f38c4e1f2846db5fd5">get</a>(</span><span class="m-doc-wrap">) -&gt; <a class="m-doc" href="#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a reference to one of the line segment's points.</dd>
             <dt id="a85575bff56bf1a4b50a3a968cf5a1ad8">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> P</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> P</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#a85575bff56bf1a4b50a3a968cf5a1ad8">get</a>(</span><span class="m-doc-wrap">) const -&gt; const<a class="m-doc" href="#a80b86b159e42a6335287f4ff583486b8">vector_<wbr/>type</a>&amp; <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns a reference to one of the line segment's points.</dd>
@@ -529,7 +529,7 @@
           <h2><a href="#friends">Friends</a></h2>
           <dl class="m-doc">
             <dt id="af0dbe18d87aa08d0193466ba384828d8">
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char</span>, <span class="m-doc-template-param">typename Traits</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Char</span>, <span class="m-doc-template-param">typename Traits</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc-self" href="#af0dbe18d87aa08d0193466ba384828d8">operator&lt;&lt;</a>(</span><span class="m-doc-wrap"><a class="m-doc-external poxy-cppreference poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp; os,
               const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) -&gt; <a class="m-doc-external poxy-cppreference poxy-external" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html" target="_blank">std::<wbr/>basic_ostream</a>&lt;Char, Traits&gt;&amp;</span>
             </dt>
@@ -540,25 +540,25 @@
           <h2><a href="#related">Related</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__equal.html#ga9feb4d4d3c2c67ad383254a73fdeff52">approx_equal</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg1,
               const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; seg2,
               <a class="m-doc" href="group__meta.html#ga25162e97f327cfee39320e501bdb2697">epsilon_<wbr/>type</a>&lt;S, T&gt; epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S, T&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if two line segments are approximately equal.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__approx__zero.html#gac5e6b9f30f0e565a9893ba7c7fea821b">approx_zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg,
               S epsilon = <a class="m-doc" href="group__meta.html#ga1d7ffe385c4b8f4558d170f50f5eb79a">default_<wbr/>epsilon</a>&lt;S&gt;) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if all the points in line segment are approximately equal to zero.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__degenerate.html#ga8e6014f4408e18bb6eabd6743abb3d52">degenerate</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if a line segment is degenerate (i.e. its points are coincident).</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="group__infinity__or__nan.html#gafe018cc9e24195a2edf98017340c2263">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;S&gt;&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the points in a line segment are infinity or NaN.</dd>
@@ -569,11 +569,11 @@
           <section class="m-doc-details" id="acc28f548ba05effae540c8eb42b0b7e9"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
-              <span class="m-doc-wrap-bumper"> muu::<wbr/>line_segment&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#acc28f548ba05effae540c8eb42b0b7e9">line_segment</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper"> <span class="m-doc-wrap-bumper-prefix">muu::line_segment::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#acc28f548ba05effae540c8eb42b0b7e9">line_segment</a>(</span><span class="m-doc-wrap">const T&amp; obj) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Constructs a line segment from an implicitly bit-castable type.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -592,9 +592,9 @@
           <section class="m-doc-details" id="a78b7742abe2c6e2f9f61367668630b23"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper">static bool muu::<wbr/>line_segment&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a78b7742abe2c6e2f9f61367668630b23">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">static bool <span class="m-doc-wrap-bumper-prefix">muu::line_segment::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a78b7742abe2c6e2f9f61367668630b23">zero</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; seg) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the points of a line segment are exactly zero.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="#afc321c5898d8d4cdcdcfcf2ed183ecd4">approx_<wbr/>zero()</a> if you want an epsilon-based "near-enough" check.</p></aside>
@@ -602,9 +602,9 @@
           <section class="m-doc-details" id="afd7da2af5abf2abcc04e1c8896f1f038"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>line_segment&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afd7da2af5abf2abcc04e1c8896f1f038">zero</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
+              <span class="m-doc-wrap-bumper">bool <span class="m-doc-wrap-bumper-prefix">muu::line_segment::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#afd7da2af5abf2abcc04e1c8896f1f038">zero</a>(</span><span class="m-doc-wrap">) const <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if all the points of the line segment are exactly zero.</p>
 <aside class="m-note m-default"><h4>Remark</h4><p>This is an exact check; use <a class="m-doc" href="#ad1c8ad5ecf9b298ba0f15a052078b925">approx_<wbr/>equal()</a> if you want an epsilon-based "near-enough" check.</p></aside>
@@ -612,11 +612,11 @@
           <section class="m-doc-details" id="a2c5d54d42db6135d41d732f1a4fca9ff"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>line_segment&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a2c5d54d42db6135d41d732f1a4fca9ff">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool <span class="m-doc-wrap-bumper-prefix">muu::line_segment::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#a2c5d54d42db6135d41d732f1a4fca9ff">operator!=</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two line segments are not exactly equal.</p>
@@ -625,11 +625,11 @@
           <section class="m-doc-details" id="ad488efb18123198f7f0684a23da880fd"><div>
             <h3>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;
+                <span class="m-doc-template-parent">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename Scalar</span></span>&gt;</span>
                 <br/>
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
-              <span class="m-doc-wrap-bumper">bool muu::<wbr/>line_segment&lt;Scalar&gt;::<wbr/></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad488efb18123198f7f0684a23da880fd">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; lhs,
+              <span class="m-doc-wrap-bumper">bool <span class="m-doc-wrap-bumper-prefix">muu::line_segment::</span></span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ad488efb18123198f7f0684a23da880fd">operator==</a>(</span><span class="m-doc-wrap">const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&amp; lhs,
               const <a class="m-doc" href="structmuu_1_1line__segment.html">line_<wbr/>segment</a>&lt;T&gt;&amp; rhs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
             <p>Returns true if two line segments are exactly equal.</p>

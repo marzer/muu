@@ -18,7 +18,7 @@
   <meta content="Miscellaneous useful utilities for C++" property="og:description"/>
   <meta content="Miscellaneous useful utilities for C++" itemprop="description"/>
   <meta content="telephone=no" name="format-detection"/>
-  <meta content="Poxy v0.13.3" name="generator"/>
+  <meta content="Poxy v0.13.4" name="generator"/>
   <meta content="strict-origin-when-cross-origin" name="referrer"/>
 </head>
 <body class="poxy-has-toc">
@@ -77,22 +77,22 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae448e944122a385f82dbd7c16e6a42c2">infinity_or_nan</a>(</span><span class="m-doc-wrap">const axis_angle&lt;S&gt;&amp; aa) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalars in an axis-angle are infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga61bc070f6ce184ae3a0d8763b99c1da4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding box</a> are infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga96fa1ad0d535b49feb40932d4b36e602">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;S&gt;&amp; bs) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding sphere</a> are infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga57649f8eb85fafd25bd68c6143468470">infinity_or_nan</a>(</span><span class="m-doc-wrap">const euler_angles&lt;S&gt;&amp; rot) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the angles in a set of euler angles are infinity or NaN.</dd>
@@ -101,7 +101,7 @@
             </dt>
             <dd>Returns true if a half-precision float is infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafe018cc9e24195a2edf98017340c2263">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line_segment</a>&lt;S&gt;&amp; seg) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the points in a <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line segment</a> are infinity or NaN.</dd>
@@ -126,54 +126,54 @@
             </dt>
             <dd>Returns true if a <a class="m-doc poxy-injected poxy-external" href="https://gcc.gnu.org/onlinedocs/gcc/Half-Precision.html" target="_blank">_Float16</a> is infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gae0e73f57dfe538bfb813978525d029b4">infinity_or_nan</a>(</span><span class="m-doc-wrap">T x) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if an arithmetic value is infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac83f0d0b00f182e5cfa6ae4dfa9ad12c">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T(&amp;vals)[N]) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any value in array is infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename U</span>, <span class="m-doc-template-param">typename... V</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename U</span>, <span class="m-doc-template-param">typename... V</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga0f071cb7be895ff5f3176182306cb1a9">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; val1,
               const U&amp; val2,
               const V&amp;... vals) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the given values is infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a> are infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gafb8c126371ec2dcbf6bd36237d1a7e2d">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; bb) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of an <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented bounding box</a> are infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaa55cd1d8c3534c8ffc01aea226c26997">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a> are infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a> are infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#gac3494bfd158a43f8c6105aab2bdd3b82">infinity_or_nan</a>(</span><span class="m-doc-wrap">const ray&lt;S&gt;&amp; r) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalars in a ray are infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga73ae74e7ab9484fb2ee90a67e91c1b08">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the points in a <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a> are infinity or NaN.</dd>
             <dt>
-              <div class="m-doc-template">template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D</span></span>&gt;</div>
+              <div class="m-doc-template">template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D</span></span>&gt;</div>
               <span class="m-doc-wrap-bumper">auto <a class="m-doc" href="#ga302affada638f7a69a77c925b1f38d93">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v) -&gt; bool <span class="m-label m-flat m-primary">constexpr</span> <span class="m-label m-flat m-success">noexcept</span></span>
             </dt>
             <dd>Returns true if any of the scalar components of a <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a> are infinity or NaN.</dd>
@@ -185,7 +185,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="axis__angle_8h.html">&lt;muu/axis_angle.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae448e944122a385f82dbd7c16e6a42c2">infinity_or_nan</a>(</span><span class="m-doc-wrap">const axis_angle&lt;S&gt;&amp; aa) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -195,7 +195,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__box_8h.html">&lt;muu/bounding_box.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga61bc070f6ce184ae3a0d8763b99c1da4">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__box.html">bounding_box</a>&lt;S&gt;&amp; bb) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -205,7 +205,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="bounding__sphere_8h.html">&lt;muu/bounding_sphere.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga96fa1ad0d535b49feb40932d4b36e602">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1bounding__sphere.html">bounding_sphere</a>&lt;S&gt;&amp; bs) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -215,7 +215,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="euler__angles_8h.html">&lt;muu/euler_angles.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga57649f8eb85fafd25bd68c6143468470">infinity_or_nan</a>(</span><span class="m-doc-wrap">const euler_angles&lt;S&gt;&amp; rot) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -232,7 +232,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="line__segment_8h.html">&lt;muu/line_segment.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafe018cc9e24195a2edf98017340c2263">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1line__segment.html">line_segment</a>&lt;S&gt;&amp; seg) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -277,7 +277,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gae0e73f57dfe538bfb813978525d029b4">infinity_or_nan</a>(</span><span class="m-doc-wrap">T x) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -287,7 +287,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> N</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac83f0d0b00f182e5cfa6ae4dfa9ad12c">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T(&amp;vals)[N]) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -297,7 +297,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="math_8h.html">&lt;muu/math.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename U</span>, <span class="m-doc-template-param">typename... V</span></span>&gt;
+                template &lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename T</span>, <span class="m-doc-template-param">typename U</span>, <span class="m-doc-template-param">typename... V</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga0f071cb7be895ff5f3176182306cb1a9">infinity_or_nan</a>(</span><span class="m-doc-wrap">const T&amp; val1,
               const U&amp; val2,
@@ -309,7 +309,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="matrix_8h.html">&lt;muu/matrix.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C</span></span>&gt;
+                template &lt;<span class="m-doc-template-params m-doc-template-long"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> R</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> C</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga1f57b7af70f0235ad644486a5943e582">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1matrix.html">matrix</a>&lt;S, R, C&gt;&amp; m) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -319,7 +319,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="oriented__bounding__box_8h.html">&lt;muu/oriented_bounding_box.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gafb8c126371ec2dcbf6bd36237d1a7e2d">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1oriented__bounding__box.html">oriented_bounding_box</a>&lt;S&gt;&amp; bb) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -329,7 +329,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="plane_8h.html">&lt;muu/plane.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaa55cd1d8c3534c8ffc01aea226c26997">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1plane.html">plane</a>&lt;S&gt;&amp; p) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -339,7 +339,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="quaternion_8h.html">&lt;muu/quaternion.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gaffcaea7f39fc17894285d8221923387e">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1quaternion.html">quaternion</a>&lt;S&gt;&amp; q) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -349,7 +349,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="ray_8h.html">&lt;muu/ray.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#gac3494bfd158a43f8c6105aab2bdd3b82">infinity_or_nan</a>(</span><span class="m-doc-wrap">const ray&lt;S&gt;&amp; r) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -359,7 +359,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="triangle_8h.html">&lt;muu/triangle.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga73ae74e7ab9484fb2ee90a67e91c1b08">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1triangle.html">triangle</a>&lt;S&gt;&amp; tri) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
@@ -369,7 +369,7 @@
             <h3>
               <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="vector_8h.html">&lt;muu/vector.h&gt;</a></div>
               <div class="m-doc-template">
-                template&lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D</span></span>&gt;
+                template &lt;<span class="m-doc-template-params"><span class="m-doc-template-param">typename S</span>, <span class="m-doc-template-param"><a class="m-doc poxy-injected poxy-external poxy-cppreference" href="https://en.cppreference.com/w/cpp/types/size_t" target="_blank">size_t</a> D</span></span>&gt;
               </div>
               <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a class="m-doc-self" href="#ga302affada638f7a69a77c925b1f38d93">infinity_or_nan</a>(</span><span class="m-doc-wrap">const <a class="m-doc poxy-injected" href="structmuu_1_1vector.html">vector</a>&lt;S, D&gt;&amp; v) <span class="m-label m-primary">constexpr</span> <span class="m-label m-success">noexcept</span></span></span>
             </h3>
