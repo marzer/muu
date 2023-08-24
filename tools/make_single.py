@@ -235,6 +235,7 @@ def main():
 		text = re.sub(r'(#\s*define\s+MUU_HIDDEN_BASE)_', r'\1', text)
 	text = re.sub(r'(?:\b|::)?muu::impl::enable_if_t_\b', r'std::enable_if_t', text)
 	text = re.sub(r'(?:\b|::)?muu::impl::enable_if_\b', r'std::enable_if', text)
+	text = re.sub(r'\b(?:muu::)?remove_cvref<([a-zA-Z0-9:_]+?)>', r'std::remove_cv_t<std::remove_reference_t<\1>>', text)
 	text = utils.replace_metavar(r'namespaces::main', args.namespaces[0], text)
 	text = utils.replace_metavar(r'namespace', args.namespaces[0], text)
 	text = utils.replace_metavar(r'namespaces::impl', args.namespaces[1], text)

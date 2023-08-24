@@ -2336,7 +2336,7 @@ namespace muu
 	/// \brief Returns the lowest common multiple of two or more integers.
 	///
 	/// \remark This is a variadic version of std::lcm.
-	MUU_CONSTRAINED_TEMPLATE((all_integer<T, U, V...>), typename T, typename U, typename... V)
+	template <typename T, typename U, typename... V>
 	MUU_CONST_GETTER
 	constexpr std::common_type_t<T, U, V...> MUU_VECTORCALL lcm(T val1, U val2, V... vals) noexcept
 	{
@@ -2358,7 +2358,7 @@ namespace muu
 	/// \brief Returns the lowest common multiple of two or more integers.
 	///
 	/// \remark This is a variadic version of std::gcd.
-	MUU_CONSTRAINED_TEMPLATE((all_integer<T, U, V...>), typename T, typename U, typename... V)
+	template <typename T, typename U, typename... V>
 	MUU_CONST_GETTER
 	constexpr std::common_type_t<T, U, V...> MUU_VECTORCALL gcd(T val1, U val2, V... vals) noexcept
 	{

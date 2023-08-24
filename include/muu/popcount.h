@@ -203,12 +203,10 @@ namespace muu
 	/// \param 	val		The value to test.
 	///
 	/// \returns	True if the input value had only a single bit set (and thus was a power of two).
-	MUU_CONSTRAINED_TEMPLATE(is_unsigned<T>, typename T)
+	template <typename T>
 	MUU_CONST_GETTER
 	constexpr bool MUU_VECTORCALL has_single_bit(T val) noexcept
 	{
-		static_assert(!is_cvref<T>);
-
 		if constexpr (std::is_enum_v<T>)
 			return has_single_bit(static_cast<std::underlying_type_t<T>>(val));
 		else
