@@ -882,22 +882,23 @@ namespace muu
 	//% meta::type_at_index start
 #if MUU_HAS_BUILTIN(__type_pack_element)
 
-	template <size_t I, typename... T>
-	using type_at_index = __type_pack_element<I, T...>;
+	template <auto I, typename... T>
+	using type_at_index = __type_pack_element<static_cast<size_t>(I), T...>;
 
 #else
 
 	/// \cond
 	namespace detail
 	{
+		template <size_t, typename...>
+		struct type_at_index_;
+
 		template <size_t I, typename T, typename... U>
-		struct type_at_index_impl
-		{
-			using type = typename type_at_index_impl<I - 1, U...>::type;
-		};
+		struct type_at_index_<I, T, U...> : type_at_index_<I - 1, U...>
+		{};
 
 		template <typename T, typename... U>
-		struct type_at_index_impl<0, T, U...>
+		struct type_at_index_<0, T, U...>
 		{
 			using type = T;
 		};
@@ -905,8 +906,8 @@ namespace muu
 	/// \endcond
 
 	/// \brief	The type at the given index in the list.
-	template <size_t I, typename... T>
-	using type_at_index = POXY_IMPLEMENTATION_DETAIL(typename detail::type_at_index_impl<I, T...>::type);
+	template <auto I, typename... T>
+	using type_at_index = POXY_IMPLEMENTATION_DETAIL(typename detail::type_at_index_<static_cast<size_t>(I), T...>::type);
 
 #endif
 	//% meta::type_at_index end

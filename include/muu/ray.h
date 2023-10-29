@@ -123,7 +123,7 @@ namespace muu
 
 	#endif // constructors
 
-	#if 1  // equality (exact) -------------------------------------------------------------------------------------
+	#if 1 // equality (exact) -------------------------------------------------------------------------------------
 		/// \name Equality (exact)
 		/// @{
 
@@ -168,7 +168,7 @@ namespace muu
 				/// @}
 	#endif // equality (exact)
 
-	#if 1  // equality (approx) -----------------------------------------------------------------------------------
+	#if 1 // equality (approx) -----------------------------------------------------------------------------------
 		/// \name Equality (approximate)
 		/// @{
 
@@ -197,7 +197,7 @@ namespace muu
 				/// @}
 	#endif // equality (approx)
 
-	#if 1  // hit tests -------------------------------------------------------------------------------------
+	#if 1 // hit tests -------------------------------------------------------------------------------------
 		/// \name Hit tests
 		/// @{
 
@@ -267,9 +267,9 @@ namespace muu
 				/// @}
 	#endif // hit tests
 
-	#if 1  // hit positions -------------------------------------------------------------------------------------
-		   /// \name Hit positions
-		   /// @{
+	#if 1 // hit positions -------------------------------------------------------------------------------------
+		  /// \name Hit positions
+		  /// @{
 
 		/// \brief	Converts a hit distance into a hit position from a ray.
 		MUU_PURE_GETTER
@@ -285,7 +285,7 @@ namespace muu
 		{
 			MUU_CONSTEXPR_SAFE_ASSERT(hit);
 
-			at(r, *hit);
+			return at(r, *hit);
 		}
 
 		/// \brief	Converts a hit distance into a hit position from this ray.
@@ -356,7 +356,7 @@ namespace muu
 				/// @}
 	#endif // hit positions
 
-	#if 1  // misc ---------------------------------------------------------------------------------------------------
+	#if 1 // misc ---------------------------------------------------------------------------------------------------
 
 		/// \brief Writes a ray out to a text stream.
 		template <typename Char, typename Traits>
