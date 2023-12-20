@@ -1525,6 +1525,7 @@ help me improve support for your target architecture. Thanks!
 			_Pragma("GCC diagnostic ignored \"-Wfloat-equal\"")                                                        \
 			_Pragma("GCC diagnostic ignored \"-Wsign-conversion\"")                                                    \
 			_Pragma("GCC diagnostic ignored \"-Wchar-subscripts\"")                                                    \
+			_Pragma("GCC diagnostic ignored \"-Wsign-promo\"")                                                         \
 			static_assert(true)
 	#else
 		#define MUU_DISABLE_ARITHMETIC_WARNINGS static_assert(true)
@@ -1672,6 +1673,7 @@ help me improve support for your target architecture. Thanks!
 			_Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"")                                         \
 			_Pragma("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")                                                \
 			_Pragma("GCC diagnostic ignored \"-Wtype-limits\"")                                                        \
+			_Pragma("GCC diagnostic ignored \"-Wrestrict\"")                                                           \
 			MUU_DISABLE_SPAM_WARNINGS_GCC_9;                                                                           \
 			MUU_DISABLE_SPAM_WARNINGS_GCC_12;                                                                          \
 			static_assert(true)
@@ -1772,6 +1774,7 @@ help me improve support for your target architecture. Thanks!
 			_Pragma("GCC diagnostic ignored \"-Wall\"")                                                                \
 			_Pragma("GCC diagnostic ignored \"-Wextra\"")                                                              \
 			_Pragma("GCC diagnostic ignored \"-Wpedantic\"")                                                           \
+			_Pragma("GCC diagnostic ignored \"-Wold-style-cast\"")                                                     \
 			MUU_DISABLE_SWITCH_WARNINGS;                                                                               \
 			MUU_DISABLE_LIFETIME_WARNINGS;                                                                             \
 			MUU_DISABLE_ARITHMETIC_WARNINGS;                                                                           \
